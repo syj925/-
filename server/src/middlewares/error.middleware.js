@@ -1,0 +1,118 @@
+const { ResponseUtil } = require('../utils');
+const errorCodes = require('../constants/error-codes');
+const logger = require('../../config/logger');
+const { StatusCodes } = require('http-status-codes');
+
+/**
+ * 错误处理中间件
+ */
+class ErrorMiddleware {
+  /**
+   * 404错误处理中间件
+   * @returns {Function} Express中间件
+   */
+  static notFound() {
+    return (req, res, next) => {
+      const error = new Error(`未找到资源 - ${req.originalUrl}`);
+      error.statusCode = StatusCodes.NOT_FOUND;
+      next(error);
+    };
+  }
+
+  /**
+   * 全局错误处理中间件
+   * @returns {Function} Express中间件
+   */
+  static handler() {
+    return (err, req, res, next) => {
+      // 获取状态码，默认500
+      const statusCode = err.statusCode || StatusCodes.INTERNAL_SERVER_ERROR;
+      
+      // 根据状态码选择错误码
+      let errorCode;
+      switch (statusCode) {
+        case StatusCodes.BAD_REQUEST:
+          errorCode = errorCodes.PARAM_ERROR;
+          break;
+        case StatusCodes.UNAUTHORIZED:
+          errorCode = errorCodes.INVALID_TOKEN;
+          break;
+        case StatusCodes.FORBIDDEN:
+          errorCode = errorCodes.NO_PERMISSION;
+          break;
+        case StatusCodes.NOT_FOUND:
+          errorCode = errorCodes.NOT_FOUND;
+          break;
+        case StatusCodes.METHOD_NOT_ALLOWED:
+          errorCode = errorCodes.METHOD_NOT_ALLOWED;
+          break;
+        case StatusCodes.TOO_MANY_REQUESTS:
+          errorCode = errorCodes.RATE_LIMIT_EXCEEDED;
+          break;
+        default:
+          errorCode = errorCodes.SERVER_ERROR;
+      }
+
+      // 自定义错误码优先
+      if (err.errorCode) {
+        errorCode = err.errorCode;
+      }
+
+      // Sequelize错误处理
+      if (err.name === 'SequelizeValidationError' || err.name === 'SequelizeUniqueConstraintError') {
+        errorCode = errorCodes.PARAM_ERROR;
+        
+        // 提取Sequelize错误信息
+        const details = err.errors.map(e => ({
+          field: e.path,
+          message: e.message
+        }));
+        
+        return res.status(StatusCodes.BAD_REQUEST).json(
+          ResponseUtil.error(errorCode, { details })
+        );
+      }
+
+      // 记录错误日志（生产环境不记录404错误）
+      if (statusCode === StatusCodes.INTERNAL_SERVER_ERROR || process.env.NODE_ENV !== 'production') {
+        logger.error(`[${req.method}] ${req.originalUrl}`, {
+          error: err.message,
+          stack: err.stack,
+          body: req.body,
+          params: req.params,
+          query: req.query
+        });
+      }
+      
+      // 处理未捕获的Promise拒绝和异常
+      if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
+        return res.status(StatusCodes.BAD_REQUEST).json(
+          ResponseUtil.error(errorCodes.PARAM_ERROR, { message: '无效的JSON格式' })
+        );
+      }
+
+      // 返回错误响应
+      res.status(statusCode).json(
+        ResponseUtil.error(errorCode, { message: err.message })
+      );
+    };
+  }
+
+  /**
+   * 自定义错误类
+   * @param {String} message 错误消息
+   * @param {Number} statusCode HTTP状态码
+   * @param {Object} errorCode 错误码对象
+   * @returns {Error} 自定义错误对象
+   */
+  static createError(message, statusCode = 500, errorCode = null) {
+    const error = new Error(message);
+    error.statusCode = statusCode;
+    if (errorCode) {
+      error.errorCode = errorCode;
+    }
+    return error;
+  }
+}
+
+module.exports = ErrorMiddleware; 

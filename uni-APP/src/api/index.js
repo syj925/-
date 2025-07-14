@@ -1,0 +1,66 @@
+/**
+ * API入口文件
+ */
+import { http, updateBaseUrl, resetBaseUrl } from './request';
+
+// 导入API模块
+import userApi from './modules/user';
+import postApi from './modules/post';
+import commentApi from './modules/comment';
+import messageApi from './modules/message';
+import followApi from './modules/follow';
+import likeApi from './modules/like';
+import favoriteApi from './modules/favorite';
+import topicApi from './modules/topic';
+import categoryApi from './modules/category';
+import uploadApi from './modules/upload';
+import searchApi from './modules/search';
+
+// 创建API实例
+const userApiInstance = userApi(http);
+const postApiInstance = postApi(http);
+const commentApiInstance = commentApi(http);
+const messageApiInstance = messageApi(http);
+const followApiInstance = followApi(http);
+const likeApiInstance = likeApi(http);
+const favoriteApiInstance = favoriteApi(http);
+const topicApiInstance = topicApi(http);
+const categoryApiInstance = categoryApi(http);
+const uploadApiInstance = uploadApi(http);
+const searchApiInstance = searchApi(http);
+
+// 命名导出
+export {
+  http,
+  updateBaseUrl,
+  resetBaseUrl,
+  userApiInstance as userApi,
+  postApiInstance as postApi,
+  commentApiInstance as commentApi,
+  messageApiInstance as messageApi,
+  followApiInstance as followApi,
+  likeApiInstance as likeApi,
+  favoriteApiInstance as favoriteApi,
+  topicApiInstance as topicApi,
+  categoryApiInstance as categoryApi,
+  uploadApiInstance as uploadApi,
+  searchApiInstance as searchApi
+};
+
+// 默认导出
+export default {
+  http, // 导出http实例，便于访问baseURL和直接调用请求方法
+  updateBaseUrl, // 导出更新服务器地址方法
+  resetBaseUrl, // 导出重置服务器地址方法
+  user: userApiInstance,
+  post: postApiInstance,
+  comment: commentApiInstance,
+  message: messageApiInstance,
+  follow: followApiInstance,
+  like: likeApiInstance,
+  favorite: favoriteApiInstance,
+  topic: topicApiInstance,
+  category: categoryApiInstance,
+  upload: uploadApiInstance,
+  search: searchApiInstance
+};

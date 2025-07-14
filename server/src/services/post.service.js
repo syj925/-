@@ -1,0 +1,557 @@
+const postRepository = require('../repositories/post.repository');
+const postImageRepository = require('../repositories/post-image.repository');
+const userRepository = require('../repositories/user.repository');
+const categoryRepository = require('../repositories/category.repository');
+const topicRepository = require('../repositories/topic.repository');
+const commentRepository = require('../repositories/comment.repository');
+const messageService = require('./message.service');
+const { StatusCodes } = require('http-status-codes');
+const { ErrorMiddleware } = require('../middlewares');
+const errorCodes = require('../constants/error-codes');
+const logger = require('../../config/logger');
+
+/**
+ * 帖子服务层
+ */
+class PostService {
+  /**
+   * 创建帖子
+   * @param {Object} postData 帖子数据
+   * @param {Array<Object>} images 帖子图片数据
+   * @param {Array<String>} topicNames 话题名称数组
+   * @returns {Promise<Object>} 创建的帖子对象
+   */
+  async createPost(postData, images = [], topicNames = []) {
+    // 检查用户是否存在
+    const user = await userRepository.findById(postData.user_id);
+    if (!user) {
+      throw ErrorMiddleware.createError(
+        '用户不存在',
+        StatusCodes.NOT_FOUND,
+        errorCodes.USER_NOT_EXIST
+      );
+    }
+    
+    // 检查用户是否被禁用
+    if (user.is_disabled) {
+      throw ErrorMiddleware.createError(
+        '账号已被禁用',
+        StatusCodes.FORBIDDEN,
+        errorCodes.USER_DISABLED
+      );
+    }
+    
+    // 检查分类是否存在
+    console.log('查找分类ID:', postData.category_id, '类型:', typeof postData.category_id);
+    const category = await categoryRepository.findById(postData.category_id);
+    console.log('查找结果:', category);
+    if (!category) {
+      throw ErrorMiddleware.createError(
+        '分类不存在',
+        StatusCodes.NOT_FOUND,
+        errorCodes.CATEGORY_NOT_EXIST
+      );
+    }
+    
+    // 使用事务确保所有操作成功或全部失败
+    const transaction = await postRepository.sequelize.transaction();
+    
+    try {
+      // 创建帖子
+      const post = await postRepository.create(postData, { transaction });
+      
+      // 上传帖子图片
+      if (images && images.length > 0) {
+        const postImages = images.map((image, index) => ({
+          post_id: post.id,
+          url: image.url,
+          thumbnail_url: image.thumbnail_url,
+          width: image.width,
+          height: image.height,
+          size: image.size,
+          order: index
+        }));
+        
+        await postImageRepository.bulkCreate(postImages, { transaction });
+      }
+      
+      // 关联话题
+      if (topicNames && topicNames.length > 0) {
+        // 导入话题服务
+        const topicService = require('./topic.service');
+
+        // 根据话题名称查找或创建话题，获取话题ID数组
+        const topicIds = await topicService.findOrCreateByNames(topicNames);
+
+        if (topicIds.length > 0) {
+          await post.setTopics(topicIds, { transaction });
+
+          // 更新话题的帖子计数
+          for (const topicId of topicIds) {
+            await topicRepository.incrementPostCount(topicId, 1, transaction);
+          }
+        }
+      }
+      
+      await transaction.commit();
+      
+      // 查询完整的帖子数据（包含关联数据）
+      return await this.getPostById(post.id, true);
+    } catch (error) {
+      await transaction.rollback();
+      throw error;
+    }
+  }
+
+  /**
+   * 获取帖子详情
+   * @param {String} id 帖子ID
+   * @param {Boolean} withDetails 是否包含详细信息
+   * @param {String} currentUserId 当前用户ID（可选）
+   * @returns {Promise<Object>} 帖子对象
+   */
+  async getPostById(id, withDetails = false, currentUserId = null) {
+    // 获取帖子数据
+    const post = await postRepository.findById(id, withDetails);
+    
+    if (!post) {
+      throw ErrorMiddleware.createError(
+        '帖子不存在',
+        StatusCodes.NOT_FOUND,
+        errorCodes.POST_NOT_EXIST
+      );
+    }
+    
+    // 检查帖子状态
+    if (post.status === 'deleted') {
+      throw ErrorMiddleware.createError(
+        '帖子已删除',
+        StatusCodes.NOT_FOUND,
+        errorCodes.POST_DELETED
+      );
+    }
+
+    // 处理匿名帖子
+    this.processAnonymousPost(post, currentUserId);
+
+    // 如果有当前用户ID，添加是否点赞和收藏的信息
+    if (currentUserId) {
+      post.dataValues.is_liked = await postRepository.isLikedByUser(id, currentUserId);
+      post.dataValues.is_favorited = await postRepository.isFavoritedByUser(id, currentUserId);
+    }
+
+    return post;
+  }
+
+  /**
+   * 处理匿名帖子，隐藏用户信息
+   * @param {Object} post 帖子对象
+   * @param {String} currentUserId 当前用户ID（可选）
+   */
+  processAnonymousPost(post, currentUserId = null) {
+    // 如果帖子是匿名的，且当前用户不是帖子作者，则隐藏用户信息
+    if (post.is_anonymous && post.user_id !== currentUserId) {
+      if (post.author) {
+        // 替换作者信息为匿名用户
+        post.author.dataValues = {
+          id: 'anonymous',
+          username: '匿名用户',
+          nickname: '匿名用户',
+          avatar: null,
+          school: null,
+          department: null
+        };
+      }
+    }
+  }
+
+  /**
+   * 更新帖子
+   * @param {String} id 帖子ID
+   * @param {Object} postData 帖子数据
+   * @param {Array<Object>} images 帖子图片数据
+   * @param {Array<String>} topicNames 话题名称数组
+   * @param {String} userId 当前用户ID
+   * @returns {Promise<Object>} 更新后的帖子对象
+   */
+  async updatePost(id, postData, images = null, topicNames = null, userId) {
+    // 检查帖子是否存在
+    const post = await postRepository.findById(id);
+    if (!post) {
+      throw ErrorMiddleware.createError(
+        '帖子不存在',
+        StatusCodes.NOT_FOUND,
+        errorCodes.POST_NOT_EXIST
+      );
+    }
+    
+    // 检查帖子状态
+    if (post.status === 'deleted') {
+      throw ErrorMiddleware.createError(
+        '帖子已删除',
+        StatusCodes.NOT_FOUND,
+        errorCodes.POST_DELETED
+      );
+    }
+    
+    // 检查是否有权限修改帖子
+    if (post.user_id !== userId) {
+      // 检查当前用户是否为管理员
+      const user = await userRepository.findById(userId);
+      if (user.role !== 'admin') {
+        throw ErrorMiddleware.createError(
+          '无权限修改该帖子',
+          StatusCodes.FORBIDDEN,
+          errorCodes.NO_PERMISSION
+        );
+      }
+    }
+    
+    // 如果修改了分类，检查分类是否存在
+    if (postData.category_id) {
+      const category = await categoryRepository.findById(postData.category_id);
+      if (!category) {
+        throw ErrorMiddleware.createError(
+          '分类不存在',
+          StatusCodes.NOT_FOUND,
+          errorCodes.CATEGORY_NOT_EXIST
+        );
+      }
+    }
+    
+    // 使用事务确保所有操作成功或全部失败
+    const transaction = await postRepository.sequelize.transaction();
+    
+    try {
+      // 更新帖子
+      await postRepository.update(id, postData, { transaction });
+      
+      // 处理图片
+      if (images !== null) {
+        // 删除原有图片
+        await postImageRepository.deleteByPostId(id, { transaction });
+        
+        // 上传新图片
+        if (images && images.length > 0) {
+          const postImages = images.map((image, index) => ({
+            post_id: id,
+            url: image.url,
+            thumbnail_url: image.thumbnail_url,
+            width: image.width,
+            height: image.height,
+            size: image.size,
+            order: index
+          }));
+          
+          await postImageRepository.bulkCreate(postImages, { transaction });
+        }
+      }
+      
+      // 处理话题
+      if (topicNames !== null) {
+        // 导入话题服务
+        const topicService = require('./topic.service');
+
+        // 根据话题名称查找或创建话题，获取话题ID数组
+        const newTopicIds = topicNames && topicNames.length > 0
+          ? await topicService.findOrCreateByNames(topicNames)
+          : [];
+
+        // 获取原有话题
+        const oldTopics = await post.getTopics();
+        const oldTopicIds = oldTopics.map(topic => topic.id);
+
+        // 设置新话题
+        await post.setTopics(newTopicIds, { transaction });
+
+        // 更新话题的帖子计数
+        const addedTopicIds = newTopicIds.filter(id => !oldTopicIds.includes(id));
+        const removedTopicIds = oldTopicIds.filter(id => !newTopicIds.includes(id));
+
+        for (const topicId of addedTopicIds) {
+          await topicRepository.incrementPostCount(topicId, 1, transaction);
+        }
+
+        for (const topicId of removedTopicIds) {
+          await topicRepository.incrementPostCount(topicId, -1, transaction);
+        }
+      }
+      
+      await transaction.commit();
+      
+      // 查询完整的帖子数据（包含关联数据）
+      return await this.getPostById(id, true);
+    } catch (error) {
+      await transaction.rollback();
+      throw error;
+    }
+  }
+
+  /**
+   * 删除帖子
+   * @param {String} id 帖子ID
+   * @param {String} userId 当前用户ID
+   * @returns {Promise<Boolean>} 是否成功删除
+   */
+  async deletePost(id, userId) {
+    // 检查帖子是否存在
+    const post = await postRepository.findById(id);
+    if (!post) {
+      throw ErrorMiddleware.createError(
+        '帖子不存在',
+        StatusCodes.NOT_FOUND,
+        errorCodes.POST_NOT_EXIST
+      );
+    }
+    
+    // 检查是否有权限删除帖子
+    if (post.user_id !== userId) {
+      // 检查当前用户是否为管理员
+      const user = await userRepository.findById(userId);
+      if (user.role !== 'admin') {
+        throw ErrorMiddleware.createError(
+          '无权限删除该帖子',
+          StatusCodes.FORBIDDEN,
+          errorCodes.NO_PERMISSION
+        );
+      }
+    }
+    
+    // 软删除帖子
+    return await postRepository.delete(id);
+  }
+
+  /**
+   * 获取帖子列表
+   * @param {Object} options 查询选项
+   * @param {String} currentUserId 当前用户ID（可选）
+   * @returns {Promise<Object>} 分页结果
+   */
+  async getPosts(options, currentUserId = null) {
+    const posts = await postRepository.findAll(options);
+
+    // 如果有当前用户ID，添加是否点赞和收藏的信息
+    if (currentUserId) {
+      for (const post of posts.list) {
+        post.dataValues.is_liked = await postRepository.isLikedByUser(post.id, currentUserId);
+        post.dataValues.is_favorited = await postRepository.isFavoritedByUser(post.id, currentUserId);
+      }
+    }
+
+    // 处理匿名帖子和添加热门评论预览
+    for (const post of posts.list) {
+      // 处理匿名帖子
+      this.processAnonymousPost(post, currentUserId);
+
+      // 添加热门评论预览
+      const hotComments = await this.getPostHotComments(post.id, 3, currentUserId);
+      post.dataValues.hot_comments = hotComments.list;
+      post.dataValues.total_comments = hotComments.total;
+    }
+
+    return posts;
+  }
+
+  /**
+   * 获取热门帖子
+   * @param {Number} limit 限制数量
+   * @param {String} currentUserId 当前用户ID（可选）
+   * @returns {Promise<Array>} 帖子列表
+   */
+  async getHotPosts(limit = 10, currentUserId = null) {
+    const posts = await postRepository.findHotPosts(limit);
+    
+    // 如果有当前用户ID，添加是否点赞和收藏的信息
+    if (currentUserId) {
+      for (const post of posts) {
+        post.dataValues.is_liked = await postRepository.isLikedByUser(post.id, currentUserId);
+        post.dataValues.is_favorited = await postRepository.isFavoritedByUser(post.id, currentUserId);
+      }
+    }
+    
+    return posts;
+  }
+
+  /**
+   * 增加帖子浏览量
+   * @param {String} id 帖子ID
+   * @returns {Promise<Boolean>} 是否成功
+   */
+  async incrementViewCount(id) {
+    return await postRepository.incrementViewCount(id);
+  }
+
+  /**
+   * 获取帖子评论列表
+   * @param {String} postId 帖子ID
+   * @param {Number} page 页码
+   * @param {Number} pageSize 每页数量
+   * @param {String} currentUserId 当前用户ID（可选）
+   * @param {String} sort 排序方式：latest, hot, most_liked
+   * @returns {Promise<Object>} 分页结果
+   */
+  async getPostComments(postId, page = 1, pageSize = 20, currentUserId = null, sort = 'latest') {
+    // 检查帖子是否存在
+    const post = await postRepository.findById(postId);
+    if (!post) {
+      throw ErrorMiddleware.createError(
+        '帖子不存在',
+        StatusCodes.NOT_FOUND,
+        errorCodes.POST_NOT_EXIST
+      );
+    }
+    
+    const comments = await postRepository.getComments(postId, page, pageSize, sort);
+
+    // 处理匿名显示和点赞信息
+    for (const comment of comments.list) {
+      // 处理匿名显示：对于匿名评论，只对非作者隐藏身份
+      if (comment.is_anonymous && comment.user_id !== currentUserId) {
+        if (comment.author) {
+          comment.author.dataValues = {
+            id: 'anonymous',
+            username: '匿名用户',
+            nickname: '匿名用户',
+            avatar: '/static/images/default-avatar.png'
+          };
+        }
+      }
+
+      // 添加是否点赞的信息
+      if (currentUserId) {
+        comment.dataValues.is_liked = await commentRepository.isLikedByUser(comment.id, currentUserId);
+      }
+
+      // 处理回复
+      if (comment.replies && comment.replies.length > 0) {
+        for (const reply of comment.replies) {
+          // 处理回复的匿名显示
+          if (reply.is_anonymous && reply.user_id !== currentUserId) {
+            if (reply.author) {
+              reply.author.dataValues = {
+                id: 'anonymous',
+                username: '匿名用户',
+                nickname: '匿名用户',
+                avatar: '/static/images/default-avatar.png'
+              };
+            }
+          }
+
+          // 添加回复的点赞信息
+          if (currentUserId) {
+            reply.dataValues.is_liked = await commentRepository.isLikedByUser(reply.id, currentUserId);
+          }
+        }
+      }
+    }
+
+    return comments;
+  }
+
+  /**
+   * 获取帖子热门评论预览
+   * @param {String} postId 帖子ID
+   * @param {Number} limit 限制数量
+   * @param {String} currentUserId 当前用户ID（可选）
+   * @returns {Promise<Object>} 评论列表和总数
+   */
+  async getPostHotComments(postId, limit = 3, currentUserId = null) {
+    // 获取热门评论（按点赞数降序）
+    const comments = await postRepository.getComments(postId, 1, limit, 'most_liked');
+
+    // 处理匿名显示、点赞信息和修复昵称
+    for (const comment of comments.list) {
+      // 处理匿名显示：对于匿名评论，只对非作者隐藏身份
+      if (comment.is_anonymous && comment.user_id !== currentUserId) {
+        if (comment.author) {
+          comment.author.dataValues = {
+            id: 'anonymous',
+            username: '匿名用户',
+            nickname: '匿名用户',
+            avatar: '/static/images/default-avatar.png'
+          };
+        }
+      }
+
+      // 添加是否点赞的信息
+      if (currentUserId) {
+        comment.dataValues.is_liked = await commentRepository.isLikedByUser(comment.id, currentUserId);
+      } else {
+        comment.dataValues.is_liked = false;
+      }
+
+      // 修复问题昵称（仅对非匿名评论）
+      if (!comment.is_anonymous || comment.user_id === currentUserId) {
+        if (comment.author && (comment.author.nickname === '????' || !comment.author.nickname)) {
+          comment.author.nickname = comment.author.username || '匿名用户';
+        }
+      }
+    }
+
+    // 获取总评论数
+    const totalComments = await commentRepository.countByPostId(postId);
+
+    return {
+      list: comments.list,
+      total: totalComments
+    };
+  }
+
+  /**
+   * 设置帖子置顶状态
+   * @param {String} id 帖子ID
+   * @param {Boolean} isTop 是否置顶
+   * @returns {Promise<Boolean>} 是否成功
+   */
+  async setTopStatus(id, isTop) {
+    // 检查帖子是否存在
+    const post = await postRepository.findById(id);
+    if (!post) {
+      throw ErrorMiddleware.createError(
+        '帖子不存在',
+        StatusCodes.NOT_FOUND,
+        errorCodes.POST_NOT_EXIST
+      );
+    }
+    
+    return await postRepository.setTopStatus(id, isTop);
+  }
+
+  /**
+   * 获取用户收藏的帖子
+   * @param {String} userId 用户ID
+   * @param {Number} page 页码
+   * @param {Number} pageSize 每页数量
+   * @returns {Promise<Object>} 分页结果
+   */
+  async getUserFavorites(userId, page = 1, pageSize = 10) {
+    // 检查用户是否存在
+    const user = await userRepository.findById(userId);
+    if (!user) {
+      throw ErrorMiddleware.createError(
+        '用户不存在',
+        StatusCodes.NOT_FOUND,
+        errorCodes.USER_NOT_EXIST
+      );
+    }
+    
+    const options = {
+      page,
+      pageSize,
+      favoriteUserId: userId,
+      includeDetails: true
+    };
+    
+    const posts = await postRepository.findAll(options);
+    
+    // 添加是否点赞和收藏的信息
+    for (const post of posts.list) {
+      post.dataValues.is_liked = await postRepository.isLikedByUser(post.id, userId);
+      post.dataValues.is_favorited = true; // 已知是收藏的
+    }
+    
+    return posts;
+  }
+}
+
+module.exports = new PostService(); 

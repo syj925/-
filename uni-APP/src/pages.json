@@ -1,0 +1,242 @@
+{
+	"pages": [ 
+		{
+			"path": "pages/index/home",
+			"style": {
+				"navigationBarTitleText": "校园墙",
+				"enablePullDownRefresh": true,
+				"backgroundTextStyle": "dark",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [
+							{
+								"text": "🔍",
+								"fontSize": "16px",
+								"color": "#333333",
+								"width": "50px"
+							}
+						]
+					},
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"color": "#5B8EF9"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/test/hot-comments",
+			"style": {
+				"navigationBarTitleText": "热门评论测试"
+			}
+		},
+		{
+			"path": "pages/test/multi-level-comments",
+			"style": {
+				"navigationBarTitleText": "多级回复测试"
+			}
+		},
+		{
+			"path": "pages/test/simple-test",
+			"style": {
+				"navigationBarTitleText": "简单API测试"
+			}
+		},
+		{
+			"path": "pages/discover/discover",
+			"style": {
+				"navigationBarTitleText": "发现"
+			}
+		},
+		{
+			"path": "pages/message/message",
+			"style": {
+				"navigationBarTitleText": "消息"
+			}
+		},
+		{
+			"path": "pages/publish/publish",
+			"style": {
+				"navigationBarTitleText": "发布帖子",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/profile/profile",
+			"style": {
+				"navigationBarTitleText": "个人中心",
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": true,
+				"backgroundTextStyle": "dark",
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"color": "#5B8EF9"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/profile/edit",
+			"style": {
+				"navigationBarTitleText": "编辑资料",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/profile/follow",
+			"style": {
+				"navigationBarTitleText": "关注列表",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/profile/mutual-follow",
+			"style": {
+				"navigationBarTitleText": "互相关注",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/profile/privacy",
+			"style": {
+				"navigationBarTitleText": "隐私设置",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/post/detail",
+			"style": {
+				"navigationBarTitleText": "帖子详情"
+			}
+		},
+		{
+			"path": "pages/test/network",
+			"style": {
+				"navigationBarTitleText": "网络测试"
+			}
+		},
+		{
+			"path": "pages/test/follow-test",
+			"style": {
+				"navigationBarTitleText": "关注功能测试",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/test/comment-like-test",
+			"style": {
+				"navigationBarTitleText": "评论点赞测试",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/settings/index",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTitleText": "设置"
+			}
+		},
+		{
+			"path": "pages/settings/server",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTitleText": "服务器设置"
+			}
+		},
+		{
+			"path": "pages/topic/list",
+			"style": {
+				"navigationBarTitleText": "话题广场",
+				"enablePullDownRefresh": true,
+				"backgroundTextStyle": "dark"
+			}
+		},
+		{
+			"path": "pages/topic/detail",
+			"style": {
+				"navigationBarTitleText": "话题详情",
+				"enablePullDownRefresh": true,
+				"backgroundTextStyle": "dark"
+			}
+		},
+		{
+			"path": "pages/search/index",
+			"style": {
+				"navigationBarTitleText": "搜索",
+				"navigationStyle": "custom"
+			}
+		}
+	],
+	"subPackages": [
+		{
+			"root": "pages/auth",
+			"pages": [
+				{
+					"path": "login/index",
+					"style": {
+						"navigationBarTitleText": "登录"
+					}
+				},
+				{
+					"path": "register/index",
+					"style": {
+						"navigationBarTitleText": "注册"
+					}
+				}
+			]
+		}
+	],
+	"tabBar": {
+		"color": "#999999",
+		"selectedColor": "#5B8EF9",
+		"borderStyle": "white",
+		"backgroundColor": "#FFFFFF",
+		"list": [
+			{
+				"pagePath": "pages/index/home",
+				"text": "首页",
+				"iconPath": "static/images/tabbar/home.png",
+				"selectedIconPath": "static/images/tabbar/home-active.png"
+			},
+			{
+				"pagePath": "pages/discover/discover",
+				"text": "发现",
+				"iconPath": "static/images/tabbar/discover.png",
+				"selectedIconPath": "static/images/tabbar/discover-active.png"
+			},
+			{
+				"pagePath": "pages/publish/publish",
+				"text": "发布",
+				"iconPath": "static/images/tabbar/publish.png",
+				"selectedIconPath": "static/images/tabbar/publish.png"
+			},
+			{
+				"pagePath": "pages/message/message",
+				"text": "消息",
+				"iconPath": "static/images/tabbar/message.png",
+				"selectedIconPath": "static/images/tabbar/message-active.png"
+			},
+			{
+				"pagePath": "pages/profile/profile",
+				"text": "我的",
+				"iconPath": "static/images/tabbar/profile.png",
+				"selectedIconPath": "static/images/tabbar/profile-active.png"
+			}
+		]
+	},
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "校园墙",
+		"navigationBarBackgroundColor": "#FFFFFF",
+		"backgroundColor": "#F8F9FE"
+	},
+	"easycom": {
+		"autoscan": true,
+		"custom": {
+			"^App(.*)": "@/components/common/App$1.vue"
+		}
+	}
+}

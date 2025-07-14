@@ -1,0 +1,52 @@
+{
+  "name": "campus-wall-server",
+  "version": "1.0.0",
+  "description": "校园墙后端服务",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "lint": "eslint src/",
+    "test": "jest",
+    "init-db": "node scripts/init-db.js",
+    "seed-data": "node scripts/seed-data.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-rate-limit": "^7.1.4",
+    "helmet": "^7.1.0",
+    "http-status-codes": "^2.3.0",
+    "ioredis": "^5.3.2",
+    "joi": "^17.11.0",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "mysql2": "^3.6.3",
+    "node-schedule": "^2.1.1",
+    "sequelize": "^6.35.0",
+    "sharp": "^0.32.6",
+    "socket.io": "^4.8.1",
+    "socket.io-redis": "^5.4.0",
+    "uuid": "^9.0.1",
+    "winston": "^3.11.0",
+    "ws": "^8.18.2"
+  },
+  "devDependencies": {
+    "eslint": "^8.53.0",
+    "eslint-config-prettier": "^9.0.0",
+    "jest": "^29.7.0",
+    "nodemon": "^3.0.1",
+    "prettier": "^3.1.0",
+    "sequelize-cli": "^6.6.2",
+    "supertest": "^6.3.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "author": "",
+  "license": "ISC"
+}

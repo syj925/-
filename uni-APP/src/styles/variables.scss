@@ -1,0 +1,96 @@
+/* 颜色变量 */
+
+// 主色调
+$primary-color: #5B8EF9;
+$primary-light: #74A3FF;
+$primary-dark: #3D69D5;
+$primary-gradient: linear-gradient(135deg, $primary-color, $primary-light);
+
+// 扩展渐变
+$gradient-blue: linear-gradient(120deg, #5B8EF9, #74A3FF);
+$gradient-purple: linear-gradient(120deg, #AC92EC, #967ADC);
+$gradient-red: linear-gradient(120deg, #FF6B6B, #FF8E8E);
+$gradient-green: linear-gradient(120deg, #48CFAD, #36BC9B);
+$gradient-yellow: linear-gradient(120deg, #FFCE54, #F6BB42);
+
+// 辅助色
+$accent-red: #FF6B6B;
+$accent-green: #48CFAD;
+$accent-yellow: #FFCE54;
+$accent-purple: #AC92EC;
+$danger-color: #FF6B6B;
+$success-color: #48CFAD;
+
+// 文字颜色
+$text-primary: #333333;
+$text-secondary: #666666;
+$text-tertiary: #999999;
+$text-disabled: #CCCCCC;
+$text-white: #FFFFFF;
+$text-link: $primary-color;
+
+// 背景色
+$bg-color: #F4F6FB;  // 添加通用背景色
+$bg-page: #F4F6FB;
+$bg-card: #FFFFFF;
+$bg-mask: rgba(0, 0, 0, 0.4);
+$bg-disabled: #F5F7FA;
+$bg-light: #F8F9FA;
+$bg-hover: #F0F2F5;
+$bg-light-blue: rgba($primary-color, 0.05);
+$bg-light-purple: rgba($accent-purple, 0.05);
+$bg-light-yellow: rgba($accent-yellow, 0.05);
+$bg-light-green: rgba($accent-green, 0.05);
+
+// 边框颜色
+$border-color: #E5E9F2;
+$border-light: #EFF2F7;
+$border-focus: $primary-color;
+
+// 阴影
+$shadow-sm: 0 4rpx 12rpx rgba(0, 0, 0, 0.05);
+$shadow-md: 0 8rpx 20rpx rgba(0, 0, 0, 0.08);
+$shadow-lg: 0 12rpx 30rpx rgba(0, 0, 0, 0.12);
+$shadow-btn: 0 10rpx 20rpx rgba($primary-color, 0.3);
+$shadow-card: 0 10rpx 30rpx rgba(0, 0, 0, 0.06);
+
+/* 尺寸变量 */
+
+// 文字大小
+$font-size-xs: 24rpx;
+$font-size-sm: 28rpx;
+$font-size-base: 30rpx;  // 添加基础字体大小
+$font-size-md: 32rpx;
+$font-size-lg: 36rpx;
+$font-size-xl: 40rpx;
+
+// 圆角大小
+$radius-xs: 6rpx;
+$radius-sm: 12rpx;
+$radius-md: 20rpx;
+$radius-lg: 28rpx;
+$radius-xl: 36rpx;
+$radius-circle: 50%;
+
+// 间距大小
+$spacing-xs: 10rpx;
+$spacing-sm: 20rpx;
+$spacing-md: 30rpx;
+$spacing-lg: 40rpx;
+$spacing-xl: 50rpx;
+
+// 边框大小
+$border-width-light: 1rpx;
+$border-width-base: 2rpx;
+
+/* 动画变量 */
+$transition-fast: 0.2s;
+$transition-normal: 0.3s;
+$transition-slow: 0.5s;
+
+/* 层级变量 */
+$z-index-normal: 1;
+$z-index-float: 10;
+$z-index-popup: 100;
+$z-index-modal: 1000;
+$z-index-toast: 9999; 

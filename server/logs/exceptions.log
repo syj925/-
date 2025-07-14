@@ -1,0 +1,3476 @@
+{"date":"Sat May 31 2025 03:17:05 GMT+0800 (中国标准时间)","error":{"code":"MODULE_NOT_FOUND","requireStack":["C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\utils\\websocket.js","C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\utils\\index.js","C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\middlewares\\auth.middleware.js","C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\middlewares\\index.js","C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\app.js","C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js"]},"exception":true,"level":"error","message":"uncaughtException: Cannot find module 'ws'\nRequire stack:\n- C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\utils\\websocket.js\n- C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\utils\\index.js\n- C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\middlewares\\auth.middleware.js\n- C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\middlewares\\index.js\n- C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\app.js\n- C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js\nError: Cannot find module 'ws'\nRequire stack:\n- C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\utils\\websocket.js\n- C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\utils\\index.js\n- C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\middlewares\\auth.middleware.js\n- C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\middlewares\\index.js\n- C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\app.js\n- C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js\n    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)\n    at Function._load (node:internal/modules/cjs/loader:1211:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\utils\\websocket.js:1:19)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)","os":{"loadavg":[0,0,0],"uptime":228031.484},"process":{"argv":["D:\\Program Files\\nodejs\\node.exe","C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js"],"cwd":"C:\\Users\\syj\\Desktop\\校园墙\\server","execPath":"D:\\Program Files\\nodejs\\node.exe","gid":null,"memoryUsage":{"arrayBuffers":51403,"external":2262291,"heapTotal":31248384,"heapUsed":16378296,"rss":126570496},"pid":36312,"uid":null,"version":"v22.15.0"},"service":"campus-wall-api","stack":"Error: Cannot find module 'ws'\nRequire stack:\n- C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\utils\\websocket.js\n- C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\utils\\index.js\n- C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\middlewares\\auth.middleware.js\n- C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\middlewares\\index.js\n- C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\app.js\n- C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js\n    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)\n    at Function._load (node:internal/modules/cjs/loader:1211:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\utils\\websocket.js:1:19)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)","timestamp":"2025-05-31 03:17:05","trace":[{"column":15,"file":"node:internal/modules/cjs/loader","function":"Function._resolveFilename","line":1401,"method":"_resolveFilename","native":false},{"column":19,"file":"node:internal/modules/cjs/loader","function":"defaultResolveImpl","line":1057,"method":null,"native":false},{"column":22,"file":"node:internal/modules/cjs/loader","function":"resolveForCJSWithHooks","line":1062,"method":null,"native":false},{"column":37,"file":"node:internal/modules/cjs/loader","function":"Function._load","line":1211,"method":"_load","native":false},{"column":14,"file":"node:diagnostics_channel","function":"TracingChannel.traceSync","line":322,"method":"traceSync","native":false},{"column":24,"file":"node:internal/modules/cjs/loader","function":"wrapModuleLoad","line":235,"method":null,"native":false},{"column":12,"file":"node:internal/modules/cjs/loader","function":"Module.require","line":1487,"method":"require","native":false},{"column":16,"file":"node:internal/modules/helpers","function":"require","line":135,"method":null,"native":false},{"column":19,"file":"C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\utils\\websocket.js","function":null,"line":1,"method":null,"native":false},{"column":14,"file":"node:internal/modules/cjs/loader","function":"Module._compile","line":1730,"method":"_compile","native":false}]}
+{"date":"Sat May 31 2025 03:20:06 GMT+0800 (中国标准时间)","error":{"address":"::","code":"EADDRINUSE","errno":-4091,"port":3000,"syscall":"listen"},"exception":true,"level":"error","message":"uncaughtException: listen EADDRINUSE: address already in use :::3000\nError: listen EADDRINUSE: address already in use :::3000\n    at Server.setupListenHandle [as _listen2] (node:net:1939:16)\n    at listenInCluster (node:net:1996:12)\n    at Server.listen (node:net:2101:7)\n    at Function.listen (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\application.js:635:24)\n    at Object.<anonymous> (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js:22:20)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)","os":{"loadavg":[0,0,0],"uptime":228212.468},"process":{"argv":["D:\\Program Files\\nodejs\\node.exe","C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js"],"cwd":"C:\\Users\\syj\\Desktop\\校园墙\\server","execPath":"D:\\Program Files\\nodejs\\node.exe","gid":null,"memoryUsage":{"arrayBuffers":51659,"external":2389798,"heapTotal":31772672,"heapUsed":16316120,"rss":130465792},"pid":27984,"uid":null,"version":"v22.15.0"},"service":"campus-wall-api","stack":"Error: listen EADDRINUSE: address already in use :::3000\n    at Server.setupListenHandle [as _listen2] (node:net:1939:16)\n    at listenInCluster (node:net:1996:12)\n    at Server.listen (node:net:2101:7)\n    at Function.listen (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\application.js:635:24)\n    at Object.<anonymous> (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js:22:20)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)","timestamp":"2025-05-31 03:20:06","trace":[{"column":16,"file":"node:net","function":"Server.setupListenHandle [as _listen2]","line":1939,"method":"setupListenHandle [as _listen2]","native":false},{"column":12,"file":"node:net","function":"listenInCluster","line":1996,"method":null,"native":false},{"column":7,"file":"node:net","function":"Server.listen","line":2101,"method":"listen","native":false},{"column":24,"file":"C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\application.js","function":"Function.listen","line":635,"method":"listen","native":false},{"column":20,"file":"C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js","function":null,"line":22,"method":null,"native":false},{"column":14,"file":"node:internal/modules/cjs/loader","function":"Module._compile","line":1730,"method":"_compile","native":false},{"column":10,"file":"node:internal/modules/cjs/loader","function":"Object..js","line":1895,"method":".js","native":false},{"column":32,"file":"node:internal/modules/cjs/loader","function":"Module.load","line":1465,"method":"load","native":false},{"column":12,"file":"node:internal/modules/cjs/loader","function":"Function._load","line":1282,"method":"_load","native":false},{"column":14,"file":"node:diagnostics_channel","function":"TracingChannel.traceSync","line":322,"method":"traceSync","native":false}]}
+{"date":"Sat May 31 2025 03:23:32 GMT+0800 (中国标准时间)","error":{"address":"::","code":"EADDRINUSE","errno":-4091,"port":3000,"syscall":"listen"},"exception":true,"level":"error","message":"uncaughtException: listen EADDRINUSE: address already in use :::3000\nError: listen EADDRINUSE: address already in use :::3000\n    at Server.setupListenHandle [as _listen2] (node:net:1939:16)\n    at listenInCluster (node:net:1996:12)\n    at Server.listen (node:net:2101:7)\n    at Function.listen (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\application.js:635:24)\n    at Object.<anonymous> (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js:22:20)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)","os":{"loadavg":[0,0,0],"uptime":228417.875},"process":{"argv":["D:\\Program Files\\nodejs\\node.exe","C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js"],"cwd":"C:\\Users\\syj\\Desktop\\校园墙\\server","execPath":"D:\\Program Files\\nodejs\\node.exe","gid":null,"memoryUsage":{"arrayBuffers":51659,"external":2389798,"heapTotal":32034816,"heapUsed":20253816,"rss":129961984},"pid":2480,"uid":null,"version":"v22.15.0"},"service":"campus-wall-api","stack":"Error: listen EADDRINUSE: address already in use :::3000\n    at Server.setupListenHandle [as _listen2] (node:net:1939:16)\n    at listenInCluster (node:net:1996:12)\n    at Server.listen (node:net:2101:7)\n    at Function.listen (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\application.js:635:24)\n    at Object.<anonymous> (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js:22:20)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)","timestamp":"2025-05-31 03:23:32","trace":[{"column":16,"file":"node:net","function":"Server.setupListenHandle [as _listen2]","line":1939,"method":"setupListenHandle [as _listen2]","native":false},{"column":12,"file":"node:net","function":"listenInCluster","line":1996,"method":null,"native":false},{"column":7,"file":"node:net","function":"Server.listen","line":2101,"method":"listen","native":false},{"column":24,"file":"C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\application.js","function":"Function.listen","line":635,"method":"listen","native":false},{"column":20,"file":"C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js","function":null,"line":22,"method":null,"native":false},{"column":14,"file":"node:internal/modules/cjs/loader","function":"Module._compile","line":1730,"method":"_compile","native":false},{"column":10,"file":"node:internal/modules/cjs/loader","function":"Object..js","line":1895,"method":".js","native":false},{"column":32,"file":"node:internal/modules/cjs/loader","function":"Module.load","line":1465,"method":"load","native":false},{"column":12,"file":"node:internal/modules/cjs/loader","function":"Function._load","line":1282,"method":"_load","native":false},{"column":14,"file":"node:diagnostics_channel","function":"TracingChannel.traceSync","line":322,"method":"traceSync","native":false}]}
+{"date":"Sat May 31 2025 03:24:14 GMT+0800 (中国标准时间)","error":{"address":"::","code":"EADDRINUSE","errno":-4091,"port":3000,"syscall":"listen"},"exception":true,"level":"error","message":"uncaughtException: listen EADDRINUSE: address already in use :::3000\nError: listen EADDRINUSE: address already in use :::3000\n    at Server.setupListenHandle [as _listen2] (node:net:1939:16)\n    at listenInCluster (node:net:1996:12)\n    at Server.listen (node:net:2101:7)\n    at Function.listen (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\application.js:635:24)\n    at Object.<anonymous> (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js:22:20)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)","os":{"loadavg":[0,0,0],"uptime":228459.781},"process":{"argv":["D:\\Program Files\\nodejs\\node.exe","C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js"],"cwd":"C:\\Users\\syj\\Desktop\\校园墙\\server","execPath":"D:\\Program Files\\nodejs\\node.exe","gid":null,"memoryUsage":{"arrayBuffers":51659,"external":2389798,"heapTotal":32034816,"heapUsed":20365592,"rss":129630208},"pid":26012,"uid":null,"version":"v22.15.0"},"service":"campus-wall-api","stack":"Error: listen EADDRINUSE: address already in use :::3000\n    at Server.setupListenHandle [as _listen2] (node:net:1939:16)\n    at listenInCluster (node:net:1996:12)\n    at Server.listen (node:net:2101:7)\n    at Function.listen (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\application.js:635:24)\n    at Object.<anonymous> (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js:22:20)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)","timestamp":"2025-05-31 03:24:14","trace":[{"column":16,"file":"node:net","function":"Server.setupListenHandle [as _listen2]","line":1939,"method":"setupListenHandle [as _listen2]","native":false},{"column":12,"file":"node:net","function":"listenInCluster","line":1996,"method":null,"native":false},{"column":7,"file":"node:net","function":"Server.listen","line":2101,"method":"listen","native":false},{"column":24,"file":"C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\application.js","function":"Function.listen","line":635,"method":"listen","native":false},{"column":20,"file":"C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js","function":null,"line":22,"method":null,"native":false},{"column":14,"file":"node:internal/modules/cjs/loader","function":"Module._compile","line":1730,"method":"_compile","native":false},{"column":10,"file":"node:internal/modules/cjs/loader","function":"Object..js","line":1895,"method":".js","native":false},{"column":32,"file":"node:internal/modules/cjs/loader","function":"Module.load","line":1465,"method":"load","native":false},{"column":12,"file":"node:internal/modules/cjs/loader","function":"Function._load","line":1282,"method":"_load","native":false},{"column":14,"file":"node:diagnostics_channel","function":"TracingChannel.traceSync","line":322,"method":"traceSync","native":false}]}
+{"date":"Sat May 31 2025 03:35:15 GMT+0800 (中国标准时间)","error":{},"exception":true,"level":"error","message":"uncaughtException: jwt.verify is not a function\nTypeError: jwt.verify is not a function\n    at WebSocketService._handleConnection (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\utils\\websocket.js:46:9)\n    at WebSocketServer.<anonymous> (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\utils\\websocket.js:23:12)\n    at WebSocketServer.emit (node:events:518:28)\n    at WebSocketServer.completeUpgrade (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\ws\\lib\\websocket-server.js:436:5)\n    at WebSocketServer.handleUpgrade (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\ws\\lib\\websocket-server.js:344:10)\n    at Server.upgrade (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\ws\\lib\\websocket-server.js:119:16)\n    at Server.emit (node:events:518:28)\n    at onParserExecuteCommon (node:_http_server:950:14)\n    at onParserExecute (node:_http_server:852:3)","os":{"loadavg":[0,0,0],"uptime":229121.484},"process":{"argv":["D:\\Program Files\\nodejs\\node.exe","C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js"],"cwd":"C:\\Users\\syj\\Desktop\\校园墙\\server","execPath":"D:\\Program Files\\nodejs\\node.exe","gid":null,"memoryUsage":{"arrayBuffers":68772,"external":2406911,"heapTotal":18665472,"heapUsed":16274120,"rss":155881472},"pid":17496,"uid":null,"version":"v22.15.0"},"service":"campus-wall-api","stack":"TypeError: jwt.verify is not a function\n    at WebSocketService._handleConnection (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\utils\\websocket.js:46:9)\n    at WebSocketServer.<anonymous> (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\utils\\websocket.js:23:12)\n    at WebSocketServer.emit (node:events:518:28)\n    at WebSocketServer.completeUpgrade (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\ws\\lib\\websocket-server.js:436:5)\n    at WebSocketServer.handleUpgrade (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\ws\\lib\\websocket-server.js:344:10)\n    at Server.upgrade (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\ws\\lib\\websocket-server.js:119:16)\n    at Server.emit (node:events:518:28)\n    at onParserExecuteCommon (node:_http_server:950:14)\n    at onParserExecute (node:_http_server:852:3)","timestamp":"2025-05-31 03:35:15","trace":[{"column":9,"file":"C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\utils\\websocket.js","function":"WebSocketService._handleConnection","line":46,"method":"_handleConnection","native":false},{"column":12,"file":"C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\utils\\websocket.js","function":null,"line":23,"method":null,"native":false},{"column":28,"file":"node:events","function":"WebSocketServer.emit","line":518,"method":"emit","native":false},{"column":5,"file":"C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\ws\\lib\\websocket-server.js","function":"WebSocketServer.completeUpgrade","line":436,"method":"completeUpgrade","native":false},{"column":10,"file":"C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\ws\\lib\\websocket-server.js","function":"WebSocketServer.handleUpgrade","line":344,"method":"handleUpgrade","native":false},{"column":16,"file":"C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\ws\\lib\\websocket-server.js","function":"Server.upgrade","line":119,"method":"upgrade","native":false},{"column":28,"file":"node:events","function":"Server.emit","line":518,"method":"emit","native":false},{"column":14,"file":"node:_http_server","function":"onParserExecuteCommon","line":950,"method":null,"native":false},{"column":3,"file":"node:_http_server","function":"onParserExecute","line":852,"method":null,"native":false}]}
+{"date":"Sat May 31 2025 03:38:59 GMT+0800 (中国标准时间)","error":{},"exception":true,"level":"error","message":"uncaughtException: jwt.verify is not a function\nTypeError: jwt.verify is not a function\n    at WebSocketService._handleConnection (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\utils\\websocket.js:46:9)\n    at WebSocketServer.<anonymous> (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\utils\\websocket.js:23:12)\n    at WebSocketServer.emit (node:events:518:28)\n    at WebSocketServer.completeUpgrade (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\ws\\lib\\websocket-server.js:436:5)\n    at WebSocketServer.handleUpgrade (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\ws\\lib\\websocket-server.js:344:10)\n    at Server.upgrade (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\ws\\lib\\websocket-server.js:119:16)\n    at Server.emit (node:events:518:28)\n    at onParserExecuteCommon (node:_http_server:950:14)\n    at onParserExecute (node:_http_server:852:3)","os":{"loadavg":[0,0,0],"uptime":229344.953},"process":{"argv":["D:\\Program Files\\nodejs\\node.exe","C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js"],"cwd":"C:\\Users\\syj\\Desktop\\校园墙\\server","execPath":"D:\\Program Files\\nodejs\\node.exe","gid":null,"memoryUsage":{"arrayBuffers":52388,"external":2390527,"heapTotal":32034816,"heapUsed":15776784,"rss":130637824},"pid":32280,"uid":null,"version":"v22.15.0"},"service":"campus-wall-api","stack":"TypeError: jwt.verify is not a function\n    at WebSocketService._handleConnection (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\utils\\websocket.js:46:9)\n    at WebSocketServer.<anonymous> (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\utils\\websocket.js:23:12)\n    at WebSocketServer.emit (node:events:518:28)\n    at WebSocketServer.completeUpgrade (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\ws\\lib\\websocket-server.js:436:5)\n    at WebSocketServer.handleUpgrade (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\ws\\lib\\websocket-server.js:344:10)\n    at Server.upgrade (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\ws\\lib\\websocket-server.js:119:16)\n    at Server.emit (node:events:518:28)\n    at onParserExecuteCommon (node:_http_server:950:14)\n    at onParserExecute (node:_http_server:852:3)","timestamp":"2025-05-31 03:38:59","trace":[{"column":9,"file":"C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\utils\\websocket.js","function":"WebSocketService._handleConnection","line":46,"method":"_handleConnection","native":false},{"column":12,"file":"C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\utils\\websocket.js","function":null,"line":23,"method":null,"native":false},{"column":28,"file":"node:events","function":"WebSocketServer.emit","line":518,"method":"emit","native":false},{"column":5,"file":"C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\ws\\lib\\websocket-server.js","function":"WebSocketServer.completeUpgrade","line":436,"method":"completeUpgrade","native":false},{"column":10,"file":"C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\ws\\lib\\websocket-server.js","function":"WebSocketServer.handleUpgrade","line":344,"method":"handleUpgrade","native":false},{"column":16,"file":"C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\ws\\lib\\websocket-server.js","function":"Server.upgrade","line":119,"method":"upgrade","native":false},{"column":28,"file":"node:events","function":"Server.emit","line":518,"method":"emit","native":false},{"column":14,"file":"node:_http_server","function":"onParserExecuteCommon","line":950,"method":null,"native":false},{"column":3,"file":"node:_http_server","function":"onParserExecute","line":852,"method":null,"native":false}]}
+{"date":"Sat May 31 2025 03:41:10 GMT+0800 (中国标准时间)","error":{},"exception":true,"level":"error","message":"uncaughtException: jwt.verify is not a function\nTypeError: jwt.verify is not a function\n    at WebSocketService._handleConnection (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\utils\\websocket.js:46:9)\n    at WebSocketServer.<anonymous> (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\utils\\websocket.js:23:12)\n    at WebSocketServer.emit (node:events:518:28)\n    at WebSocketServer.completeUpgrade (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\ws\\lib\\websocket-server.js:436:5)\n    at WebSocketServer.handleUpgrade (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\ws\\lib\\websocket-server.js:344:10)\n    at Server.upgrade (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\ws\\lib\\websocket-server.js:119:16)\n    at Server.emit (node:events:518:28)\n    at onParserExecuteCommon (node:_http_server:950:14)\n    at onParserExecute (node:_http_server:852:3)","os":{"loadavg":[0,0,0],"uptime":229476.062},"process":{"argv":["D:\\Program Files\\nodejs\\node.exe","C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js"],"cwd":"C:\\Users\\syj\\Desktop\\校园墙\\server","execPath":"D:\\Program Files\\nodejs\\node.exe","gid":null,"memoryUsage":{"arrayBuffers":52388,"external":2390527,"heapTotal":17092608,"heapUsed":14685832,"rss":118534144},"pid":20652,"uid":null,"version":"v22.15.0"},"service":"campus-wall-api","stack":"TypeError: jwt.verify is not a function\n    at WebSocketService._handleConnection (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\utils\\websocket.js:46:9)\n    at WebSocketServer.<anonymous> (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\utils\\websocket.js:23:12)\n    at WebSocketServer.emit (node:events:518:28)\n    at WebSocketServer.completeUpgrade (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\ws\\lib\\websocket-server.js:436:5)\n    at WebSocketServer.handleUpgrade (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\ws\\lib\\websocket-server.js:344:10)\n    at Server.upgrade (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\ws\\lib\\websocket-server.js:119:16)\n    at Server.emit (node:events:518:28)\n    at onParserExecuteCommon (node:_http_server:950:14)\n    at onParserExecute (node:_http_server:852:3)","timestamp":"2025-05-31 03:41:10","trace":[{"column":9,"file":"C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\utils\\websocket.js","function":"WebSocketService._handleConnection","line":46,"method":"_handleConnection","native":false},{"column":12,"file":"C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\utils\\websocket.js","function":null,"line":23,"method":null,"native":false},{"column":28,"file":"node:events","function":"WebSocketServer.emit","line":518,"method":"emit","native":false},{"column":5,"file":"C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\ws\\lib\\websocket-server.js","function":"WebSocketServer.completeUpgrade","line":436,"method":"completeUpgrade","native":false},{"column":10,"file":"C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\ws\\lib\\websocket-server.js","function":"WebSocketServer.handleUpgrade","line":344,"method":"handleUpgrade","native":false},{"column":16,"file":"C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\ws\\lib\\websocket-server.js","function":"Server.upgrade","line":119,"method":"upgrade","native":false},{"column":28,"file":"node:events","function":"Server.emit","line":518,"method":"emit","native":false},{"column":14,"file":"node:_http_server","function":"onParserExecuteCommon","line":950,"method":null,"native":false},{"column":3,"file":"node:_http_server","function":"onParserExecute","line":852,"method":null,"native":false}]}
+{"date":"Sat May 31 2025 05:46:20 GMT+0800 (中国标准时间)","error":{},"exception":true,"level":"error","message":"uncaughtException: RateLimitMiddleware.postLimiter is not a function\nTypeError: RateLimitMiddleware.postLimiter is not a function\n    at Object.<anonymous> (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\post.routes.js:115:69)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\index.js:6:20)","os":{"loadavg":[0,0,0],"uptime":236985.953},"process":{"argv":["D:\\Program Files\\nodejs\\node.exe","C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js"],"cwd":"C:\\Users\\syj\\Desktop\\校园墙\\server","execPath":"D:\\Program Files\\nodejs\\node.exe","gid":null,"memoryUsage":{"arrayBuffers":51919,"external":2307870,"heapTotal":61534208,"heapUsed":32832856,"rss":155717632},"pid":34556,"uid":null,"version":"v22.15.0"},"service":"campus-wall-api","stack":"TypeError: RateLimitMiddleware.postLimiter is not a function\n    at Object.<anonymous> (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\post.routes.js:115:69)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\index.js:6:20)","timestamp":"2025-05-31 05:46:20","trace":[{"column":69,"file":"C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\post.routes.js","function":null,"line":115,"method":null,"native":false},{"column":14,"file":"node:internal/modules/cjs/loader","function":"Module._compile","line":1730,"method":"_compile","native":false},{"column":10,"file":"node:internal/modules/cjs/loader","function":"Object..js","line":1895,"method":".js","native":false},{"column":32,"file":"node:internal/modules/cjs/loader","function":"Module.load","line":1465,"method":"load","native":false},{"column":12,"file":"node:internal/modules/cjs/loader","function":"Function._load","line":1282,"method":"_load","native":false},{"column":14,"file":"node:diagnostics_channel","function":"TracingChannel.traceSync","line":322,"method":"traceSync","native":false},{"column":24,"file":"node:internal/modules/cjs/loader","function":"wrapModuleLoad","line":235,"method":null,"native":false},{"column":12,"file":"node:internal/modules/cjs/loader","function":"Module.require","line":1487,"method":"require","native":false},{"column":16,"file":"node:internal/modules/helpers","function":"require","line":135,"method":null,"native":false},{"column":20,"file":"C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\index.js","function":null,"line":6,"method":null,"native":false}]}
+{"date":"Sat May 31 2025 05:47:16 GMT+0800 (中国标准时间)","error":{},"exception":true,"level":"error","message":"uncaughtException: RateLimitMiddleware.postLimiter is not a function\nTypeError: RateLimitMiddleware.postLimiter is not a function\n    at Object.<anonymous> (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\post.routes.js:115:69)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\index.js:6:20)","os":{"loadavg":[0,0,0],"uptime":237042.531},"process":{"argv":["D:\\Program Files\\nodejs\\node.exe","C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js"],"cwd":"C:\\Users\\syj\\Desktop\\校园墙\\server","execPath":"D:\\Program Files\\nodejs\\node.exe","gid":null,"memoryUsage":{"arrayBuffers":51919,"external":2307870,"heapTotal":61272064,"heapUsed":32810296,"rss":155717632},"pid":29784,"uid":null,"version":"v22.15.0"},"service":"campus-wall-api","stack":"TypeError: RateLimitMiddleware.postLimiter is not a function\n    at Object.<anonymous> (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\post.routes.js:115:69)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\index.js:6:20)","timestamp":"2025-05-31 05:47:16","trace":[{"column":69,"file":"C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\post.routes.js","function":null,"line":115,"method":null,"native":false},{"column":14,"file":"node:internal/modules/cjs/loader","function":"Module._compile","line":1730,"method":"_compile","native":false},{"column":10,"file":"node:internal/modules/cjs/loader","function":"Object..js","line":1895,"method":".js","native":false},{"column":32,"file":"node:internal/modules/cjs/loader","function":"Module.load","line":1465,"method":"load","native":false},{"column":12,"file":"node:internal/modules/cjs/loader","function":"Function._load","line":1282,"method":"_load","native":false},{"column":14,"file":"node:diagnostics_channel","function":"TracingChannel.traceSync","line":322,"method":"traceSync","native":false},{"column":24,"file":"node:internal/modules/cjs/loader","function":"wrapModuleLoad","line":235,"method":null,"native":false},{"column":12,"file":"node:internal/modules/cjs/loader","function":"Module.require","line":1487,"method":"require","native":false},{"column":16,"file":"node:internal/modules/helpers","function":"require","line":135,"method":null,"native":false},{"column":20,"file":"C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\index.js","function":null,"line":6,"method":null,"native":false}]}
+{"date":"Sat May 31 2025 13:14:45 GMT+0800 (中国标准时间)","error":{},"exception":true,"level":"error","message":"uncaughtException: Cannot read properties of undefined (reading 'uploadPostImages')\nTypeError: Cannot read properties of undefined (reading 'uploadPostImages')\n    at Object.<anonymous> (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\post.routes.js:124:72)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\index.js:6:20)","os":{"loadavg":[0,0,0],"uptime":26160.203},"process":{"argv":["D:\\Program Files\\nodejs\\node.exe","C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js"],"cwd":"C:\\Users\\syj\\Desktop\\校园墙\\server","execPath":"D:\\Program Files\\nodejs\\node.exe","gid":null,"memoryUsage":{"arrayBuffers":52095,"external":2431001,"heapTotal":62529536,"heapUsed":33516040,"rss":94003200},"pid":24396,"uid":null,"version":"v22.15.0"},"service":"campus-wall-api","stack":"TypeError: Cannot read properties of undefined (reading 'uploadPostImages')\n    at Object.<anonymous> (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\post.routes.js:124:72)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\index.js:6:20)","timestamp":"2025-05-31 13:14:45","trace":[{"column":72,"file":"C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\post.routes.js","function":null,"line":124,"method":null,"native":false},{"column":14,"file":"node:internal/modules/cjs/loader","function":"Module._compile","line":1730,"method":"_compile","native":false},{"column":10,"file":"node:internal/modules/cjs/loader","function":"Object..js","line":1895,"method":".js","native":false},{"column":32,"file":"node:internal/modules/cjs/loader","function":"Module.load","line":1465,"method":"load","native":false},{"column":12,"file":"node:internal/modules/cjs/loader","function":"Function._load","line":1282,"method":"_load","native":false},{"column":14,"file":"node:diagnostics_channel","function":"TracingChannel.traceSync","line":322,"method":"traceSync","native":false},{"column":24,"file":"node:internal/modules/cjs/loader","function":"wrapModuleLoad","line":235,"method":null,"native":false},{"column":12,"file":"node:internal/modules/cjs/loader","function":"Module.require","line":1487,"method":"require","native":false},{"column":16,"file":"node:internal/modules/helpers","function":"require","line":135,"method":null,"native":false},{"column":20,"file":"C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\index.js","function":null,"line":6,"method":null,"native":false}]}
+{"date":"Sat May 31 2025 13:15:39 GMT+0800 (中国标准时间)","error":{},"exception":true,"level":"error","message":"uncaughtException: Cannot read properties of undefined (reading 'uploadPostImages')\nTypeError: Cannot read properties of undefined (reading 'uploadPostImages')\n    at Object.<anonymous> (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\post.routes.js:124:72)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\index.js:6:20)","os":{"loadavg":[0,0,0],"uptime":26214.609},"process":{"argv":["D:\\Program Files\\nodejs\\node.exe","C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js"],"cwd":"C:\\Users\\syj\\Desktop\\校园墙\\server","execPath":"D:\\Program Files\\nodejs\\node.exe","gid":null,"memoryUsage":{"arrayBuffers":52095,"external":2431001,"heapTotal":62267392,"heapUsed":32919664,"rss":90898432},"pid":16628,"uid":null,"version":"v22.15.0"},"service":"campus-wall-api","stack":"TypeError: Cannot read properties of undefined (reading 'uploadPostImages')\n    at Object.<anonymous> (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\post.routes.js:124:72)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\index.js:6:20)","timestamp":"2025-05-31 13:15:39","trace":[{"column":72,"file":"C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\post.routes.js","function":null,"line":124,"method":null,"native":false},{"column":14,"file":"node:internal/modules/cjs/loader","function":"Module._compile","line":1730,"method":"_compile","native":false},{"column":10,"file":"node:internal/modules/cjs/loader","function":"Object..js","line":1895,"method":".js","native":false},{"column":32,"file":"node:internal/modules/cjs/loader","function":"Module.load","line":1465,"method":"load","native":false},{"column":12,"file":"node:internal/modules/cjs/loader","function":"Function._load","line":1282,"method":"_load","native":false},{"column":14,"file":"node:diagnostics_channel","function":"TracingChannel.traceSync","line":322,"method":"traceSync","native":false},{"column":24,"file":"node:internal/modules/cjs/loader","function":"wrapModuleLoad","line":235,"method":null,"native":false},{"column":12,"file":"node:internal/modules/cjs/loader","function":"Module.require","line":1487,"method":"require","native":false},{"column":16,"file":"node:internal/modules/helpers","function":"require","line":135,"method":null,"native":false},{"column":20,"file":"C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\index.js","function":null,"line":6,"method":null,"native":false}]}
+{"date":"Sat May 31 2025 13:16:53 GMT+0800 (中国标准时间)","error":{},"exception":true,"level":"error","message":"uncaughtException: Cannot read properties of undefined (reading 'uploadPostImages')\nTypeError: Cannot read properties of undefined (reading 'uploadPostImages')\n    at Object.<anonymous> (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\post.routes.js:124:72)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\index.js:6:20)","os":{"loadavg":[0,0,0],"uptime":26288.39},"process":{"argv":["D:\\Program Files\\nodejs\\node.exe","C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js"],"cwd":"C:\\Users\\syj\\Desktop\\校园墙\\server","execPath":"D:\\Program Files\\nodejs\\node.exe","gid":null,"memoryUsage":{"arrayBuffers":51919,"external":2307870,"heapTotal":61009920,"heapUsed":33063736,"rss":90169344},"pid":14292,"uid":null,"version":"v22.15.0"},"service":"campus-wall-api","stack":"TypeError: Cannot read properties of undefined (reading 'uploadPostImages')\n    at Object.<anonymous> (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\post.routes.js:124:72)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\index.js:6:20)","timestamp":"2025-05-31 13:16:53","trace":[{"column":72,"file":"C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\post.routes.js","function":null,"line":124,"method":null,"native":false},{"column":14,"file":"node:internal/modules/cjs/loader","function":"Module._compile","line":1730,"method":"_compile","native":false},{"column":10,"file":"node:internal/modules/cjs/loader","function":"Object..js","line":1895,"method":".js","native":false},{"column":32,"file":"node:internal/modules/cjs/loader","function":"Module.load","line":1465,"method":"load","native":false},{"column":12,"file":"node:internal/modules/cjs/loader","function":"Function._load","line":1282,"method":"_load","native":false},{"column":14,"file":"node:diagnostics_channel","function":"TracingChannel.traceSync","line":322,"method":"traceSync","native":false},{"column":24,"file":"node:internal/modules/cjs/loader","function":"wrapModuleLoad","line":235,"method":null,"native":false},{"column":12,"file":"node:internal/modules/cjs/loader","function":"Module.require","line":1487,"method":"require","native":false},{"column":16,"file":"node:internal/modules/helpers","function":"require","line":135,"method":null,"native":false},{"column":20,"file":"C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\index.js","function":null,"line":6,"method":null,"native":false}]}
+{"date":"Sat May 31 2025 13:17:56 GMT+0800 (中国标准时间)","error":{},"exception":true,"level":"error","message":"uncaughtException: Cannot read properties of undefined (reading 'uploadPostImages')\nTypeError: Cannot read properties of undefined (reading 'uploadPostImages')\n    at Object.<anonymous> (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\post.routes.js:124:72)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\index.js:6:20)","os":{"loadavg":[0,0,0],"uptime":26350.781},"process":{"argv":["D:\\Program Files\\nodejs\\node.exe","C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js"],"cwd":"C:\\Users\\syj\\Desktop\\校园墙\\server","execPath":"D:\\Program Files\\nodejs\\node.exe","gid":null,"memoryUsage":{"arrayBuffers":51919,"external":2307870,"heapTotal":61009920,"heapUsed":33397872,"rss":90632192},"pid":10344,"uid":null,"version":"v22.15.0"},"service":"campus-wall-api","stack":"TypeError: Cannot read properties of undefined (reading 'uploadPostImages')\n    at Object.<anonymous> (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\post.routes.js:124:72)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\index.js:6:20)","timestamp":"2025-05-31 13:17:56","trace":[{"column":72,"file":"C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\post.routes.js","function":null,"line":124,"method":null,"native":false},{"column":14,"file":"node:internal/modules/cjs/loader","function":"Module._compile","line":1730,"method":"_compile","native":false},{"column":10,"file":"node:internal/modules/cjs/loader","function":"Object..js","line":1895,"method":".js","native":false},{"column":32,"file":"node:internal/modules/cjs/loader","function":"Module.load","line":1465,"method":"load","native":false},{"column":12,"file":"node:internal/modules/cjs/loader","function":"Function._load","line":1282,"method":"_load","native":false},{"column":14,"file":"node:diagnostics_channel","function":"TracingChannel.traceSync","line":322,"method":"traceSync","native":false},{"column":24,"file":"node:internal/modules/cjs/loader","function":"wrapModuleLoad","line":235,"method":null,"native":false},{"column":12,"file":"node:internal/modules/cjs/loader","function":"Module.require","line":1487,"method":"require","native":false},{"column":16,"file":"node:internal/modules/helpers","function":"require","line":135,"method":null,"native":false},{"column":20,"file":"C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\index.js","function":null,"line":6,"method":null,"native":false}]}
+{"date":"Sat May 31 2025 13:19:26 GMT+0800 (中国标准时间)","error":{"address":"::","code":"EADDRINUSE","errno":-4091,"port":3000,"syscall":"listen"},"exception":true,"level":"error","message":"uncaughtException: listen EADDRINUSE: address already in use :::3000\nError: listen EADDRINUSE: address already in use :::3000\n    at Server.setupListenHandle [as _listen2] (node:net:1939:16)\n    at listenInCluster (node:net:1996:12)\n    at Server.listen (node:net:2101:7)\n    at Function.listen (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\application.js:635:24)\n    at Object.<anonymous> (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js:22:20)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)","os":{"loadavg":[0,0,0],"uptime":26440.937},"process":{"argv":["D:\\Program Files\\nodejs\\node.exe","C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js"],"cwd":"C:\\Users\\syj\\Desktop\\校园墙\\server","execPath":"D:\\Program Files\\nodejs\\node.exe","gid":null,"memoryUsage":{"arrayBuffers":51919,"external":2423801,"heapTotal":61272064,"heapUsed":36037744,"rss":92971008},"pid":18408,"uid":null,"version":"v22.15.0"},"service":"campus-wall-api","stack":"Error: listen EADDRINUSE: address already in use :::3000\n    at Server.setupListenHandle [as _listen2] (node:net:1939:16)\n    at listenInCluster (node:net:1996:12)\n    at Server.listen (node:net:2101:7)\n    at Function.listen (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\application.js:635:24)\n    at Object.<anonymous> (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js:22:20)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)","timestamp":"2025-05-31 13:19:26","trace":[{"column":16,"file":"node:net","function":"Server.setupListenHandle [as _listen2]","line":1939,"method":"setupListenHandle [as _listen2]","native":false},{"column":12,"file":"node:net","function":"listenInCluster","line":1996,"method":null,"native":false},{"column":7,"file":"node:net","function":"Server.listen","line":2101,"method":"listen","native":false},{"column":24,"file":"C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\application.js","function":"Function.listen","line":635,"method":"listen","native":false},{"column":20,"file":"C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js","function":null,"line":22,"method":null,"native":false},{"column":14,"file":"node:internal/modules/cjs/loader","function":"Module._compile","line":1730,"method":"_compile","native":false},{"column":10,"file":"node:internal/modules/cjs/loader","function":"Object..js","line":1895,"method":".js","native":false},{"column":32,"file":"node:internal/modules/cjs/loader","function":"Module.load","line":1465,"method":"load","native":false},{"column":12,"file":"node:internal/modules/cjs/loader","function":"Function._load","line":1282,"method":"_load","native":false},{"column":14,"file":"node:diagnostics_channel","function":"TracingChannel.traceSync","line":322,"method":"traceSync","native":false}]}
+{"date":"Sat May 31 2025 13:20:10 GMT+0800 (中国标准时间)","error":{"address":"::","code":"EADDRINUSE","errno":-4091,"port":3000,"syscall":"listen"},"exception":true,"level":"error","message":"uncaughtException: listen EADDRINUSE: address already in use :::3000\nError: listen EADDRINUSE: address already in use :::3000\n    at Server.setupListenHandle [as _listen2] (node:net:1939:16)\n    at listenInCluster (node:net:1996:12)\n    at Server.listen (node:net:2101:7)\n    at Function.listen (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\application.js:635:24)\n    at Object.<anonymous> (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js:22:20)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)","os":{"loadavg":[0,0,0],"uptime":26484.703},"process":{"argv":["D:\\Program Files\\nodejs\\node.exe","C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js"],"cwd":"C:\\Users\\syj\\Desktop\\校园墙\\server","execPath":"D:\\Program Files\\nodejs\\node.exe","gid":null,"memoryUsage":{"arrayBuffers":51919,"external":2423801,"heapTotal":61272064,"heapUsed":35846272,"rss":94445568},"pid":5228,"uid":null,"version":"v22.15.0"},"service":"campus-wall-api","stack":"Error: listen EADDRINUSE: address already in use :::3000\n    at Server.setupListenHandle [as _listen2] (node:net:1939:16)\n    at listenInCluster (node:net:1996:12)\n    at Server.listen (node:net:2101:7)\n    at Function.listen (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\application.js:635:24)\n    at Object.<anonymous> (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js:22:20)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)","timestamp":"2025-05-31 13:20:10","trace":[{"column":16,"file":"node:net","function":"Server.setupListenHandle [as _listen2]","line":1939,"method":"setupListenHandle [as _listen2]","native":false},{"column":12,"file":"node:net","function":"listenInCluster","line":1996,"method":null,"native":false},{"column":7,"file":"node:net","function":"Server.listen","line":2101,"method":"listen","native":false},{"column":24,"file":"C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\application.js","function":"Function.listen","line":635,"method":"listen","native":false},{"column":20,"file":"C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js","function":null,"line":22,"method":null,"native":false},{"column":14,"file":"node:internal/modules/cjs/loader","function":"Module._compile","line":1730,"method":"_compile","native":false},{"column":10,"file":"node:internal/modules/cjs/loader","function":"Object..js","line":1895,"method":".js","native":false},{"column":32,"file":"node:internal/modules/cjs/loader","function":"Module.load","line":1465,"method":"load","native":false},{"column":12,"file":"node:internal/modules/cjs/loader","function":"Function._load","line":1282,"method":"_load","native":false},{"column":14,"file":"node:diagnostics_channel","function":"TracingChannel.traceSync","line":322,"method":"traceSync","native":false}]}
+2025-05-31 14:47:42 error: uncaughtException: listen EADDRINUSE: address already in use :::3000
+Error: listen EADDRINUSE: address already in use :::3000
+    at Server.setupListenHandle [as _listen2] (node:net:1939:16)
+    at listenInCluster (node:net:1996:12)
+    at Server.listen (node:net:2101:7)
+    at Function.listen (C:\Users\syj\Desktop\校园墙\server\node_modules\express\lib\application.js:635:24)
+    at startServer (C:\Users\syj\Desktop\校园墙\server\src\server.js:31:24)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+  "error": {
+    "code": "EADDRINUSE",
+    "errno": -4091,
+    "syscall": "listen",
+    "address": "::",
+    "port": 3000
+  },
+  "stack": "Error: listen EADDRINUSE: address already in use :::3000\n    at Server.setupListenHandle [as _listen2] (node:net:1939:16)\n    at listenInCluster (node:net:1996:12)\n    at Server.listen (node:net:2101:7)\n    at Function.listen (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\application.js:635:24)\n    at startServer (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js:31:24)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)",
+  "exception": true,
+  "date": "Sat May 31 2025 14:47:42 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 29972,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\syj\\Desktop\\校园墙\\server",
+    "execPath": "D:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.15.0",
+    "argv": [
+      "D:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 105320448,
+      "heapTotal": 68874240,
+      "heapUsed": 38299184,
+      "external": 2718755,
+      "arrayBuffers": 347159
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 31737.109
+  },
+  "trace": [
+    {
+      "column": 16,
+      "file": "node:net",
+      "function": "Server.setupListenHandle [as _listen2]",
+      "line": 1939,
+      "method": "setupListenHandle [as _listen2]",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:net",
+      "function": "listenInCluster",
+      "line": 1996,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 7,
+      "file": "node:net",
+      "function": "Server.listen",
+      "line": 2101,
+      "method": "listen",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\application.js",
+      "function": "Function.listen",
+      "line": 635,
+      "method": "listen",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js",
+      "function": "startServer",
+      "line": 31,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 5,
+      "file": "node:internal/process/task_queues",
+      "function": "process.processTicksAndRejections",
+      "line": 105,
+      "method": "processTicksAndRejections",
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-05-31 14:48:13 error: uncaughtException: listen EADDRINUSE: address already in use :::3000
+Error: listen EADDRINUSE: address already in use :::3000
+    at Server.setupListenHandle [as _listen2] (node:net:1939:16)
+    at listenInCluster (node:net:1996:12)
+    at Server.listen (node:net:2101:7)
+    at Function.listen (C:\Users\syj\Desktop\校园墙\server\node_modules\express\lib\application.js:635:24)
+    at startServer (C:\Users\syj\Desktop\校园墙\server\src\server.js:31:24)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+  "error": {
+    "code": "EADDRINUSE",
+    "errno": -4091,
+    "syscall": "listen",
+    "address": "::",
+    "port": 3000
+  },
+  "stack": "Error: listen EADDRINUSE: address already in use :::3000\n    at Server.setupListenHandle [as _listen2] (node:net:1939:16)\n    at listenInCluster (node:net:1996:12)\n    at Server.listen (node:net:2101:7)\n    at Function.listen (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\application.js:635:24)\n    at startServer (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js:31:24)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)",
+  "exception": true,
+  "date": "Sat May 31 2025 14:48:13 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 32144,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\syj\\Desktop\\校园墙\\server",
+    "execPath": "D:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.15.0",
+    "argv": [
+      "D:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 103047168,
+      "heapTotal": 69398528,
+      "heapUsed": 38081208,
+      "external": 2693559,
+      "arrayBuffers": 321963
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 31768.453
+  },
+  "trace": [
+    {
+      "column": 16,
+      "file": "node:net",
+      "function": "Server.setupListenHandle [as _listen2]",
+      "line": 1939,
+      "method": "setupListenHandle [as _listen2]",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:net",
+      "function": "listenInCluster",
+      "line": 1996,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 7,
+      "file": "node:net",
+      "function": "Server.listen",
+      "line": 2101,
+      "method": "listen",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\application.js",
+      "function": "Function.listen",
+      "line": 635,
+      "method": "listen",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js",
+      "function": "startServer",
+      "line": 31,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 5,
+      "file": "node:internal/process/task_queues",
+      "function": "process.processTicksAndRejections",
+      "line": 105,
+      "method": "processTicksAndRejections",
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-05-31 14:48:29 error: uncaughtException: listen EADDRINUSE: address already in use :::3000
+Error: listen EADDRINUSE: address already in use :::3000
+    at Server.setupListenHandle [as _listen2] (node:net:1939:16)
+    at listenInCluster (node:net:1996:12)
+    at Server.listen (node:net:2101:7)
+    at Function.listen (C:\Users\syj\Desktop\校园墙\server\node_modules\express\lib\application.js:635:24)
+    at startServer (C:\Users\syj\Desktop\校园墙\server\src\server.js:31:24)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+  "error": {
+    "code": "EADDRINUSE",
+    "errno": -4091,
+    "syscall": "listen",
+    "address": "::",
+    "port": 3000
+  },
+  "stack": "Error: listen EADDRINUSE: address already in use :::3000\n    at Server.setupListenHandle [as _listen2] (node:net:1939:16)\n    at listenInCluster (node:net:1996:12)\n    at Server.listen (node:net:2101:7)\n    at Function.listen (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\application.js:635:24)\n    at startServer (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js:31:24)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)",
+  "exception": true,
+  "date": "Sat May 31 2025 14:48:29 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 29972,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\syj\\Desktop\\校园墙\\server",
+    "execPath": "D:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.15.0",
+    "argv": [
+      "D:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 104882176,
+      "heapTotal": 68874240,
+      "heapUsed": 37765800,
+      "external": 2677072,
+      "arrayBuffers": 305476
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 31784.187
+  },
+  "trace": [
+    {
+      "column": 16,
+      "file": "node:net",
+      "function": "Server.setupListenHandle [as _listen2]",
+      "line": 1939,
+      "method": "setupListenHandle [as _listen2]",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:net",
+      "function": "listenInCluster",
+      "line": 1996,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 7,
+      "file": "node:net",
+      "function": "Server.listen",
+      "line": 2101,
+      "method": "listen",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\application.js",
+      "function": "Function.listen",
+      "line": 635,
+      "method": "listen",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js",
+      "function": "startServer",
+      "line": 31,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 5,
+      "file": "node:internal/process/task_queues",
+      "function": "process.processTicksAndRejections",
+      "line": 105,
+      "method": "processTicksAndRejections",
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-05-31 14:49:11 error: uncaughtException: listen EADDRINUSE: address already in use :::3000
+Error: listen EADDRINUSE: address already in use :::3000
+    at Server.setupListenHandle [as _listen2] (node:net:1939:16)
+    at listenInCluster (node:net:1996:12)
+    at Server.listen (node:net:2101:7)
+    at Function.listen (C:\Users\syj\Desktop\校园墙\server\node_modules\express\lib\application.js:635:24)
+    at startServer (C:\Users\syj\Desktop\校园墙\server\src\server.js:31:24)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+  "error": {
+    "code": "EADDRINUSE",
+    "errno": -4091,
+    "syscall": "listen",
+    "address": "::",
+    "port": 3000
+  },
+  "stack": "Error: listen EADDRINUSE: address already in use :::3000\n    at Server.setupListenHandle [as _listen2] (node:net:1939:16)\n    at listenInCluster (node:net:1996:12)\n    at Server.listen (node:net:2101:7)\n    at Function.listen (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\application.js:635:24)\n    at startServer (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js:31:24)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)",
+  "exception": true,
+  "date": "Sat May 31 2025 14:49:11 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 30704,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\syj\\Desktop\\校园墙\\server",
+    "execPath": "D:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.15.0",
+    "argv": [
+      "D:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 104062976,
+      "heapTotal": 68874240,
+      "heapUsed": 38605760,
+      "external": 2752531,
+      "arrayBuffers": 380935
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 31825.781
+  },
+  "trace": [
+    {
+      "column": 16,
+      "file": "node:net",
+      "function": "Server.setupListenHandle [as _listen2]",
+      "line": 1939,
+      "method": "setupListenHandle [as _listen2]",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:net",
+      "function": "listenInCluster",
+      "line": 1996,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 7,
+      "file": "node:net",
+      "function": "Server.listen",
+      "line": 2101,
+      "method": "listen",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\application.js",
+      "function": "Function.listen",
+      "line": 635,
+      "method": "listen",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js",
+      "function": "startServer",
+      "line": 31,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 5,
+      "file": "node:internal/process/task_queues",
+      "function": "process.processTicksAndRejections",
+      "line": 105,
+      "method": "processTicksAndRejections",
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-05-31 14:49:28 error: uncaughtException: listen EADDRINUSE: address already in use :::3000
+Error: listen EADDRINUSE: address already in use :::3000
+    at Server.setupListenHandle [as _listen2] (node:net:1939:16)
+    at listenInCluster (node:net:1996:12)
+    at Server.listen (node:net:2101:7)
+    at Function.listen (C:\Users\syj\Desktop\校园墙\server\node_modules\express\lib\application.js:635:24)
+    at startServer (C:\Users\syj\Desktop\校园墙\server\src\server.js:31:24)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+  "error": {
+    "code": "EADDRINUSE",
+    "errno": -4091,
+    "syscall": "listen",
+    "address": "::",
+    "port": 3000
+  },
+  "stack": "Error: listen EADDRINUSE: address already in use :::3000\n    at Server.setupListenHandle [as _listen2] (node:net:1939:16)\n    at listenInCluster (node:net:1996:12)\n    at Server.listen (node:net:2101:7)\n    at Function.listen (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\application.js:635:24)\n    at startServer (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js:31:24)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)",
+  "exception": true,
+  "date": "Sat May 31 2025 14:49:28 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 32072,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\syj\\Desktop\\校园墙\\server",
+    "execPath": "D:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.15.0",
+    "argv": [
+      "D:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 103895040,
+      "heapTotal": 68612096,
+      "heapUsed": 38400960,
+      "external": 2727852,
+      "arrayBuffers": 356256
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 31842.953
+  },
+  "trace": [
+    {
+      "column": 16,
+      "file": "node:net",
+      "function": "Server.setupListenHandle [as _listen2]",
+      "line": 1939,
+      "method": "setupListenHandle [as _listen2]",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:net",
+      "function": "listenInCluster",
+      "line": 1996,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 7,
+      "file": "node:net",
+      "function": "Server.listen",
+      "line": 2101,
+      "method": "listen",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\application.js",
+      "function": "Function.listen",
+      "line": 635,
+      "method": "listen",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js",
+      "function": "startServer",
+      "line": 31,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 5,
+      "file": "node:internal/process/task_queues",
+      "function": "process.processTicksAndRejections",
+      "line": 105,
+      "method": "processTicksAndRejections",
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-05-31 14:53:45 error: uncaughtException: listen EADDRINUSE: address already in use :::3001
+Error: listen EADDRINUSE: address already in use :::3001
+    at Server.setupListenHandle [as _listen2] (node:net:1939:16)
+    at listenInCluster (node:net:1996:12)
+    at Server.listen (node:net:2101:7)
+    at Function.listen (C:\Users\syj\Desktop\校园墙\server\node_modules\express\lib\application.js:635:24)
+    at startServer (C:\Users\syj\Desktop\校园墙\server\src\server.js:31:24)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+  "error": {
+    "code": "EADDRINUSE",
+    "errno": -4091,
+    "syscall": "listen",
+    "address": "::",
+    "port": 3001
+  },
+  "stack": "Error: listen EADDRINUSE: address already in use :::3001\n    at Server.setupListenHandle [as _listen2] (node:net:1939:16)\n    at listenInCluster (node:net:1996:12)\n    at Server.listen (node:net:2101:7)\n    at Function.listen (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\application.js:635:24)\n    at startServer (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js:31:24)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)",
+  "exception": true,
+  "date": "Sat May 31 2025 14:53:45 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 10172,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\syj\\Desktop\\校园墙\\server",
+    "execPath": "D:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.15.0",
+    "argv": [
+      "D:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 103555072,
+      "heapTotal": 68874240,
+      "heapUsed": 38481696,
+      "external": 2736188,
+      "arrayBuffers": 364592
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 32100.265
+  },
+  "trace": [
+    {
+      "column": 16,
+      "file": "node:net",
+      "function": "Server.setupListenHandle [as _listen2]",
+      "line": 1939,
+      "method": "setupListenHandle [as _listen2]",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:net",
+      "function": "listenInCluster",
+      "line": 1996,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 7,
+      "file": "node:net",
+      "function": "Server.listen",
+      "line": 2101,
+      "method": "listen",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\application.js",
+      "function": "Function.listen",
+      "line": 635,
+      "method": "listen",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js",
+      "function": "startServer",
+      "line": 31,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 5,
+      "file": "node:internal/process/task_queues",
+      "function": "process.processTicksAndRejections",
+      "line": 105,
+      "method": "processTicksAndRejections",
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-05-31 14:54:04 error: uncaughtException: listen EADDRINUSE: address already in use :::3001
+Error: listen EADDRINUSE: address already in use :::3001
+    at Server.setupListenHandle [as _listen2] (node:net:1939:16)
+    at listenInCluster (node:net:1996:12)
+    at Server.listen (node:net:2101:7)
+    at Function.listen (C:\Users\syj\Desktop\校园墙\server\node_modules\express\lib\application.js:635:24)
+    at startServer (C:\Users\syj\Desktop\校园墙\server\src\server.js:31:24)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+  "error": {
+    "code": "EADDRINUSE",
+    "errno": -4091,
+    "syscall": "listen",
+    "address": "::",
+    "port": 3001
+  },
+  "stack": "Error: listen EADDRINUSE: address already in use :::3001\n    at Server.setupListenHandle [as _listen2] (node:net:1939:16)\n    at listenInCluster (node:net:1996:12)\n    at Server.listen (node:net:2101:7)\n    at Function.listen (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\application.js:635:24)\n    at startServer (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js:31:24)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)",
+  "exception": true,
+  "date": "Sat May 31 2025 14:54:04 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 25044,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\syj\\Desktop\\校园墙\\server",
+    "execPath": "D:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.15.0",
+    "argv": [
+      "D:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 103948288,
+      "heapTotal": 68874240,
+      "heapUsed": 38650992,
+      "external": 2752720,
+      "arrayBuffers": 381124
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 32119.171
+  },
+  "trace": [
+    {
+      "column": 16,
+      "file": "node:net",
+      "function": "Server.setupListenHandle [as _listen2]",
+      "line": 1939,
+      "method": "setupListenHandle [as _listen2]",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:net",
+      "function": "listenInCluster",
+      "line": 1996,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 7,
+      "file": "node:net",
+      "function": "Server.listen",
+      "line": 2101,
+      "method": "listen",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\application.js",
+      "function": "Function.listen",
+      "line": 635,
+      "method": "listen",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js",
+      "function": "startServer",
+      "line": 31,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 5,
+      "file": "node:internal/process/task_queues",
+      "function": "process.processTicksAndRejections",
+      "line": 105,
+      "method": "processTicksAndRejections",
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-05-31 16:20:53 error: uncaughtException: listen EADDRINUSE: address already in use :::3000
+Error: listen EADDRINUSE: address already in use :::3000
+    at Server.setupListenHandle [as _listen2] (node:net:1939:16)
+    at listenInCluster (node:net:1996:12)
+    at Server.listen (node:net:2101:7)
+    at Function.listen (C:\Users\syj\Desktop\校园墙\server\node_modules\express\lib\application.js:635:24)
+    at startServer (C:\Users\syj\Desktop\校园墙\server\src\server.js:31:24)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+  "error": {
+    "code": "EADDRINUSE",
+    "errno": -4091,
+    "syscall": "listen",
+    "address": "::",
+    "port": 3000
+  },
+  "stack": "Error: listen EADDRINUSE: address already in use :::3000\n    at Server.setupListenHandle [as _listen2] (node:net:1939:16)\n    at listenInCluster (node:net:1996:12)\n    at Server.listen (node:net:2101:7)\n    at Function.listen (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\application.js:635:24)\n    at startServer (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js:31:24)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)",
+  "exception": true,
+  "date": "Sat May 31 2025 16:20:53 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 9712,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\syj\\Desktop\\校园墙\\server",
+    "execPath": "D:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.15.0",
+    "argv": [
+      "D:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 167129088,
+      "heapTotal": 68874240,
+      "heapUsed": 38073304,
+      "external": 2694130,
+      "arrayBuffers": 322534
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 37328.39
+  },
+  "trace": [
+    {
+      "column": 16,
+      "file": "node:net",
+      "function": "Server.setupListenHandle [as _listen2]",
+      "line": 1939,
+      "method": "setupListenHandle [as _listen2]",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:net",
+      "function": "listenInCluster",
+      "line": 1996,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 7,
+      "file": "node:net",
+      "function": "Server.listen",
+      "line": 2101,
+      "method": "listen",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\application.js",
+      "function": "Function.listen",
+      "line": 635,
+      "method": "listen",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js",
+      "function": "startServer",
+      "line": 31,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 5,
+      "file": "node:internal/process/task_queues",
+      "function": "process.processTicksAndRejections",
+      "line": 105,
+      "method": "processTicksAndRejections",
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-05-31 16:21:54 error: uncaughtException: listen EADDRINUSE: address already in use :::3000
+Error: listen EADDRINUSE: address already in use :::3000
+    at Server.setupListenHandle [as _listen2] (node:net:1939:16)
+    at listenInCluster (node:net:1996:12)
+    at Server.listen (node:net:2101:7)
+    at Function.listen (C:\Users\syj\Desktop\校园墙\server\node_modules\express\lib\application.js:635:24)
+    at startServer (C:\Users\syj\Desktop\校园墙\server\src\server.js:31:24)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+  "error": {
+    "code": "EADDRINUSE",
+    "errno": -4091,
+    "syscall": "listen",
+    "address": "::",
+    "port": 3000
+  },
+  "stack": "Error: listen EADDRINUSE: address already in use :::3000\n    at Server.setupListenHandle [as _listen2] (node:net:1939:16)\n    at listenInCluster (node:net:1996:12)\n    at Server.listen (node:net:2101:7)\n    at Function.listen (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\application.js:635:24)\n    at startServer (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js:31:24)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)",
+  "exception": true,
+  "date": "Sat May 31 2025 16:21:54 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 34736,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\syj\\Desktop\\校园墙\\server",
+    "execPath": "D:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.15.0",
+    "argv": [
+      "D:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 167890944,
+      "heapTotal": 69607424,
+      "heapUsed": 37610040,
+      "external": 2620321,
+      "arrayBuffers": 222570
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 37388.765
+  },
+  "trace": [
+    {
+      "column": 16,
+      "file": "node:net",
+      "function": "Server.setupListenHandle [as _listen2]",
+      "line": 1939,
+      "method": "setupListenHandle [as _listen2]",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:net",
+      "function": "listenInCluster",
+      "line": 1996,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 7,
+      "file": "node:net",
+      "function": "Server.listen",
+      "line": 2101,
+      "method": "listen",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\application.js",
+      "function": "Function.listen",
+      "line": 635,
+      "method": "listen",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js",
+      "function": "startServer",
+      "line": 31,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 5,
+      "file": "node:internal/process/task_queues",
+      "function": "process.processTicksAndRejections",
+      "line": 105,
+      "method": "processTicksAndRejections",
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-06-04 19:57:49 error: uncaughtException: listen EADDRINUSE: address already in use :::3000
+Error: listen EADDRINUSE: address already in use :::3000
+    at Server.setupListenHandle [as _listen2] (node:net:1939:16)
+    at listenInCluster (node:net:1996:12)
+    at Server.listen (node:net:2101:7)
+    at Function.listen (C:\Users\syj\Desktop\校园墙\server\node_modules\express\lib\application.js:635:24)
+    at startServer (C:\Users\syj\Desktop\校园墙\server\src\server.js:31:24)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+  "error": {
+    "code": "EADDRINUSE",
+    "errno": -4091,
+    "syscall": "listen",
+    "address": "::",
+    "port": 3000
+  },
+  "stack": "Error: listen EADDRINUSE: address already in use :::3000\n    at Server.setupListenHandle [as _listen2] (node:net:1939:16)\n    at listenInCluster (node:net:1996:12)\n    at Server.listen (node:net:2101:7)\n    at Function.listen (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\application.js:635:24)\n    at startServer (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js:31:24)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)",
+  "exception": true,
+  "date": "Wed Jun 04 2025 19:57:49 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 10300,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\syj\\Desktop\\校园墙\\server",
+    "execPath": "D:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.15.0",
+    "argv": [
+      "D:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 101539840,
+      "heapTotal": 64417792,
+      "heapUsed": 33846672,
+      "external": 2451479,
+      "arrayBuffers": 53728
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 395944.5
+  },
+  "trace": [
+    {
+      "column": 16,
+      "file": "node:net",
+      "function": "Server.setupListenHandle [as _listen2]",
+      "line": 1939,
+      "method": "setupListenHandle [as _listen2]",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:net",
+      "function": "listenInCluster",
+      "line": 1996,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 7,
+      "file": "node:net",
+      "function": "Server.listen",
+      "line": 2101,
+      "method": "listen",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\application.js",
+      "function": "Function.listen",
+      "line": 635,
+      "method": "listen",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js",
+      "function": "startServer",
+      "line": 31,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 5,
+      "file": "node:internal/process/task_queues",
+      "function": "process.processTicksAndRejections",
+      "line": 105,
+      "method": "processTicksAndRejections",
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-06-07 20:04:22 error: uncaughtException: listen EADDRINUSE: address already in use :::3000
+Error: listen EADDRINUSE: address already in use :::3000
+    at Server.setupListenHandle [as _listen2] (node:net:1939:16)
+    at listenInCluster (node:net:1996:12)
+    at Server.listen (node:net:2101:7)
+    at Function.listen (C:\Users\syj\Desktop\校园墙\server\node_modules\express\lib\application.js:635:24)
+    at startServer (C:\Users\syj\Desktop\校园墙\server\src\server.js:31:24)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+  "error": {
+    "code": "EADDRINUSE",
+    "errno": -4091,
+    "syscall": "listen",
+    "address": "::",
+    "port": 3000
+  },
+  "stack": "Error: listen EADDRINUSE: address already in use :::3000\n    at Server.setupListenHandle [as _listen2] (node:net:1939:16)\n    at listenInCluster (node:net:1996:12)\n    at Server.listen (node:net:2101:7)\n    at Function.listen (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\application.js:635:24)\n    at startServer (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js:31:24)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)",
+  "exception": true,
+  "date": "Sat Jun 07 2025 20:04:22 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 24116,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\syj\\Desktop\\校园墙\\server",
+    "execPath": "D:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.15.0",
+    "argv": [
+      "D:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 100601856,
+      "heapTotal": 62320640,
+      "heapUsed": 37529064,
+      "external": 2455214,
+      "arrayBuffers": 57463
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 90821.218
+  },
+  "trace": [
+    {
+      "column": 16,
+      "file": "node:net",
+      "function": "Server.setupListenHandle [as _listen2]",
+      "line": 1939,
+      "method": "setupListenHandle [as _listen2]",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:net",
+      "function": "listenInCluster",
+      "line": 1996,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 7,
+      "file": "node:net",
+      "function": "Server.listen",
+      "line": 2101,
+      "method": "listen",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\application.js",
+      "function": "Function.listen",
+      "line": 635,
+      "method": "listen",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js",
+      "function": "startServer",
+      "line": 31,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 5,
+      "file": "node:internal/process/task_queues",
+      "function": "process.processTicksAndRejections",
+      "line": 105,
+      "method": "processTicksAndRejections",
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-06-07 21:24:36 error: uncaughtException: listen EADDRINUSE: address already in use :::3000
+Error: listen EADDRINUSE: address already in use :::3000
+    at Server.setupListenHandle [as _listen2] (node:net:1939:16)
+    at listenInCluster (node:net:1996:12)
+    at Server.listen (node:net:2101:7)
+    at Function.listen (C:\Users\syj\Desktop\校园墙\server\node_modules\express\lib\application.js:635:24)
+    at startServer (C:\Users\syj\Desktop\校园墙\server\src\server.js:31:24)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+  "error": {
+    "code": "EADDRINUSE",
+    "errno": -4091,
+    "syscall": "listen",
+    "address": "::",
+    "port": 3000
+  },
+  "stack": "Error: listen EADDRINUSE: address already in use :::3000\n    at Server.setupListenHandle [as _listen2] (node:net:1939:16)\n    at listenInCluster (node:net:1996:12)\n    at Server.listen (node:net:2101:7)\n    at Function.listen (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\application.js:635:24)\n    at startServer (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js:31:24)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)",
+  "exception": true,
+  "date": "Sat Jun 07 2025 21:24:36 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 17584,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\syj\\Desktop\\校园墙\\server",
+    "execPath": "D:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.15.0",
+    "argv": [
+      "D:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 104312832,
+      "heapTotal": 61534208,
+      "heapUsed": 40318920,
+      "external": 2428863,
+      "arrayBuffers": 57267
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 95634.718
+  },
+  "trace": [
+    {
+      "column": 16,
+      "file": "node:net",
+      "function": "Server.setupListenHandle [as _listen2]",
+      "line": 1939,
+      "method": "setupListenHandle [as _listen2]",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:net",
+      "function": "listenInCluster",
+      "line": 1996,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 7,
+      "file": "node:net",
+      "function": "Server.listen",
+      "line": 2101,
+      "method": "listen",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\application.js",
+      "function": "Function.listen",
+      "line": 635,
+      "method": "listen",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js",
+      "function": "startServer",
+      "line": 31,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 5,
+      "file": "node:internal/process/task_queues",
+      "function": "process.processTicksAndRejections",
+      "line": 105,
+      "method": "processTicksAndRejections",
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-06-07 21:32:06 error: uncaughtException: listen EADDRINUSE: address already in use 0.0.0.0:3000
+Error: listen EADDRINUSE: address already in use 0.0.0.0:3000
+    at Server.setupListenHandle [as _listen2] (node:net:1939:16)
+    at listenInCluster (node:net:1996:12)
+    at node:net:2205:7
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  "error": {
+    "code": "EADDRINUSE",
+    "errno": -4091,
+    "syscall": "listen",
+    "address": "0.0.0.0",
+    "port": 3000
+  },
+  "stack": "Error: listen EADDRINUSE: address already in use 0.0.0.0:3000\n    at Server.setupListenHandle [as _listen2] (node:net:1939:16)\n    at listenInCluster (node:net:1996:12)\n    at node:net:2205:7\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)",
+  "exception": true,
+  "date": "Sat Jun 07 2025 21:32:06 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 13140,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\syj\\Desktop\\校园墙\\server",
+    "execPath": "D:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.15.0",
+    "argv": [
+      "D:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 104165376,
+      "heapTotal": 62058496,
+      "heapUsed": 39941440,
+      "external": 2428923,
+      "arrayBuffers": 57327
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 96084.671
+  },
+  "trace": [
+    {
+      "column": 16,
+      "file": "node:net",
+      "function": "Server.setupListenHandle [as _listen2]",
+      "line": 1939,
+      "method": "setupListenHandle [as _listen2]",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:net",
+      "function": "listenInCluster",
+      "line": 1996,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 7,
+      "file": "node:net",
+      "function": null,
+      "line": 2205,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 21,
+      "file": "node:internal/process/task_queues",
+      "function": "process.processTicksAndRejections",
+      "line": 90,
+      "method": "processTicksAndRejections",
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-06-08 15:28:01 error: uncaughtException: listen EADDRINUSE: address already in use 0.0.0.0:3000
+Error: listen EADDRINUSE: address already in use 0.0.0.0:3000
+    at Server.setupListenHandle [as _listen2] (node:net:1939:16)
+    at listenInCluster (node:net:1996:12)
+    at node:net:2205:7
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  "error": {
+    "code": "EADDRINUSE",
+    "errno": -4091,
+    "syscall": "listen",
+    "address": "0.0.0.0",
+    "port": 3000
+  },
+  "stack": "Error: listen EADDRINUSE: address already in use 0.0.0.0:3000\n    at Server.setupListenHandle [as _listen2] (node:net:1939:16)\n    at listenInCluster (node:net:1996:12)\n    at node:net:2205:7\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)",
+  "exception": true,
+  "date": "Sun Jun 08 2025 15:28:01 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 20296,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\syj\\Desktop\\校园墙\\server",
+    "execPath": "D:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.15.0",
+    "argv": [
+      "D:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 102346752,
+      "heapTotal": 63053824,
+      "heapUsed": 39584024,
+      "external": 2451508,
+      "arrayBuffers": 53757
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 160636.703
+  },
+  "trace": [
+    {
+      "column": 16,
+      "file": "node:net",
+      "function": "Server.setupListenHandle [as _listen2]",
+      "line": 1939,
+      "method": "setupListenHandle [as _listen2]",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:net",
+      "function": "listenInCluster",
+      "line": 1996,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 7,
+      "file": "node:net",
+      "function": null,
+      "line": 2205,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 21,
+      "file": "node:internal/process/task_queues",
+      "function": "process.processTicksAndRejections",
+      "line": 90,
+      "method": "processTicksAndRejections",
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-06-24 22:21:27 error: uncaughtException: listen EADDRINUSE: address already in use 0.0.0.0:3000
+Error: listen EADDRINUSE: address already in use 0.0.0.0:3000
+    at Server.setupListenHandle [as _listen2] (node:net:1939:16)
+    at listenInCluster (node:net:1996:12)
+    at node:net:2205:7
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  "error": {
+    "code": "EADDRINUSE",
+    "errno": -4091,
+    "syscall": "listen",
+    "address": "0.0.0.0",
+    "port": 3000
+  },
+  "stack": "Error: listen EADDRINUSE: address already in use 0.0.0.0:3000\n    at Server.setupListenHandle [as _listen2] (node:net:1939:16)\n    at listenInCluster (node:net:1996:12)\n    at node:net:2205:7\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)",
+  "exception": true,
+  "date": "Tue Jun 24 2025 22:21:27 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 52912,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\syj\\Desktop\\校园墙\\server",
+    "execPath": "D:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.15.0",
+    "argv": [
+      "D:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 105730048,
+      "heapTotal": 63053824,
+      "heapUsed": 40044512,
+      "external": 2455162,
+      "arrayBuffers": 57411
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 39167.187
+  },
+  "trace": [
+    {
+      "column": 16,
+      "file": "node:net",
+      "function": "Server.setupListenHandle [as _listen2]",
+      "line": 1939,
+      "method": "setupListenHandle [as _listen2]",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:net",
+      "function": "listenInCluster",
+      "line": 1996,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 7,
+      "file": "node:net",
+      "function": null,
+      "line": 2205,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 21,
+      "file": "node:internal/process/task_queues",
+      "function": "process.processTicksAndRejections",
+      "line": 90,
+      "method": "processTicksAndRejections",
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-06-24 22:46:18 error: uncaughtException: listen EADDRINUSE: address already in use 0.0.0.0:3000
+Error: listen EADDRINUSE: address already in use 0.0.0.0:3000
+    at Server.setupListenHandle [as _listen2] (node:net:1939:16)
+    at listenInCluster (node:net:1996:12)
+    at node:net:2205:7
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  "error": {
+    "code": "EADDRINUSE",
+    "errno": -4091,
+    "syscall": "listen",
+    "address": "0.0.0.0",
+    "port": 3000
+  },
+  "stack": "Error: listen EADDRINUSE: address already in use 0.0.0.0:3000\n    at Server.setupListenHandle [as _listen2] (node:net:1939:16)\n    at listenInCluster (node:net:1996:12)\n    at node:net:2205:7\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)",
+  "exception": true,
+  "date": "Tue Jun 24 2025 22:46:18 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 80728,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\syj\\Desktop\\校园墙\\server",
+    "execPath": "D:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.15.0",
+    "argv": [
+      "D:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 105816064,
+      "heapTotal": 62320640,
+      "heapUsed": 40026952,
+      "external": 2455197,
+      "arrayBuffers": 57446
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 40658.562
+  },
+  "trace": [
+    {
+      "column": 16,
+      "file": "node:net",
+      "function": "Server.setupListenHandle [as _listen2]",
+      "line": 1939,
+      "method": "setupListenHandle [as _listen2]",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:net",
+      "function": "listenInCluster",
+      "line": 1996,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 7,
+      "file": "node:net",
+      "function": null,
+      "line": 2205,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 21,
+      "file": "node:internal/process/task_queues",
+      "function": "process.processTicksAndRejections",
+      "line": 90,
+      "method": "processTicksAndRejections",
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-06-24 23:10:11 error: uncaughtException: listen EADDRINUSE: address already in use 0.0.0.0:3000
+Error: listen EADDRINUSE: address already in use 0.0.0.0:3000
+    at Server.setupListenHandle [as _listen2] (node:net:1939:16)
+    at listenInCluster (node:net:1996:12)
+    at node:net:2205:7
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  "error": {
+    "code": "EADDRINUSE",
+    "errno": -4091,
+    "syscall": "listen",
+    "address": "0.0.0.0",
+    "port": 3000
+  },
+  "stack": "Error: listen EADDRINUSE: address already in use 0.0.0.0:3000\n    at Server.setupListenHandle [as _listen2] (node:net:1939:16)\n    at listenInCluster (node:net:1996:12)\n    at node:net:2205:7\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)",
+  "exception": true,
+  "date": "Tue Jun 24 2025 23:10:11 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 70632,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\syj\\Desktop\\校园墙\\server",
+    "execPath": "D:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.15.0",
+    "argv": [
+      "D:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 103886848,
+      "heapTotal": 62320640,
+      "heapUsed": 40224608,
+      "external": 2428869,
+      "arrayBuffers": 57273
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 42090.593
+  },
+  "trace": [
+    {
+      "column": 16,
+      "file": "node:net",
+      "function": "Server.setupListenHandle [as _listen2]",
+      "line": 1939,
+      "method": "setupListenHandle [as _listen2]",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:net",
+      "function": "listenInCluster",
+      "line": 1996,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 7,
+      "file": "node:net",
+      "function": null,
+      "line": 2205,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 21,
+      "file": "node:internal/process/task_queues",
+      "function": "process.processTicksAndRejections",
+      "line": 90,
+      "method": "processTicksAndRejections",
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-06-28 17:09:30 error: uncaughtException: listen EADDRINUSE: address already in use 0.0.0.0:3000
+Error: listen EADDRINUSE: address already in use 0.0.0.0:3000
+    at Server.setupListenHandle [as _listen2] (node:net:1939:16)
+    at listenInCluster (node:net:1996:12)
+    at node:net:2205:7
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  "error": {
+    "code": "EADDRINUSE",
+    "errno": -4091,
+    "syscall": "listen",
+    "address": "0.0.0.0",
+    "port": 3000
+  },
+  "stack": "Error: listen EADDRINUSE: address already in use 0.0.0.0:3000\n    at Server.setupListenHandle [as _listen2] (node:net:1939:16)\n    at listenInCluster (node:net:1996:12)\n    at node:net:2205:7\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)",
+  "exception": true,
+  "date": "Sat Jun 28 2025 17:09:30 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 42400,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\syj\\Desktop\\校园墙\\server",
+    "execPath": "D:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.15.0",
+    "argv": [
+      "D:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 105336832,
+      "heapTotal": 63053824,
+      "heapUsed": 41003592,
+      "external": 2455177,
+      "arrayBuffers": 57426
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 8502.109
+  },
+  "trace": [
+    {
+      "column": 16,
+      "file": "node:net",
+      "function": "Server.setupListenHandle [as _listen2]",
+      "line": 1939,
+      "method": "setupListenHandle [as _listen2]",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:net",
+      "function": "listenInCluster",
+      "line": 1996,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 7,
+      "file": "node:net",
+      "function": null,
+      "line": 2205,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 21,
+      "file": "node:internal/process/task_queues",
+      "function": "process.processTicksAndRejections",
+      "line": 90,
+      "method": "processTicksAndRejections",
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-06-28 19:58:07 error: uncaughtException: Route.get() requires a callback function but got a [object Undefined]
+Error: Route.get() requires a callback function but got a [object Undefined]
+    at Route.<computed> [as get] (C:\Users\syj\Desktop\校园墙\server\node_modules\express\lib\router\route.js:216:15)
+    at proto.<computed> [as get] (C:\Users\syj\Desktop\校园墙\server\node_modules\express\lib\router\index.js:521:19)
+    at Object.<anonymous> (C:\Users\syj\Desktop\校园墙\server\src\routes\user.routes.js:188:8)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12) {
+  "error": {},
+  "stack": "Error: Route.get() requires a callback function but got a [object Undefined]\n    at Route.<computed> [as get] (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\route.js:216:15)\n    at proto.<computed> [as get] (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:521:19)\n    at Object.<anonymous> (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\user.routes.js:188:8)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)",
+  "exception": true,
+  "date": "Sat Jun 28 2025 19:58:07 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 34996,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\syj\\Desktop\\校园墙\\server",
+    "execPath": "D:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.15.0",
+    "argv": [
+      "D:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 98009088,
+      "heapTotal": 62529536,
+      "heapUsed": 33441392,
+      "external": 2431001,
+      "arrayBuffers": 52095
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 18619.437
+  },
+  "trace": [
+    {
+      "column": 15,
+      "file": "C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\route.js",
+      "function": "Route.<computed> [as get]",
+      "line": 216,
+      "method": "<computed> [as get]",
+      "native": false
+    },
+    {
+      "column": 19,
+      "file": "C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js",
+      "function": "proto.<computed> [as get]",
+      "line": 521,
+      "method": "<computed> [as get]",
+      "native": false
+    },
+    {
+      "column": 8,
+      "file": "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\user.routes.js",
+      "function": null,
+      "line": 188,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-06-28 20:00:18 error: uncaughtException: Route.get() requires a callback function but got a [object Undefined]
+Error: Route.get() requires a callback function but got a [object Undefined]
+    at Route.<computed> [as get] (C:\Users\syj\Desktop\校园墙\server\node_modules\express\lib\router\route.js:216:15)
+    at proto.<computed> [as get] (C:\Users\syj\Desktop\校园墙\server\node_modules\express\lib\router\index.js:521:19)
+    at Object.<anonymous> (C:\Users\syj\Desktop\校园墙\server\src\routes\comment.routes.js:50:8)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12) {
+  "error": {},
+  "stack": "Error: Route.get() requires a callback function but got a [object Undefined]\n    at Route.<computed> [as get] (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\route.js:216:15)\n    at proto.<computed> [as get] (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:521:19)\n    at Object.<anonymous> (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\comment.routes.js:50:8)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)",
+  "exception": true,
+  "date": "Sat Jun 28 2025 20:00:18 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 3772,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\syj\\Desktop\\校园墙\\server",
+    "execPath": "D:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.15.0",
+    "argv": [
+      "D:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 99016704,
+      "heapTotal": 62529536,
+      "heapUsed": 36001552,
+      "external": 2431001,
+      "arrayBuffers": 52095
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 18749.843
+  },
+  "trace": [
+    {
+      "column": 15,
+      "file": "C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\route.js",
+      "function": "Route.<computed> [as get]",
+      "line": 216,
+      "method": "<computed> [as get]",
+      "native": false
+    },
+    {
+      "column": 19,
+      "file": "C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js",
+      "function": "proto.<computed> [as get]",
+      "line": 521,
+      "method": "<computed> [as get]",
+      "native": false
+    },
+    {
+      "column": 8,
+      "file": "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\comment.routes.js",
+      "function": null,
+      "line": 50,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-06-29 18:02:36 error: uncaughtException: listen EADDRINUSE: address already in use 0.0.0.0:3000
+Error: listen EADDRINUSE: address already in use 0.0.0.0:3000
+    at Server.setupListenHandle [as _listen2] (node:net:1939:16)
+    at listenInCluster (node:net:1996:12)
+    at node:net:2205:7
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  "error": {
+    "code": "EADDRINUSE",
+    "errno": -4091,
+    "syscall": "listen",
+    "address": "0.0.0.0",
+    "port": 3000
+  },
+  "stack": "Error: listen EADDRINUSE: address already in use 0.0.0.0:3000\n    at Server.setupListenHandle [as _listen2] (node:net:1939:16)\n    at listenInCluster (node:net:1996:12)\n    at node:net:2205:7\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)",
+  "exception": true,
+  "date": "Sun Jun 29 2025 18:02:36 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 40496,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\syj\\Desktop\\校园墙\\server",
+    "execPath": "D:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.15.0",
+    "argv": [
+      "D:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 99983360,
+      "heapTotal": 62582784,
+      "heapUsed": 39650144,
+      "external": 2455159,
+      "arrayBuffers": 57408
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 1965.234
+  },
+  "trace": [
+    {
+      "column": 16,
+      "file": "node:net",
+      "function": "Server.setupListenHandle [as _listen2]",
+      "line": 1939,
+      "method": "setupListenHandle [as _listen2]",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:net",
+      "function": "listenInCluster",
+      "line": 1996,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 7,
+      "file": "node:net",
+      "function": null,
+      "line": 2205,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 21,
+      "file": "node:internal/process/task_queues",
+      "function": "process.processTicksAndRejections",
+      "line": 90,
+      "method": "processTicksAndRejections",
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-06-29 20:23:46 error: uncaughtException: Route.post() requires a callback function but got a [object Undefined]
+Error: Route.post() requires a callback function but got a [object Undefined]
+    at Route.<computed> [as post] (C:\Users\syj\Desktop\校园墙\server\node_modules\express\lib\router\route.js:216:15)
+    at proto.<computed> [as post] (C:\Users\syj\Desktop\校园墙\server\node_modules\express\lib\router\index.js:521:19)
+    at Object.<anonymous> (C:\Users\syj\Desktop\校园墙\server\src\routes\topic.routes.js:56:8)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12) {
+  "error": {},
+  "stack": "Error: Route.post() requires a callback function but got a [object Undefined]\n    at Route.<computed> [as post] (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\route.js:216:15)\n    at proto.<computed> [as post] (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:521:19)\n    at Object.<anonymous> (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\topic.routes.js:56:8)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)",
+  "exception": true,
+  "date": "Sun Jun 29 2025 20:23:46 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 39228,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\syj\\Desktop\\校园墙\\server",
+    "execPath": "D:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.15.0",
+    "argv": [
+      "D:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 99516416,
+      "heapTotal": 61534208,
+      "heapUsed": 35937832,
+      "external": 2431001,
+      "arrayBuffers": 52095
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 10435.359
+  },
+  "trace": [
+    {
+      "column": 15,
+      "file": "C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\route.js",
+      "function": "Route.<computed> [as post]",
+      "line": 216,
+      "method": "<computed> [as post]",
+      "native": false
+    },
+    {
+      "column": 19,
+      "file": "C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js",
+      "function": "proto.<computed> [as post]",
+      "line": 521,
+      "method": "<computed> [as post]",
+      "native": false
+    },
+    {
+      "column": 8,
+      "file": "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\topic.routes.js",
+      "function": null,
+      "line": 56,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-06-29 20:25:48 error: uncaughtException: Route.post() requires a callback function but got a [object Undefined]
+Error: Route.post() requires a callback function but got a [object Undefined]
+    at Route.<computed> [as post] (C:\Users\syj\Desktop\校园墙\server\node_modules\express\lib\router\route.js:216:15)
+    at proto.<computed> [as post] (C:\Users\syj\Desktop\校园墙\server\node_modules\express\lib\router\index.js:521:19)
+    at Object.<anonymous> (C:\Users\syj\Desktop\校园墙\server\src\routes\topic.routes.js:56:8)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12) {
+  "error": {},
+  "stack": "Error: Route.post() requires a callback function but got a [object Undefined]\n    at Route.<computed> [as post] (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\route.js:216:15)\n    at proto.<computed> [as post] (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:521:19)\n    at Object.<anonymous> (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\topic.routes.js:56:8)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)",
+  "exception": true,
+  "date": "Sun Jun 29 2025 20:25:48 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 40460,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\syj\\Desktop\\校园墙\\server",
+    "execPath": "D:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.15.0",
+    "argv": [
+      "D:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 98922496,
+      "heapTotal": 61796352,
+      "heapUsed": 35295224,
+      "external": 2431001,
+      "arrayBuffers": 52095
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 10557.328
+  },
+  "trace": [
+    {
+      "column": 15,
+      "file": "C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\route.js",
+      "function": "Route.<computed> [as post]",
+      "line": 216,
+      "method": "<computed> [as post]",
+      "native": false
+    },
+    {
+      "column": 19,
+      "file": "C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js",
+      "function": "proto.<computed> [as post]",
+      "line": 521,
+      "method": "<computed> [as post]",
+      "native": false
+    },
+    {
+      "column": 8,
+      "file": "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\topic.routes.js",
+      "function": null,
+      "line": 56,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-06-29 22:19:15 error: uncaughtException: UploadMiddleware is not a constructor
+TypeError: UploadMiddleware is not a constructor
+    at Object.<anonymous> (C:\Users\syj\Desktop\校园墙\server\src\routes\post.routes.js:129:26)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\syj\Desktop\校园墙\server\src\routes\index.js:6:20) {
+  "error": {},
+  "stack": "TypeError: UploadMiddleware is not a constructor\n    at Object.<anonymous> (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\post.routes.js:129:26)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\index.js:6:20)",
+  "exception": true,
+  "date": "Sun Jun 29 2025 22:19:15 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 40856,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\syj\\Desktop\\校园墙\\server",
+    "execPath": "D:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.15.0",
+    "argv": [
+      "D:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 99012608,
+      "heapTotal": 62529536,
+      "heapUsed": 35364272,
+      "external": 2431001,
+      "arrayBuffers": 52095
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 17364
+  },
+  "trace": [
+    {
+      "column": 26,
+      "file": "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\post.routes.js",
+      "function": null,
+      "line": 129,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 20,
+      "file": "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\index.js",
+      "function": null,
+      "line": 6,
+      "method": null,
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-06-29 22:27:32 error: uncaughtException: listen EADDRINUSE: address already in use 0.0.0.0:3000
+Error: listen EADDRINUSE: address already in use 0.0.0.0:3000
+    at Server.setupListenHandle [as _listen2] (node:net:1939:16)
+    at listenInCluster (node:net:1996:12)
+    at node:net:2205:7
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  "error": {
+    "code": "EADDRINUSE",
+    "errno": -4091,
+    "syscall": "listen",
+    "address": "0.0.0.0",
+    "port": 3000
+  },
+  "stack": "Error: listen EADDRINUSE: address already in use 0.0.0.0:3000\n    at Server.setupListenHandle [as _listen2] (node:net:1939:16)\n    at listenInCluster (node:net:1996:12)\n    at node:net:2205:7\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)",
+  "exception": true,
+  "date": "Sun Jun 29 2025 22:27:32 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 41760,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\syj\\Desktop\\校园墙\\server",
+    "execPath": "D:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.15.0",
+    "argv": [
+      "D:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 109297664,
+      "heapTotal": 65990656,
+      "heapUsed": 34627944,
+      "external": 2424766,
+      "arrayBuffers": 53170
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 17861.64
+  },
+  "trace": [
+    {
+      "column": 16,
+      "file": "node:net",
+      "function": "Server.setupListenHandle [as _listen2]",
+      "line": 1939,
+      "method": "setupListenHandle [as _listen2]",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:net",
+      "function": "listenInCluster",
+      "line": 1996,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 7,
+      "file": "node:net",
+      "function": null,
+      "line": 2205,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 21,
+      "file": "node:internal/process/task_queues",
+      "function": "process.processTicksAndRejections",
+      "line": 90,
+      "method": "processTicksAndRejections",
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-06-30 18:53:00 error: uncaughtException: Cannot find module '../middleware/auth.middleware'
+Require stack:
+- C:\Users\syj\Desktop\校园墙\server\src\routes\search.routes.js
+- C:\Users\syj\Desktop\校园墙\server\src\routes\index.js
+- C:\Users\syj\Desktop\校园墙\server\src\app.js
+- C:\Users\syj\Desktop\校园墙\server\src\server.js
+Error: Cannot find module '../middleware/auth.middleware'
+Require stack:
+- C:\Users\syj\Desktop\校园墙\server\src\routes\search.routes.js
+- C:\Users\syj\Desktop\校园墙\server\src\routes\index.js
+- C:\Users\syj\Desktop\校园墙\server\src\app.js
+- C:\Users\syj\Desktop\校园墙\server\src\server.js
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)
+    at Function._load (node:internal/modules/cjs/loader:1211:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\syj\Desktop\校园墙\server\src\routes\search.routes.js:4:24)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14) {
+  "error": {
+    "code": "MODULE_NOT_FOUND",
+    "requireStack": [
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\search.routes.js",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\index.js",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\app.js",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js"
+    ]
+  },
+  "stack": "Error: Cannot find module '../middleware/auth.middleware'\nRequire stack:\n- C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\search.routes.js\n- C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\index.js\n- C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\app.js\n- C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js\n    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)\n    at Function._load (node:internal/modules/cjs/loader:1211:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\search.routes.js:4:24)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)",
+  "exception": true,
+  "date": "Mon Jun 30 2025 18:53:00 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 8616,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\syj\\Desktop\\校园墙\\server",
+    "execPath": "D:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.15.0",
+    "argv": [
+      "D:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 100376576,
+      "heapTotal": 61272064,
+      "heapUsed": 38343712,
+      "external": 2307870,
+      "arrayBuffers": 51919
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 91381.765
+  },
+  "trace": [
+    {
+      "column": 15,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._resolveFilename",
+      "line": 1401,
+      "method": "_resolveFilename",
+      "native": false
+    },
+    {
+      "column": 19,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "defaultResolveImpl",
+      "line": 1057,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 22,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "resolveForCJSWithHooks",
+      "line": 1062,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 37,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1211,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\search.routes.js",
+      "function": null,
+      "line": 4,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-07-06 20:55:20 error: uncaughtException: Cannot find module '../utils/response.util'
+Require stack:
+- C:\Users\syj\Desktop\校园墙\server\src\controllers\settings.controller.js
+- C:\Users\syj\Desktop\校园墙\server\src\routes\settings.routes.js
+- C:\Users\syj\Desktop\校园墙\server\src\routes\index.js
+- C:\Users\syj\Desktop\校园墙\server\src\app.js
+- C:\Users\syj\Desktop\校园墙\server\src\server.js
+Error: Cannot find module '../utils/response.util'
+Require stack:
+- C:\Users\syj\Desktop\校园墙\server\src\controllers\settings.controller.js
+- C:\Users\syj\Desktop\校园墙\server\src\routes\settings.routes.js
+- C:\Users\syj\Desktop\校园墙\server\src\routes\index.js
+- C:\Users\syj\Desktop\校园墙\server\src\app.js
+- C:\Users\syj\Desktop\校园墙\server\src\server.js
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)
+    at Function._load (node:internal/modules/cjs/loader:1211:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\syj\Desktop\校园墙\server\src\controllers\settings.controller.js:2:22)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14) {
+  "error": {
+    "code": "MODULE_NOT_FOUND",
+    "requireStack": [
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\controllers\\settings.controller.js",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\settings.routes.js",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\index.js",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\app.js",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js"
+    ]
+  },
+  "stack": "Error: Cannot find module '../utils/response.util'\nRequire stack:\n- C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\controllers\\settings.controller.js\n- C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\settings.routes.js\n- C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\index.js\n- C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\app.js\n- C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js\n    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)\n    at Function._load (node:internal/modules/cjs/loader:1211:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\controllers\\settings.controller.js:2:22)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)",
+  "exception": true,
+  "date": "Sun Jul 06 2025 20:55:20 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 32080,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\syj\\Desktop\\校园墙\\server",
+    "execPath": "D:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.15.0",
+    "argv": [
+      "D:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 98828288,
+      "heapTotal": 61796352,
+      "heapUsed": 36338216,
+      "external": 2431001,
+      "arrayBuffers": 52095
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 2033.828
+  },
+  "trace": [
+    {
+      "column": 15,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._resolveFilename",
+      "line": 1401,
+      "method": "_resolveFilename",
+      "native": false
+    },
+    {
+      "column": 19,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "defaultResolveImpl",
+      "line": 1057,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 22,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "resolveForCJSWithHooks",
+      "line": 1062,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 37,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1211,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 22,
+      "file": "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\controllers\\settings.controller.js",
+      "function": null,
+      "line": 2,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-07-06 20:55:39 error: uncaughtException: Cannot find module '../utils/response.util'
+Require stack:
+- C:\Users\syj\Desktop\校园墙\server\src\controllers\settings.controller.js
+- C:\Users\syj\Desktop\校园墙\server\src\routes\settings.routes.js
+- C:\Users\syj\Desktop\校园墙\server\src\routes\index.js
+- C:\Users\syj\Desktop\校园墙\server\src\app.js
+- C:\Users\syj\Desktop\校园墙\server\src\server.js
+Error: Cannot find module '../utils/response.util'
+Require stack:
+- C:\Users\syj\Desktop\校园墙\server\src\controllers\settings.controller.js
+- C:\Users\syj\Desktop\校园墙\server\src\routes\settings.routes.js
+- C:\Users\syj\Desktop\校园墙\server\src\routes\index.js
+- C:\Users\syj\Desktop\校园墙\server\src\app.js
+- C:\Users\syj\Desktop\校园墙\server\src\server.js
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)
+    at Function._load (node:internal/modules/cjs/loader:1211:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\syj\Desktop\校园墙\server\src\controllers\settings.controller.js:2:22)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14) {
+  "error": {
+    "code": "MODULE_NOT_FOUND",
+    "requireStack": [
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\controllers\\settings.controller.js",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\settings.routes.js",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\index.js",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\app.js",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js"
+    ]
+  },
+  "stack": "Error: Cannot find module '../utils/response.util'\nRequire stack:\n- C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\controllers\\settings.controller.js\n- C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\settings.routes.js\n- C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\index.js\n- C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\app.js\n- C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js\n    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)\n    at Function._load (node:internal/modules/cjs/loader:1211:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\controllers\\settings.controller.js:2:22)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)",
+  "exception": true,
+  "date": "Sun Jul 06 2025 20:55:39 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 424,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\syj\\Desktop\\校园墙\\server",
+    "execPath": "D:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.15.0",
+    "argv": [
+      "D:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 101294080,
+      "heapTotal": 61796352,
+      "heapUsed": 38982592,
+      "external": 2431001,
+      "arrayBuffers": 52095
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 2053.187
+  },
+  "trace": [
+    {
+      "column": 15,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._resolveFilename",
+      "line": 1401,
+      "method": "_resolveFilename",
+      "native": false
+    },
+    {
+      "column": 19,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "defaultResolveImpl",
+      "line": 1057,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 22,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "resolveForCJSWithHooks",
+      "line": 1062,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 37,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1211,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 22,
+      "file": "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\controllers\\settings.controller.js",
+      "function": null,
+      "line": 2,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-07-06 21:01:45 error: uncaughtException: Cannot find module '../middlewares/validator.middleware'
+Require stack:
+- C:\Users\syj\Desktop\校园墙\server\src\routes\settings.routes.js
+- C:\Users\syj\Desktop\校园墙\server\src\routes\index.js
+- C:\Users\syj\Desktop\校园墙\server\src\app.js
+- C:\Users\syj\Desktop\校园墙\server\src\server.js
+Error: Cannot find module '../middlewares/validator.middleware'
+Require stack:
+- C:\Users\syj\Desktop\校园墙\server\src\routes\settings.routes.js
+- C:\Users\syj\Desktop\校园墙\server\src\routes\index.js
+- C:\Users\syj\Desktop\校园墙\server\src\app.js
+- C:\Users\syj\Desktop\校园墙\server\src\server.js
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)
+    at Function._load (node:internal/modules/cjs/loader:1211:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\syj\Desktop\校园墙\server\src\routes\settings.routes.js:5:19)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14) {
+  "error": {
+    "code": "MODULE_NOT_FOUND",
+    "requireStack": [
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\settings.routes.js",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\index.js",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\app.js",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js"
+    ]
+  },
+  "stack": "Error: Cannot find module '../middlewares/validator.middleware'\nRequire stack:\n- C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\settings.routes.js\n- C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\index.js\n- C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\app.js\n- C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js\n    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)\n    at Function._load (node:internal/modules/cjs/loader:1211:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\settings.routes.js:5:19)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)",
+  "exception": true,
+  "date": "Sun Jul 06 2025 21:01:45 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 4532,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\syj\\Desktop\\校园墙\\server",
+    "execPath": "D:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.15.0",
+    "argv": [
+      "D:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 98566144,
+      "heapTotal": 61796352,
+      "heapUsed": 36065368,
+      "external": 2431001,
+      "arrayBuffers": 52095
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 2419.39
+  },
+  "trace": [
+    {
+      "column": 15,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._resolveFilename",
+      "line": 1401,
+      "method": "_resolveFilename",
+      "native": false
+    },
+    {
+      "column": 19,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "defaultResolveImpl",
+      "line": 1057,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 22,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "resolveForCJSWithHooks",
+      "line": 1062,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 37,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1211,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 19,
+      "file": "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\settings.routes.js",
+      "function": null,
+      "line": 5,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-07-11 01:52:36 error: uncaughtException: Cannot find module '../../config/logger'
+Require stack:
+- C:\Users\syj\Desktop\校园墙\server\src\controllers\admin\user.controller.js
+- C:\Users\syj\Desktop\校园墙\server\src\routes\admin.routes.js
+- C:\Users\syj\Desktop\校园墙\server\src\routes\index.js
+- C:\Users\syj\Desktop\校园墙\server\src\app.js
+- C:\Users\syj\Desktop\校园墙\server\src\server.js
+Error: Cannot find module '../../config/logger'
+Require stack:
+- C:\Users\syj\Desktop\校园墙\server\src\controllers\admin\user.controller.js
+- C:\Users\syj\Desktop\校园墙\server\src\routes\admin.routes.js
+- C:\Users\syj\Desktop\校园墙\server\src\routes\index.js
+- C:\Users\syj\Desktop\校园墙\server\src\app.js
+- C:\Users\syj\Desktop\校园墙\server\src\server.js
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)
+    at Function._load (node:internal/modules/cjs/loader:1211:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\syj\Desktop\校园墙\server\src\controllers\admin\user.controller.js:4:16)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14) {
+  "error": {
+    "code": "MODULE_NOT_FOUND",
+    "requireStack": [
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\controllers\\admin\\user.controller.js",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\admin.routes.js",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\index.js",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\app.js",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js"
+    ]
+  },
+  "stack": "Error: Cannot find module '../../config/logger'\nRequire stack:\n- C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\controllers\\admin\\user.controller.js\n- C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\admin.routes.js\n- C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\index.js\n- C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\app.js\n- C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js\n    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)\n    at Function._load (node:internal/modules/cjs/loader:1211:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\controllers\\admin\\user.controller.js:4:16)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)",
+  "exception": true,
+  "date": "Fri Jul 11 2025 01:52:36 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 35004,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\syj\\Desktop\\校园墙\\server",
+    "execPath": "D:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.15.0",
+    "argv": [
+      "D:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 101625856,
+      "heapTotal": 61534208,
+      "heapUsed": 38222968,
+      "external": 2431001,
+      "arrayBuffers": 52095
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 7209.89
+  },
+  "trace": [
+    {
+      "column": 15,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._resolveFilename",
+      "line": 1401,
+      "method": "_resolveFilename",
+      "native": false
+    },
+    {
+      "column": 19,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "defaultResolveImpl",
+      "line": 1057,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 22,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "resolveForCJSWithHooks",
+      "line": 1062,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 37,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1211,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\controllers\\admin\\user.controller.js",
+      "function": null,
+      "line": 4,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-07-11 01:53:00 error: uncaughtException: Cannot find module '../../config/logger'
+Require stack:
+- C:\Users\syj\Desktop\校园墙\server\src\controllers\admin\user.controller.js
+- C:\Users\syj\Desktop\校园墙\server\src\routes\admin.routes.js
+- C:\Users\syj\Desktop\校园墙\server\src\routes\index.js
+- C:\Users\syj\Desktop\校园墙\server\src\app.js
+- C:\Users\syj\Desktop\校园墙\server\src\server.js
+Error: Cannot find module '../../config/logger'
+Require stack:
+- C:\Users\syj\Desktop\校园墙\server\src\controllers\admin\user.controller.js
+- C:\Users\syj\Desktop\校园墙\server\src\routes\admin.routes.js
+- C:\Users\syj\Desktop\校园墙\server\src\routes\index.js
+- C:\Users\syj\Desktop\校园墙\server\src\app.js
+- C:\Users\syj\Desktop\校园墙\server\src\server.js
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)
+    at Function._load (node:internal/modules/cjs/loader:1211:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\syj\Desktop\校园墙\server\src\controllers\admin\user.controller.js:4:16)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14) {
+  "error": {
+    "code": "MODULE_NOT_FOUND",
+    "requireStack": [
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\controllers\\admin\\user.controller.js",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\admin.routes.js",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\index.js",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\app.js",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js"
+    ]
+  },
+  "stack": "Error: Cannot find module '../../config/logger'\nRequire stack:\n- C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\controllers\\admin\\user.controller.js\n- C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\admin.routes.js\n- C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\index.js\n- C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\app.js\n- C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js\n    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)\n    at Function._load (node:internal/modules/cjs/loader:1211:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\controllers\\admin\\user.controller.js:4:16)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)",
+  "exception": true,
+  "date": "Fri Jul 11 2025 01:53:00 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 25472,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\syj\\Desktop\\校园墙\\server",
+    "execPath": "D:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.15.0",
+    "argv": [
+      "D:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 101818368,
+      "heapTotal": 62005248,
+      "heapUsed": 38388000,
+      "external": 2431001,
+      "arrayBuffers": 52095
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 7233.687
+  },
+  "trace": [
+    {
+      "column": 15,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._resolveFilename",
+      "line": 1401,
+      "method": "_resolveFilename",
+      "native": false
+    },
+    {
+      "column": 19,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "defaultResolveImpl",
+      "line": 1057,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 22,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "resolveForCJSWithHooks",
+      "line": 1062,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 37,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1211,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\controllers\\admin\\user.controller.js",
+      "function": null,
+      "line": 4,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-07-11 07:09:16 error: uncaughtException: Cannot find module '../../config/logger'
+Require stack:
+- C:\Users\syj\Desktop\校园墙\server\src\controllers\admin\settings.controller.js
+- C:\Users\syj\Desktop\校园墙\server\src\routes\admin.routes.js
+- C:\Users\syj\Desktop\校园墙\server\src\routes\index.js
+- C:\Users\syj\Desktop\校园墙\server\src\app.js
+- C:\Users\syj\Desktop\校园墙\server\src\server.js
+Error: Cannot find module '../../config/logger'
+Require stack:
+- C:\Users\syj\Desktop\校园墙\server\src\controllers\admin\settings.controller.js
+- C:\Users\syj\Desktop\校园墙\server\src\routes\admin.routes.js
+- C:\Users\syj\Desktop\校园墙\server\src\routes\index.js
+- C:\Users\syj\Desktop\校园墙\server\src\app.js
+- C:\Users\syj\Desktop\校园墙\server\src\server.js
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)
+    at Function._load (node:internal/modules/cjs/loader:1211:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\syj\Desktop\校园墙\server\src\controllers\admin\settings.controller.js:3:16)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14) {
+  "error": {
+    "code": "MODULE_NOT_FOUND",
+    "requireStack": [
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\controllers\\admin\\settings.controller.js",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\admin.routes.js",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\index.js",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\app.js",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js"
+    ]
+  },
+  "stack": "Error: Cannot find module '../../config/logger'\nRequire stack:\n- C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\controllers\\admin\\settings.controller.js\n- C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\admin.routes.js\n- C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\routes\\index.js\n- C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\app.js\n- C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js\n    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)\n    at Function._load (node:internal/modules/cjs/loader:1211:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\controllers\\admin\\settings.controller.js:3:16)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)",
+  "exception": true,
+  "date": "Fri Jul 11 2025 07:09:16 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 40932,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\syj\\Desktop\\校园墙\\server",
+    "execPath": "D:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.15.0",
+    "argv": [
+      "D:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 104275968,
+      "heapTotal": 62529536,
+      "heapUsed": 38551608,
+      "external": 2431001,
+      "arrayBuffers": 52095
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 19894.843
+  },
+  "trace": [
+    {
+      "column": 15,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._resolveFilename",
+      "line": 1401,
+      "method": "_resolveFilename",
+      "native": false
+    },
+    {
+      "column": 19,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "defaultResolveImpl",
+      "line": 1057,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 22,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "resolveForCJSWithHooks",
+      "line": 1062,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 37,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1211,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\controllers\\admin\\settings.controller.js",
+      "function": null,
+      "line": 3,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}

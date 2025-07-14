@@ -1,0 +1,78 @@
+/* 字体图标样式 */
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 使用Unicode字符作为图标 */
+.icon-arrow-left:before {
+  content: "←";
+}
+
+.icon-share:before {
+  content: "⤴";
+}
+
+.icon-document:before {
+  content: "📄";
+}
+
+.icon-edit:before {
+  content: "✏️";
+}
+
+.icon-heart:before {
+  content: "♡";
+}
+
+.icon-heart-fill:before {
+  content: "♥";
+}
+
+/* 或者使用更现代的方式 */
+.icon-arrow-left {
+  &:before {
+    content: "←";
+    font-size: 1.2em;
+  }
+}
+
+.icon-share {
+  &:before {
+    content: "⤴";
+    font-size: 1.1em;
+  }
+}
+
+.icon-document {
+  &:before {
+    content: "📄";
+    font-size: 1.2em;
+  }
+}
+
+.icon-edit {
+  &:before {
+    content: "✏️";
+    font-size: 1.1em;
+  }
+}
+
+.icon-heart {
+  &:before {
+    content: "♡";
+    font-size: 1.1em;
+    color: #6b7280;
+  }
+}
+
+.icon-heart-fill {
+  &:before {
+    content: "♥";
+    font-size: 1.1em;
+    color: #ef4444;
+  }
+}
