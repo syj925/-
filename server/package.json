@@ -8,8 +8,13 @@
     "dev": "nodemon src/server.js",
     "lint": "eslint src/",
     "test": "jest",
-    "init-db": "node scripts/init-db.js",
-    "seed-data": "node scripts/seed-data.js"
+    "seed-data": "node scripts/seed-data.js",
+    "backup-db": "node scripts/backup-database.js",
+    "force-restore": "node scripts/force-restore.js",
+    "add-foreign-keys": "node scripts/add-foreign-keys.js",
+    "check-config": "node scripts/check-database-config.js",
+    "clear-cache": "node scripts/clear-cache.js",
+    "create-missing-tables": "node scripts/create-missing-tables.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

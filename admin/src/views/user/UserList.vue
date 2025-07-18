@@ -7,7 +7,7 @@
           <div class="search-container">
             <el-input
               v-model="searchQuery"
-              placeholder="搜索用户名/昵称/邮箱"
+              placeholder="搜索账号/昵称/邮箱"
               class="search-input"
               clearable
               @clear="fetchUsers"
@@ -27,7 +27,7 @@
             </el-tooltip>
           </template>
         </el-table-column>
-        <el-table-column prop="username" label="用户名" width="120" />
+        <el-table-column prop="username" label="账号" width="120" />
         <el-table-column prop="nickname" label="昵称" width="120" />
         <el-table-column prop="email" label="邮箱" width="180" />
         <el-table-column prop="bio" label="简介" show-overflow-tooltip>
@@ -115,7 +115,7 @@
       width="500px"
     >
       <el-form :model="editForm" label-width="120px" v-loading="saveLoading">
-        <el-form-item label="用户名">
+        <el-form-item label="账号">
           <el-input v-model="editForm.username" disabled />
         </el-form-item>
         <el-form-item label="昵称">
@@ -190,7 +190,7 @@
             </el-button>
           </div>
         </el-descriptions-item>
-        <el-descriptions-item label="用户名">{{ currentUser.username }}</el-descriptions-item>
+        <el-descriptions-item label="账号">{{ currentUser.username }}</el-descriptions-item>
         <el-descriptions-item label="昵称">{{ currentUser.nickname || '未设置' }}</el-descriptions-item>
         <el-descriptions-item label="手机号">{{ currentUser.phone || '未绑定' }}</el-descriptions-item>
         <el-descriptions-item label="邮箱">{{ currentUser.email || '未绑定' }}</el-descriptions-item>

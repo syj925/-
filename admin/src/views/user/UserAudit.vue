@@ -14,7 +14,7 @@
             </el-tooltip>
           </template>
         </el-table-column>
-        <el-table-column prop="username" label="用户名" width="120" />
+        <el-table-column prop="username" label="账号" width="120" />
         <el-table-column prop="nickname" label="昵称" width="120" />
         <el-table-column prop="email" label="邮箱" />
         <el-table-column label="注册时间" width="180">

@@ -35,7 +35,7 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: 'string',
       comment: '设置类型'
     },
-    isSystem: {
+    is_system: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
       comment: '是否为系统设置'
@@ -63,7 +63,7 @@ module.exports = (sequelize, DataTypes) => {
         fields: ['key']
       },
       {
-        fields: ['isSystem']
+        fields: ['is_system']  // 使用数据库实际字段名
       },
       {
         fields: ['type']

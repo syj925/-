@@ -64,7 +64,7 @@ module.exports = (sequelize, DataTypes) => {
         comment: '话题类型'
       },
       created_by: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,  // 修改为UUID类型，与users.id匹配
         allowNull: true,
         comment: '创建者用户ID'
       }

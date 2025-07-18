@@ -281,22 +281,15 @@ class AdminUserController {
         }
 
         // 记录拒绝信息到拒绝日志表
-        const { sequelize } = require('../../models');
-        await sequelize.query(`
-          INSERT INTO user_rejection_logs
-          (username, nickname, email, rejection_reason, rejected_by, ip_address, user_agent)
-          VALUES (?, ?, ?, ?, ?, ?, ?)
-        `, {
-          replacements: [
-            user.username,
-            user.nickname,
-            user.email,
-            reason.trim(),
-            req.user.id,
-            req.ip || req.connection.remoteAddress,
-            req.get('User-Agent')
-          ],
-          type: sequelize.QueryTypes.INSERT
+        const { UserRejectionLog } = require('../../models');
+        await UserRejectionLog.create({
+          username: user.username,
+          nickname: user.nickname,
+          email: user.email,
+          rejection_reason: reason.trim(),
+          rejected_by: req.user.id,
+          ip_address: req.ip || req.connection.remoteAddress,
+          user_agent: req.get('User-Agent')
         });
 
         // 删除用户数据（释放用户名，允许重新注册）
@@ -337,65 +330,63 @@ class AdminUserController {
         adminId: req.user.id
       });
 
-      const { sequelize } = require('../../models');
-      let whereClause = '1=1';
-      const params = [];
+      const { UserRejectionLog, User } = require('../../models');
+      const { Op } = require('sequelize');
 
       // 构建查询条件
+      const whereCondition = {};
+
       if (username) {
-        whereClause += ' AND username LIKE ?';
-        params.push(`%${username}%`);
+        whereCondition.username = {
+          [Op.like]: `%${username}%`
+        };
       }
 
       if (startTime) {
-        whereClause += ' AND rejected_at >= ?';
-        params.push(startTime);
+        whereCondition.rejected_at = {
+          ...whereCondition.rejected_at,
+          [Op.gte]: new Date(startTime)
+        };
       }
 
       if (endTime) {
-        whereClause += ' AND rejected_at <= ?';
-        params.push(endTime);
+        whereCondition.rejected_at = {
+          ...whereCondition.rejected_at,
+          [Op.lte]: new Date(endTime)
+        };
       }
 
-      // 计算偏移量
-      const offset = (parseInt(page) - 1) * parseInt(limit);
-
-      // 查询总数
-      const countResult = await sequelize.query(
-        `SELECT COUNT(*) as total FROM user_rejection_logs WHERE ${whereClause}`,
-        {
-          replacements: params,
-          type: sequelize.QueryTypes.SELECT
-        }
-      );
-      const total = countResult[0].total;
-
       // 查询数据
-      const logs = await sequelize.query(`
-        SELECT
-          id,
-          username,
-          nickname,
-          email,
-          rejection_reason,
-          rejected_by,
-          rejected_at,
-          ip_address
-        FROM user_rejection_logs
-        WHERE ${whereClause}
-        ORDER BY rejected_at DESC
-        LIMIT ? OFFSET ?
-      `, {
-        replacements: [...params, parseInt(limit), offset],
-        type: sequelize.QueryTypes.SELECT
+      const result = await UserRejectionLog.findAndCountAll({
+        where: whereCondition,
+        include: [
+          {
+            model: User,
+            as: 'admin',
+            attributes: ['id', 'username', 'nickname']
+          }
+        ],
+        attributes: [
+          'id',
+          'username',
+          'nickname',
+          'email',
+          'rejection_reason',
+          'rejected_by',
+          'rejected_at',
+          'ip_address'
+        ],
+        order: [['rejected_at', 'DESC']],
+        limit: parseInt(limit),
+        offset: (parseInt(page) - 1) * parseInt(limit)
       });
 
       const responseData = {
-        list: logs,
-        total,
+        list: result.rows,
+        total: result.count,
         page: parseInt(page),
         limit: parseInt(limit),
-        totalPages: Math.ceil(total / parseInt(limit))
+        totalPages: Math.ceil(result.count / parseInt(limit))
       };
 
       res.status(StatusCodes.OK).json(ResponseUtil.success(responseData, '获取拒绝记录成功'));

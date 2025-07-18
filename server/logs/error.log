@@ -11724,3 +11724,306 @@ Fri Jul 11 2025 08:01:13 GMT+0800 (中国标准时间) error: Admin route error:
     "limit": "10"
   }
 }
+2025-07-14 09:40:39 error: [GET] /api/admin/topics?limit=100 {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /api/admin/topics?limit=100",
+  "stack": "Error: 未找到资源 - /api/admin/topics?limit=100\n    at C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at Immediate.next (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Immediate._onImmediate (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15)\n    at process.processImmediate (node:internal/timers:487:21)",
+  "body": {},
+  "params": {},
+  "query": {
+    "limit": "100"
+  }
+}
+2025-07-14 09:41:00 error: [GET] /api/tags?page=1&limit=10 {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /api/tags?page=1&limit=10",
+  "stack": "Error: 未找到资源 - /api/tags?page=1&limit=10\n    at C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Function.handle (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:47:12)",
+  "body": {},
+  "params": {},
+  "query": {
+    "page": "1",
+    "limit": "10"
+  }
+}
+2025-07-15 08:34:26 error: [GET] /api/admin/posts?page=1&limit=10 {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /api/admin/posts?page=1&limit=10",
+  "stack": "Error: 未找到资源 - /api/admin/posts?page=1&limit=10\n    at C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at Immediate.next (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Immediate._onImmediate (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15)\n    at process.processImmediate (node:internal/timers:487:21)",
+  "body": {},
+  "params": {},
+  "query": {
+    "page": "1",
+    "limit": "10"
+  }
+}
+2025-07-15 08:34:28 error: [GET] /api/admin/posts/pending?page=1&limit=10 {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /api/admin/posts/pending?page=1&limit=10",
+  "stack": "Error: 未找到资源 - /api/admin/posts/pending?page=1&limit=10\n    at C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at Immediate.next (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Immediate._onImmediate (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15)\n    at process.processImmediate (node:internal/timers:487:21)",
+  "body": {},
+  "params": {},
+  "query": {
+    "page": "1",
+    "limit": "10"
+  }
+}
+2025-07-15 08:34:29 error: [GET] /api/admin/comments?page=1&limit=10 {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /api/admin/comments?page=1&limit=10",
+  "stack": "Error: 未找到资源 - /api/admin/comments?page=1&limit=10\n    at C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at Immediate.next (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Immediate._onImmediate (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15)\n    at process.processImmediate (node:internal/timers:487:21)",
+  "body": {},
+  "params": {},
+  "query": {
+    "page": "1",
+    "limit": "10"
+  }
+}
+2025-07-15 08:34:31 error: [GET] /api/admin/posts?page=1&limit=10 {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /api/admin/posts?page=1&limit=10",
+  "stack": "Error: 未找到资源 - /api/admin/posts?page=1&limit=10\n    at C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at Immediate.next (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Immediate._onImmediate (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15)\n    at process.processImmediate (node:internal/timers:487:21)",
+  "body": {},
+  "params": {},
+  "query": {
+    "page": "1",
+    "limit": "10"
+  }
+}
+2025-07-15 08:34:35 error: [GET] /api/admin/topics?page=1&limit=10 {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /api/admin/topics?page=1&limit=10",
+  "stack": "Error: 未找到资源 - /api/admin/topics?page=1&limit=10\n    at C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at Immediate.next (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Immediate._onImmediate (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15)\n    at process.processImmediate (node:internal/timers:487:21)",
+  "body": {},
+  "params": {},
+  "query": {
+    "page": "1",
+    "limit": "10"
+  }
+}
+2025-07-15 08:34:37 error: [GET] /api/admin/topics/pending-images?page=1&limit=12 {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /api/admin/topics/pending-images?page=1&limit=12",
+  "stack": "Error: 未找到资源 - /api/admin/topics/pending-images?page=1&limit=12\n    at C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at Immediate.next (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Immediate._onImmediate (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15)\n    at process.processImmediate (node:internal/timers:487:21)",
+  "body": {},
+  "params": {},
+  "query": {
+    "page": "1",
+    "limit": "12"
+  }
+}
+2025-07-15 08:35:33 error: [GET] /api/admin/badges?limit=100 {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /api/admin/badges?limit=100",
+  "stack": "Error: 未找到资源 - /api/admin/badges?limit=100\n    at C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at Immediate.next (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Immediate._onImmediate (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15)\n    at process.processImmediate (node:internal/timers:487:21)",
+  "body": {},
+  "params": {},
+  "query": {
+    "limit": "100"
+  }
+}
+2025-07-15 08:37:18 error: [GET] /api/admin/posts?page=1&limit=10 {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /api/admin/posts?page=1&limit=10",
+  "stack": "Error: 未找到资源 - /api/admin/posts?page=1&limit=10\n    at C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at Immediate.next (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Immediate._onImmediate (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15)\n    at process.processImmediate (node:internal/timers:487:21)",
+  "body": {},
+  "params": {},
+  "query": {
+    "page": "1",
+    "limit": "10"
+  }
+}
+2025-07-15 08:37:19 error: [GET] /api/admin/comments?page=1&limit=10 {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /api/admin/comments?page=1&limit=10",
+  "stack": "Error: 未找到资源 - /api/admin/comments?page=1&limit=10\n    at C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at Immediate.next (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Immediate._onImmediate (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15)\n    at process.processImmediate (node:internal/timers:487:21)",
+  "body": {},
+  "params": {},
+  "query": {
+    "page": "1",
+    "limit": "10"
+  }
+}
+2025-07-15 08:37:20 error: [GET] /api/admin/posts/pending?page=1&limit=10 {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /api/admin/posts/pending?page=1&limit=10",
+  "stack": "Error: 未找到资源 - /api/admin/posts/pending?page=1&limit=10\n    at C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at Immediate.next (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Immediate._onImmediate (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15)\n    at process.processImmediate (node:internal/timers:487:21)",
+  "body": {},
+  "params": {},
+  "query": {
+    "page": "1",
+    "limit": "10"
+  }
+}
+2025-07-15 08:37:21 error: [GET] /api/content/banners?page=1&limit=10&_t=1752539841713 {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /api/content/banners?page=1&limit=10&_t=1752539841713",
+  "stack": "Error: 未找到资源 - /api/content/banners?page=1&limit=10&_t=1752539841713\n    at C:\\Users\\syj\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Function.handle (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\syj\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:47:12)",
+  "body": {},
+  "params": {},
+  "query": {
+    "page": "1",
+    "limit": "10",
+    "_t": "1752539841713"
+  }
+}
+2025-07-18 11:19:25 error: Admin get rejection logs error: Table 'campus_community.user_rejection_logs' doesn't exist {
+  "service": "campus-wall-api",
+  "name": "SequelizeDatabaseError",
+  "parent": "[Circular]",
+  "original": {
+    "code": "ER_NO_SUCH_TABLE",
+    "errno": 1146,
+    "sqlState": "42S02",
+    "sqlMessage": "Table 'campus_community.user_rejection_logs' doesn't exist",
+    "sql": "SELECT COUNT(*) as total FROM user_rejection_logs WHERE 1=1"
+  },
+  "sql": "SELECT COUNT(*) as total FROM user_rejection_logs WHERE 1=1",
+  "parameters": {},
+  "stack": "Error\n    at Query.run (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\mysql\\query.js:52:25)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\sequelize.js:315:28\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getRejectionLogs (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\admin\\user.controller.js:364:27)"
+}
+Fri Jul 18 2025 11:19:25 GMT+0800 (中国标准时间) error: Admin route error: {
+  "service": "campus-wall-api",
+  "error": "Table 'campus_community.user_rejection_logs' doesn't exist",
+  "stack": "Error\n    at Query.run (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\mysql\\query.js:52:25)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\sequelize.js:315:28\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getRejectionLogs (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\admin\\user.controller.js:364:27)",
+  "adminId": "910dddd7-3697-49ed-83c8-a60191fc4de6",
+  "path": "/users/rejection-logs",
+  "method": "GET"
+}
+2025-07-18 11:19:25 error: Request completed: GET /api/admin/users/rejection-logs?page=1&limit=20 {
+  "service": "campus-wall-api",
+  "requestId": "1752808765797-mj7l89gg",
+  "method": "GET",
+  "url": "/api/admin/users/rejection-logs?page=1&limit=20",
+  "statusCode": 500,
+  "duration": "6ms",
+  "contentLength": "88"
+}
+2025-07-18 11:19:27 error: Admin get rejection logs error: Table 'campus_community.user_rejection_logs' doesn't exist {
+  "service": "campus-wall-api",
+  "name": "SequelizeDatabaseError",
+  "parent": "[Circular]",
+  "original": {
+    "code": "ER_NO_SUCH_TABLE",
+    "errno": 1146,
+    "sqlState": "42S02",
+    "sqlMessage": "Table 'campus_community.user_rejection_logs' doesn't exist",
+    "sql": "SELECT COUNT(*) as total FROM user_rejection_logs WHERE 1=1"
+  },
+  "sql": "SELECT COUNT(*) as total FROM user_rejection_logs WHERE 1=1",
+  "parameters": {},
+  "stack": "Error\n    at Query.run (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\mysql\\query.js:52:25)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\sequelize.js:315:28\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getRejectionLogs (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\admin\\user.controller.js:364:27)"
+}
+Fri Jul 18 2025 11:19:27 GMT+0800 (中国标准时间) error: Admin route error: {
+  "service": "campus-wall-api",
+  "error": "Table 'campus_community.user_rejection_logs' doesn't exist",
+  "stack": "Error\n    at Query.run (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\mysql\\query.js:52:25)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\sequelize.js:315:28\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getRejectionLogs (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\admin\\user.controller.js:364:27)",
+  "adminId": "910dddd7-3697-49ed-83c8-a60191fc4de6",
+  "path": "/users/rejection-logs",
+  "method": "GET"
+}
+2025-07-18 11:19:27 error: Request completed: GET /api/admin/users/rejection-logs?page=1&limit=20 {
+  "service": "campus-wall-api",
+  "requestId": "1752808767347-zclzsdly",
+  "method": "GET",
+  "url": "/api/admin/users/rejection-logs?page=1&limit=20",
+  "statusCode": 500,
+  "duration": "4ms",
+  "contentLength": "88"
+}
+2025-07-18 11:32:41 error: [GET] /api/admin/topics?page=1&limit=10 {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /api/admin/topics?page=1&limit=10",
+  "stack": "Error: 未找到资源 - /api/admin/topics?page=1&limit=10\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at Immediate.next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Immediate._onImmediate (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15)\n    at process.processImmediate (node:internal/timers:487:21)",
+  "body": {},
+  "params": {},
+  "query": {
+    "page": "1",
+    "limit": "10"
+  }
+}
+2025-07-18 11:32:41 error: [GET] /api/admin/posts?page=1&limit=10 {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /api/admin/posts?page=1&limit=10",
+  "stack": "Error: 未找到资源 - /api/admin/posts?page=1&limit=10\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at Immediate.next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Immediate._onImmediate (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15)\n    at process.processImmediate (node:internal/timers:487:21)",
+  "body": {},
+  "params": {},
+  "query": {
+    "page": "1",
+    "limit": "10"
+  }
+}
+2025-07-18 11:32:42 error: [GET] /api/admin/comments?page=1&limit=10 {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /api/admin/comments?page=1&limit=10",
+  "stack": "Error: 未找到资源 - /api/admin/comments?page=1&limit=10\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at Immediate.next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Immediate._onImmediate (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15)\n    at process.processImmediate (node:internal/timers:487:21)",
+  "body": {},
+  "params": {},
+  "query": {
+    "page": "1",
+    "limit": "10"
+  }
+}
+2025-07-18 11:32:46 error: Admin get rejection logs error: Unknown column 'UserRejectionLog.deleted_at' in 'where clause' {
+  "service": "campus-wall-api",
+  "name": "SequelizeDatabaseError",
+  "parent": "[Circular]",
+  "original": {
+    "code": "ER_BAD_FIELD_ERROR",
+    "errno": 1054,
+    "sqlState": "42S22",
+    "sqlMessage": "Unknown column 'UserRejectionLog.deleted_at' in 'where clause'",
+    "sql": "SELECT count(`UserRejectionLog`.`id`) AS `count` FROM `user_rejection_logs` AS `UserRejectionLog` LEFT OUTER JOIN `users` AS `admin` ON `UserRejectionLog`.`rejected_by` = `admin`.`id` AND (`admin`.`deleted_at` IS NULL) WHERE `UserRejectionLog`.`deleted_at` IS NULL;"
+  },
+  "sql": "SELECT count(`UserRejectionLog`.`id`) AS `count` FROM `user_rejection_logs` AS `UserRejectionLog` LEFT OUTER JOIN `users` AS `admin` ON `UserRejectionLog`.`rejected_by` = `admin`.`id` AND (`admin`.`deleted_at` IS NULL) WHERE `UserRejectionLog`.`deleted_at` IS NULL;",
+  "parameters": {},
+  "stack": "Error\n    at Query.run (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\mysql\\query.js:52:25)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\sequelize.js:315:28\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async MySQLQueryInterface.rawSelect (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\abstract\\query-interface.js:434:18)\n    at async UserRejectionLog.aggregate (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:1277:19)\n    at async UserRejectionLog.count (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:1306:20)\n    at async Promise.all (index 0)\n    at async UserRejectionLog.findAndCountAll (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:1322:27)\n    at async getRejectionLogs (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\admin\\user.controller.js:360:22)"
+}
+Fri Jul 18 2025 11:32:46 GMT+0800 (中国标准时间) error: Admin route error: {
+  "service": "campus-wall-api",
+  "error": "Unknown column 'UserRejectionLog.deleted_at' in 'where clause'",
+  "stack": "Error\n    at Query.run (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\mysql\\query.js:52:25)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\sequelize.js:315:28\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async MySQLQueryInterface.rawSelect (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\abstract\\query-interface.js:434:18)\n    at async UserRejectionLog.aggregate (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:1277:19)\n    at async UserRejectionLog.count (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:1306:20)\n    at async Promise.all (index 0)\n    at async UserRejectionLog.findAndCountAll (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:1322:27)\n    at async getRejectionLogs (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\admin\\user.controller.js:360:22)",
+  "adminId": "910dddd7-3697-49ed-83c8-a60191fc4de6",
+  "path": "/users/rejection-logs",
+  "method": "GET"
+}
+2025-07-18 11:32:46 error: Request completed: GET /api/admin/users/rejection-logs?page=1&limit=20 {
+  "service": "campus-wall-api",
+  "requestId": "1752809566515-x0wrzoyn",
+  "method": "GET",
+  "url": "/api/admin/users/rejection-logs?page=1&limit=20",
+  "statusCode": 500,
+  "duration": "11ms",
+  "contentLength": "92"
+}
+2025-07-18 11:32:49 error: Admin get rejection logs error: Unknown column 'UserRejectionLog.deleted_at' in 'where clause' {
+  "service": "campus-wall-api",
+  "name": "SequelizeDatabaseError",
+  "parent": "[Circular]",
+  "original": {
+    "code": "ER_BAD_FIELD_ERROR",
+    "errno": 1054,
+    "sqlState": "42S22",
+    "sqlMessage": "Unknown column 'UserRejectionLog.deleted_at' in 'where clause'",
+    "sql": "SELECT count(`UserRejectionLog`.`id`) AS `count` FROM `user_rejection_logs` AS `UserRejectionLog` LEFT OUTER JOIN `users` AS `admin` ON `UserRejectionLog`.`rejected_by` = `admin`.`id` AND (`admin`.`deleted_at` IS NULL) WHERE `UserRejectionLog`.`deleted_at` IS NULL;"
+  },
+  "sql": "SELECT count(`UserRejectionLog`.`id`) AS `count` FROM `user_rejection_logs` AS `UserRejectionLog` LEFT OUTER JOIN `users` AS `admin` ON `UserRejectionLog`.`rejected_by` = `admin`.`id` AND (`admin`.`deleted_at` IS NULL) WHERE `UserRejectionLog`.`deleted_at` IS NULL;",
+  "parameters": {},
+  "stack": "Error\n    at Query.run (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\mysql\\query.js:52:25)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\sequelize.js:315:28\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async MySQLQueryInterface.rawSelect (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\abstract\\query-interface.js:434:18)\n    at async UserRejectionLog.aggregate (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:1277:19)\n    at async UserRejectionLog.count (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:1306:20)\n    at async Promise.all (index 0)\n    at async UserRejectionLog.findAndCountAll (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:1322:27)\n    at async getRejectionLogs (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\admin\\user.controller.js:360:22)"
+}
+Fri Jul 18 2025 11:32:49 GMT+0800 (中国标准时间) error: Admin route error: {
+  "service": "campus-wall-api",
+  "error": "Unknown column 'UserRejectionLog.deleted_at' in 'where clause'",
+  "stack": "Error\n    at Query.run (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\mysql\\query.js:52:25)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\sequelize.js:315:28\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async MySQLQueryInterface.rawSelect (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\abstract\\query-interface.js:434:18)\n    at async UserRejectionLog.aggregate (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:1277:19)\n    at async UserRejectionLog.count (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:1306:20)\n    at async Promise.all (index 0)\n    at async UserRejectionLog.findAndCountAll (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:1322:27)\n    at async getRejectionLogs (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\admin\\user.controller.js:360:22)",
+  "adminId": "910dddd7-3697-49ed-83c8-a60191fc4de6",
+  "path": "/users/rejection-logs",
+  "method": "GET"
+}
+2025-07-18 11:32:49 error: Request completed: GET /api/admin/users/rejection-logs?page=1&limit=20 {
+  "service": "campus-wall-api",
+  "requestId": "1752809569099-assinxsp",
+  "method": "GET",
+  "url": "/api/admin/users/rejection-logs?page=1&limit=20",
+  "statusCode": 500,
+  "duration": "9ms",
+  "contentLength": "92"
+}

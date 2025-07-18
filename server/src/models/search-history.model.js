@@ -34,20 +34,20 @@ module.exports = (sequelize, DataTypes) => {
       timestamps: true,
       indexes: [
         {
-          fields: ['userId']
+          fields: ['user_id']  // 使用数据库实际字段名
         },
         {
           fields: ['keyword']
         },
         {
-          fields: ['userId', 'keyword', 'type'],
+          fields: ['user_id', 'keyword', 'type'],  // 使用数据库实际字段名
           unique: true
         },
         {
-          fields: ['createdAt']
+          fields: ['created_at']  // 使用数据库实际字段名
         },
         {
-          fields: ['updatedAt']
+          fields: ['updated_at']  // 使用数据库实际字段名
         }
       ],
       comment: '搜索历史表'
