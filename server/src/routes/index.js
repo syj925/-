@@ -15,6 +15,8 @@ const uploadRoutes = require('./upload.routes');
 const adminRoutes = require('./admin.routes');
 const searchRoutes = require('./search.routes');
 const settingsRoutes = require('./settings.routes');
+const eventRoutes = require('./event.routes');
+const eventRegistrationRoutes = require('./event-registration.routes');
 const userController = require('../controllers/user.controller');
 const { Validator } = require('../utils');
 const Joi = require('joi');
@@ -49,6 +51,8 @@ router.use('/api/categories', categoryRoutes);
 router.use('/api/upload', uploadRoutes);
 router.use('/api/search', searchRoutes);
 router.use('/api/settings', settingsRoutes);
+router.use('/api/events', eventRoutes);
+router.use('/api/registrations', eventRegistrationRoutes);
 
 // 管理员API路由
 router.use('/api/admin', adminRoutes);

@@ -118,8 +118,65 @@
           </view>
         </view>
       </view>
+
+      <!-- 功能菜单 -->
+      <view class="profile-menu-container">
+        <view class="profile-menu">
+          <view class="menu-item" @tap="goToMyEvents">
+            <view class="menu-icon">
+              <app-icon name="calendar" size="lg" color="#AC92EC" />
+            </view>
+            <view class="menu-content">
+              <text class="menu-title">我的活动</text>
+              <text class="menu-desc">查看我参与的活动</text>
+            </view>
+            <view class="menu-arrow">
+              <app-icon name="arrow-right" size="sm" color="#C4C4C4" />
+            </view>
+          </view>
+
+          <view class="menu-item" @tap="goToMyPosts">
+            <view class="menu-icon">
+              <app-icon name="edit" size="lg" color="#5B8EF9" />
+            </view>
+            <view class="menu-content">
+              <text class="menu-title">我的帖子</text>
+              <text class="menu-desc">管理我发布的内容</text>
+            </view>
+            <view class="menu-arrow">
+              <app-icon name="arrow-right" size="sm" color="#C4C4C4" />
+            </view>
+          </view>
+
+          <view class="menu-item" @tap="goToMyFavorites">
+            <view class="menu-icon">
+              <app-icon name="star" size="lg" color="#FFB800" />
+            </view>
+            <view class="menu-content">
+              <text class="menu-title">我的收藏</text>
+              <text class="menu-desc">查看收藏的内容</text>
+            </view>
+            <view class="menu-arrow">
+              <app-icon name="arrow-right" size="sm" color="#C4C4C4" />
+            </view>
+          </view>
+
+          <view class="menu-item" @tap="goToEventTest">
+            <view class="menu-icon">
+              <app-icon name="settings" size="lg" color="#FF6B6B" />
+            </view>
+            <view class="menu-content">
+              <text class="menu-title">活动API测试</text>
+              <text class="menu-desc">测试活动相关API接口</text>
+            </view>
+            <view class="menu-arrow">
+              <app-icon name="arrow-right" size="sm" color="#C4C4C4" />
+            </view>
+          </view>
+        </view>
+      </view>
     </view>
-    
+
     <!-- 内容区 -->
     <view class="profile-content">
       <!-- 标签页 -->
@@ -1080,9 +1137,53 @@ export default {
       });
     },
 
+    // 跳转到我的活动
+    goToMyEvents() {
+      if (!this.userInfo.isLogin) {
+        uni.showToast({
+          title: '请先登录',
+          icon: 'none'
+        });
+        return;
+      }
 
+      uni.navigateTo({
+        url: '/pages/event/my-events'
+      });
+    },
 
+    // 跳转到我的帖子
+    goToMyPosts() {
+      if (!this.userInfo.isLogin) {
+        uni.showToast({
+          title: '请先登录',
+          icon: 'none'
+        });
+        return;
+      }
 
+      this.handleTabClick('post');
+    },
+
+    // 跳转到我的收藏
+    goToMyFavorites() {
+      if (!this.userInfo.isLogin) {
+        uni.showToast({
+          title: '请先登录',
+          icon: 'none'
+        });
+        return;
+      }
+
+      this.handleTabClick('favorite');
+    },
+
+    // 跳转到活动API测试页面
+    goToEventTest() {
+      uni.navigateTo({
+        url: '/pages/test/event-test'
+      });
+    }
   }
 }
 </script>
@@ -1386,6 +1487,87 @@ export default {
   font-size: 26rpx;
   color: #718096;
   font-weight: 500;
+}
+
+/* 功能菜单 */
+.profile-menu-container {
+  padding: 0 30rpx;
+  margin-bottom: 30rpx;
+}
+
+.profile-menu {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.85) 100%);
+  backdrop-filter: blur(20rpx);
+  border-radius: 30rpx;
+  box-shadow: 0 15rpx 40rpx rgba(0, 0, 0, 0.1), 0 5rpx 15rpx rgba(0, 0, 0, 0.05);
+  border: 1rpx solid rgba(255, 255, 255, 0.3);
+  overflow: hidden;
+
+  .menu-item {
+    @include flex(row, space-between, center);
+    padding: 32rpx 40rpx;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+
+    &:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 88rpx;
+      right: 40rpx;
+      height: 1rpx;
+      background: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.08) 20%, rgba(0, 0, 0, 0.08) 80%, transparent 100%);
+    }
+
+    &:active {
+      background: linear-gradient(135deg, rgba(172, 146, 236, 0.08) 0%, rgba(91, 142, 249, 0.08) 100%);
+      transform: scale(0.98);
+    }
+  }
+
+  .menu-icon {
+    width: 88rpx;
+    height: 88rpx;
+    @include center;
+    border-radius: 22rpx;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.4) 100%);
+    box-shadow: 0 8rpx 20rpx rgba(0, 0, 0, 0.08);
+    border: 1rpx solid rgba(255, 255, 255, 0.5);
+  }
+
+  .menu-content {
+    flex: 1;
+    margin-left: 32rpx;
+    @include flex(column, center, flex-start);
+
+    .menu-title {
+      font-size: 32rpx;
+      font-weight: 600;
+      color: #2D3748;
+      margin-bottom: 6rpx;
+      line-height: 1.2;
+    }
+
+    .menu-desc {
+      font-size: 24rpx;
+      color: #718096;
+      line-height: 1.3;
+    }
+  }
+
+  .menu-arrow {
+    width: 40rpx;
+    height: 40rpx;
+    @include center;
+    border-radius: 20rpx;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.3) 100%);
+    transition: all 0.3s ease;
+  }
+
+  .menu-item:active .menu-arrow {
+    transform: translateX(4rpx);
+    background: linear-gradient(135deg, rgba(172, 146, 236, 0.2) 0%, rgba(91, 142, 249, 0.2) 100%);
+  }
 }
 
 /* 成就徽章 */

@@ -65,7 +65,22 @@ module.exports = {
   MESSAGE_NOT_EXIST: { code: 700, message: '消息不存在' },
   MESSAGE_READ_ERROR: { code: 701, message: '标记消息已读失败' },
   MESSAGE_DELETE_ERROR: { code: 702, message: '删除消息失败' },
-  
+
+  // 活动相关错误 (8xx)
+  EVENT_NOT_FOUND: { code: 800, message: '活动不存在' },
+  EVENT_NOT_OPEN: { code: 801, message: '活动不在报名期间' },
+  EVENT_FULL: { code: 802, message: '活动报名人数已满' },
+  EVENT_ENDED: { code: 803, message: '活动已结束' },
+  EVENT_NOT_STARTED: { code: 804, message: '活动尚未开始' },
+  EVENT_HAS_REGISTRATIONS: { code: 805, message: '活动已有报名记录，无法删除' },
+  REGISTRATION_CLOSED: { code: 806, message: '报名已截止' },
+  ALREADY_REGISTERED: { code: 807, message: '已报名此活动' },
+  REGISTRATION_NOT_FOUND: { code: 808, message: '报名记录不存在' },
+  CANCEL_NOT_ALLOWED: { code: 809, message: '不允许取消报名' },
+  INVALID_TIME: { code: 810, message: '时间设置无效' },
+  INVALID_STATUS: { code: 811, message: '状态无效' },
+  INVALID_PARAMS: { code: 812, message: '参数无效' },
+
   // 其他错误
   UNKNOWN_ERROR: { code: 999, message: '未知错误' }
 }; 

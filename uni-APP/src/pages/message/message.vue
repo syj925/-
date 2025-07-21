@@ -177,6 +177,11 @@ export default {
     this.loadNotifyData();
     this.loadChatData();
   },
+
+  // 下拉刷新
+  onPullDownRefresh() {
+    this.refreshData();
+  },
   methods: {
     // 切换标签
     switchTab(tab) {
@@ -290,6 +295,33 @@ export default {
         title: '私信功能开发中',
         icon: 'none'
       });
+    },
+
+    // 下拉刷新数据
+    async refreshData() {
+      try {
+        // 重新加载通知和私信数据
+        await Promise.all([
+          this.loadNotifyData(),
+          this.loadChatData()
+        ]);
+
+        uni.showToast({
+          title: '刷新成功',
+          icon: 'success',
+          duration: 1500
+        });
+      } catch (error) {
+        console.error('刷新数据失败:', error);
+        uni.showToast({
+          title: '刷新失败',
+          icon: 'none',
+          duration: 1500
+        });
+      } finally {
+        // 停止下拉刷新动画
+        uni.stopPullDownRefresh();
+      }
     }
   }
 }

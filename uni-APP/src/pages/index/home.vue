@@ -29,6 +29,7 @@
       <button @tap="goToFollowPage" style="background: #28a745; color: #fff; margin-bottom: 10rpx;">关注列表页面</button>
       <button @tap="goToHotCommentsTest" style="background: #ff6b6b; color: #fff; margin-bottom: 10rpx;">热门评论测试</button>
       <button @tap="goToMultiLevelTest" style="background: #6f42c1; color: #fff; margin-bottom: 10rpx;">多级回复测试</button>
+      <button @tap="goToEventTest" style="background: #AC92EC; color: #fff; margin-bottom: 10rpx;">活动API测试</button>
       <button @tap="goToSimpleTest" style="background: #17a2b8; color: #fff;">简单API测试</button>
     </view>
 
@@ -606,6 +607,13 @@ export default {
     goToSimpleTest() {
       uni.navigateTo({
         url: '/pages/test/simple-test'
+      });
+    },
+
+    // 跳转到活动API测试页面
+    goToEventTest() {
+      uni.navigateTo({
+        url: '/pages/test/event-test'
       });
     },
 

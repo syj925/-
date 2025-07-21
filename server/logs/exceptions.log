@@ -3474,3 +3474,1976 @@ Require stack:
   ],
   "service": "campus-wall-api"
 }
+2025-07-21 23:00:47 error: uncaughtException: Cannot find module '../config/database'
+Require stack:
+- C:\Users\26933\Desktop\校园墙\server\src\models\event.model.js
+- C:\Users\26933\Desktop\校园墙\server\src\models\index.js
+- C:\Users\26933\Desktop\校园墙\server\src\repositories\user.repository.js
+- C:\Users\26933\Desktop\校园墙\server\src\services\user.service.js
+- C:\Users\26933\Desktop\校园墙\server\src\controllers\user.controller.js
+- C:\Users\26933\Desktop\校园墙\server\src\routes\user.routes.js
+- C:\Users\26933\Desktop\校园墙\server\src\routes\index.js
+- C:\Users\26933\Desktop\校园墙\server\src\app.js
+- C:\Users\26933\Desktop\校园墙\server\src\server.js
+Error: Cannot find module '../config/database'
+Require stack:
+- C:\Users\26933\Desktop\校园墙\server\src\models\event.model.js
+- C:\Users\26933\Desktop\校园墙\server\src\models\index.js
+- C:\Users\26933\Desktop\校园墙\server\src\repositories\user.repository.js
+- C:\Users\26933\Desktop\校园墙\server\src\services\user.service.js
+- C:\Users\26933\Desktop\校园墙\server\src\controllers\user.controller.js
+- C:\Users\26933\Desktop\校园墙\server\src\routes\user.routes.js
+- C:\Users\26933\Desktop\校园墙\server\src\routes\index.js
+- C:\Users\26933\Desktop\校园墙\server\src\app.js
+- C:\Users\26933\Desktop\校园墙\server\src\server.js
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)
+    at Function._load (node:internal/modules/cjs/loader:1211:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\models\event.model.js:2:19)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14) {
+  "error": {
+    "code": "MODULE_NOT_FOUND",
+    "requireStack": [
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\event.model.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\index.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\repositories\\user.repository.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\user.routes.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\index.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\app.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ]
+  },
+  "stack": "Error: Cannot find module '../config/database'\nRequire stack:\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\event.model.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\index.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\repositories\\user.repository.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\user.routes.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\index.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\app.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js\n    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)\n    at Function._load (node:internal/modules/cjs/loader:1211:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\event.model.js:2:19)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)",
+  "exception": true,
+  "date": "Mon Jul 21 2025 23:00:47 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 23620,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 94613504,
+      "heapTotal": 57614336,
+      "heapUsed": 34018456,
+      "external": 2441388,
+      "arrayBuffers": 52381
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 216774.125
+  },
+  "trace": [
+    {
+      "column": 15,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._resolveFilename",
+      "line": 1401,
+      "method": "_resolveFilename",
+      "native": false
+    },
+    {
+      "column": 19,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "defaultResolveImpl",
+      "line": 1057,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 22,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "resolveForCJSWithHooks",
+      "line": 1062,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 37,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1211,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 19,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\event.model.js",
+      "function": null,
+      "line": 2,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-07-21 23:01:00 error: uncaughtException: Cannot find module '../config/database'
+Require stack:
+- C:\Users\26933\Desktop\校园墙\server\src\models\event-registration.model.js
+- C:\Users\26933\Desktop\校园墙\server\src\models\index.js
+- C:\Users\26933\Desktop\校园墙\server\src\repositories\user.repository.js
+- C:\Users\26933\Desktop\校园墙\server\src\services\user.service.js
+- C:\Users\26933\Desktop\校园墙\server\src\controllers\user.controller.js
+- C:\Users\26933\Desktop\校园墙\server\src\routes\user.routes.js
+- C:\Users\26933\Desktop\校园墙\server\src\routes\index.js
+- C:\Users\26933\Desktop\校园墙\server\src\app.js
+- C:\Users\26933\Desktop\校园墙\server\src\server.js
+Error: Cannot find module '../config/database'
+Require stack:
+- C:\Users\26933\Desktop\校园墙\server\src\models\event-registration.model.js
+- C:\Users\26933\Desktop\校园墙\server\src\models\index.js
+- C:\Users\26933\Desktop\校园墙\server\src\repositories\user.repository.js
+- C:\Users\26933\Desktop\校园墙\server\src\services\user.service.js
+- C:\Users\26933\Desktop\校园墙\server\src\controllers\user.controller.js
+- C:\Users\26933\Desktop\校园墙\server\src\routes\user.routes.js
+- C:\Users\26933\Desktop\校园墙\server\src\routes\index.js
+- C:\Users\26933\Desktop\校园墙\server\src\app.js
+- C:\Users\26933\Desktop\校园墙\server\src\server.js
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)
+    at Function._load (node:internal/modules/cjs/loader:1211:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\models\event-registration.model.js:2:19)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14) {
+  "error": {
+    "code": "MODULE_NOT_FOUND",
+    "requireStack": [
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\event-registration.model.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\index.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\repositories\\user.repository.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\user.routes.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\index.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\app.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ]
+  },
+  "stack": "Error: Cannot find module '../config/database'\nRequire stack:\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\event-registration.model.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\index.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\repositories\\user.repository.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\user.routes.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\index.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\app.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js\n    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)\n    at Function._load (node:internal/modules/cjs/loader:1211:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\event-registration.model.js:2:19)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)",
+  "exception": true,
+  "date": "Mon Jul 21 2025 23:01:00 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 16596,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 95432704,
+      "heapTotal": 58609664,
+      "heapUsed": 34489824,
+      "external": 2441388,
+      "arrayBuffers": 52381
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 216786.89
+  },
+  "trace": [
+    {
+      "column": 15,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._resolveFilename",
+      "line": 1401,
+      "method": "_resolveFilename",
+      "native": false
+    },
+    {
+      "column": 19,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "defaultResolveImpl",
+      "line": 1057,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 22,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "resolveForCJSWithHooks",
+      "line": 1062,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 37,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1211,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 19,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\event-registration.model.js",
+      "function": null,
+      "line": 2,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-07-21 23:01:49 error: uncaughtException: Cannot find module '../config/database'
+Require stack:
+- C:\Users\26933\Desktop\校园墙\server\src\models\event-registration.model.js
+- C:\Users\26933\Desktop\校园墙\server\src\models\index.js
+- C:\Users\26933\Desktop\校园墙\server\src\repositories\user.repository.js
+- C:\Users\26933\Desktop\校园墙\server\src\services\user.service.js
+- C:\Users\26933\Desktop\校园墙\server\src\controllers\user.controller.js
+- C:\Users\26933\Desktop\校园墙\server\src\routes\user.routes.js
+- C:\Users\26933\Desktop\校园墙\server\src\routes\index.js
+- C:\Users\26933\Desktop\校园墙\server\src\app.js
+- C:\Users\26933\Desktop\校园墙\server\src\server.js
+Error: Cannot find module '../config/database'
+Require stack:
+- C:\Users\26933\Desktop\校园墙\server\src\models\event-registration.model.js
+- C:\Users\26933\Desktop\校园墙\server\src\models\index.js
+- C:\Users\26933\Desktop\校园墙\server\src\repositories\user.repository.js
+- C:\Users\26933\Desktop\校园墙\server\src\services\user.service.js
+- C:\Users\26933\Desktop\校园墙\server\src\controllers\user.controller.js
+- C:\Users\26933\Desktop\校园墙\server\src\routes\user.routes.js
+- C:\Users\26933\Desktop\校园墙\server\src\routes\index.js
+- C:\Users\26933\Desktop\校园墙\server\src\app.js
+- C:\Users\26933\Desktop\校园墙\server\src\server.js
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)
+    at Function._load (node:internal/modules/cjs/loader:1211:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\models\event-registration.model.js:2:19)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14) {
+  "error": {
+    "code": "MODULE_NOT_FOUND",
+    "requireStack": [
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\event-registration.model.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\index.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\repositories\\user.repository.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\user.routes.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\index.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\app.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ]
+  },
+  "stack": "Error: Cannot find module '../config/database'\nRequire stack:\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\event-registration.model.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\index.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\repositories\\user.repository.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\user.routes.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\index.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\app.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js\n    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)\n    at Function._load (node:internal/modules/cjs/loader:1211:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\event-registration.model.js:2:19)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)",
+  "exception": true,
+  "date": "Mon Jul 21 2025 23:01:49 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 20616,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 94494720,
+      "heapTotal": 57352192,
+      "heapUsed": 34212928,
+      "external": 2441388,
+      "arrayBuffers": 52381
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 216836.531
+  },
+  "trace": [
+    {
+      "column": 15,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._resolveFilename",
+      "line": 1401,
+      "method": "_resolveFilename",
+      "native": false
+    },
+    {
+      "column": 19,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "defaultResolveImpl",
+      "line": 1057,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 22,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "resolveForCJSWithHooks",
+      "line": 1062,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 37,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1211,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 19,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\event-registration.model.js",
+      "function": null,
+      "line": 2,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-07-21 23:08:08 error: uncaughtException: Cannot find module 'express-validator'
+Require stack:
+- C:\Users\26933\Desktop\校园墙\server\src\routes\event.routes.js
+- C:\Users\26933\Desktop\校园墙\server\src\routes\index.js
+- C:\Users\26933\Desktop\校园墙\server\src\app.js
+- C:\Users\26933\Desktop\校园墙\server\src\server.js
+Error: Cannot find module 'express-validator'
+Require stack:
+- C:\Users\26933\Desktop\校园墙\server\src\routes\event.routes.js
+- C:\Users\26933\Desktop\校园墙\server\src\routes\index.js
+- C:\Users\26933\Desktop\校园墙\server\src\app.js
+- C:\Users\26933\Desktop\校园墙\server\src\server.js
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)
+    at Function._load (node:internal/modules/cjs/loader:1211:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\routes\event.routes.js:6:32)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14) {
+  "error": {
+    "code": "MODULE_NOT_FOUND",
+    "requireStack": [
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\event.routes.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\index.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\app.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ]
+  },
+  "stack": "Error: Cannot find module 'express-validator'\nRequire stack:\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\event.routes.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\index.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\app.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js\n    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)\n    at Function._load (node:internal/modules/cjs/loader:1211:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\event.routes.js:6:32)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)",
+  "exception": true,
+  "date": "Mon Jul 21 2025 23:08:08 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 34984,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 108896256,
+      "heapTotal": 62070784,
+      "heapUsed": 39964648,
+      "external": 2441388,
+      "arrayBuffers": 52095
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 217215.421
+  },
+  "trace": [
+    {
+      "column": 15,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._resolveFilename",
+      "line": 1401,
+      "method": "_resolveFilename",
+      "native": false
+    },
+    {
+      "column": 19,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "defaultResolveImpl",
+      "line": 1057,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 22,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "resolveForCJSWithHooks",
+      "line": 1062,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 37,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1211,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\event.routes.js",
+      "function": null,
+      "line": 6,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-07-21 23:08:21 error: uncaughtException: Cannot find module 'express-validator'
+Require stack:
+- C:\Users\26933\Desktop\校园墙\server\src\routes\event.routes.js
+- C:\Users\26933\Desktop\校园墙\server\src\routes\index.js
+- C:\Users\26933\Desktop\校园墙\server\src\app.js
+- C:\Users\26933\Desktop\校园墙\server\src\server.js
+Error: Cannot find module 'express-validator'
+Require stack:
+- C:\Users\26933\Desktop\校园墙\server\src\routes\event.routes.js
+- C:\Users\26933\Desktop\校园墙\server\src\routes\index.js
+- C:\Users\26933\Desktop\校园墙\server\src\app.js
+- C:\Users\26933\Desktop\校园墙\server\src\server.js
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)
+    at Function._load (node:internal/modules/cjs/loader:1211:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\routes\event.routes.js:6:32)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14) {
+  "error": {
+    "code": "MODULE_NOT_FOUND",
+    "requireStack": [
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\event.routes.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\index.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\app.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ]
+  },
+  "stack": "Error: Cannot find module 'express-validator'\nRequire stack:\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\event.routes.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\index.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\app.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js\n    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)\n    at Function._load (node:internal/modules/cjs/loader:1211:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\event.routes.js:6:32)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)",
+  "exception": true,
+  "date": "Mon Jul 21 2025 23:08:21 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 15804,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 110284800,
+      "heapTotal": 62541824,
+      "heapUsed": 41428920,
+      "external": 2441388,
+      "arrayBuffers": 52095
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 217228.015
+  },
+  "trace": [
+    {
+      "column": 15,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._resolveFilename",
+      "line": 1401,
+      "method": "_resolveFilename",
+      "native": false
+    },
+    {
+      "column": 19,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "defaultResolveImpl",
+      "line": 1057,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 22,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "resolveForCJSWithHooks",
+      "line": 1062,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 37,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1211,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\event.routes.js",
+      "function": null,
+      "line": 6,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-07-21 23:09:06 error: uncaughtException: Cannot find module 'express-validator'
+Require stack:
+- C:\Users\26933\Desktop\校园墙\server\src\routes\event.routes.js
+- C:\Users\26933\Desktop\校园墙\server\src\routes\index.js
+- C:\Users\26933\Desktop\校园墙\server\src\app.js
+- C:\Users\26933\Desktop\校园墙\server\src\server.js
+Error: Cannot find module 'express-validator'
+Require stack:
+- C:\Users\26933\Desktop\校园墙\server\src\routes\event.routes.js
+- C:\Users\26933\Desktop\校园墙\server\src\routes\index.js
+- C:\Users\26933\Desktop\校园墙\server\src\app.js
+- C:\Users\26933\Desktop\校园墙\server\src\server.js
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)
+    at Function._load (node:internal/modules/cjs/loader:1211:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\routes\event.routes.js:6:32)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14) {
+  "error": {
+    "code": "MODULE_NOT_FOUND",
+    "requireStack": [
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\event.routes.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\index.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\app.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ]
+  },
+  "stack": "Error: Cannot find module 'express-validator'\nRequire stack:\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\event.routes.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\index.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\app.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js\n    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)\n    at Function._load (node:internal/modules/cjs/loader:1211:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\event.routes.js:6:32)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)",
+  "exception": true,
+  "date": "Mon Jul 21 2025 23:09:06 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 18692,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 110690304,
+      "heapTotal": 62541824,
+      "heapUsed": 41428640,
+      "external": 2441388,
+      "arrayBuffers": 52095
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 217273.437
+  },
+  "trace": [
+    {
+      "column": 15,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._resolveFilename",
+      "line": 1401,
+      "method": "_resolveFilename",
+      "native": false
+    },
+    {
+      "column": 19,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "defaultResolveImpl",
+      "line": 1057,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 22,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "resolveForCJSWithHooks",
+      "line": 1062,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 37,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1211,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\event.routes.js",
+      "function": null,
+      "line": 6,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-07-21 23:09:30 error: uncaughtException: Cannot find module 'express-validator'
+Require stack:
+- C:\Users\26933\Desktop\校园墙\server\src\routes\event.routes.js
+- C:\Users\26933\Desktop\校园墙\server\src\routes\index.js
+- C:\Users\26933\Desktop\校园墙\server\src\app.js
+- C:\Users\26933\Desktop\校园墙\server\src\server.js
+Error: Cannot find module 'express-validator'
+Require stack:
+- C:\Users\26933\Desktop\校园墙\server\src\routes\event.routes.js
+- C:\Users\26933\Desktop\校园墙\server\src\routes\index.js
+- C:\Users\26933\Desktop\校园墙\server\src\app.js
+- C:\Users\26933\Desktop\校园墙\server\src\server.js
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)
+    at Function._load (node:internal/modules/cjs/loader:1211:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\routes\event.routes.js:6:32)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14) {
+  "error": {
+    "code": "MODULE_NOT_FOUND",
+    "requireStack": [
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\event.routes.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\index.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\app.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ]
+  },
+  "stack": "Error: Cannot find module 'express-validator'\nRequire stack:\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\event.routes.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\index.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\app.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js\n    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)\n    at Function._load (node:internal/modules/cjs/loader:1211:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\event.routes.js:6:32)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)",
+  "exception": true,
+  "date": "Mon Jul 21 2025 23:09:30 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 38056,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 110252032,
+      "heapTotal": 62803968,
+      "heapUsed": 40929896,
+      "external": 2441388,
+      "arrayBuffers": 52095
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 217296.906
+  },
+  "trace": [
+    {
+      "column": 15,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._resolveFilename",
+      "line": 1401,
+      "method": "_resolveFilename",
+      "native": false
+    },
+    {
+      "column": 19,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "defaultResolveImpl",
+      "line": 1057,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 22,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "resolveForCJSWithHooks",
+      "line": 1062,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 37,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1211,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\event.routes.js",
+      "function": null,
+      "line": 6,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-07-21 23:14:13 error: uncaughtException: Cannot find module 'express-validator'
+Require stack:
+- C:\Users\26933\Desktop\校园墙\server\src\routes\event.routes.js
+- C:\Users\26933\Desktop\校园墙\server\src\routes\index.js
+- C:\Users\26933\Desktop\校园墙\server\src\app.js
+- C:\Users\26933\Desktop\校园墙\server\src\server.js
+Error: Cannot find module 'express-validator'
+Require stack:
+- C:\Users\26933\Desktop\校园墙\server\src\routes\event.routes.js
+- C:\Users\26933\Desktop\校园墙\server\src\routes\index.js
+- C:\Users\26933\Desktop\校园墙\server\src\app.js
+- C:\Users\26933\Desktop\校园墙\server\src\server.js
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)
+    at Function._load (node:internal/modules/cjs/loader:1211:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\routes\event.routes.js:6:32)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14) {
+  "error": {
+    "code": "MODULE_NOT_FOUND",
+    "requireStack": [
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\event.routes.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\index.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\app.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ]
+  },
+  "stack": "Error: Cannot find module 'express-validator'\nRequire stack:\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\event.routes.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\index.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\app.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js\n    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)\n    at Function._load (node:internal/modules/cjs/loader:1211:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\event.routes.js:6:32)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)",
+  "exception": true,
+  "date": "Mon Jul 21 2025 23:14:13 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 39508,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 109993984,
+      "heapTotal": 62279680,
+      "heapUsed": 41038776,
+      "external": 2441388,
+      "arrayBuffers": 52095
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 217580.265
+  },
+  "trace": [
+    {
+      "column": 15,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._resolveFilename",
+      "line": 1401,
+      "method": "_resolveFilename",
+      "native": false
+    },
+    {
+      "column": 19,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "defaultResolveImpl",
+      "line": 1057,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 22,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "resolveForCJSWithHooks",
+      "line": 1062,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 37,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1211,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\event.routes.js",
+      "function": null,
+      "line": 6,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-07-21 23:14:33 error: uncaughtException: Cannot find module 'express-validator'
+Require stack:
+- C:\Users\26933\Desktop\校园墙\server\src\routes\event.routes.js
+- C:\Users\26933\Desktop\校园墙\server\src\routes\index.js
+- C:\Users\26933\Desktop\校园墙\server\src\app.js
+- C:\Users\26933\Desktop\校园墙\server\src\server.js
+Error: Cannot find module 'express-validator'
+Require stack:
+- C:\Users\26933\Desktop\校园墙\server\src\routes\event.routes.js
+- C:\Users\26933\Desktop\校园墙\server\src\routes\index.js
+- C:\Users\26933\Desktop\校园墙\server\src\app.js
+- C:\Users\26933\Desktop\校园墙\server\src\server.js
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)
+    at Function._load (node:internal/modules/cjs/loader:1211:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\routes\event.routes.js:6:32)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14) {
+  "error": {
+    "code": "MODULE_NOT_FOUND",
+    "requireStack": [
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\event.routes.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\index.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\app.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ]
+  },
+  "stack": "Error: Cannot find module 'express-validator'\nRequire stack:\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\event.routes.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\index.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\app.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js\n    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)\n    at Function._load (node:internal/modules/cjs/loader:1211:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\event.routes.js:6:32)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)",
+  "exception": true,
+  "date": "Mon Jul 21 2025 23:14:33 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 21508,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 107638784,
+      "heapTotal": 61808640,
+      "heapUsed": 38578728,
+      "external": 2441388,
+      "arrayBuffers": 52095
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 217600.25
+  },
+  "trace": [
+    {
+      "column": 15,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._resolveFilename",
+      "line": 1401,
+      "method": "_resolveFilename",
+      "native": false
+    },
+    {
+      "column": 19,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "defaultResolveImpl",
+      "line": 1057,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 22,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "resolveForCJSWithHooks",
+      "line": 1062,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 37,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1211,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\event.routes.js",
+      "function": null,
+      "line": 6,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-07-21 23:15:52 error: uncaughtException: Cannot find module 'express-validator'
+Require stack:
+- C:\Users\26933\Desktop\校园墙\server\src\routes\event.routes.js
+- C:\Users\26933\Desktop\校园墙\server\src\routes\index.js
+- C:\Users\26933\Desktop\校园墙\server\src\app.js
+- C:\Users\26933\Desktop\校园墙\server\src\server.js
+Error: Cannot find module 'express-validator'
+Require stack:
+- C:\Users\26933\Desktop\校园墙\server\src\routes\event.routes.js
+- C:\Users\26933\Desktop\校园墙\server\src\routes\index.js
+- C:\Users\26933\Desktop\校园墙\server\src\app.js
+- C:\Users\26933\Desktop\校园墙\server\src\server.js
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)
+    at Function._load (node:internal/modules/cjs/loader:1211:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\routes\event.routes.js:6:32)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14) {
+  "error": {
+    "code": "MODULE_NOT_FOUND",
+    "requireStack": [
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\event.routes.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\index.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\app.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ]
+  },
+  "stack": "Error: Cannot find module 'express-validator'\nRequire stack:\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\event.routes.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\index.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\app.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js\n    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)\n    at Function._load (node:internal/modules/cjs/loader:1211:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\event.routes.js:6:32)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)",
+  "exception": true,
+  "date": "Mon Jul 21 2025 23:15:52 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 39824,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 110002176,
+      "heapTotal": 62541824,
+      "heapUsed": 41043784,
+      "external": 2441388,
+      "arrayBuffers": 52095
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 217679
+  },
+  "trace": [
+    {
+      "column": 15,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._resolveFilename",
+      "line": 1401,
+      "method": "_resolveFilename",
+      "native": false
+    },
+    {
+      "column": 19,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "defaultResolveImpl",
+      "line": 1057,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 22,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "resolveForCJSWithHooks",
+      "line": 1062,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 37,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1211,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\event.routes.js",
+      "function": null,
+      "line": 6,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-07-21 23:16:08 error: uncaughtException: Cannot find module 'express-validator'
+Require stack:
+- C:\Users\26933\Desktop\校园墙\server\src\routes\event.routes.js
+- C:\Users\26933\Desktop\校园墙\server\src\routes\index.js
+- C:\Users\26933\Desktop\校园墙\server\src\app.js
+- C:\Users\26933\Desktop\校园墙\server\src\server.js
+Error: Cannot find module 'express-validator'
+Require stack:
+- C:\Users\26933\Desktop\校园墙\server\src\routes\event.routes.js
+- C:\Users\26933\Desktop\校园墙\server\src\routes\index.js
+- C:\Users\26933\Desktop\校园墙\server\src\app.js
+- C:\Users\26933\Desktop\校园墙\server\src\server.js
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)
+    at Function._load (node:internal/modules/cjs/loader:1211:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\routes\event.routes.js:6:32)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14) {
+  "error": {
+    "code": "MODULE_NOT_FOUND",
+    "requireStack": [
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\event.routes.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\index.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\app.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ]
+  },
+  "stack": "Error: Cannot find module 'express-validator'\nRequire stack:\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\event.routes.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\index.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\app.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js\n    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)\n    at Function._load (node:internal/modules/cjs/loader:1211:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\event.routes.js:6:32)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)",
+  "exception": true,
+  "date": "Mon Jul 21 2025 23:16:08 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 9432,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 109121536,
+      "heapTotal": 61808640,
+      "heapUsed": 39671504,
+      "external": 2441388,
+      "arrayBuffers": 52095
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 217695.375
+  },
+  "trace": [
+    {
+      "column": 15,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._resolveFilename",
+      "line": 1401,
+      "method": "_resolveFilename",
+      "native": false
+    },
+    {
+      "column": 19,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "defaultResolveImpl",
+      "line": 1057,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 22,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "resolveForCJSWithHooks",
+      "line": 1062,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 37,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1211,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\event.routes.js",
+      "function": null,
+      "line": 6,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-07-21 23:18:21 error: uncaughtException: Cannot read properties of undefined (reading 'handleValidationErrors')
+TypeError: Cannot read properties of undefined (reading 'handleValidationErrors')
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\routes\event.routes.js:143:24)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\routes\index.js:18:21) {
+  "error": {},
+  "stack": "TypeError: Cannot read properties of undefined (reading 'handleValidationErrors')\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\event.routes.js:143:24)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\index.js:18:21)",
+  "exception": true,
+  "date": "Mon Jul 21 2025 23:18:21 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 28080,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 115363840,
+      "heapTotal": 64430080,
+      "heapUsed": 39082856,
+      "external": 2441102,
+      "arrayBuffers": 52095
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 217828.718
+  },
+  "trace": [
+    {
+      "column": 24,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\event.routes.js",
+      "function": null,
+      "line": 143,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 21,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\index.js",
+      "function": null,
+      "line": 18,
+      "method": null,
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-07-21 23:21:07 error: uncaughtException: Cannot read properties of undefined (reading 'handleValidationErrors')
+TypeError: Cannot read properties of undefined (reading 'handleValidationErrors')
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\routes\event.routes.js:143:24)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\routes\index.js:18:21) {
+  "error": {},
+  "stack": "TypeError: Cannot read properties of undefined (reading 'handleValidationErrors')\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\event.routes.js:143:24)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\index.js:18:21)",
+  "exception": true,
+  "date": "Mon Jul 21 2025 23:21:07 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 3600,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 116535296,
+      "heapTotal": 66789376,
+      "heapUsed": 35154544,
+      "external": 2441102,
+      "arrayBuffers": 52095
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 217994.265
+  },
+  "trace": [
+    {
+      "column": 24,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\event.routes.js",
+      "function": null,
+      "line": 143,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 21,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\index.js",
+      "function": null,
+      "line": 18,
+      "method": null,
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-07-22 06:55:05 error: uncaughtException: listen EADDRINUSE: address already in use 0.0.0.0:3000
+Error: listen EADDRINUSE: address already in use 0.0.0.0:3000
+    at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+    at listenInCluster (node:net:1997:12)
+    at node:net:2206:7
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  "error": {
+    "code": "EADDRINUSE",
+    "errno": -4091,
+    "syscall": "listen",
+    "address": "0.0.0.0",
+    "port": 3000
+  },
+  "stack": "Error: listen EADDRINUSE: address already in use 0.0.0.0:3000\n    at Server.setupListenHandle [as _listen2] (node:net:1940:16)\n    at listenInCluster (node:net:1997:12)\n    at node:net:2206:7\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)",
+  "exception": true,
+  "date": "Tue Jul 22 2025 06:55:05 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 4892,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 113864704,
+      "heapTotal": 66789376,
+      "heapUsed": 41225880,
+      "external": 2465611,
+      "arrayBuffers": 57473
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 15237.906
+  },
+  "trace": [
+    {
+      "column": 16,
+      "file": "node:net",
+      "function": "Server.setupListenHandle [as _listen2]",
+      "line": 1940,
+      "method": "setupListenHandle [as _listen2]",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:net",
+      "function": "listenInCluster",
+      "line": 1997,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 7,
+      "file": "node:net",
+      "function": null,
+      "line": 2206,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 21,
+      "file": "node:internal/process/task_queues",
+      "function": "process.processTicksAndRejections",
+      "line": 90,
+      "method": "processTicksAndRejections",
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}

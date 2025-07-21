@@ -46,13 +46,31 @@
 		{
 			"path": "pages/discover/discover",
 			"style": {
-				"navigationBarTitleText": "发现"
+				"navigationBarTitleText": "发现",
+				"enablePullDownRefresh": true,
+				"backgroundTextStyle": "dark",
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"color": "#5B8EF9"
+					}
+				}
 			}
 		},
 		{
 			"path": "pages/message/message",
 			"style": {
-				"navigationBarTitleText": "消息"
+				"navigationBarTitleText": "消息",
+				"enablePullDownRefresh": true,
+				"backgroundTextStyle": "dark",
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"style": "circle",
+						"color": "#5B8EF9"
+					}
+				}
 			}
 		},
 		{
@@ -133,6 +151,13 @@
 			}
 		},
 		{
+			"path": "pages/test/event-test",
+			"style": {
+				"navigationBarTitleText": "活动API测试",
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/settings/index",
 			"style": {
 				"navigationStyle": "custom",
@@ -167,6 +192,29 @@
 			"style": {
 				"navigationBarTitleText": "搜索",
 				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/event/list",
+			"style": {
+				"navigationBarTitleText": "校园活动",
+				"enablePullDownRefresh": true,
+				"backgroundTextStyle": "dark"
+			}
+		},
+		{
+			"path": "pages/event/detail",
+			"style": {
+				"navigationBarTitleText": "活动详情",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/event/my-events",
+			"style": {
+				"navigationBarTitleText": "我的活动",
+				"enablePullDownRefresh": true,
+				"backgroundTextStyle": "dark"
 			}
 		}
 	],

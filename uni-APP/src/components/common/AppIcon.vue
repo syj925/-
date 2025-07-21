@@ -1,5 +1,5 @@
 <template>
-  <view :class="['app-icon', `app-icon-${name}`, `app-icon-${size}`, customClass]" :style="iconStyle"></view>
+  <view :class="['app-icon', `app-icon-${name}`, sizeClass, customClass]" :style="iconStyle"></view>
 </template>
 
 <script>
@@ -13,9 +13,20 @@ export default {
     },
     // 图标大小
     size: {
-      type: String,
+      type: [String, Number],
       default: 'md',
-      validator: (value) => ['xs', 'sm', 'md', 'lg', 'xl'].includes(value)
+      validator: (value) => {
+        // 支持预定义尺寸或数字（包括字符串形式的数字）
+        if (typeof value === 'number') return value > 0;
+        if (typeof value === 'string') {
+          // 检查是否是预定义尺寸
+          if (['xs', 'sm', 'md', 'lg', 'xl'].includes(value)) return true;
+          // 检查是否是数字字符串
+          const numValue = Number(value);
+          return !isNaN(numValue) && numValue > 0;
+        }
+        return false;
+      }
     },
     // 图标颜色
     color: {
@@ -29,8 +40,33 @@ export default {
     }
   },
   computed: {
+    sizeClass() {
+      // 如果是数字或数字字符串，不添加尺寸类，通过样式控制
+      if (typeof this.size === 'number') {
+        return '';
+      }
+      if (typeof this.size === 'string' && !isNaN(Number(this.size))) {
+        return '';
+      }
+      return `app-icon-${this.size}`;
+    },
     iconStyle() {
-      return this.color ? { '--icon-color': this.color } : {};
+      const style = {};
+
+      // 设置颜色
+      if (this.color) {
+        style['--icon-color'] = this.color;
+      }
+
+      // 设置数字尺寸（支持数字和数字字符串）
+      if (typeof this.size === 'number' || (typeof this.size === 'string' && !isNaN(Number(this.size)))) {
+        const numSize = typeof this.size === 'number' ? this.size : Number(this.size);
+        const sizeValue = `${numSize * 2}rpx`; // 转换为rpx单位
+        style.width = sizeValue;
+        style.height = sizeValue;
+      }
+
+      return style;
     }
   }
 }

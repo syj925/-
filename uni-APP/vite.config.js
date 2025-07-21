@@ -1,10 +1,24 @@
 import { defineConfig } from 'vite'
 import uni from '@dcloudio/vite-plugin-uni'
+
+// 设置环境变量来屏蔽 Sass 弃用警告
+process.env.SASS_SILENCE_DEPRECATIONS = 'legacy-js-api,import,global-builtin,color-functions'
+
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     uni(),
   ],
+  css: {
+    preprocessorOptions: {
+      scss: {
+        // 屏蔽 Sass 弃用警告
+        api: 'modern-compiler',
+        silenceDeprecations: ['legacy-js-api', 'import', 'global-builtin', 'color-functions'],
+        quietDeps: true
+      }
+    }
+  },
   server: {
     proxy: {
       '/api': {

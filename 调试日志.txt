@@ -1,0 +1,875 @@
+[广告] 06:21:31.931 2025年DCloud插件大赛启动，30部鸿蒙手机大放送！详情：https://ask.dcloud.net.cn/article/41809
+06:21:31.938 项目 uni-APP 开始编译
+06:21:32.943 请注意运行模式下，因日志输出、sourcemap 以及未压缩源码等原因，性能和包体积，均不及发行模式。
+06:21:32.943 编译器版本：4.64（vue3）
+06:21:32.943 正在编译中...
+06:21:33.701 uni-app 有新版本发布，请执行 `npx @dcloudio/uvm@latest` 更新，更新日志详见：https://download1.dcloud.net.cn/hbuilderx/changelog/4.75.2025071105.html
+06:21:34.310 DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+06:21:34.311 More info: https://sass-lang.com/d/legacy-js-api
+06:21:34.326 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:34.327 More info and automated migrator: https://sass-lang.com/d/import
+06:21:34.327    ╷
+06:21:34.327 79 │ @import './styles/reset.scss';
+06:21:34.327    │         ^^^^^^^^^^^^^^^^^^^^^
+06:21:34.327    ╵
+06:21:34.327     src\App.vue 79:9  root stylesheet
+06:21:34.327 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:34.327 More info and automated migrator: https://sass-lang.com/d/import
+06:21:34.327    ╷
+06:21:34.327 80 │ @import './styles/common.scss';
+06:21:34.327    │         ^^^^^^^^^^^^^^^^^^^^^^
+06:21:34.327    ╵
+06:21:34.327     src\App.vue 80:9  root stylesheet
+06:21:34.327 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:34.327 More info and automated migrator: https://sass-lang.com/d/import
+06:21:34.327    ╷
+06:21:34.327 81 │ @import './static/styles/iconfont.scss';
+06:21:34.327    │         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+06:21:34.327    ╵
+06:21:34.327     src\App.vue 81:9  root stylesheet
+06:21:34.434 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:34.435 More info and automated migrator: https://sass-lang.com/d/import
+06:21:34.435   ╷
+06:21:34.435 2 │ @import './variables.scss';
+06:21:34.435   │         ^^^^^^^^^^^^^^^^^^
+06:21:34.435   ╵
+06:21:34.435     src\styles\common.scss 2:9  @import
+06:21:34.435     src\App.vue 80:9            root stylesheet
+06:21:34.435 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:34.435 More info and automated migrator: https://sass-lang.com/d/import
+06:21:34.435   ╷
+06:21:34.435 3 │ @import './mixins.scss';
+06:21:34.435   │         ^^^^^^^^^^^^^^^
+06:21:34.435   ╵
+06:21:34.435     src\styles\common.scss 3:9  @import
+06:21:34.435     src\App.vue 80:9            root stylesheet
+06:21:34.471 WARNING: 1 repetitive deprecation warnings omitted.
+06:21:34.729 DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+06:21:34.729 More info: https://sass-lang.com/d/legacy-js-api
+06:21:34.729 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:34.729 More info and automated migrator: https://sass-lang.com/d/import
+06:21:34.729    ╷
+06:21:34.730 78 │ @import '@/styles/variables.scss';
+06:21:34.730    │         ^^^^^^^^^^^^^^^^^^^^^^^^^
+06:21:34.730    ╵
+06:21:34.730     src\pages\index\home.vue 78:9  root stylesheet
+06:21:34.730 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:34.730 More info and automated migrator: https://sass-lang.com/d/import
+06:21:34.730    ╷
+06:21:34.730 79 │ @import '@/styles/mixins.scss';
+06:21:34.730    │         ^^^^^^^^^^^^^^^^^^^^^^
+06:21:34.730    ╵
+06:21:34.730     src\pages\index\home.vue 79:9  root stylesheet
+06:21:34.730 DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+06:21:34.730 More info: https://sass-lang.com/d/legacy-js-api
+06:21:34.760 DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+06:21:34.760 More info: https://sass-lang.com/d/legacy-js-api
+06:21:34.760 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:34.760 More info and automated migrator: https://sass-lang.com/d/import
+06:21:34.760    ╷
+06:21:34.760 78 │ @import '@/styles/variables.scss';
+06:21:34.760    │         ^^^^^^^^^^^^^^^^^^^^^^^^^
+06:21:34.760    ╵
+06:21:34.760     src\pages\discover\discover.vue 78:9  root stylesheet
+06:21:34.760 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:34.760 More info and automated migrator: https://sass-lang.com/d/import
+06:21:34.760    ╷
+06:21:34.760 79 │ @import '@/styles/mixins.scss';
+06:21:34.760    │         ^^^^^^^^^^^^^^^^^^^^^^
+06:21:34.760    ╵
+06:21:34.760     src\pages\discover\discover.vue 79:9  root stylesheet
+06:21:34.760 DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+06:21:34.762 More info: https://sass-lang.com/d/legacy-js-api
+06:21:34.762 DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+06:21:34.762 More info: https://sass-lang.com/d/legacy-js-api
+06:21:34.765 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:34.765 More info and automated migrator: https://sass-lang.com/d/import
+06:21:34.765    ╷
+06:21:34.766 78 │ @import '@/styles/variables.scss';
+06:21:34.766    │         ^^^^^^^^^^^^^^^^^^^^^^^^^
+06:21:34.766    ╵
+06:21:34.766     src\pages\publish\publish.vue 78:9  root stylesheet
+06:21:34.766 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:34.766 More info and automated migrator: https://sass-lang.com/d/import
+06:21:34.766    ╷
+06:21:34.766 79 │ @import '@/styles/mixins.scss';
+06:21:34.766    │         ^^^^^^^^^^^^^^^^^^^^^^
+06:21:34.766    ╵
+06:21:34.766     src\pages\publish\publish.vue 79:9  root stylesheet
+06:21:34.769 DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+06:21:34.769 More info: https://sass-lang.com/d/legacy-js-api
+06:21:34.775 DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+06:21:34.775 More info: https://sass-lang.com/d/legacy-js-api
+06:21:34.776 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:34.776 More info and automated migrator: https://sass-lang.com/d/import
+06:21:34.776    ╷
+06:21:34.776 78 │ @import '@/styles/variables.scss';
+06:21:34.776    │         ^^^^^^^^^^^^^^^^^^^^^^^^^
+06:21:34.776    ╵
+06:21:34.776     src\pages\message\message.vue 78:9  root stylesheet
+06:21:34.776 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:34.776 More info and automated migrator: https://sass-lang.com/d/import
+06:21:34.776    ╷
+06:21:34.776 79 │ @import '@/styles/mixins.scss';
+06:21:34.776    │         ^^^^^^^^^^^^^^^^^^^^^^
+06:21:34.776    ╵
+06:21:34.776     src\pages\message\message.vue 79:9  root stylesheet
+06:21:34.784 DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+06:21:34.785 More info: https://sass-lang.com/d/legacy-js-api
+06:21:34.785 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:34.785 More info and automated migrator: https://sass-lang.com/d/import
+06:21:34.785    ╷
+06:21:34.785 78 │ @import '@/styles/variables.scss';
+06:21:34.785    │         ^^^^^^^^^^^^^^^^^^^^^^^^^
+06:21:34.785    ╵
+06:21:34.785     src\pages\profile\follow.vue 78:9  root stylesheet
+06:21:34.785 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:34.785 More info and automated migrator: https://sass-lang.com/d/import
+06:21:34.785    ╷
+06:21:34.785 79 │ @import '@/styles/mixins.scss';
+06:21:34.785    │         ^^^^^^^^^^^^^^^^^^^^^^
+06:21:34.785    ╵
+06:21:34.785     src\pages\profile\follow.vue 79:9  root stylesheet
+06:21:34.805 DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+06:21:34.805 More info: https://sass-lang.com/d/legacy-js-api
+06:21:34.805 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:34.805 More info and automated migrator: https://sass-lang.com/d/import
+06:21:34.805    ╷
+06:21:34.805 78 │ @import '@/styles/variables.scss';
+06:21:34.805    │         ^^^^^^^^^^^^^^^^^^^^^^^^^
+06:21:34.805    ╵
+06:21:34.805     src\pages\profile\profile.vue 78:9  root stylesheet
+06:21:34.810 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:34.810 More info and automated migrator: https://sass-lang.com/d/import
+06:21:34.810    ╷
+06:21:34.810 79 │ @import '@/styles/mixins.scss';
+06:21:34.810    │         ^^^^^^^^^^^^^^^^^^^^^^
+06:21:34.810    ╵
+06:21:34.810     src\pages\profile\profile.vue 79:9  root stylesheet
+06:21:34.822 DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+06:21:34.822 More info: https://sass-lang.com/d/legacy-js-api
+06:21:34.822 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:34.822 More info and automated migrator: https://sass-lang.com/d/import
+06:21:34.822    ╷
+06:21:34.822 78 │ @import '@/styles/variables.scss';
+06:21:34.822    │         ^^^^^^^^^^^^^^^^^^^^^^^^^
+06:21:34.822    ╵
+06:21:34.822     src\pages\profile\mutual-follow.vue 78:9  root stylesheet
+06:21:34.822 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:34.822 More info and automated migrator: https://sass-lang.com/d/import
+06:21:34.822    ╷
+06:21:34.822 79 │ @import '@/styles/mixins.scss';
+06:21:34.822    │         ^^^^^^^^^^^^^^^^^^^^^^
+06:21:34.822    ╵
+06:21:34.822     src\pages\profile\mutual-follow.vue 79:9  root stylesheet
+06:21:34.837 DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+06:21:34.838 More info: https://sass-lang.com/d/legacy-js-api
+06:21:34.838 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:34.838 More info and automated migrator: https://sass-lang.com/d/import
+06:21:34.838    ╷
+06:21:34.838 78 │ @import '@/styles/variables.scss';
+06:21:34.838    │         ^^^^^^^^^^^^^^^^^^^^^^^^^
+06:21:34.838    ╵
+06:21:34.838     src\pages\profile\edit.vue 78:9  root stylesheet
+06:21:34.838 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:34.838 More info and automated migrator: https://sass-lang.com/d/import
+06:21:34.838    ╷
+06:21:34.838 79 │ @import '@/styles/mixins.scss';
+06:21:34.838    │         ^^^^^^^^^^^^^^^^^^^^^^
+06:21:34.838    ╵
+06:21:34.838     src\pages\profile\edit.vue 79:9  root stylesheet
+06:21:34.838 DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+06:21:34.838 More info: https://sass-lang.com/d/legacy-js-api
+06:21:34.838 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:34.838 More info and automated migrator: https://sass-lang.com/d/import
+06:21:34.838    ╷
+06:21:34.838 78 │ @import '@/styles/variables.scss';
+06:21:34.838    │         ^^^^^^^^^^^^^^^^^^^^^^^^^
+06:21:34.838    ╵
+06:21:34.838     src\pages\profile\privacy.vue 78:9  root stylesheet
+06:21:34.838 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:34.838 More info and automated migrator: https://sass-lang.com/d/import
+06:21:34.838    ╷
+06:21:34.838 79 │ @import '@/styles/mixins.scss';
+06:21:34.838    │         ^^^^^^^^^^^^^^^^^^^^^^
+06:21:34.838    ╵
+06:21:34.838     src\pages\profile\privacy.vue 79:9  root stylesheet
+06:21:34.838 DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+06:21:34.838 More info: https://sass-lang.com/d/legacy-js-api
+06:21:34.838 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:34.838 More info and automated migrator: https://sass-lang.com/d/import
+06:21:34.840    ╷
+06:21:34.840 78 │ @import '@/styles/variables.scss';
+06:21:34.840    │         ^^^^^^^^^^^^^^^^^^^^^^^^^
+06:21:34.840    ╵
+06:21:34.840     src\pages\post\detail.vue 78:9  root stylesheet
+06:21:34.840 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:34.840 More info and automated migrator: https://sass-lang.com/d/import
+06:21:34.840    ╷
+06:21:34.840 79 │ @import '@/styles/mixins.scss';
+06:21:34.840    │         ^^^^^^^^^^^^^^^^^^^^^^
+06:21:34.840    ╵
+06:21:34.840     src\pages\post\detail.vue 79:9  root stylesheet
+06:21:34.840 DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+06:21:34.840 More info: https://sass-lang.com/d/legacy-js-api
+06:21:34.840 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:34.840 More info and automated migrator: https://sass-lang.com/d/import
+06:21:34.840    ╷
+06:21:34.840 78 │ @import '@/styles/variables.scss';
+06:21:34.840    │         ^^^^^^^^^^^^^^^^^^^^^^^^^
+06:21:34.840    ╵
+06:21:34.840     src\pages\test\follow-test.vue 78:9  root stylesheet
+06:21:34.840 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:34.840 More info and automated migrator: https://sass-lang.com/d/import
+06:21:34.840    ╷
+06:21:34.840 79 │ @import '@/styles/mixins.scss';
+06:21:34.840    │         ^^^^^^^^^^^^^^^^^^^^^^
+06:21:34.841    ╵
+06:21:34.841     src\pages\test\follow-test.vue 79:9  root stylesheet
+06:21:34.841 DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+06:21:34.841 More info: https://sass-lang.com/d/legacy-js-api
+06:21:34.844 DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+06:21:34.844 More info: https://sass-lang.com/d/legacy-js-api
+06:21:34.844 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:34.844 More info and automated migrator: https://sass-lang.com/d/import
+06:21:34.844    ╷
+06:21:34.844 78 │ @import '@/styles/variables.scss';
+06:21:34.844    │         ^^^^^^^^^^^^^^^^^^^^^^^^^
+06:21:34.844    ╵
+06:21:34.844     src\pages\test\comment-like-test.vue 78:9  root stylesheet
+06:21:34.844 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:34.844 More info and automated migrator: https://sass-lang.com/d/import
+06:21:34.845    ╷
+06:21:34.845 79 │ @import '@/styles/mixins.scss';
+06:21:34.845    │         ^^^^^^^^^^^^^^^^^^^^^^
+06:21:34.845    ╵
+06:21:34.845     src\pages\test\comment-like-test.vue 79:9  root stylesheet
+06:21:34.848 DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+06:21:34.848 More info: https://sass-lang.com/d/legacy-js-api
+06:21:34.851 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:34.851 More info and automated migrator: https://sass-lang.com/d/import
+06:21:34.851    ╷
+06:21:34.851 78 │ @import '@/styles/variables.scss';
+06:21:34.851    │         ^^^^^^^^^^^^^^^^^^^^^^^^^
+06:21:34.851    ╵
+06:21:34.851     src\pages\test\event-test.vue 78:9  root stylesheet
+06:21:34.851 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:34.851 More info and automated migrator: https://sass-lang.com/d/import
+06:21:34.851    ╷
+06:21:34.851 79 │ @import '@/styles/mixins.scss';
+06:21:34.851    │         ^^^^^^^^^^^^^^^^^^^^^^
+06:21:34.851    ╵
+06:21:34.851     src\pages\test\event-test.vue 79:9  root stylesheet
+06:21:34.851 DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+06:21:34.851 More info: https://sass-lang.com/d/legacy-js-api
+06:21:34.855 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:34.855 More info and automated migrator: https://sass-lang.com/d/import
+06:21:34.855    ╷
+06:21:34.855 78 │ @import '@/styles/variables.scss';
+06:21:34.856    │         ^^^^^^^^^^^^^^^^^^^^^^^^^
+06:21:34.856    ╵
+06:21:34.856     src\pages\settings\index.vue 78:9  root stylesheet
+06:21:34.856 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:34.856 More info and automated migrator: https://sass-lang.com/d/import
+06:21:34.856    ╷
+06:21:34.856 79 │ @import '@/styles/mixins.scss';
+06:21:34.856    │         ^^^^^^^^^^^^^^^^^^^^^^
+06:21:34.856    ╵
+06:21:34.856     src\pages\settings\index.vue 79:9  root stylesheet
+06:21:34.859 DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+06:21:34.859 More info: https://sass-lang.com/d/legacy-js-api
+06:21:34.859 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:34.859 More info and automated migrator: https://sass-lang.com/d/import
+06:21:34.859    ╷
+06:21:34.859 78 │ @import '@/styles/variables.scss';
+06:21:34.859    │         ^^^^^^^^^^^^^^^^^^^^^^^^^
+06:21:34.859    ╵
+06:21:34.859     src\pages\settings\server.vue 78:9  root stylesheet
+06:21:34.859 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:34.859 More info and automated migrator: https://sass-lang.com/d/import
+06:21:34.859    ╷
+06:21:34.859 79 │ @import '@/styles/mixins.scss';
+06:21:34.859    │         ^^^^^^^^^^^^^^^^^^^^^^
+06:21:34.859    ╵
+06:21:34.859     src\pages\settings\server.vue 79:9  root stylesheet
+06:21:34.933 DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+06:21:34.933 More info: https://sass-lang.com/d/legacy-js-api
+06:21:34.933 DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+06:21:34.933 More info: https://sass-lang.com/d/legacy-js-api
+06:21:35.049 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.049 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.049   ╷
+06:21:35.049 2 │ @import './variables.scss';
+06:21:35.049   │         ^^^^^^^^^^^^^^^^^^
+06:21:35.049   ╵
+06:21:35.049     src\styles\mixins.scss 2:9     @import
+06:21:35.050     src\pages\index\home.vue 79:9  root stylesheet
+06:21:35.058 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.059 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.059   ╷
+06:21:35.059 2 │ @import './variables.scss';
+06:21:35.059   │         ^^^^^^^^^^^^^^^^^^
+06:21:35.059   ╵
+06:21:35.059     src\styles\mixins.scss 2:9            @import
+06:21:35.059     src\pages\discover\discover.vue 79:9  root stylesheet
+06:21:35.059 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.059 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.059   ╷
+06:21:35.059 2 │ @import './variables.scss';
+06:21:35.059   │         ^^^^^^^^^^^^^^^^^^
+06:21:35.059   ╵
+06:21:35.059     src\styles\mixins.scss 2:9          @import
+06:21:35.059     src\pages\publish\publish.vue 79:9  root stylesheet
+06:21:35.059 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.059 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.059   ╷
+06:21:35.059 2 │ @import './variables.scss';
+06:21:35.059   │         ^^^^^^^^^^^^^^^^^^
+06:21:35.059   ╵
+06:21:35.059     src\styles\mixins.scss 2:9          @import
+06:21:35.059     src\pages\message\message.vue 79:9  root stylesheet
+06:21:35.059 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.059 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.060   ╷
+06:21:35.060 2 │ @import './variables.scss';
+06:21:35.060   │         ^^^^^^^^^^^^^^^^^^
+06:21:35.060   ╵
+06:21:35.060     src\styles\mixins.scss 2:9         @import
+06:21:35.060     src\pages\profile\follow.vue 79:9  root stylesheet
+06:21:35.060 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.060 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.060   ╷
+06:21:35.060 2 │ @import './variables.scss';
+06:21:35.060   │         ^^^^^^^^^^^^^^^^^^
+06:21:35.060   ╵
+06:21:35.060     src\styles\mixins.scss 2:9          @import
+06:21:35.060     src\pages\profile\profile.vue 79:9  root stylesheet
+06:21:35.067 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.068 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.068   ╷
+06:21:35.068 2 │ @import './variables.scss';
+06:21:35.068   │         ^^^^^^^^^^^^^^^^^^
+06:21:35.068   ╵
+06:21:35.068     src\styles\mixins.scss 2:9                @import
+06:21:35.068     src\pages\profile\mutual-follow.vue 79:9  root stylesheet
+06:21:35.068 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.068 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.068   ╷
+06:21:35.068 2 │ @import './variables.scss';
+06:21:35.068   │         ^^^^^^^^^^^^^^^^^^
+06:21:35.068   ╵
+06:21:35.068     src\styles\mixins.scss 2:9       @import
+06:21:35.068     src\pages\profile\edit.vue 79:9  root stylesheet
+06:21:35.068 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.068 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.068   ╷
+06:21:35.068 2 │ @import './variables.scss';
+06:21:35.068   │         ^^^^^^^^^^^^^^^^^^
+06:21:35.068   ╵
+06:21:35.068     src\styles\mixins.scss 2:9          @import
+06:21:35.068     src\pages\profile\privacy.vue 79:9  root stylesheet
+06:21:35.068 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.069 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.069   ╷
+06:21:35.069 2 │ @import './variables.scss';
+06:21:35.069   │         ^^^^^^^^^^^^^^^^^^
+06:21:35.069   ╵
+06:21:35.069     src\styles\mixins.scss 2:9      @import
+06:21:35.069     src\pages\post\detail.vue 79:9  root stylesheet
+06:21:35.069 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.069 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.069   ╷
+06:21:35.069 2 │ @import './variables.scss';
+06:21:35.069   │         ^^^^^^^^^^^^^^^^^^
+06:21:35.069   ╵
+06:21:35.069     src\styles\mixins.scss 2:9           @import
+06:21:35.070     src\pages\test\follow-test.vue 79:9  root stylesheet
+06:21:35.070 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.070 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.070   ╷
+06:21:35.070 2 │ @import './variables.scss';
+06:21:35.070   │         ^^^^^^^^^^^^^^^^^^
+06:21:35.070   ╵
+06:21:35.070     src\styles\mixins.scss 2:9                 @import
+06:21:35.070     src\pages\test\comment-like-test.vue 79:9  root stylesheet
+06:21:35.074 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.074 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.074   ╷
+06:21:35.074 2 │ @import './variables.scss';
+06:21:35.074   │         ^^^^^^^^^^^^^^^^^^
+06:21:35.074   ╵
+06:21:35.074     src\styles\mixins.scss 2:9          @import
+06:21:35.074     src\pages\test\event-test.vue 79:9  root stylesheet
+06:21:35.074 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.074 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.074   ╷
+06:21:35.074 2 │ @import './variables.scss';
+06:21:35.075   │         ^^^^^^^^^^^^^^^^^^
+06:21:35.075   ╵
+06:21:35.075     src\styles\mixins.scss 2:9         @import
+06:21:35.075     src\pages\settings\index.vue 79:9  root stylesheet
+06:21:35.078 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.078 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.078   ╷
+06:21:35.078 2 │ @import './variables.scss';
+06:21:35.078   │         ^^^^^^^^^^^^^^^^^^
+06:21:35.078   ╵
+06:21:35.078     src\styles\mixins.scss 2:9          @import
+06:21:35.078     src\pages\settings\server.vue 79:9  root stylesheet
+06:21:35.119 DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.119 Use color.adjust instead.
+06:21:35.119 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.119    ╷
+06:21:35.119 90 │   background: linear-gradient(to right, $primary-color, lighten($primary-color, 10%));
+06:21:35.119    │                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+06:21:35.119    ╵
+06:21:35.119     src\pages\profile\edit.vue 90:57  root stylesheet
+06:21:35.119 DEPRECATION WARNING [color-functions]: lighten() is deprecated. Suggestions:
+06:21:35.119 color.scale($color, $lightness: 30%)
+06:21:35.119 color.adjust($color, $lightness: 10%)
+06:21:35.119 More info: https://sass-lang.com/d/color-functions
+06:21:35.119    ╷
+06:21:35.119 90 │   background: linear-gradient(to right, $primary-color, lighten($primary-color, 10%));
+06:21:35.119    │                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+06:21:35.119    ╵
+06:21:35.119     src\pages\profile\edit.vue 90:57  root stylesheet
+06:21:35.164 DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.164 Use color.adjust instead.
+06:21:35.165 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.165     ╷
+06:21:35.165 195 │       background: linear-gradient(135deg, $primary-color, lighten($primary-color, 15%));
+06:21:35.165     │                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+06:21:35.165     ╵
+06:21:35.165     src\pages\profile\edit.vue 195:59  root stylesheet
+06:21:35.165 DEPRECATION WARNING [color-functions]: lighten() is deprecated. Suggestions:
+06:21:35.165 color.scale($color, $lightness: 45%)
+06:21:35.165 color.adjust($color, $lightness: 15%)
+06:21:35.165 More info: https://sass-lang.com/d/color-functions
+06:21:35.165     ╷
+06:21:35.165 195 │       background: linear-gradient(135deg, $primary-color, lighten($primary-color, 15%));
+06:21:35.165     │                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+06:21:35.165     ╵
+06:21:35.165     src\pages\profile\edit.vue 195:59  root stylesheet
+06:21:35.211 DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.211 Use color.adjust instead.
+06:21:35.211 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.212     ╷
+06:21:35.212 652 │     background: linear-gradient(to right, $primary-color, lighten($primary-color, 10%));
+06:21:35.212     │                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+06:21:35.212     ╵
+06:21:35.212     src\pages\profile\edit.vue 652:59  root stylesheet
+06:21:35.212 DEPRECATION WARNING [color-functions]: lighten() is deprecated. Suggestions:
+06:21:35.212 color.scale($color, $lightness: 30%)
+06:21:35.212 color.adjust($color, $lightness: 10%)
+06:21:35.212 More info: https://sass-lang.com/d/color-functions
+06:21:35.212     ╷
+06:21:35.212 652 │     background: linear-gradient(to right, $primary-color, lighten($primary-color, 10%));
+06:21:35.212     │                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+06:21:35.212     ╵
+06:21:35.212     src\pages\profile\edit.vue 652:59  root stylesheet
+06:21:35.212 DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.212 Use color.adjust instead.
+06:21:35.212 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.212     ╷
+06:21:35.212 678 │   background: linear-gradient(to right, $danger-color, lighten($danger-color, 10%));
+06:21:35.212     │                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+06:21:35.212     ╵
+06:21:35.212     src\pages\profile\edit.vue 678:56  root stylesheet
+06:21:35.212 DEPRECATION WARNING [color-functions]: lighten() is deprecated. Suggestions:
+06:21:35.213 color.scale($color, $lightness: 34.4594594595%)
+06:21:35.213 color.adjust($color, $lightness: 10%)
+06:21:35.213 More info: https://sass-lang.com/d/color-functions
+06:21:35.213     ╷
+06:21:35.213 678 │   background: linear-gradient(to right, $danger-color, lighten($danger-color, 10%));
+06:21:35.213     │                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+06:21:35.213     ╵
+06:21:35.213     src\pages\profile\edit.vue 678:56  root stylesheet
+06:21:35.213 DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.213 Use color.adjust instead.
+06:21:35.213 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.213     ╷
+06:21:35.213 749 │   background: linear-gradient(to right, $primary-color, lighten($primary-color, 10%));
+06:21:35.213     │                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+06:21:35.213     ╵
+06:21:35.213     src\pages\profile\edit.vue 749:57  root stylesheet
+06:21:35.213 DEPRECATION WARNING [color-functions]: lighten() is deprecated. Suggestions:
+06:21:35.213 color.scale($color, $lightness: 30%)
+06:21:35.213 color.adjust($color, $lightness: 10%)
+06:21:35.213 More info: https://sass-lang.com/d/color-functions
+06:21:35.213     ╷
+06:21:35.213 749 │   background: linear-gradient(to right, $primary-color, lighten($primary-color, 10%));
+06:21:35.213     │                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+06:21:35.213     ╵
+06:21:35.214     src\pages\profile\edit.vue 749:57  root stylesheet
+06:21:35.331 DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+06:21:35.331 More info: https://sass-lang.com/d/legacy-js-api
+06:21:35.331 DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+06:21:35.331 More info: https://sass-lang.com/d/legacy-js-api
+06:21:35.331 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.331 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.331    ╷
+06:21:35.331 78 │ @import '@/styles/variables.scss';
+06:21:35.331    │         ^^^^^^^^^^^^^^^^^^^^^^^^^
+06:21:35.331    ╵
+06:21:35.331     src\pages\event\detail.vue 78:9  root stylesheet
+06:21:35.331 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.332 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.332    ╷
+06:21:35.332 79 │ @import '@/styles/mixins.scss';
+06:21:35.332    │         ^^^^^^^^^^^^^^^^^^^^^^
+06:21:35.332    ╵
+06:21:35.332     src\pages\event\detail.vue 79:9  root stylesheet
+06:21:35.332 DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+06:21:35.332 More info: https://sass-lang.com/d/legacy-js-api
+06:21:35.332 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.332 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.332    ╷
+06:21:35.332 78 │ @import '@/styles/variables.scss';
+06:21:35.332    │         ^^^^^^^^^^^^^^^^^^^^^^^^^
+06:21:35.332    ╵
+06:21:35.332     src\pages\event\list.vue 78:9  root stylesheet
+06:21:35.332 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.332 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.332    ╷
+06:21:35.332 79 │ @import '@/styles/mixins.scss';
+06:21:35.332    │         ^^^^^^^^^^^^^^^^^^^^^^
+06:21:35.332    ╵
+06:21:35.332     src\pages\event\list.vue 79:9  root stylesheet
+06:21:35.332 DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+06:21:35.332 More info: https://sass-lang.com/d/legacy-js-api
+06:21:35.332 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.333 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.333    ╷
+06:21:35.333 78 │ @import '@/styles/variables.scss';
+06:21:35.333    │         ^^^^^^^^^^^^^^^^^^^^^^^^^
+06:21:35.333    ╵
+06:21:35.333     src\pages\event\my-events.vue 78:9  root stylesheet
+06:21:35.336 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.336 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.336    ╷
+06:21:35.336 79 │ @import '@/styles/mixins.scss';
+06:21:35.336    │         ^^^^^^^^^^^^^^^^^^^^^^
+06:21:35.336    ╵
+06:21:35.336     src\pages\event\my-events.vue 79:9  root stylesheet
+06:21:35.336 DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+06:21:35.336 More info: https://sass-lang.com/d/legacy-js-api
+06:21:35.336 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.336 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.337    ╷
+06:21:35.337 78 │ @import '@/styles/variables.scss';
+06:21:35.337    │         ^^^^^^^^^^^^^^^^^^^^^^^^^
+06:21:35.337    ╵
+06:21:35.337     src\pages\auth\login\index.vue 78:9  root stylesheet
+06:21:35.337 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.337 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.337    ╷
+06:21:35.337 79 │ @import '@/styles/mixins.scss';
+06:21:35.337    │         ^^^^^^^^^^^^^^^^^^^^^^
+06:21:35.337    ╵
+06:21:35.337     src\pages\auth\login\index.vue 79:9  root stylesheet
+06:21:35.341 DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+06:21:35.341 More info: https://sass-lang.com/d/legacy-js-api
+06:21:35.341 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.341 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.341    ╷
+06:21:35.341 78 │ @import '@/styles/variables.scss';
+06:21:35.341    │         ^^^^^^^^^^^^^^^^^^^^^^^^^
+06:21:35.341    ╵
+06:21:35.341     src\pages\auth\register\index.vue 78:9  root stylesheet
+06:21:35.341 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.341 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.342    ╷
+06:21:35.342 79 │ @import '@/styles/mixins.scss';
+06:21:35.342    │         ^^^^^^^^^^^^^^^^^^^^^^
+06:21:35.342    ╵
+06:21:35.342     src\pages\auth\register\index.vue 79:9  root stylesheet
+06:21:35.474 DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+06:21:35.474 More info: https://sass-lang.com/d/legacy-js-api
+06:21:35.475 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.475 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.475    ╷
+06:21:35.475 78 │ @import '@/styles/variables.scss';
+06:21:35.475    │         ^^^^^^^^^^^^^^^^^^^^^^^^^
+06:21:35.475    ╵
+06:21:35.475     src\components\post\PostList.vue 78:9  root stylesheet
+06:21:35.475 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.475 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.475    ╷
+06:21:35.475 79 │ @import '@/styles/mixins.scss';
+06:21:35.475    │         ^^^^^^^^^^^^^^^^^^^^^^
+06:21:35.475    ╵
+06:21:35.475     src\components\post\PostList.vue 79:9  root stylesheet
+06:21:35.475 DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+06:21:35.475 More info: https://sass-lang.com/d/legacy-js-api
+06:21:35.475 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.475 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.475    ╷
+06:21:35.475 78 │ @import '@/styles/variables.scss';
+06:21:35.475    │         ^^^^^^^^^^^^^^^^^^^^^^^^^
+06:21:35.475    ╵
+06:21:35.475     src\components\post\PostCard.vue 78:9  root stylesheet
+06:21:35.475 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.476 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.476    ╷
+06:21:35.476 79 │ @import '@/styles/mixins.scss';
+06:21:35.476    │         ^^^^^^^^^^^^^^^^^^^^^^
+06:21:35.476    ╵
+06:21:35.476     src\components\post\PostCard.vue 79:9  root stylesheet
+06:21:35.476 DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+06:21:35.476 More info: https://sass-lang.com/d/legacy-js-api
+06:21:35.476 DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+06:21:35.476 More info: https://sass-lang.com/d/legacy-js-api
+06:21:35.476 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.476 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.476    ╷
+06:21:35.476 78 │ @import '@/styles/variables.scss';
+06:21:35.476    │         ^^^^^^^^^^^^^^^^^^^^^^^^^
+06:21:35.476    ╵
+06:21:35.476     src\components\TopicCreateModal.vue 78:9  root stylesheet
+06:21:35.476 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.476 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.476    ╷
+06:21:35.476 79 │ @import '@/styles/mixins.scss';
+06:21:35.476    │         ^^^^^^^^^^^^^^^^^^^^^^
+06:21:35.476    ╵
+06:21:35.476     src\components\TopicCreateModal.vue 79:9  root stylesheet
+06:21:35.485 DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+06:21:35.485 More info: https://sass-lang.com/d/legacy-js-api
+06:21:35.485 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.485 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.485    ╷
+06:21:35.485 78 │ @import '@/styles/variables.scss';
+06:21:35.485    │         ^^^^^^^^^^^^^^^^^^^^^^^^^
+06:21:35.486    ╵
+06:21:35.486     src\components\UserCard.vue 78:9  root stylesheet
+06:21:35.486 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.486 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.486    ╷
+06:21:35.486 79 │ @import '@/styles/mixins.scss';
+06:21:35.486    │         ^^^^^^^^^^^^^^^^^^^^^^
+06:21:35.486    ╵
+06:21:35.486     src\components\UserCard.vue 79:9  root stylesheet
+06:21:35.486 DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+06:21:35.486 More info: https://sass-lang.com/d/legacy-js-api
+06:21:35.486 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.486 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.486    ╷
+06:21:35.486 78 │ @import '@/styles/variables.scss';
+06:21:35.486    │         ^^^^^^^^^^^^^^^^^^^^^^^^^
+06:21:35.486    ╵
+06:21:35.486     src\components\FollowButton.vue 78:9  root stylesheet
+06:21:35.486 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.486 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.486    ╷
+06:21:35.486 79 │ @import '@/styles/mixins.scss';
+06:21:35.486    │         ^^^^^^^^^^^^^^^^^^^^^^
+06:21:35.486    ╵
+06:21:35.486     src\components\FollowButton.vue 79:9  root stylesheet
+06:21:35.486 DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+06:21:35.487 More info: https://sass-lang.com/d/legacy-js-api
+06:21:35.487 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.487 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.487    ╷
+06:21:35.487 78 │ @import '@/styles/variables.scss';
+06:21:35.487    │         ^^^^^^^^^^^^^^^^^^^^^^^^^
+06:21:35.487    ╵
+06:21:35.487     src\components\event\EventCard.vue 78:9  root stylesheet
+06:21:35.490 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.490 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.490    ╷
+06:21:35.490 79 │ @import '@/styles/mixins.scss';
+06:21:35.490    │         ^^^^^^^^^^^^^^^^^^^^^^
+06:21:35.490    ╵
+06:21:35.490     src\components\event\EventCard.vue 79:9  root stylesheet
+06:21:35.493 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.494 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.494   ╷
+06:21:35.494 2 │ @import './variables.scss';
+06:21:35.494   │         ^^^^^^^^^^^^^^^^^^
+06:21:35.494   ╵
+06:21:35.494     src\styles\mixins.scss 2:9       @import
+06:21:35.494     src\pages\event\detail.vue 79:9  root stylesheet
+06:21:35.494 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.494 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.494   ╷
+06:21:35.494 2 │ @import './variables.scss';
+06:21:35.494   │         ^^^^^^^^^^^^^^^^^^
+06:21:35.495   ╵
+06:21:35.495     src\styles\mixins.scss 2:9     @import
+06:21:35.495     src\pages\event\list.vue 79:9  root stylesheet
+06:21:35.495 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.495 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.495   ╷
+06:21:35.495 2 │ @import './variables.scss';
+06:21:35.495   │         ^^^^^^^^^^^^^^^^^^
+06:21:35.495   ╵
+06:21:35.495     src\styles\mixins.scss 2:9          @import
+06:21:35.495     src\pages\event\my-events.vue 79:9  root stylesheet
+06:21:35.505 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.505 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.505   ╷
+06:21:35.505 2 │ @import './variables.scss';
+06:21:35.505   │         ^^^^^^^^^^^^^^^^^^
+06:21:35.505   ╵
+06:21:35.505     src\styles\mixins.scss 2:9           @import
+06:21:35.505     src\pages\auth\login\index.vue 79:9  root stylesheet
+06:21:35.506 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.506 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.506   ╷
+06:21:35.506 2 │ @import './variables.scss';
+06:21:35.506   │         ^^^^^^^^^^^^^^^^^^
+06:21:35.506   ╵
+06:21:35.506     src\styles\mixins.scss 2:9              @import
+06:21:35.506     src\pages\auth\register\index.vue 79:9  root stylesheet
+06:21:35.552 DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.553 Use color.adjust instead.
+06:21:35.553 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.553     ╷
+06:21:35.553 405 │       background-color: darken($primary-color, 10%);
+06:21:35.553     │                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+06:21:35.553     ╵
+06:21:35.553     src\pages\event\detail.vue 405:25  root stylesheet
+06:21:35.553 DEPRECATION WARNING [color-functions]: darken() is deprecated. Suggestions:
+06:21:35.553 color.scale($color, $lightness: -15%)
+06:21:35.553 color.adjust($color, $lightness: -10%)
+06:21:35.553 More info: https://sass-lang.com/d/color-functions
+06:21:35.553     ╷
+06:21:35.553 405 │       background-color: darken($primary-color, 10%);
+06:21:35.553     │                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+06:21:35.553     ╵
+06:21:35.553     src\pages\event\detail.vue 405:25  root stylesheet
+06:21:35.600 [plugin:vite:css] Undefined variable.
+06:21:35.601     ╷
+06:21:35.601 109 │   background: $gradient-light-purple;
+06:21:35.601     │               ^^^^^^^^^^^^^^^^^^^^^^
+06:21:35.601     ╵
+06:21:35.601   src\pages\event\my-events.vue 109:15  root stylesheet
+06:21:35.601 at pages/event/my-events.vue:1:0
+06:21:35.601   Error: Undefined variable.
+06:21:35.601       ╷
+06:21:35.601   109 │   background: $gradient-light-purple;
+06:21:35.601       │               ^^^^^^^^^^^^^^^^^^^^^^
+06:21:35.601       ╵
+06:21:35.601     src\pages\event\my-events.vue 109:15  root stylesheet
+06:21:35.601 DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+06:21:35.601 More info: https://sass-lang.com/d/legacy-js-api
+06:21:35.601 DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+06:21:35.601 More info: https://sass-lang.com/d/legacy-js-api
+06:21:35.601 DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+06:21:35.601 More info: https://sass-lang.com/d/legacy-js-api
+06:21:35.601 DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+06:21:35.601 More info: https://sass-lang.com/d/legacy-js-api
+06:21:35.663 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.663 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.663   ╷
+06:21:35.663 2 │ @import './variables.scss';
+06:21:35.663   │         ^^^^^^^^^^^^^^^^^^
+06:21:35.663   ╵
+06:21:35.663     src\styles\mixins.scss 2:9             @import
+06:21:35.663     src\components\post\PostList.vue 79:9  root stylesheet
+06:21:35.663 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.663 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.663   ╷
+06:21:35.663 2 │ @import './variables.scss';
+06:21:35.663   │         ^^^^^^^^^^^^^^^^^^
+06:21:35.663   ╵
+06:21:35.663     src\styles\mixins.scss 2:9             @import
+06:21:35.663     src\components\post\PostCard.vue 79:9  root stylesheet
+06:21:35.663 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.663 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.663   ╷
+06:21:35.663 2 │ @import './variables.scss';
+06:21:35.663   │         ^^^^^^^^^^^^^^^^^^
+06:21:35.663   ╵
+06:21:35.664     src\styles\mixins.scss 2:9                @import
+06:21:35.664     src\components\TopicCreateModal.vue 79:9  root stylesheet
+06:21:35.664 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.664 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.664   ╷
+06:21:35.664 2 │ @import './variables.scss';
+06:21:35.664   │         ^^^^^^^^^^^^^^^^^^
+06:21:35.664   ╵
+06:21:35.664     src\styles\mixins.scss 2:9        @import
+06:21:35.664     src\components\UserCard.vue 79:9  root stylesheet
+06:21:35.664 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.664 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.664   ╷
+06:21:35.664 2 │ @import './variables.scss';
+06:21:35.664   │         ^^^^^^^^^^^^^^^^^^
+06:21:35.664   ╵
+06:21:35.664     src\styles\mixins.scss 2:9            @import
+06:21:35.664     src\components\FollowButton.vue 79:9  root stylesheet
+06:21:35.664 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.664 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.664   ╷
+06:21:35.664 2 │ @import './variables.scss';
+06:21:35.664   │         ^^^^^^^^^^^^^^^^^^
+06:21:35.664   ╵
+06:21:35.664     src\styles\mixins.scss 2:9               @import
+06:21:35.665     src\components\event\EventCard.vue 79:9  root stylesheet
+06:21:35.723 DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+06:21:35.724 More info: https://sass-lang.com/d/legacy-js-api
+06:21:35.724 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.724 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.724    ╷
+06:21:35.724 78 │ @import '@/styles/variables.scss';
+06:21:35.724    │         ^^^^^^^^^^^^^^^^^^^^^^^^^
+06:21:35.724    ╵
+06:21:35.724     src\components\event\EventList.vue 78:9  root stylesheet
+06:21:35.724 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.724 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.724    ╷
+06:21:35.724 79 │ @import '@/styles/mixins.scss';
+06:21:35.724    │         ^^^^^^^^^^^^^^^^^^^^^^
+06:21:35.724    ╵
+06:21:35.724     src\components\event\EventList.vue 79:9  root stylesheet
+06:21:35.754 DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+06:21:35.754 More info: https://sass-lang.com/d/legacy-js-api
+06:21:35.754 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.754 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.754    ╷
+06:21:35.754 79 │ @import './styles/reset.scss';
+06:21:35.754    │         ^^^^^^^^^^^^^^^^^^^^^
+06:21:35.754    ╵
+06:21:35.754     src\App.vue 79:9  root stylesheet
+06:21:35.754 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.754 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.754    ╷
+06:21:35.754 80 │ @import './styles/common.scss';
+06:21:35.754    │         ^^^^^^^^^^^^^^^^^^^^^^
+06:21:35.754    ╵
+06:21:35.755     src\App.vue 80:9  root stylesheet
+06:21:35.755 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.755 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.755    ╷
+06:21:35.755 81 │ @import './static/styles/iconfont.scss';
+06:21:35.755    │         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+06:21:35.755    ╵
+06:21:35.755     src\App.vue 81:9  root stylesheet
+06:21:35.770 DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+06:21:35.770 More info: https://sass-lang.com/d/legacy-js-api
+06:21:35.770 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.770 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.770   ╷
+06:21:35.770 2 │ @import './variables.scss';
+06:21:35.770   │         ^^^^^^^^^^^^^^^^^^
+06:21:35.770   ╵
+06:21:35.770     src\styles\mixins.scss 2:9               @import
+06:21:35.770     src\components\event\EventList.vue 79:9  root stylesheet
+06:21:35.785 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.785 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.785   ╷
+06:21:35.785 2 │ @import './variables.scss';
+06:21:35.785   │         ^^^^^^^^^^^^^^^^^^
+06:21:35.785   ╵
+06:21:35.785     src\styles\common.scss 2:9  @import
+06:21:35.786     src\App.vue 80:9            root stylesheet
+06:21:35.786 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+06:21:35.786 More info and automated migrator: https://sass-lang.com/d/import
+06:21:35.786   ╷
+06:21:35.786 3 │ @import './mixins.scss';
+06:21:35.786   │         ^^^^^^^^^^^^^^^
+06:21:35.786   ╵
+06:21:35.786     src\styles\common.scss 3:9  @import
+06:21:35.786     src\App.vue 80:9            root stylesheet
+06:21:35.788 WARNING: 1 repetitive deprecation warnings omitted.

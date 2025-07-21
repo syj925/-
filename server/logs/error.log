@@ -12027,3 +12027,499 @@ Fri Jul 18 2025 11:32:49 GMT+0800 (中国标准时间) error: Admin route error:
   "duration": "9ms",
   "contentLength": "92"
 }
+2025-07-21 22:31:33 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-21 22:31:43 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-21 22:31:53 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-21 22:32:03 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-21 22:32:14 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-21 22:32:24 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-21 22:32:34 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-21 22:32:45 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-21 22:32:55 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-21 22:33:06 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-21 22:33:16 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-21 22:33:27 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-21 22:33:37 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-21 22:33:48 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-21 22:33:59 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-21 22:34:09 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-21 23:10:10 error: 创建活动相关数据表失败: Referencing column 'organizer_id' and referenced column 'id' in foreign key constraint 'fk_events_organizer' are incompatible. {
+  "service": "campus-wall-api",
+  "name": "SequelizeDatabaseError",
+  "parent": "[Circular]",
+  "original": {
+    "code": "ER_FK_INCOMPATIBLE_COLUMNS",
+    "errno": 3780,
+    "sqlState": "HY000",
+    "sqlMessage": "Referencing column 'organizer_id' and referenced column 'id' in foreign key constraint 'fk_events_organizer' are incompatible.",
+    "sql": "CREATE TABLE IF NOT EXISTS `events` (\n        `id` varchar(36) NOT NULL,\n        `title` varchar(100) NOT NULL COMMENT '活动标题',\n        `description` text COMMENT '活动描述',\n        `cover_image` varchar(255) DEFAULT NULL COMMENT '活动封面图片',\n        `detail_images` text COMMENT '活动详情图片（JSON数组）',\n        `organizer_id` varchar(36) NOT NULL COMMENT '组织者ID',\n        `start_time` datetime NOT NULL COMMENT '活动开始时间',\n        `end_time` datetime NOT NULL COMMENT '活动结束时间',\n        `location` varchar(200) DEFAULT NULL COMMENT '活动地点',\n        `max_participants` int DEFAULT NULL COMMENT '最大参与人数，null表示无限制',\n        `current_participants` int NOT NULL DEFAULT '0' COMMENT '当前参与人数',\n        `registration_deadline` datetime DEFAULT NULL COMMENT '报名截止时间',\n        `form_config` text COMMENT '报名表单配置（JSON）',\n        `notices` text COMMENT '活动须知（JSON数组）',\n        `status` tinyint NOT NULL DEFAULT '1' COMMENT '活动状态：1-报名中，2-进行中，3-已结束，0-已取消',\n        `is_recommended` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否推荐活动',\n        `allow_cancel_registration` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否允许取消报名',\n        `view_count` int NOT NULL DEFAULT '0' COMMENT '浏览次数',\n        `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,\n        `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n        `deleted_at` datetime DEFAULT NULL,\n        PRIMARY KEY (`id`),\n        KEY `idx_organizer_id` (`organizer_id`),\n        KEY `idx_status` (`status`),\n        KEY `idx_start_time` (`start_time`),\n        KEY `idx_is_recommended` (`is_recommended`),\n        KEY `idx_status_start_time` (`status`,`start_time`),\n        CONSTRAINT `fk_events_organizer` FOREIGN KEY (`organizer_id`) REFERENCES `users` (`id`) ON DELETE CASCADE\n      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='活动表';"
+  },
+  "sql": "CREATE TABLE IF NOT EXISTS `events` (\n        `id` varchar(36) NOT NULL,\n        `title` varchar(100) NOT NULL COMMENT '活动标题',\n        `description` text COMMENT '活动描述',\n        `cover_image` varchar(255) DEFAULT NULL COMMENT '活动封面图片',\n        `detail_images` text COMMENT '活动详情图片（JSON数组）',\n        `organizer_id` varchar(36) NOT NULL COMMENT '组织者ID',\n        `start_time` datetime NOT NULL COMMENT '活动开始时间',\n        `end_time` datetime NOT NULL COMMENT '活动结束时间',\n        `location` varchar(200) DEFAULT NULL COMMENT '活动地点',\n        `max_participants` int DEFAULT NULL COMMENT '最大参与人数，null表示无限制',\n        `current_participants` int NOT NULL DEFAULT '0' COMMENT '当前参与人数',\n        `registration_deadline` datetime DEFAULT NULL COMMENT '报名截止时间',\n        `form_config` text COMMENT '报名表单配置（JSON）',\n        `notices` text COMMENT '活动须知（JSON数组）',\n        `status` tinyint NOT NULL DEFAULT '1' COMMENT '活动状态：1-报名中，2-进行中，3-已结束，0-已取消',\n        `is_recommended` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否推荐活动',\n        `allow_cancel_registration` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否允许取消报名',\n        `view_count` int NOT NULL DEFAULT '0' COMMENT '浏览次数',\n        `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,\n        `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n        `deleted_at` datetime DEFAULT NULL,\n        PRIMARY KEY (`id`),\n        KEY `idx_organizer_id` (`organizer_id`),\n        KEY `idx_status` (`status`),\n        KEY `idx_start_time` (`start_time`),\n        KEY `idx_is_recommended` (`is_recommended`),\n        KEY `idx_status_start_time` (`status`,`start_time`),\n        CONSTRAINT `fk_events_organizer` FOREIGN KEY (`organizer_id`) REFERENCES `users` (`id`) ON DELETE CASCADE\n      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='活动表';",
+  "parameters": {},
+  "stack": "Error\n    at Query.run (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\mysql\\query.js:52:25)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\sequelize.js:315:28\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async createEventTables (C:\\Users\\26933\\Desktop\\校园墙\\server\\scripts\\create-event-tables.js:12:5)"
+}
+2025-07-21 23:15:01 error: 创建活动相关数据表失败: Referencing column 'organizer_id' and referenced column 'id' in foreign key constraint 'fk_events_organizer' are incompatible. {
+  "service": "campus-wall-api",
+  "name": "SequelizeDatabaseError",
+  "parent": "[Circular]",
+  "original": {
+    "code": "ER_FK_INCOMPATIBLE_COLUMNS",
+    "errno": 3780,
+    "sqlState": "HY000",
+    "sqlMessage": "Referencing column 'organizer_id' and referenced column 'id' in foreign key constraint 'fk_events_organizer' are incompatible.",
+    "sql": "CREATE TABLE IF NOT EXISTS `events` (\n        `id` char(36) NOT NULL,\n        `title` varchar(100) NOT NULL COMMENT '活动标题',\n        `description` text COMMENT '活动描述',\n        `cover_image` varchar(255) DEFAULT NULL COMMENT '活动封面图片',\n        `detail_images` text COMMENT '活动详情图片（JSON数组）',\n        `organizer_id` char(36) NOT NULL COMMENT '组织者ID',\n        `start_time` datetime NOT NULL COMMENT '活动开始时间',\n        `end_time` datetime NOT NULL COMMENT '活动结束时间',\n        `location` varchar(200) DEFAULT NULL COMMENT '活动地点',\n        `max_participants` int DEFAULT NULL COMMENT '最大参与人数，null表示无限制',\n        `current_participants` int NOT NULL DEFAULT '0' COMMENT '当前参与人数',\n        `registration_deadline` datetime DEFAULT NULL COMMENT '报名截止时间',\n        `form_config` text COMMENT '报名表单配置（JSON）',\n        `notices` text COMMENT '活动须知（JSON数组）',\n        `status` tinyint NOT NULL DEFAULT '1' COMMENT '活动状态：1-报名中，2-进行中，3-已结束，0-已取消',\n        `is_recommended` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否推荐活动',\n        `allow_cancel_registration` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否允许取消报名',\n        `view_count` int NOT NULL DEFAULT '0' COMMENT '浏览次数',\n        `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,\n        `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n        `deleted_at` datetime DEFAULT NULL,\n        PRIMARY KEY (`id`),\n        KEY `idx_organizer_id` (`organizer_id`),\n        KEY `idx_status` (`status`),\n        KEY `idx_start_time` (`start_time`),\n        KEY `idx_is_recommended` (`is_recommended`),\n        KEY `idx_status_start_time` (`status`,`start_time`),\n        CONSTRAINT `fk_events_organizer` FOREIGN KEY (`organizer_id`) REFERENCES `users` (`id`) ON DELETE CASCADE\n      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='活动表';"
+  },
+  "sql": "CREATE TABLE IF NOT EXISTS `events` (\n        `id` char(36) NOT NULL,\n        `title` varchar(100) NOT NULL COMMENT '活动标题',\n        `description` text COMMENT '活动描述',\n        `cover_image` varchar(255) DEFAULT NULL COMMENT '活动封面图片',\n        `detail_images` text COMMENT '活动详情图片（JSON数组）',\n        `organizer_id` char(36) NOT NULL COMMENT '组织者ID',\n        `start_time` datetime NOT NULL COMMENT '活动开始时间',\n        `end_time` datetime NOT NULL COMMENT '活动结束时间',\n        `location` varchar(200) DEFAULT NULL COMMENT '活动地点',\n        `max_participants` int DEFAULT NULL COMMENT '最大参与人数，null表示无限制',\n        `current_participants` int NOT NULL DEFAULT '0' COMMENT '当前参与人数',\n        `registration_deadline` datetime DEFAULT NULL COMMENT '报名截止时间',\n        `form_config` text COMMENT '报名表单配置（JSON）',\n        `notices` text COMMENT '活动须知（JSON数组）',\n        `status` tinyint NOT NULL DEFAULT '1' COMMENT '活动状态：1-报名中，2-进行中，3-已结束，0-已取消',\n        `is_recommended` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否推荐活动',\n        `allow_cancel_registration` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否允许取消报名',\n        `view_count` int NOT NULL DEFAULT '0' COMMENT '浏览次数',\n        `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,\n        `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n        `deleted_at` datetime DEFAULT NULL,\n        PRIMARY KEY (`id`),\n        KEY `idx_organizer_id` (`organizer_id`),\n        KEY `idx_status` (`status`),\n        KEY `idx_start_time` (`start_time`),\n        KEY `idx_is_recommended` (`is_recommended`),\n        KEY `idx_status_start_time` (`status`,`start_time`),\n        CONSTRAINT `fk_events_organizer` FOREIGN KEY (`organizer_id`) REFERENCES `users` (`id`) ON DELETE CASCADE\n      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='活动表';",
+  "parameters": {},
+  "stack": "Error\n    at Query.run (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\mysql\\query.js:52:25)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\sequelize.js:315:28\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async createEventTables (C:\\Users\\26933\\Desktop\\校园墙\\server\\scripts\\create-event-tables.js:12:5)"
+}
+2025-07-21 23:15:37 error: 创建活动相关数据表失败: Referencing column 'organizer_id' and referenced column 'id' in foreign key constraint 'fk_events_organizer' are incompatible. {
+  "service": "campus-wall-api",
+  "name": "SequelizeDatabaseError",
+  "parent": "[Circular]",
+  "original": {
+    "code": "ER_FK_INCOMPATIBLE_COLUMNS",
+    "errno": 3780,
+    "sqlState": "HY000",
+    "sqlMessage": "Referencing column 'organizer_id' and referenced column 'id' in foreign key constraint 'fk_events_organizer' are incompatible.",
+    "sql": "CREATE TABLE IF NOT EXISTS `events` (\n        `id` char(36) NOT NULL,\n        `title` varchar(100) NOT NULL COMMENT '活动标题',\n        `description` text COMMENT '活动描述',\n        `cover_image` varchar(255) DEFAULT NULL COMMENT '活动封面图片',\n        `detail_images` text COMMENT '活动详情图片（JSON数组）',\n        `organizer_id` char(36) NOT NULL COMMENT '组织者ID',\n        `start_time` datetime NOT NULL COMMENT '活动开始时间',\n        `end_time` datetime NOT NULL COMMENT '活动结束时间',\n        `location` varchar(200) DEFAULT NULL COMMENT '活动地点',\n        `max_participants` int DEFAULT NULL COMMENT '最大参与人数，null表示无限制',\n        `current_participants` int NOT NULL DEFAULT '0' COMMENT '当前参与人数',\n        `registration_deadline` datetime DEFAULT NULL COMMENT '报名截止时间',\n        `form_config` text COMMENT '报名表单配置（JSON）',\n        `notices` text COMMENT '活动须知（JSON数组）',\n        `status` tinyint NOT NULL DEFAULT '1' COMMENT '活动状态：1-报名中，2-进行中，3-已结束，0-已取消',\n        `is_recommended` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否推荐活动',\n        `allow_cancel_registration` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否允许取消报名',\n        `view_count` int NOT NULL DEFAULT '0' COMMENT '浏览次数',\n        `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,\n        `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n        `deleted_at` datetime DEFAULT NULL,\n        PRIMARY KEY (`id`),\n        KEY `idx_organizer_id` (`organizer_id`),\n        KEY `idx_status` (`status`),\n        KEY `idx_start_time` (`start_time`),\n        KEY `idx_is_recommended` (`is_recommended`),\n        KEY `idx_status_start_time` (`status`,`start_time`),\n        CONSTRAINT `fk_events_organizer` FOREIGN KEY (`organizer_id`) REFERENCES `users` (`id`) ON DELETE CASCADE\n      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='活动表';"
+  },
+  "sql": "CREATE TABLE IF NOT EXISTS `events` (\n        `id` char(36) NOT NULL,\n        `title` varchar(100) NOT NULL COMMENT '活动标题',\n        `description` text COMMENT '活动描述',\n        `cover_image` varchar(255) DEFAULT NULL COMMENT '活动封面图片',\n        `detail_images` text COMMENT '活动详情图片（JSON数组）',\n        `organizer_id` char(36) NOT NULL COMMENT '组织者ID',\n        `start_time` datetime NOT NULL COMMENT '活动开始时间',\n        `end_time` datetime NOT NULL COMMENT '活动结束时间',\n        `location` varchar(200) DEFAULT NULL COMMENT '活动地点',\n        `max_participants` int DEFAULT NULL COMMENT '最大参与人数，null表示无限制',\n        `current_participants` int NOT NULL DEFAULT '0' COMMENT '当前参与人数',\n        `registration_deadline` datetime DEFAULT NULL COMMENT '报名截止时间',\n        `form_config` text COMMENT '报名表单配置（JSON）',\n        `notices` text COMMENT '活动须知（JSON数组）',\n        `status` tinyint NOT NULL DEFAULT '1' COMMENT '活动状态：1-报名中，2-进行中，3-已结束，0-已取消',\n        `is_recommended` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否推荐活动',\n        `allow_cancel_registration` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否允许取消报名',\n        `view_count` int NOT NULL DEFAULT '0' COMMENT '浏览次数',\n        `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,\n        `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n        `deleted_at` datetime DEFAULT NULL,\n        PRIMARY KEY (`id`),\n        KEY `idx_organizer_id` (`organizer_id`),\n        KEY `idx_status` (`status`),\n        KEY `idx_start_time` (`start_time`),\n        KEY `idx_is_recommended` (`is_recommended`),\n        KEY `idx_status_start_time` (`status`,`start_time`),\n        CONSTRAINT `fk_events_organizer` FOREIGN KEY (`organizer_id`) REFERENCES `users` (`id`) ON DELETE CASCADE\n      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='活动表';",
+  "parameters": {},
+  "stack": "Error\n    at Query.run (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\mysql\\query.js:52:25)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\sequelize.js:315:28\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async createEventTables (C:\\Users\\26933\\Desktop\\校园墙\\server\\scripts\\create-event-tables.js:12:5)"
+}
+2025-07-21 23:46:44 error: [GET] /events/recommended?params=%7B%22limit%22%3A4%7D {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /events/recommended?params=%7B%22limit%22%3A4%7D",
+  "stack": "Error: 未找到资源 - /events/recommended?params=%7B%22limit%22%3A4%7D\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Function.handle (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:47:12)",
+  "body": {},
+  "params": {},
+  "query": {
+    "params": "{\"limit\":4}"
+  }
+}
+2025-07-21 23:51:40 error: [GET] /events/recommended?params=%7B%22limit%22%3A4%7D {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /events/recommended?params=%7B%22limit%22%3A4%7D",
+  "stack": "Error: 未找到资源 - /events/recommended?params=%7B%22limit%22%3A4%7D\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Function.handle (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:47:12)",
+  "body": {},
+  "params": {},
+  "query": {
+    "params": "{\"limit\":4}"
+  }
+}
+2025-07-21 23:52:35 error: [GET] /events/recommended?params=%7B%22limit%22%3A4%7D {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /events/recommended?params=%7B%22limit%22%3A4%7D",
+  "stack": "Error: 未找到资源 - /events/recommended?params=%7B%22limit%22%3A4%7D\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Function.handle (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:47:12)",
+  "body": {},
+  "params": {},
+  "query": {
+    "params": "{\"limit\":4}"
+  }
+}
+2025-07-21 23:55:12 error: [GET] /events/recommended?params=%7B%22limit%22%3A4%7D {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /events/recommended?params=%7B%22limit%22%3A4%7D",
+  "stack": "Error: 未找到资源 - /events/recommended?params=%7B%22limit%22%3A4%7D\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Function.handle (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:47:12)",
+  "body": {},
+  "params": {},
+  "query": {
+    "params": "{\"limit\":4}"
+  }
+}
+2025-07-21 23:55:46 error: [GET] /events/recommended?params=%7B%22limit%22%3A4%7D {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /events/recommended?params=%7B%22limit%22%3A4%7D",
+  "stack": "Error: 未找到资源 - /events/recommended?params=%7B%22limit%22%3A4%7D\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Function.handle (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:47:12)",
+  "body": {},
+  "params": {},
+  "query": {
+    "params": "{\"limit\":4}"
+  }
+}
+2025-07-21 23:56:03 error: [GET] /events?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22status%22%3A%22%22%2C%22keyword%22%3A%22%22%7D {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /events?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22status%22%3A%22%22%2C%22keyword%22%3A%22%22%7D",
+  "stack": "Error: 未找到资源 - /events?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22status%22%3A%22%22%2C%22keyword%22%3A%22%22%7D\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Function.handle (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:47:12)",
+  "body": {},
+  "params": {},
+  "query": {
+    "params": "{\"page\":1,\"pageSize\":10,\"status\":\"\",\"keyword\":\"\"}"
+  }
+}
+2025-07-21 23:56:07 error: [GET] /events/recommended?params=%7B%22limit%22%3A4%7D {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /events/recommended?params=%7B%22limit%22%3A4%7D",
+  "stack": "Error: 未找到资源 - /events/recommended?params=%7B%22limit%22%3A4%7D\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Function.handle (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:47:12)",
+  "body": {},
+  "params": {},
+  "query": {
+    "params": "{\"limit\":4}"
+  }
+}
+2025-07-21 23:56:23 error: [GET] /events/recommended?params=%7B%22limit%22%3A4%7D {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /events/recommended?params=%7B%22limit%22%3A4%7D",
+  "stack": "Error: 未找到资源 - /events/recommended?params=%7B%22limit%22%3A4%7D\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Function.handle (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:47:12)",
+  "body": {},
+  "params": {},
+  "query": {
+    "params": "{\"limit\":4}"
+  }
+}
+2025-07-21 23:57:05 error: [GET] /events/recommended?limit=4 {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /events/recommended?limit=4",
+  "stack": "Error: 未找到资源 - /events/recommended?limit=4\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Function.handle (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:47:12)",
+  "body": {},
+  "params": {},
+  "query": {
+    "limit": "4"
+  }
+}
+2025-07-21 23:57:37 error: [GET] /events/recommended?limit=4 {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /events/recommended?limit=4",
+  "stack": "Error: 未找到资源 - /events/recommended?limit=4\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Function.handle (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:47:12)",
+  "body": {},
+  "params": {},
+  "query": {
+    "limit": "4"
+  }
+}
+2025-07-21 23:57:52 error: [GET] /events/recommended?limit=4 {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /events/recommended?limit=4",
+  "stack": "Error: 未找到资源 - /events/recommended?limit=4\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Function.handle (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:47:12)",
+  "body": {},
+  "params": {},
+  "query": {
+    "limit": "4"
+  }
+}
+2025-07-22 00:14:47 error: [GET] /events/recommended?limit=4 {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /events/recommended?limit=4",
+  "stack": "Error: 未找到资源 - /events/recommended?limit=4\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Function.handle (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:47:12)",
+  "body": {},
+  "params": {},
+  "query": {
+    "limit": "4"
+  }
+}
+2025-07-22 00:15:12 error: [GET] /events/recommended?limit=4 {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /events/recommended?limit=4",
+  "stack": "Error: 未找到资源 - /events/recommended?limit=4\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Function.handle (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:47:12)",
+  "body": {},
+  "params": {},
+  "query": {
+    "limit": "4"
+  }
+}
+2025-07-22 00:31:34 error: [GET] /events/recommended?limit=4 {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /events/recommended?limit=4",
+  "stack": "Error: 未找到资源 - /events/recommended?limit=4\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Function.handle (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:47:12)",
+  "body": {},
+  "params": {},
+  "query": {
+    "limit": "4"
+  }
+}
+2025-07-22 00:31:36 error: [GET] /events?page=1&pageSize=10 {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /events?page=1&pageSize=10",
+  "stack": "Error: 未找到资源 - /events?page=1&pageSize=10\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Function.handle (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:47:12)",
+  "body": {},
+  "params": {},
+  "query": {
+    "page": "1",
+    "pageSize": "10"
+  }
+}
+2025-07-22 00:31:38 error: [GET] /events/upcoming?limit=5 {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /events/upcoming?limit=5",
+  "stack": "Error: 未找到资源 - /events/upcoming?limit=5\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Function.handle (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:47:12)",
+  "body": {},
+  "params": {},
+  "query": {
+    "limit": "5"
+  }
+}
+2025-07-22 00:33:44 error: [GET] /events/recommended?limit=4 {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /events/recommended?limit=4",
+  "stack": "Error: 未找到资源 - /events/recommended?limit=4\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Function.handle (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:47:12)",
+  "body": {},
+  "params": {},
+  "query": {
+    "limit": "4"
+  }
+}
+2025-07-22 00:38:13 error: [GET] /events/recommended?limit=4 {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /events/recommended?limit=4",
+  "stack": "Error: 未找到资源 - /events/recommended?limit=4\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Function.handle (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:47:12)",
+  "body": {},
+  "params": {},
+  "query": {
+    "limit": "4"
+  }
+}
+2025-07-22 05:22:38 error: [GET] /favicon.ico {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /favicon.ico",
+  "stack": "Error: 未找到资源 - /favicon.ico\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Function.handle (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:47:12)",
+  "body": {},
+  "params": {},
+  "query": {}
+}
+2025-07-22 05:43:53 error: [POST] /api/auth/login {
+  "service": "campus-wall-api",
+  "error": "用户不存在",
+  "stack": "Error: 用户不存在\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:109:19)\n    at UserService.login (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:130:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async login (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:52:22)",
+  "body": {
+    "username": "test",
+    "password": "123456"
+  },
+  "params": {},
+  "query": {}
+}
+2025-07-22 05:44:57 error: [GET] /favicon.ico {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /favicon.ico",
+  "stack": "Error: 未找到资源 - /favicon.ico\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Function.handle (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:47:12)",
+  "body": {},
+  "params": {},
+  "query": {}
+}
+2025-07-22 05:50:51 error: [GET] /favicon.ico {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /favicon.ico",
+  "stack": "Error: 未找到资源 - /favicon.ico\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Function.handle (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:47:12)",
+  "body": {},
+  "params": {},
+  "query": {}
+}
+2025-07-22 06:31:29 error: [GET] /api/posts/2 {
+  "service": "campus-wall-api",
+  "error": "帖子不存在",
+  "stack": "Error: 帖子不存在\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:109:19)\n    at PostService.getPostById (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\post.service.js:118:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getPostDetail (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\post.controller.js:76:20)",
+  "body": {},
+  "params": {},
+  "query": {}
+}
+2025-07-22 06:35:43 error: [GET] /api/posts/2 {
+  "service": "campus-wall-api",
+  "error": "帖子不存在",
+  "stack": "Error: 帖子不存在\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:109:19)\n    at PostService.getPostById (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\post.service.js:118:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getPostDetail (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\post.controller.js:76:20)",
+  "body": {},
+  "params": {},
+  "query": {}
+}
+2025-07-22 06:35:45 error: [GET] /api/posts/2 {
+  "service": "campus-wall-api",
+  "error": "帖子不存在",
+  "stack": "Error: 帖子不存在\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:109:19)\n    at PostService.getPostById (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\post.service.js:118:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getPostDetail (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\post.controller.js:76:20)",
+  "body": {},
+  "params": {},
+  "query": {}
+}
+2025-07-22 06:36:02 error: [GET] /api/posts/2 {
+  "service": "campus-wall-api",
+  "error": "帖子不存在",
+  "stack": "Error: 帖子不存在\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:109:19)\n    at PostService.getPostById (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\post.service.js:118:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getPostDetail (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\post.controller.js:76:20)",
+  "body": {},
+  "params": {},
+  "query": {}
+}
+2025-07-22 06:37:19 error: [GET] /api/posts/2 {
+  "service": "campus-wall-api",
+  "error": "帖子不存在",
+  "stack": "Error: 帖子不存在\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:109:19)\n    at PostService.getPostById (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\post.service.js:118:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getPostDetail (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\post.controller.js:76:20)",
+  "body": {},
+  "params": {},
+  "query": {}
+}
+2025-07-22 06:38:02 error: [GET] /api/posts/2 {
+  "service": "campus-wall-api",
+  "error": "帖子不存在",
+  "stack": "Error: 帖子不存在\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:109:19)\n    at PostService.getPostById (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\post.service.js:118:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getPostDetail (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\post.controller.js:76:20)",
+  "body": {},
+  "params": {},
+  "query": {}
+}
+2025-07-22 06:42:16 error: [GET] /api/posts/4c259eaf-4fce-4c4e-98b7-dfa2a55ebce6/comments?page=1&pageSize=10&sort=latest {
+  "service": "campus-wall-api",
+  "error": "帖子不存在",
+  "stack": "Error: 帖子不存在\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:109:19)\n    at PostService.getPostComments (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\post.service.js:397:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getPostComments (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\post.controller.js:241:22)",
+  "body": {},
+  "params": {},
+  "query": {
+    "page": "1",
+    "pageSize": "10",
+    "sort": "latest"
+  }
+}
+2025-07-22 06:42:19 error: [GET] /api/posts/4c259eaf-4fce-4c4e-98b7-dfa2a55ebce6/comments?page=1&pageSize=10&sort=latest {
+  "service": "campus-wall-api",
+  "error": "帖子不存在",
+  "stack": "Error: 帖子不存在\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:109:19)\n    at PostService.getPostComments (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\post.service.js:397:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getPostComments (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\post.controller.js:241:22)",
+  "body": {},
+  "params": {},
+  "query": {
+    "page": "1",
+    "pageSize": "10",
+    "sort": "latest"
+  }
+}
+2025-07-22 06:42:24 error: [GET] /api/posts/4c259eaf-4fce-4c4e-98b7-dfa2a55ebce6/comments?page=1&pageSize=10&sort=latest {
+  "service": "campus-wall-api",
+  "error": "帖子不存在",
+  "stack": "Error: 帖子不存在\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:109:19)\n    at PostService.getPostComments (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\post.service.js:397:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getPostComments (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\post.controller.js:241:22)",
+  "body": {},
+  "params": {},
+  "query": {
+    "page": "1",
+    "pageSize": "10",
+    "sort": "latest"
+  }
+}
+2025-07-22 06:54:33 error: 活动报名失败 {
+  "service": "campus-wall-api",
+  "error": "Validation error",
+  "eventId": "c7d4ed4f-1014-476f-8f75-042cc7d87c51",
+  "userId": "650b875e-9c4f-43a1-8f27-82285784bf36"
+}
+2025-07-22 06:54:33 error: Request completed: POST /api/events/c7d4ed4f-1014-476f-8f75-042cc7d87c51/register {
+  "service": "campus-wall-api",
+  "requestId": "1753138473439-m97w5uuq",
+  "method": "POST",
+  "url": "/api/events/c7d4ed4f-1014-476f-8f75-042cc7d87c51/register",
+  "statusCode": 500,
+  "duration": "28ms",
+  "contentLength": "49"
+}
+2025-07-22 06:55:05 error: Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:3000 {
+  "service": "campus-wall-api",
+  "code": "EADDRINUSE",
+  "errno": -4091,
+  "syscall": "listen",
+  "address": "0.0.0.0",
+  "port": 3000,
+  "stack": "Error: listen EADDRINUSE: address already in use 0.0.0.0:3000\n    at Server.setupListenHandle [as _listen2] (node:net:1940:16)\n    at listenInCluster (node:net:1997:12)\n    at node:net:2206:7\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)"
+}
+2025-07-22 06:56:32 error: 活动报名失败 {
+  "service": "campus-wall-api",
+  "error": "Validation error",
+  "eventId": "c7d4ed4f-1014-476f-8f75-042cc7d87c51",
+  "userId": "650b875e-9c4f-43a1-8f27-82285784bf36"
+}
+2025-07-22 06:56:32 error: Request completed: POST /api/events/c7d4ed4f-1014-476f-8f75-042cc7d87c51/register {
+  "service": "campus-wall-api",
+  "requestId": "1753138592318-8hp1k870",
+  "method": "POST",
+  "url": "/api/events/c7d4ed4f-1014-476f-8f75-042cc7d87c51/register",
+  "statusCode": 500,
+  "duration": "29ms",
+  "contentLength": "49"
+}

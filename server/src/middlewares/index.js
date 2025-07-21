@@ -6,11 +6,13 @@ const ErrorMiddleware = require('./error.middleware');
 const LoggerMiddleware = require('./logger.middleware');
 const RateLimitMiddleware = require('./rate-limit.middleware');
 const UploadMiddleware = require('./upload.middleware');
+const ValidationMiddleware = require('./validation.middleware');
 
 module.exports = {
   AuthMiddleware,
   ErrorMiddleware,
   LoggerMiddleware,
   RateLimitMiddleware,
-  UploadMiddleware
-}; 
+  UploadMiddleware,
+  ValidationMiddleware
+};

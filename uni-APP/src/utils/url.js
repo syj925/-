@@ -108,22 +108,28 @@ export const ensureAbsoluteUrl = (url) => {
 /**
  * 确保图片URL是完整的绝对URL
  * @param {String} imageUrl 图片URL
+ * @param {String} defaultType 默认图片类型 ('avatar', 'event', 'post')
  * @returns {String} 处理后的URL
  */
-export const ensureImageUrl = (imageUrl) => {
-  // 处理默认头像的情况
+export const ensureImageUrl = (imageUrl, defaultType = 'avatar') => {
+  // 处理空值的情况，根据类型返回不同的默认图片
   if (!imageUrl || imageUrl === 'undefined' || imageUrl === 'null') {
-    return '/static/images/common/default-avatar.png';
+    const defaultImages = {
+      avatar: '/static/images/common/default-avatar.png',
+      event: '/static/images/common/event-default.png',
+      post: '/static/images/common/post-default.png'
+    };
+    return defaultImages[defaultType] || defaultImages.avatar;
   }
-  
+
   // 将非字符串转成字符串
   const urlStr = String(imageUrl);
-  
+
   // 如果是默认资源路径，直接返回
   if (urlStr.startsWith('/static/')) {
     return urlStr;
   }
-  
+
   // 其他情况确保是绝对URL
   return ensureAbsoluteUrl(urlStr);
 };

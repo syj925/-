@@ -41,6 +41,12 @@ $bg-light-blue: rgba($primary-color, 0.05);
 $bg-light-purple: rgba($accent-purple, 0.05);
 $bg-light-yellow: rgba($accent-yellow, 0.05);
 $bg-light-green: rgba($accent-green, 0.05);
+$bg-light-red: rgba($accent-red, 0.05);
+
+// 扩展颜色变量
+$primary-blue: $primary-color;
+$success-green: $success-color;
+$error-red: $danger-color;
 
 // 边框颜色
 $border-color: #E5E9F2;

@@ -151,7 +151,7 @@ const TIMEOUT = appConfig.getTimeout();
 const requestInterceptor = (config) => {
   // 获取token
   const token = uni.getStorageSync('token');
-  
+
   // 添加token到请求头
   if (token) {
     config.header = {
@@ -159,7 +159,7 @@ const requestInterceptor = (config) => {
       'Authorization': `Bearer ${token}`
     };
   }
-  
+
   console.log(`准备发送请求: ${config.method} ${config.url}`, config.data);
   return config;
 };
@@ -170,9 +170,9 @@ const requestInterceptor = (config) => {
  */
 const responseInterceptor = (response) => {
   const { statusCode, data } = response;
-  
+
   console.log(`收到响应: ${statusCode}`, data);
-  
+
   // 请求成功
   if (statusCode >= 200 && statusCode < 300) {
     // API格式可能是: { code: 0, msg: 'success', data: {} } 
@@ -316,18 +316,40 @@ const request = (options) => {
   const interceptedConfig = requestInterceptor(config);
   
   return new Promise((resolve, reject) => {
+    // 添加请求超时计时器
+    const requestStartTime = Date.now()
+    let isResolved = false
+
+    // 设置超时处理（30秒）
+    const timeoutId = setTimeout(() => {
+      if (!isResolved) {
+        isResolved = true
+        console.error('请求超时，请检查网络连接')
+        reject(new Error('请求超时，请检查网络连接'))
+      }
+    }, 30000)
+
     uni.request({
       ...interceptedConfig,
       success: (response) => {
+        if (isResolved) return
+        isResolved = true
+        clearTimeout(timeoutId)
+
         try {
           const result = responseInterceptor(response);
           resolve(result);
         } catch (error) {
+          console.error('响应处理失败:', error)
           reject(error);
         }
       },
       fail: (error) => {
-        console.error('网络请求失败:', error);
+        if (isResolved) return
+        isResolved = true
+        clearTimeout(timeoutId)
+
+        console.error('网络请求失败:', error)
         
         // 处理file协议错误
         if (error.errMsg && error.errMsg.includes('scheme')) {
@@ -359,11 +381,34 @@ const request = (options) => {
           return;
         }
         
+        // 分析错误类型
+        let errorMessage = '网络请求失败'
+        let errorCode = -1
+
+        if (error.errMsg) {
+          if (error.errMsg.includes('timeout')) {
+            errorMessage = '请求超时，请检查网络连接'
+            errorCode = -2
+          } else if (error.errMsg.includes('fail')) {
+            errorMessage = '网络连接失败，请检查服务器地址'
+            errorCode = -3
+          } else if (error.errMsg.includes('abort')) {
+            errorMessage = '请求被中断'
+            errorCode = -4
+          }
+        }
+
         uni.showToast({
-          title: '网络请求失败',
-          icon: 'none'
+          title: errorMessage,
+          icon: 'none',
+          duration: 3000
         });
-        reject({code: -1, msg: '网络请求失败'});
+
+        reject({
+          code: errorCode,
+          msg: errorMessage,
+          originalError: error
+        });
       }
     });
   });
