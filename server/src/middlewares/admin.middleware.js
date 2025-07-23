@@ -50,8 +50,9 @@ class AdminMiddleware {
           }));
         }
 
-        // 将用户信息添加到请求对象
-        req.user = payload;
+        // 将管理员信息添加到请求对象
+        req.admin = payload;
+        req.user = payload; // 保持兼容性
         next();
       } catch (err) {
         logger.error('Admin authentication error:', err);

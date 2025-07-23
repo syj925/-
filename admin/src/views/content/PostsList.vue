@@ -330,20 +330,21 @@ const handleRecommend = async (row, isRecommended) => {
   
   try {
     const res = await api.posts.recommend(row.id, { isRecommended });
-    
-    if (res.success) {
+
+    // 兼容两种响应格式：{success: true} 和 {code: 0}
+    if (res.success === true || res.code === 0) {
       ElMessage.success(
-        isRecommended 
-          ? `已将帖子ID:${row.id}设为推荐` 
+        isRecommended
+          ? `已将帖子ID:${row.id}设为推荐`
           : `已取消帖子ID:${row.id}的推荐状态`
       );
-      
+
       // 更新本地状态
       row.isRecommended = isRecommended;
     } else {
       // 操作失败，恢复原状态
       row.isRecommended = !isRecommended;
-      ElMessage.error(res.message || '操作失败');
+      ElMessage.error(res.message || res.msg || '操作失败');
     }
   } catch (error) {
     console.error('设置/取消推荐帖子错误:', error);

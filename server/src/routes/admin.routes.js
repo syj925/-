@@ -7,6 +7,7 @@ const adminAuthController = require('../controllers/admin/auth.controller');
 const adminDashboardController = require('../controllers/admin/dashboard.controller');
 const adminUserController = require('../controllers/admin/user.controller');
 const adminSettingsController = require('../controllers/admin/settings.controller');
+const adminEventController = require('../controllers/admin/event.controller');
 
 // 引入中间件
 const AdminMiddleware = require('../middlewares/admin.middleware');
@@ -336,6 +337,113 @@ router.get('/health', (req, res) => {
     }
   });
 });
+
+// ==================== 活动管理路由 ====================
+
+/**
+ * @route GET /api/admin/events
+ * @desc 获取活动列表（管理员）
+ * @query {number} page - 页码
+ * @query {number} limit - 每页数量
+ * @query {string} title - 活动标题搜索
+ * @query {string} status - 活动状态筛选
+ * @query {string} startDate - 开始日期筛选
+ * @query {string} endDate - 结束日期筛选
+ * @query {boolean} isRecommended - 是否推荐筛选
+ * @query {string} organizer - 组织者筛选
+ * @access Private (Admin)
+ */
+router.get('/events', adminEventController.getEventList);
+
+/**
+ * @route GET /api/admin/events/statistics
+ * @desc 获取全局活动统计数据（管理员）
+ * @access Private (Admin)
+ */
+router.get('/events/statistics', adminEventController.getGlobalEventStatistics);
+
+/**
+ * @route GET /api/admin/events/:id
+ * @desc 获取活动详情（管理员）
+ * @param {string} id - 活动ID
+ * @access Private (Admin)
+ */
+router.get('/events/:id', adminEventController.getEventDetail);
+
+/**
+ * @route POST /api/admin/events
+ * @desc 创建活动（管理员）
+ * @body {object} eventData - 活动数据
+ * @access Private (Admin)
+ */
+router.post('/events', adminEventController.createEvent);
+
+/**
+ * @route PUT /api/admin/events/:id
+ * @desc 更新活动（管理员）
+ * @param {string} id - 活动ID
+ * @body {object} updateData - 更新数据
+ * @access Private (Admin)
+ */
+router.put('/events/:id', adminEventController.updateEvent);
+
+/**
+ * @route DELETE /api/admin/events/:id
+ * @desc 删除活动（管理员）
+ * @param {string} id - 活动ID
+ * @access Private (Admin)
+ */
+router.delete('/events/:id', adminEventController.deleteEvent);
+
+/**
+ * @route GET /api/admin/events/:id/registrations
+ * @desc 获取活动报名列表（管理员）
+ * @param {string} id - 活动ID
+ * @query {number} page - 页码
+ * @query {number} limit - 每页数量
+ * @query {string} status - 报名状态筛选
+ * @query {string} keyword - 关键词搜索
+ * @query {string} startDate - 开始日期筛选
+ * @query {string} endDate - 结束日期筛选
+ * @access Private (Admin)
+ */
+router.get('/events/:id/registrations', adminEventController.getEventRegistrations);
+
+/**
+ * @route PUT /api/admin/events/:eventId/registrations/:registrationId/status
+ * @desc 更新报名状态（管理员）
+ * @param {string} eventId - 活动ID
+ * @param {string} registrationId - 报名ID
+ * @body {object} statusData - 状态数据 {status, reason}
+ * @access Private (Admin)
+ */
+router.put('/events/:eventId/registrations/:registrationId/status', adminEventController.updateRegistrationStatus);
+
+/**
+ * @route PUT /api/admin/events/:eventId/registrations/batch-status
+ * @desc 批量更新报名状态（管理员）
+ * @param {string} eventId - 活动ID
+ * @body {object} batchData - 批量数据 {registrationIds, status, reason}
+ * @access Private (Admin)
+ */
+router.put('/events/:eventId/registrations/batch-status', adminEventController.batchUpdateRegistrationStatus);
+
+/**
+ * @route GET /api/admin/events/:id/statistics
+ * @desc 获取活动统计数据（管理员）
+ * @param {string} id - 活动ID
+ * @access Private (Admin)
+ */
+router.get('/events/:id/statistics', adminEventController.getEventStatistics);
+
+/**
+ * @route GET /api/admin/events/:id/registrations/export
+ * @desc 导出活动报名数据（管理员）
+ * @param {string} id - 活动ID
+ * @query {string} format - 导出格式 (excel/csv)
+ * @access Private (Admin)
+ */
+router.get('/events/:id/registrations/export', adminEventController.exportEventRegistrations);
 
 // ==================== 错误处理 ====================
 

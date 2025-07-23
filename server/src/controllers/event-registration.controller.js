@@ -44,7 +44,7 @@ class EventRegistrationController {
       const userId = req.user.id;
       const options = {
         page: parseInt(req.query.page) || 1,
-        limit: parseInt(req.query.limit) || 10,
+        limit: parseInt(req.query.limit || req.query.pageSize) || 10,
         status: req.query.status ? parseInt(req.query.status) : undefined
       };
 
@@ -52,10 +52,10 @@ class EventRegistrationController {
 
       const result = await eventRegistrationService.getUserRegistrations(userId, options);
 
-      return ResponseUtil.success(res, result, '获取我的报名列表成功');
+      return res.status(StatusCodes.OK).json(ResponseUtil.success(result, '获取我的报名列表成功'));
     } catch (error) {
       logger.error('获取用户报名列表失败', { error: error.message, userId: req.user?.id });
-      return ResponseUtil.error(res, error.message, error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR);
+      return res.status(error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR).json(ResponseUtil.customError(error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR, error.message));
     }
   }
 

@@ -57,15 +57,15 @@
         <!-- 组织者信息 -->
         <view class="organizer-info" @tap="viewOrganizerProfile">
           <image
-            :src="event.organizer?.avatar || '/static/images/default-avatar.png'"
+            :src="getOrganizerAvatar"
             mode="aspectFill"
             class="organizer-avatar"
           ></image>
           <view class="organizer-details">
-            <text class="organizer-name">{{ event.organizer?.nickname || '未知组织者' }}</text>
+            <text class="organizer-name">{{ getOrganizerName }}</text>
             <text class="organizer-label">活动组织者</text>
           </view>
-          <app-icon name="arrow-right" size="16" color="#ccc"></app-icon>
+          <app-icon name="arrow-right" size="16" color="#ccc" v-if="event.organizer?.id"></app-icon>
         </view>
       </view>
 
@@ -74,6 +74,32 @@
         <view class="card-title">活动介绍</view>
         <view class="event-description">
           <text class="description-text">{{ event.description || '暂无活动介绍' }}</text>
+        </view>
+
+        <!-- 详情图片 -->
+        <view v-if="event.detail_images && event.detail_images.length > 0" class="detail-images">
+          <view class="images-title">活动图片</view>
+          <view class="images-grid">
+            <image
+              v-for="(image, index) in event.detail_images"
+              :key="index"
+              :src="getImageUrl(image)"
+              mode="aspectFill"
+              class="detail-image"
+              @tap="previewImage(index)"
+            ></image>
+          </view>
+        </view>
+      </view>
+
+      <!-- 活动须知 -->
+      <view v-if="event.notices && event.notices.length > 0" class="event-card">
+        <view class="card-title">活动须知</view>
+        <view class="notices-list">
+          <view v-for="(notice, index) in event.notices" :key="index" class="notice-item">
+            <text class="notice-dot">•</text>
+            <text class="notice-text">{{ notice }}</text>
+          </view>
         </view>
       </view>
 
@@ -106,6 +132,145 @@
       </view>
     </view>
 
+    <!-- 报名表单弹窗 -->
+    <view v-if="showRegistrationForm" class="registration-modal" @tap="closeRegistrationForm">
+      <view class="modal-content" @tap.stop>
+        <view class="modal-header">
+          <text class="modal-title">报名参加活动</text>
+          <view class="modal-close" @tap="closeRegistrationForm">
+            <app-icon name="close" size="20" color="#666"></app-icon>
+          </view>
+        </view>
+
+        <!-- 活动信息摘要 -->
+        <view class="event-summary">
+          <view class="summary-header">
+            <text class="summary-title">确认报名活动</text>
+          </view>
+          <view class="event-info">
+            <view class="info-row">
+              <text class="info-label">活动名称</text>
+              <text class="info-value">{{ event.title }}</text>
+            </view>
+            <view class="info-row" v-if="event.start_time">
+              <text class="info-label">活动时间</text>
+              <text class="info-value">{{ formatTime(event.start_time, 'YYYY-MM-DD HH:mm', true) }}</text>
+            </view>
+            <view class="info-row" v-if="event.location">
+              <text class="info-label">活动地点</text>
+              <text class="info-value">{{ event.location }}</text>
+            </view>
+          </view>
+        </view>
+
+        <scroll-view class="modal-body" scroll-y>
+          <view class="form-section">
+            <text class="section-title">请填写报名信息</text>
+
+            <!-- 动态表单字段 -->
+            <view v-for="(field, index) in formConfig" :key="index" class="form-field">
+              <view class="field-label">
+                <text class="label-text">{{ getFieldLabel(field) }}</text>
+                <text v-if="field.required" class="required-mark">*</text>
+              </view>
+
+              <!-- 字段说明 -->
+              <text v-if="field.description" class="field-hint">{{ field.description }}</text>
+
+              <!-- 文本输入 -->
+              <input
+                v-if="field.type === 'text'"
+                v-model="formData[field.name]"
+                :placeholder="getFieldPlaceholder(field)"
+                class="field-input"
+                :class="{ 'error': formErrors[field.name] }"
+                :maxlength="field.maxLength || 100"
+              />
+
+              <!-- 数字输入 -->
+              <input
+                v-else-if="field.type === 'number'"
+                v-model="formData[field.name]"
+                type="number"
+                :placeholder="getFieldPlaceholder(field)"
+                class="field-input"
+                :class="{ 'error': formErrors[field.name] }"
+                :min="field.min"
+                :max="field.max"
+              />
+
+              <!-- 邮箱输入 -->
+              <input
+                v-else-if="field.type === 'email'"
+                v-model="formData[field.name]"
+                type="email"
+                :placeholder="getFieldPlaceholder(field, '请输入邮箱地址，如：example@email.com')"
+                class="field-input"
+                :class="{ 'error': formErrors[field.name] }"
+              />
+
+              <!-- 电话输入 -->
+              <input
+                v-else-if="field.type === 'tel'"
+                v-model="formData[field.name]"
+                type="tel"
+                :placeholder="getFieldPlaceholder(field, '请输入11位手机号码')"
+                class="field-input"
+                :class="{ 'error': formErrors[field.name] }"
+                maxlength="11"
+              />
+
+              <!-- 多行文本 -->
+              <textarea
+                v-else-if="field.type === 'textarea'"
+                v-model="formData[field.name]"
+                :placeholder="getFieldPlaceholder(field)"
+                class="field-textarea"
+                :class="{ 'error': formErrors[field.name] }"
+                :maxlength="field.maxLength || 500"
+                show-confirm-bar
+              />
+
+              <!-- 选择器 -->
+              <picker
+                v-else-if="field.type === 'select'"
+                :value="getSelectIndex(field.name, field.options)"
+                :range="field.options"
+                range-key="label"
+                @change="handleSelectChange(field.name, field.options, $event)"
+              >
+                <view class="field-select" :class="{ 'error': formErrors[field.name] }">
+                  <text class="select-text" :class="{ 'placeholder': !formData[field.name] }">
+                    {{ getSelectedOptionLabel(field, formData[field.name]) || getFieldPlaceholder(field, `请选择${getFieldLabel(field)}`) }}
+                  </text>
+                  <app-icon name="arrow-down" size="16" color="#999"></app-icon>
+                </view>
+              </picker>
+
+              <!-- 错误提示 -->
+              <text v-if="formErrors[field.name]" class="field-error">{{ formErrors[field.name] }}</text>
+
+              <!-- 字符计数 -->
+              <view v-if="(field.type === 'text' || field.type === 'textarea') && field.maxLength" class="char-count">
+                <text class="count-text">{{ (formData[field.name] || '').length }}/{{ field.maxLength }}</text>
+              </view>
+            </view>
+          </view>
+        </scroll-view>
+
+        <view class="modal-footer">
+          <view class="footer-buttons">
+            <view class="cancel-button" @tap="closeRegistrationForm">
+              <text class="button-text">取消</text>
+            </view>
+            <view class="submit-button" @tap="submitRegistration">
+              <text class="button-text">确认报名</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
     <!-- 底部操作栏 -->
     <view v-if="event" class="bottom-actions">
       <view class="action-left">
@@ -129,7 +294,7 @@
 </template>
 
 <script>
-import { formatTime } from '@/utils/date'
+import { formatTime as utilFormatTime } from '@/utils/date'
 import eventApi from '@/api/modules/event'
 import AppIcon from '@/components/common/AppIcon.vue'
 
@@ -145,15 +310,33 @@ export default {
       loading: true,
       isLiked: false,
       isRegistered: false,
-      registrationStatus: null
+      registrationStatus: null,
+      // 报名表单相关
+      showRegistrationForm: false,
+      formConfig: [],
+      formData: {},
+      formErrors: {}
     }
   },
   computed: {
     formatEventTime() {
       if (!this.event) return ''
-      const startTime = formatTime(this.event.start_time, 'YYYY-MM-DD HH:mm')
-      const endTime = formatTime(this.event.end_time, 'HH:mm')
-      return `${startTime} - ${endTime}`
+
+      // 使用UTC时间显示，与后台管理系统保持一致
+      const startTime = utilFormatTime(this.event.start_time, 'YYYY-MM-DD HH:mm', true)
+      const endTime = utilFormatTime(this.event.end_time, 'YYYY-MM-DD HH:mm', true)
+
+      // 如果是同一天，只显示一次日期
+      const startDate = utilFormatTime(this.event.start_time, 'YYYY-MM-DD', true)
+      const endDate = utilFormatTime(this.event.end_time, 'YYYY-MM-DD', true)
+
+      if (startDate === endDate) {
+        const startTimeOnly = utilFormatTime(this.event.start_time, 'HH:mm', true)
+        const endTimeOnly = utilFormatTime(this.event.end_time, 'HH:mm', true)
+        return `${startDate} ${startTimeOnly} - ${endTimeOnly}`
+      } else {
+        return `${startTime} - ${endTime}`
+      }
     },
     getRemainingDays() {
       if (!this.event) return 0
@@ -165,17 +348,40 @@ export default {
     },
     canRegister() {
       if (!this.event) return false
-      if (this.event.status !== 1) return false
+      // 只有状态为'ongoing'（进行中）时才可以报名
+      if (this.event.status !== 'ongoing') return false
 
       // 如果已报名，可以取消报名
       if (this.isRegistered) return true
 
       // 如果未报名，检查是否可以报名
-      if (this.event.current_participants >= this.event.max_participants) return false
+      if (this.event.max_participants && this.event.current_participants >= this.event.max_participants) return false
 
-      const now = new Date()
-      const deadline = new Date(this.event.registration_deadline)
-      return now < deadline
+      // 检查报名截止时间
+      if (this.event.registration_deadline) {
+        const now = new Date()
+        const deadline = new Date(this.event.registration_deadline)
+        return now < deadline
+      }
+
+      return true
+    },
+
+    getOrganizerName() {
+      if (this.event?.organizer?.nickname) {
+        return this.event.organizer.nickname
+      }
+      if (this.event?.organizer?.username) {
+        return this.event.organizer.username
+      }
+      return '未知组织者'
+    },
+
+    getOrganizerAvatar() {
+      if (this.event?.organizer?.avatar) {
+        return this.event.organizer.avatar
+      }
+      return '/static/images/default-avatar.png'
     }
   },
   onLoad(options) {
@@ -256,6 +462,11 @@ export default {
 
     getStatusClass(status) {
       const statusMap = {
+        'upcoming': 'status-upcoming',
+        'ongoing': 'status-ongoing',
+        'ended': 'status-ended',
+        'canceled': 'status-cancelled',
+        // 兼容旧的数字格式
         0: 'status-draft',
         1: 'status-active',
         2: 'status-ended',
@@ -266,10 +477,15 @@ export default {
 
     getStatusText(status) {
       const statusMap = {
-        0: '草稿',
-        1: '报名中',
-        2: '已结束',
-        3: '已取消'
+        'upcoming': '未开始',
+        'ongoing': '进行中',
+        'ended': '已结束',
+        'canceled': '已取消',
+        // 兼容旧的数字格式
+        1: '未开始',
+        2: '进行中',
+        3: '已结束',
+        4: '已取消'
       }
       return statusMap[status] || '未知状态'
     },
@@ -281,15 +497,36 @@ export default {
     },
 
     getRegisterBtnText() {
-      if (this.isRegistered) return '取消报名'
-      if (this.event?.status !== 1) return '活动未开始'
-      if (this.event?.current_participants >= this.event?.max_participants) return '名额已满'
+      if (!this.event) return '加载中...'
 
-      const now = new Date()
-      const deadline = new Date(this.event?.registration_deadline)
-      if (now >= deadline) return '报名已截止'
+      // 调试信息（可以移除）
+      // console.log('按钮文本计算 - 活动状态:', this.event.status, '类型:', typeof this.event.status)
 
-      return '立即报名'
+      // 根据管理员设置的状态判断 - 统一使用字符串格式
+      if (this.event.status === 'canceled') return '活动已取消'
+      if (this.event.status === 'ended') return '活动已结束'
+      if (this.event.status === 'upcoming') return '活动未开始'
+
+      // 状态为'ongoing'（进行中）时的逻辑 - 可以报名
+      if (this.event.status === 'ongoing') {
+        if (this.isRegistered) return '取消报名'
+
+        // 检查人数限制
+        if (this.event.max_participants && this.event.current_participants >= this.event.max_participants) {
+          return '名额已满'
+        }
+
+        // 检查报名截止时间
+        if (this.event.registration_deadline) {
+          const now = new Date()
+          const deadline = new Date(this.event.registration_deadline)
+          if (now >= deadline) return '报名已截止'
+        }
+
+        return '立即报名'
+      }
+
+      return '暂不可报名'
     },
 
     showError(message) {
@@ -339,7 +576,29 @@ export default {
     },
 
     async handleEventRegistration() {
-      // 显示确认对话框
+      try {
+        // 使用活动详情中的表单配置，不需要额外API调用
+        this.formConfig = this.event.form_config || []
+
+        // 如果有自定义表单字段，显示表单弹窗
+        if (this.formConfig && this.formConfig.length > 0) {
+          this.initFormData()
+          this.showRegistrationForm = true
+        } else {
+          // 没有自定义表单，直接报名
+          await this.submitDirectRegistration()
+        }
+      } catch (error) {
+        console.error('处理报名失败:', error)
+        uni.showToast({
+          title: '处理报名失败',
+          icon: 'none'
+        })
+      }
+    },
+
+    // 直接报名（无自定义表单）
+    async submitDirectRegistration() {
       const result = await uni.showModal({
         title: '确认报名',
         content: `确定要报名参加"${this.event.title}"吗？`,
@@ -349,32 +608,27 @@ export default {
 
       if (!result.confirm) return
 
-      // 显示加载提示
+      await this.doRegistration({})
+    },
+
+    // 执行实际的报名请求
+    async doRegistration(formData) {
       uni.showLoading({
         title: '报名中...'
       })
 
       try {
-        const response = await eventApi.register(this.eventId, {
-          // 这里可以添加报名表单数据，目前使用空对象
-          formData: {}
-        })
+        const requestData = {
+          form_data: formData  // 使用正确的字段名 form_data
+        }
+
+        const response = await eventApi.register(this.eventId, requestData)
 
         uni.hideLoading()
 
         if (response.code === 0) {
-          // 报名成功，立即更新本地状态
           this.isRegistered = true
           this.event.current_participants = (this.event.current_participants || 0) + 1
-
-          // 强制触发响应式更新
-          this.$forceUpdate()
-
-          console.log('报名成功，当前状态:', {
-            isRegistered: this.isRegistered,
-            btnText: this.getRegisterBtnText(),
-            btnClass: this.getRegisterBtnClass()
-          })
 
           uni.showToast({
             title: '报名成功！',
@@ -382,21 +636,24 @@ export default {
             duration: 2000
           })
 
-          // 立即触发界面更新
-          this.$nextTick(() => {
-            this.$forceUpdate()
-          })
+          // 关闭表单弹窗
+          this.showRegistrationForm = false
 
-          // 重新检查报名状态
-          setTimeout(() => {
-            this.checkRegistrationStatus()
+          // 重新检查报名状态 - 使用try-catch避免异步错误影响主流程
+          setTimeout(async () => {
+            try {
+              await this.checkRegistrationStatus()
+            } catch (error) {
+              console.error('异步检查报名状态失败:', error)
+              // 不显示错误提示，因为主要操作已经成功
+            }
           }, 500)
         } else {
           throw new Error(response.message || '报名失败')
         }
       } catch (error) {
         uni.hideLoading()
-        console.error('报名失败:', error)
+        console.error('报名请求异常:', error)
 
         uni.showModal({
           title: '报名失败',
@@ -454,8 +711,13 @@ export default {
           })
 
           // 延迟一点再检查状态，确保后端状态已更新
-          setTimeout(() => {
-            this.checkRegistrationStatus()
+          setTimeout(async () => {
+            try {
+              await this.checkRegistrationStatus()
+            } catch (error) {
+              console.error('异步检查报名状态失败:', error)
+              // 不显示错误提示，因为主要操作已经成功
+            }
           }, 500)
         } else {
           throw new Error(response.message || '取消报名失败')
@@ -471,6 +733,165 @@ export default {
           confirmText: '确定'
         })
       }
+    },
+
+    // 获取完整的图片URL
+    getImageUrl(imageUrl) {
+      if (!imageUrl) return '/static/images/event-default.png'
+      if (imageUrl.startsWith('http')) return imageUrl
+      return `http://localhost:3000${imageUrl}`
+    },
+
+    // 预览图片
+    previewImage(index) {
+      const urls = this.event.detail_images.map(img => this.getImageUrl(img))
+      uni.previewImage({
+        current: index,
+        urls: urls
+      })
+    },
+
+
+
+    // 初始化表单数据
+    initFormData() {
+      this.formData = {}
+      this.formErrors = {}
+      this.formConfig.forEach(field => {
+        this.formData[field.name] = ''
+      })
+    },
+
+    // 关闭报名表单
+    closeRegistrationForm() {
+      this.showRegistrationForm = false
+      this.formData = {}
+      this.formErrors = {}
+    },
+
+    // 处理选择器变化
+    handleSelectChange(fieldName, options, event) {
+      const index = event.detail.value
+      this.formData[fieldName] = options[index]
+      // 清除该字段的错误
+      if (this.formErrors[fieldName]) {
+        delete this.formErrors[fieldName]
+      }
+    },
+
+    // 获取选择器当前索引
+    getSelectIndex(fieldName, options) {
+      const value = this.formData[fieldName]
+      return options.findIndex(option =>
+        typeof option === 'string' ? option === value : option.value === value
+      )
+    },
+
+    // 获取字段标签
+    getFieldLabel(field) {
+      // 改进字段标签显示
+      const labelMap = {
+        'time': '可参与时间段',
+        'method': '联系方式',
+        'contact': '联系方式',
+        'phone': '手机号码',
+        'email': '邮箱地址',
+        'name': '姓名',
+        'age': '年龄',
+        'gender': '性别',
+        'school': '学校/单位',
+        'major': '专业',
+        'grade': '年级',
+        'reason': '报名理由',
+        'experience': '相关经验',
+        'note': '备注信息'
+      }
+      return labelMap[field.name] || field.label || field.name
+    },
+
+    // 获取字段占位符
+    getFieldPlaceholder(field, defaultPlaceholder = null) {
+      if (field.placeholder) return field.placeholder
+      if (defaultPlaceholder) return defaultPlaceholder
+
+      const label = this.getFieldLabel(field)
+      const placeholderMap = {
+        '可参与时间段': '请输入您的可参与时间，如：周末全天、工作日晚上等',
+        '联系方式': '请输入您的联系方式，如：微信号、QQ号等',
+        '手机号码': '请输入11位手机号码',
+        '邮箱地址': '请输入邮箱地址，如：example@email.com',
+        '姓名': '请输入您的真实姓名',
+        '年龄': '请输入您的年龄',
+        '学校/单位': '请输入您的学校或工作单位',
+        '专业': '请输入您的专业',
+        '年级': '请选择您的年级',
+        '报名理由': '请简要说明您的报名理由',
+        '相关经验': '请描述您的相关经验（可选）',
+        '备注信息': '其他需要说明的信息（可选）'
+      }
+      return placeholderMap[label] || `请输入${label}`
+    },
+
+    // 获取选中选项的标签
+    getSelectedOptionLabel(field, value) {
+      if (!value || !field.options) return ''
+      const option = field.options.find(opt =>
+        typeof opt === 'string' ? opt === value : opt.value === value
+      )
+      return option ? (typeof option === 'string' ? option : option.label) : value
+    },
+
+    // 格式化时间（包装导入的formatTime函数）
+    formatTime(date, format = 'YYYY-MM-DD HH:mm', useUTC = false) {
+      return utilFormatTime(date, format, useUTC)
+    },
+
+
+
+    // 验证表单
+    validateForm() {
+      this.formErrors = {}
+      let isValid = true
+
+      this.formConfig.forEach(field => {
+        if (field.required && (!this.formData[field.name] || this.formData[field.name].trim() === '')) {
+          this.formErrors[field.name] = `${field.label}不能为空`
+          isValid = false
+        }
+
+        // 邮箱格式验证
+        if (field.type === 'email' && this.formData[field.name]) {
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+          if (!emailRegex.test(this.formData[field.name])) {
+            this.formErrors[field.name] = '请输入正确的邮箱格式'
+            isValid = false
+          }
+        }
+
+        // 电话格式验证
+        if (field.type === 'tel' && this.formData[field.name]) {
+          const telRegex = /^1[3-9]\d{9}$/
+          if (!telRegex.test(this.formData[field.name])) {
+            this.formErrors[field.name] = '请输入正确的手机号码'
+            isValid = false
+          }
+        }
+      })
+
+      return isValid
+    },
+
+    // 提交报名表单
+    async submitRegistration() {
+      if (!this.validateForm()) {
+        uni.showToast({
+          title: '请检查表单信息',
+          icon: 'none'
+        })
+        return
+      }
+
+      await this.doRegistration(this.formData)
     }
   }
 }
@@ -695,6 +1116,116 @@ export default {
   color: $text-primary;
 }
 
+/* 详情图片 */
+.detail-images {
+  margin-top: 30rpx;
+
+  .images-title {
+    font-size: 28rpx;
+    font-weight: 600;
+    color: $text-primary;
+    margin-bottom: 20rpx;
+  }
+
+  .images-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20rpx;
+  }
+
+  .detail-image {
+    width: 100%;
+    height: 200rpx;
+    border-radius: 12rpx;
+    background-color: $bg-secondary;
+  }
+}
+
+/* 活动须知 */
+.notices-list {
+  margin-top: 20rpx;
+
+  .notice-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 16rpx;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    .notice-dot {
+      font-size: 24rpx;
+      color: $primary-color;
+      margin-right: 12rpx;
+      margin-top: 4rpx;
+      line-height: 1;
+    }
+
+    .notice-text {
+      flex: 1;
+      font-size: 26rpx;
+      color: $text-primary;
+      line-height: 1.5;
+    }
+  }
+}
+
+/* 详情图片 */
+.detail-images {
+  margin-top: 30rpx;
+}
+
+.images-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: $text-primary;
+  margin-bottom: 20rpx;
+}
+
+.images-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20rpx;
+}
+
+.detail-image {
+  width: 100%;
+  height: 200rpx;
+  border-radius: 12rpx;
+  background-color: $bg-secondary;
+}
+
+/* 活动须知 */
+.notices-list {
+  margin-top: 20rpx;
+}
+
+.notice-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 16rpx;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.notice-dot {
+  font-size: 24rpx;
+  color: $primary-color;
+  margin-right: 12rpx;
+  margin-top: 4rpx;
+  line-height: 1;
+}
+
+.notice-text {
+  flex: 1;
+  font-size: 26rpx;
+  color: $text-primary;
+  line-height: 1.5;
+}
+
 /* 统计信息 */
 .event-stats {
   display: flex;
@@ -825,6 +1356,343 @@ export default {
   &.disabled {
     background-color: $bg-disabled;
     color: $text-disabled;
+  }
+}
+
+/* 报名表单弹窗 */
+.registration-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+
+  .modal-content {
+    width: 90%;
+    max-width: 600rpx;
+    max-height: 80vh;
+    background-color: #FFFFFF;
+    border-radius: 20rpx;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .modal-header {
+    padding: 40rpx 30rpx 20rpx;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid $border-light;
+
+    .modal-title {
+      font-size: 32rpx;
+      font-weight: 600;
+      color: $text-primary;
+    }
+
+    .modal-close {
+      width: 60rpx;
+      height: 60rpx;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: background-color 0.3s;
+
+      &:active {
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+    }
+  }
+
+  // 活动信息摘要
+  .event-summary {
+    margin: 0 30rpx 20rpx;
+    background-color: #FFFFFF;
+    border-radius: 16rpx;
+    border: 1px solid $border-light;
+    overflow: hidden;
+
+    .summary-header {
+      padding: 24rpx 30rpx 16rpx;
+      background-color: #F8F9FA;
+      border-bottom: 1px solid $border-light;
+
+      .summary-title {
+        font-size: 28rpx;
+        font-weight: 600;
+        color: $text-primary;
+      }
+    }
+
+    .event-info {
+      padding: 20rpx 30rpx 30rpx;
+
+      .info-row {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 16rpx;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+
+        .info-label {
+          font-size: 26rpx;
+          color: $text-secondary;
+          width: 140rpx;
+          flex-shrink: 0;
+          line-height: 1.4;
+        }
+
+        .info-value {
+          font-size: 26rpx;
+          color: $text-primary;
+          flex: 1;
+          line-height: 1.4;
+          word-break: break-all;
+        }
+      }
+    }
+  }
+
+  .modal-body {
+    flex: 1;
+    padding: 0;
+    overflow-y: auto;
+  }
+
+  // 表单区域
+  .form-section {
+    padding: 30rpx;
+
+    .section-title {
+      font-size: 30rpx;
+      font-weight: 600;
+      color: $text-primary;
+      margin-bottom: 30rpx;
+      padding-bottom: 15rpx;
+      border-bottom: 2px solid $primary-color;
+      display: inline-block;
+    }
+  }
+
+  .form-field {
+    margin-bottom: 40rpx;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    .field-label {
+      display: flex;
+      align-items: center;
+      margin-bottom: 16rpx;
+
+      .label-text {
+        font-size: 28rpx;
+        font-weight: 500;
+        color: $text-primary;
+      }
+
+      .required-mark {
+        color: #FF4757;
+        margin-left: 4rpx;
+        font-size: 30rpx;
+      }
+    }
+
+    // 字段提示
+    .field-hint {
+      font-size: 24rpx;
+      color: $text-secondary;
+      margin-bottom: 12rpx;
+      line-height: 1.4;
+      padding: 12rpx 16rpx;
+      background-color: #F8F9FA;
+      border-radius: 8rpx;
+      border-left: 3rpx solid $primary-color;
+    }
+
+    .field-input {
+      width: 100%;
+      height: 88rpx;
+      padding: 0 24rpx;
+      border: 2px solid $border-light;
+      border-radius: 16rpx;
+      font-size: 28rpx;
+      color: $text-primary;
+      background-color: #FFFFFF;
+      transition: all 0.3s ease;
+      box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.04);
+
+      &::placeholder {
+        color: $text-placeholder;
+        font-size: 26rpx;
+      }
+
+      &.error {
+        border-color: #FF4757;
+        background-color: #FFF5F5;
+      }
+
+      &:focus {
+        border-color: $primary-color;
+        box-shadow: 0 0 0 4rpx rgba(102, 126, 234, 0.1);
+        background-color: #FAFBFF;
+      }
+    }
+
+    .field-textarea {
+      width: 100%;
+      min-height: 160rpx;
+      padding: 20rpx 24rpx;
+      border: 2px solid $border-light;
+      border-radius: 16rpx;
+      font-size: 28rpx;
+      color: $text-primary;
+      background-color: #FFFFFF;
+      transition: all 0.3s ease;
+      box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.04);
+      resize: none;
+
+      &::placeholder {
+        color: $text-placeholder;
+        font-size: 26rpx;
+      }
+
+      &.error {
+        border-color: #FF4757;
+        background-color: #FFF5F5;
+      }
+
+      &:focus {
+        border-color: $primary-color;
+        box-shadow: 0 0 0 4rpx rgba(102, 126, 234, 0.1);
+        background-color: #FAFBFF;
+      }
+    }
+
+    .field-select {
+      width: 100%;
+      height: 88rpx;
+      padding: 0 24rpx;
+      border: 2px solid $border-light;
+      border-radius: 16rpx;
+      background-color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.3s ease;
+      box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.04);
+
+      &.error {
+        border-color: #FF4757;
+        background-color: #FFF5F5;
+      }
+
+      &:active {
+        border-color: $primary-color;
+        box-shadow: 0 0 0 4rpx rgba(102, 126, 234, 0.1);
+      }
+
+      .select-text {
+        font-size: 28rpx;
+        color: $text-primary;
+
+        &.placeholder {
+          color: $text-placeholder;
+          font-size: 26rpx;
+        }
+      }
+    }
+
+    .field-error {
+      font-size: 24rpx;
+      color: #FF4757;
+      margin-top: 12rpx;
+      padding-left: 8rpx;
+      display: flex;
+      align-items: center;
+      gap: 8rpx;
+
+      &::before {
+        content: '⚠';
+        font-size: 20rpx;
+      }
+    }
+
+    // 字符计数
+    .char-count {
+      margin-top: 8rpx;
+      text-align: right;
+
+      .count-text {
+        font-size: 22rpx;
+        color: $text-secondary;
+      }
+    }
+  }
+
+  .modal-footer {
+    padding: 30rpx;
+    border-top: 1px solid $border-light;
+    background-color: #FAFBFC;
+
+    .footer-buttons {
+      display: flex;
+      gap: 24rpx;
+
+      .cancel-button, .submit-button {
+        flex: 1;
+        height: 88rpx;
+        border-radius: 44rpx;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.08);
+
+        .button-text {
+          font-size: 30rpx;
+          font-weight: 600;
+        }
+      }
+
+      .cancel-button {
+        background-color: #FFFFFF;
+        border: 2px solid $border-light;
+
+        .button-text {
+          color: $text-secondary;
+        }
+
+        &:active {
+          background-color: #F8F9FA;
+          transform: scale(0.98);
+        }
+      }
+
+      .submit-button {
+        background: linear-gradient(135deg, $primary-color 0%, #5a67d8 100%);
+        border: none;
+
+        .button-text {
+          color: #FFFFFF;
+        }
+
+        &:active {
+          background: linear-gradient(135deg, darken($primary-color, 10%) 0%, darken(#5a67d8, 10%) 100%);
+          transform: scale(0.98);
+        }
+      }
+    }
   }
 }
 </style>

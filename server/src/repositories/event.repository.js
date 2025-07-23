@@ -35,6 +35,33 @@ class EventRepository {
   }
 
   /**
+   * 获取活动详情（带状态转换）
+   * @param {String} id 活动ID
+   * @param {Object} options 查询选项
+   * @returns {Promise<Object|null>} 活动对象（状态已转换）
+   */
+  async findByIdWithStatusConversion(id, options = {}) {
+    const event = await this.findById(id, options);
+
+    if (!event) {
+      return null;
+    }
+
+    // 转换状态值：整数转字符串
+    const statusMap = {
+      1: 'upcoming',    // 未开始
+      2: 'ongoing',     // 进行中
+      3: 'ended',       // 已结束
+      4: 'canceled'     // 已取消
+    };
+
+    const eventData = event.toJSON();
+    eventData.status = statusMap[eventData.status] || 'upcoming';
+
+    return eventData;
+  }
+
+  /**
    * 更新活动
    * @param {String} id 活动ID
    * @param {Object} updateData 更新数据
@@ -125,8 +152,22 @@ class EventRepository {
       offset: parseInt(offset)
     });
 
+    // 转换状态值：整数转字符串
+    const statusMap = {
+      1: 'upcoming',    // 未开始
+      2: 'ongoing',     // 进行中
+      3: 'ended',       // 已结束
+      4: 'canceled'     // 已取消
+    };
+
+    const eventsWithConvertedStatus = rows.map(event => {
+      const eventData = event.toJSON();
+      eventData.status = statusMap[eventData.status] || 'upcoming';
+      return eventData;
+    });
+
     return {
-      events: rows,
+      events: eventsWithConvertedStatus,
       total: count,
       page: parseInt(page),
       limit: parseInt(limit),
@@ -140,7 +181,7 @@ class EventRepository {
    * @returns {Promise<Array>} 推荐活动列表
    */
   async findRecommended(limit = 10) {
-    return await Event.findAll({
+    const events = await Event.findAll({
       where: {
         is_recommended: true,
         status: 1 // 只显示报名中的活动
@@ -155,6 +196,20 @@ class EventRepository {
       order: [['start_time', 'ASC']],
       limit: parseInt(limit)
     });
+
+    // 转换状态值：整数转字符串
+    const statusMap = {
+      1: 'upcoming',    // 未开始
+      2: 'ongoing',     // 进行中
+      3: 'ended',       // 已结束
+      4: 'canceled'     // 已取消
+    };
+
+    return events.map(event => {
+      const eventData = event.toJSON();
+      eventData.status = statusMap[eventData.status] || 'upcoming';
+      return eventData;
+    });
   }
 
   /**
@@ -164,7 +219,7 @@ class EventRepository {
    */
   async findUpcoming(limit = 10) {
     const now = new Date();
-    return await Event.findAll({
+    const events = await Event.findAll({
       where: {
         start_time: { [Op.gt]: now },
         status: 1 // 只显示报名中的活动
@@ -178,6 +233,20 @@ class EventRepository {
       ],
       order: [['start_time', 'ASC']],
       limit: parseInt(limit)
+    });
+
+    // 转换状态值：整数转字符串
+    const statusMap = {
+      1: 'upcoming',    // 未开始
+      2: 'ongoing',     // 进行中
+      3: 'ended',       // 已结束
+      4: 'canceled'     // 已取消
+    };
+
+    return events.map(event => {
+      const eventData = event.toJSON();
+      eventData.status = statusMap[eventData.status] || 'upcoming';
+      return eventData;
     });
   }
 
@@ -216,6 +285,30 @@ class EventRepository {
   async exists(id) {
     const count = await Event.count({ where: { id } });
     return count > 0;
+  }
+
+  /**
+   * 统计活动数量
+   * @param {Object} conditions 查询条件
+   * @returns {Promise<Number>} 活动数量
+   */
+  async count(conditions = {}) {
+    const where = {};
+
+    // 处理状态条件
+    if (conditions.status !== undefined) {
+      where.status = conditions.status;
+    }
+
+    // 处理推荐条件
+    if (conditions.is_recommended !== undefined) {
+      where.is_recommended = conditions.is_recommended;
+    }
+
+    // 添加软删除条件
+    where.deleted_at = null;
+
+    return await Event.count({ where });
   }
 
   /**

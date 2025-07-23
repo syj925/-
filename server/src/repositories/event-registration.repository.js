@@ -116,6 +116,7 @@ class EventRegistrationRepository {
     const { count, rows } = await EventRegistration.findAndCountAll({
       where,
       include,
+      attributes: ['id', 'event_id', 'user_id', 'form_data', 'status', 'registered_at', 'canceled_at', 'cancel_reason', 'check_in_time', 'notes', 'created_at', 'updated_at'],
       order: [['registered_at', 'DESC']],
       limit: parseInt(limit),
       offset: parseInt(offset)
@@ -296,6 +297,57 @@ class EventRegistrationRepository {
       canceled: canceledCount,
       attended: attendedCount
     };
+  }
+
+  /**
+   * 统计报名数量
+   * @param {Object} conditions 查询条件
+   * @returns {Promise<Number>} 报名数量
+   */
+  async count(conditions = {}) {
+    const where = {};
+
+    // 处理状态条件
+    if (conditions.status !== undefined) {
+      if (Array.isArray(conditions.status)) {
+        where.status = { [Op.in]: conditions.status };
+      } else {
+        where.status = conditions.status;
+      }
+    }
+
+    // 处理活动ID条件
+    if (conditions.event_id) {
+      where.event_id = conditions.event_id;
+    }
+
+    // 处理用户ID条件
+    if (conditions.user_id) {
+      where.user_id = conditions.user_id;
+    }
+
+    // 添加软删除条件
+    where.deleted_at = null;
+
+    return await EventRegistration.count({ where });
+  }
+
+  /**
+   * 根据活动ID删除所有报名记录（软删除）
+   * @param {String} eventId 活动ID
+   * @returns {Promise<Number>} 删除的记录数
+   */
+  async deleteByEventId(eventId) {
+    const result = await EventRegistration.update(
+      { deleted_at: new Date() },
+      {
+        where: {
+          event_id: eventId,
+          deleted_at: null  // 只删除未删除的记录
+        }
+      }
+    );
+    return result[0]; // 返回受影响的行数
   }
 }
 

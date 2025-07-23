@@ -12523,3 +12523,1980 @@ Fri Jul 18 2025 11:32:49 GMT+0800 (中国标准时间) error: Admin route error:
   "duration": "29ms",
   "contentLength": "49"
 }
+2025-07-22 08:02:47 error: [GET] /api/admin/posts?page=1&limit=10 {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /api/admin/posts?page=1&limit=10",
+  "stack": "Error: 未找到资源 - /api/admin/posts?page=1&limit=10\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at Immediate.next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Immediate._onImmediate (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15)\n    at process.processImmediate (node:internal/timers:487:21)",
+  "body": {},
+  "params": {},
+  "query": {
+    "page": "1",
+    "limit": "10"
+  }
+}
+2025-07-22 08:02:51 error: [GET] /api/admin/events?page=1&limit=10 {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /api/admin/events?page=1&limit=10",
+  "stack": "Error: 未找到资源 - /api/admin/events?page=1&limit=10\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at Immediate.next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Immediate._onImmediate (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15)\n    at process.processImmediate (node:internal/timers:487:21)",
+  "body": {},
+  "params": {},
+  "query": {
+    "page": "1",
+    "limit": "10"
+  }
+}
+2025-07-22 08:02:53 error: [GET] /api/admin/comments?page=1&limit=10 {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /api/admin/comments?page=1&limit=10",
+  "stack": "Error: 未找到资源 - /api/admin/comments?page=1&limit=10\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at Immediate.next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Immediate._onImmediate (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15)\n    at process.processImmediate (node:internal/timers:487:21)",
+  "body": {},
+  "params": {},
+  "query": {
+    "page": "1",
+    "limit": "10"
+  }
+}
+2025-07-22 08:02:54 error: [GET] /api/admin/posts?page=1&limit=10 {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /api/admin/posts?page=1&limit=10",
+  "stack": "Error: 未找到资源 - /api/admin/posts?page=1&limit=10\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at Immediate.next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Immediate._onImmediate (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15)\n    at process.processImmediate (node:internal/timers:487:21)",
+  "body": {},
+  "params": {},
+  "query": {
+    "page": "1",
+    "limit": "10"
+  }
+}
+2025-07-22 08:02:55 error: [GET] /api/admin/posts/pending?page=1&limit=10 {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /api/admin/posts/pending?page=1&limit=10",
+  "stack": "Error: 未找到资源 - /api/admin/posts/pending?page=1&limit=10\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at Immediate.next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Immediate._onImmediate (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15)\n    at process.processImmediate (node:internal/timers:487:21)",
+  "body": {},
+  "params": {},
+  "query": {
+    "page": "1",
+    "limit": "10"
+  }
+}
+2025-07-22 08:02:56 error: [GET] /api/content/banners?page=1&limit=10&_t=1753142576557 {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /api/content/banners?page=1&limit=10&_t=1753142576557",
+  "stack": "Error: 未找到资源 - /api/content/banners?page=1&limit=10&_t=1753142576557\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Function.handle (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:47:12)",
+  "body": {},
+  "params": {},
+  "query": {
+    "page": "1",
+    "limit": "10",
+    "_t": "1753142576557"
+  }
+}
+2025-07-22 08:02:58 error: [GET] /api/admin/events?page=1&limit=10 {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /api/admin/events?page=1&limit=10",
+  "stack": "Error: 未找到资源 - /api/admin/events?page=1&limit=10\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at Immediate.next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Immediate._onImmediate (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15)\n    at process.processImmediate (node:internal/timers:487:21)",
+  "body": {},
+  "params": {},
+  "query": {
+    "page": "1",
+    "limit": "10"
+  }
+}
+2025-07-22 08:03:16 error: [GET] /api/admin/events?page=1&limit=10 {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /api/admin/events?page=1&limit=10",
+  "stack": "Error: 未找到资源 - /api/admin/events?page=1&limit=10\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at Immediate.next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Immediate._onImmediate (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15)\n    at process.processImmediate (node:internal/timers:487:21)",
+  "body": {},
+  "params": {},
+  "query": {
+    "page": "1",
+    "limit": "10"
+  }
+}
+2025-07-22 08:03:22 error: [GET] /api/tags?page=1&limit=10 {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /api/tags?page=1&limit=10",
+  "stack": "Error: 未找到资源 - /api/tags?page=1&limit=10\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Function.handle (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:47:12)",
+  "body": {},
+  "params": {},
+  "query": {
+    "page": "1",
+    "limit": "10"
+  }
+}
+2025-07-22 08:03:23 error: [GET] /api/admin/events?page=1&limit=10 {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /api/admin/events?page=1&limit=10",
+  "stack": "Error: 未找到资源 - /api/admin/events?page=1&limit=10\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at Immediate.next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Immediate._onImmediate (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15)\n    at process.processImmediate (node:internal/timers:487:21)",
+  "body": {},
+  "params": {},
+  "query": {
+    "page": "1",
+    "limit": "10"
+  }
+}
+2025-07-22 08:36:03 error: 获取活动列表失败 {
+  "service": "campus-wall-api",
+  "error": "eventService.getEventList is not a function"
+}
+2025-07-22 09:27:58 error: [POST] /api/upload {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /api/upload",
+  "stack": "Error: 未找到资源 - /api/upload\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)",
+  "body": {},
+  "params": {},
+  "query": {}
+}
+2025-07-22 10:07:15 error: 创建活动失败 {
+  "service": "campus-wall-api",
+  "error": "Cannot read properties of undefined (reading 'id')"
+}
+2025-07-22 10:14:09 error: [GET] /api/tags?page=1&limit=10 {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /api/tags?page=1&limit=10",
+  "stack": "Error: 未找到资源 - /api/tags?page=1&limit=10\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Function.handle (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:47:12)",
+  "body": {},
+  "params": {},
+  "query": {
+    "page": "1",
+    "limit": "10"
+  }
+}
+2025-07-22 10:20:39 error: 创建活动失败 {
+  "service": "campus-wall-api",
+  "error": "Cannot read properties of undefined (reading 'id')"
+}
+2025-07-22 10:25:17 error: 创建活动失败 {
+  "service": "campus-wall-api",
+  "error": "活动开始时间必须晚于当前时间",
+  "adminId": "910dddd7-3697-49ed-83c8-a60191fc4de6"
+}
+2025-07-22 10:25:52 error: 创建活动失败 {
+  "service": "campus-wall-api",
+  "error": "活动开始时间必须晚于当前时间",
+  "adminId": "910dddd7-3697-49ed-83c8-a60191fc4de6"
+}
+2025-07-22 10:28:05 error: 创建活动失败 {
+  "service": "campus-wall-api",
+  "error": "Incorrect integer value: 'upcoming' for column 'status' at row 1",
+  "adminId": "910dddd7-3697-49ed-83c8-a60191fc4de6"
+}
+2025-07-22 10:33:29 error: 更新活动失败 {
+  "service": "campus-wall-api",
+  "error": "无权限修改此活动",
+  "eventId": "3f6bb16f-4718-456d-9f26-a72e55b533ba"
+}
+2025-07-22 10:33:31 error: 更新活动失败 {
+  "service": "campus-wall-api",
+  "error": "无权限修改此活动",
+  "eventId": "3f6bb16f-4718-456d-9f26-a72e55b533ba"
+}
+2025-07-22 10:33:31 error: 更新活动失败 {
+  "service": "campus-wall-api",
+  "error": "无权限修改此活动",
+  "eventId": "3f6bb16f-4718-456d-9f26-a72e55b533ba"
+}
+2025-07-22 10:33:32 error: 更新活动失败 {
+  "service": "campus-wall-api",
+  "error": "无权限修改此活动",
+  "eventId": "3f6bb16f-4718-456d-9f26-a72e55b533ba"
+}
+2025-07-22 10:33:32 error: 更新活动失败 {
+  "service": "campus-wall-api",
+  "error": "无权限修改此活动",
+  "eventId": "3f6bb16f-4718-456d-9f26-a72e55b533ba"
+}
+2025-07-22 10:35:17 error: 创建活动失败 {
+  "service": "campus-wall-api",
+  "error": "活动开始时间必须晚于当前时间",
+  "adminId": "910dddd7-3697-49ed-83c8-a60191fc4de6"
+}
+2025-07-22 10:36:31 error: 创建活动失败 {
+  "service": "campus-wall-api",
+  "error": "活动开始时间必须晚于当前时间",
+  "adminId": "910dddd7-3697-49ed-83c8-a60191fc4de6"
+}
+2025-07-22 10:37:17 error: 创建活动失败 {
+  "service": "campus-wall-api",
+  "error": "活动开始时间必须晚于当前时间",
+  "adminId": "910dddd7-3697-49ed-83c8-a60191fc4de6"
+}
+2025-07-22 10:44:15 error: 删除活动失败 {
+  "service": "campus-wall-api",
+  "error": "无权限删除此活动",
+  "eventId": "f41bc59d-ef68-484c-a99d-149b58bd0efd"
+}
+2025-07-22 10:44:39 error: 删除活动失败 {
+  "service": "campus-wall-api",
+  "error": "无权限删除此活动",
+  "eventId": "46dd0f24-ae3c-4250-8e81-29fc52161fc6"
+}
+2025-07-22 10:48:39 error: 删除活动失败 {
+  "service": "campus-wall-api",
+  "error": "无权限删除此活动",
+  "eventId": "f41bc59d-ef68-484c-a99d-149b58bd0efd"
+}
+2025-07-22 11:05:05 error: 更新活动失败 {
+  "service": "campus-wall-api",
+  "error": "无权限修改此活动",
+  "eventId": "f41bc59d-ef68-484c-a99d-149b58bd0efd"
+}
+2025-07-22 11:51:31 error: 活动报名失败 {
+  "service": "campus-wall-api",
+  "error": "活动不在报名期间",
+  "eventId": "f41bc59d-ef68-484c-a99d-149b58bd0efd",
+  "userId": "650b875e-9c4f-43a1-8f27-82285784bf36"
+}
+2025-07-23 08:04:53 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:05:03 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:05:14 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:05:24 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:05:27 error: [GET] /api/admin/posts?page=1&limit=10 {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /api/admin/posts?page=1&limit=10",
+  "stack": "Error: 未找到资源 - /api/admin/posts?page=1&limit=10\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at Immediate.next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Immediate._onImmediate (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15)\n    at process.processImmediate (node:internal/timers:487:21)",
+  "body": {},
+  "params": {},
+  "query": {
+    "page": "1",
+    "limit": "10"
+  }
+}
+2025-07-23 08:05:28 error: [GET] /api/admin/comments?page=1&limit=10 {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /api/admin/comments?page=1&limit=10",
+  "stack": "Error: 未找到资源 - /api/admin/comments?page=1&limit=10\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at Immediate.next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Immediate._onImmediate (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15)\n    at process.processImmediate (node:internal/timers:487:21)",
+  "body": {},
+  "params": {},
+  "query": {
+    "page": "1",
+    "limit": "10"
+  }
+}
+2025-07-23 08:05:29 error: [GET] /api/admin/posts/pending?page=1&limit=10 {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /api/admin/posts/pending?page=1&limit=10",
+  "stack": "Error: 未找到资源 - /api/admin/posts/pending?page=1&limit=10\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at Immediate.next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Immediate._onImmediate (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15)\n    at process.processImmediate (node:internal/timers:487:21)",
+  "body": {},
+  "params": {},
+  "query": {
+    "page": "1",
+    "limit": "10"
+  }
+}
+2025-07-23 08:05:30 error: [GET] /api/content/banners?page=1&limit=10&_t=1753229130008 {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /api/content/banners?page=1&limit=10&_t=1753229130008",
+  "stack": "Error: 未找到资源 - /api/content/banners?page=1&limit=10&_t=1753229130008\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Function.handle (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:47:12)",
+  "body": {},
+  "params": {},
+  "query": {
+    "page": "1",
+    "limit": "10",
+    "_t": "1753229130008"
+  }
+}
+2025-07-23 08:05:31 error: [GET] /api/admin/topics?page=1&limit=10 {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /api/admin/topics?page=1&limit=10",
+  "stack": "Error: 未找到资源 - /api/admin/topics?page=1&limit=10\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at Immediate.next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Immediate._onImmediate (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15)\n    at process.processImmediate (node:internal/timers:487:21)",
+  "body": {},
+  "params": {},
+  "query": {
+    "page": "1",
+    "limit": "10"
+  }
+}
+2025-07-23 08:05:34 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:05:34 error: [GET] /api/content/banners?page=1&limit=10&_t=1753229134963 {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /api/content/banners?page=1&limit=10&_t=1753229134963",
+  "stack": "Error: 未找到资源 - /api/content/banners?page=1&limit=10&_t=1753229134963\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Function.handle (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:47:12)",
+  "body": {},
+  "params": {},
+  "query": {
+    "page": "1",
+    "limit": "10",
+    "_t": "1753229134963"
+  }
+}
+2025-07-23 08:05:37 error: [GET] /api/admin/posts/pending?page=1&limit=10 {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /api/admin/posts/pending?page=1&limit=10",
+  "stack": "Error: 未找到资源 - /api/admin/posts/pending?page=1&limit=10\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at Immediate.next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Immediate._onImmediate (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15)\n    at process.processImmediate (node:internal/timers:487:21)",
+  "body": {},
+  "params": {},
+  "query": {
+    "page": "1",
+    "limit": "10"
+  }
+}
+2025-07-23 08:05:39 error: [GET] /api/content/banners?page=1&limit=10&_t=1753229139364 {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /api/content/banners?page=1&limit=10&_t=1753229139364",
+  "stack": "Error: 未找到资源 - /api/content/banners?page=1&limit=10&_t=1753229139364\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Function.handle (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:47:12)",
+  "body": {},
+  "params": {},
+  "query": {
+    "page": "1",
+    "limit": "10",
+    "_t": "1753229139364"
+  }
+}
+2025-07-23 08:05:44 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:05:50 error: [GET] /api/admin/topics?page=1&limit=10 {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /api/admin/topics?page=1&limit=10",
+  "stack": "Error: 未找到资源 - /api/admin/topics?page=1&limit=10\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at Immediate.next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Immediate._onImmediate (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15)\n    at process.processImmediate (node:internal/timers:487:21)",
+  "body": {},
+  "params": {},
+  "query": {
+    "page": "1",
+    "limit": "10"
+  }
+}
+2025-07-23 08:05:54 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:06:05 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:06:15 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:06:26 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:06:36 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:06:47 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:06:57 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:07:08 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:07:19 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:07:30 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:07:40 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:07:51 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:08:02 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:08:13 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:08:24 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:08:35 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:08:46 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:08:58 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:09:09 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:09:20 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:09:31 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:09:43 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:09:54 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:10:06 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:10:17 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:10:29 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:10:40 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:10:52 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:11:04 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:11:15 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:11:27 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:11:39 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:11:51 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:12:03 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:12:15 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:12:27 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:12:39 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:12:51 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:13:03 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:13:15 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:13:27 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:13:39 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:13:51 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:14:03 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:14:15 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:14:27 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:14:39 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:14:51 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:15:03 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:15:15 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:15:27 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:15:39 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:15:51 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:16:03 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:16:15 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:16:27 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:16:39 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:16:51 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:17:03 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:17:16 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:17:28 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:17:40 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:17:52 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:18:04 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:18:16 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:18:28 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:18:40 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:18:52 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:19:04 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:19:16 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:19:28 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:19:40 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:19:52 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:20:04 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:20:16 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:20:28 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:20:40 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:20:52 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:21:04 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:21:16 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:21:28 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:21:40 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:21:52 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:22:04 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:22:16 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:22:28 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:22:40 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:22:52 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:23:04 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:23:16 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:23:28 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:23:40 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:23:52 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:24:04 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:24:16 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:24:28 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:24:40 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:24:52 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:25:04 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:25:16 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:25:28 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:25:40 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:25:52 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:26:04 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:26:16 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:26:28 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:26:40 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:26:52 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:27:04 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:27:16 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:27:28 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:27:40 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:27:52 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:28:04 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:28:16 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:28:28 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:28:40 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:28:52 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:29:05 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:29:17 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:29:29 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:29:41 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:29:53 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:30:05 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:30:17 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:30:29 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:30:41 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:30:53 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:31:05 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:31:17 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:31:29 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:31:41 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:31:53 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:32:05 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:32:17 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:32:29 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:32:41 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:32:53 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:33:05 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:33:17 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:33:29 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:33:41 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:33:53 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:34:05 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:34:17 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:34:29 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:34:41 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:34:53 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:35:05 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:35:17 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:35:29 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:35:41 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:35:53 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:36:05 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:36:17 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:36:29 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:36:41 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:36:53 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:37:05 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:37:17 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:37:29 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:37:41 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:37:53 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:38:05 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:38:17 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:38:29 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:38:41 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:38:53 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:39:05 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:39:17 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:39:29 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:39:41 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:39:53 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:40:05 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:40:18 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:40:30 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:40:42 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:40:54 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:41:06 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:41:18 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:41:30 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:41:42 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:41:54 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:42:06 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:42:18 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:42:25 error: 更新活动失败 {
+  "service": "campus-wall-api",
+  "error": "Incorrect integer value: 'canceled' for column 'status' at row 1",
+  "eventId": "f41bc59d-ef68-484c-a99d-149b58bd0efd"
+}
+2025-07-23 08:42:25 error: Request completed: PUT /api/admin/events/f41bc59d-ef68-484c-a99d-149b58bd0efd {
+  "service": "campus-wall-api",
+  "requestId": "1753231345123-3ynarpqg",
+  "method": "PUT",
+  "url": "/api/admin/events/f41bc59d-ef68-484c-a99d-149b58bd0efd",
+  "statusCode": 500,
+  "duration": "12ms",
+  "contentLength": "106"
+}
+2025-07-23 08:42:30 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:42:42 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:42:45 error: 更新活动失败 {
+  "service": "campus-wall-api",
+  "error": "Incorrect integer value: 'canceled' for column 'status' at row 1",
+  "eventId": "f41bc59d-ef68-484c-a99d-149b58bd0efd"
+}
+2025-07-23 08:42:45 error: Request completed: PUT /api/admin/events/f41bc59d-ef68-484c-a99d-149b58bd0efd {
+  "service": "campus-wall-api",
+  "requestId": "1753231365361-jka7nzoh",
+  "method": "PUT",
+  "url": "/api/admin/events/f41bc59d-ef68-484c-a99d-149b58bd0efd",
+  "statusCode": 500,
+  "duration": "9ms",
+  "contentLength": "106"
+}
+2025-07-23 08:42:54 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:43:06 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:43:18 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:43:25 error: 更新活动失败 {
+  "service": "campus-wall-api",
+  "error": "Incorrect integer value: 'canceled' for column 'status' at row 1",
+  "eventId": "07830da8-4c02-4b26-ba11-b386ab6fef2e"
+}
+2025-07-23 08:43:25 error: Request completed: PUT /api/admin/events/07830da8-4c02-4b26-ba11-b386ab6fef2e {
+  "service": "campus-wall-api",
+  "requestId": "1753231405169-yhiq4jes",
+  "method": "PUT",
+  "url": "/api/admin/events/07830da8-4c02-4b26-ba11-b386ab6fef2e",
+  "statusCode": 500,
+  "duration": "9ms",
+  "contentLength": "106"
+}
+2025-07-23 08:43:30 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:43:42 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:43:54 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:44:06 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:44:18 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-07-23 08:46:05 error: [GET] /api/admin/topics?page=1&limit=10 {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /api/admin/topics?page=1&limit=10",
+  "stack": "Error: 未找到资源 - /api/admin/topics?page=1&limit=10\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at Immediate.next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Immediate._onImmediate (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15)\n    at process.processImmediate (node:internal/timers:487:21)",
+  "body": {},
+  "params": {},
+  "query": {
+    "page": "1",
+    "limit": "10"
+  }
+}
+2025-07-23 08:50:03 error: [GET] /api/admin/topics?page=1&limit=10 {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /api/admin/topics?page=1&limit=10",
+  "stack": "Error: 未找到资源 - /api/admin/topics?page=1&limit=10\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at Immediate.next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Immediate._onImmediate (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15)\n    at process.processImmediate (node:internal/timers:487:21)",
+  "body": {},
+  "params": {},
+  "query": {
+    "page": "1",
+    "limit": "10"
+  }
+}
+2025-07-23 08:55:29 error: 获取活动详情失败 {
+  "service": "campus-wall-api",
+  "error": "event.toJSON is not a function",
+  "eventId": "f41bc59d-ef68-484c-a99d-149b58bd0efd"
+}
+2025-07-23 08:55:52 error: 获取活动详情失败 {
+  "service": "campus-wall-api",
+  "error": "event.toJSON is not a function",
+  "eventId": "f41bc59d-ef68-484c-a99d-149b58bd0efd"
+}
+2025-07-23 08:55:52 error: Request completed: GET /api/events/f41bc59d-ef68-484c-a99d-149b58bd0efd {
+  "service": "campus-wall-api",
+  "requestId": "1753232152081-q7gtbu0f",
+  "method": "GET",
+  "url": "/api/events/f41bc59d-ef68-484c-a99d-149b58bd0efd",
+  "statusCode": 500,
+  "duration": "11ms",
+  "contentLength": "63"
+}
+2025-07-23 08:55:55 error: 获取活动详情失败 {
+  "service": "campus-wall-api",
+  "error": "event.toJSON is not a function",
+  "eventId": "f41bc59d-ef68-484c-a99d-149b58bd0efd"
+}
+2025-07-23 08:55:55 error: Request completed: GET /api/events/f41bc59d-ef68-484c-a99d-149b58bd0efd {
+  "service": "campus-wall-api",
+  "requestId": "1753232155542-apf8tg4h",
+  "method": "GET",
+  "url": "/api/events/f41bc59d-ef68-484c-a99d-149b58bd0efd",
+  "statusCode": 500,
+  "duration": "10ms",
+  "contentLength": "63"
+}
+2025-07-23 08:56:14 error: 获取活动详情失败 {
+  "service": "campus-wall-api",
+  "error": "event.toJSON is not a function",
+  "eventId": "f41bc59d-ef68-484c-a99d-149b58bd0efd"
+}
+2025-07-23 08:56:14 error: Request completed: GET /api/events/f41bc59d-ef68-484c-a99d-149b58bd0efd {
+  "service": "campus-wall-api",
+  "requestId": "1753232174276-jb16p03o",
+  "method": "GET",
+  "url": "/api/events/f41bc59d-ef68-484c-a99d-149b58bd0efd",
+  "statusCode": 500,
+  "duration": "8ms",
+  "contentLength": "63"
+}
+2025-07-23 09:02:53 error: [GET] /static/images/events/coding-1.jpg {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /static/images/events/coding-1.jpg",
+  "stack": "Error: 未找到资源 - /static/images/events/coding-1.jpg\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Function.handle (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:47:12)",
+  "body": {},
+  "params": {},
+  "query": {}
+}
+2025-07-23 09:02:53 error: [GET] /static/images/events/coding-2.jpg {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /static/images/events/coding-2.jpg",
+  "stack": "Error: 未找到资源 - /static/images/events/coding-2.jpg\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Function.handle (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:47:12)",
+  "body": {},
+  "params": {},
+  "query": {}
+}
+2025-07-23 09:03:31 error: [GET] /static/images/events/coding-1.jpg {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /static/images/events/coding-1.jpg",
+  "stack": "Error: 未找到资源 - /static/images/events/coding-1.jpg\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Function.handle (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:47:12)",
+  "body": {},
+  "params": {},
+  "query": {}
+}
+2025-07-23 09:03:31 error: [GET] /static/images/events/coding-2.jpg {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /static/images/events/coding-2.jpg",
+  "stack": "Error: 未找到资源 - /static/images/events/coding-2.jpg\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Function.handle (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:47:12)",
+  "body": {},
+  "params": {},
+  "query": {}
+}
+2025-07-23 09:07:36 error: [GET] /static/images/events/coding-1.jpg {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /static/images/events/coding-1.jpg",
+  "stack": "Error: 未找到资源 - /static/images/events/coding-1.jpg\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Function.handle (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:47:12)",
+  "body": {},
+  "params": {},
+  "query": {}
+}
+2025-07-23 09:07:37 error: [GET] /static/images/events/coding-2.jpg {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /static/images/events/coding-2.jpg",
+  "stack": "Error: 未找到资源 - /static/images/events/coding-2.jpg\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Function.handle (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:47:12)",
+  "body": {},
+  "params": {},
+  "query": {}
+}
+2025-07-23 09:20:23 error: 更新活动失败 {
+  "service": "campus-wall-api",
+  "error": "Incorrect integer value: 'canceled' for column 'status' at row 1",
+  "eventId": "f41bc59d-ef68-484c-a99d-149b58bd0efd"
+}
+2025-07-23 09:20:23 error: Request completed: PUT /api/admin/events/f41bc59d-ef68-484c-a99d-149b58bd0efd {
+  "service": "campus-wall-api",
+  "requestId": "1753233623301-pnmha63h",
+  "method": "PUT",
+  "url": "/api/admin/events/f41bc59d-ef68-484c-a99d-149b58bd0efd",
+  "statusCode": 500,
+  "duration": "21ms",
+  "contentLength": "106"
+}
+2025-07-23 11:56:14 error: [GET] /favicon.ico {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /favicon.ico",
+  "stack": "Error: 未找到资源 - /favicon.ico\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Function.handle (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:47:12)",
+  "body": {},
+  "params": {},
+  "query": {}
+}
+2025-07-23 11:57:03 error: [GET] /static/images/events/lecture-1.jpg {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /static/images/events/lecture-1.jpg",
+  "stack": "Error: 未找到资源 - /static/images/events/lecture-1.jpg\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Function.handle (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:47:12)",
+  "body": {},
+  "params": {},
+  "query": {}
+}
+2025-07-23 11:57:03 error: [GET] /static/images/events/lecture-2.jpg {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /static/images/events/lecture-2.jpg",
+  "stack": "Error: 未找到资源 - /static/images/events/lecture-2.jpg\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Function.handle (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:47:12)",
+  "body": {},
+  "params": {},
+  "query": {}
+}
+2025-07-23 11:57:28 error: [GET] /static/images/events/lecture-1.jpg {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /static/images/events/lecture-1.jpg",
+  "stack": "Error: 未找到资源 - /static/images/events/lecture-1.jpg\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Function.handle (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:47:12)",
+  "body": {},
+  "params": {},
+  "query": {}
+}
+2025-07-23 11:57:29 error: [GET] /static/images/events/lecture-2.jpg {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /static/images/events/lecture-2.jpg",
+  "stack": "Error: 未找到资源 - /static/images/events/lecture-2.jpg\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Function.handle (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:47:12)",
+  "body": {},
+  "params": {},
+  "query": {}
+}
+2025-07-23 12:07:44 error: [GET] /static/images/events/lecture-1.jpg {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /static/images/events/lecture-1.jpg",
+  "stack": "Error: 未找到资源 - /static/images/events/lecture-1.jpg\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Function.handle (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:47:12)",
+  "body": {},
+  "params": {},
+  "query": {}
+}
+2025-07-23 12:07:44 error: [GET] /static/images/events/lecture-2.jpg {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /static/images/events/lecture-2.jpg",
+  "stack": "Error: 未找到资源 - /static/images/events/lecture-2.jpg\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Function.handle (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:47:12)",
+  "body": {},
+  "params": {},
+  "query": {}
+}
+2025-07-23 12:07:55 error: [GET] /static/images/events/lecture-1.jpg {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /static/images/events/lecture-1.jpg",
+  "stack": "Error: 未找到资源 - /static/images/events/lecture-1.jpg\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Function.handle (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:47:12)",
+  "body": {},
+  "params": {},
+  "query": {}
+}
+2025-07-23 12:07:55 error: [GET] /static/images/events/lecture-2.jpg {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /static/images/events/lecture-2.jpg",
+  "stack": "Error: 未找到资源 - /static/images/events/lecture-2.jpg\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Function.handle (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:47:12)",
+  "body": {},
+  "params": {},
+  "query": {}
+}

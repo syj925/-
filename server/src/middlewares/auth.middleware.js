@@ -13,30 +13,43 @@ class AuthMiddleware {
   static authenticate() {
     return (req, res, next) => {
       try {
+        logger.info('认证中间件开始处理请求', {
+          method: req.method,
+          url: req.url,
+          hasAuthHeader: !!req.headers.authorization
+        });
+
         // 获取认证头
         const authHeader = req.headers.authorization;
         if (!authHeader) {
+          logger.warn('请求缺少认证头');
           return res.status(401).json(ResponseUtil.error(errorCodes.INVALID_TOKEN));
         }
 
         // 解析token
         const parts = authHeader.split(' ');
         if (parts.length !== 2 || parts[0] !== 'Bearer') {
+          logger.warn('认证头格式错误', { authHeader });
           return res.status(401).json(ResponseUtil.error(errorCodes.INVALID_TOKEN));
         }
 
         const token = parts[1];
+        logger.info('开始验证JWT token');
+
         const payload = JwtUtil.verifyToken(token);
 
         if (!payload) {
+          logger.warn('JWT token验证失败');
           return res.status(401).json(ResponseUtil.error(errorCodes.INVALID_TOKEN));
         }
+
+        logger.info('JWT token验证成功', { userId: payload.id, username: payload.username });
 
         // 将用户信息添加到请求对象
         req.user = payload;
         next();
       } catch (err) {
-        logger.error('Authentication error:', err);
+        logger.error('认证中间件异常:', err);
         return res.status(401).json(ResponseUtil.error(errorCodes.INVALID_TOKEN));
       }
     };

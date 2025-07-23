@@ -3,6 +3,7 @@ const eventRegistrationRepository = require('../repositories/event-registration.
 const { StatusCodes } = require('http-status-codes');
 const { ErrorMiddleware } = require('../middlewares');
 const errorCodes = require('../constants/error-codes');
+const logger = require('../../config/logger');
 
 /**
  * 活动服务层
@@ -12,15 +13,17 @@ class EventService {
    * 创建活动
    * @param {Object} eventData 活动数据
    * @param {String} organizerId 组织者ID
+   * @param {Boolean} isAdminCreate 是否为管理员创建（管理员创建时跳过时间验证）
    * @returns {Promise<Object>} 创建的活动对象
    */
-  async createEvent(eventData, organizerId) {
+  async createEvent(eventData, organizerId, isAdminCreate = false) {
     // 验证时间逻辑
     const startTime = new Date(eventData.start_time);
     const endTime = new Date(eventData.end_time);
     const now = new Date();
 
-    if (startTime <= now) {
+    // 只有非管理员创建时才验证开始时间必须晚于当前时间
+    if (!isAdminCreate && startTime <= now) {
       throw ErrorMiddleware.createError(
         '活动开始时间必须晚于当前时间',
         StatusCodes.BAD_REQUEST,
@@ -65,7 +68,7 @@ class EventService {
    * @returns {Promise<Object>} 活动详情
    */
   async getEventById(id, currentUserId = null) {
-    const event = await eventRepository.findById(id);
+    const event = await eventRepository.findByIdWithStatusConversion(id);
 
     if (!event) {
       throw ErrorMiddleware.createError(
@@ -116,7 +119,7 @@ class EventService {
     }
 
     return {
-      ...event.toJSON(),
+      ...event,
       registration_status: registrationStatus
     };
   }
@@ -125,10 +128,11 @@ class EventService {
    * 更新活动
    * @param {String} id 活动ID
    * @param {Object} updateData 更新数据
-   * @param {String} organizerId 组织者ID
+   * @param {String} userId 用户ID
+   * @param {String} userRole 用户角色 ('admin' 或 'user')
    * @returns {Promise<Object>} 更新后的活动对象
    */
-  async updateEvent(id, updateData, organizerId) {
+  async updateEvent(id, updateData, userId, userRole = 'user') {
     const event = await eventRepository.findById(id);
     
     if (!event) {
@@ -139,8 +143,8 @@ class EventService {
       );
     }
 
-    // 检查权限（只有组织者可以修改）
-    if (event.organizer_id !== organizerId) {
+    // 检查权限：管理员可以修改任何活动，普通用户只能修改自己创建的活动
+    if (userRole !== 'admin' && event.organizer_id !== userId) {
       throw ErrorMiddleware.createError(
         '无权限修改此活动',
         StatusCodes.FORBIDDEN,
@@ -168,12 +172,13 @@ class EventService {
   /**
    * 删除活动
    * @param {String} id 活动ID
-   * @param {String} organizerId 组织者ID
+   * @param {String} userId 用户ID
+   * @param {String} userRole 用户角色 ('admin' 或 'user')
    * @returns {Promise<Boolean>} 是否成功删除
    */
-  async deleteEvent(id, organizerId) {
+  async deleteEvent(id, userId, userRole = 'user') {
     const event = await eventRepository.findById(id);
-    
+
     if (!event) {
       throw ErrorMiddleware.createError(
         '活动不存在',
@@ -182,8 +187,8 @@ class EventService {
       );
     }
 
-    // 检查权限
-    if (event.organizer_id !== organizerId) {
+    // 检查权限：管理员可以删除任何活动，普通用户只能删除自己创建的活动
+    if (userRole !== 'admin' && event.organizer_id !== userId) {
       throw ErrorMiddleware.createError(
         '无权限删除此活动',
         StatusCodes.FORBIDDEN,
@@ -193,12 +198,26 @@ class EventService {
 
     // 检查是否有报名记录
     const registrationCount = await eventRegistrationRepository.getEventStatistics(id);
-    if (registrationCount.active > 0) {
+
+    if (userRole !== 'admin' && registrationCount.active > 0) {
+      // 普通用户删除：如果有报名记录则不允许删除
       throw ErrorMiddleware.createError(
         '活动已有用户报名，无法删除',
         StatusCodes.BAD_REQUEST,
         errorCodes.EVENT_HAS_REGISTRATIONS
       );
+    }
+
+    // 管理员删除：先删除所有相关的报名记录，再删除活动
+    if (userRole === 'admin' && registrationCount.total > 0) {
+      logger.info('管理员删除活动，先删除相关报名记录', {
+        eventId: id,
+        userId,
+        totalRegistrations: registrationCount.total
+      });
+
+      // 删除所有相关的报名记录（软删除）
+      await eventRegistrationRepository.deleteByEventId(id);
     }
 
     return await eventRepository.delete(id);
@@ -249,8 +268,8 @@ class EventService {
       );
     }
 
-    // 检查活动状态
-    if (event.status !== 1) {
+    // 检查活动状态 - 只有进行中(2)才可以报名
+    if (event.status !== 2) {
       throw ErrorMiddleware.createError(
         '活动不在报名期间',
         StatusCodes.BAD_REQUEST,

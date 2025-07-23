@@ -75,6 +75,11 @@ export default {
     // 活动状态样式类
     statusClass() {
       const statusMap = {
+        'upcoming': 'status-upcoming',
+        'ongoing': 'status-ongoing',
+        'ended': 'status-ended',
+        'canceled': 'status-cancelled',
+        // 兼容旧的数字格式
         1: 'status-registering', // 报名中
         2: 'status-ongoing',     // 进行中
         3: 'status-ended',       // 已结束
@@ -82,12 +87,17 @@ export default {
       }
       return statusMap[this.event.status] || 'status-registering'
     },
-    
+
     // 活动状态文本
     statusText() {
       const statusMap = {
+        'upcoming': '未开始',
+        'ongoing': '进行中',
+        'ended': '已结束',
+        'canceled': '已取消',
+        // 兼容旧的数字格式
         1: '报名中',
-        2: '进行中', 
+        2: '进行中',
         3: '已结束',
         0: '已取消'
       }

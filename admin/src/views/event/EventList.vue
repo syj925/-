@@ -58,23 +58,23 @@
         <el-table-column prop="location" label="活动地点" width="150" show-overflow-tooltip />
         <el-table-column label="活动时间" width="300">
           <template #default="scope">
-            {{ formatDateTime(scope.row.startTime) }} 至 {{ formatDateTime(scope.row.endTime) }}
+            {{ formatDateTime(scope.row.start_time) }} 至 {{ formatDateTime(scope.row.end_time) }}
           </template>
         </el-table-column>
         <el-table-column prop="organizer" label="组织者" width="120" />
         <el-table-column prop="currentParticipants" label="报名人数" width="100" sortable>
           <template #default="scope">
-            {{ scope.row.currentParticipants || 0 }}
-            <span v-if="scope.row.maxParticipants > 0">/ {{ scope.row.maxParticipants }}</span>
+            {{ scope.row.current_participants || 0 }}
+            <span v-if="scope.row.max_participants > 0">/ {{ scope.row.max_participants }}</span>
           </template>
         </el-table-column>
         <el-table-column label="封面图" width="120">
           <template #default="scope">
             <el-image 
               style="width: 80px; height: 45px" 
-              :src="scope.row.coverImage || '/placeholder-image.png'" 
+              :src="scope.row.cover_image || '/placeholder-image.png'"
               fit="cover"
-              :preview-src-list="scope.row.coverImage ? [scope.row.coverImage] : []"
+              :preview-src-list="scope.row.cover_image ? [scope.row.cover_image] : []"
             >
               <template #error>
                 <div class="image-placeholder">暂无图片</div>
@@ -94,10 +94,10 @@
             <el-button size="small" @click="handleEdit(scope.row)">编辑</el-button>
             <el-button 
               size="small" 
-              :type="scope.row.isRecommended ? 'info' : 'success'" 
+              :type="scope.row.is_recommended ? 'info' : 'success'"
               @click="handleToggleRecommend(scope.row)"
             >
-              {{ scope.row.isRecommended ? '取消推荐' : '推荐' }}
+              {{ scope.row.is_recommended ? '取消推荐' : '推荐' }}
             </el-button>
             <el-button 
               size="small" 
@@ -168,8 +168,8 @@
             style="width: 100%"
           />
         </el-form-item>
-        <el-form-item label="组织者" prop="organizer">
-          <el-input v-model="editingEvent.organizer" placeholder="请输入组织者" />
+        <el-form-item label="组织者" prop="organizer_id">
+          <el-input v-model="editingEvent.organizer_id" placeholder="请输入组织者ID" />
         </el-form-item>
         <el-form-item label="活动描述" prop="description">
           <el-input
@@ -179,7 +179,7 @@
             placeholder="请输入活动描述"
           />
         </el-form-item>
-        <el-form-item label="封面图" prop="coverImage">
+        <el-form-item label="封面图" prop="cover_image">
           <el-upload
             class="avatar-uploader"
             action="/api/upload"
@@ -190,7 +190,7 @@
             :on-error="handleUploadError"
             :before-upload="beforeUpload"
           >
-            <img v-if="editingEvent.coverImage" :src="editingEvent.coverImage" class="avatar" />
+            <img v-if="editingEvent.cover_image" :src="editingEvent.cover_image" class="avatar" />
             <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
           </el-upload>
           <div class="upload-tip">建议尺寸: 800x450px，大小不超过2MB</div>
@@ -229,12 +229,12 @@
           </div>
         </el-form-item>
         
-        <el-form-item label="报名上限" prop="maxParticipants">
-          <el-input-number v-model="editingEvent.maxParticipants" :min="0" :max="10000" />
+        <el-form-item label="报名上限" prop="max_participants">
+          <el-input-number v-model="editingEvent.max_participants" :min="0" :max="10000" />
           <span class="form-tip">0表示不限制人数</span>
         </el-form-item>
-        <el-form-item label="是否推荐" prop="isRecommended">
-          <el-switch v-model="editingEvent.isRecommended" />
+        <el-form-item label="是否推荐" prop="is_recommended">
+          <el-switch v-model="editingEvent.is_recommended" />
         </el-form-item>
         <el-form-item label="活动状态" prop="status">
           <el-select v-model="editingEvent.status" placeholder="请选择活动状态">
@@ -246,9 +246,9 @@
         </el-form-item>
         
         <!-- 报名截止日期 -->
-        <el-form-item label="报名截止日期" prop="registrationDeadline">
+        <el-form-item label="报名截止日期" prop="registration_deadline">
           <el-date-picker
-            v-model="editingEvent.registrationDeadline"
+            v-model="editingEvent.registration_deadline"
             type="datetime"
             placeholder="选择报名截止日期"
             format="YYYY-MM-DD HH:mm:ss"
@@ -259,14 +259,14 @@
         </el-form-item>
         
         <!-- 允许取消报名 -->
-        <el-form-item label="允许取消报名" prop="allowCancelRegistration">
-          <el-switch v-model="editingEvent.allowCancelRegistration" />
+        <el-form-item label="允许取消报名" prop="allow_cancel_registration">
+          <el-switch v-model="editingEvent.allow_cancel_registration" />
         </el-form-item>
         
         <!-- 报名表单字段 -->
         <el-form-item label="报名表单字段">
           <div class="form-fields-container">
-            <div v-for="(field, index) in editingEvent.registrationFields" :key="index" class="field-card">
+            <div v-for="(field, index) in editingEvent.form_config" :key="index" class="field-card">
               <div class="field-header">
                 <h4>字段 #{{ index + 1 }}</h4>
                 <el-button type="danger" size="small" @click="removeFormField(index)">
@@ -336,6 +336,17 @@ import { ElMessage, ElMessageBox } from 'element-plus';
 import { Plus, Delete } from '@element-plus/icons-vue';
 import api from '../../utils/api.js';
 import { useRouter } from 'vue-router';
+// 暂时注释掉API配置，先让基本功能工作
+// import {
+//   isApiSuccess,
+//   getApiMessage,
+//   getApiData,
+//   transformToBackend,
+//   transformToFrontend,
+//   EVENT_STATUS,
+//   EVENT_STATUS_LABELS
+// } from '../../config/api-config.js';
+// import { handleListApi, handleMutationApi, handleDeleteApi } from '../../utils/api-helper.js';
 
 // 获取router实例
 const router = useRouter();
@@ -361,17 +372,17 @@ const editingEvent = reactive({
   title: '',
   location: '',
   timeRange: [],
-  organizer: '',
+  organizer_id: '',
   description: '',
-  coverImage: '',
-  detailImages: [],
+  cover_image: '',
+  detail_images: [],
   notices: [],
-  maxParticipants: 0,
-  isRecommended: false,
+  max_participants: 0,
+  is_recommended: false,
   status: 'upcoming',
-  registrationDeadline: '',
-  allowCancelRegistration: true,
-  registrationFields: []
+  registration_deadline: '',
+  allow_cancel_registration: true,
+  form_config: []
 });
 const detailImagesList = ref([]);
 const eventForm = ref(null);
@@ -386,13 +397,13 @@ const rules = {
   timeRange: [
     { required: true, message: '请选择活动时间', trigger: 'change' }
   ],
-  organizer: [
-    { required: true, message: '请输入组织者', trigger: 'blur' }
+  organizer_id: [
+    { required: true, message: '请输入组织者ID', trigger: 'blur' }
   ],
   description: [
     { required: true, message: '请输入活动描述', trigger: 'blur' }
   ],
-  coverImage: [
+  cover_image: [
     { required: true, message: '请上传活动封面图', trigger: 'change' }
   ],
   status: [
@@ -409,12 +420,12 @@ onMounted(() => {
 watch(() => editingEvent.timeRange, (newValue) => {
   if (newValue && newValue.length === 2) {
     const now = new Date();
-    const startTime = new Date(newValue[0]);
-    const endTime = new Date(newValue[1]);
-    
-    if (startTime > now) {
+    const start_time = new Date(newValue[0]);
+    const end_time = new Date(newValue[1]);
+
+    if (start_time > now) {
       editingEvent.status = 'upcoming';
-    } else if (endTime < now) {
+    } else if (end_time < now) {
       editingEvent.status = 'ended';
     } else {
       editingEvent.status = 'ongoing';
@@ -432,10 +443,12 @@ const fetchEvents = async () => {
       title: searchQuery.value || undefined,
       status: eventStatus.value || undefined,
       startDate: dateRange.value && dateRange.value[0] ? dateRange.value[0] : undefined,
-      endDate: dateRange.value && dateRange.value[1] ? dateRange.value[1] : undefined
+      endDate: dateRange.value && dateRange.value[1] ? dateRange.value[1] : undefined,
+      _t: Date.now() // 添加时间戳避免缓存
     };
-    
+
     const res = await api.events.getList(params);
+
     if (res.success) {
       eventList.value = res.data.events || [];
       total.value = res.data.pagination?.total || 0;
@@ -478,17 +491,17 @@ const handleCreate = () => {
     title: '',
     location: '',
     timeRange: [],
-    organizer: '',
+    organizer_id: '',
     description: '',
-    coverImage: '',
-    detailImages: [],
+    cover_image: '',
+    detail_images: [],
     notices: [],
-    maxParticipants: 0,
-    isRecommended: false,
+    max_participants: 0,
+    is_recommended: false,
     status: 'upcoming',
-    registrationDeadline: '',
-    allowCancelRegistration: true,
-    registrationFields: []
+    registration_deadline: '',
+    allow_cancel_registration: true,
+    form_config: []
   });
   detailImagesList.value = [];
   dialogVisible.value = true;
@@ -497,19 +510,19 @@ const handleCreate = () => {
 const handleEdit = (row) => {
   Object.assign(editingEvent, {
     ...row,
-    timeRange: [row.startTime, row.endTime],
-    detailImages: Array.isArray(row.detailImages) ? row.detailImages : [],
+    timeRange: [row.start_time, row.end_time],
+    detail_images: Array.isArray(row.detail_images) ? row.detail_images : [],
     notices: Array.isArray(row.notices) ? row.notices : [],
-    registrationFields: Array.isArray(row.registrationFields) ? row.registrationFields : [],
-    allowCancelRegistration: row.allowCancelRegistration !== undefined ? row.allowCancelRegistration : true
+    form_config: Array.isArray(row.form_config) ? row.form_config : [],
+    allow_cancel_registration: row.allow_cancel_registration !== undefined ? row.allow_cancel_registration : true
   });
-  
-  detailImagesList.value = formatDetailImages(Array.isArray(row.detailImages) ? row.detailImages : []);
+
+  detailImagesList.value = formatDetailImages(Array.isArray(row.detail_images) ? row.detail_images : []);
   dialogVisible.value = true;
 };
 
 const handleToggleRecommend = async (row) => {
-  const action = row.isRecommended ? '取消推荐' : '推荐';
+  const action = row.is_recommended ? '取消推荐' : '推荐';
   
   try {
     await ElMessageBox.confirm(`确定要${action}该活动吗?`, '提示', {
@@ -519,15 +532,16 @@ const handleToggleRecommend = async (row) => {
     });
     
     loading.value = true;
-    const res = await api.events.update(row.id, { 
-      isRecommended: !row.isRecommended 
+    const res = await api.events.update(row.id, {
+      is_recommended: !row.is_recommended
     });
-    
-    if (res.success) {
-      row.isRecommended = !row.isRecommended;
+
+    // 兼容两种响应格式：{success: true} 和 {code: 0}
+    if (res.success === true || res.code === 0) {
+      row.is_recommended = !row.is_recommended;
       ElMessage.success(`已${action}活动: ${row.title}`);
     } else {
-      ElMessage.error(res.message || `${action}失败`);
+      ElMessage.error(res.message || res.msg || `${action}失败`);
     }
   } catch (error) {
     if (error !== 'cancel') {
@@ -536,30 +550,54 @@ const handleToggleRecommend = async (row) => {
     }
   } finally {
     loading.value = false;
+  }
+};
+
+// 根据活动时间计算正确的状态
+const calculateEventStatus = (startTime, endTime) => {
+  const now = new Date();
+  const start = new Date(startTime);
+  const end = new Date(endTime);
+
+  if (now < start) {
+    return 'upcoming';  // 未开始
+  } else if (now >= start && now <= end) {
+    return 'ongoing';   // 进行中
+  } else {
+    return 'ended';     // 已结束
   }
 };
 
 const handleToggleStatus = async (row) => {
   if (row.status === 'ended') return;
-  
+
   const action = row.status === 'canceled' ? '恢复' : '取消';
-  const newStatus = row.status === 'canceled' ? 'upcoming' : 'canceled';
-  
+  let newStatus;
+
+  if (row.status === 'canceled') {
+    // 恢复活动时，根据时间计算正确的状态
+    newStatus = calculateEventStatus(row.start_time, row.end_time);
+  } else {
+    // 取消活动
+    newStatus = 'canceled';
+  }
+
   try {
     await ElMessageBox.confirm(`确定要${action}该活动吗?`, '提示', {
       confirmButtonText: '确定',
       cancelButtonText: '取消',
       type: 'warning'
     });
-    
+
     loading.value = true;
     const res = await api.events.update(row.id, { status: newStatus });
-    
-    if (res.success) {
+
+    // 兼容两种响应格式：{success: true} 和 {code: 0}
+    if (res.success === true || res.code === 0) {
       row.status = newStatus;
       ElMessage.success(`已${action}活动: ${row.title}`);
     } else {
-      ElMessage.error(res.message || `${action}失败`);
+      ElMessage.error(res.message || res.msg || `${action}失败`);
     }
   } catch (error) {
     if (error !== 'cancel') {
@@ -569,16 +607,21 @@ const handleToggleStatus = async (row) => {
   } finally {
     loading.value = false;
   }
+};
+
+const formatId = (id) => {
+  if (!id) return '';
+  return id.substring(0, 8) + '...';
 };
 
 const getTagType = (status) => {
   const map = {
     'upcoming': 'info',
     'ongoing': 'success',
-    'ended': '',
+    'ended': 'warning',
     'canceled': 'danger'
   };
-  return map[status] || '';
+  return map[status] || 'info';
 };
 
 const getStatusText = (status) => {
@@ -605,40 +648,40 @@ const handleSubmit = async () => {
       
       try {
         // 将时间范围转换为起止时间
-        const startTime = editingEvent.timeRange[0];
-        const endTime = editingEvent.timeRange[1];
+        const start_time = editingEvent.timeRange[0];
+        const end_time = editingEvent.timeRange[1];
         
         // 准备提交的数据
         const eventData = {
           title: editingEvent.title,
           location: editingEvent.location,
-          organizer: editingEvent.organizer,
+          organizer_id: editingEvent.organizer_id,
           description: editingEvent.description,
-          coverImage: editingEvent.coverImage,
-          detailImages: editingEvent.detailImages,
+          cover_image: editingEvent.cover_image,
+          detail_images: editingEvent.detail_images,
           notices: editingEvent.notices.filter(notice => notice.trim() !== ''),
-          maxParticipants: editingEvent.maxParticipants,
-          isRecommended: editingEvent.isRecommended,
+          max_participants: editingEvent.max_participants,
+          is_recommended: editingEvent.is_recommended,
           status: editingEvent.status,
-          startTime: startTime,
-          endTime: endTime,
-          allowCancelRegistration: editingEvent.allowCancelRegistration,
-          registrationFields: editingEvent.registrationFields.filter(field => 
-            field.name && field.name.trim() !== '' && 
-            field.label && field.label.trim() !== '' && 
+          start_time: start_time,
+          end_time: end_time,
+          allow_cancel_registration: editingEvent.allow_cancel_registration,
+          form_config: editingEvent.form_config.filter(field =>
+            field.name && field.name.trim() !== '' &&
+            field.label && field.label.trim() !== '' &&
             field.type
           )
         };
 
         // 只有当报名截止日期是有效日期时才添加到请求数据中
-        if (editingEvent.registrationDeadline && 
-            editingEvent.registrationDeadline !== 'Invalid date' && 
-            !isNaN(new Date(editingEvent.registrationDeadline).getTime())) {
-          eventData.registrationDeadline = editingEvent.registrationDeadline;
+        if (editingEvent.registration_deadline &&
+            editingEvent.registration_deadline !== 'Invalid date' &&
+            !isNaN(new Date(editingEvent.registration_deadline).getTime())) {
+          eventData.registration_deadline = editingEvent.registration_deadline;
         }
         
         // 处理select类型的选项，确保每个选择类型字段都有options数组
-        eventData.registrationFields.forEach(field => {
+        eventData.form_config.forEach(field => {
           if (field.type === 'select' && (!field.options || !Array.isArray(field.options))) {
             field.options = [];
           }
@@ -652,13 +695,25 @@ const handleSubmit = async () => {
           // 创建新活动
           res = await api.events.create(eventData);
         }
-        
-        if (res.success) {
+
+        console.log('API响应:', res);
+        console.log('响应类型:', typeof res);
+        console.log('响应code:', res.code);
+        console.log('响应msg:', res.msg);
+        console.log('响应success:', res.success);
+        console.log('响应message:', res.message);
+
+        // 兼容两种响应格式
+        const isSuccess = res.code === 0 || res.success === true;
+        const message = res.msg || res.message;
+
+        if (isSuccess) {
           ElMessage.success(editingEvent.id ? '活动更新成功!' : '活动创建成功!');
           dialogVisible.value = false;
           fetchEvents(); // 重新加载列表
         } else {
-          ElMessage.error(res.message || '操作失败');
+          console.error('操作失败，响应:', res);
+          ElMessage.error(message || '操作失败');
         }
       } catch (error) {
         console.error('保存活动失败:', error);
@@ -674,11 +729,15 @@ const handleSubmit = async () => {
 
 const handleUploadSuccess = (response) => {
   console.log('上传成功响应:', response);
-  if (response.success) {
-    editingEvent.coverImage = response.data.url;
+  if (response.code === 0) {
+    // 拼接完整的图片URL
+    const imageUrl = response.data.url.startsWith('http')
+      ? response.data.url
+      : `http://localhost:3000${response.data.url}`;
+    editingEvent.cover_image = imageUrl;
     ElMessage.success('图片上传成功');
   } else {
-    ElMessage.error(response.message || '图片上传失败');
+    ElMessage.error(response.msg || '图片上传失败');
   }
 };
 
@@ -738,11 +797,15 @@ const removeNotice = (index) => {
 
 // 处理详情图片上传成功
 const handleDetailImageSuccess = (response, uploadFile) => {
-  if (response.success) {
-    editingEvent.detailImages.push(response.data.url);
+  if (response.code === 0) {
+    // 拼接完整的图片URL
+    const imageUrl = response.data.url.startsWith('http')
+      ? response.data.url
+      : `http://localhost:3000${response.data.url}`;
+    editingEvent.detail_images.push(imageUrl);
     ElMessage.success('详情图片上传成功');
   } else {
-    ElMessage.error(response.message || '图片上传失败');
+    ElMessage.error(response.msg || '图片上传失败');
   }
 };
 
@@ -750,7 +813,7 @@ const handleDetailImageSuccess = (response, uploadFile) => {
 const handleDetailImageRemove = (uploadFile) => {
   const index = detailImagesList.value.indexOf(uploadFile);
   if (index !== -1) {
-    editingEvent.detailImages.splice(index, 1);
+    editingEvent.detail_images.splice(index, 1);
   }
 };
 
@@ -765,10 +828,10 @@ const formatDetailImages = (images) => {
 
 // 添加表单字段
 const addFormField = () => {
-  if (!editingEvent.registrationFields) {
-    editingEvent.registrationFields = [];
+  if (!editingEvent.form_config) {
+    editingEvent.form_config = [];
   }
-  editingEvent.registrationFields.push({
+  editingEvent.form_config.push({
     name: '',
     label: '',
     type: 'text',
@@ -778,12 +841,12 @@ const addFormField = () => {
 
 // 删除表单字段
 const removeFormField = (index) => {
-  editingEvent.registrationFields.splice(index, 1);
+  editingEvent.form_config.splice(index, 1);
 };
 
 // 添加选项
 const addOption = (fieldIndex) => {
-  const field = editingEvent.registrationFields[fieldIndex];
+  const field = editingEvent.form_config[fieldIndex];
   if (!field.options) {
     field.options = [];
   }
@@ -792,7 +855,7 @@ const addOption = (fieldIndex) => {
 
 // 删除选项
 const removeOption = (fieldIndex, optionIndex) => {
-  editingEvent.registrationFields[fieldIndex].options.splice(optionIndex, 1);
+  editingEvent.form_config[fieldIndex].options.splice(optionIndex, 1);
 };
 
 const handleManageRegistrations = (row) => {
@@ -815,12 +878,24 @@ const handleDeleteEvent = async (row) => {
     
     loading.value = true;
     const res = await api.events.delete(row.id);
-    
-    if (res.success) {
+
+    console.log('删除活动API响应:', res);
+    console.log('响应类型:', typeof res);
+    console.log('响应code:', res.code);
+    console.log('响应success:', res.success);
+    console.log('响应message:', res.message);
+    console.log('响应msg:', res.msg);
+
+    // 兼容两种响应格式
+    const isSuccess = res.code === 0 || res.success === true;
+    const message = res.msg || res.message;
+
+    if (isSuccess) {
       ElMessage.success(`活动 "${row.title}" 已成功删除`);
       fetchEvents(); // 重新加载活动列表
     } else {
-      ElMessage.error(res.message || '删除活动失败');
+      console.error('删除失败，响应:', res);
+      ElMessage.error(message || '删除活动失败');
     }
   } catch (error) {
     if (error !== 'cancel') {

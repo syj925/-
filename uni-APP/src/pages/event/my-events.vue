@@ -153,9 +153,14 @@
 <script>
 import { eventApi } from '@/api'
 import { UrlUtils } from '@/utils'
+import AppIcon from '@/components/common/AppIcon.vue'
 
 export default {
   name: 'MyEventsPage',
+
+  components: {
+    AppIcon
+  },
   
   data() {
     return {
@@ -168,7 +173,8 @@ export default {
       currentPage: 1,
       pageSize: 10,
       currentStatus: '', // 当前选中的状态
-      
+      needRefresh: false, // 是否需要刷新数据
+
       // 状态标签
       statusTabs: [
         { label: '全部', value: '' },
@@ -207,10 +213,14 @@ export default {
     this.loadMyEvents()
     this.loadStats()
   },
-  
+
   onShow() {
-    // 页面显示时刷新数据
-    this.onRefresh()
+    // 页面显示时只在必要时刷新数据
+    // 避免每次显示都重复加载
+    if (this.needRefresh) {
+      this.onRefresh()
+      this.needRefresh = false
+    }
   },
   
   onPullDownRefresh() {
@@ -224,38 +234,43 @@ export default {
   methods: {
     // 加载我的活动
     async loadMyEvents(isRefresh = false) {
+      // 防止重复请求
       if (this.loading && !isRefresh) return
-      
+
       try {
         if (isRefresh) {
           this.currentPage = 1
           this.hasMore = true
+          this.events = [] // 刷新时清空现有数据
         }
-        
-        this.loading = !isRefresh
-        
+
+        this.loading = true
+
         const params = {
           page: this.currentPage,
-          pageSize: this.pageSize,
+          limit: this.pageSize,
           status: this.currentStatus
         }
-        
+
         const result = await eventApi.getMyRegistrations(params)
-        
+
         if (result.code === 0 && result.data) {
           const newEvents = result.data.registrations || []
-          
-          if (isRefresh) {
+
+          if (isRefresh || this.currentPage === 1) {
+            // 刷新或第一页时直接替换
             this.events = newEvents
           } else {
+            // 加载更多时追加
             this.events = [...this.events, ...newEvents]
           }
-          
+
           // 判断是否还有更多数据
           this.hasMore = newEvents.length === this.pageSize
-          
-          if (this.hasMore) {
-            this.currentPage++
+
+          // 如果是第一次加载或刷新，且有更多数据，准备下一页
+          if (isRefresh && this.hasMore) {
+            this.currentPage = 2 // 下次加载第2页
           }
         } else {
           console.error('获取我的活动失败:', result.message)
@@ -274,7 +289,7 @@ export default {
         this.loading = false
         this.loadingMore = false
         this.refreshing = false
-        
+
         // 停止下拉刷新
         uni.stopPullDownRefresh()
       }
@@ -303,12 +318,14 @@ export default {
       if (this.loadingMore || !this.hasMore || this.loading) return
 
       this.loadingMore = true
-      await this.loadMyEvents()
+      this.currentPage++ // 先递增页码
+      await this.loadMyEvents(false) // 明确传递 false 表示不是刷新
     },
 
     // 下拉刷新
     async onRefresh() {
       this.refreshing = true
+      this.currentPage = 1 // 重置页码
       await this.loadMyEvents(true)
       await this.loadStats()
     },
@@ -448,6 +465,8 @@ export default {
 
     // 跳转到活动详情
     goToDetail(event) {
+      // 标记从详情页返回时需要刷新
+      this.needRefresh = true
       uni.navigateTo({
         url: `/pages/event/detail?id=${event.event.id}`
       })

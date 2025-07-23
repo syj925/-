@@ -5447,3 +5447,535 @@ Error: listen EADDRINUSE: address already in use 0.0.0.0:3000
   ],
   "service": "campus-wall-api"
 }
+2025-07-22 08:18:11 error: uncaughtException: Logger is not a constructor
+TypeError: Logger is not a constructor
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\controllers\admin\event.controller.js:8:16)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\routes\admin.routes.js:10:30) {
+  "error": {},
+  "stack": "TypeError: Logger is not a constructor\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\admin\\event.controller.js:8:16)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\admin.routes.js:10:30)",
+  "exception": true,
+  "date": "Tue Jul 22 2025 08:18:11 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 2944,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 107827200,
+      "heapTotal": 61808640,
+      "heapUsed": 42740640,
+      "external": 2441388,
+      "arrayBuffers": 52095
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 20224.734
+  },
+  "trace": [
+    {
+      "column": 16,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\admin\\event.controller.js",
+      "function": null,
+      "line": 8,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 30,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\admin.routes.js",
+      "function": null,
+      "line": 10,
+      "method": null,
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-07-22 08:18:42 error: uncaughtException: Logger is not a constructor
+TypeError: Logger is not a constructor
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\controllers\admin\event.controller.js:8:16)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\routes\admin.routes.js:10:30) {
+  "error": {},
+  "stack": "TypeError: Logger is not a constructor\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\admin\\event.controller.js:8:16)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\admin.routes.js:10:30)",
+  "exception": true,
+  "date": "Tue Jul 22 2025 08:18:42 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 31172,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 112128000,
+      "heapTotal": 66002944,
+      "heapUsed": 33925728,
+      "external": 2441102,
+      "arrayBuffers": 52095
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 20255
+  },
+  "trace": [
+    {
+      "column": 16,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\admin\\event.controller.js",
+      "function": null,
+      "line": 8,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 30,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\admin.routes.js",
+      "function": null,
+      "line": 10,
+      "method": null,
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-07-22 08:33:13 error: uncaughtException: Logger is not a constructor
+TypeError: Logger is not a constructor
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\controllers\admin\event.controller.js:8:16)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\routes\admin.routes.js:10:30) {
+  "error": {},
+  "stack": "TypeError: Logger is not a constructor\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\admin\\event.controller.js:8:16)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\admin.routes.js:10:30)",
+  "exception": true,
+  "date": "Tue Jul 22 2025 08:33:13 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 31028,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 112697344,
+      "heapTotal": 66265088,
+      "heapUsed": 33451376,
+      "external": 2441102,
+      "arrayBuffers": 52095
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 21126.125
+  },
+  "trace": [
+    {
+      "column": 16,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\admin\\event.controller.js",
+      "function": null,
+      "line": 8,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 30,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\admin.routes.js",
+      "function": null,
+      "line": 10,
+      "method": null,
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-07-22 11:01:19 error: uncaughtException: Cannot find module '../utils/logger'
+Require stack:
+- C:\Users\26933\Desktop\校园墙\server\src\services\event.service.js
+- C:\Users\26933\Desktop\校园墙\server\src\controllers\admin\event.controller.js
+- C:\Users\26933\Desktop\校园墙\server\src\routes\admin.routes.js
+- C:\Users\26933\Desktop\校园墙\server\src\routes\index.js
+- C:\Users\26933\Desktop\校园墙\server\src\app.js
+- C:\Users\26933\Desktop\校园墙\server\src\server.js
+Error: Cannot find module '../utils/logger'
+Require stack:
+- C:\Users\26933\Desktop\校园墙\server\src\services\event.service.js
+- C:\Users\26933\Desktop\校园墙\server\src\controllers\admin\event.controller.js
+- C:\Users\26933\Desktop\校园墙\server\src\routes\admin.routes.js
+- C:\Users\26933\Desktop\校园墙\server\src\routes\index.js
+- C:\Users\26933\Desktop\校园墙\server\src\app.js
+- C:\Users\26933\Desktop\校园墙\server\src\server.js
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)
+    at Function._load (node:internal/modules/cjs/loader:1211:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\services\event.service.js:6:16)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14) {
+  "error": {
+    "code": "MODULE_NOT_FOUND",
+    "requireStack": [
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\event.service.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\admin\\event.controller.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\admin.routes.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\index.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\app.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ]
+  },
+  "stack": "Error: Cannot find module '../utils/logger'\nRequire stack:\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\event.service.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\admin\\event.controller.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\admin.routes.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\index.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\app.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js\n    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)\n    at Function._load (node:internal/modules/cjs/loader:1211:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\event.service.js:6:16)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)",
+  "exception": true,
+  "date": "Tue Jul 22 2025 11:01:19 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 28416,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 112517120,
+      "heapTotal": 66002944,
+      "heapUsed": 33837712,
+      "external": 2441102,
+      "arrayBuffers": 52095
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 30012.265
+  },
+  "trace": [
+    {
+      "column": 15,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._resolveFilename",
+      "line": 1401,
+      "method": "_resolveFilename",
+      "native": false
+    },
+    {
+      "column": 19,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "defaultResolveImpl",
+      "line": 1057,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 22,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "resolveForCJSWithHooks",
+      "line": 1062,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 37,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1211,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\event.service.js",
+      "function": null,
+      "line": 6,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}

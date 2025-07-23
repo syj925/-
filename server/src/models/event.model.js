@@ -110,7 +110,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.TINYINT,
         allowNull: false,
         defaultValue: 1,
-        comment: '活动状态：1-报名中，2-进行中，3-已结束，0-已取消'
+        comment: '活动状态：1-未开始，2-进行中，3-已结束，4-已取消'
       },
       is_recommended: {
         type: DataTypes.BOOLEAN,

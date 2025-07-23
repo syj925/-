@@ -42,6 +42,14 @@ export const eventApi = {
   },
 
   /**
+   * 获取活动报名表单配置
+   * @param {string} id - 活动ID
+   */
+  getFormConfig(id) {
+    return request.get(`/api/events/${id}/form-config`)
+  },
+
+  /**
    * 创建活动
    * @param {Object} eventData - 活动数据
    */
