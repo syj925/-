@@ -25,6 +25,22 @@ class ErrorMiddleware {
    */
   static handler() {
     return (err, req, res, next) => {
+      // 记录详细的错误信息用于调试
+      console.log('=== 错误处理中间件调试 ===');
+      console.log('错误对象:', {
+        message: err.message,
+        statusCode: err.statusCode,
+        errorCode: err.errorCode,
+        name: err.name,
+        stack: err.stack?.split('\n').slice(0, 3).join('\n')
+      });
+      console.log('请求信息:', {
+        method: req.method,
+        url: req.originalUrl,
+        body: req.body,
+        params: req.params
+      });
+
       // 获取状态码，默认500
       const statusCode = err.statusCode || StatusCodes.INTERNAL_SERVER_ERROR;
       
@@ -58,19 +74,28 @@ class ErrorMiddleware {
         errorCode = err.errorCode;
       }
 
+      console.log('最终错误码:', errorCode);
+      console.log('状态码:', statusCode);
+
       // Sequelize错误处理
       if (err.name === 'SequelizeValidationError' || err.name === 'SequelizeUniqueConstraintError') {
         errorCode = errorCodes.PARAM_ERROR;
-        
-        // 提取Sequelize错误信息
-        const details = err.errors.map(e => ({
-          field: e.path,
-          message: e.message
-        }));
-        
-        return res.status(StatusCodes.BAD_REQUEST).json(
-          ResponseUtil.error(errorCode, { details })
-        );
+
+        // 安全地提取Sequelize错误信息
+        const details = (err.errors && Array.isArray(err.errors))
+          ? err.errors.map(e => ({
+              field: e.path || e.field,
+              message: e.message
+            }))
+          : [{ field: 'unknown', message: err.message }];
+
+        return res.status(StatusCodes.BAD_REQUEST).json({
+          success: false,
+          code: errorCode.code,
+          msg: errorCode.message,
+          message: errorCode.message,
+          data: { details }
+        });
       }
 
       // 记录错误日志（生产环境不记录404错误）
@@ -86,15 +111,35 @@ class ErrorMiddleware {
       
       // 处理未捕获的Promise拒绝和异常
       if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
-        return res.status(StatusCodes.BAD_REQUEST).json(
-          ResponseUtil.error(errorCodes.PARAM_ERROR, { message: '无效的JSON格式' })
-        );
+        return res.status(StatusCodes.BAD_REQUEST).json({
+          success: false,
+          code: errorCodes.PARAM_ERROR.code,
+          msg: errorCodes.PARAM_ERROR.message,
+          message: errorCodes.PARAM_ERROR.message,
+          data: { message: '无效的JSON格式' }
+        });
       }
 
+      // 确保 errorCode 有效，如果无效则使用默认值
+      const finalErrorCode = errorCode || errorCodes.SERVER_ERROR;
+
+      // 构建错误响应
+      const errorResponse = {
+        success: false,
+        code: finalErrorCode.code,
+        msg: finalErrorCode.message,
+        message: finalErrorCode.message,
+        data: {
+          message: err.message,
+          stack: process.env.NODE_ENV === 'development' ? err.stack : undefined
+        }
+      };
+
+      console.log('错误响应:', errorResponse);
+      console.log('=== 错误处理结束 ===\n');
+
       // 返回错误响应
-      res.status(statusCode).json(
-        ResponseUtil.error(errorCode, { message: err.message })
-      );
+      res.status(statusCode).json(errorResponse);
     };
   }
 

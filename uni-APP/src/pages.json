@@ -32,6 +32,12 @@
 			}
 		},
 		{
+			"path": "pages/test/config-test",
+			"style": {
+				"navigationBarTitleText": "配置更新测试"
+			}
+		},
+		{
 			"path": "pages/test/multi-level-comments",
 			"style": {
 				"navigationBarTitleText": "多级回复测试"
@@ -125,6 +131,13 @@
 			}
 		},
 		{
+			"path": "pages/profile/audit-history",
+			"style": {
+				"navigationBarTitleText": "审核记录",
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/post/detail",
 			"style": {
 				"navigationBarTitleText": "帖子详情"
@@ -169,6 +182,20 @@
 			"style": {
 				"navigationStyle": "custom",
 				"navigationBarTitleText": "服务器设置"
+			}
+		},
+		{
+			"path": "pages/settings/version",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTitleText": "版本管理"
+			}
+		},
+		{
+			"path": "pages/settings/about",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTitleText": "关于我们"
 			}
 		},
 		{

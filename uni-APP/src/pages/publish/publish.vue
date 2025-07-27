@@ -207,6 +207,7 @@
 
 <script>
 import TopicCreateModal from '@/components/TopicCreateModal.vue';
+import contentValidator from '@/utils/contentValidator';
 
 export default {
   components: {
@@ -327,29 +328,17 @@ export default {
     
     // 提交帖子
     async submitPost() {
-      // 检查内容是否可发布
-      if (!this.canPublish) {
-        // 只判断内容是否为空
-        if (this.form.content.trim().length === 0) {
-          uni.showToast({
-            title: '请输入内容',
-            icon: 'none',
-            duration: 2000
-          });
-          return;
-        }
+      // 前端验证
+      console.log('🔍 开始前端内容验证...');
+      const validation = await contentValidator.validatePost(this.form.content, this.form.title);
+
+      if (!validation.valid) {
+        console.log('❌ 前端验证失败:', validation.errors);
+        contentValidator.showValidationErrors(validation.errors);
         return;
       }
-      
-      // 检查标题长度（如果提供了标题）
-      if (this.form.title.trim().length > 0 && this.form.title.trim().length < 2) {
-        uni.showToast({
-          title: '标题至少需要2个字符',
-          icon: 'none',
-          duration: 2000
-        });
-        return;
-      }
+
+      console.log('✅ 前端验证通过，准备发布...');
       
       // 检查登录状态
       const token = uni.getStorageSync('token');
@@ -464,25 +453,42 @@ export default {
         .then(res => {
           // 隐藏加载提示
           uni.hideLoading();
-          
-          // 显示成功提示
-          uni.showToast({
-            title: this.isEdit ? '更新成功' : '发布成功',
-            icon: 'success',
-            duration: 2000
-          });
-          
-          // 设置新帖子标志
-          uni.setStorageSync('hasNewPost', true);
-          console.log('设置hasNewPost = true');
 
-          // 触发强制刷新
-          getApp().globalData.forceRefresh = true;
+          console.log('发布响应:', res);
 
-          // 返回上一页
-          setTimeout(() => {
-            uni.navigateBack();
-          }, 1500);
+          // 根据审核状态显示不同提示
+          if (res.data && res.data.needsAudit) {
+            // 需要审核的情况
+            uni.showModal({
+              title: '提交成功',
+              content: res.data.auditMessage || '您的内容正在审核中，审核通过后将会显示',
+              showCancel: false,
+              confirmText: '我知道了',
+              success: () => {
+                // 返回上一页
+                uni.navigateBack();
+              }
+            });
+          } else {
+            // 直接发布成功的情况
+            uni.showToast({
+              title: res.message || (this.isEdit ? '更新成功' : '发布成功'),
+              icon: 'success',
+              duration: 2000
+            });
+
+            // 设置新帖子标志
+            uni.setStorageSync('hasNewPost', true);
+            console.log('设置hasNewPost = true');
+
+            // 触发强制刷新
+            getApp().globalData.forceRefresh = true;
+
+            // 返回上一页
+            setTimeout(() => {
+              uni.navigateBack();
+            }, 1500);
+          }
         })
         .catch(err => {
           console.error('发布失败:', err);

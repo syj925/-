@@ -214,14 +214,26 @@ class CommentRepository {
    * @param {String} userId 用户ID
    * @param {Number} page 页码
    * @param {Number} pageSize 每页数量
+   * @param {String|Array} status 状态筛选，可以是单个状态或状态数组
    * @returns {Promise<Object>} 分页结果
    */
-  async findByUserId(userId, page = 1, pageSize = 20) {
+  async findByUserId(userId, page = 1, pageSize = 20, status = 'normal') {
+    // 构建查询条件
+    const where = {
+      user_id: userId
+    };
+
+    // 处理状态筛选
+    if (status) {
+      if (Array.isArray(status)) {
+        where.status = { [Op.in]: status };
+      } else {
+        where.status = status;
+      }
+    }
+
     const { rows, count } = await Comment.findAndCountAll({
-      where: {
-        user_id: userId,
-        status: 'normal'
-      },
+      where,
       limit: pageSize,
       offset: (page - 1) * pageSize,
       order: [['created_at', 'DESC']],
@@ -229,11 +241,13 @@ class CommentRepository {
         {
           model: Post,
           as: 'post',
-          attributes: ['id', 'title', 'content']
+          attributes: ['id', 'title', 'content'],
+          paranoid: false // 允许查询软删除的帖子
         }
-      ]
+      ],
+      paranoid: false // 允许查询软删除的评论
     });
-    
+
     return {
       list: rows,
       pagination: {

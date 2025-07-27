@@ -23,12 +23,12 @@ const getWsUrl = () => {
   const isLocalhost = typeof window !== 'undefined' && 
     (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
   // H5开发环境使用相对路径
-  return isLocalhost ? 'ws://localhost:3000/ws' : 'ws://192.168.1.11:3000/ws';
+  return isLocalhost ? 'ws://localhost:3000/ws' : 'ws://192.168.1.9:3000/ws';
   // #endif
 
   // #ifdef APP-PLUS || MP
   // 移动设备环境使用IP地址
-  return 'ws://192.168.1.11:3000/ws';
+  return 'ws://192.168.1.9:3000/ws';
   // #endif
 };
 

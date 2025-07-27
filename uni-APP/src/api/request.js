@@ -10,22 +10,7 @@ let BASE_URL;
 
 // 获取服务器地址
 const initBaseUrl = () => {
-  // 清除可能存在的错误服务器缓存
-  try {
-    const savedServer = uni.getStorageSync('best_server_ip');
-    if (savedServer && savedServer.includes('172.168.4.28')) {
-      console.warn('检测到错误的服务器地址缓存，正在清除:', savedServer);
-      uni.removeStorageSync('best_server_ip');
-    }
-
-    const userServer = uni.getStorageSync('user_server_url');
-    if (userServer && userServer.includes('172.168.4.28')) {
-      console.warn('检测到错误的用户服务器地址，正在清除:', userServer);
-      uni.removeStorageSync('user_server_url');
-    }
-  } catch (error) {
-    console.error('清除错误缓存时出错:', error);
-  }
+  // 初始化服务器地址
 
   // 优先使用用户自定义服务器
   const userServer = appConfig.getUserServer();
@@ -40,7 +25,7 @@ const initBaseUrl = () => {
   // H5环境使用完整URL
   const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
   // 修改为使用完整URL，确保端口号正确
-  BASE_URL = isLocalhost ? 'http://localhost:3000' : 'http://172.168.8.227:3000';
+  BASE_URL = isLocalhost ? 'http://localhost:3000' : 'http://192.168.1.9:3000';
   console.log('H5环境设置BASE_URL:', BASE_URL, '当前域名:', window.location.hostname);
   // #endif
   
@@ -81,42 +66,35 @@ initBaseUrl();
  * 检查服务器可用性并存储最佳IP
  */
 function checkServerAvailability() {
-  console.log('开始检测服务器可用性...');
-  
   // 获取所有服务器地址
   const SERVER_IPS = appConfig.getAllServers();
-  
+
   // 遍历所有服务器IP
   Promise.all(SERVER_IPS.map(ip => {
     return new Promise(resolve => {
-      console.log(`正在检测服务器: ${ip}`);
-      
+      const startTime = new Date().getTime();
+
       // 设置较短的超时时间
       const timeoutId = setTimeout(() => {
-        console.log(`服务器 ${ip} 连接超时`);
         resolve({ ip, status: 'timeout', time: 5000 });
       }, 5000);
-      
+
       // 发起测试请求
       uni.request({
         url: `${ip}${appConfig.getHealthCheckPath()}`,
         method: 'GET',
         timeout: 5000,
-        success: (res) => {
+        success: () => {
           clearTimeout(timeoutId);
           const time = new Date().getTime() - startTime;
-          console.log(`服务器 ${ip} 连接成功，响应时间: ${time}ms`, res);
           resolve({ ip, status: 'success', time });
         },
-        fail: (err) => {
+        fail: () => {
           clearTimeout(timeoutId);
           const time = new Date().getTime() - startTime;
-          console.log(`服务器 ${ip} 连接失败，耗时: ${time}ms`, err);
           resolve({ ip, status: 'fail', time });
         }
       });
-      
-      const startTime = new Date().getTime();
     });
   }))
   .then(results => {
@@ -129,14 +107,13 @@ function checkServerAvailability() {
       
       // 保存最佳IP到本地存储
       const bestIP = available[0].ip;
-      console.log(`找到最佳服务器: ${bestIP}，响应时间: ${available[0].time}ms`);
+      console.log(`✅ 连接到服务器: ${bestIP}`);
       uni.setStorageSync('best_server_ip', bestIP);
-      
+
       // 更新当前使用的BASE_URL
       BASE_URL = bestIP;
-      console.log('更新当前BASE_URL为:', BASE_URL);
     } else {
-      console.log('所有服务器均不可用');
+      console.warn('⚠️ 服务器连接失败');
     }
   });
 }
@@ -160,7 +137,12 @@ const requestInterceptor = (config) => {
     };
   }
 
-  console.log(`准备发送请求: ${config.method} ${config.url}`, config.data);
+  // 只在开发环境显示详细请求日志
+  // #ifdef APP-PLUS
+  if (process.env.NODE_ENV === 'development') {
+    console.log(`📡 ${config.method} ${config.url}`);
+  }
+  // #endif
   return config;
 };
 
@@ -171,7 +153,12 @@ const requestInterceptor = (config) => {
 const responseInterceptor = (response) => {
   const { statusCode, data } = response;
 
-  console.log(`收到响应: ${statusCode}`, data);
+  // 只在开发环境显示详细响应日志
+  // #ifdef APP-PLUS
+  if (process.env.NODE_ENV === 'development') {
+    console.log(`📨 ${statusCode}`, data?.code || data?.success ? '✅' : '❌');
+  }
+  // #endif
 
   // 请求成功
   if (statusCode >= 200 && statusCode < 300) {
@@ -220,6 +207,16 @@ const responseInterceptor = (response) => {
   if (statusCode === 400) {
     console.error('400错误 - 参数验证失败:', JSON.stringify(data, null, 2));
 
+    // 处理特定的错误类型
+    if (data.errorType) {
+      handleSpecificError(data);
+      const error = new Error(data.message || '请求失败');
+      error.code = data.code || 400;
+      error.errorType = data.errorType;
+      error.data = data;
+      return Promise.reject(error);
+    }
+
     // 如果有详细的错误信息，打印出来
     if (data.data && data.data.details) {
       console.error('验证错误详情:', JSON.stringify(data.data.details, null, 2));
@@ -242,6 +239,25 @@ const responseInterceptor = (response) => {
     console.error('404错误 - 资源不存在:', JSON.stringify(data, null, 2));
     const error = new Error('请求的资源不存在');
     error.code = 404;
+    return Promise.reject(error);
+  }
+
+  // 429请求过于频繁
+  if (statusCode === 429) {
+    console.error('429错误 - 请求过于频繁:', JSON.stringify(data, null, 2));
+
+    // 处理特定的错误类型
+    if (data.errorType) {
+      handleSpecificError(data);
+      const error = new Error(data.message || '请求过于频繁');
+      error.code = 429;
+      error.errorType = data.errorType;
+      error.data = data;
+      return Promise.reject(error);
+    }
+
+    const error = new Error(data.message || '请求过于频繁，请稍后再试');
+    error.code = 429;
     return Promise.reject(error);
   }
   
@@ -317,7 +333,6 @@ const request = (options) => {
   
   return new Promise((resolve, reject) => {
     // 添加请求超时计时器
-    const requestStartTime = Date.now()
     let isResolved = false
 
     // 设置超时处理（30秒）
@@ -497,4 +512,83 @@ export const http = {
   resetBaseUrl // 添加重置服务器地址方法
 };
 
-export default http; 
+/**
+ * 处理特定错误类型
+ * @param {Object} errorData 错误数据
+ */
+const handleSpecificError = (errorData) => {
+  const { errorType, message, detectedWords, todayCount, dailyLimit, resetTime } = errorData;
+
+  switch (errorType) {
+    case 'SENSITIVE_WORDS_DETECTED':
+      uni.showModal({
+        title: '内容包含敏感词',
+        content: `检测到敏感词：${detectedWords?.join(', ')}，请修改后重试`,
+        showCancel: false,
+        confirmText: '我知道了'
+      });
+      break;
+
+    case 'CONTENT_TOO_SHORT':
+      uni.showToast({
+        title: message || '内容长度不足',
+        icon: 'none',
+        duration: 3000
+      });
+      break;
+
+    case 'CONTENT_TOO_LONG':
+      uni.showToast({
+        title: message || '内容长度超限',
+        icon: 'none',
+        duration: 3000
+      });
+      break;
+
+    case 'DAILY_POST_LIMIT_EXCEEDED':
+      const postResetDate = new Date(resetTime).toLocaleDateString();
+      uni.showModal({
+        title: '发帖次数已达上限',
+        content: `您今日已发布${todayCount}篇帖子，已达到每日${dailyLimit}篇的限制。请${postResetDate}后再试。`,
+        showCancel: false,
+        confirmText: '我知道了'
+      });
+      break;
+
+    case 'DAILY_COMMENT_LIMIT_EXCEEDED':
+      const commentResetDate = new Date(resetTime).toLocaleDateString();
+      uni.showModal({
+        title: '评论次数已达上限',
+        content: `您今日已发布${todayCount}条评论，已达到每日${dailyLimit}条的限制。请${commentResetDate}后再试。`,
+        showCancel: false,
+        confirmText: '我知道了'
+      });
+      break;
+
+    case 'CONTENT_REQUIRED':
+      uni.showToast({
+        title: message || '内容不能为空',
+        icon: 'none',
+        duration: 2000
+      });
+      break;
+
+    case 'VALIDATION_ERROR':
+      uni.showToast({
+        title: message || '数据验证失败',
+        icon: 'none',
+        duration: 2000
+      });
+      break;
+
+    default:
+      uni.showToast({
+        title: message || '操作失败',
+        icon: 'none',
+        duration: 2000
+      });
+      break;
+  }
+};
+
+export default http;

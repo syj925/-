@@ -119,6 +119,14 @@ export default (http) => ({
   },
 
   /**
+   * 获取用户今日发布统计
+   * @returns {Promise}
+   */
+  getPublishStats: () => {
+    return http.get('/api/user/publish-stats');
+  },
+
+  /**
    * 获取隐私设置
    * @returns {Promise}
    */

@@ -552,6 +552,66 @@ class PostService {
     
     return posts;
   }
+
+  /**
+   * 获取用户审核记录
+   * @param {Object} options 查询选项
+   * @returns {Promise<Object>} 审核记录列表和分页信息
+   */
+  async getUserAuditHistory(options) {
+    const { userId, auditStatus, page = 1, pageSize = 10 } = options;
+
+    // 构建查询选项
+    const queryOptions = {
+      userId,
+      page,
+      pageSize,
+      orderBy: 'created_at',
+      orderDirection: 'DESC',
+      includeDetails: true
+    };
+
+    // 根据审核状态筛选
+    if (auditStatus) {
+      if (auditStatus === 'pending') {
+        queryOptions.status = 'pending';
+      } else if (auditStatus === 'rejected') {
+        queryOptions.status = 'rejected';
+      }
+    } else {
+      // 默认只显示待审核和被拒绝的帖子，已通过的没必要显示
+      queryOptions.status = ['pending', 'rejected'];
+    }
+
+    const result = await postRepository.findAll(queryOptions);
+
+    // 处理帖子数据，添加审核状态描述
+    const processedPosts = result.list.map(post => {
+      const postData = post.toJSON();
+
+      // 添加审核状态描述
+      switch (postData.status) {
+        case 'pending':
+          postData.auditStatusText = '待审核';
+          postData.auditStatusColor = '#FF9500';
+          break;
+        case 'rejected':
+          postData.auditStatusText = '审核未通过';
+          postData.auditStatusColor = '#FF3B30';
+          break;
+        default:
+          postData.auditStatusText = '未知状态';
+          postData.auditStatusColor = '#8E8E93';
+      }
+
+      return postData;
+    });
+
+    return {
+      list: processedPosts,
+      pagination: result.pagination
+    };
+  }
 }
 
-module.exports = new PostService(); 
+module.exports = new PostService();

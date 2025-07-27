@@ -30,6 +30,7 @@
       <button @tap="goToHotCommentsTest" style="background: #ff6b6b; color: #fff; margin-bottom: 10rpx;">热门评论测试</button>
       <button @tap="goToMultiLevelTest" style="background: #6f42c1; color: #fff; margin-bottom: 10rpx;">多级回复测试</button>
       <button @tap="goToEventTest" style="background: #AC92EC; color: #fff; margin-bottom: 10rpx;">活动API测试</button>
+      <button @tap="goToConfigTest" style="background: #fd7e14; color: #fff; margin-bottom: 10rpx;">⚙️ 配置更新测试</button>
       <button @tap="goToSimpleTest" style="background: #17a2b8; color: #fff;">简单API测试</button>
     </view>
 
@@ -600,6 +601,13 @@ export default {
     goToMultiLevelTest() {
       uni.navigateTo({
         url: '/pages/test/multi-level-comments'
+      });
+    },
+
+    // 跳转到配置更新测试页面
+    goToConfigTest() {
+      uni.navigateTo({
+        url: '/pages/test/config-test'
       });
     },
 

@@ -41,9 +41,10 @@ module.exports = (sequelize, DataTypes) => {
         }
       },
       status: {
-        type: DataTypes.ENUM('published', 'draft', 'deleted'),
+        type: DataTypes.ENUM('published', 'draft', 'deleted', 'pending', 'pinned', 'rejected'),
         allowNull: false,
-        defaultValue: 'published'
+        defaultValue: 'published',
+        comment: 'published: 已发布, draft: 草稿, deleted: 已删除, pending: 待审核, pinned: 置顶, rejected: 已拒绝'
       },
       view_count: {
         type: DataTypes.INTEGER,
@@ -87,6 +88,12 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         defaultValue: false,
         comment: '是否匿名发布'
+      },
+      is_recommended: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+        comment: '是否推荐'
       }
     },
     {

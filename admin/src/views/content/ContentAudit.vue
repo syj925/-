@@ -17,7 +17,7 @@
         <el-table-column prop="content" label="内容" show-overflow-tooltip />
         <el-table-column label="作者" width="120">
           <template #default="scope">
-            {{ scope.row.user ? scope.row.user.nickname || scope.row.user.username : '未知' }}
+            {{ scope.row.author ? scope.row.author.nickname || scope.row.author.username : (scope.row.user ? scope.row.user.nickname || scope.row.user.username : '未知') }}
           </template>
         </el-table-column>
         <el-table-column label="发布时间" width="180">
@@ -106,11 +106,83 @@
       </div>
       
       <!-- 没有结果时显示 -->
-      <el-empty 
-        v-if="(auditType === 'posts' ? postsAuditList.length === 0 : commentsAuditList.length === 0) && !loading" 
-        :description="`没有待审核的${auditType === 'posts' ? '帖子' : '评论'}`" 
+      <el-empty
+        v-if="(auditType === 'posts' ? postsAuditList.length === 0 : commentsAuditList.length === 0) && !loading"
+        :description="`没有待审核的${auditType === 'posts' ? '帖子' : '评论'}`"
       />
     </el-card>
+
+    <!-- 查看内容详情对话框 -->
+    <el-dialog
+      v-model="viewDialogVisible"
+      :title="`${auditType === 'posts' ? '帖子' : '评论'}详情`"
+      width="60%"
+      :before-close="() => viewDialogVisible = false"
+    >
+      <div v-if="currentViewItem" class="content-detail">
+        <el-descriptions :column="2" border>
+          <el-descriptions-item :label="`${auditType === 'posts' ? '帖子' : '评论'}ID`">
+            {{ currentViewItem.id }}
+          </el-descriptions-item>
+          <el-descriptions-item label="作者">
+            {{ currentViewItem.author ? currentViewItem.author.nickname || currentViewItem.author.username : '未知' }}
+          </el-descriptions-item>
+          <el-descriptions-item label="发布时间">
+            {{ formatDate(currentViewItem.createdAt || currentViewItem.created_at) }}
+          </el-descriptions-item>
+          <el-descriptions-item label="状态">
+            <el-tag type="warning">待审核</el-tag>
+          </el-descriptions-item>
+          <el-descriptions-item v-if="auditType === 'posts'" label="浏览量">
+            {{ currentViewItem.viewCount || 0 }}
+          </el-descriptions-item>
+          <el-descriptions-item v-if="auditType === 'posts'" label="点赞数">
+            {{ currentViewItem.likeCount || 0 }}
+          </el-descriptions-item>
+          <el-descriptions-item v-if="auditType === 'comments'" label="所属帖子">
+            {{ currentViewItem.postId || '未知' }}
+          </el-descriptions-item>
+          <el-descriptions-item v-if="auditType === 'comments'" label="回复对象">
+            {{ currentViewItem.parentId ? `评论ID: ${currentViewItem.parentId}` : '直接评论' }}
+          </el-descriptions-item>
+          <el-descriptions-item label="内容" :span="2">
+            <div class="content-text">
+              {{ currentViewItem.content }}
+            </div>
+          </el-descriptions-item>
+          <el-descriptions-item v-if="auditType === 'posts' && currentViewItem.images && currentViewItem.images.length > 0" label="图片" :span="2">
+            <div class="content-images">
+              <el-image
+                v-for="(image, index) in currentViewItem.images"
+                :key="index"
+                :src="image.startsWith('http') ? image : `http://localhost:3000${image}`"
+                :preview-src-list="currentViewItem.images.map(img => img.startsWith('http') ? img : `http://localhost:3000${img}`)"
+                :initial-index="index"
+                fit="cover"
+                style="width: 100px; height: 100px; margin-right: 10px; margin-bottom: 10px;"
+              />
+            </div>
+          </el-descriptions-item>
+        </el-descriptions>
+      </div>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="viewDialogVisible = false">关闭</el-button>
+          <el-button
+            type="success"
+            @click="handleApprove(currentViewItem, auditType === 'posts' ? 'post' : 'comment')"
+          >
+            通过审核
+          </el-button>
+          <el-button
+            type="danger"
+            @click="handleReject(currentViewItem, auditType === 'posts' ? 'post' : 'comment')"
+          >
+            拒绝审核
+          </el-button>
+        </span>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
@@ -210,10 +282,14 @@ const formatDate = (dateString) => {
   return date.toLocaleString();
 };
 
+// 查看内容详情对话框相关
+const viewDialogVisible = ref(false);
+const currentViewItem = ref(null);
+
 // 查看内容
 const handleView = (row) => {
-  ElMessage.info(`查看${auditType.value === 'posts' ? '帖子' : '评论'}ID: ${row.id}`);
-  // 这里可以打开详情对话框
+  currentViewItem.value = row;
+  viewDialogVisible.value = true;
 };
 
 // 通过审核
@@ -323,5 +399,21 @@ const handleReject = async (row, type) => {
   margin-top: 20px;
   display: flex;
   justify-content: center;
+}
+
+.content-detail .content-text {
+  max-height: 200px;
+  overflow-y: auto;
+  padding: 10px;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.content-detail .content-images {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 </style> 

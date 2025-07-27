@@ -48,7 +48,7 @@
         </el-table-column>
         <el-table-column label="发布时间" width="180">
           <template #default="scope">
-            {{ formatDate(scope.row.created_at || scope.row.createdAt) }}
+            {{ formatDate(scope.row.createdAt || scope.row.created_at) }}
           </template>
         </el-table-column>
         <el-table-column prop="views" label="浏览量" width="100" />
@@ -114,6 +114,123 @@
       <!-- 没有结果时显示 -->
       <el-empty v-if="postsList.length === 0 && !loading" description="没有找到匹配的帖子" />
     </el-card>
+
+    <!-- 查看帖子详情对话框 -->
+    <el-dialog
+      v-model="viewDialogVisible"
+      title="帖子详情"
+      width="80%"
+      :before-close="() => viewDialogVisible = false"
+    >
+      <div v-if="currentViewPost" class="post-detail">
+        <!-- 帖子基本信息 -->
+        <el-descriptions :column="2" border>
+          <el-descriptions-item label="帖子ID">
+            {{ currentViewPost.id }}
+          </el-descriptions-item>
+          <el-descriptions-item label="作者">
+            {{ currentViewPost.author ? currentViewPost.author.nickname || currentViewPost.author.username : '未知' }}
+          </el-descriptions-item>
+          <el-descriptions-item label="发布时间">
+            {{ formatDate(currentViewPost.createdAt || currentViewPost.created_at) }}
+          </el-descriptions-item>
+          <el-descriptions-item label="状态">
+            <el-tag :type="getTagType(currentViewPost.status)">
+              {{ getStatusText(currentViewPost.status) }}
+            </el-tag>
+          </el-descriptions-item>
+          <el-descriptions-item label="浏览量">
+            {{ currentViewPost.viewCount || 0 }}
+          </el-descriptions-item>
+          <el-descriptions-item label="点赞数">
+            {{ currentViewPost.likeCount || 0 }}
+          </el-descriptions-item>
+          <el-descriptions-item label="内容" :span="2">
+            <div class="post-content">
+              {{ currentViewPost.content }}
+            </div>
+          </el-descriptions-item>
+          <el-descriptions-item v-if="currentViewPost.images && currentViewPost.images.length > 0" label="图片" :span="2">
+            <div class="post-images">
+              <el-image
+                v-for="(image, index) in currentViewPost.images"
+                :key="index"
+                :src="image.url ? (image.url.startsWith('http') ? image.url : `http://localhost:3000${image.url}`) : ''"
+                :preview-src-list="currentViewPost.images.map(img => img.url ? (img.url.startsWith('http') ? img.url : `http://localhost:3000${img.url}`) : '')"
+                :initial-index="index"
+                fit="cover"
+                style="width: 100px; height: 100px; margin-right: 10px; margin-bottom: 10px;"
+              />
+            </div>
+          </el-descriptions-item>
+        </el-descriptions>
+
+        <!-- 评论列表 -->
+        <div class="comments-section" style="margin-top: 20px;">
+          <el-divider>
+            <span style="font-size: 16px; font-weight: bold;">评论列表 ({{ commentsTotal }})</span>
+          </el-divider>
+
+          <div v-loading="commentsLoading">
+            <div v-if="postComments.length === 0 && !commentsLoading" class="no-comments">
+              <el-empty description="暂无评论" :image-size="80" />
+            </div>
+
+            <div v-else class="comments-list">
+              <div
+                v-for="comment in postComments"
+                :key="comment.id"
+                class="comment-item"
+              >
+                <div class="comment-header">
+                  <div class="comment-author">
+                    <el-avatar
+                      :src="comment.author?.avatar ? (comment.author.avatar.startsWith('http') ? comment.author.avatar : `http://localhost:3000${comment.author.avatar}`) : ''"
+                      :size="32"
+                    >
+                      {{ comment.author?.nickname?.[0] || comment.author?.username?.[0] || '?' }}
+                    </el-avatar>
+                    <span class="author-name">
+                      {{ comment.author?.nickname || comment.author?.username || '匿名用户' }}
+                    </span>
+                  </div>
+                  <div class="comment-meta">
+                    <span class="comment-time">{{ formatDate(comment.createdAt || comment.created_at) }}</span>
+                    <el-tag v-if="comment.status" :type="comment.status === 'active' ? 'success' : 'warning'" size="small">
+                      {{ comment.status === 'active' ? '正常' : '待审核' }}
+                    </el-tag>
+                  </div>
+                </div>
+                <div class="comment-content">
+                  {{ comment.content }}
+                </div>
+                <div class="comment-stats">
+                  <span class="like-count">👍 {{ comment.likeCount || 0 }}</span>
+                  <span class="reply-count">💬 {{ comment.replyCount || 0 }}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 评论分页 -->
+            <div v-if="commentsTotal > commentsPageSize" class="comments-pagination">
+              <el-pagination
+                background
+                layout="prev, pager, next"
+                v-model:current-page="commentsPage"
+                :page-size="commentsPageSize"
+                :total="commentsTotal"
+                @current-change="handleCommentsPageChange"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="viewDialogVisible = false">关闭</el-button>
+        </span>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
@@ -254,10 +371,84 @@ const formatDate = (dateString) => {
   return date.toLocaleString();
 };
 
+// 获取图片URL - 处理不同的图片数据格式
+const getImageUrl = (image) => {
+  if (!image) return '';
+
+  // 如果是字符串（旧版本格式）
+  if (typeof image === 'string') {
+    return image.startsWith('http') ? image : `http://localhost:3000${image}`;
+  }
+
+  // 如果是对象（新版本格式，有url属性）
+  if (typeof image === 'object' && image.url) {
+    return image.url.startsWith('http') ? image.url : `http://localhost:3000${image.url}`;
+  }
+
+  // 如果是对象但没有url属性，尝试其他可能的属性名
+  if (typeof image === 'object') {
+    const possibleKeys = ['src', 'path', 'image', 'thumbnail_url'];
+    for (const key of possibleKeys) {
+      if (image[key]) {
+        return image[key].startsWith('http') ? image[key] : `http://localhost:3000${image[key]}`;
+      }
+    }
+  }
+
+  // 如果都不匹配，返回空字符串
+  console.warn('无法解析图片格式:', image);
+  return '';
+};
+
+// 查看帖子详情对话框相关
+const viewDialogVisible = ref(false);
+const currentViewPost = ref(null);
+const postComments = ref([]);
+const commentsLoading = ref(false);
+const commentsPage = ref(1);
+const commentsPageSize = ref(10);
+const commentsTotal = ref(0);
+
 // 查看帖子
-const handleView = (row) => {
-  ElMessage.info(`查看帖子ID: ${row.id}`);
-  // 这里可以跳转到帖子详情页或打开详情对话框
+const handleView = async (row) => {
+  currentViewPost.value = row;
+  viewDialogVisible.value = true;
+  // 加载帖子评论
+  await loadPostComments(row.id);
+};
+
+// 加载帖子评论
+const loadPostComments = async (postId) => {
+  commentsLoading.value = true;
+  try {
+    const res = await api.comments.getPostComments(postId, {
+      page: commentsPage.value,
+      pageSize: commentsPageSize.value
+    });
+
+    if (res.success || res.code === 0) {
+      const data = res.data || res;
+      postComments.value = data.list || data.data || [];
+      commentsTotal.value = data.pagination?.total || data.total || 0;
+    } else {
+      ElMessage.error('获取评论失败');
+      postComments.value = [];
+    }
+  } catch (error) {
+    console.error('获取帖子评论错误:', error);
+    ElMessage.error('获取评论失败，请稍后再试');
+    postComments.value = [];
+  } finally {
+    commentsLoading.value = false;
+  }
+};
+
+// 评论分页处理
+const handleCommentsPageChange = (page) => {
+  commentsPage.value = page;
+  if (currentViewPost.value) {
+    loadPostComments(currentViewPost.value.id);
+  }
 };
 
 // 置顶/取消置顶帖子
@@ -389,6 +580,97 @@ const handleRecommend = async (row, isRecommended) => {
 
 .pagination-container {
   margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.post-detail .post-content {
+  max-height: 200px;
+  overflow-y: auto;
+  padding: 10px;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.post-detail .post-images {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* 评论列表样式 */
+.comments-section {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.no-comments {
+  text-align: center;
+  padding: 20px;
+}
+
+.comments-list {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.comment-item {
+  padding: 12px;
+  border-bottom: 1px solid #f0f0f0;
+  margin-bottom: 8px;
+}
+
+.comment-item:last-child {
+  border-bottom: none;
+}
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.comment-author {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.author-name {
+  font-weight: 500;
+  color: #333;
+}
+
+.comment-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.comment-time {
+  font-size: 12px;
+  color: #999;
+}
+
+.comment-content {
+  margin: 8px 0;
+  line-height: 1.5;
+  color: #333;
+  word-break: break-word;
+}
+
+.comment-stats {
+  display: flex;
+  gap: 16px;
+  font-size: 12px;
+  color: #666;
+}
+
+.comments-pagination {
+  margin-top: 16px;
   display: flex;
   justify-content: center;
 }

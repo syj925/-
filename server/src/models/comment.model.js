@@ -73,9 +73,10 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: 0
       },
       status: {
-        type: DataTypes.ENUM('normal', 'deleted'),
+        type: DataTypes.ENUM('normal', 'deleted', 'pending', 'rejected'),
         allowNull: false,
-        defaultValue: 'normal'
+        defaultValue: 'normal',
+        comment: 'normal: 正常, deleted: 已删除, pending: 待审核, rejected: 已拒绝'
       },
       is_anonymous: {
         type: DataTypes.BOOLEAN,

@@ -99,10 +99,11 @@ class CommentService {
       console.log('用户或设置为空，使用默认值 false');
     }
 
-    // 将匿名设置添加到评论数据中
+    // 将匿名设置和状态添加到评论数据中
     const finalCommentData = {
       ...commentData,
-      is_anonymous: isAnonymous
+      is_anonymous: isAnonymous,
+      status: commentData.status || 'normal' // 默认为正常状态
     };
 
     console.log('最终评论数据:', finalCommentData);
@@ -540,7 +541,7 @@ class CommentService {
   async getUserComments(userId, page = 1, pageSize = 20) {
     // 检查用户是否存在
     const user = await userRepository.findById(userId);
-    
+
     if (!user) {
       throw ErrorMiddleware.createError(
         '用户不存在',
@@ -548,11 +549,102 @@ class CommentService {
         errorCodes.USER_NOT_EXIST
       );
     }
-    
+
     return await commentRepository.findByUserId(userId, page, pageSize);
+  }
+
+  /**
+   * 获取用户评论审核记录
+   * @param {Object} options 查询选项
+   * @returns {Promise<Object>} 审核记录列表和分页信息
+   */
+  async getUserCommentAuditHistory(options) {
+    const { userId, auditStatus, page = 1, pageSize = 10 } = options;
+
+    // 检查用户是否存在
+    const user = await userRepository.findById(userId);
+    if (!user) {
+      throw ErrorMiddleware.createError(
+        '用户不存在',
+        StatusCodes.NOT_FOUND,
+        errorCodes.USER_NOT_EXIST
+      );
+    }
+
+    // 构建查询选项
+    const queryOptions = {
+      userId,
+      page,
+      pageSize,
+      orderBy: 'created_at',
+      orderDirection: 'DESC',
+      includeDetails: true
+    };
+
+    // 根据审核状态筛选
+    if (auditStatus) {
+      if (auditStatus === 'pending') {
+        queryOptions.status = 'pending';
+      } else if (auditStatus === 'rejected') {
+        queryOptions.status = 'rejected';
+      }
+    } else {
+      // 默认显示待审核和被拒绝的评论（不显示已通过的）
+      queryOptions.status = ['pending', 'rejected'];
+    }
+
+    const result = await commentRepository.findByUserId(userId, page, pageSize, queryOptions.status);
+
+    // 格式化数据以匹配前端期望的格式
+    const formattedComments = result.list.map(comment => {
+      // 格式化审核状态
+      let auditStatusText = '';
+      let auditStatusColor = '';
+
+      switch (comment.status) {
+        case 'pending':
+          auditStatusText = '待审核';
+          auditStatusColor = '#f39c12';
+          break;
+        case 'rejected':
+          auditStatusText = '未通过';
+          auditStatusColor = '#e74c3c';
+          break;
+        default:
+          auditStatusText = '未知';
+          auditStatusColor = '#95a5a6';
+      }
+
+      return {
+        id: comment.id,
+        content: comment.content,
+        // 为了兼容前端审核记录页面，添加一些字段
+        title: comment.content ? comment.content.substring(0, 50) + (comment.content.length > 50 ? '...' : '') : '无内容',
+        post: comment.post ? {
+          id: comment.post.id,
+          title: comment.post.title || '无标题',
+          content: comment.post.content
+        } : null,
+        status: comment.status,
+        auditStatusText,
+        auditStatusColor,
+        like_count: comment.like_count || 0,
+        comment_count: 0, // 评论没有子评论计数
+        is_anonymous: comment.is_anonymous || false,
+        created_at: comment.created_at,
+        updated_at: comment.updated_at,
+        // 标识这是评论类型，用于前端区分显示
+        type: 'comment'
+      };
+    });
+
+    return {
+      list: formattedComments,
+      pagination: result.pagination
+    };
   }
 
 
 }
 
-module.exports = new CommentService(); 
+module.exports = new CommentService();

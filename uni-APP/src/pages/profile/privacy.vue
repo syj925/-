@@ -5,7 +5,7 @@
       <view class="navbar-left" @tap="goBack">
         <app-icon name="arrow-left" size="lg" color="#333"></app-icon>
       </view>
-      <view class="navbar-title">隐私设置</view>
+      <view class="navbar-title">账号与隐私设置</view>
       <view class="navbar-right"></view>
     </view>
     
@@ -137,10 +137,62 @@
         </view>
       </view>
 
+      <!-- 账号管理 -->
+      <view class="privacy-section">
+        <view class="section-title">账号管理</view>
+        <view class="section-desc">管理您的账号信息和安全设置</view>
+
+        <view class="privacy-item clickable-item" @tap="changePassword">
+          <view class="item-info">
+            <text class="item-title">修改密码</text>
+            <text class="item-desc">更改您的登录密码</text>
+          </view>
+          <app-icon name="arrow-right" size="sm" color="#999"></app-icon>
+        </view>
+
+        <view class="privacy-item clickable-item" @tap="changePhone">
+          <view class="item-info">
+            <text class="item-title">更换手机号</text>
+            <text class="item-desc">更改绑定的手机号码</text>
+          </view>
+          <app-icon name="arrow-right" size="sm" color="#999"></app-icon>
+        </view>
+
+        <view class="privacy-item clickable-item" @tap="changeEmail">
+          <view class="item-info">
+            <text class="item-title">绑定邮箱</text>
+            <text class="item-desc">绑定或更改邮箱地址</text>
+          </view>
+          <app-icon name="arrow-right" size="sm" color="#999"></app-icon>
+        </view>
+      </view>
+
+      <!-- 危险操作 -->
+      <view class="privacy-section danger-section">
+        <view class="section-title danger-title">危险操作</view>
+        <view class="section-desc">请谨慎操作，以下操作不可恢复</view>
+
+        <view class="privacy-item clickable-item danger-item" @tap="logoutAccount">
+          <view class="item-info">
+            <text class="item-title danger-text">退出登录</text>
+            <text class="item-desc">退出当前账号</text>
+          </view>
+          <app-icon name="arrow-right" size="sm" color="#ff4757"></app-icon>
+        </view>
+
+        <view class="privacy-item clickable-item danger-item" @tap="deleteAccount">
+          <view class="item-info">
+            <text class="item-title danger-text">注销账号</text>
+            <text class="item-desc">永久删除账号及所有数据</text>
+          </view>
+          <app-icon name="arrow-right" size="sm" color="#ff4757"></app-icon>
+        </view>
+      </view>
+
       <!-- 隐私提示 -->
       <view class="privacy-tips">
         <text class="tip-icon">🔒</text>
-        <text class="tip-text">我们重视您的隐私设置，所有更改即时生效</text>
+        <text class="tip-text">我们重视您的隐私和账号安全，所有更改即时生效</text>
       </view>
     </view>
     
@@ -271,6 +323,82 @@ export default {
       } finally {
         this.saving = false;
       }
+    },
+
+    // 账号管理方法
+    changePassword() {
+      uni.showToast({
+        title: '功能开发中',
+        icon: 'none',
+        duration: 2000
+      });
+    },
+
+    changePhone() {
+      uni.showToast({
+        title: '功能开发中',
+        icon: 'none',
+        duration: 2000
+      });
+    },
+
+    changeEmail() {
+      uni.showToast({
+        title: '功能开发中',
+        icon: 'none',
+        duration: 2000
+      });
+    },
+
+    logoutAccount() {
+      uni.showModal({
+        title: '退出登录',
+        content: '确定要退出当前账号吗？',
+        success: (res) => {
+          if (res.confirm) {
+            // 清除登录状态
+            uni.removeStorageSync('token');
+            uni.removeStorageSync('userInfo');
+
+            // 跳转到登录页
+            uni.reLaunch({
+              url: '/pages/auth/login'
+            });
+
+            uni.showToast({
+              title: '已退出登录',
+              icon: 'success',
+              duration: 2000
+            });
+          }
+        }
+      });
+    },
+
+    deleteAccount() {
+      uni.showModal({
+        title: '注销账号',
+        content: '注销后将永久删除您的账号及所有数据，此操作不可恢复，确定要继续吗？',
+        confirmColor: '#ff4757',
+        success: (res) => {
+          if (res.confirm) {
+            uni.showModal({
+              title: '最后确认',
+              content: '您真的要注销账号吗？这将永久删除所有数据！',
+              confirmColor: '#ff4757',
+              success: (res2) => {
+                if (res2.confirm) {
+                  uni.showToast({
+                    title: '功能开发中',
+                    icon: 'none',
+                    duration: 2000
+                  });
+                }
+              }
+            });
+          }
+        }
+      });
     }
   }
 };
@@ -402,6 +530,35 @@ export default {
   color: $text-tertiary;
   line-height: 1.5;
   flex: 1;
+}
+
+/* 可点击项目样式 */
+.clickable-item {
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:active {
+    background-color: #f8f9fa;
+  }
+}
+
+/* 危险操作区域样式 */
+.danger-section {
+  .section-title.danger-title {
+    color: #ff4757;
+  }
+}
+
+.danger-item {
+  border-left: 4rpx solid #ff4757;
+
+  .danger-text {
+    color: #ff4757 !important;
+  }
+
+  &:active {
+    background-color: #fff5f5;
+  }
 }
 
 

@@ -161,6 +161,19 @@
             </view>
           </view>
 
+          <view class="menu-item" @tap="goToAuditHistory">
+            <view class="menu-icon">
+              <app-icon name="check-circle" size="lg" color="#34C759" />
+            </view>
+            <view class="menu-content">
+              <text class="menu-title">审核记录</text>
+              <text class="menu-desc">查看帖子审核状态</text>
+            </view>
+            <view class="menu-arrow">
+              <app-icon name="arrow-right" size="sm" color="#C4C4C4" />
+            </view>
+          </view>
+
           <view class="menu-item" @tap="goToEventTest">
             <view class="menu-icon">
               <app-icon name="settings" size="lg" color="#FF6B6B" />
@@ -307,10 +320,6 @@
     <view class="profile-settings-container">
       <view class="profile-settings" @tap="goSettings">
         <app-icon name="more" size="md" color="#fff"></app-icon>
-      </view>
-      <!-- 编辑资料按钮 -->
-      <view class="edit-profile-btn" @tap="editProfile">
-        编辑资料
       </view>
     </view>
     
@@ -815,11 +824,11 @@ export default {
     
     loadMoreLikes() {
       if (this.likeLoading || !this.likeHasMore) return;
-      
+
       this.likePage++;
       this.loadLikes();
     },
-    
+
     // 工具方法
     formatTime(time) {
       // 将时间戳格式化为友好的时间显示
@@ -1111,7 +1120,7 @@ export default {
     
     goSettings() {
       uni.showActionSheet({
-        itemList: ['编辑资料', '隐私设置', '账号设置', '关于我们'],
+        itemList: ['编辑资料', '账号与隐私设置', '版本管理', '关于我们'],
         success: (res) => {
           switch (res.tapIndex) {
             case 0:
@@ -1124,7 +1133,7 @@ export default {
               break;
             case 2:
               uni.navigateTo({
-                url: '/pages/settings/account'
+                url: '/pages/settings/version'
               });
               break;
             case 3:
@@ -1176,6 +1185,21 @@ export default {
       }
 
       this.handleTabClick('favorite');
+    },
+
+    // 跳转到审核记录页面
+    goToAuditHistory() {
+      if (!this.userInfo.isLogin) {
+        uni.showToast({
+          title: '请先登录',
+          icon: 'none'
+        });
+        return;
+      }
+
+      uni.navigateTo({
+        url: '/pages/profile/audit-history'
+      });
     },
 
     // 跳转到活动API测试页面
@@ -1880,8 +1904,6 @@ export default {
   top: 80rpx;
   right: 30rpx;
   z-index: 100;
-  @include flex(column, flex-start, flex-end);
-  gap: 20rpx;
 }
 
 /* 设置按钮 */
@@ -1899,28 +1921,6 @@ export default {
   &:active {
     transform: scale(0.9);
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.2) 100%);
-  }
-}
-
-/* 编辑资料按钮 */
-.edit-profile-btn {
-  padding: 16rpx 24rpx;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.15) 100%);
-  border: 2rpx solid rgba(255, 255, 255, 0.3);
-  border-radius: 50rpx;
-  backdrop-filter: blur(30rpx);
-  -webkit-backdrop-filter: blur(30rpx);
-  font-size: 28rpx;
-  color: #ffffff;
-  font-weight: 500;
-  text-shadow: 0 1rpx 4rpx rgba(0, 0, 0, 0.3);
-  box-shadow: 0 8rpx 25rpx rgba(0, 0, 0, 0.15);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-
-  &:active {
-    transform: scale(0.95);
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.25) 100%);
-    box-shadow: 0 4rpx 15rpx rgba(0, 0, 0, 0.2);
   }
 }
 

@@ -28,6 +28,8 @@ instance.interceptors.response.use(
     return response.data;
   },
   error => {
+    console.error('API请求错误:', error);
+
     if (error.response) {
       // 401未授权，转到登录页
       if (error.response.status === 401) {
@@ -36,9 +38,25 @@ instance.interceptors.response.use(
           window.location.href = '/login';
         }
       }
-      return Promise.reject(error.response.data || { message: '服务器错误' });
+
+      // 统一错误格式
+      const errorData = error.response.data || {};
+      const errorMessage = errorData.message || errorData.msg || '服务器错误';
+
+      return Promise.reject({
+        success: false,
+        message: errorMessage,
+        code: errorData.code,
+        data: errorData.data,
+        status: error.response.status
+      });
     }
-    return Promise.reject({ message: '网络错误，请检查网络连接' });
+
+    return Promise.reject({
+      success: false,
+      message: '网络错误，请检查网络连接',
+      code: -1
+    });
   }
 );
 
@@ -79,7 +97,7 @@ export default {
     // 获取待审核帖子列表
     getPendingPosts: (params) => instance.get('/admin/posts/pending', { params }),
     // 审核帖子
-    auditPost: (id, action) => instance.put(`/admin/posts/${id}/audit`, { action }),
+    auditPost: (id, action, reason = null) => instance.put(`/admin/posts/${id}/audit`, { action, reason }),
     // 设置/取消推荐帖子
     recommend: (id, data) => instance.put(`/admin/posts/${id}/recommend`, data)
   },
@@ -92,7 +110,9 @@ export default {
     // 获取待审核评论列表
     getPendingComments: (params) => instance.get('/admin/comments/pending', { params }),
     // 审核评论
-    auditComment: (id, action) => instance.put(`/admin/comments/${id}/audit`, { action })
+    auditComment: (id, action) => instance.put(`/admin/comments/${id}/audit`, { action }),
+    // 获取帖子评论列表
+    getPostComments: (postId, params) => instance.get(`/posts/${postId}/comments`, { params })
   },
   
   // 话题管理
@@ -314,5 +334,20 @@ export default {
       // 用户搜索 - 用于发送系统消息时选择用户
       searchUsers: (query) => instance.get('/admin/users/search', { params: { query } })
     }
+  },
+
+  // 配置版本管理
+  config: {
+    // 获取当前配置版本信息
+    getCurrentVersion: () => instance.get('/admin/config-version'),
+
+    // 获取版本历史
+    getVersionHistory: () => instance.get('/admin/config-versions'),
+
+    // 发布新版本
+    publishVersion: (data) => instance.post('/admin/config-version', data),
+
+    // 回滚到指定版本
+    rollbackToVersion: (data) => instance.post('/admin/config-rollback', data)
   }
-}; 
+};

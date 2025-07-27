@@ -582,43 +582,57 @@ export default {
           uni.hideLoading();
 
           console.log('评论创建成功，后端返回数据:', res);
+          console.log('commentData:', res.data);
+          console.log('needsAudit:', res.data.needsAudit);
 
           // 使用后端返回的完整数据（包含匿名处理结果）
           const commentData = res.data;
 
-          const newComment = {
-            id: commentData.id,
-            content: commentData.content,
-            user_id: commentData.user_id,
-            post_id: commentData.post_id,
-            reply_to: commentData.reply_to,
-            root_comment_id: commentData.root_comment_id,
-            reply_level: commentData.reply_level,
-            reply_count: commentData.reply_count,
-            mentioned_users: commentData.mentioned_users,
-            like_count: commentData.like_count,
-            status: commentData.status,
-            is_anonymous: commentData.is_anonymous,
-            created_at: commentData.createdAt,  // 修复：使用驼峰格式
-            updated_at: commentData.updatedAt,  // 修复：使用驼峰格式
-            author: commentData.author,
-            replies: []
-          };
+          // 检查是否需要审核
+          if (commentData.needsAudit) {
+            // 需要审核的情况 - 不添加到评论列表，显示审核提示
+            uni.showModal({
+              title: '提交成功',
+              content: commentData.auditMessage || '您的评论正在审核中，审核通过后将会显示',
+              showCancel: false,
+              confirmText: '我知道了'
+            });
+          } else {
+            // 直接发布成功的情况 - 添加到评论列表
+            const newComment = {
+              id: commentData.id,
+              content: commentData.content,
+              user_id: commentData.user_id,
+              post_id: commentData.post_id,
+              reply_to: commentData.reply_to,
+              root_comment_id: commentData.root_comment_id,
+              reply_level: commentData.reply_level,
+              reply_count: commentData.reply_count,
+              mentioned_users: commentData.mentioned_users,
+              like_count: commentData.like_count,
+              status: commentData.status,
+              is_anonymous: commentData.is_anonymous,
+              created_at: commentData.createdAt,  // 修复：使用驼峰格式
+              updated_at: commentData.updatedAt,  // 修复：使用驼峰格式
+              author: commentData.author,
+              replies: []
+            };
 
-          // 添加新评论到列表顶部
-          this.commentList.unshift(newComment);
+            // 添加新评论到列表顶部
+            this.commentList.unshift(newComment);
 
-          // 更新评论数
-          this.post.commentCount = (this.post.commentCount || 0) + 1;
+            // 更新评论数
+            this.post.commentCount = (this.post.commentCount || 0) + 1;
+
+            // 显示成功提示
+            uni.showToast({
+              title: '评论成功',
+              icon: 'success'
+            });
+          }
 
           // 清空输入框
           this.commentText = '';
-
-          // 显示成功提示
-          uni.showToast({
-            title: '评论成功',
-            icon: 'success'
-          });
         }).catch(err => {
           uni.hideLoading();
           console.error('评论失败:', err);

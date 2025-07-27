@@ -48,6 +48,13 @@ export default (http) => ({
   getUserComments: (params = {}) => http.get('/api/comments/user/me', params),
 
   /**
+   * 获取用户评论审核记录
+   * @param {Object} params 查询参数 (page, pageSize, status)
+   * @returns {Promise}
+   */
+  getAuditHistory: (params = {}) => http.get('/api/comments/user/audit-history', params),
+
+  /**
    * 获取评论的多级回复树
    * @param {String} commentId 评论ID
    * @param {Number} maxLevel 最大层级

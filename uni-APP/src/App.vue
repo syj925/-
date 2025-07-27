@@ -1,5 +1,6 @@
 <script>
 import appConfig from './config';
+import configUpdateManager from '@/utils/configUpdateManager';
 
 export default {
   globalData: {
@@ -22,16 +23,29 @@ export default {
   },
   onShow: function () {
     console.log('App Show')
-    
+
     // 确保每次应用显示时停止所有可能的下拉刷新
     uni.stopPullDownRefresh();
+
+    // App从后台回到前台时，检查是否需要更新配置
+    setTimeout(async () => {
+      try {
+        const hasUpdate = await configUpdateManager.checkForUpdates();
+        if (hasUpdate) {
+          console.log('🎉 从后台返回，配置已更新');
+          uni.$emit('validationRulesUpdated');
+        }
+      } catch (error) {
+        console.error('后台返回检查配置失败:', error);
+      }
+    }, 1000); // 延迟1秒检查
   },
   onHide: function () {
     console.log('App Hide')
   },
   methods: {
     // 初始化应用
-    initApp() {
+    async initApp() {
       // 获取系统信息
       const systemInfo = uni.getSystemInfoSync();
       // 存储状态栏高度，适配刘海屏
@@ -40,9 +54,12 @@ export default {
       if (systemInfo.safeArea) {
         uni.setStorageSync('safeAreaBottom', systemInfo.safeArea.bottom);
       }
-      
+
       // 初始化服务器设置
       this.initServerConfig();
+
+      // 检查配置文件更新
+      this.checkConfigUpdates();
     },
     
     // 初始化服务器配置
@@ -60,6 +77,59 @@ export default {
       // 确保http配置中有正确的baseURL
       if (this.$api && this.$api.http) {
         console.log('当前API服务器地址:', this.$api.http.config.baseURL);
+      }
+    },
+
+    // 检查配置文件更新
+    async checkConfigUpdates() {
+      try {
+        console.log('🚀 应用启动，开始检查配置更新...');
+
+        // 先初始化间隔设置（独立获取，不影响版本检查）
+        setTimeout(async () => {
+          try {
+            await configUpdateManager.checkAndUpdateInterval();
+            console.log('📅 间隔设置初始化完成');
+          } catch (error) {
+            console.warn('间隔设置初始化失败:', error);
+          }
+        }, 1000); // 1秒后获取间隔设置
+
+        // H5模式特殊处理：检查是否刚刚刷新页面
+        // #ifdef H5
+        const isH5Refresh = !sessionStorage.getItem('campus_wall_session_started');
+        if (isH5Refresh) {
+          sessionStorage.setItem('campus_wall_session_started', 'true');
+          console.log('🌐 H5模式首次启动或刷新，延长检查延迟');
+
+          // H5刷新时延长检查时间，避免重复强制更新提示
+          setTimeout(async () => {
+            const hasUpdate = await configUpdateManager.checkForUpdates();
+            if (hasUpdate) {
+              console.log('🎉 配置文件已更新到最新版本');
+              uni.$emit('validationRulesUpdated');
+            }
+          }, 5000); // H5模式延迟5秒
+          return;
+        }
+        // #endif
+
+        // 异步检查更新，不阻塞应用启动
+        setTimeout(async () => {
+          const hasUpdate = await configUpdateManager.checkForUpdates();
+
+          if (hasUpdate) {
+            console.log('🎉 配置文件已更新到最新版本');
+
+            // 可以在这里通知用户配置已更新
+            // 或者触发相关组件重新加载验证规则
+            uni.$emit('validationRulesUpdated');
+          }
+        }, 3000); // 延迟3秒检查，确保间隔设置已获取
+
+      } catch (error) {
+        console.error('检查配置更新失败:', error);
+        // 不影响应用正常启动
       }
     }
   }

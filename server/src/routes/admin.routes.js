@@ -8,6 +8,8 @@ const adminDashboardController = require('../controllers/admin/dashboard.control
 const adminUserController = require('../controllers/admin/user.controller');
 const adminSettingsController = require('../controllers/admin/settings.controller');
 const adminEventController = require('../controllers/admin/event.controller');
+const adminPostController = require('../controllers/admin/post.controller');
+const adminCommentController = require('../controllers/admin/comment.controller');
 
 // 引入中间件
 const AdminMiddleware = require('../middlewares/admin.middleware');
@@ -266,6 +268,142 @@ router.put('/users/:id/disable', adminUserController.disableUser);
  */
 router.put('/users/:id/enable', adminUserController.enableUser);
 
+// ==================== 帖子管理路由 ====================
+
+/**
+ * @route GET /api/admin/posts/pending
+ * @desc 获取待审核帖子列表
+ * @query {number} page - 页码
+ * @query {number} limit - 每页数量
+ * @access Private (Admin)
+ */
+router.get('/posts/pending', adminPostController.getPendingPosts);
+
+/**
+ * @route GET /api/admin/posts
+ * @desc 获取帖子列表
+ * @query {number} page - 页码
+ * @query {number} limit - 每页数量
+ * @query {string} search - 搜索关键词
+ * @query {string} status - 状态筛选
+ * @query {string} userId - 用户ID筛选
+ * @query {string} categoryId - 分类ID筛选
+ * @access Private (Admin)
+ */
+router.get('/posts', adminPostController.getPostList);
+
+/**
+ * @route GET /api/admin/posts/:id
+ * @desc 获取帖子详情
+ * @param {string} id - 帖子ID
+ * @access Private (Admin)
+ */
+router.get('/posts/:id', adminPostController.getPostDetail);
+
+/**
+ * @route PUT /api/admin/posts/:id
+ * @desc 更新帖子
+ * @param {string} id - 帖子ID
+ * @body {Object} updateData - 更新数据
+ * @access Private (Admin)
+ */
+router.put('/posts/:id', adminPostController.updatePost);
+
+/**
+ * @route DELETE /api/admin/posts/:id
+ * @desc 删除帖子
+ * @param {string} id - 帖子ID
+ * @access Private (Admin)
+ */
+router.delete('/posts/:id', adminPostController.deletePost);
+
+/**
+ * @route PUT /api/admin/posts/:id/audit
+ * @desc 审核帖子
+ * @param {string} id - 帖子ID
+ * @body {string} action - 操作类型 (approve/reject)
+ * @body {string} reason - 拒绝原因 (可选)
+ * @access Private (Admin)
+ */
+router.put('/posts/:id/audit', adminPostController.auditPost);
+
+/**
+ * @route PUT /api/admin/posts/:id/recommend
+ * @desc 设置/取消推荐帖子
+ * @param {string} id - 帖子ID
+ * @body {boolean} isRecommended - 是否推荐
+ * @access Private (Admin)
+ */
+router.put('/posts/:id/recommend', adminPostController.setRecommendStatus);
+
+/**
+ * @route PUT /api/admin/posts/:id/top
+ * @desc 设置/取消置顶帖子
+ * @param {string} id - 帖子ID
+ * @body {boolean} isTop - 是否置顶
+ * @access Private (Admin)
+ */
+router.put('/posts/:id/top', adminPostController.setTopStatus);
+
+// ==================== 评论管理路由 ====================
+
+/**
+ * @route GET /api/admin/comments/pending
+ * @desc 获取待审核评论列表
+ * @query {number} page - 页码
+ * @query {number} limit - 每页数量
+ * @access Private (Admin)
+ */
+router.get('/comments/pending', adminCommentController.getPendingComments);
+
+/**
+ * @route GET /api/admin/comments
+ * @desc 获取评论列表
+ * @query {number} page - 页码
+ * @query {number} limit - 每页数量
+ * @query {string} search - 搜索关键词
+ * @query {string} status - 状态筛选
+ * @query {string} postId - 帖子ID筛选
+ * @query {string} userId - 用户ID筛选
+ * @access Private (Admin)
+ */
+router.get('/comments', adminCommentController.getCommentList);
+
+/**
+ * @route GET /api/admin/comments/:id
+ * @desc 获取评论详情
+ * @param {string} id - 评论ID
+ * @access Private (Admin)
+ */
+router.get('/comments/:id', adminCommentController.getCommentDetail);
+
+/**
+ * @route PUT /api/admin/comments/:id
+ * @desc 更新评论
+ * @param {string} id - 评论ID
+ * @body {Object} updateData - 更新数据
+ * @access Private (Admin)
+ */
+router.put('/comments/:id', adminCommentController.updateComment);
+
+/**
+ * @route DELETE /api/admin/comments/:id
+ * @desc 删除评论
+ * @param {string} id - 评论ID
+ * @access Private (Admin)
+ */
+router.delete('/comments/:id', adminCommentController.deleteComment);
+
+/**
+ * @route PUT /api/admin/comments/:id/audit
+ * @desc 审核评论
+ * @param {string} id - 评论ID
+ * @body {string} action - 操作类型 (approve/reject)
+ * @body {string} reason - 拒绝原因 (可选)
+ * @access Private (Admin)
+ */
+router.put('/comments/:id/audit', adminCommentController.auditComment);
+
 // ==================== 系统设置路由 ====================
 
 /**
@@ -470,6 +608,247 @@ router.use((error, req, res, next) => {
       message: message
     })
   );
+});
+
+// ==================== 配置版本管理 ====================
+
+// 获取当前配置版本信息
+router.get('/config-version', async (req, res) => {
+  try {
+    const { Setting } = require('../models');
+
+    // 获取配置版本信息
+    const versionSetting = await Setting.findOne({
+      where: { key: 'configVersion' }
+    });
+
+    const versionInfo = versionSetting ? JSON.parse(versionSetting.value) : {
+      version: '1.0.0',
+      updateTime: new Date().toISOString(),
+      description: '初始版本',
+      forceUpdate: false,
+      downloadCount: 0
+    };
+
+    res.json({
+      success: true,
+      data: versionInfo
+    });
+  } catch (error) {
+    console.error('获取配置版本信息失败:', error);
+    res.status(500).json({
+      success: false,
+      message: '获取配置版本信息失败'
+    });
+  }
+});
+
+// 获取版本历史
+router.get('/config-versions', async (req, res) => {
+  try {
+    const { Setting } = require('../models');
+
+    // 获取版本历史
+    const historySetting = await Setting.findOne({
+      where: { key: 'configVersionHistory' }
+    });
+
+    const history = historySetting ? JSON.parse(historySetting.value) : [];
+
+    res.json({
+      success: true,
+      data: history
+    });
+  } catch (error) {
+    console.error('获取版本历史失败:', error);
+    res.status(500).json({
+      success: false,
+      message: '获取版本历史失败'
+    });
+  }
+});
+
+// 发布新配置版本
+router.post('/config-version', async (req, res) => {
+  try {
+    const { Setting } = require('../models');
+    const { version, description, forceUpdate, config } = req.body;
+
+    if (!version || !description) {
+      return res.status(400).json({
+        success: false,
+        message: '版本号和更新说明不能为空'
+      });
+    }
+
+    if (!config) {
+      return res.status(400).json({
+        success: false,
+        message: '配置内容不能为空'
+      });
+    }
+
+    // 检查版本号是否已存在
+    const existingHistory = await Setting.findOne({
+      where: { key: 'configVersionHistory' }
+    });
+
+    if (existingHistory) {
+      const history = JSON.parse(existingHistory.value);
+      const versionExists = history.some(v => v.version === version);
+      if (versionExists) {
+        return res.status(400).json({
+          success: false,
+          message: `版本号 ${version} 已存在，请使用新的版本号`
+        });
+      }
+    }
+
+    const updateTime = new Date().toISOString();
+
+    // 新版本信息
+    const newVersionInfo = {
+      version,
+      description,
+      forceUpdate: forceUpdate || false,
+      updateTime,
+      downloadCount: 0
+    };
+
+    // 获取当前版本历史
+    const historySetting = await Setting.findOne({
+      where: { key: 'configVersionHistory' }
+    });
+
+    const history = historySetting ? JSON.parse(historySetting.value) : [];
+
+    // 添加新版本到历史记录
+    history.unshift(newVersionInfo);
+
+    // 只保留最近20个版本
+    if (history.length > 20) {
+      history.splice(20);
+    }
+
+    // 更新当前版本信息
+    await Setting.upsert({
+      key: 'configVersion',
+      value: JSON.stringify(newVersionInfo),
+      type: 'json',
+      description: '当前配置版本信息'
+    });
+
+    // 更新版本历史
+    await Setting.upsert({
+      key: 'configVersionHistory',
+      value: JSON.stringify(history),
+      type: 'json',
+      description: '配置版本历史记录'
+    });
+
+    // 更新所有配置项（确保配置内容与版本同步）
+    const configUpdates = [
+      { key: 'minPostLength', value: config.minPostLength?.toString(), type: 'number' },
+      { key: 'maxPostLength', value: config.maxPostLength?.toString(), type: 'number' },
+      { key: 'enableSensitiveFilter', value: config.enableSensitiveFilter?.toString(), type: 'boolean' },
+      { key: 'sensitiveWords', value: Array.isArray(config.sensitiveWords) ? config.sensitiveWords.join(',') : config.sensitiveWords, type: 'string' },
+      { key: 'sensitiveWordAction', value: config.sensitiveWordAction, type: 'string' },
+      { key: 'dailyPostLimit', value: config.dailyPostLimit?.toString(), type: 'number' },
+      { key: 'dailyCommentLimit', value: config.dailyCommentLimit?.toString(), type: 'number' },
+      { key: 'allowAnonymous', value: config.allowAnonymous?.toString(), type: 'boolean' },
+      { key: 'maxImagesPerPost', value: config.maxImagesPerPost?.toString(), type: 'number' },
+      { key: 'maxImageSize', value: config.maxImageSize?.toString(), type: 'number' },
+      { key: 'allowedImageTypes', value: Array.isArray(config.allowedImageTypes) ? config.allowedImageTypes.join(',') : config.allowedImageTypes, type: 'string' },
+      { key: 'maxReplyLevel', value: config.maxReplyLevel?.toString(), type: 'number' },
+      { key: 'configUpdateInterval', value: config.configUpdateInterval?.toString(), type: 'number' }
+    ];
+
+    for (const update of configUpdates) {
+      if (update.value !== undefined && update.value !== null) {
+        await Setting.upsert({
+          key: update.key,
+          value: update.value,
+          type: update.type,
+          description: `配置项: ${update.key}`
+        });
+      }
+    }
+
+    res.json({
+      success: true,
+      message: '配置版本发布成功',
+      data: newVersionInfo
+    });
+  } catch (error) {
+    console.error('发布配置版本失败:', error);
+    res.status(500).json({
+      success: false,
+      message: '发布配置版本失败'
+    });
+  }
+});
+
+// 回滚到指定版本
+router.post('/config-rollback', async (req, res) => {
+  try {
+    const { Setting } = require('../models');
+    const { targetVersion } = req.body;
+
+    if (!targetVersion) {
+      return res.status(400).json({
+        success: false,
+        message: '目标版本不能为空'
+      });
+    }
+
+    // 获取版本历史
+    const historySetting = await Setting.findOne({
+      where: { key: 'configVersionHistory' }
+    });
+
+    if (!historySetting) {
+      return res.status(404).json({
+        success: false,
+        message: '版本历史不存在'
+      });
+    }
+
+    const history = JSON.parse(historySetting.value);
+    const targetVersionInfo = history.find(v => v.version === targetVersion);
+
+    if (!targetVersionInfo) {
+      return res.status(404).json({
+        success: false,
+        message: '目标版本不存在'
+      });
+    }
+
+    // 更新当前版本信息
+    const rollbackVersionInfo = {
+      ...targetVersionInfo,
+      updateTime: new Date().toISOString(),
+      description: `回滚到版本 ${targetVersion}: ${targetVersionInfo.description}`
+    };
+
+    await Setting.upsert({
+      key: 'configVersion',
+      value: JSON.stringify(rollbackVersionInfo),
+      type: 'json',
+      description: '当前配置版本信息'
+    });
+
+    res.json({
+      success: true,
+      message: '配置回滚成功',
+      data: rollbackVersionInfo
+    });
+  } catch (error) {
+    console.error('配置回滚失败:', error);
+    res.status(500).json({
+      success: false,
+      message: '配置回滚失败'
+    });
+  }
 });
 
 module.exports = router;

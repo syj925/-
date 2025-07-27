@@ -5,7 +5,7 @@ require('dotenv').config();
 // 确定环境
 const env = process.env.NODE_ENV || 'development';
 const logDir = process.env.LOG_DIR || 'logs';
-const logLevel = process.env.LOG_LEVEL || (env === 'development' ? 'debug' : 'info');
+const logLevel = process.env.LOG_LEVEL || (env === 'development' ? 'info' : 'info');
 
 // 自定义格式，避免循环引用问题
 const safeStringify = (obj) => {

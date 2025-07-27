@@ -140,5 +140,12 @@ export default (http) => ({
    * @param {String} postId 帖子ID
    * @returns {Promise}
    */
-  unfavorite: (postId) => http.delete(`/api/favorites/${postId}`)
+  unfavorite: (postId) => http.delete(`/api/favorites/${postId}`),
+
+  /**
+   * 获取用户审核记录
+   * @param {Object} params 查询参数 (page, pageSize, status)
+   * @returns {Promise}
+   */
+  getAuditHistory: (params = {}) => http.get('/api/posts/user/audit-history', params)
 }); 

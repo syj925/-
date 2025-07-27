@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/user.controller');
-const { AuthMiddleware, RateLimitMiddleware } = require('../middlewares');
+const { AuthMiddleware, RateLimitMiddleware, PublishLimitMiddleware } = require('../middlewares');
 const { Validator } = require('../utils');
 const Joi = require('joi');
 
@@ -186,6 +186,27 @@ router.post('/change-password', AuthMiddleware.authenticate(), Validator.validat
 
 // 搜索用户（支持@功能）
 router.get('/search', AuthMiddleware.authenticate(), userController.searchUsers);
+
+// 获取用户今日发布统计
+router.get('/publish-stats', AuthMiddleware.authenticate(), async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const stats = await PublishLimitMiddleware.getUserTodayStats(userId);
+
+    res.json({
+      code: 0,
+      message: '获取发布统计成功',
+      data: stats
+    });
+  } catch (error) {
+    console.error('获取发布统计失败:', error);
+    res.status(500).json({
+      code: 500,
+      message: '获取发布统计失败',
+      data: null
+    });
+  }
+});
 
 // 管理员路由
 router.get('/', AuthMiddleware.authenticate(), AuthMiddleware.authorize('admin'), userController.getUserList);

@@ -287,15 +287,27 @@ export default {
         };
 
         const response = await this.$api.comment.create(commentData);
-        
+
         if (response.code === 0) {
           this.$emit('success', response.data);
           this.clear();
-          
-          uni.showToast({
-            title: '评论成功',
-            icon: 'success'
-          });
+
+          // 根据审核状态显示不同提示
+          if (response.data && response.data.needsAudit) {
+            // 需要审核的情况
+            uni.showModal({
+              title: '提交成功',
+              content: response.data.auditMessage || '您的评论正在审核中，审核通过后将会显示',
+              showCancel: false,
+              confirmText: '我知道了'
+            });
+          } else {
+            // 直接发布成功的情况
+            uni.showToast({
+              title: response.message || '评论成功',
+              icon: 'success'
+            });
+          }
         } else {
           throw new Error(response.msg || '评论失败');
         }

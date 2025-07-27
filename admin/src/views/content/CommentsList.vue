@@ -19,9 +19,38 @@
           </div>
         </div>
       </template>
-      <el-table :data="commentsList" style="width: 100%" v-loading="loading">
+      <el-table :data="commentsList" style="width: 100%" v-loading="loading" row-key="id">
         <el-table-column prop="id" label="ID" width="80" />
-        <el-table-column prop="content" label="评论内容" show-overflow-tooltip />
+        <el-table-column label="评论内容" min-width="300">
+          <template #default="scope">
+            <div class="comment-content-wrapper">
+              <!-- 层级缩进显示 -->
+              <div class="comment-level-indicator" :style="{ paddingLeft: (scope.row.reply_level || 0) * 20 + 'px' }">
+                <!-- 层级标识 -->
+                <span v-if="scope.row.reply_level > 0" class="level-badge">
+                  L{{ scope.row.reply_level }}
+                </span>
+                <!-- 回复标识 -->
+                <span v-if="scope.row.reply_to" class="reply-indicator">
+                  <el-icon><ChatLineRound /></el-icon>
+                </span>
+                <!-- 评论内容 -->
+                <span class="comment-text" :title="scope.row.content">
+                  {{ scope.row.content }}
+                </span>
+              </div>
+              <!-- 回复信息 -->
+              <div v-if="scope.row.reply_level > 0" class="reply-info">
+                <el-tag size="small" type="info">
+                  回复层级: {{ scope.row.reply_level }}
+                </el-tag>
+                <el-tag v-if="scope.row.reply_to" size="small" type="warning">
+                  回复: {{ scope.row.reply_to.substring(0, 8) }}...
+                </el-tag>
+              </div>
+            </div>
+          </template>
+        </el-table-column>
         <el-table-column label="所属帖子" width="180" show-overflow-tooltip>
           <template #default="scope">
             <span v-if="scope.row.post">{{ scope.row.post.content }}</span>
@@ -83,7 +112,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { ElMessage, ElMessageBox } from 'element-plus';
-import { Search } from '@element-plus/icons-vue';
+import { Search, ChatLineRound } from '@element-plus/icons-vue';
 import api from '@/utils/api';
 
 // 加载状态
@@ -162,7 +191,8 @@ const handleCurrentChange = (page) => {
 const getTagType = (status) => {
   const map = {
     'deleted': 'danger',  // 已删除
-    'active': 'success',  // 正常
+    'normal': 'success',  // 正常
+    'active': 'success',  // 正常（兼容）
     'pending': 'info',    // 待审核
     'rejected': 'danger'  // 已拒绝
   };
@@ -173,7 +203,8 @@ const getTagType = (status) => {
 const getStatusText = (status) => {
   const map = {
     'deleted': '已删除',
-    'active': '正常',
+    'normal': '正常',
+    'active': '正常',     // 兼容旧的状态值
     'pending': '待审核',
     'rejected': '已拒绝'
   };
@@ -255,5 +286,54 @@ const handleDelete = (row) => {
   margin-top: 20px;
   display: flex;
   justify-content: center;
+}
+
+/* 评论层级显示样式 */
+.comment-content-wrapper {
+  width: 100%;
+}
+
+.comment-level-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.level-badge {
+  background: #e6f7ff;
+  color: #1890ff;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+  min-width: 24px;
+  text-align: center;
+}
+
+.reply-indicator {
+  color: #52c41a;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+}
+
+.comment-text {
+  flex: 1;
+  word-break: break-word;
+  line-height: 1.4;
+}
+
+.reply-info {
+  display: flex;
+  gap: 6px;
+  margin-top: 4px;
+  flex-wrap: wrap;
+}
+
+.reply-info .el-tag {
+  font-size: 11px;
+  height: 20px;
+  line-height: 18px;
 }
 </style> 

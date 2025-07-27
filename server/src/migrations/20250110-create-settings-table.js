@@ -153,6 +153,105 @@ module.exports = {
         created_at: new Date(),
         updated_at: new Date()
       },
+      {
+        key: 'autoApproveKeywords',
+        value: '学习,教育,知识,分享',
+        description: '自动审核通过关键词',
+        type: 'string',
+        is_system: true,
+        created_at: new Date(),
+        updated_at: new Date()
+      },
+      {
+        key: 'autoRejectKeywords',
+        value: '广告,推广,微信,QQ',
+        description: '自动审核拒绝关键词',
+        type: 'string',
+        is_system: true,
+        created_at: new Date(),
+        updated_at: new Date()
+      },
+      {
+        key: 'dailyCommentLimit',
+        value: '50',
+        description: '每日评论限制',
+        type: 'number',
+        is_system: true,
+        created_at: new Date(),
+        updated_at: new Date()
+      },
+      {
+        key: 'minPostLength',
+        value: '5',
+        description: '帖子最小字数',
+        type: 'number',
+        is_system: true,
+        created_at: new Date(),
+        updated_at: new Date()
+      },
+      {
+        key: 'maxPostLength',
+        value: '1000',
+        description: '帖子最大字数',
+        type: 'number',
+        is_system: true,
+        created_at: new Date(),
+        updated_at: new Date()
+      },
+      {
+        key: 'sensitiveWordAction',
+        value: 'replace',
+        description: '敏感词处理方式',
+        type: 'string',
+        is_system: true,
+        created_at: new Date(),
+        updated_at: new Date()
+      },
+      {
+        key: 'allowImageUpload',
+        value: 'true',
+        description: '允许上传图片',
+        type: 'boolean',
+        is_system: true,
+        created_at: new Date(),
+        updated_at: new Date()
+      },
+      {
+        key: 'maxImageSize',
+        value: '5',
+        description: '单张图片大小限制(MB)',
+        type: 'number',
+        is_system: true,
+        created_at: new Date(),
+        updated_at: new Date()
+      },
+      {
+        key: 'maxImagesPerPost',
+        value: '6',
+        description: '每个帖子最多图片数',
+        type: 'number',
+        is_system: true,
+        created_at: new Date(),
+        updated_at: new Date()
+      },
+      {
+        key: 'allowedImageTypes',
+        value: '["jpg","jpeg","png"]',
+        description: '允许的图片格式',
+        type: 'json',
+        is_system: true,
+        created_at: new Date(),
+        updated_at: new Date()
+      },
+      {
+        key: 'maxReplyLevel',
+        value: '3',
+        description: '评论最大层级',
+        type: 'number',
+        is_system: true,
+        created_at: new Date(),
+        updated_at: new Date()
+      },
       // 用户设置
       {
         key: 'enableRegister',
@@ -195,6 +294,17 @@ module.exports = {
         key: 'readDelaySeconds',
         value: '5',
         description: '消息已读延迟秒数',
+        type: 'number',
+        is_system: true,
+        created_at: new Date(),
+        updated_at: new Date()
+      },
+
+      // 配置更新设置
+      {
+        key: 'configUpdateInterval',
+        value: '5',
+        description: '前端App配置更新检查间隔（分钟）',
         type: 'number',
         is_system: true,
         created_at: new Date(),

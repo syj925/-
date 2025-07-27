@@ -7,6 +7,10 @@ const LoggerMiddleware = require('./logger.middleware');
 const RateLimitMiddleware = require('./rate-limit.middleware');
 const UploadMiddleware = require('./upload.middleware');
 const ValidationMiddleware = require('./validation.middleware');
+const AdminMiddleware = require('./admin.middleware');
+const SensitiveWordMiddleware = require('./sensitive-word.middleware');
+const ContentLengthMiddleware = require('./content-length.middleware');
+const PublishLimitMiddleware = require('./publish-limit.middleware');
 
 module.exports = {
   AuthMiddleware,
@@ -14,5 +18,9 @@ module.exports = {
   LoggerMiddleware,
   RateLimitMiddleware,
   UploadMiddleware,
-  ValidationMiddleware
+  ValidationMiddleware,
+  AdminMiddleware,
+  SensitiveWordMiddleware,
+  ContentLengthMiddleware,
+  PublishLimitMiddleware
 };

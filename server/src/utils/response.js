@@ -12,8 +12,10 @@ class ResponseUtil {
    */
   static success(data = null, message = '成功') {
     return {
+      success: true,
       code: 0,
       msg: message,
+      message: message, // 兼容前端的message字段
       data
     };
   }

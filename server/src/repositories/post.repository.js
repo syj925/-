@@ -80,9 +80,15 @@ class PostRepository {
     
     const post = await Post.findOne(queryOptions);
     
-    // 缓存结果
+    // 缓存结果（转换为普通对象避免循环引用）
     if (post) {
-      await redisClient.set(cacheKey, JSON.stringify(post), 600); // 缓存10分钟
+      try {
+        const plainPost = post.toJSON ? post.toJSON() : post;
+        await redisClient.set(cacheKey, JSON.stringify(plainPost), 600); // 缓存10分钟
+      } catch (error) {
+        console.error(`缓存帖子失败 (ID: ${id}):`, error);
+        // 缓存失败不影响正常功能，继续返回数据
+      }
     }
     
     return post;
@@ -172,7 +178,11 @@ class PostRepository {
     
     // 状态过滤
     if (status) {
-      where.status = status;
+      if (Array.isArray(status)) {
+        where.status = { [Op.in]: status };
+      } else {
+        where.status = status;
+      }
     }
     
     // 用户过滤

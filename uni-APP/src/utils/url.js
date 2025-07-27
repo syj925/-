@@ -30,11 +30,11 @@ const getBaseUrl = () => {
     // 根据平台设置不同的默认值
     // #ifdef H5
     const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-    baseUrl = isLocalhost ? 'http://localhost:3000' : 'http://172.168.9.133:3000';
+    baseUrl = isLocalhost ? 'http://localhost:3000' : 'http://192.168.1.9:3000';
     // #endif
 
     // #ifdef APP-PLUS || MP
-    baseUrl = 'http://172.168.9.133:3000';
+    baseUrl = 'http://192.168.1.9:3000';
     // #endif
   }
 
@@ -63,7 +63,7 @@ export const ensureAbsoluteUrl = (url) => {
   // 如果已经是完整的URL，检查是否需要修正
   if (urlStr.startsWith('http://') || urlStr.startsWith('https://')) {
     // 检查是否包含需要替换的旧IP地址
-    const oldIPs = ['localhost', '127.0.0.1', '192.168.1.11', '192.168.159.1'];
+    const oldIPs = ['localhost', '127.0.0.1', '192.168.1.9'];
 
     for (const oldIP of oldIPs) {
       if (urlStr.includes(oldIP)) {
