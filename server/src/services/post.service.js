@@ -612,6 +612,72 @@ class PostService {
       pagination: result.pagination
     };
   }
+
+  /**
+   * 获取推荐帖子
+   * @param {Object} options 查询选项
+   * @returns {Promise<Object>} 推荐帖子列表和分页信息
+   */
+  async getRecommendedPosts(options = {}) {
+    const {
+      page = 1,
+      pageSize = 6,
+      userId = null
+    } = options;
+
+    logger.info('获取推荐帖子', { page, pageSize, userId });
+
+    // 构建查询选项，使用推荐算法排序
+    const queryOptions = {
+      page,
+      pageSize,
+      status: 'published',
+      orderBy: 'recommended', // 特殊的排序方式，表示使用推荐算法
+      orderDirection: 'DESC',
+      includeDetails: true,
+      userId
+    };
+
+    const result = await postRepository.findAll(queryOptions);
+
+    // 如果没有足够的推荐内容，使用热门内容补充
+    if (result.list.length < pageSize) {
+      logger.info('推荐内容不足，使用热门内容补充');
+
+      // 获取已有帖子的ID列表，用于去重
+      const existingIds = result.list.map(post => post.id);
+
+      const hotOptions = {
+        page: 1,
+        pageSize: pageSize * 2, // 获取更多数据，以便去重后仍有足够内容
+        status: 'published',
+        orderBy: 'like_count',
+        orderDirection: 'DESC',
+        includeDetails: true,
+        userId
+      };
+
+      const hotResult = await postRepository.findAll(hotOptions);
+
+      // 手动去重：排除已经在推荐列表中的帖子
+      const uniqueHotPosts = hotResult.list.filter(post => !existingIds.includes(post.id));
+
+      // 只取需要的数量
+      const neededCount = pageSize - result.list.length;
+      const supplementPosts = uniqueHotPosts.slice(0, neededCount);
+
+      result.list = [...result.list, ...supplementPosts];
+      result.pagination.total = result.list.length;
+
+      logger.info('补充热门内容', {
+        needed: neededCount,
+        supplemented: supplementPosts.length,
+        final: result.list.length
+      });
+    }
+
+    return result;
+  }
 }
 
 module.exports = new PostService();

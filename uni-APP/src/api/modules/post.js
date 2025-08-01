@@ -47,6 +47,13 @@ export default (http) => ({
   getHot: (limit = 10) => http.get('/api/posts/hot', { limit }),
 
   /**
+   * 获取推荐内容
+   * @param {Object} params 查询参数 (page, pageSize)
+   * @returns {Promise}
+   */
+  getRecommended: (params = {}) => http.get('/api/posts/recommended', params),
+
+  /**
    * 获取帖子评论
    * @param {String|Number} id 帖子ID
    * @param {Number} page 页码

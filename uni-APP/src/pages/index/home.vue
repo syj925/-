@@ -170,14 +170,28 @@ export default {
       this.loading = true;
       
       // 调用真实API获取帖子列表
-      const params = {
-        page: this.page,
-        pageSize: this.pageSize,
-        category: this.activeCategory !== 'all' && this.activeCategory !== 'recommend' ? this.activeCategory : undefined,
-        sort: this.activeCategory === 'recommend' ? 'recommend' : 'latest'
-      };
+      let apiCall;
+      let params;
 
-      this.$api.post.getList(params)
+      if (this.activeCategory === 'recommend') {
+        // 推荐标签：调用推荐内容API
+        apiCall = this.$api.post.getRecommended;
+        params = {
+          page: this.page,
+          pageSize: this.pageSize
+        };
+      } else {
+        // 全部和其他分类：调用普通帖子列表API
+        apiCall = this.$api.post.getList;
+        params = {
+          page: this.page,
+          pageSize: this.pageSize,
+          category: this.activeCategory !== 'all' ? this.activeCategory : undefined,
+          sort: 'latest' // 全部标签显示最新内容
+        };
+      }
+
+      apiCall(params)
         .then(res => {
           console.log('获取帖子列表成功:', res);
           
@@ -293,8 +307,10 @@ export default {
             // 第一页，直接替换列表
             this.postList = processedPosts;
           } else {
-            // 追加到现有列表
-            this.postList = [...this.postList, ...processedPosts];
+            // 追加到现有列表，并去重
+            const existingIds = this.postList.map(post => post.id);
+            const newPosts = processedPosts.filter(post => !existingIds.includes(post.id));
+            this.postList = [...this.postList, ...newPosts];
           }
           
           // 判断是否加载完毕
@@ -328,11 +344,12 @@ export default {
     // 切换分类
     changeCategory(categoryId) {
       if (this.activeCategory === categoryId) return;
-      
+
       this.activeCategory = categoryId;
       this.page = 1;
       this.finished = false;
-      
+      this.postList = []; // 清空现有列表，避免重复内容
+
       // 重新加载帖子
       this.loadPosts();
     },

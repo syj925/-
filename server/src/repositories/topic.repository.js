@@ -472,6 +472,7 @@ class TopicRepository {
       pageSize = 10,
       keyword = '',
       status = 'active',
+      is_hot,
       orderBy = 'hot_score',
       orderDirection = 'DESC'
     } = options;
@@ -486,6 +487,12 @@ class TopicRepository {
       where.name = { [Op.like]: `%${keyword}%` };
     }
 
+    if (typeof is_hot === 'boolean') {
+      where.is_hot = is_hot;
+    }
+
+
+
     const { rows, count } = await Topic.findAndCountAll({
       where,
       order: [[orderBy, orderDirection]],
@@ -493,14 +500,59 @@ class TopicRepository {
       offset: (page - 1) * pageSize
     });
 
+
+
     return {
       list: rows,
       pagination: {
         page: parseInt(page, 10),
         pageSize: parseInt(pageSize, 10),
-        total: count
+        total: count,
+        pages: Math.ceil(count / pageSize)
       }
     };
+  }
+
+  /**
+   * 查找待审核图片的话题
+   * @param {Object} options 查询选项
+   * @returns {Promise<Object>} 查询结果
+   */
+  async findPendingImageTopics(options = {}) {
+    const { page = 1, limit = 12 } = options;
+    const offset = (page - 1) * limit;
+
+    try {
+      const { rows, count } = await Topic.findAndCountAll({
+        where: {
+          image_status: 'pending',
+          pending_image: {
+            [Op.ne]: null
+          }
+        },
+        attributes: [
+          'id', 'name', 'description', 'cover_image',
+          'pending_image', 'image_status', 'post_count',
+          'view_count', 'status', 'createdAt', 'updatedAt'
+        ],
+        limit: parseInt(limit),
+        offset: offset,
+        order: [['updatedAt', 'DESC']]
+      });
+
+      return {
+        list: rows,
+        pagination: {
+          page: parseInt(page),
+          pageSize: parseInt(limit),
+          total: count,
+          pages: Math.ceil(count / limit)
+        }
+      };
+    } catch (error) {
+      logger.error('查找待审核图片话题失败:', error);
+      throw error;
+    }
   }
 }
 

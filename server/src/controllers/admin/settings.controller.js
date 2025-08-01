@@ -78,18 +78,22 @@ class AdminSettingsController {
         settingsKeys: Object.keys(settings)
       });
 
-      // 引入Setting模型
-      const { Setting } = require('../../models');
+      // 引入Setting和Topic模型
+      const { Setting, Topic } = require('../../models');
+
+      // 检查是否更新了推荐话题设置
+      let featuredTopicIdsChanged = false;
+      let newFeaturedTopicIds = [];
 
       // 批量更新系统设置
       for (const key in settings) {
         if (Object.hasOwnProperty.call(settings, key)) {
           const value = settings[key];
-          
+
           // 处理不同类型的设置值
           let settingValue;
           let settingType;
-          
+
           if (Array.isArray(value)) {
             settingValue = JSON.stringify(value);
             settingType = 'json';
@@ -103,7 +107,19 @@ class AdminSettingsController {
             settingValue = String(value);
             settingType = 'string';
           }
-          
+
+          // 检查是否是推荐话题设置
+          if (key === 'featuredTopicIds') {
+            featuredTopicIdsChanged = true;
+            // 解析推荐话题ID
+            if (settingValue && settingValue.trim()) {
+              newFeaturedTopicIds = settingValue
+                .split(',')
+                .map(id => parseInt(id.trim()))
+                .filter(id => !isNaN(id));
+            }
+          }
+
           // 查找设置是否存在，不存在则创建
           const [setting, created] = await Setting.findOrCreate({
             where: { key },
@@ -111,19 +127,83 @@ class AdminSettingsController {
               key,
               value: settingValue,
               description: `${key}设置`,
-              type: settingType,
-              isSystem: true
+              type: settingType
             }
           });
-          
+
           if (!created) {
             // 更新现有设置
-            await setting.update({ 
+            await setting.update({
               value: settingValue,
               type: settingType
             });
           }
         }
+      }
+
+      // 如果推荐话题设置发生变化，同步更新话题的热门状态
+      if (featuredTopicIdsChanged) {
+        logger.info('推荐话题设置已更改，同步更新话题热门状态:', {
+          newFeaturedTopicIds
+        });
+
+        // 获取当前所有热门话题的ID
+        const currentHotTopics = await Topic.findAll({
+          where: { is_hot: true },
+          attributes: ['id'],
+          raw: true
+        });
+        const currentHotTopicIds = currentHotTopics.map(topic => topic.id);
+
+        // 计算需要移除热门状态的话题（当前是热门但不在新列表中）
+        const topicsToRemoveHot = currentHotTopicIds.filter(id => !newFeaturedTopicIds.includes(id));
+
+        // 计算需要添加热门状态的话题（在新列表中但当前不是热门）
+        const topicsToAddHot = newFeaturedTopicIds.filter(id => !currentHotTopicIds.includes(id));
+
+        let updateCount = 0;
+
+        // 移除不再是推荐的话题的热门状态
+        if (topicsToRemoveHot.length > 0) {
+          const removeResult = await Topic.update(
+            { is_hot: false },
+            {
+              where: {
+                id: topicsToRemoveHot
+              }
+            }
+          );
+          updateCount += removeResult[0];
+          logger.info('移除热门状态的话题:', {
+            topicIds: topicsToRemoveHot,
+            affectedRows: removeResult[0]
+          });
+        }
+
+        // 为新推荐的话题添加热门状态
+        if (topicsToAddHot.length > 0) {
+          const addResult = await Topic.update(
+            { is_hot: true },
+            {
+              where: {
+                id: topicsToAddHot,
+                status: 'active'
+              }
+            }
+          );
+          updateCount += addResult[0];
+          logger.info('添加热门状态的话题:', {
+            topicIds: topicsToAddHot,
+            affectedRows: addResult[0]
+          });
+        }
+
+        logger.info('话题热门状态同步完成:', {
+          featuredTopicIds: newFeaturedTopicIds,
+          totalUpdatedRows: updateCount,
+          removedHotTopics: topicsToRemoveHot.length,
+          addedHotTopics: topicsToAddHot.length
+        });
       }
 
       res.status(StatusCodes.OK).json(ResponseUtil.success(null, '系统设置更新成功'));

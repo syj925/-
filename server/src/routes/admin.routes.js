@@ -10,6 +10,7 @@ const adminSettingsController = require('../controllers/admin/settings.controlle
 const adminEventController = require('../controllers/admin/event.controller');
 const adminPostController = require('../controllers/admin/post.controller');
 const adminCommentController = require('../controllers/admin/comment.controller');
+const adminTopicController = require('../controllers/admin/topic.controller');
 
 // 引入中间件
 const AdminMiddleware = require('../middlewares/admin.middleware');
@@ -345,6 +346,54 @@ router.put('/posts/:id/recommend', adminPostController.setRecommendStatus);
  */
 router.put('/posts/:id/top', adminPostController.setTopStatus);
 
+// 推荐算法管理路由
+const adminRecommendationController = require('../controllers/admin/recommendation.controller');
+
+/**
+ * @route GET /api/admin/recommendation/settings
+ * @desc 获取推荐算法设置
+ * @access Private (Admin)
+ */
+router.get('/recommendation/settings', (req, res, next) => adminRecommendationController.getRecommendationSettings(req, res, next));
+
+/**
+ * @route PUT /api/admin/recommendation/settings
+ * @desc 更新推荐算法设置
+ * @body {Object} settings - 推荐设置对象
+ * @access Private (Admin)
+ */
+router.put('/recommendation/settings', (req, res, next) => adminRecommendationController.updateRecommendationSettings(req, res, next));
+
+/**
+ * @route POST /api/admin/recommendation/init
+ * @desc 初始化推荐算法设置
+ * @access Private (Admin)
+ */
+router.post('/recommendation/init', (req, res, next) => adminRecommendationController.initializeRecommendationSettings(req, res, next));
+
+/**
+ * @route DELETE /api/admin/recommendation/cache
+ * @desc 清除推荐缓存
+ * @access Private (Admin)
+ */
+router.delete('/recommendation/cache', (req, res, next) => adminRecommendationController.clearRecommendationCache(req, res, next));
+
+/**
+ * @route GET /api/admin/recommendation/stats
+ * @desc 获取推荐算法统计信息
+ * @access Private (Admin)
+ */
+router.get('/recommendation/stats', (req, res, next) => adminRecommendationController.getRecommendationStats(req, res, next));
+
+/**
+ * @route GET /api/admin/recommendation/test
+ * @desc 测试推荐算法
+ * @query {string} strategy - 推荐策略
+ * @query {number} pageSize - 页面大小
+ * @access Private (Admin)
+ */
+router.get('/recommendation/test', (req, res, next) => adminRecommendationController.testRecommendationAlgorithm(req, res, next));
+
 // ==================== 评论管理路由 ====================
 
 /**
@@ -403,6 +452,76 @@ router.delete('/comments/:id', adminCommentController.deleteComment);
  * @access Private (Admin)
  */
 router.put('/comments/:id/audit', adminCommentController.auditComment);
+
+// ==================== 话题管理路由 ====================
+
+/**
+ * @route GET /api/admin/topics
+ * @desc 获取话题列表
+ * @query {number} page - 页码
+ * @query {number} limit - 每页数量
+ * @query {string} search - 搜索关键词
+ * @query {string} status - 状态筛选
+ * @query {string} orderBy - 排序字段
+ * @query {string} orderDirection - 排序方向
+ * @access Private (Admin)
+ */
+router.get('/topics', adminTopicController.getTopicList);
+
+/**
+ * @route POST /api/admin/topics
+ * @desc 创建话题
+ * @body {string} name - 话题名称
+ * @body {string} description - 话题描述
+ * @body {string} cover_image - 封面图片
+ * @body {string} status - 话题状态
+ * @access Private (Admin)
+ */
+router.post('/topics', adminTopicController.createTopic);
+
+/**
+ * @route PUT /api/admin/topics/:id
+ * @desc 更新话题
+ * @param {string} id - 话题ID
+ * @body {Object} updateData - 更新数据
+ * @access Private (Admin)
+ */
+router.put('/topics/:id', adminTopicController.updateTopic);
+
+/**
+ * @route DELETE /api/admin/topics/:id
+ * @desc 删除话题
+ * @param {string} id - 话题ID
+ * @access Private (Admin)
+ */
+router.delete('/topics/:id', adminTopicController.deleteTopic);
+
+/**
+ * @route PATCH /api/admin/topics/:id/hot
+ * @desc 设置话题热门状态
+ * @param {string} id - 话题ID
+ * @body {boolean} is_hot - 是否热门
+ * @access Private (Admin)
+ */
+router.patch('/topics/:id/hot', adminTopicController.setHotStatus);
+
+/**
+ * @route GET /api/admin/topics/pending-images
+ * @desc 获取待审核话题图片列表
+ * @query {number} page - 页码
+ * @query {number} limit - 每页数量
+ * @access Private (Admin)
+ */
+router.get('/topics/pending-images', adminTopicController.getPendingTopicImages);
+
+/**
+ * @route PUT /api/admin/topics/:id/review-image
+ * @desc 审核话题图片
+ * @param {string} id - 话题ID
+ * @body {string} action - 审核动作 (approve/reject)
+ * @access Private (Admin)
+ */
+router.put('/topics/:id/review-image', adminTopicController.reviewTopicImage);
 
 // ==================== 系统设置路由 ====================
 

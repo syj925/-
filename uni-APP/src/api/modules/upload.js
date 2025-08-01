@@ -84,11 +84,9 @@ export default (http) => ({
             
             const data = JSON.parse(res.data);
             if (data.code === 0 && data.data) {
-              // 确保返回的URL是完整的绝对URL
-              if (data.data.url) {
-                data.data.url = UrlUtils.ensureAbsoluteUrl(data.data.url);
-              }
-              
+              // 保持后端返回的URL格式（相对路径或绝对路径）
+              // 不再强制转换为绝对URL，让后端决定URL格式
+              console.log('上传成功, 后端返回URL:', data.data.url);
               console.log('上传成功, 返回数据:', data.data);
               resolve(data.data);
             } else {

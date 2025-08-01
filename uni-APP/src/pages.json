@@ -222,6 +222,13 @@
 			}
 		},
 		{
+			"path": "pages/search/results",
+			"style": {
+				"navigationBarTitleText": "搜索结果",
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/event/list",
 			"style": {
 				"navigationBarTitleText": "校园活动",

@@ -69,6 +69,7 @@ const topStatusSchema = Joi.object({
 // 帖子列表路由（公开）
 router.get('/', postController.getPosts);
 router.get('/hot', postController.getHotPosts);
+router.get('/recommended', postController.getRecommended);
 router.get('/:id', postController.getPostDetail);
 router.get('/:id/comments', postController.getPostComments);
 

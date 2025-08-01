@@ -774,13 +774,24 @@ export default {
 
     // 处理话题创建
     async handleCreateTopic(topicData) {
+      console.log('=== 发布页面 - 处理话题创建 ===');
+      console.log('接收数据:', JSON.stringify(topicData, null, 2));
+
       try {
+        console.log('=== 准备调用 API ===');
+        console.log('API 方法: this.$api.topic.createByUser');
+        console.log('发送的数据:', JSON.stringify(topicData, null, 2));
+
         // 调用创建话题API（普通用户）
         const res = await this.$api.topic.createByUser(topicData);
 
+        console.log('=== API 响应 ===');
+        console.log('响应:', JSON.stringify(res, null, 2));
+
         if (res && res.code === 0 && res.data) {
-          // 创建成功，添加到话题列表
+          console.log('=== 创建成功 ===');
           const newTopic = res.data;
+
           this.addTopicByName(newTopic.name);
 
           // 关闭弹窗
@@ -791,10 +802,16 @@ export default {
             icon: 'success'
           });
         } else {
+          console.log('=== 创建失败 ===');
+          console.log('失败原因: API 响应格式不正确');
           throw new Error(res?.msg || '创建失败');
         }
       } catch (error) {
-        console.error('创建话题失败:', error);
+        console.log('=== 创建话题异常 ===');
+        console.error('错误详情:', error);
+        console.error('错误消息:', error.message);
+        console.error('错误堆栈:', error.stack);
+
         uni.showToast({
           title: error.message || '创建失败，请重试',
           icon: 'none'

@@ -454,6 +454,49 @@ class PostController {
       next(error);
     }
   }
+
+  /**
+   * 获取推荐内容
+   * @param {Object} req 请求对象
+   * @param {Object} res 响应对象
+   * @param {Function} next 下一个中间件
+   * @returns {Promise<void>}
+   */
+  async getRecommended(req, res, next) {
+    try {
+      const { page = 1, pageSize = 6, strategy } = req.query;
+      const userId = req.user ? req.user.id : null;
+
+      logger.info('获取推荐内容', { page, pageSize, userId, strategy });
+
+      // 使用新的推荐服务
+      const recommendationService = require('../services/recommendation.service');
+
+      const options = {
+        page: parseInt(page, 10),
+        pageSize: parseInt(pageSize, 10),
+        userId,
+        strategy
+      };
+
+      const result = await recommendationService.getRecommendedPosts(options);
+
+      res.status(StatusCodes.OK).json(ResponseUtil.page(
+        result.list,
+        result.pagination.page,
+        result.pagination.pageSize,
+        result.pagination.total,
+        {
+          strategy: result.strategy,
+          adminRecommendedCount: result.adminRecommendedCount,
+          algorithmRecommendedCount: result.algorithmRecommendedCount
+        }
+      ));
+    } catch (error) {
+      logger.error('获取推荐内容失败', { error: error.message });
+      next(error);
+    }
+  }
 }
 
 module.exports = new PostController(); 

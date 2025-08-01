@@ -121,7 +121,9 @@ export default {
     create: (data) => instance.post('/admin/topics', data),
     update: (id, data) => instance.put(`/admin/topics/${id}`, data),
     delete: (id) => instance.delete(`/admin/topics/${id}`),
-    // 新增API方法
+    // 设置热门状态
+    setHotStatus: (id, isHot) => instance.patch(`/admin/topics/${id}/hot`, { is_hot: isHot }),
+    // 新增API方法（保留兼容性）
     getStatistics: (params) => instance.get('/admin/topics/statistics', { params }),
     batchOperate: (data) => instance.post('/admin/topics/batch', data),
     merge: (data) => instance.post('/admin/topics/merge', data),
@@ -187,6 +189,16 @@ export default {
     update: (data) => instance.put('/admin/settings', data),
     initRecommendSettings: () => instance.post('/admin/settings/init-recommendation'),
     initSearchSettings: () => instance.post('/admin/settings/init-search')
+  },
+
+  // 推荐算法管理
+  recommendation: {
+    getSettings: () => instance.get('/admin/recommendation/settings'),
+    updateSettings: (data) => instance.put('/admin/recommendation/settings', data),
+    initSettings: () => instance.post('/admin/recommendation/init'),
+    clearCache: () => instance.delete('/admin/recommendation/cache'),
+    getStats: () => instance.get('/admin/recommendation/stats'),
+    test: (params) => instance.get('/admin/recommendation/test', { params })
   },
   
   // 用户标签管理

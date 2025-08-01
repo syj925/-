@@ -28,10 +28,10 @@
           />
         </el-form-item>
         
-        <el-form-item label="封面图" prop="coverImage">
+        <el-form-item label="封面图" prop="cover_image">
           <el-upload
             class="avatar-uploader"
-            action="http://localhost:12349/api/upload"
+            action="http://localhost:3000/api/upload"
             :headers="uploadHeaders"
             name="file"
             :show-file-list="false"
@@ -39,7 +39,7 @@
             :on-error="handleUploadError"
             :before-upload="beforeUpload"
           >
-            <img v-if="topicForm.coverImage" :src="topicForm.coverImage" class="avatar" />
+            <img v-if="topicForm.cover_image" :src="topicForm.cover_image" class="avatar" />
             <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
           </el-upload>
           <div class="upload-tip">建议尺寸: 800x450px，大小不超过2MB</div>
@@ -81,7 +81,7 @@ export default {
     const topicForm = reactive({
       name: '',
       description: '',
-      coverImage: '',
+      cover_image: '',
       status: 'active'
     });
     
@@ -130,7 +130,7 @@ export default {
     // 上传成功处理
     const handleUploadSuccess = (response) => {
       if (response.success && response.data && response.data.url) {
-        topicForm.coverImage = response.data.url;
+        topicForm.cover_image = response.data.url;
       } else {
         ElMessage.error('图片上传失败');
       }

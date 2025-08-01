@@ -77,22 +77,37 @@
         </el-table-column>
         <el-table-column label="浏览次数" width="100" sortable>
           <template #default="scope">
-            {{ scope.row.views || 0 }}
+            {{ scope.row.view_count || scope.row.views || 0 }}
           </template>
         </el-table-column>
         <el-table-column label="帖子数量" width="100" sortable>
           <template #default="scope">
-            {{ scope.row.usageCount || 0 }}
+            {{ scope.row.post_count || scope.row.usageCount || 0 }}
           </template>
         </el-table-column>
         <el-table-column label="封面图" width="120">
           <template #default="scope">
-            <el-image 
-              style="width: 80px; height: 45px" 
-              :src="scope.row.coverImage || ''" 
-              fit="cover"
-              :preview-src-list="scope.row.coverImage ? [scope.row.coverImage] : []"
-            />
+            <div class="topic-cover-container">
+              <el-image
+                v-if="getTopicCoverImage(scope.row)"
+                style="width: 80px; height: 45px"
+                :src="getTopicCoverImage(scope.row)"
+                fit="cover"
+                :preview-src-list="[getTopicCoverImage(scope.row)]"
+                @error="handleImageError"
+              >
+                <template #error>
+                  <div class="image-slot">
+                    <el-icon><Picture /></el-icon>
+                    <span>加载失败</span>
+                  </div>
+                </template>
+              </el-image>
+              <div v-else class="no-image-placeholder">
+                <el-icon><Picture /></el-icon>
+                <span>无图片</span>
+              </div>
+            </div>
           </template>
         </el-table-column>
         <el-table-column label="创建时间" width="180" sortable>
@@ -181,7 +196,7 @@
             placeholder="请输入话题描述"
           />
         </el-form-item>
-        <el-form-item label="封面图" prop="coverImage">
+        <el-form-item label="封面图" prop="cover_image">
           <el-upload
             class="avatar-uploader"
             action="http://localhost:12349/api/upload"
@@ -192,7 +207,7 @@
             :on-error="handleUploadError"
             :before-upload="beforeUpload"
           >
-            <img v-if="editingTopic.coverImage" :src="editingTopic.coverImage" class="avatar" />
+            <img v-if="editingTopic.cover_image" :src="editingTopic.cover_image" class="avatar" />
             <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
           </el-upload>
           <div class="upload-tip">建议尺寸: 800x450px，大小不超过2MB</div>
@@ -317,7 +332,7 @@
 <script setup>
 import { ref, reactive, onMounted, computed } from 'vue';
 import { ElMessage, ElMessageBox } from 'element-plus';
-import { Plus } from '@element-plus/icons-vue';
+import { Plus, Picture } from '@element-plus/icons-vue';
 import api from '../../utils/api';
 import SeoSettings from '../../components/SeoSettings.vue';
 import ReviewConfig from '../../components/ReviewConfig.vue';
@@ -358,7 +373,7 @@ const editingTopic = reactive({
   id: null,
   name: '',
   description: '',
-  coverImage: '',
+  cover_image: '',
   status: 'active'
 });
 const topicForm = ref(null);
@@ -371,7 +386,7 @@ const rules = {
     { required: true, message: '请输入话题描述', trigger: 'blur' },
     { max: 200, message: '长度不能超过 200 个字符', trigger: 'blur' }
   ],
-  coverImage: [
+  cover_image: [
     { required: true, message: '请上传话题封面图', trigger: 'change' }
   ],
   status: [
@@ -403,45 +418,47 @@ const fetchTopics = () => {
   };
   
   console.log('请求参数:', params);
-  
+
   api.topics.getList(params)
     .then(res => {
       console.log('获取话题列表原始响应:', res);
       console.log('响应类型:', typeof res);
       if (res.data) console.log('data类型:', typeof res.data);
       
-      // 增强数据处理逻辑 - 进一步简化和优化
-      if (Array.isArray(res)) {
-        console.log('处理情况1: 响应是数组');
-        topicList.value = res;
-        total.value = res.length;
-      } else if (res.data) {
-        // 处理常见的响应结构
-        if (Array.isArray(res.data)) {
-          console.log('处理情况2: res.data是数组');
-          topicList.value = res.data;
-          total.value = res.total || res.data.length;
-        } else if (res.data.topics && Array.isArray(res.data.topics)) {
-          console.log('处理情况3: res.data.topics是数组');
-          // 处理嵌套结构：{ data: { topics: [...] } }
-          topicList.value = res.data.topics;
-          total.value = res.data.pagination?.total || res.data.topics.length;
-        } else if (typeof res.data === 'object') {
-          console.log('处理情况4: res.data是对象', res.data);
-          // 最后尝试将对象转为数组
-          topicList.value = [res.data];
-          total.value = 1;
+      // 适配新版响应格式 {code: 0, msg: '成功', data: {...}}
+      if (res.code === 0 && res.data) {
+        console.log('处理情况1: 新版响应格式');
+        if (res.data.list && Array.isArray(res.data.list)) {
+          topicList.value = res.data.list;
+          total.value = res.data.pagination?.total || res.data.list.length;
         } else {
-          console.error('处理情况5: 无法解析响应数据', res);
+          console.warn('新版响应格式但数据结构异常:', res.data);
           topicList.value = [];
           total.value = 0;
         }
+      } else if (res.success && res.data) {
+        console.log('处理情况2: 旧版响应格式兼容');
+        if (res.data.topics && Array.isArray(res.data.topics)) {
+          topicList.value = res.data.topics;
+          total.value = res.data.pagination?.total || res.data.topics.length;
+        } else if (Array.isArray(res.data)) {
+          topicList.value = res.data;
+          total.value = res.total || res.data.length;
+        } else {
+          console.warn('旧版响应格式但数据结构异常:', res.data);
+          topicList.value = [];
+          total.value = 0;
+        }
+      } else if (Array.isArray(res)) {
+        console.log('处理情况3: 直接数组响应');
+        topicList.value = res;
+        total.value = res.length;
       } else {
-        console.error('处理情况6: 无法识别的API响应结构:', res);
+        console.error('处理情况4: 无法识别的API响应结构:', res);
         topicList.value = [];
         total.value = 0;
       }
-      
+
       console.log('处理后话题列表:', topicList.value);
     })
     .catch(error => {
@@ -477,7 +494,16 @@ const handleCurrentChange = (val) => {
 const handleEdit = (row) => {
   // 深拷贝避免直接修改表格数据
   const rowData = JSON.parse(JSON.stringify(row));
-  Object.assign(editingTopic, rowData);
+
+  // 字段映射：兼容新旧字段名
+  Object.assign(editingTopic, {
+    id: rowData.id,
+    name: rowData.name,
+    description: rowData.description,
+    cover_image: rowData.cover_image || rowData.coverImage || '',
+    status: rowData.status
+  });
+
   dialogVisible.value = true;
 };
 
@@ -528,7 +554,7 @@ const handleSubmit = () => {
       const topicData = {
         name: editingTopic.name,
         description: editingTopic.description,
-        coverImage: editingTopic.coverImage,
+        cover_image: editingTopic.cover_image,
         status: editingTopic.status
       };
       
@@ -572,7 +598,7 @@ const handleUploadSuccess = (res) => {
   console.log('上传成功:', res);
   // 检查响应结构
   if (res.success && res.data && res.data.url) {
-    editingTopic.coverImage = res.data.url;
+    editingTopic.cover_image = res.data.url;
   } else {
     ElMessage.warning('上传成功，但未获取到图片URL');
     console.error('无效的上传响应:', res);
@@ -606,7 +632,7 @@ const resetForm = () => {
     id: null,
     name: '',
     description: '',
-    coverImage: '',
+    cover_image: '',
     status: 'active'
   });
   
@@ -742,6 +768,28 @@ const handleBatchAction = (action) => {
 // 判断话题是否被禁用
 const isDisabledTopic = (status) => {
   return status === 'hidden' || status === 'deleted';
+};
+
+// 获取话题封面图片URL
+const getTopicCoverImage = (topic) => {
+  const imageUrl = topic.cover_image || topic.coverImage || '';
+
+  // 检查是否为有效的图片URL（不为空且不只是空白字符）
+  if (!imageUrl || !imageUrl.trim()) {
+    return null;
+  }
+
+  // 如果是相对路径，转换为完整URL
+  if (imageUrl.startsWith('/')) {
+    return `http://localhost:3000${imageUrl}`;
+  }
+
+  return imageUrl;
+};
+
+// 处理图片加载错误
+const handleImageError = (error) => {
+  console.warn('话题封面图片加载失败:', error);
 };
 
 // 图片审核相关
@@ -912,6 +960,49 @@ const reviewImage = async (action) => {
 .el-image {
   width: 100%;
   height: 100%;
+}
+
+/* 话题封面图片相关样式 */
+.topic-cover-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.no-image-placeholder {
+  width: 80px;
+  height: 45px;
+  border: 1px dashed #d9d9d9;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #999;
+  font-size: 12px;
+  background-color: #fafafa;
+}
+
+.no-image-placeholder .el-icon {
+  font-size: 16px;
+  margin-bottom: 2px;
+}
+
+.image-slot {
+  width: 80px;
+  height: 45px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #999;
+  font-size: 12px;
+  background-color: #f5f5f5;
+}
+
+.image-slot .el-icon {
+  font-size: 16px;
+  margin-bottom: 2px;
 }
 
 .no-image {

@@ -66,6 +66,17 @@ export default (http) => ({
   },
 
   /**
+   * 获取搜索建议（别名方法）
+   * @param {Object} params 参数
+   * @param {string} params.keyword 搜索关键词
+   * @param {number} params.limit 限制数量
+   * @returns {Promise}
+   */
+  getSuggestions: (params) => {
+    return http.get('/api/search/suggestions', params);
+  },
+
+  /**
    * 获取热门搜索
    * @param {Object} params 参数
    * @param {number} params.limit 限制数量

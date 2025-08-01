@@ -13,7 +13,7 @@ export const SERVER_CONFIG = {
     serverUrls: [
       'http://localhost:3000',        // 本地开发服务器 (H5模式首选)
       'http://127.0.0.1:3000',        // 本地开发服务器 (备用)
-      'http://192.168.1.9:3000',      // 网络地址
+      'http://192.168.1.6:3000',      // 网络地址
       'http://10.0.2.2:3000'          // Android模拟器专用
     ],
     // API版本

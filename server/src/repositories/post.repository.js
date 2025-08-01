@@ -1,4 +1,4 @@
-const { Post, User, Category, PostImage, Comment, Topic, Like, Favorite, sequelize } = require('../models');
+const { Post, User, Category, PostImage, Comment, Topic, Like, Favorite, Setting, sequelize } = require('../models');
 const { Op, Sequelize } = require('sequelize');
 const redisClient = require('../utils/redis-client');
 
@@ -225,6 +225,28 @@ class PostRepository {
         ['like_count', 'DESC'],
         ['view_count', 'DESC'],
         ['comment_count', 'DESC'],
+        ['created_at', 'DESC']
+      ];
+    } else if (orderBy === 'recommended') {
+      // 推荐算法排序：管理员推荐优先，然后按权重算法排序
+      const { sequelize } = require('../../config/database');
+
+      // 获取推荐算法权重配置
+      const recommendSettings = await this.getRecommendSettings();
+
+      queryOptions.order = [
+        ['is_top', 'DESC'],
+        ['is_recommended', 'DESC'], // 管理员推荐优先
+        // 使用权重算法计算热度分数
+        [sequelize.literal(`
+          (like_count * ${recommendSettings.likeWeight} +
+           comment_count * ${recommendSettings.commentWeight} +
+           favorite_count * ${recommendSettings.collectionWeight} +
+           view_count * ${recommendSettings.viewWeight} +
+           (CASE WHEN DATEDIFF(NOW(), created_at) <= ${recommendSettings.maxAgeDays}
+            THEN EXP(-DATEDIFF(NOW(), created_at) / ${recommendSettings.timeDecayDays}) * 10
+            ELSE 0 END)
+          )`), 'DESC'],
         ['created_at', 'DESC']
       ];
     } else if (orderBy === 'createdAt') {
@@ -607,6 +629,260 @@ class PostRepository {
     });
     return count > 0;
   }
+
+  /**
+   * 获取推荐算法配置参数
+   * @returns {Promise<Object>} 权重参数对象
+   */
+  async getRecommendSettings() {
+    try {
+      // 获取所有推荐相关设置
+      const settings = await Setting.findAll({
+        where: {
+          key: {
+            [Op.in]: ['likeWeight', 'commentWeight', 'collectionWeight', 'viewWeight',
+                    'timeDecayDays', 'maxAgeDays', 'maxAdminRecommended']
+          }
+        }
+      });
+
+      // 默认配置
+      const defaultSettings = {
+        likeWeight: 2.0,
+        commentWeight: 3.0,
+        collectionWeight: 4.0,
+        viewWeight: 0.5,
+        timeDecayDays: 10,
+        maxAgeDays: 30,
+        maxAdminRecommended: 5
+      };
+
+      // 使用数据库配置覆盖默认值
+      settings.forEach(setting => {
+        const key = setting.key;
+        if (['likeWeight', 'commentWeight', 'collectionWeight', 'viewWeight'].includes(key)) {
+          defaultSettings[key] = parseFloat(setting.value);
+        } else {
+          defaultSettings[key] = parseInt(setting.value);
+        }
+      });
+
+      return defaultSettings;
+    } catch (error) {
+      logger.error('获取推荐设置失败:', error);
+      // 返回默认设置
+      return {
+        likeWeight: 2.0,
+        commentWeight: 3.0,
+        collectionWeight: 4.0,
+        viewWeight: 0.5,
+        timeDecayDays: 10,
+        maxAgeDays: 30,
+        maxAdminRecommended: 5
+      };
+    }
+  }
+
+  /**
+   * 获取推荐算法的候选帖子
+   * @param {Object} options 查询选项
+   * @returns {Promise<Array>} 候选帖子列表
+   */
+  async findCandidatesForRecommendation(options = {}) {
+    const {
+      pageSize = 50,
+      excludeIds = [],
+      maxAgeDays = 30,
+      includeDetails = true,
+      minInteractionScore = 2 // 最低互动分数阈值
+    } = options;
+
+    // 构建查询条件
+    const whereCondition = {
+      status: 'published'
+    };
+
+    // 排除指定帖子
+    if (excludeIds.length > 0) {
+      whereCondition.id = {
+        [Op.notIn]: excludeIds
+      };
+    }
+
+    // 时间限制
+    if (maxAgeDays > 0) {
+      const maxAgeDate = new Date();
+      maxAgeDate.setDate(maxAgeDate.getDate() - maxAgeDays);
+      whereCondition.created_at = {
+        [Op.gte]: maxAgeDate
+      };
+    }
+
+    // 质量筛选：至少有一定的互动量
+    // 计算互动分数：点赞*1 + 评论*2 + 收藏*3 + 浏览/10
+    whereCondition[Op.and] = [
+      Sequelize.literal(`
+        (like_count * 1 + comment_count * 2 + favorite_count * 3 + view_count * 0.1) >= ${minInteractionScore}
+        OR is_recommended = 1
+        OR is_top = 1
+      `)
+    ];
+
+    const queryOptions = {
+      where: whereCondition,
+      limit: pageSize,
+      order: [['created_at', 'DESC']]
+    };
+
+    // 包含详细信息
+    if (includeDetails) {
+      queryOptions.include = [
+        {
+          model: User,
+          as: 'author',
+          attributes: ['id', 'username', 'nickname', 'avatar', 'school', 'department']
+        },
+        {
+          model: Category,
+          as: 'category',
+          attributes: ['id', 'name']
+        },
+        {
+          model: PostImage,
+          as: 'images',
+          attributes: ['id', 'url', 'thumbnail_url']
+        },
+        {
+          model: Topic,
+          as: 'topics',
+          attributes: ['id', 'name'],
+          through: { attributes: [] }
+        }
+      ];
+    }
+
+    const posts = await Post.findAll(queryOptions);
+    return posts.map(post => {
+      const jsonPost = post.toJSON();
+      // 确保移除可能的循环引用
+      return this.cleanPostData(jsonPost);
+    });
+  }
+
+  /**
+   * 批量获取用户点赞的帖子ID
+   * @param {String} userId 用户ID
+   * @param {Array} postIds 帖子ID数组
+   * @returns {Promise<Array>} 已点赞的帖子ID数组
+   */
+  async getUserLikedPosts(userId, postIds) {
+    try {
+      const likes = await Like.findAll({
+        where: {
+          user_id: userId,
+          target_type: 'post',
+          target_id: {
+            [Op.in]: postIds
+          }
+        },
+        attributes: ['target_id']
+      });
+
+      return likes.map(like => like.target_id);
+    } catch (error) {
+      console.error('获取用户点赞帖子失败:', error);
+      return [];
+    }
+  }
+
+  /**
+   * 批量获取用户收藏的帖子ID
+   * @param {String} userId 用户ID
+   * @param {Array} postIds 帖子ID数组
+   * @returns {Promise<Array>} 已收藏的帖子ID数组
+   */
+  async getUserFavoritedPosts(userId, postIds) {
+    try {
+      const favorites = await Favorite.findAll({
+        where: {
+          user_id: userId,
+          post_id: {
+            [Op.in]: postIds
+          }
+        },
+        attributes: ['post_id']
+      });
+
+      return favorites.map(favorite => favorite.post_id);
+    } catch (error) {
+      console.error('获取用户收藏帖子失败:', error);
+      return [];
+    }
+  }
+
+  /**
+   * 清理帖子数据，移除可能的循环引用
+   * @param {Object} postData 帖子数据
+   * @returns {Object} 清理后的帖子数据
+   */
+  cleanPostData(postData) {
+    if (!postData || typeof postData !== 'object') {
+      return postData;
+    }
+
+    const cleaned = {};
+
+    for (const [key, value] of Object.entries(postData)) {
+      // 跳过可能导致循环引用的属性
+      if (this.shouldSkipProperty(key, value)) {
+        continue;
+      }
+
+      // 递归处理嵌套对象
+      if (Array.isArray(value)) {
+        cleaned[key] = value.map(item =>
+          typeof item === 'object' && item !== null ? this.cleanPostData(item) : item
+        );
+      } else if (typeof value === 'object' && value !== null) {
+        cleaned[key] = this.cleanPostData(value);
+      } else {
+        cleaned[key] = value;
+      }
+    }
+
+    return cleaned;
+  }
+
+  /**
+   * 判断是否应该跳过某个属性
+   * @param {string} key 属性名
+   * @param {*} value 属性值
+   * @returns {boolean} 是否跳过
+   */
+  shouldSkipProperty(key, value) {
+    // Sequelize 相关属性
+    const sequelizeProps = [
+      'parent', 'include', 'sequelize', '_options', '_changed', '_previousDataValues',
+      'dataValues', '_modelOptions', '_model', 'Model', 'constructor', '__proto__',
+      'isNewRecord', '_customGetters', '_customSetters'
+    ];
+
+    if (sequelizeProps.includes(key)) {
+      return true;
+    }
+
+    // 函数类型
+    if (typeof value === 'function') {
+      return true;
+    }
+
+    // Symbol 类型
+    if (typeof value === 'symbol') {
+      return true;
+    }
+
+    return false;
+  }
 }
 
-module.exports = new PostRepository(); 
+module.exports = new PostRepository();

@@ -25,7 +25,7 @@ const initBaseUrl = () => {
   // H5环境使用完整URL
   const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
   // 修改为使用完整URL，确保端口号正确
-  BASE_URL = isLocalhost ? 'http://localhost:3000' : 'http://192.168.1.9:3000';
+  BASE_URL = isLocalhost ? 'http://localhost:3000' : 'http://192.168.1.6:3000';
   console.log('H5环境设置BASE_URL:', BASE_URL, '当前域名:', window.location.hostname);
   // #endif
   

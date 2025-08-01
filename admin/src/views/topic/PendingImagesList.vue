@@ -25,26 +25,22 @@
               <span class="topic-date">{{ formatDate(item.updatedAt) }}</span>
             </div>
             <div class="image-preview">
-              <div class="image-compare">
-                <div class="image-wrapper">
-                  <h5>待审核</h5>
-                  <el-image 
-                    :src="item.pendingImage" 
-                    fit="cover"
-                    :preview-src-list="[item.pendingImage]">
-                  </el-image>
-                </div>
-                <div class="image-wrapper" v-if="item.coverImage">
-                  <h5>当前</h5>
-                  <el-image 
-                    :src="item.coverImage" 
-                    fit="cover"
-                    :preview-src-list="[item.coverImage]">
-                  </el-image>
-                </div>
-                <div class="image-placeholder" v-else>
-                  <span>无当前图片</span>
-                </div>
+              <div class="image-wrapper" v-if="item.pending_image">
+                <el-image
+                  :src="getImageUrl(item.pending_image)"
+                  fit="cover"
+                  :preview-src-list="[getImageUrl(item.pending_image)]"
+                  @error="handleImageError">
+                  <template #error>
+                    <div class="image-slot">
+                      <i class="el-icon-picture-outline"></i>
+                      <p>图片加载失败</p>
+                    </div>
+                  </template>
+                </el-image>
+              </div>
+              <div v-else class="no-image">
+                <p>没有待审核图片</p>
               </div>
             </div>
             <div class="topic-description">
@@ -117,21 +113,40 @@ export default {
   
   methods: {
     formatDate,
-    
+
+    // 获取图片URL
+    getImageUrl(imageUrl) {
+      if (!imageUrl) return '';
+
+      // 如果是相对路径，转换为完整URL
+      if (imageUrl.startsWith('/')) {
+        return `http://localhost:3000${imageUrl}`;
+      }
+
+      return imageUrl;
+    },
+
+    // 图片加载错误处理
+    handleImageError(error) {
+      console.error('图片加载失败:', error);
+    },
+
     // 加载待审核图片列表
     loadPendingImages() {
       this.loading = true;
       api.topics.getPendingTopicImages(this.queryParams)
         .then(res => {
-          if (res.success) {
-            this.pendingImages = res.data.topics.map(topic => ({
+          if (res.success || res.code === 0) {
+            // 适配新版API响应格式：data.list 而不是 data.topics
+            const imageList = res.data?.list || res.data?.topics || [];
+            this.pendingImages = imageList.map(topic => ({
               ...topic,
               approveLoading: false,
               rejectLoading: false
             }));
-            this.total = res.data.pagination.total;
+            this.total = res.data?.pagination?.total || 0;
           } else {
-            this.$message.error(res.message || '获取数据失败');
+            this.$message.error(res.message || res.msg || '获取数据失败');
           }
         })
         .catch(err => {
@@ -154,7 +169,7 @@ export default {
       
       api.topics.reviewTopicImage(topic.id, { action })
         .then(res => {
-          if (res.success) {
+          if (res.success || res.code === 0) {
             this.$message.success(action === 'approve' ? '已通过图片审核' : '已拒绝图片');
             // 移除已审核的项
             this.pendingImages = this.pendingImages.filter(item => item.id !== topic.id);
@@ -164,7 +179,7 @@ export default {
               this.loadPendingImages();
             }
           } else {
-            this.$message.error(res.message || '操作失败');
+            this.$message.error(res.message || res.msg || '操作失败');
           }
         })
         .catch(err => {
@@ -245,31 +260,20 @@ export default {
   margin-bottom: 10px;
 }
 
-.image-compare {
-  display: flex;
-  gap: 10px;
-}
-
 .image-wrapper {
-  flex: 1;
+  width: 100%;
   overflow: hidden;
-}
-
-.image-wrapper h5 {
-  margin: 0 0 5px;
-  font-size: 13px;
-  color: #606266;
 }
 
 .el-image {
   width: 100%;
-  height: 120px;
+  height: 150px;
   border-radius: 4px;
 }
 
-.image-placeholder {
-  flex: 1;
-  height: 120px;
+.no-image {
+  width: 100%;
+  height: 150px;
   background-color: #f5f7fa;
   display: flex;
   align-items: center;
@@ -277,6 +281,20 @@ export default {
   color: #909399;
   font-size: 13px;
   border-radius: 4px;
+}
+
+.image-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #909399;
+}
+
+.image-slot i {
+  font-size: 24px;
+  margin-bottom: 8px;
 }
 
 .topic-description {

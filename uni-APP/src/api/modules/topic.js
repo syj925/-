@@ -73,5 +73,18 @@ export default (http) => ({
    * @param {Object} data 话题数据
    * @returns {Promise}
    */
-  createByUser: (data) => http.post('/api/topics/create', data)
+  createByUser: (data) => {
+    console.log('=== API请求 ===');
+    console.log('POST /api/topics/create');
+    console.log('数据:', JSON.stringify(data, null, 2));
+
+    return http.post('/api/topics/create', data).then(response => {
+      console.log('=== API响应 ===');
+      console.log('结果:', JSON.stringify(response, null, 2));
+      return response;
+    }).catch(error => {
+      console.error('=== API错误 ===', error);
+      throw error;
+    });
+  }
 })

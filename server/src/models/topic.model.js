@@ -25,7 +25,18 @@ module.exports = (sequelize, DataTypes) => {
       cover_image: {
         type: DataTypes.STRING(255),
         allowNull: true,
-        comment: '话题封面图片'
+        comment: '话题封面图片（审核通过后显示）'
+      },
+      pending_image: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+        comment: '待审核的封面图片'
+      },
+      image_status: {
+        type: DataTypes.ENUM('default', 'pending', 'approved', 'rejected'),
+        allowNull: false,
+        defaultValue: 'default',
+        comment: '图片状态：default(默认), pending(待审核), approved(已通过), rejected(已拒绝)'
       },
       post_count: {
         type: DataTypes.INTEGER,

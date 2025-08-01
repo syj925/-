@@ -1,60 +1,56 @@
 <template>
-  <view class="topic-container">
-    <!-- 自定义导航栏 -->
-    <view class="custom-navbar">
-      <view class="navbar-content">
-        <view class="nav-left" @tap="goBack">
-          <view class="back-btn">
-            <text class="iconfont icon-arrow-left"></text>
-          </view>
-        </view>
-        <view class="nav-center">
-          <text class="nav-title">话题详情</text>
-        </view>
-        <view class="nav-right">
-          <view class="share-btn" @tap="shareTopic">
-            <text class="iconfont icon-share"></text>
-          </view>
-        </view>
-      </view>
+  <view class="topic-detail-page">
+    <!-- 话题封面背景 -->
+    <view class="topic-cover-bg" v-if="topicCoverUrl">
+      <image
+        :src="topicCoverUrl"
+        mode="aspectFill"
+        class="cover-bg-image"
+      />
+      <view class="cover-overlay"></view>
     </view>
 
     <!-- 话题头部信息 -->
-    <view class="topic-header">
-      <view class="topic-cover" :style="{ background: getTopicGradient() }">
-        <view class="cover-overlay"></view>
-        <view class="topic-main-info">
-          <view class="topic-icon">
+    <view class="topic-header" :class="{ 'has-cover': topicCoverUrl }">
+      <view class="header-content">
+        <!-- 话题封面和基本信息 -->
+        <view class="topic-main">
+          <view class="topic-cover" v-if="topicCoverUrl">
+            <image
+              :src="topicCoverUrl"
+              mode="aspectFill"
+              class="cover-image"
+            />
+          </view>
+          <view class="topic-icon" v-else>
             <text class="topic-hash">#</text>
           </view>
-          <view class="topic-content">
-            <text class="topic-name">{{ topicInfo.name || '话题详情' }}</text>
+
+          <view class="topic-info">
+            <view class="topic-title-row">
+              <text class="topic-name">{{ topicInfo.name || '话题详情' }}</text>
+              <view class="topic-badges">
+                <text class="topic-hot" v-if="topicInfo.is_hot">🔥 热门</text>
+                <text class="topic-type" v-if="topicInfo.type && topicInfo.type !== 'general'">{{ getTopicTypeText(topicInfo.type) }}</text>
+              </view>
+            </view>
             <text class="topic-desc" v-if="topicInfo.description">{{ topicInfo.description }}</text>
           </view>
         </view>
-      </view>
 
-      <view class="topic-stats-card">
-        <view class="stats-grid">
+        <!-- 话题统计信息 -->
+        <view class="topic-stats">
           <view class="stat-item">
             <text class="stat-number">{{ formatNumber(topicInfo.post_count || 0) }}</text>
             <text class="stat-label">内容</text>
           </view>
-          <view class="stat-divider"></view>
           <view class="stat-item">
             <text class="stat-number">{{ formatNumber(topicInfo.view_count || 0) }}</text>
             <text class="stat-label">浏览</text>
           </view>
-          <view class="stat-divider"></view>
           <view class="stat-item">
             <text class="stat-number">{{ formatNumber(topicInfo.hot_score || 0) }}</text>
             <text class="stat-label">热度</text>
-          </view>
-        </view>
-        <view class="topic-tags" v-if="topicInfo.is_hot">
-          <view class="hot-tag">
-            <text class="tag-icon">🔥</text>
-            <text class="tag-text">热门话题</text>
           </view>
         </view>
       </view>
@@ -62,94 +58,68 @@
 
     <!-- 内容筛选栏 -->
     <view class="filter-section">
-      <view class="filter-tabs">
-        <view
-          class="tab-item"
-          :class="{ active: sortBy === 'latest' }"
-          @tap="changeSortBy('latest')"
-        >
-          <text class="tab-text">最新</text>
-          <view class="tab-indicator" v-if="sortBy === 'latest'"></view>
+      <scroll-view
+        class="filter-scroll"
+        scroll-x
+        scroll-with-animation
+        :scroll-into-view="'sort-' + sortBy"
+      >
+        <view class="filter-list">
+          <view
+            v-for="sort in sortOptions"
+            :key="sort.key"
+            :id="'sort-' + sort.key"
+            class="filter-item"
+            :class="{ active: sortBy === sort.key }"
+            @tap="changeSortBy(sort.key)"
+          >
+            {{ sort.name }}
+          </view>
         </view>
-        <view
-          class="tab-item"
-          :class="{ active: sortBy === 'hot' }"
-          @tap="changeSortBy('hot')"
-        >
-          <text class="tab-text">最热</text>
-          <view class="tab-indicator" v-if="sortBy === 'hot'"></view>
-        </view>
-      </view>
+      </scroll-view>
     </view>
 
     <!-- 帖子列表 -->
     <view class="posts-section">
-      
-      <view class="posts-list">
-        <template v-if="!loading && posts.length > 0">
-          <PostCard
-            v-for="(post, index) in posts"
-            :key="post.id"
-            :post="post"
-            @click="navigateToPost"
-          />
-        </template>
+      <!-- 使用PostList组件 -->
+      <post-list
+        :list="posts"
+        :loading="loading"
+        :refreshing="refreshing"
+        :finished="!hasMore"
+        :show-empty-action="true"
+        @like="handleLike"
+        @comment="handleComment"
+        @favorite="handleFavorite"
+        @share="handleShare"
+        @edit="handleEdit"
+        @delete="handleDelete"
+        @commentLike="handleCommentLike"
+        @userClick="handleUserClick"
+        @emptyAction="goToPublish"
+      ></post-list>
+    </view>
 
-        <!-- 空状态 -->
-        <view class="empty-state" v-if="!loading && posts.length === 0">
-          <view class="empty-icon">
-            <text class="iconfont icon-document"></text>
-          </view>
-          <text class="empty-title">暂无相关内容</text>
-          <text class="empty-desc">成为第一个在这个话题下发布内容的人吧！</text>
-          <view class="empty-action" @tap="createPost">
-            <text class="action-text">发布内容</text>
-          </view>
-        </view>
-
-        <!-- 加载状态 -->
-        <view class="loading-state" v-if="loading && posts.length === 0">
-          <view class="loading-spinner"></view>
-          <text class="loading-text">加载中...</text>
-        </view>
-      </view>
-
-      <!-- 加载更多 -->
-      <view class="load-more-section" v-if="posts.length > 0">
-        <view class="load-more-btn" v-if="!loading && hasMore" @tap="loadMore">
-          <text class="load-text">加载更多</text>
-        </view>
-
-        <view class="loading-more" v-if="loading && posts.length > 0">
-          <view class="loading-spinner small"></view>
-          <text class="loading-text">加载中...</text>
-        </view>
-
-        <view class="no-more-data" v-if="!loading && !hasMore && posts.length > 0">
-          <view class="divider-line"></view>
-          <text class="no-more-text">已经到底了</text>
-          <view class="divider-line"></view>
-        </view>
+    <!-- 底部发布按钮 -->
+    <view class="bottom-publish">
+      <view class="publish-btn" @tap="goToPublish">
+        <text class="publish-icon">✏️</text>
+        <text class="publish-text">参与话题讨论</text>
       </view>
     </view>
 
-    <!-- 悬浮发布按钮 -->
-    <view class="floating-action">
-      <view class="fab-btn" @tap="createPost">
-        <text class="iconfont icon-edit"></text>
-      </view>
-    </view>
+    <!-- 底部安全区占位 -->
+    <view class="safe-area"></view>
   </view>
 </template>
 
 <script>
 import { topicApi } from '@/api'
-import { formatTimeAgo } from '@/utils/date'
-import PostCard from '@/components/post/PostCard.vue'
+import PostList from '@/components/post/PostList.vue'
 
 export default {
   components: {
-    PostCard
+    PostList
   },
   data() {
     return {
@@ -157,13 +127,32 @@ export default {
       topicInfo: {},
       posts: [],
       loading: false,
+      refreshing: false,
       sortBy: 'latest',
       currentPage: 1,
       pageSize: 10,
-      hasMore: true
+      hasMore: true,
+      sortOptions: [
+        { key: 'latest', name: '最新' },
+        { key: 'hot', name: '最热' }
+      ]
     }
   },
-  
+
+  computed: {
+    // 话题封面图片URL
+    topicCoverUrl() {
+      if (!this.topicInfo) return ''
+
+      // 优先使用已审核通过的封面图片
+      if (this.topicInfo.cover_image && this.topicInfo.image_status === 'approved') {
+        return this.getFullImageUrl(this.topicInfo.cover_image)
+      }
+
+      return ''
+    }
+  },
+
   onLoad(options) {
     if (options.id) {
       // 确保ID是字符串或数字，不是对象
@@ -195,6 +184,57 @@ export default {
   },
   
   methods: {
+    // PostList组件事件处理
+    handleLike(post) {
+      // 处理点赞
+      console.log('点赞帖子:', post.id)
+    },
+
+    handleComment(post) {
+      // 跳转到帖子详情页面
+      uni.navigateTo({
+        url: `/pages/post/detail?id=${post.id}`
+      })
+    },
+
+    handleFavorite(post) {
+      // 处理收藏
+      console.log('收藏帖子:', post.id)
+    },
+
+    handleShare(post) {
+      // 处理分享
+      console.log('分享帖子:', post.id)
+    },
+
+    handleEdit(post) {
+      // 编辑帖子
+      console.log('编辑帖子:', post.id)
+    },
+
+    handleDelete(post) {
+      // 删除帖子
+      console.log('删除帖子:', post.id)
+    },
+
+    handleCommentLike(comment) {
+      // 处理评论点赞
+      console.log('点赞评论:', comment.id)
+    },
+
+    handleUserClick(user) {
+      // 跳转到用户页面
+      uni.navigateTo({
+        url: `/pages/user/profile?id=${user.id}`
+      })
+    },
+
+    // 跳转到发布页面
+    goToPublish() {
+      uni.navigateTo({
+        url: `/pages/publish/publish?topicId=${this.topicId}&topicName=${this.topicInfo.name}`
+      })
+    },
     // 加载话题信息
     async loadTopicInfo() {
       try {
@@ -357,7 +397,34 @@ export default {
       return (num / 10000).toFixed(0) + 'w'
     },
 
+    // 获取完整图片URL
+    getFullImageUrl(imagePath) {
+      if (!imagePath) return ''
 
+      // 如果已经是完整URL，直接返回
+      if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+        return imagePath
+      }
+
+      // 拼接服务器地址
+      const baseUrl = 'http://localhost:3000'
+      return baseUrl + (imagePath.startsWith('/') ? imagePath : '/' + imagePath)
+    },
+
+    // 获取话题类型文本
+    getTopicTypeText(type) {
+      const typeMap = {
+        'general': '普通',
+        'academic': '学术',
+        'life': '生活',
+        'entertainment': '娱乐',
+        'sports': '体育',
+        'technology': '科技',
+        'news': '新闻',
+        'discussion': '讨论'
+      }
+      return typeMap[type] || type
+    },
 
     // 分享话题
     shareTopic() {
@@ -423,16 +490,23 @@ export default {
     
     // 跳转到帖子详情
     navigateToPost(postId) {
+      // 确保postId是字符串或数字，不是对象
+      const id = typeof postId === 'object' ? postId.id : postId;
+      console.log('navigateToPost called with:', postId, 'using id:', id);
+
+      if (!id) {
+        console.error('Invalid post ID:', postId);
+        return;
+      }
+
       uni.navigateTo({
-        url: `/pages/post/detail?id=${postId}`
+        url: `/pages/post/detail?id=${id}`
       })
     },
     
-    // 创建帖子
+    // 创建帖子（兼容旧方法名）
     createPost() {
-      uni.navigateTo({
-        url: `/pages/post/create?topicId=${this.topicId}&topicName=${this.topicInfo.name}`
-      })
+      this.goToPublish()
     },
     
     // 返回
@@ -443,213 +517,176 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-// 主题色彩变量
-$primary-color: #6366f1;
-$secondary-color: #8b5cf6;
-$success-color: #10b981;
-$warning-color: #f59e0b;
-$error-color: #ef4444;
-$text-primary: #1f2937;
-$text-secondary: #6b7280;
-$text-muted: #9ca3af;
-$bg-primary: #ffffff;
-$bg-secondary: #f9fafb;
-$bg-tertiary: #f3f4f6;
-$border-color: #e5e7eb;
-$shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-$shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-$shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+<style lang="scss">
+@import '@/styles/variables.scss';
+@import '@/styles/mixins.scss';
 
-.topic-container {
-  background: $bg-secondary;
+.topic-detail-page {
   min-height: 100vh;
-  padding-bottom: 120rpx;
+  background-color: $bg-page;
+  display: flex;
+  flex-direction: column;
+  position: relative;
 }
 
-// 自定义导航栏
-.custom-navbar {
-  position: fixed;
+// 话题封面背景
+.topic-cover-bg {
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  z-index: 1000;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(20rpx);
-  border-bottom: 1rpx solid rgba(0, 0, 0, 0.05);
+  height: 400rpx;
+  z-index: 0;
+  overflow: hidden;
 
-  .navbar-content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20rpx 30rpx;
-    padding-top: calc(20rpx + var(--status-bar-height, 0));
-    height: 88rpx;
+  .cover-bg-image {
+    width: 100%;
+    height: 100%;
+    filter: blur(20rpx);
+    transform: scale(1.1);
+  }
 
-    .nav-left, .nav-right {
-      width: 80rpx;
-      display: flex;
-      justify-content: center;
-    }
-
-    .back-btn, .share-btn {
-      width: 60rpx;
-      height: 60rpx;
-      border-radius: 50%;
-      background: rgba(0, 0, 0, 0.05);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s ease;
-
-      &:active {
-        transform: scale(0.95);
-        background: rgba(0, 0, 0, 0.1);
-      }
-
-      .iconfont {
-        font-size: 32rpx;
-        color: $text-primary;
-      }
-    }
-
-    .nav-center {
-      flex: 1;
-      text-align: center;
-
-      .nav-title {
-        font-size: 32rpx;
-        font-weight: 600;
-        color: $text-primary;
-      }
-    }
+  .cover-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(180deg,
+      rgba(0, 0, 0, 0.3) 0%,
+      rgba(0, 0, 0, 0.1) 50%,
+      rgba($bg-page, 0.8) 90%,
+      $bg-page 100%
+    );
   }
 }
 
 // 话题头部
 .topic-header {
-  margin-top: calc(88rpx + var(--status-bar-height, 0));
+  background-color: $bg-card;
+  padding: $spacing-lg;
+  margin: $spacing-md;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-sm;
+  position: relative;
+  z-index: 1;
 
-  .topic-cover {
-    position: relative;
-    padding: 60rpx 30rpx 40rpx;
-    overflow: hidden;
+  &.has-cover {
+    margin-top: 200rpx;
+    background: rgba($bg-card, 0.95);
+    backdrop-filter: blur(20rpx);
+  }
 
-    .cover-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.2);
-    }
-
-    .topic-main-info {
-      position: relative;
-      z-index: 2;
+  .header-content {
+    .topic-main {
       display: flex;
       align-items: flex-start;
-      gap: 24rpx;
+      margin-bottom: $spacing-lg;
+
+      .topic-cover {
+        width: 120rpx;
+        height: 120rpx;
+        border-radius: $radius-md;
+        overflow: hidden;
+        margin-right: $spacing-md;
+        box-shadow: 0 8rpx 20rpx rgba(0, 0, 0, 0.15);
+
+        .cover-image {
+          width: 100%;
+          height: 100%;
+        }
+      }
 
       .topic-icon {
-        width: 80rpx;
-        height: 80rpx;
-        border-radius: 20rpx;
-        background: rgba(255, 255, 255, 0.2);
-        backdrop-filter: blur(10rpx);
+        width: 120rpx;
+        height: 120rpx;
+        background: $gradient-blue;
+        border-radius: $radius-md;
         display: flex;
         align-items: center;
         justify-content: center;
-        flex-shrink: 0;
+        margin-right: $spacing-md;
+        box-shadow: 0 8rpx 20rpx rgba($primary-color, 0.3);
 
         .topic-hash {
-          font-size: 36rpx;
+          color: $text-white;
+          font-size: 48rpx;
           font-weight: bold;
-          color: white;
         }
       }
 
-      .topic-content {
+      .topic-info {
         flex: 1;
-        padding-top: 8rpx;
 
-        .topic-name {
-          font-size: 44rpx;
-          font-weight: 700;
-          color: white;
-          line-height: 1.3;
-          margin-bottom: 12rpx;
-          text-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.3);
+        .topic-title-row {
+          display: flex;
+          align-items: flex-start;
+          justify-content: space-between;
+          margin-bottom: $spacing-xs;
+
+          .topic-name {
+            font-size: $font-size-xl;
+            font-weight: 600;
+            color: $text-primary;
+            flex: 1;
+            margin-right: $spacing-sm;
+          }
+
+          .topic-badges {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: $spacing-xs;
+
+            .topic-hot {
+              font-size: $font-size-xs;
+              color: $accent-yellow;
+              font-weight: 500;
+              background: rgba($accent-yellow, 0.1);
+              padding: 4rpx 8rpx;
+              border-radius: $radius-xs;
+            }
+
+            .topic-type {
+              font-size: $font-size-xs;
+              color: $primary-color;
+              background: rgba($primary-color, 0.1);
+              padding: 4rpx 8rpx;
+              border-radius: $radius-xs;
+            }
+          }
         }
 
         .topic-desc {
-          font-size: 28rpx;
-          color: rgba(255, 255, 255, 0.9);
-          line-height: 1.5;
-          text-shadow: 0 1rpx 4rpx rgba(0, 0, 0, 0.3);
+          font-size: $font-size-md;
+          color: $text-secondary;
+          line-height: 1.6;
+          margin-bottom: $spacing-xs;
+          display: block;
         }
       }
     }
-  }
 
-  .topic-stats-card {
-    background: $bg-primary;
-    margin: -20rpx 30rpx 0;
-    border-radius: 24rpx;
-    padding: 32rpx;
-    box-shadow: $shadow-lg;
-    position: relative;
-    z-index: 3;
-
-    .stats-grid {
+    .topic-stats {
       display: flex;
-      align-items: center;
+      justify-content: space-around;
+      padding: $spacing-md 0;
+      border-top: 1rpx solid $border-light;
 
       .stat-item {
-        flex: 1;
         text-align: center;
 
         .stat-number {
-          display: block;
-          font-size: 36rpx;
-          font-weight: 700;
+          font-size: $font-size-lg;
+          font-weight: 600;
           color: $text-primary;
-          margin-bottom: 8rpx;
+          display: block;
+          margin-bottom: $spacing-xs;
         }
 
         .stat-label {
-          font-size: 24rpx;
-          color: $text-muted;
-          font-weight: 500;
-        }
-      }
-
-      .stat-divider {
-        width: 1rpx;
-        height: 40rpx;
-        background: $border-color;
-        margin: 0 20rpx;
-      }
-    }
-
-    .topic-tags {
-      margin-top: 24rpx;
-      padding-top: 24rpx;
-      border-top: 1rpx solid $border-color;
-
-      .hot-tag {
-        display: inline-flex;
-        align-items: center;
-        gap: 8rpx;
-        background: linear-gradient(135deg, #ff6b6b, #ffa500);
-        color: white;
-        padding: 12rpx 20rpx;
-        border-radius: 50rpx;
-        font-size: 24rpx;
-        font-weight: 600;
-
-        .tag-icon {
-          font-size: 20rpx;
+          font-size: $font-size-sm;
+          color: $text-tertiary;
         }
       }
     }
@@ -658,250 +695,88 @@ $shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 
 // 筛选栏
 .filter-section {
-  background: $bg-primary;
-  margin: 30rpx 30rpx 0;
-  border-radius: 20rpx;
+  background-color: $bg-card;
+  padding: $spacing-sm 0;
+  margin: 0 $spacing-md $spacing-md;
+  border-radius: $radius-lg;
   box-shadow: $shadow-sm;
+  position: relative;
+  z-index: 1;
+}
 
-  .filter-tabs {
-    display: flex;
-    padding: 8rpx;
+.filter-scroll {
+  white-space: nowrap;
+  width: 100%;
+}
 
-    .tab-item {
-      flex: 1;
-      position: relative;
-      text-align: center;
-      padding: 20rpx 0;
-      border-radius: 16rpx;
-      transition: all 0.3s ease;
+.filter-list {
+  display: inline-block;
+  padding: 0 $spacing-md;
+}
 
-      .tab-text {
-        font-size: 28rpx;
-        font-weight: 500;
-        color: $text-secondary;
-        transition: color 0.3s ease;
-      }
+.filter-item {
+  display: inline-block;
+  font-size: $font-size-md;
+  color: $text-tertiary;
+  padding: $spacing-xs $spacing-md;
+  margin-right: $spacing-md;
+  border-radius: $radius-xl;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
 
-      .tab-indicator {
-        position: absolute;
-        bottom: 8rpx;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 40rpx;
-        height: 4rpx;
-        background: $primary-color;
-        border-radius: 2rpx;
-      }
+  &.active {
+    color: $text-white;
+    background: $gradient-blue;
+    box-shadow: 0 4rpx 12rpx rgba($primary-color, 0.3);
+    transform: translateY(-2rpx);
+  }
 
-      &.active {
-        background: rgba(99, 102, 241, 0.08);
-
-        .tab-text {
-          color: $primary-color;
-          font-weight: 600;
-        }
-      }
-    }
+  &:last-child {
+    margin-right: 0;
   }
 }
 
-// 帖子列表
+// 帖子列表区域
 .posts-section {
-  padding: 30rpx;
+  flex: 1;
+  padding: 0 $spacing-md;
+  position: relative;
+  z-index: 1;
 }
 
-.posts-list {
-  // PostCard组件有自己的样式，这里不需要额外样式
-}
+// 底部发布按钮
+.bottom-publish {
+  padding: $spacing-md;
+  background-color: $bg-card;
+  border-top: 1rpx solid $border-light;
+  position: relative;
+  z-index: 1;
 
-
-// 空状态
-.empty-state {
-  text-align: center;
-  padding: 120rpx 60rpx;
-
-  .empty-icon {
-    width: 120rpx;
-    height: 120rpx;
-    margin: 0 auto 32rpx;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+  .publish-btn {
     display: flex;
     align-items: center;
     justify-content: center;
+    background: $gradient-blue;
+    border-radius: $radius-xl;
+    padding: $spacing-md;
+    box-shadow: 0 4rpx 12rpx rgba($primary-color, 0.3);
 
-    .iconfont {
-      font-size: 48rpx;
-      color: $text-muted;
-    }
-  }
-
-  .empty-title {
-    display: block;
-    font-size: 32rpx;
-    font-weight: 600;
-    color: $text-secondary;
-    margin-bottom: 16rpx;
-  }
-
-  .empty-desc {
-    display: block;
-    font-size: 26rpx;
-    color: $text-muted;
-    line-height: 1.5;
-    margin-bottom: 48rpx;
-  }
-
-  .empty-action {
-    background: linear-gradient(135deg, $primary-color, $secondary-color);
-    color: white;
-    padding: 24rpx 48rpx;
-    border-radius: 50rpx;
-    display: inline-block;
-    font-size: 28rpx;
-    font-weight: 600;
-    box-shadow: $shadow-md;
-    transition: all 0.3s ease;
-
-    &:active {
-      transform: translateY(2rpx);
-      box-shadow: $shadow-sm;
+    .publish-icon {
+      font-size: $font-size-lg;
+      margin-right: $spacing-xs;
     }
 
-    .action-text {
-      color: white;
+    .publish-text {
+      font-size: $font-size-md;
+      color: $text-white;
+      font-weight: 500;
     }
   }
 }
 
-// 加载状态
-.loading-state {
-  text-align: center;
-  padding: 80rpx 0;
-
-  .loading-spinner {
-    width: 60rpx;
-    height: 60rpx;
-    margin: 0 auto 24rpx;
-    border: 4rpx solid $border-color;
-    border-top: 4rpx solid $primary-color;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-  }
-
-  .loading-text {
-    font-size: 28rpx;
-    color: $text-muted;
-  }
-}
-
-// 加载更多区域
-.load-more-section {
-  padding: 40rpx 0;
-
-  .load-more-btn {
-    text-align: center;
-    padding: 24rpx;
-    margin: 0 30rpx;
-    background: $bg-primary;
-    border: 2rpx solid $primary-color;
-    border-radius: 50rpx;
-    transition: all 0.3s ease;
-
-    &:active {
-      transform: scale(0.98);
-      background: rgba(99, 102, 241, 0.05);
-    }
-
-    .load-text {
-      font-size: 28rpx;
-      color: $primary-color;
-      font-weight: 600;
-    }
-  }
-
-  .loading-more {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 16rpx;
-    padding: 24rpx;
-
-    .loading-spinner {
-      width: 32rpx;
-      height: 32rpx;
-      border: 3rpx solid $border-color;
-      border-top: 3rpx solid $primary-color;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-
-      &.small {
-        width: 24rpx;
-        height: 24rpx;
-        border-width: 2rpx;
-      }
-    }
-
-    .loading-text {
-      font-size: 26rpx;
-      color: $text-muted;
-    }
-  }
-
-  .no-more-data {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 24rpx;
-    padding: 40rpx 60rpx;
-
-    .divider-line {
-      flex: 1;
-      height: 1rpx;
-      background: $border-color;
-    }
-
-    .no-more-text {
-      font-size: 24rpx;
-      color: $text-muted;
-      white-space: nowrap;
-    }
-  }
-}
-
-// 悬浮发布按钮
-.floating-action {
-  position: fixed;
-  bottom: 40rpx;
-  right: 40rpx;
-  z-index: 999;
-
-  .fab-btn {
-    width: 112rpx;
-    height: 112rpx;
-    border-radius: 50%;
-    background: linear-gradient(135deg, $primary-color, $secondary-color);
-    box-shadow: 0 8rpx 24rpx rgba(99, 102, 241, 0.4);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-
-    &:active {
-      transform: scale(0.95);
-      box-shadow: 0 4rpx 12rpx rgba(99, 102, 241, 0.3);
-    }
-
-    .iconfont {
-      font-size: 40rpx;
-      color: white;
-    }
-  }
-}
-
-// 动画
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+// 底部安全区
+.safe-area {
+  height: 34rpx;
 }
 </style>

@@ -294,19 +294,33 @@ const fetchPosts = async () => {
       // 日志：输出后端返回的原始数据
       console.log('后端返回的帖子数据:', res.data.posts);
       // 为每行数据添加loading状态，并确保字段名称一致性
-      postsList.value = res.data.posts.map(post => ({
-        ...post,
-        // 确保字段名称兼容性
-        createdAt: post.createdAt || post.created_at,
-        created_at: post.created_at || post.createdAt,
-        isRecommended: post.isRecommended === undefined 
-          ? (post.is_recommended === undefined ? false : post.is_recommended) 
-          : post.isRecommended,
-        // 添加loading状态
-        topLoading: false,
-        deleteLoading: false,
-        recommendLoading: false
-      }));
+      postsList.value = res.data.posts.map(post => {
+        // 处理推荐状态 - 优先使用 isRecommended，然后是 is_recommended
+        let isRecommended = false;
+        if (post.isRecommended !== undefined) {
+          isRecommended = !!post.isRecommended;
+        } else if (post.is_recommended !== undefined) {
+          isRecommended = !!post.is_recommended;
+        }
+
+        console.log(`帖子 ${post.id} 推荐状态:`, {
+          original_isRecommended: post.isRecommended,
+          original_is_recommended: post.is_recommended,
+          final_isRecommended: isRecommended
+        });
+
+        return {
+          ...post,
+          // 确保字段名称兼容性
+          createdAt: post.createdAt || post.created_at,
+          created_at: post.created_at || post.createdAt,
+          isRecommended: isRecommended,
+          // 添加loading状态
+          topLoading: false,
+          deleteLoading: false,
+          recommendLoading: false
+        };
+      });
       // 日志：输出前端处理后的数据
       console.log('前端处理后的postsList:', postsList.value);
       total.value = res.data.pagination.total;

@@ -1,85 +1,84 @@
 <template>
-  <view class="topic-list-container">
-    <!-- 话题头部 -->
-    <view class="topic-header">
-      <view class="header-content">
-        <view class="header-left">
-          <image class="topic-icon" src="/static/icons/topic.png" mode="aspectFit"></image>
-          <view class="topic-info">
-            <text class="topic-name">话题广场</text>
-            <text class="topic-desc">发现感兴趣的校园话题</text>
-          </view>
-        </view>
-        <view class="topic-stats">
-          <text class="topic-count">{{ totalCount }}+ 话题</text>
-        </view>
-      </view>
-    </view>
-
-    <!-- 搜索栏 -->
-    <view class="search-section">
-      <view class="search-bar">
-        <image class="search-icon" src="/static/icons/search.png" mode="aspectFit"></image>
-        <input 
-          class="search-input" 
-          placeholder="搜索话题..." 
+  <view class="topic-page">
+    <!-- 搜索头部 -->
+    <view class="search-header">
+      <view class="search-input-container">
+        <text class="search-icon">🔍</text>
+        <input
+          class="search-input"
+          type="text"
           v-model="searchKeyword"
+          placeholder="搜索话题..."
           @input="onSearchInput"
           @confirm="searchTopics"
+          confirm-type="search"
         />
-        <view class="search-btn" @tap="searchTopics" v-if="searchKeyword">
-          <text>搜索</text>
+        <view v-if="searchKeyword" class="clear-btn" @tap="clearSearch">
+          <text class="clear-icon">×</text>
         </view>
       </view>
     </view>
 
-    <!-- 话题分类标签 -->
-    <view class="topic-tabs">
-      <view 
-        class="tab-item" 
-        :class="{ active: currentTab === tab.key }"
-        v-for="tab in tabs" 
-        :key="tab.key"
-        @tap="switchTab(tab.key)"
+    <!-- 话题分类 -->
+    <view class="category">
+      <scroll-view
+        class="category-scroll"
+        scroll-x
+        scroll-with-animation
+        :scroll-into-view="'tab-' + currentTab"
       >
-        <text class="tab-text">{{ tab.name }}</text>
-      </view>
-    </view>
-    
-    <!-- 话题列表 -->
-    <view class="topic-list">
-      <template v-if="!loading && topics.length > 0">
-        <view 
-          class="topic-item" 
-          v-for="(item, index) in topics" 
-          :key="index" 
-          @tap="navigateToTopic(item.id)"
-        >
-          <view class="topic-left">
-            <view class="topic-tag">#</view>
-          </view>
-          <view class="topic-content">
-            <text class="topic-title">{{ item.name }}</text>
-            <text class="topic-desc" v-if="item.description">{{ item.description }}</text>
-            <view class="topic-meta">
-              <text class="topic-participants">{{ item.post_count || 0 }}条内容</text>
-              <text class="topic-views">{{ item.view_count || 0 }}次浏览</text>
-              <text class="topic-hot" v-if="item.is_hot">🔥 热门</text>
-            </view>
-          </view>
-          <view class="topic-right">
-            <text class="topic-score">{{ formatHotScore(item.hot_score) }}</text>
+        <view class="category-list">
+          <view
+            v-for="tab in tabs"
+            :key="tab.key"
+            :id="'tab-' + tab.key"
+            class="category-item"
+            :class="{ active: currentTab === tab.key }"
+            @tap="switchTab(tab.key)"
+          >
+            {{ tab.name }}
           </view>
         </view>
-      </template>
-      
-      <view class="empty-list" v-if="!loading && topics.length === 0">
-        <image src="/static/images/empty-data.png" mode="aspectFit"></image>
-        <text>{{ searchKeyword ? '没有找到相关话题' : '暂无话题' }}</text>
+      </scroll-view>
+    </view>
+
+    <!-- 话题列表 -->
+    <view class="topic-list">
+      <view
+        class="topic-item"
+        v-for="topic in topics"
+        :key="topic.id"
+        @tap="navigateToTopic(topic.id)"
+      >
+        <view class="topic-left">
+          <view class="topic-tag">#</view>
+        </view>
+        <view class="topic-content">
+          <view class="topic-header">
+            <text class="topic-title">{{ topic.name }}</text>
+            <text class="topic-hot" v-if="topic.is_hot">🔥</text>
+          </view>
+          <text class="topic-desc" v-if="topic.description">{{ topic.description }}</text>
+          <view class="topic-meta">
+            <text class="topic-participants">{{ topic.post_count || 0 }}条内容</text>
+            <text class="topic-views">{{ formatNumber(topic.view_count || 0) }}次浏览</text>
+          </view>
+        </view>
+        <view class="topic-right">
+          <text class="topic-score">{{ formatHotScore(topic.hot_score) }}</text>
+        </view>
       </view>
-      
+
+      <!-- 加载状态 -->
       <view class="loading" v-if="loading">
         <text>加载中...</text>
+      </view>
+
+      <!-- 空状态 -->
+      <view class="empty-list" v-if="!loading && topics.length === 0">
+        <text class="empty-icon">📝</text>
+        <text class="empty-text">{{ searchKeyword ? '没有找到相关话题' : '暂无话题' }}</text>
+        <text class="empty-desc">{{ searchKeyword ? '试试其他关键词吧' : '快来创建第一个话题吧' }}</text>
       </view>
     </view>
 
@@ -87,10 +86,13 @@
     <view class="load-more" v-if="!loading && topics.length > 0 && hasMore" @tap="loadMore">
       <text>加载更多</text>
     </view>
-    
+
     <view class="no-more" v-if="!loading && topics.length > 0 && !hasMore">
       <text>没有更多话题了</text>
     </view>
+
+    <!-- 底部安全区占位 -->
+    <view class="safe-area"></view>
   </view>
 </template>
 
@@ -103,16 +105,17 @@ export default {
       topics: [],
       loading: false,
       searchKeyword: '',
-      currentTab: 'trending',
+      currentTab: 'hot',
       currentPage: 1,
       pageSize: 10,
       totalCount: 0,
       hasMore: true,
       searchTimer: null,
       tabs: [
-        { key: 'trending', name: '趋势' },
         { key: 'hot', name: '热门' },
-        { key: 'latest', name: '最新' }
+        { key: 'trending', name: '趋势' },
+        { key: 'latest', name: '最新' },
+        { key: 'all', name: '全部' }
       ]
     }
   },
@@ -132,6 +135,19 @@ export default {
   },
   
   methods: {
+    // 清除搜索
+    clearSearch() {
+      this.searchKeyword = ''
+      this.refreshTopics()
+    },
+
+    // 格式化数字
+    formatNumber(num) {
+      if (!num) return '0'
+      if (num < 1000) return num.toString()
+      if (num < 10000) return (num / 1000).toFixed(1) + 'k'
+      return (num / 10000).toFixed(1) + 'w'
+    },
     // 加载话题列表
     async loadTopics(isRefresh = false) {
       if (this.loading) return
@@ -146,45 +162,26 @@ export default {
         
         let result
         
-        if (this.searchKeyword) {
-          // 搜索话题
-          result = await topicApi.search(this.searchKeyword, this.pageSize * this.currentPage)
-          result = {
-            list: result.data || [],
-            pagination: {
-              total: result.data?.length || 0
-            }
-          }
-        } else {
-          // 根据标签获取话题
-          const params = {
-            page: this.currentPage,
-            pageSize: this.pageSize,
-            orderBy: this.getOrderBy(),
-            orderDirection: 'DESC'
-          }
-          
-          if (this.currentTab === 'hot') {
-            result = await topicApi.getHot(this.pageSize * this.currentPage)
-            result = {
-              list: result.data || [],
-              pagination: {
-                total: result.data?.length || 0
-              }
-            }
-          } else if (this.currentTab === 'trending') {
-            result = await topicApi.getTrending(this.pageSize * this.currentPage)
-            result = {
-              list: result.data || [],
-              pagination: {
-                total: result.data?.length || 0
-              }
-            }
-          } else {
-            result = await topicApi.getList(params)
-            result = result.data
-          }
+        // 统一使用列表API，通过不同参数实现不同功能
+        const params = {
+          page: this.currentPage,
+          pageSize: this.pageSize,
+          orderBy: this.getOrderBy(),
+          orderDirection: 'DESC'
         }
+
+        // 添加搜索关键词
+        if (this.searchKeyword) {
+          params.keyword = this.searchKeyword
+        }
+
+        // 添加特殊筛选条件
+        if (this.currentTab === 'hot') {
+          params.is_hot = true
+        }
+
+        result = await topicApi.getList(params)
+        result = result.data
         
         if (result && result.list) {
           if (isRefresh || this.currentPage === 1) {
@@ -192,9 +189,17 @@ export default {
           } else {
             this.topics = [...this.topics, ...result.list]
           }
-          
+
           this.totalCount = result.pagination?.total || this.topics.length
-          this.hasMore = result.list.length >= this.pageSize
+
+          // 修复hasMore判断逻辑
+          if (result.pagination?.total) {
+            // 如果有总数信息，根据总数判断
+            this.hasMore = this.topics.length < result.pagination.total
+          } else {
+            // 如果没有总数信息，根据返回数据量判断
+            this.hasMore = result.list.length === this.pageSize
+          }
         }
         
       } catch (error) {
@@ -275,7 +280,7 @@ export default {
       return Math.round(score).toString()
     },
     
-    // 跳转到话题详情
+    // 跳转到话题详情（兼容旧方法名）
     navigateToTopic(id) {
       uni.navigateTo({
         url: `/pages/topic/detail?id=${id}`
@@ -285,245 +290,277 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.topic-list-container {
-  padding: 0 30rpx 40rpx;
-  background-color: #f7f8fa;
+<style lang="scss">
+@import '@/styles/variables.scss';
+@import '@/styles/mixins.scss';
+
+.topic-page {
   min-height: 100vh;
-}
-
-.topic-header {
-  background: linear-gradient(to right, rgba(74, 144, 226, 0.1), rgba(74, 144, 226, 0.15));
-  border-radius: 20rpx;
-  padding: 40rpx 30rpx;
-  margin-bottom: 30rpx;
-  
-  .header-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .header-left {
-    display: flex;
-    align-items: center;
-  }
-  
-  .topic-icon {
-    width: 60rpx;
-    height: 60rpx;
-    margin-right: 20rpx;
-  }
-  
-  .topic-info {
-    .topic-name {
-      display: block;
-      font-size: 36rpx;
-      font-weight: bold;
-      color: #333;
-      margin-bottom: 8rpx;
-    }
-    
-    .topic-desc {
-      font-size: 26rpx;
-      color: #666;
-    }
-  }
-  
-  .topic-stats {
-    .topic-count {
-      font-size: 28rpx;
-      color: #4A90E2;
-      font-weight: 500;
-    }
-  }
-}
-
-.search-section {
-  margin-bottom: 30rpx;
-  
-  .search-bar {
-    display: flex;
-    align-items: center;
-    background: white;
-    border-radius: 50rpx;
-    padding: 20rpx 30rpx;
-    box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.05);
-    
-    .search-icon {
-      width: 32rpx;
-      height: 32rpx;
-      margin-right: 20rpx;
-    }
-    
-    .search-input {
-      flex: 1;
-      font-size: 28rpx;
-      color: #333;
-    }
-    
-    .search-btn {
-      background: #4A90E2;
-      color: white;
-      padding: 12rpx 24rpx;
-      border-radius: 30rpx;
-      font-size: 26rpx;
-    }
-  }
-}
-
-.topic-tabs {
+  background-color: $bg-page;
   display: flex;
-  background: white;
-  border-radius: 50rpx;
-  padding: 8rpx;
-  margin-bottom: 30rpx;
-  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.05);
-  
-  .tab-item {
-    flex: 1;
-    text-align: center;
-    padding: 20rpx;
-    border-radius: 40rpx;
-    transition: all 0.3s ease;
-    
-    &.active {
-      background: #4A90E2;
-      
-      .tab-text {
-        color: white;
-        font-weight: 500;
-      }
-    }
-    
-    .tab-text {
-      font-size: 28rpx;
-      color: #666;
-    }
+  flex-direction: column;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 280rpx;
+    background: linear-gradient(180deg, rgba($primary-color, 0.08), rgba($primary-color, 0) 90%);
+    z-index: 0;
+    pointer-events: none;
   }
 }
 
+// 搜索头部
+.search-header {
+  background-color: $bg-card;
+  padding: $spacing-md;
+  border-radius: 0 0 $radius-lg $radius-lg;
+  box-shadow: $shadow-sm;
+  position: relative;
+  z-index: 1;
+}
+
+.search-input-container {
+  display: flex;
+  align-items: center;
+  background-color: $bg-secondary;
+  border-radius: $radius-xl;
+  padding: $spacing-sm $spacing-md;
+  position: relative;
+}
+
+.search-icon {
+  font-size: $font-size-lg;
+  margin-right: $spacing-sm;
+}
+
+.search-input {
+  flex: 1;
+  font-size: $font-size-md;
+  color: $text-primary;
+  background: transparent;
+  border: none;
+  outline: none;
+
+  &::placeholder {
+    color: $text-tertiary;
+  }
+}
+
+.clear-btn {
+  width: 40rpx;
+  height: 40rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: $text-tertiary;
+
+  .clear-icon {
+    color: $text-white;
+    font-size: $font-size-lg;
+    font-weight: bold;
+  }
+}
+
+// 分类标签
+.category {
+  background-color: $bg-card;
+  padding: $spacing-sm 0;
+  border-radius: 0 0 $radius-lg $radius-lg;
+  box-shadow: $shadow-sm;
+  position: relative;
+  z-index: 1;
+  margin-bottom: $spacing-md;
+}
+
+.category-scroll {
+  white-space: nowrap;
+  width: 100%;
+}
+
+.category-list {
+  display: inline-block;
+  padding: 0 $spacing-md;
+}
+
+.category-item {
+  display: inline-block;
+  font-size: $font-size-md;
+  color: $text-tertiary;
+  padding: $spacing-xs $spacing-md;
+  margin-right: $spacing-md;
+  border-radius: $radius-xl;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+
+  &.active {
+    color: $text-white;
+    background: $gradient-blue;
+    box-shadow: 0 4rpx 12rpx rgba($primary-color, 0.3);
+    transform: translateY(-2rpx);
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+// 话题列表
 .topic-list {
+  padding: 0 $spacing-md;
+
   .topic-item {
     display: flex;
     align-items: flex-start;
-    background: white;
-    border-radius: 20rpx;
-    padding: 30rpx;
-    margin-bottom: 20rpx;
-    box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.05);
-    transition: transform 0.2s ease;
-    
+    background-color: $bg-card;
+    border-radius: $radius-lg;
+    padding: $spacing-lg;
+    margin-bottom: $spacing-md;
+    box-shadow: $shadow-sm;
+    transition: all 0.3s;
+    position: relative;
+    z-index: 1;
+
     &:active {
       transform: scale(0.98);
+      box-shadow: $shadow-md;
     }
   }
-  
+
   .topic-left {
-    margin-right: 20rpx;
-    
+    margin-right: $spacing-md;
+
     .topic-tag {
       width: 60rpx;
       height: 60rpx;
-      background: linear-gradient(135deg, #4A90E2, #357ABD);
+      background: $gradient-blue;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: white;
-      font-size: 32rpx;
+      color: $text-white;
+      font-size: $font-size-xl;
       font-weight: bold;
+      box-shadow: 0 4rpx 12rpx rgba($primary-color, 0.3);
     }
   }
-  
+
   .topic-content {
     flex: 1;
-    
-    .topic-title {
-      display: block;
-      font-size: 32rpx;
-      font-weight: 500;
-      color: #333;
-      margin-bottom: 8rpx;
+
+    .topic-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: $spacing-xs;
+
+      .topic-title {
+        font-size: $font-size-lg;
+        font-weight: 600;
+        color: $text-primary;
+        margin-right: $spacing-xs;
+      }
+
+      .topic-hot {
+        font-size: $font-size-sm;
+      }
     }
-    
+
     .topic-desc {
-      display: block;
-      font-size: 26rpx;
-      color: #666;
-      margin-bottom: 16rpx;
-      line-height: 1.4;
+      font-size: $font-size-md;
+      color: $text-secondary;
+      margin-bottom: $spacing-sm;
+      line-height: 1.5;
     }
-    
+
     .topic-meta {
       display: flex;
       align-items: center;
-      gap: 20rpx;
-      
+      gap: $spacing-md;
+
       text {
-        font-size: 24rpx;
-        color: #999;
-      }
-      
-      .topic-hot {
-        color: #FF6B6B !important;
-        font-weight: 500;
+        font-size: $font-size-sm;
+        color: $text-tertiary;
       }
     }
   }
-  
+
   .topic-right {
     .topic-score {
-      font-size: 24rpx;
-      color: #4A90E2;
+      font-size: $font-size-sm;
+      color: $primary-color;
       font-weight: 500;
     }
   }
 }
 
-.empty-list {
-  text-align: center;
-  padding: 100rpx 0;
-  
-  image {
-    width: 200rpx;
-    height: 200rpx;
-    margin-bottom: 30rpx;
-  }
-  
-  text {
-    font-size: 28rpx;
-    color: #999;
-  }
-}
-
+// 加载状态
 .loading {
   text-align: center;
-  padding: 40rpx 0;
-  
+  padding: $spacing-xl 0;
+
   text {
-    font-size: 28rpx;
-    color: #999;
+    font-size: $font-size-md;
+    color: $text-tertiary;
   }
 }
 
+// 空状态
+.empty-list {
+  text-align: center;
+  padding: 100rpx $spacing-md;
+
+  .empty-icon {
+    font-size: 120rpx;
+    display: block;
+    margin-bottom: $spacing-lg;
+  }
+
+  .empty-text {
+    font-size: $font-size-lg;
+    font-weight: 500;
+    color: $text-primary;
+    margin-bottom: $spacing-sm;
+    display: block;
+  }
+
+  .empty-desc {
+    font-size: $font-size-md;
+    color: $text-tertiary;
+    display: block;
+  }
+}
+
+// 加载更多
 .load-more {
   text-align: center;
-  padding: 40rpx 0;
-  
+  padding: $spacing-lg 0;
+
   text {
-    font-size: 28rpx;
-    color: #4A90E2;
+    font-size: $font-size-md;
+    color: $primary-color;
+    font-weight: 500;
   }
 }
 
+// 没有更多
 .no-more {
   text-align: center;
-  padding: 40rpx 0;
-  
+  padding: $spacing-lg 0;
+
   text {
-    font-size: 26rpx;
-    color: #ccc;
+    font-size: $font-size-sm;
+    color: $text-tertiary;
   }
+}
+
+// 底部安全区
+.safe-area {
+  height: 34rpx;
 }
 </style>

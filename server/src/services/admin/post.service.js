@@ -100,12 +100,20 @@ class AdminPostService {
       // 格式化返回数据，确保字段名兼容
       const formattedPosts = posts.map(post => {
         const postData = post.toJSON();
+
+        // 调试日志：输出推荐状态
+        logger.info('帖子推荐状态调试', {
+          postId: postData.id,
+          is_recommended: postData.is_recommended,
+          type: typeof postData.is_recommended
+        });
+
         return {
           ...postData,
           // 字段名兼容处理
           createdAt: postData.createdAt || postData.created_at,
           updatedAt: postData.updatedAt || postData.updated_at,
-          isRecommended: postData.is_recommended,
+          isRecommended: !!postData.is_recommended, // 确保转换为布尔值
           isTop: postData.is_top,
           isAnonymous: postData.is_anonymous,
           viewCount: postData.view_count,

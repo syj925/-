@@ -122,7 +122,7 @@ class TopicController {
    */
   async getAllTopics(req, res, next) {
     try {
-      const { page, pageSize, keyword, status, orderBy, orderDirection } = req.query;
+      const { page, pageSize, keyword, status, is_hot, orderBy, orderDirection } = req.query;
 
       const options = {
         page: parseInt(page) || 1,
@@ -132,6 +132,11 @@ class TopicController {
         orderBy: orderBy || 'hot_score',
         orderDirection: orderDirection || 'DESC'
       };
+
+      // 处理 is_hot 参数
+      if (is_hot !== undefined) {
+        options.is_hot = is_hot === 'true';
+      }
 
       const result = await topicService.getTopicList(options);
 

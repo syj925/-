@@ -230,6 +230,7 @@ export default {
     
     // 跳转到详情页
     goDetail() {
+      // 直接跳转到帖子详情页
       uni.navigateTo({
         url: `/pages/post/detail?id=${this.post.id}`
       });

@@ -62,13 +62,13 @@
             <text class="label-text">话题封面</text>
           </view>
           <view class="cover-upload">
-            <view v-if="formData.cover" class="cover-preview">
-              <image class="cover-image" :src="formData.cover" mode="aspectFill" />
+            <view v-if="formData.cover_image" class="cover-preview">
+              <image class="cover-image" :src="formData.cover_image" mode="aspectFill" />
               <view class="cover-delete" @click="removeCover">
                 <text class="delete-icon">✕</text>
               </view>
             </view>
-            <view v-else class="cover-upload-btn" @click="selectCover" @tap="selectCover">
+            <view v-else class="cover-upload-btn" @tap="selectCover">
               <text class="upload-icon">📷</text>
               <text class="upload-text">添加封面</text>
             </view>
@@ -114,7 +114,7 @@ export default {
       formData: {
         name: '',
         description: '',
-        cover: ''
+        cover_image: ''
       },
       errors: {}
     }
@@ -205,7 +205,8 @@ export default {
         sourceType: ['album', 'camera'],
         success: (res) => {
           console.log('Image selected:', res.tempFilePaths[0])
-          this.formData.cover = res.tempFilePaths[0]
+          // 选择图片后立即上传
+          this.uploadCoverImage(res.tempFilePaths[0])
         },
         fail: (err) => {
           console.error('Choose image failed:', err)
@@ -217,8 +218,42 @@ export default {
       })
     },
 
+    // 上传封面图片
+    async uploadCoverImage(filePath) {
+      console.log('开始上传封面图片:', filePath)
+
+      // 显示上传进度
+      uni.showLoading({
+        title: '上传图片中...',
+        mask: true
+      })
+
+      try {
+        // 调用上传API
+        const result = await this.$api.upload.uploadImage(filePath)
+        console.log('图片上传成功:', result)
+
+        // 设置上传后的URL
+        this.formData.cover_image = result.url
+
+        uni.hideLoading()
+        uni.showToast({
+          title: '图片上传成功',
+          icon: 'success',
+          duration: 1000
+        })
+      } catch (error) {
+        console.error('图片上传失败:', error)
+        uni.hideLoading()
+        uni.showToast({
+          title: '图片上传失败',
+          icon: 'none'
+        })
+      }
+    },
+
     removeCover() {
-      this.formData.cover = ''
+      this.formData.cover_image = ''
     },
 
     onInputFocus() {
@@ -246,19 +281,29 @@ export default {
     },
     
     handleConfirm() {
-      if (!this.isFormValid) return
+      console.log('=== 话题创建弹窗 - 开始提交 ===');
 
-      this.validateForm()
-      if (Object.keys(this.errors).length > 0) return
+      if (!this.isFormValid) {
+        console.log('表单无效，停止提交');
+        return;
+      }
 
-      this.$emit('submit', { ...this.formData })
+      this.validateForm();
+      if (Object.keys(this.errors).length > 0) {
+        console.log('存在验证错误，停止提交');
+        return;
+      }
+
+      const submitData = { ...this.formData };
+      console.log('提交数据:', JSON.stringify(submitData, null, 2));
+      this.$emit('submit', submitData);
     },
 
     resetForm() {
       this.formData = {
         name: '',
         description: '',
-        cover: '',
+        cover_image: '',
         type: 'general'
       }
       this.errors = {}

@@ -271,36 +271,208 @@
               </el-form-item>
             </el-form-item>
             
-            <el-form-item label="推荐话题设置">
-              <el-alert
-                title="推荐话题设置"
-                type="warning"
-                description="话题管理功能正在开发中，暂时无法配置推荐话题。"
-                :closable="false"
-                style="margin-bottom: 15px;"
-              />
-              <el-input
-                v-model="searchSettings.featuredTopicIds"
-                type="textarea"
-                :rows="3"
-                placeholder="推荐话题ID列表（以逗号分隔，如：1,2,3）"
-                disabled
-              />
-              <div class="featured-topics-hint">
-                <span class="weight-hint">功能开发完成后，将支持可视化选择推荐话题</span>
+            <el-form-item label="推荐话题管理">
+              <div class="featured-topics-section">
+                <!-- 头部信息 -->
+                <div class="section-header">
+                  <div class="header-info">
+                    <h4 class="section-title">
+                      <el-icon><Star /></el-icon>
+                      推荐话题设置
+                    </h4>
+                    <p class="section-desc">选择在搜索页面优先展示的热门话题，提升用户发现内容的效率</p>
+                  </div>
+                  <div class="header-stats">
+                    <el-tag type="primary" size="large">
+                      已选择 {{ selectedTopicIds.length }} 个话题
+                    </el-tag>
+                  </div>
+                </div>
+
+                <!-- 快速操作栏 -->
+                <div class="quick-actions">
+                  <el-button-group>
+                    <el-button
+                      size="small"
+                      @click="selectHotTopics"
+                      :disabled="!availableTopics.length"
+                    >
+                      <el-icon><TrendCharts /></el-icon>
+                      选择热门话题
+                    </el-button>
+                    <el-button
+                      size="small"
+                      @click="clearAllTopics"
+                      :disabled="!selectedTopicIds.length"
+                    >
+                      <el-icon><Delete /></el-icon>
+                      清空选择
+                    </el-button>
+                  </el-button-group>
+
+                  <div class="topic-summary">
+                    <span class="summary-text">
+                      共 {{ availableTopics.length }} 个话题可选
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Transfer组件 -->
+                <div class="transfer-container">
+                  <el-transfer
+                    v-model="selectedTopicIds"
+                    :data="availableTopics"
+                    :titles="['📋 可选话题', '⭐ 推荐话题']"
+                    :button-texts="['移除', '添加']"
+                    :format="{
+                      noChecked: '共 ${total} 个',
+                      hasChecked: '已选 ${checked}/${total}'
+                    }"
+                    filterable
+                    filter-placeholder="🔍 搜索话题名称..."
+                    class="topic-transfer"
+                  >
+                    <template #default="{ option }">
+                      <div class="topic-card">
+                        <div class="topic-header">
+                          <span class="topic-name">{{ option.label }}</span>
+                          <el-tag
+                            v-if="option.is_hot"
+                            type="danger"
+                            size="small"
+                            effect="plain"
+                          >
+                            🔥 热门
+                          </el-tag>
+                        </div>
+                        <div class="topic-metrics">
+                          <span class="metric">
+                            <el-icon><Document /></el-icon>
+                            {{ option.post_count || 0 }} 内容
+                          </span>
+                          <span class="metric">
+                            <el-icon><View /></el-icon>
+                            {{ option.view_count || 0 }} 浏览
+                          </span>
+                        </div>
+                      </div>
+                    </template>
+                  </el-transfer>
+                </div>
+
+                <!-- 底部提示 -->
+                <div class="section-footer">
+                  <el-alert
+                    type="info"
+                    :closable="false"
+                    show-icon
+                  >
+                    <template #title>
+                      <span>💡 使用提示</span>
+                    </template>
+                    <div class="tips-content">
+                      <p>• 推荐话题将在搜索页面的"热门话题"区域优先显示</p>
+                      <p>• 建议选择 3-8 个活跃度较高的话题以获得最佳效果</p>
+                      <p>• 可以随时调整推荐话题列表，更改会立即生效</p>
+                    </div>
+                  </el-alert>
+                </div>
               </div>
             </el-form-item>
             
             <el-form-item label="热榜最大数量">
-              <el-input-number 
-                v-model="searchSettings.maxHotTopics" 
-                :min="3" 
-                :max="20" 
-                :step="1" 
+              <el-input-number
+                v-model="searchSettings.maxHotTopics"
+                :min="3"
+                :max="20"
+                :step="1"
               />
               <span class="weight-hint">话题热榜显示的最大数量</span>
             </el-form-item>
-            
+
+            <el-divider content-position="left">
+              <el-icon><TrendCharts /></el-icon>
+              热门搜索设置
+            </el-divider>
+
+            <el-form-item label="热门搜索显示数量">
+              <el-input-number
+                v-model="searchSettings.hotSearchCount"
+                :min="3"
+                :max="15"
+                :step="1"
+              />
+              <span class="weight-hint">搜索发现页面显示的热门搜索标签数量</span>
+            </el-form-item>
+
+            <el-form-item label="启用热门搜索">
+              <el-switch
+                v-model="searchSettings.enableHotSearch"
+                active-text="启用"
+                inactive-text="禁用"
+              />
+              <span class="weight-hint">是否在搜索发现页面显示热门搜索区域</span>
+            </el-form-item>
+
+            <el-form-item label="热门搜索数据源">
+              <el-radio-group v-model="searchSettings.hotSearchSource">
+                <el-radio label="manual">手动配置</el-radio>
+                <el-radio label="auto">自动统计</el-radio>
+                <el-radio label="mixed">混合模式</el-radio>
+              </el-radio-group>
+              <div class="weight-hint">
+                <p>• 手动配置：仅使用上方配置的热门搜索词</p>
+                <p>• 自动统计：根据用户搜索频率自动生成</p>
+                <p>• 混合模式：优先显示手动配置，不足时用自动统计补充</p>
+              </div>
+            </el-form-item>
+
+            <el-divider content-position="left">
+              <el-icon><Star /></el-icon>
+              推荐内容设置
+            </el-divider>
+
+            <el-form-item label="推荐内容显示数量">
+              <el-input-number
+                v-model="searchSettings.recommendContentCount"
+                :min="3"
+                :max="20"
+                :step="1"
+              />
+              <span class="weight-hint">搜索发现页面"推荐内容"区域显示的内容数量</span>
+            </el-form-item>
+
+            <el-form-item label="启用推荐内容">
+              <el-switch
+                v-model="searchSettings.enableRecommendContent"
+                active-text="启用"
+                inactive-text="禁用"
+              />
+              <span class="weight-hint">是否在搜索发现页面显示推荐内容区域</span>
+            </el-form-item>
+
+            <el-form-item label="推荐内容类型">
+              <el-checkbox-group v-model="searchSettings.recommendContentTypes">
+                <el-checkbox label="post">帖子</el-checkbox>
+                <el-checkbox label="topic">话题</el-checkbox>
+                <el-checkbox label="user">用户</el-checkbox>
+              </el-checkbox-group>
+              <span class="weight-hint">推荐内容可以包含的类型</span>
+            </el-form-item>
+
+            <el-form-item label="推荐算法策略">
+              <el-radio-group v-model="searchSettings.recommendStrategy">
+                <el-radio label="hot">热门优先</el-radio>
+                <el-radio label="latest">最新优先</el-radio>
+                <el-radio label="mixed">智能推荐</el-radio>
+              </el-radio-group>
+              <div class="weight-hint">
+                <p>• 热门优先：按点赞、评论等互动数据排序</p>
+                <p>• 最新优先：按发布时间排序</p>
+                <p>• 智能推荐：使用推荐算法综合计算</p>
+              </div>
+            </el-form-item>
+
             <el-form-item>
               <el-button type="warning" @click="initSearchSettings" :loading="searchInitLoading">初始化搜索设置</el-button>
               <span class="weight-hint">如果新安装或搜索设置出现问题，请点击此按钮初始化默认设置</span>
@@ -383,18 +555,95 @@
             </el-form-item>
 
             <el-form-item label="管理员推荐最大数量">
-              <el-input-number 
-                v-model="recommendSettings.maxAdminRecommended" 
-                :min="1" 
+              <el-input-number
+                v-model="recommendSettings.maxAdminRecommended"
+                :min="1"
                 :max="20"
                 :step="1"
               />
               <span class="weight-hint">首页最多显示的管理员手动推荐内容数量</span>
             </el-form-item>
-            
+
+            <el-form-item label="最低互动分数阈值">
+              <el-input-number
+                v-model="recommendSettings.minInteractionScore"
+                :min="0"
+                :max="20"
+                :step="0.5"
+                :precision="1"
+              />
+              <span class="weight-hint">只有互动分数达到此阈值的内容才会被算法推荐（点赞×1 + 评论×2 + 收藏×3 + 浏览×0.1）</span>
+            </el-form-item>
+
+            <el-divider content-position="left">
+              <el-icon><Search /></el-icon>
+              搜索发现页面设置
+            </el-divider>
+
+            <el-form-item label="搜索页推荐内容数量">
+              <el-input-number
+                v-model="recommendSettings.searchPageRecommendCount"
+                :min="3"
+                :max="20"
+                :step="1"
+              />
+              <span class="weight-hint">搜索发现页面"推荐内容"区域显示的内容数量</span>
+            </el-form-item>
+
+            <el-form-item label="启用搜索页推荐">
+              <el-switch
+                v-model="recommendSettings.enableSearchPageRecommend"
+                active-text="启用"
+                inactive-text="禁用"
+              />
+              <span class="weight-hint">是否在搜索发现页面显示推荐内容区域</span>
+            </el-form-item>
+
+            <el-form-item label="推荐内容类型">
+              <el-checkbox-group v-model="recommendSettings.searchRecommendTypes">
+                <el-checkbox label="post">帖子</el-checkbox>
+                <el-checkbox label="topic">话题</el-checkbox>
+                <el-checkbox label="user">用户</el-checkbox>
+              </el-checkbox-group>
+              <span class="weight-hint">搜索页推荐内容可以包含的类型</span>
+            </el-form-item>
+
             <el-form-item>
               <el-button type="warning" @click="initRecommendSettings" :loading="initLoading">初始化推荐设置</el-button>
+              <el-button type="info" @click="clearRecommendCache" :loading="clearCacheLoading" style="margin-left: 10px;">清除推荐缓存</el-button>
+              <el-button type="success" @click="testRecommendAlgorithm" :loading="testLoading" style="margin-left: 10px;">测试算法</el-button>
               <span class="weight-hint">如果新安装或推荐设置出现问题，请点击此按钮初始化默认设置</span>
+            </el-form-item>
+
+            <el-divider content-position="left">
+              <el-icon><DataAnalysis /></el-icon>
+              推荐算法统计
+            </el-divider>
+
+            <el-form-item label="算法统计信息">
+              <el-card shadow="never" style="background-color: #f8f9fa;">
+                <div class="stats-grid">
+                  <div class="stat-item">
+                    <div class="stat-label">总帖子数</div>
+                    <div class="stat-value">{{ recommendStats.totalPosts || 0 }}</div>
+                  </div>
+                  <div class="stat-item">
+                    <div class="stat-label">管理员推荐</div>
+                    <div class="stat-value">{{ recommendStats.adminRecommendedPosts || 0 }}</div>
+                  </div>
+                  <div class="stat-item">
+                    <div class="stat-label">算法候选</div>
+                    <div class="stat-value">{{ recommendStats.algorithmCandidates || 0 }}</div>
+                  </div>
+                  <div class="stat-item">
+                    <div class="stat-label">推荐覆盖率</div>
+                    <div class="stat-value">{{ recommendStats.recommendationCoverage || 0 }}%</div>
+                  </div>
+                </div>
+                <el-button type="primary" size="small" @click="loadRecommendStats" :loading="statsLoading" style="margin-top: 10px;">
+                  刷新统计
+                </el-button>
+              </el-card>
             </el-form-item>
           </el-form>
         </el-tab-pane>
@@ -616,7 +865,7 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import { ElMessage, ElMessageBox } from 'element-plus';
-import { Plus } from '@element-plus/icons-vue';
+import { Plus, Star, TrendCharts, Delete, Document, View, DataAnalysis } from '@element-plus/icons-vue';
 import api from '@/utils/api';
 
 const activeTab = ref('basic');
@@ -624,7 +873,10 @@ const loading = ref(false);
 const saving = ref(false);
 const initLoading = ref(false);
 const searchInitLoading = ref(false);
-// const availableTopics = ref([]); // 暂时禁用，等话题管理API完成后再启用
+const clearCacheLoading = ref(false);
+const testLoading = ref(false);
+const statsLoading = ref(false);
+const availableTopics = ref([]); // 话题列表数据
 const settingsStatus = ref('');
 
 // 配置管理相关
@@ -701,7 +953,16 @@ const searchSettings = ref({
   topicRecentWeight: 0.5,
   topicRecentDays: 7,
   featuredTopicIds: '',
-  maxHotTopics: 10
+  maxHotTopics: 10,
+  // 热门搜索设置
+  hotSearchCount: 10,
+  enableHotSearch: true,
+  hotSearchSource: 'mixed',
+  // 推荐内容设置
+  recommendContentCount: 6,
+  enableRecommendContent: true,
+  recommendContentTypes: ['post', 'topic'],
+  recommendStrategy: 'mixed'
 });
 
 // 推荐算法设置
@@ -712,7 +973,23 @@ const recommendSettings = ref({
   viewWeight: 0.5,
   timeDecayDays: 10,
   maxAgeDays: 30,
-  maxAdminRecommended: 5
+  maxAdminRecommended: 5,
+  minInteractionScore: 2,
+  strategy: 'mixed',
+  enableCache: true,
+  cacheExpireMinutes: 15,
+  // 搜索发现页面设置
+  searchPageRecommendCount: 6,
+  enableSearchPageRecommend: true,
+  searchRecommendTypes: ['post', 'topic']
+});
+
+// 推荐算法统计
+const recommendStats = ref({
+  totalPosts: 0,
+  adminRecommendedPosts: 0,
+  algorithmCandidates: 0,
+  recommendationCoverage: 0
 });
 
 // 用户设置
@@ -728,13 +1005,28 @@ const messageSettings = ref({
   readDelaySeconds: 5
 });
 
+// 计算属性
+const selectedTopicIds = computed({
+  get() {
+    if (!searchSettings.value.featuredTopicIds) return []
+    return searchSettings.value.featuredTopicIds
+      .split(',')
+      .map(id => parseInt(id.trim()))
+      .filter(id => !isNaN(id))
+  },
+  set(value) {
+    searchSettings.value.featuredTopicIds = value.join(',')
+  }
+});
+
 // 初始化 - 从服务器获取设置
 onMounted(async () => {
   await fetchSettings();
   await loadConfigVersion();
   await loadVersionHistory();
-  // TODO: 等话题管理API完成后再启用
-  // await fetchTopics();
+  await fetchTopics(); // 启用话题列表获取
+  await loadRecommendationSettings(); // 加载推荐设置
+  await loadRecommendStats(); // 加载推荐统计
 });
 
 // 获取服务器设置
@@ -805,6 +1097,7 @@ const fetchSettings = async () => {
       if (res.data.timeDecayDays) recommendSettings.value.timeDecayDays = parseInt(res.data.timeDecayDays);
       if (res.data.maxAgeDays) recommendSettings.value.maxAgeDays = parseInt(res.data.maxAgeDays);
       if (res.data.maxAdminRecommended) recommendSettings.value.maxAdminRecommended = parseInt(res.data.maxAdminRecommended);
+      if (res.data.minInteractionScore) recommendSettings.value.minInteractionScore = parseFloat(res.data.minInteractionScore);
       
       // 解析用户设置
       if (res.data.enableRegister !== undefined) userSettings.value.enableRegister = res.data.enableRegister === 'true';
@@ -823,26 +1116,59 @@ const fetchSettings = async () => {
   }
 };
 
-// 获取话题列表 - 暂时禁用，等话题管理API完成后再启用
-// const fetchTopics = async () => {
-//   try {
-//     const res = await api.topics.getList({ limit: 100 }); // 获取足够多的话题
-//     if (res.success) {
-//       // 映射成 transfer 组件可用的格式
-//       availableTopics.value = res.data.topics.map(topic => ({
-//         key: topic.id,
-//         label: topic.name,
-//         description: topic.description,
-//         usageCount: topic.usageCount
-//       }));
-//     } else {
-//       ElMessage.error(res.message || '获取话题列表失败');
-//     }
-//   } catch (error) {
-//     console.error('获取话题列表错误:', error);
-//     ElMessage.error('获取话题列表失败，请稍后再试');
-//   }
-// };
+// 获取话题列表
+const fetchTopics = async () => {
+  try {
+    const res = await api.topics.getList({ limit: 100 }); // 获取足够多的话题
+    if (res.success) {
+      // 映射成 transfer 组件可用的格式
+      availableTopics.value = res.data.list.map(topic => ({
+        key: topic.id,
+        label: topic.name,
+        description: topic.description,
+        post_count: topic.post_count,
+        view_count: topic.view_count,
+        is_hot: topic.is_hot,
+        status: topic.status
+      }));
+      console.log('话题列表加载成功:', availableTopics.value.length, '个话题');
+    } else {
+      ElMessage.error(res.message || '获取话题列表失败');
+    }
+  } catch (error) {
+    console.error('获取话题列表错误:', error);
+    ElMessage.error('获取话题列表失败，请稍后再试');
+  }
+};
+
+// 选择热门话题
+const selectHotTopics = () => {
+  const hotTopics = availableTopics.value
+    .filter(topic => topic.is_hot || topic.post_count > 5)
+    .slice(0, 6) // 最多选择6个热门话题
+    .map(topic => topic.key);
+
+  selectedTopicIds.value = [...new Set([...selectedTopicIds.value, ...hotTopics])];
+  ElMessage.success(`已添加 ${hotTopics.length} 个热门话题到推荐列表`);
+};
+
+// 清空所有选择
+const clearAllTopics = () => {
+  ElMessageBox.confirm(
+    '确定要清空所有已选择的推荐话题吗？',
+    '确认操作',
+    {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning',
+    }
+  ).then(() => {
+    selectedTopicIds.value = [];
+    ElMessage.success('已清空推荐话题列表');
+  }).catch(() => {
+    // 用户取消操作
+  });
+};
 
 // 上传LOGO前的验证
 const beforeLogoUpload = (file) => {
@@ -910,15 +1236,17 @@ const saveSettings = async () => {
       topicRecentDays: String(searchSettings.value.topicRecentDays),
       featuredTopicIds: searchSettings.value.featuredTopicIds || '',
       maxHotTopics: String(searchSettings.value.maxHotTopics),
+      // 热门搜索设置
+      hotSearchCount: String(searchSettings.value.hotSearchCount),
+      enableHotSearch: String(searchSettings.value.enableHotSearch),
+      hotSearchSource: searchSettings.value.hotSearchSource,
+      // 推荐内容设置
+      recommendContentCount: String(searchSettings.value.recommendContentCount),
+      enableRecommendContent: String(searchSettings.value.enableRecommendContent),
+      recommendContentTypes: JSON.stringify(searchSettings.value.recommendContentTypes),
+      recommendStrategy: searchSettings.value.recommendStrategy,
       
-      // 推荐算法设置
-      likeWeight: String(recommendSettings.value.likeWeight),
-      commentWeight: String(recommendSettings.value.commentWeight),
-      collectionWeight: String(recommendSettings.value.collectionWeight),
-      viewWeight: String(recommendSettings.value.viewWeight),
-      timeDecayDays: String(recommendSettings.value.timeDecayDays),
-      maxAgeDays: String(recommendSettings.value.maxAgeDays),
-      maxAdminRecommended: String(recommendSettings.value.maxAdminRecommended),
+      // 推荐算法设置现在通过独立API保存，这里不再包含
       
       // 用户设置
       enableRegister: String(userSettings.value.enableRegister),
@@ -930,14 +1258,19 @@ const saveSettings = async () => {
       readDelaySeconds: String(messageSettings.value.readDelaySeconds)
     };
     
+    // 保存基础设置
     const res = await api.settings.update(allSettings);
-    
-    if (res.success) {
+
+    // 保存推荐算法设置
+    const recommendRes = await api.recommendation.updateSettings(recommendSettings.value);
+
+    if (res.success && (recommendRes.success || recommendRes.code === 0)) {
       settingsStatus.value = 'success';
       ElMessage.success('设置保存成功');
     } else {
       settingsStatus.value = 'error';
-      ElMessage.error(res.message || '保存设置失败');
+      const errorMsg = res.message || recommendRes.message || '保存设置失败';
+      ElMessage.error(errorMsg);
     }
   } catch (error) {
     settingsStatus.value = 'error';
@@ -1002,7 +1335,16 @@ const resetSettings = () => {
       topicRecentWeight: 0.5,
       topicRecentDays: 7,
       featuredTopicIds: '',
-      maxHotTopics: 10
+      maxHotTopics: 10,
+      // 热门搜索设置
+      hotSearchCount: 10,
+      enableHotSearch: true,
+      hotSearchSource: 'mixed',
+      // 推荐内容设置
+      recommendContentCount: 6,
+      enableRecommendContent: true,
+      recommendContentTypes: ['post', 'topic'],
+      recommendStrategy: 'mixed'
     };
     
     recommendSettings.value = {
@@ -1036,9 +1378,11 @@ const resetSettings = () => {
 const initRecommendSettings = async () => {
   initLoading.value = true;
   try {
-    const res = await api.settings.initRecommendSettings();
-    if (res.success) {
+    const res = await api.recommendation.initSettings();
+    if (res.success || res.code === 0) {
       ElMessage.success('推荐设置已初始化');
+      await loadRecommendationSettings(); // 重新加载推荐设置
+      await loadRecommendStats(); // 加载统计信息
     } else {
       ElMessage.error(res.message || '初始化推荐设置失败');
     }
@@ -1047,6 +1391,76 @@ const initRecommendSettings = async () => {
     ElMessage.error(error.message || '初始化推荐设置失败，请稍后再试');
   } finally {
     initLoading.value = false;
+  }
+};
+
+// 清除推荐缓存
+const clearRecommendCache = async () => {
+  clearCacheLoading.value = true;
+  try {
+    const res = await api.recommendation.clearCache();
+    if (res.success || res.code === 0) {
+      ElMessage.success('推荐缓存已清除');
+    } else {
+      ElMessage.error(res.message || '清除缓存失败');
+    }
+  } catch (error) {
+    console.error('清除推荐缓存错误:', error);
+    ElMessage.error('清除缓存失败，请稍后再试');
+  } finally {
+    clearCacheLoading.value = false;
+  }
+};
+
+// 测试推荐算法
+const testRecommendAlgorithm = async () => {
+  testLoading.value = true;
+  try {
+    const res = await api.recommendation.test({
+      strategy: recommendSettings.value.strategy,
+      pageSize: 10
+    });
+    if (res.success || res.code === 0) {
+      ElMessage.success('推荐算法测试完成，请查看控制台输出');
+      console.log('推荐算法测试结果:', res.data);
+    } else {
+      ElMessage.error(res.message || '测试失败');
+    }
+  } catch (error) {
+    console.error('测试推荐算法错误:', error);
+    ElMessage.error('测试失败，请稍后再试');
+  } finally {
+    testLoading.value = false;
+  }
+};
+
+// 加载推荐统计信息
+const loadRecommendStats = async () => {
+  statsLoading.value = true;
+  try {
+    const res = await api.recommendation.getStats();
+    if (res.success || res.code === 0) {
+      recommendStats.value = res.data;
+    } else {
+      ElMessage.error(res.message || '获取统计信息失败');
+    }
+  } catch (error) {
+    console.error('获取推荐统计错误:', error);
+    ElMessage.error('获取统计信息失败，请稍后再试');
+  } finally {
+    statsLoading.value = false;
+  }
+};
+
+// 加载推荐设置
+const loadRecommendationSettings = async () => {
+  try {
+    const res = await api.recommendation.getSettings();
+    if (res.success || res.code === 0) {
+      Object.assign(recommendSettings.value, res.data);
+    }
+  } catch (error) {
+    console.error('加载推荐设置错误:', error);
   }
 };
 
@@ -1351,6 +1765,200 @@ const rollbackToVersion = async (version) => {
   font-size: 12px;
 }
 
+/* 推荐话题管理样式 */
+.featured-topics-section {
+  background: #fafbfc;
+  border-radius: 12px;
+  padding: 24px;
+  border: 1px solid #e4e7ed;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid #e4e7ed;
+}
+
+.header-info {
+  flex: 1;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 8px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #303133;
+}
+
+.section-desc {
+  margin: 0;
+  color: #606266;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.header-stats {
+  flex-shrink: 0;
+}
+
+.quick-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 16px;
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #e4e7ed;
+}
+
+.topic-summary {
+  color: #909399;
+  font-size: 13px;
+}
+
+.transfer-container {
+  background: white;
+  border-radius: 8px;
+  padding: 16px;
+  border: 1px solid #e4e7ed;
+  margin-bottom: 20px;
+}
+
+.topic-transfer {
+  width: 100%;
+
+  :deep(.el-transfer-panel) {
+    width: 360px;
+    height: 500px;
+    border-radius: 8px;
+    border: 1px solid #e4e7ed;
+  }
+
+  :deep(.el-transfer-panel__header) {
+    background: #f8f9fa;
+    border-bottom: 1px solid #e4e7ed;
+    padding: 12px 16px;
+    font-weight: 600;
+  }
+
+  :deep(.el-transfer-panel__body) {
+    height: 420px;
+  }
+
+  :deep(.el-transfer-panel__list) {
+    height: 370px;
+    overflow-y: auto;
+  }
+
+  :deep(.el-transfer-panel__item) {
+    height: auto;
+    min-height: 52px;
+    padding: 0;
+    border-bottom: 1px solid #f0f2f5;
+
+    &:hover {
+      background: #f8f9fa;
+    }
+  }
+
+  :deep(.el-checkbox) {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 8px 16px;
+    align-items: flex-start;
+    display: flex;
+
+    .el-checkbox__input {
+      margin-top: 1px;
+      flex-shrink: 0;
+    }
+  }
+
+  :deep(.el-checkbox__label) {
+    width: 100%;
+    padding-left: 10px;
+    line-height: 1.1;
+    display: flex;
+    flex-direction: column;
+    min-height: 36px;
+  }
+}
+
+.topic-card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 36px;
+  gap: 2px;
+
+  .topic-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .topic-name {
+    font-weight: 600;
+    color: #303133;
+    font-size: 14px;
+    line-height: 1.2;
+    flex: 1;
+    word-break: break-word;
+    margin: 0;
+    padding: 0;
+  }
+
+  .topic-metrics {
+    display: flex;
+    gap: 14px;
+    flex-shrink: 0;
+
+    .metric {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      color: #909399;
+      font-size: 11px;
+      line-height: 1.1;
+      white-space: nowrap;
+
+      .el-icon {
+        font-size: 11px;
+        flex-shrink: 0;
+      }
+    }
+  }
+}
+
+.section-footer {
+  .tips-content {
+    p {
+      margin: 4px 0;
+      color: #606266;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+  }
+}
+
+.featured-topics-hint {
+  margin-top: 15px;
+
+  .weight-hint {
+    margin-left: 0;
+  }
+}
+
 .form-item-tip {
   margin-top: 8px;
   font-size: 12px;
@@ -1396,5 +2004,33 @@ const rollbackToVersion = async (version) => {
       }
     }
   }
+}
+
+/* 推荐算法统计样式 */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.stat-item {
+  text-align: center;
+  padding: 10px;
+  border-radius: 6px;
+  background-color: #fff;
+  border: 1px solid #e4e7ed;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: #909399;
+  margin-bottom: 5px;
+}
+
+.stat-value {
+  font-size: 18px;
+  font-weight: bold;
+  color: #303133;
 }
 </style> 

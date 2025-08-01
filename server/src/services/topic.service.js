@@ -62,11 +62,26 @@ class TopicService {
       );
     }
 
+    // 处理图片审核逻辑
+    const processedTopicData = { ...topicData };
+
+    if (topicData.cover_image) {
+      // 用户上传了图片，需要审核
+      processedTopicData.pending_image = topicData.cover_image;
+      processedTopicData.cover_image = null; // 清空正式封面，等待审核
+      processedTopicData.image_status = 'pending';
+    } else {
+      // 没有上传图片，使用默认状态
+      processedTopicData.image_status = 'default';
+    }
+
     // 设置默认值（使用现有字段结构）
     const finalTopicData = {
-      name: topicData.name.trim(),
-      description: topicData.description?.trim() || '',
-      cover_image: topicData.cover_image || '',
+      name: processedTopicData.name.trim(),
+      description: processedTopicData.description?.trim() || '',
+      cover_image: processedTopicData.cover_image || null,
+      pending_image: processedTopicData.pending_image || null,
+      image_status: processedTopicData.image_status,
       is_hot: false,
       status: 'active',
       post_count: 0,
@@ -347,6 +362,135 @@ class TopicService {
 
     return success;
   }
+
+  // ==================== 管理员专用方法 ====================
+
+  /**
+   * 管理员获取话题列表（支持高级筛选）
+   * @param {Object} options 查询选项
+   * @param {Number} options.page 页码
+   * @param {Number} options.pageSize 每页数量
+   * @param {String} options.keyword 搜索关键词
+   * @param {String} options.status 状态筛选
+   * @param {String} options.orderBy 排序字段
+   * @param {String} options.orderDirection 排序方向
+   * @returns {Promise<Object>} 分页结果
+   */
+  async getAdminTopicList(options = {}) {
+    const {
+      page = 1,
+      pageSize = 10,
+      keyword = '',
+      status = '',
+      orderBy = 'post_count',
+      orderDirection = 'DESC'
+    } = options;
+
+    // 构建查询条件 - 直接传递给仓库层
+    const queryOptions = {
+      page: parseInt(page),
+      pageSize: parseInt(pageSize),
+      keyword: keyword || '',
+      status: status || undefined, // 不传递空字符串，让仓库层使用默认值
+      orderBy,
+      orderDirection
+    };
+
+    const result = await topicRepository.findAndCountAll(queryOptions);
+
+    // 仓库层已经返回了正确的格式 {list: rows, pagination: {...}}
+    return result;
+  }
+
+  /**
+   * 设置话题热门状态
+   * @param {Number} id 话题ID
+   * @param {Boolean} isHot 是否热门
+   * @returns {Promise<Object>} 更新后的话题对象
+   */
+  async setHotStatus(id, isHot) {
+    // 检查话题是否存在
+    const topic = await topicRepository.findById(id);
+
+    if (!topic) {
+      throw ErrorMiddleware.createError(
+        '话题不存在',
+        StatusCodes.NOT_FOUND,
+        errorCodes.TOPIC_NOT_FOUND
+      );
+    }
+
+    // 更新热门状态
+    const updatedTopic = await topicRepository.update(id, { is_hot: isHot });
+
+    return updatedTopic;
+  }
+
+  /**
+   * 获取待审核图片的话题列表
+   * @param {Object} options 查询选项
+   * @returns {Promise<Object>} 待审核话题列表
+   */
+  async getPendingImageTopics(options = {}) {
+    const { page = 1, limit = 12 } = options;
+
+    return await topicRepository.findPendingImageTopics({
+      page: parseInt(page),
+      limit: parseInt(limit)
+    });
+  }
+
+  /**
+   * 审核话题图片
+   * @param {Number} topicId 话题ID
+   * @param {String} action 审核动作：approve 或 reject
+   * @returns {Promise<Object>} 审核结果
+   */
+  async reviewTopicImage(topicId, action) {
+    if (!['approve', 'reject'].includes(action)) {
+      throw ErrorMiddleware.createError(
+        '无效的审核动作',
+        StatusCodes.BAD_REQUEST,
+        errorCodes.INVALID_PARAMS
+      );
+    }
+
+    const topic = await topicRepository.findById(topicId);
+    if (!topic) {
+      throw ErrorMiddleware.createError(
+        '话题不存在',
+        StatusCodes.NOT_FOUND,
+        errorCodes.TOPIC_NOT_FOUND
+      );
+    }
+
+    // 检查是否有待审核的图片
+    if (!topic.pending_image || topic.image_status !== 'pending') {
+      throw ErrorMiddleware.createError(
+        '该话题没有待审核的图片',
+        StatusCodes.BAD_REQUEST,
+        errorCodes.INVALID_PARAMS
+      );
+    }
+
+    let updateData;
+    if (action === 'approve') {
+      // 审核通过：将待审核图片设为正式封面
+      updateData = {
+        cover_image: topic.pending_image,
+        pending_image: null,
+        image_status: 'approved'
+      };
+    } else {
+      // 审核拒绝：清除待审核图片
+      updateData = {
+        pending_image: null,
+        image_status: 'rejected'
+      };
+    }
+
+    return await topicRepository.update(topicId, updateData);
+  }
 }
 
-module.exports = new TopicService(); 
+module.exports = new TopicService();

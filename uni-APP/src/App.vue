@@ -6,7 +6,8 @@ export default {
   globalData: {
     $api: null,
     serverConfig: null,
-    forceRefresh: false
+    forceRefresh: false,
+    isFirstLaunch: true  // 标记是否首次启动
   },
   onLaunch: function () {
     console.log('App Launch')
@@ -27,7 +28,15 @@ export default {
     // 确保每次应用显示时停止所有可能的下拉刷新
     uni.stopPullDownRefresh();
 
+    // 如果是首次启动，跳过检查（已在onLaunch中处理）
+    if (this.globalData.isFirstLaunch) {
+      this.globalData.isFirstLaunch = false;
+      console.log('🚀 首次启动，跳过onShow中的配置检查');
+      return;
+    }
+
     // App从后台回到前台时，检查是否需要更新配置
+    console.log('🔄 从后台返回，检查配置更新...');
     setTimeout(async () => {
       try {
         const hasUpdate = await configUpdateManager.checkForUpdates();
