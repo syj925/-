@@ -57,6 +57,77 @@ router.use('/api/registrations', eventRegistrationRoutes);
 // 管理员API路由
 router.use('/api/admin', adminRoutes);
 
+// 内容管理路由（为管理后台提供）
+// 添加专门的content路由适配器
+router.get('/api/content/categories', async (req, res) => {
+  try {
+    const { Category } = require('../models');
+
+    // 获取所有分类数据
+    const categories = await Category.findAll({
+      order: [['sort', 'ASC']]
+    });
+
+    // 转换为管理后台需要的格式
+    const formattedCategories = categories.map(category => ({
+      id: category.id,
+      name: category.name,
+      description: category.description || '',
+      icon: category.icon,
+      sort: category.sort,
+      status: category.status === 'enabled' ? 'active' : 'inactive',
+      postCount: category.post_count || 0, // 使用数据库中的实际帖子数量
+      createdAt: category.createdAt,
+      updatedAt: category.updatedAt
+    }));
+
+    // 返回管理后台期望的格式
+    res.json({
+      items: formattedCategories,
+      totalItems: formattedCategories.length
+    });
+  } catch (error) {
+    console.error('获取分类列表失败:', error);
+    res.status(500).json({
+      success: false,
+      message: '获取分类列表失败',
+      error: error.message
+    });
+  }
+});
+
+// 添加前端需要的按类型获取分类API
+router.get('/content/categories/type/:type', async (req, res) => {
+  try {
+    const { Category } = require('../models');
+    const { type } = req.params;
+
+    // 对于post类型，返回所有启用的真实分类（排除推荐、全部等特殊筛选）
+    if (type === 'post') {
+      const categories = await Category.findAll({
+        where: {
+          status: 'enabled'  // 只返回启用的分类
+        },
+        order: [['sort', 'ASC']]
+      });
+
+      // 直接返回数组格式（前端期望的格式）
+      res.json(categories);
+    } else {
+      res.status(400).json({ message: '无效的分类类型' });
+    }
+  } catch (error) {
+    console.error('获取分类列表失败:', error);
+    res.status(500).json({
+      success: false,
+      message: '获取分类列表失败',
+      error: error.message
+    });
+  }
+});
+
+router.use('/content', categoryRoutes);
+
 // 配置版本检查路由（无需认证，供前端App使用）
 router.get('/api/config-version', async (req, res) => {
   try {

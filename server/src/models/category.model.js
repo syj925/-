@@ -25,6 +25,18 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
         defaultValue: 0
+      },
+      post_count: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+        comment: '该分类下的帖子数量'
+      },
+      status: {
+        type: DataTypes.ENUM('enabled', 'disabled'),
+        allowNull: false,
+        defaultValue: 'enabled',
+        comment: '分类状态：enabled-启用，disabled-禁用'
       }
     },
     {

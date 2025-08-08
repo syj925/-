@@ -224,7 +224,7 @@ export default {
         images: [],
         location: '',
         tags: [],
-        category_id: 1 // 默认使用ID为1的分类
+        category_id: 0 // 默认使用ID为0的"全部"分类
       },
       // 最大图片数
       maxImages: 9,
@@ -252,7 +252,7 @@ export default {
       postId: '',
       // 分类列表
       categories: [
-        { id: 1, name: '全部', icon: 'all' } // 默认分类，会被API加载的数据替换
+        { id: 0, name: '全部', icon: 'all' } // 默认分类，会被API加载的数据替换
       ],
       // 是否显示分类选择器
       showingCategoryPicker: false
@@ -261,8 +261,8 @@ export default {
   computed: {
     // 是否可以发布
     canPublish() {
-      // 只检查内容是否为空
-      return this.form.content.trim().length > 0;
+      // 检查内容是否为空且选择了具体分类
+      return this.form.content.trim().length > 0 && this.form.category_id !== 0;
     }
   },
   onLoad(options) {
@@ -339,7 +339,7 @@ export default {
       }
 
       console.log('✅ 前端验证通过，准备发布...');
-      
+
       // 检查登录状态
       const token = uni.getStorageSync('token');
       if (!token) {
@@ -380,7 +380,7 @@ export default {
       const postData = {
         title: this.form.title,
         content: this.form.content,
-        category_id: Number(this.form.category_id),
+        category_id: this.form.category_id === 0 ? null : Number(this.form.category_id), // "全部"分类时设为null
         status: 'published', // 直接发布，不是草稿
         is_anonymous: isAnonymous, // 添加匿名模式设置
       };
@@ -844,25 +844,56 @@ export default {
       // 调用API获取分类列表
       this.$api.category.getList()
         .then(res => {
+          console.log('获取分类列表响应:', res);
+
+          // 处理不同的响应格式
+          let categories = [];
           if (res && Array.isArray(res)) {
-            this.categories = res;
-            // 确保分类ID是数字
-            this.categories.forEach(category => {
-              category.id = Number(category.id);
-            });
+            // 直接数组格式
+            categories = res;
+          } else if (res && res.data && Array.isArray(res.data)) {
+            // 标准响应格式
+            categories = res.data;
+          } else if (res && res.code === 0 && Array.isArray(res.data)) {
+            // 另一种标准响应格式
+            categories = res.data;
+          }
+
+          if (categories.length > 0) {
+            // 在API返回的分类前添加"全部"分类
+            this.categories = [
+              { id: 0, name: '全部', icon: 'all' },
+              ...categories.map(category => ({
+                ...category,
+                id: Number(category.id)
+              }))
+            ];
+
+            // 确保默认选择"全部"分类
+            if (this.form.category_id === 1) {
+              this.form.category_id = 0;
+            }
+
+            console.log('分类列表加载成功:', this.categories);
+          } else {
+            console.warn('未获取到有效的分类数据');
           }
         })
         .catch(err => {
           console.error('获取分类列表失败:', err);
           // 使用本地备份数据
           this.categories = [
-            { id: 1, name: '全部', icon: 'all' },
-            { id: 2, name: '活动', icon: 'activity' },
-            { id: 3, name: '求助', icon: 'help' },
-            { id: 4, name: '失物招领', icon: 'lost' },
-            { id: 5, name: '二手市场', icon: 'market' },
-            { id: 6, name: '招聘兼职', icon: 'recruit' },
-            { id: 7, name: '情感', icon: 'emotion' }
+            { id: 0, name: '全部', icon: 'all' },
+            { id: 1, name: '学习交流', icon: 'study' },
+            { id: 2, name: '生活分享', icon: 'life' },
+            { id: 3, name: '社团活动', icon: 'activity' },
+            { id: 4, name: '求助问答', icon: 'help' },
+            { id: 5, name: '闲聊灌水', icon: 'chat' },
+            { id: 6, name: '校园活动', icon: 'campus' },
+            { id: 7, name: '失物招领', icon: 'lost' },
+            { id: 8, name: '二手市场', icon: 'market' },
+            { id: 9, name: '招聘兼职', icon: 'recruit' },
+            { id: 10, name: '情感', icon: 'emotion' }
           ];
         });
     }

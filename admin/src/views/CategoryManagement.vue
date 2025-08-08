@@ -326,57 +326,29 @@ const loadCategoryList = async () => {
     console.log('分类返回数据:', response);
     
     // 添加详细日志检查
+    let items = [];
     if (response && response.items) {
       console.log('原始数据结构 - 直接数组格式:');
-      response.items.forEach((item, index) => {
-        console.log(`分类[${index}] id=${item.id}, name=${item.name}, status=${item.status}, enabled=${item.enabled}, status类型=${typeof item.status}`);
-      });
+      items = response.items;
+    } else if (response && response.data && response.data.items) {
+      console.log('原始数据结构 - 嵌套格式 (data.items):');
+      items = response.data.items;
     } else if (response && response.data) {
-      const items = response.data.rows || response.data;
       console.log('原始数据结构 - 标准格式:');
+      items = response.data.rows || response.data;
+    }
+
+    if (items && Array.isArray(items)) {
       items.forEach((item, index) => {
         console.log(`分类[${index}] id=${item.id}, name=${item.name}, status=${item.status}, enabled=${item.enabled}, status类型=${typeof item.status}`);
       });
+    } else {
+      console.error('无法找到有效的分类数据数组:', response);
     }
     
     // 适配后端返回的结构
-    if (response && response.items) {
-      // 直接使用后端返回的数据结构
-      categoryList.value = response.items.map(item => {
-        // 更全面的状态值转换逻辑
-        let statusStr = 'active'; // 默认值
-        
-        // 首先检查enabled字段，这是我们设置的字段
-        if (typeof item.enabled !== 'undefined') {
-          statusStr = item.enabled ? 'active' : 'inactive';
-        }
-        // 然后检查status字段
-        else if (typeof item.status === 'number') {
-          // 数字类型: 1=active, 0=inactive
-          statusStr = item.status === 1 ? 'active' : 'inactive';
-        } else if (typeof item.status === 'string') {
-          // 字符串类型: 可能是"active"/"inactive"或"1"/"0"
-          if (item.status === '1' || item.status.toLowerCase() === 'active') {
-            statusStr = 'active';
-          } else {
-            statusStr = 'inactive';
-          }
-        } else if (typeof item.status === 'boolean') {
-          // 布尔类型
-          statusStr = item.status ? 'active' : 'inactive';
-        }
-        
-        console.log(`分类 ${item.id} 状态转换: status=${item.status}, enabled=${item.enabled} -> ${statusStr}`);
-        
-        return {
-          ...item,
-          status: statusStr
-        };
-      });
-      total.value = response.totalItems || 0;
-    } else if (response && response.data) {
-      // 兼容之前预期的标准格式
-      const items = response.data.rows || response.data;
+    if (items && Array.isArray(items)) {
+      // 使用统一的items数组处理数据
       categoryList.value = items.map(item => {
         // 更全面的状态值转换逻辑
         let statusStr = 'active'; // 默认值
@@ -390,11 +362,14 @@ const loadCategoryList = async () => {
           // 数字类型: 1=active, 0=inactive
           statusStr = item.status === 1 ? 'active' : 'inactive';
         } else if (typeof item.status === 'string') {
-          // 字符串类型: 可能是"active"/"inactive"或"1"/"0"
-          if (item.status === '1' || item.status.toLowerCase() === 'active') {
+          // 字符串类型: 处理各种可能的状态值
+          const statusLower = item.status.toLowerCase();
+          if (statusLower === 'enabled' || statusLower === 'active' || item.status === '1') {
             statusStr = 'active';
-          } else {
+          } else if (statusLower === 'disabled' || statusLower === 'inactive' || item.status === '0') {
             statusStr = 'inactive';
+          } else {
+            statusStr = 'inactive'; // 默认为禁用
           }
         } else if (typeof item.status === 'boolean') {
           // 布尔类型
@@ -408,7 +383,17 @@ const loadCategoryList = async () => {
           status: statusStr
         };
       });
-      total.value = response.data.total || response.data.length;
+
+      // 处理总数
+      if (response && response.totalItems) {
+        total.value = response.totalItems;
+      } else if (response && response.data && response.data.totalItems) {
+        total.value = response.data.totalItems;
+      } else if (response && response.data && response.data.total) {
+        total.value = response.data.total;
+      } else {
+        total.value = items.length;
+      }
     } else {
       ElMessage.error('获取分类列表失败: 返回数据格式异常');
     }

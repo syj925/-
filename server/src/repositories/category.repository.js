@@ -39,6 +39,23 @@ class CategoryRepository {
   }
 
   /**
+   * 根据名称查找分类
+   * @param {String} name 分类名称
+   * @returns {Promise<Object>} 分类对象
+   */
+  async findByName(name) {
+    try {
+      const category = await Category.findOne({
+        where: { name }
+      });
+      return category;
+    } catch (err) {
+      console.error('根据名称查询分类出错:', err);
+      return null;
+    }
+  }
+
+  /**
    * 更新分类
    * @param {Number} id 分类ID
    * @param {Object} categoryData 分类数据
@@ -86,8 +103,8 @@ class CategoryRepository {
    * @returns {Promise<Array>} 分类列表
    */
   async findAll(withPostCount = false) {
-    // 尝试从缓存获取
-    const cacheKey = 'categories:all';
+    // 尝试从缓存获取 - 使用新的缓存键以避免旧缓存
+    const cacheKey = 'categories:enabled:all';
     const cachedCategories = await redisClient.get(cacheKey);
     
     if (cachedCategories) {
@@ -98,6 +115,9 @@ class CategoryRepository {
     let categories;
     if (withPostCount) {
       categories = await Category.findAll({
+        where: {
+          status: 'enabled'  // 只返回启用的分类
+        },
         attributes: {
           include: [
             [
@@ -117,6 +137,9 @@ class CategoryRepository {
       });
     } else {
       categories = await Category.findAll({
+        where: {
+          status: 'enabled'  // 只返回启用的分类
+        },
         order: [['sort', 'ASC']]
       });
     }
@@ -167,10 +190,80 @@ class CategoryRepository {
   async search(keyword) {
     return await Category.findAll({
       where: {
-        name: { [Op.like]: `%${keyword}%` }
+        name: { [Op.like]: `%${keyword}%` },
+        status: 'enabled'  // 只返回启用的分类
       },
       order: [['sort', 'ASC']]
     });
+  }
+
+  /**
+   * 更新分类帖子计数
+   * @param {Number} categoryId 分类ID
+   * @param {Number} count 帖子数量
+   * @returns {Promise<Boolean>} 更新结果
+   */
+  async updatePostCount(categoryId, count) {
+    const result = await Category.update(
+      { post_count: count },
+      { where: { id: categoryId } }
+    );
+
+    // 清除缓存
+    await redisClient.del('categories:all');
+
+    return result[0] > 0;
+  }
+
+  /**
+   * 获取所有分类及统计信息
+   * @returns {Promise<Array>} 分类列表
+   */
+  async findAllWithStats() {
+    return await Category.findAll({
+      attributes: ['id', 'name', 'icon', 'sort', 'post_count', 'status', 'created_at', 'updated_at'],
+      order: [['sort', 'ASC'], ['id', 'ASC']]
+    });
+  }
+
+  /**
+   * 增加分类帖子计数
+   * @param {Number} categoryId 分类ID
+   * @param {Number} increment 增量（默认1）
+   * @returns {Promise<Boolean>} 更新结果
+   */
+  async incrementPostCount(categoryId, increment = 1) {
+    if (!categoryId) return false;
+
+    const result = await Category.increment('post_count', {
+      by: increment,
+      where: { id: categoryId }
+    });
+
+    // 清除缓存
+    await redisClient.del('categories:all');
+
+    return result;
+  }
+
+  /**
+   * 减少分类帖子计数
+   * @param {Number} categoryId 分类ID
+   * @param {Number} decrement 减量（默认1）
+   * @returns {Promise<Boolean>} 更新结果
+   */
+  async decrementPostCount(categoryId, decrement = 1) {
+    if (!categoryId) return false;
+
+    const result = await Category.decrement('post_count', {
+      by: decrement,
+      where: { id: categoryId }
+    });
+
+    // 清除缓存
+    await redisClient.del('categories:all');
+
+    return result;
   }
 }
 

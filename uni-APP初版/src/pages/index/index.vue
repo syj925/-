@@ -1906,23 +1906,20 @@ export default {
     init() {
       // 设置最后加载时间
       this.lastLoadTime = Date.now();
-      
-      // 初始化分类数据
+
+      // 初始化固定分类（推荐、全部等特殊筛选）
       this.staticCategories = [
         { id: 'recommended', name: '推荐' },
-        { id: 'latest', name: '最新' },
-        { id: 1, name: '学习' },
-        { id: 2, name: '生活' },
-        { id: 3, name: '情感' },
-        { id: 4, name: '求助' },
-        { id: 5, name: '吐槽' },
-        { id: 6, name: '闲置' }
+        { id: 'latest', name: '最新' }
       ];
       this.dynamicCategories = [];
-      
+
+      // 获取真实分类数据
+      this.fetchCategories();
+
       // 加载数据
       this.loadPosts();
-      
+
       // 设置当前活动页面
       postActions.setActivePage('index');
     },

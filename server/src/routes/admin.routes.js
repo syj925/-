@@ -12,6 +12,11 @@ const adminPostController = require('../controllers/admin/post.controller');
 const adminCommentController = require('../controllers/admin/comment.controller');
 const adminTopicController = require('../controllers/admin/topic.controller');
 
+// 引入分类统计路由
+const categoryStatsRoutes = require('./admin/category-stats.routes');
+// 引入分类管理路由
+const categoryRoutes = require('./admin/category.routes');
+
 // 引入中间件
 const AdminMiddleware = require('../middlewares/admin.middleware');
 const { Validator } = require('../utils');
@@ -522,6 +527,22 @@ router.get('/topics/pending-images', adminTopicController.getPendingTopicImages)
  * @access Private (Admin)
  */
 router.put('/topics/:id/review-image', adminTopicController.reviewTopicImage);
+
+// ==================== 分类统计管理路由 ====================
+
+/**
+ * @route /api/admin/categories/*
+ * @desc 分类管理相关路由
+ * @access Private (Admin)
+ */
+router.use('/categories', categoryRoutes);
+
+/**
+ * @route /api/admin/category-stats/*
+ * @desc 分类统计管理相关路由
+ * @access Private (Admin)
+ */
+router.use('/category-stats', categoryStatsRoutes);
 
 // ==================== 系统设置路由 ====================
 

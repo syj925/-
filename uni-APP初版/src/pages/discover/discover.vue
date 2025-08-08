@@ -105,12 +105,7 @@ export default {
     return {
       isRefreshing: false,
       banners: [],
-      categories: [
-        { id: 1, name: '校园活动', icon: '/static/icons/xwhd.png', bgColor: 'rgba(74, 144, 226, 0.1)' },
-        { id: 2, name: '学习交流', icon: '/static/icons/xxjl.png', bgColor: 'rgba(252, 132, 45, 0.1)' },
-        { id: 3, name: '招聘信息', icon: '/static/icons/zpxx.png', bgColor: 'rgba(82, 196, 26, 0.1)' },
-        { id: 4, name: '失物招领', icon: '/static/icons/swzl.png', bgColor: 'rgba(157, 80, 245, 0.1)' }
-      ],
+      categories: [], // 改为空数组，从API获取
       hotTopics: [],
       campusEvents: [],
       // 添加备用测试数据，确保UI可以正常渲染
@@ -134,8 +129,77 @@ export default {
     
     loadData() {
       this.fetchBanners();
+      this.fetchCategories();
       this.fetchHotTopics();
       this.fetchCampusEvents();
+    },
+
+    // 获取分类数据
+    async fetchCategories() {
+      try {
+        console.log('发现页开始获取分类数据...');
+        const res = await api.content.getCategoriesByType('post');
+        console.log('发现页获取到的原始分类数据:', res);
+
+        // 处理API直接返回数组的情况
+        if (Array.isArray(res)) {
+          this.categories = res.map(category => ({
+            id: category.id,
+            name: category.name,
+            icon: this.getCategoryIcon(category.name), // 根据名称映射图标
+            bgColor: this.getCategoryBgColor(category.name) // 根据名称映射背景色
+          }));
+          console.log('发现页分类数据获取成功:', this.categories);
+        } else {
+          console.error('发现页获取分类数据失败或返回格式不正确:', res);
+          // 使用默认分类作为备用
+          this.categories = [
+            { id: 1, name: '校园活动', icon: '/static/icons/xwhd.png', bgColor: 'rgba(74, 144, 226, 0.1)' },
+            { id: 2, name: '学习交流', icon: '/static/icons/xxjl.png', bgColor: 'rgba(252, 132, 45, 0.1)' },
+            { id: 3, name: '招聘信息', icon: '/static/icons/zpxx.png', bgColor: 'rgba(82, 196, 26, 0.1)' },
+            { id: 4, name: '失物招领', icon: '/static/icons/swzl.png', bgColor: 'rgba(157, 80, 245, 0.1)' }
+          ];
+        }
+      } catch (error) {
+        console.error('发现页获取分类数据异常:', error);
+        // 使用默认分类作为备用
+        this.categories = [
+          { id: 1, name: '校园活动', icon: '/static/icons/xwhd.png', bgColor: 'rgba(74, 144, 226, 0.1)' },
+          { id: 2, name: '学习交流', icon: '/static/icons/xxjl.png', bgColor: 'rgba(252, 132, 45, 0.1)' },
+          { id: 3, name: '招聘信息', icon: '/static/icons/zpxx.png', bgColor: 'rgba(82, 196, 26, 0.1)' },
+          { id: 4, name: '失物招领', icon: '/static/icons/swzl.png', bgColor: 'rgba(157, 80, 245, 0.1)' }
+        ];
+      }
+    },
+
+    // 根据分类名称获取图标
+    getCategoryIcon(name) {
+      const iconMap = {
+        '校园活动': '/static/icons/xwhd.png',
+        '学习交流': '/static/icons/xxjl.png',
+        '招聘信息': '/static/icons/zpxx.png',
+        '招聘兼职': '/static/icons/zpxx.png',
+        '失物招领': '/static/icons/swzl.png',
+        '二手市场': '/static/icons/market.png',
+        '情感交流': '/static/icons/emotion.png',
+        '求助问答': '/static/icons/help.png'
+      };
+      return iconMap[name] || '/static/icons/default.png';
+    },
+
+    // 根据分类名称获取背景色
+    getCategoryBgColor(name) {
+      const colorMap = {
+        '校园活动': 'rgba(74, 144, 226, 0.1)',
+        '学习交流': 'rgba(252, 132, 45, 0.1)',
+        '招聘信息': 'rgba(82, 196, 26, 0.1)',
+        '招聘兼职': 'rgba(82, 196, 26, 0.1)',
+        '失物招领': 'rgba(157, 80, 245, 0.1)',
+        '二手市场': 'rgba(255, 193, 7, 0.1)',
+        '情感交流': 'rgba(233, 30, 99, 0.1)',
+        '求助问答': 'rgba(255, 87, 34, 0.1)'
+      };
+      return colorMap[name] || 'rgba(108, 117, 125, 0.1)';
     },
     
     // 获取轮播图数据

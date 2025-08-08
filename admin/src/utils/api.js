@@ -283,7 +283,7 @@ export default {
         includeInactive: true // 增加参数，表示包含禁用的分类
       };
       
-      return instance.get('/content/categories', { params: enhancedParams })
+      return instance.get('/admin/categories', { params: enhancedParams })
         .then(response => {
           console.log('分类API原始响应:', response);
           

@@ -883,6 +883,53 @@ class PostRepository {
 
     return false;
   }
+
+  /**
+   * 按分类统计帖子数量
+   * @param {Number} categoryId 分类ID
+   * @param {String} status 帖子状态
+   * @returns {Promise<Number>} 帖子数量
+   */
+  async countByCategory(categoryId, status = 'published') {
+    const where = {
+      status,
+      deleted_at: null
+    };
+
+    if (categoryId) {
+      where.category_id = categoryId;
+    }
+
+    return await Post.count({ where });
+  }
+
+  /**
+   * 获取所有分类的帖子统计
+   * @param {String} status 帖子状态
+   * @returns {Promise<Array>} 分类统计数据
+   */
+  async getCategoryStats(status = 'published') {
+    const { sequelize } = require('../models');
+
+    const results = await sequelize.query(`
+      SELECT
+        c.id,
+        c.name,
+        c.icon,
+        COUNT(p.id) as post_count
+      FROM categories c
+      LEFT JOIN posts p ON c.id = p.category_id
+        AND p.status = :status
+        AND p.deleted_at IS NULL
+      GROUP BY c.id, c.name, c.icon
+      ORDER BY c.sort ASC, c.id ASC
+    `, {
+      replacements: { status },
+      type: sequelize.QueryTypes.SELECT
+    });
+
+    return results;
+  }
 }
 
 module.exports = new PostRepository();

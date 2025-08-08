@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       category_id: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true, // 允许为null，表示"全部"分类
         references: {
           model: 'categories',
           key: 'id'
@@ -116,6 +116,18 @@ module.exports = (sequelize, DataTypes) => {
         },
         {
           fields: ['is_top', 'created_at']
+        },
+        // 复合索引优化 - 分类页面查询
+        {
+          fields: ['category_id', 'status', 'created_at']
+        },
+        // 复合索引优化 - 用户帖子查询
+        {
+          fields: ['user_id', 'status', 'created_at']
+        },
+        // 复合索引优化 - 首页查询
+        {
+          fields: ['status', 'is_top', 'created_at']
         }
       ]
     }

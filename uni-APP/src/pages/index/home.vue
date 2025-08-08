@@ -69,13 +69,7 @@ export default {
       // 分类数据
       categories: [
         { id: 'recommend', name: '推荐' },
-        { id: 'all', name: '全部' },
-        { id: 'activity', name: '活动' },
-        { id: 'help', name: '求助' },
-        { id: 'lost', name: '失物招领' },
-        { id: 'market', name: '二手市场' },
-        { id: 'recruit', name: '招聘兼职' },
-        { id: 'emotion', name: '情感' }
+        { id: 'all', name: '全部' }
       ],
       // 当前选中的分类
       activeCategory: 'recommend',
@@ -97,6 +91,8 @@ export default {
     };
   },
   onLoad() {
+    // 加载分类数据
+    this.loadCategories();
     // 加载帖子数据
     this.loadPosts();
   },
@@ -163,6 +159,29 @@ export default {
     this.loadMorePosts();
   },
   methods: {
+    // 加载分类数据
+    async loadCategories() {
+      try {
+        const response = await this.$api.category.getList();
+        if (response.code === 0 && response.data) {
+          // 保留推荐和全部分类，然后添加从API获取的分类
+          const dynamicCategories = response.data.map(cat => ({
+            id: cat.id,
+            name: cat.name
+          }));
+
+          this.categories = [
+            { id: 'recommend', name: '推荐' },
+            { id: 'all', name: '全部' },
+            ...dynamicCategories
+          ];
+        }
+      } catch (error) {
+        console.error('加载分类失败:', error);
+        // 如果加载失败，保持默认分类
+      }
+    },
+
     // 加载帖子数据
     loadPosts() {
       if (this.loading || this.finished) return;

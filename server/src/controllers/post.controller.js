@@ -237,6 +237,7 @@ class PostController {
         pageSize = 10,
         userId,
         categoryId,
+        category, // 兼容前端传递的 category 参数
         topicId,
         keyword,
         status = 'published',
@@ -247,12 +248,15 @@ class PostController {
         nearbyLng,
         nearbyDistance
       } = req.query;
+
+      // 兼容处理：优先使用 categoryId，如果没有则使用 category
+      const finalCategoryId = categoryId || category;
       
       const options = {
         page: parseInt(page, 10),
         pageSize: parseInt(pageSize, 10),
         userId,
-        categoryId,
+        categoryId: finalCategoryId, // 使用处理后的分类ID
         topicId,
         keyword,
         status,

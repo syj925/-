@@ -1074,7 +1074,7 @@ const api = {
     // 获取分类列表
     getCategories: (params = {}) => {
       return request({
-        url: '/content/categories',
+        url: '/categories',
         data: params
       });
     },
@@ -1082,7 +1082,7 @@ const api = {
     // 根据类型获取分类
     getCategoriesByType: (type) => {
       return request({
-        url: `/content/categories/type/${type}`
+        url: `/categories`
       });
     }
   }

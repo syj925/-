@@ -41,16 +41,20 @@ class PostService {
       );
     }
     
-    // 检查分类是否存在
-    console.log('查找分类ID:', postData.category_id, '类型:', typeof postData.category_id);
-    const category = await categoryRepository.findById(postData.category_id);
-    console.log('查找结果:', category);
-    if (!category) {
-      throw ErrorMiddleware.createError(
-        '分类不存在',
-        StatusCodes.NOT_FOUND,
-        errorCodes.CATEGORY_NOT_EXIST
-      );
+    // 检查分类是否存在（category_id为null表示"全部"分类，无需检查）
+    if (postData.category_id !== null && postData.category_id !== undefined) {
+      console.log('查找分类ID:', postData.category_id, '类型:', typeof postData.category_id);
+      const category = await categoryRepository.findById(postData.category_id);
+      console.log('查找结果:', category);
+      if (!category) {
+        throw ErrorMiddleware.createError(
+          '分类不存在',
+          StatusCodes.NOT_FOUND,
+          errorCodes.CATEGORY_NOT_EXIST
+        );
+      }
+    } else {
+      console.log('使用"全部"分类（category_id为null），跳过分类存在性检查');
     }
     
     // 使用事务确保所有操作成功或全部失败
@@ -92,9 +96,15 @@ class PostService {
           }
         }
       }
-      
+
+      // 更新分类的帖子计数（如果有分类且状态为已发布）
+      if (postData.category_id && postData.status === 'published') {
+        const categoryRepository = require('../repositories/category.repository');
+        await categoryRepository.incrementPostCount(postData.category_id, 1);
+      }
+
       await transaction.commit();
-      
+
       // 查询完整的帖子数据（包含关联数据）
       return await this.getPostById(post.id, true);
     } catch (error) {
@@ -207,8 +217,8 @@ class PostService {
       }
     }
     
-    // 如果修改了分类，检查分类是否存在
-    if (postData.category_id) {
+    // 如果修改了分类，检查分类是否存在（category_id为null表示"全部"分类，无需检查）
+    if (postData.category_id !== null && postData.category_id !== undefined) {
       const category = await categoryRepository.findById(postData.category_id);
       if (!category) {
         throw ErrorMiddleware.createError(
@@ -219,9 +229,19 @@ class PostService {
       }
     }
     
+    // 获取原帖子信息（用于比较分类变化）
+    const originalPost = await postRepository.findById(id);
+    if (!originalPost) {
+      throw ErrorMiddleware.createError(
+        '帖子不存在',
+        StatusCodes.NOT_FOUND,
+        errorCodes.POST_NOT_EXIST
+      );
+    }
+
     // 使用事务确保所有操作成功或全部失败
     const transaction = await postRepository.sequelize.transaction();
-    
+
     try {
       // 更新帖子
       await postRepository.update(id, postData, { transaction });
@@ -276,7 +296,29 @@ class PostService {
           await topicRepository.incrementPostCount(topicId, -1, transaction);
         }
       }
-      
+
+      // 更新分类的帖子计数（考虑分类和状态变化）
+      const oldCategoryId = originalPost.category_id;
+      const oldStatus = originalPost.status;
+      const newCategoryId = postData.category_id !== undefined ? postData.category_id : oldCategoryId;
+      const newStatus = postData.status !== undefined ? postData.status : oldStatus;
+
+      // 只有已发布状态的帖子才计入分类统计
+      const oldPublished = oldStatus === 'published';
+      const newPublished = newStatus === 'published';
+
+      // 如果分类或发布状态发生了变化，更新计数
+      if (oldCategoryId !== newCategoryId || oldPublished !== newPublished) {
+        // 从旧分类减少计数（如果原来是已发布状态）
+        if (oldCategoryId && oldPublished) {
+          await categoryRepository.incrementPostCount(oldCategoryId, -1);
+        }
+        // 向新分类增加计数（如果现在是已发布状态）
+        if (newCategoryId && newPublished) {
+          await categoryRepository.incrementPostCount(newCategoryId, 1);
+        }
+      }
+
       await transaction.commit();
       
       // 查询完整的帖子数据（包含关联数据）
@@ -316,9 +358,16 @@ class PostService {
         );
       }
     }
-    
+
     // 软删除帖子
-    return await postRepository.delete(id);
+    const result = await postRepository.delete(id);
+
+    // 更新分类的帖子计数（只有已发布的帖子才需要减少计数）
+    if (post.category_id && post.status === 'published') {
+      await categoryRepository.incrementPostCount(post.category_id, -1);
+    }
+
+    return result;
   }
 
   /**

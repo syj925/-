@@ -18,10 +18,10 @@ const createPostSchema = Joi.object({
     .messages({
       'any.required': '内容是必填项'
     }),
-  category_id: Joi.number().integer().required()
+  category_id: Joi.number().integer().min(1).allow(null).optional()
     .messages({
       'number.base': '分类ID必须是数字',
-      'any.required': '分类ID是必填项'
+      'number.min': '分类ID必须大于0'
     }),
   topics: Joi.array().items(Joi.string()).optional(),
   images: Joi.array().items(Joi.object({
