@@ -85,6 +85,7 @@ build/
 # IDE files
 .vscode/
 .idea/
+.vs/
 *.swp
 *.swo
 *~
@@ -147,3 +148,8 @@ dump.rdb
 # Development tools
 .eslintrc.local.js
 .prettierrc.local.js
+
+# Temporary scripts and cache files
+server/clear-cache.js
+server/test-*.js
+*/test-*.js
