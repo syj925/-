@@ -28,6 +28,7 @@ module.exports = {
     maxFileSize: parseInt(process.env.MAX_FILE_SIZE || 5242880, 10), // 默认5MB
     allowedTypes: ['image/jpeg', 'image/png', 'image/gif', 'image/webp'],
     // 文件URL生成策略：'relative' | 'absolute'
+    // 修改为relative避免跨环境访问问题
     urlStrategy: process.env.UPLOAD_URL_STRATEGY || 'relative'
   },
   cors: {

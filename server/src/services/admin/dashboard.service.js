@@ -602,7 +602,8 @@ class AdminDashboardService {
   async getFromCache(key) {
     try {
       const data = await redisClient.get(key);
-      return data ? JSON.parse(data) : null;
+      // Redis客户端已经自动进行了JSON解析，直接返回结果
+      return data;
     } catch (error) {
       logger.warn('从缓存获取数据失败', { key, error: error.message });
       return null;
@@ -618,7 +619,8 @@ class AdminDashboardService {
    */
   async setCache(key, data, ttl) {
     try {
-      await redisClient.setex(key, ttl, JSON.stringify(data));
+      // Redis客户端会自动进行JSON序列化，不需要手动JSON.stringify
+      await redisClient.setex(key, ttl, data);
     } catch (error) {
       logger.warn('设置缓存数据失败', { key, error: error.message });
     }

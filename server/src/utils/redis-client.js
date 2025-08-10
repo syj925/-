@@ -74,13 +74,34 @@ class RedisClient {
         logger.warn(`Redis not connected, skipping set for key: ${key}`);
         return 'OK';
       }
-      
-      const stringValue = typeof value === 'object' ? JSON.stringify(value) : String(value);
-      
+
+      // 安全的序列化处理
+      let stringValue;
+      if (value === null || value === undefined) {
+        stringValue = '';
+      } else if (typeof value === 'object') {
+        try {
+          // 清理可能的循环引用
+          const cleanValue = this.cleanDataForSerialization(value);
+          stringValue = JSON.stringify(cleanValue);
+        } catch (serializeError) {
+          logger.error(`JSON序列化失败: ${serializeError.message}`, { key, valueType: typeof value });
+          return 'OK';
+        }
+      } else {
+        stringValue = String(value);
+      }
+
+      // 验证序列化结果
+      if (stringValue === '[object Object]') {
+        logger.error('检测到无效的序列化结果，跳过缓存设置', { key, value });
+        return 'OK';
+      }
+
       if (ttl) {
         return await this.client.set(key, stringValue, 'EX', ttl);
       }
-      
+
       return await this.client.set(key, stringValue);
     } catch (err) {
       logger.error(`Redis set error: ${err.message}`, { key, value, ttl });
@@ -100,15 +121,34 @@ class RedisClient {
         logger.warn(`Redis not connected, skipping get for key: ${key}`);
         return null;
       }
-      
+
       const value = await this.client.get(key);
-      
+
       if (!value) return null;
-      
+
+      // 检查是否是无效的对象字符串
+      if (value === '[object Object]' || (typeof value === 'string' && value.startsWith('[object'))) {
+        logger.warn('缓存值不是字符串:', {
+          key,
+          value: typeof value === 'string' ? value.split('').reduce((obj, char, index) => {
+            obj[index] = char;
+            return obj;
+          }, {}) : value,
+          service: 'campus-wall-api'
+        });
+        return null;
+      }
+
       // 尝试解析JSON
       try {
         return JSON.parse(value);
       } catch (e) {
+        // 如果解析失败，检查是否是字符串形式的对象
+        if (typeof value === 'string' && value.includes('"service"')) {
+          logger.warn('发现损坏的缓存数据，清除该键:', { key, value: value.substring(0, 100) });
+          await this.del(key); // 清除损坏的缓存
+          return null;
+        }
         logger.debug(`Redis value is not JSON: ${key}`, { value: value.substring(0, 100) });
         return value;
       }
@@ -220,7 +260,29 @@ class RedisClient {
         return 'OK';
       }
 
-      const stringValue = typeof value === 'object' ? JSON.stringify(value) : String(value);
+      // 安全的序列化处理
+      let stringValue;
+      if (value === null || value === undefined) {
+        stringValue = '';
+      } else if (typeof value === 'object') {
+        try {
+          // 清理可能的循环引用
+          const cleanValue = this.cleanDataForSerialization(value);
+          stringValue = JSON.stringify(cleanValue);
+        } catch (serializeError) {
+          logger.error(`JSON序列化失败: ${serializeError.message}`, { key, valueType: typeof value });
+          return 'OK';
+        }
+      } else {
+        stringValue = String(value);
+      }
+
+      // 验证序列化结果
+      if (stringValue === '[object Object]') {
+        logger.error('检测到无效的序列化结果，跳过缓存设置', { key, value });
+        return 'OK';
+      }
+
       return await this.client.setex(key, ttl, stringValue);
     } catch (err) {
       logger.error(`Redis setex error: ${err.message}`, { key, ttl, value });
@@ -280,6 +342,40 @@ class RedisClient {
       // 出错时直接执行查询函数
       return await queryFn();
     }
+  }
+
+  /**
+   * 清理数据以避免循环引用
+   * @param {any} data 要清理的数据
+   * @returns {any} 清理后的数据
+   */
+  cleanDataForSerialization(data) {
+    if (!data) return data;
+
+    // 如果是 Sequelize 模型实例，使用 toJSON() 方法
+    if (data.toJSON && typeof data.toJSON === 'function') {
+      return data.toJSON();
+    }
+
+    // 如果是数组，递归处理每个元素
+    if (Array.isArray(data)) {
+      return data.map(item => this.cleanDataForSerialization(item));
+    }
+
+    // 如果是普通对象，递归处理属性
+    if (typeof data === 'object' && data !== null) {
+      const cleaned = {};
+      for (const [key, value] of Object.entries(data)) {
+        // 跳过函数和循环引用
+        if (typeof value === 'function') continue;
+        if (value === data) continue; // 简单的循环引用检测
+
+        cleaned[key] = this.cleanDataForSerialization(value);
+      }
+      return cleaned;
+    }
+
+    return data;
   }
 }
 

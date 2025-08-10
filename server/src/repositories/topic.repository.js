@@ -34,7 +34,17 @@ class TopicRepository {
 
     if (cachedTopic) {
       try {
-        return JSON.parse(cachedTopic);
+        // Redis客户端已经自动反序列化了数据，直接使用
+        if (typeof cachedTopic === 'object' && cachedTopic !== null) {
+          return cachedTopic;
+        } else if (typeof cachedTopic === 'string') {
+          // 兼容旧格式的字符串数据
+          return JSON.parse(cachedTopic);
+        } else {
+          // 其他类型的数据，清除缓存
+          console.warn(`缓存数据类型异常，清除缓存: ${cacheKey}`, { type: typeof cachedTopic });
+          await redisClient.del(cacheKey);
+        }
       } catch (error) {
         // 如果缓存数据格式错误，删除缓存并继续从数据库获取
         console.warn(`缓存数据格式错误，清除缓存: ${cacheKey}`, error.message);
@@ -44,9 +54,9 @@ class TopicRepository {
 
     const topic = await Topic.findByPk(id);
 
-    // 缓存结果
+    // 缓存结果（不需要手动JSON.stringify，Redis客户端会自动处理）
     if (topic) {
-      await redisClient.set(cacheKey, JSON.stringify(topic), 3600); // 缓存1小时
+      await redisClient.set(cacheKey, topic, 3600); // 缓存1小时
     }
 
     return topic;
@@ -64,7 +74,17 @@ class TopicRepository {
 
     if (cachedTopic) {
       try {
-        return JSON.parse(cachedTopic);
+        // Redis客户端已经自动反序列化了数据，直接使用
+        if (typeof cachedTopic === 'object' && cachedTopic !== null) {
+          return cachedTopic;
+        } else if (typeof cachedTopic === 'string') {
+          // 兼容旧格式的字符串数据
+          return JSON.parse(cachedTopic);
+        } else {
+          // 其他类型的数据，清除缓存
+          console.warn(`缓存数据类型异常，清除缓存: ${cacheKey}`, { type: typeof cachedTopic });
+          await redisClient.del(cacheKey);
+        }
       } catch (error) {
         // 如果缓存数据格式错误，删除缓存并继续从数据库获取
         console.warn(`缓存数据格式错误，清除缓存: ${cacheKey}`, error.message);
@@ -78,9 +98,9 @@ class TopicRepository {
       }
     });
 
-    // 缓存结果
+    // 缓存结果（不需要手动JSON.stringify，Redis客户端会自动处理）
     if (topic) {
-      await redisClient.set(cacheKey, JSON.stringify(topic), 3600); // 缓存1小时
+      await redisClient.set(cacheKey, topic, 3600); // 缓存1小时
     }
 
     return topic;
@@ -169,23 +189,33 @@ class TopicRepository {
 
     if (cachedTopics) {
       try {
-        return JSON.parse(cachedTopics);
+        // Redis客户端已经自动反序列化了数据，直接使用
+        if (Array.isArray(cachedTopics)) {
+          return cachedTopics;
+        } else if (typeof cachedTopics === 'string') {
+          // 兼容旧格式的字符串数据
+          return JSON.parse(cachedTopics);
+        } else {
+          // 其他类型的数据，清除缓存
+          console.warn(`缓存数据类型异常，清除缓存: ${cacheKey}`, { type: typeof cachedTopics });
+          await redisClient.del(cacheKey);
+        }
       } catch (error) {
         // 如果缓存数据格式错误，删除缓存并继续从数据库获取
         console.warn(`缓存数据格式错误，清除缓存: ${cacheKey}`, error.message);
         await redisClient.del(cacheKey);
       }
     }
-    
+
     const topics = await Topic.findAll({
       order: [
         ['post_count', 'DESC'],
         ['created_at', 'DESC']
       ]
     });
-    
-    // 缓存结果
-    await redisClient.set(cacheKey, JSON.stringify(topics), 1800); // 缓存30分钟
+
+    // 缓存结果（不需要手动JSON.stringify，Redis客户端会自动处理）
+    await redisClient.set(cacheKey, topics, 1800); // 缓存30分钟
     
     return topics;
   }
@@ -435,7 +465,17 @@ class TopicRepository {
 
     if (cachedTopics) {
       try {
-        return JSON.parse(cachedTopics);
+        // Redis客户端已经自动反序列化了数据，直接使用
+        if (Array.isArray(cachedTopics)) {
+          return cachedTopics;
+        } else if (typeof cachedTopics === 'string') {
+          // 兼容旧格式的字符串数据
+          return JSON.parse(cachedTopics);
+        } else {
+          // 其他类型的数据，清除缓存
+          console.warn(`缓存数据类型异常，清除缓存: ${cacheKey}`, { type: typeof cachedTopics });
+          await redisClient.del(cacheKey);
+        }
       } catch (error) {
         // 如果缓存数据格式错误，删除缓存并继续从数据库获取
         console.warn(`缓存数据格式错误，清除缓存: ${cacheKey}`, error.message);
@@ -455,8 +495,8 @@ class TopicRepository {
       limit
     });
 
-    // 缓存结果
-    await redisClient.set(cacheKey, JSON.stringify(topics), 1800); // 缓存30分钟
+    // 缓存结果（不需要手动JSON.stringify，Redis客户端会自动处理）
+    await redisClient.set(cacheKey, topics, 1800); // 缓存30分钟
 
     return topics;
   }

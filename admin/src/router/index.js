@@ -75,7 +75,7 @@ const routes = [
           {
             path: 'banners',
             name: 'BannersList',
-            component: () => import('@/views/content/BannerManagement.vue'),
+            component: () => import('@/views/BannerManagement.vue'),
             meta: { title: '轮播图管理' }
           }
         ]

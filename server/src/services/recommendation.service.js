@@ -356,8 +356,9 @@ class RecommendationService {
       const finalSettings = { ...this.defaultSettings, ...settings };
 
       // 缓存配置（5分钟）
+      // 注意：不要手动JSON.stringify，Redis客户端会自动处理序列化
       try {
-        await redisClient.setex(this.settingsCacheKey, 300, JSON.stringify(finalSettings));
+        await redisClient.setex(this.settingsCacheKey, 300, finalSettings);
       } catch (cacheError) {
         logger.warn('缓存配置失败:', cacheError);
       }
@@ -397,13 +398,8 @@ class RecommendationService {
       const cached = await redisClient.get(key);
       if (!cached) return null;
 
-      // 确保cached是字符串
-      if (typeof cached !== 'string') {
-        logger.warn('缓存值不是字符串:', typeof cached);
-        return null;
-      }
-
-      return JSON.parse(cached);
+      // Redis客户端已经自动进行了JSON解析，直接返回结果
+      return cached;
     } catch (error) {
       logger.error('获取缓存失败:', error);
       return null;
@@ -417,7 +413,8 @@ class RecommendationService {
     try {
       // 清理数据，移除循环引用
       const cleanData = this.cleanDataForSerialization(data);
-      await redisClient.setex(key, expireMinutes * 60, JSON.stringify(cleanData));
+      // Redis客户端会自动进行JSON序列化，不需要手动JSON.stringify
+      await redisClient.setex(key, expireMinutes * 60, cleanData);
     } catch (error) {
       logger.error('设置缓存失败:', error);
     }

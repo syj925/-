@@ -23,16 +23,13 @@
       </scroll-view>
     </view>
     
-    <!-- 测试按钮 -->
-    <view class="test-buttons" style="padding: 20rpx; background: #fff; margin-bottom: 20rpx;">
-      <button @tap="goToFollowTest" style="background: #007aff; color: #fff; margin-bottom: 10rpx;">测试关注功能</button>
-      <button @tap="goToFollowPage" style="background: #28a745; color: #fff; margin-bottom: 10rpx;">关注列表页面</button>
-      <button @tap="goToHotCommentsTest" style="background: #ff6b6b; color: #fff; margin-bottom: 10rpx;">热门评论测试</button>
-      <button @tap="goToMultiLevelTest" style="background: #6f42c1; color: #fff; margin-bottom: 10rpx;">多级回复测试</button>
-      <button @tap="goToEventTest" style="background: #AC92EC; color: #fff; margin-bottom: 10rpx;">活动API测试</button>
-      <button @tap="goToConfigTest" style="background: #fd7e14; color: #fff; margin-bottom: 10rpx;">⚙️ 配置更新测试</button>
-      <button @tap="goToSimpleTest" style="background: #17a2b8; color: #fff;">简单API测试</button>
-    </view>
+    <!-- 轮播图 -->
+    <Banner
+      ref="banner"
+      scene="home"
+      :height="300"
+      class="home-banner"
+    />
 
     <!-- 帖子列表 -->
     <post-list
@@ -59,14 +56,16 @@
 
 <script>
 import PostList from '@/components/post/PostList.vue';
+import Banner from '@/components/common/Banner.vue';
 
 export default {
   components: {
-    PostList
+    PostList,
+    Banner
   },
   data() {
     return {
-      // 分类数据
+      // 分类数据 - 动态获取
       categories: [
         { id: 'recommend', name: '推荐' },
         { id: 'all', name: '全部' }
@@ -91,9 +90,11 @@ export default {
     };
   },
   onLoad() {
-    // 加载分类数据
+    console.log('🚀 首页 onLoad 开始');
+    // 先加载分类数据，再加载帖子数据
+    console.log('🏷️ 准备加载分类数据');
     this.loadCategories();
-    // 加载帖子数据
+    console.log('📝 准备加载帖子数据');
     this.loadPosts();
   },
 
@@ -149,11 +150,27 @@ export default {
       }
     }
   },
-  onPullDownRefresh() {
+  async onPullDownRefresh() {
     this.refreshing = true;
     this.page = 1;
     this.finished = false;
-    this.loadPosts();
+
+    try {
+      // 刷新轮播图
+      console.log('🔄 首页开始刷新数据')
+      if (this.$refs.banner) {
+        console.log('🎯 调用轮播图refresh方法')
+        await this.$refs.banner.refresh()
+        console.log('✅ 轮播图refresh完成')
+      } else {
+        console.log('❌ 未找到轮播图ref')
+      }
+
+      // 刷新帖子数据
+      await this.loadPosts();
+    } catch (error) {
+      console.error('首页刷新失败:', error)
+    }
   },
   onReachBottom() {
     this.loadMorePosts();
@@ -162,23 +179,43 @@ export default {
     // 加载分类数据
     async loadCategories() {
       try {
-        const response = await this.$api.category.getList();
-        if (response.code === 0 && response.data) {
-          // 保留推荐和全部分类，然后添加从API获取的分类
-          const dynamicCategories = response.data.map(cat => ({
-            id: cat.id,
-            name: cat.name
-          }));
+        console.log('🏷️ 开始获取分类数据...');
+        const res = await this.$api.category.getList();
+        console.log('🏷️ 获取到的原始分类数据:', res);
+        console.log('🏷️ 响应数据类型:', typeof res);
+        console.log('🏷️ 响应数据结构:', Object.keys(res || {}));
 
+        // 处理不同的响应格式
+        let dynamicCategories = [];
+        if (res && Array.isArray(res)) {
+          // 直接数组格式
+          dynamicCategories = res;
+        } else if (res && res.data && Array.isArray(res.data)) {
+          // 标准响应格式
+          dynamicCategories = res.data;
+        } else if (res && res.code === 0 && Array.isArray(res.data)) {
+          // 另一种标准响应格式
+          dynamicCategories = res.data;
+        }
+
+        if (dynamicCategories.length > 0) {
+          // 合并固定分类和动态分类
           this.categories = [
             { id: 'recommend', name: '推荐' },
             { id: 'all', name: '全部' },
-            ...dynamicCategories
+            ...dynamicCategories.map(category => ({
+              id: category.id, // 使用数字ID
+              name: category.name
+            }))
           ];
+          console.log('分类数据加载成功:', this.categories);
+        } else {
+          console.warn('🏷️ 未获取到有效的分类数据，使用默认分类');
         }
       } catch (error) {
-        console.error('加载分类失败:', error);
-        // 如果加载失败，保持默认分类
+        console.error('🏷️ 获取分类数据失败:', error);
+        console.error('🏷️ 错误详情:', error.response || error.message);
+        // 保持默认的硬编码分类
       }
     },
 
@@ -205,10 +242,13 @@ export default {
         params = {
           page: this.page,
           pageSize: this.pageSize,
-          category: this.activeCategory !== 'all' ? this.activeCategory : undefined,
+          categoryId: this.activeCategory !== 'all' ? this.activeCategory : undefined,
           sort: 'latest' // 全部标签显示最新内容
         };
       }
+
+      console.log('🔍 API调用参数:', params);
+      console.log('🏷️ 当前分类:', this.activeCategory);
 
       apiCall(params)
         .then(res => {
@@ -612,54 +652,7 @@ export default {
       });
     },
 
-    // 测试关注功能
-    goToFollowTest() {
-      uni.navigateTo({
-        url: '/pages/test/follow-test'
-      });
-    },
 
-    // 关注列表页面
-    goToFollowPage() {
-      uni.navigateTo({
-        url: '/pages/profile/follow-simple'
-      });
-    },
-
-    // 跳转到热门评论测试页面
-    goToHotCommentsTest() {
-      uni.navigateTo({
-        url: '/pages/test/hot-comments'
-      });
-    },
-
-    // 跳转到多级回复测试页面
-    goToMultiLevelTest() {
-      uni.navigateTo({
-        url: '/pages/test/multi-level-comments'
-      });
-    },
-
-    // 跳转到配置更新测试页面
-    goToConfigTest() {
-      uni.navigateTo({
-        url: '/pages/test/config-test'
-      });
-    },
-
-    // 跳转到简单API测试页面
-    goToSimpleTest() {
-      uni.navigateTo({
-        url: '/pages/test/simple-test'
-      });
-    },
-
-    // 跳转到活动API测试页面
-    goToEventTest() {
-      uni.navigateTo({
-        url: '/pages/test/event-test'
-      });
-    },
 
     // 跳转到搜索页面
     goToSearch() {

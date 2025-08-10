@@ -22,7 +22,7 @@
       <!-- 活动封面 -->
       <view class="event-cover">
         <image
-          :src="event.cover_image || '/static/images/event-default.png'"
+          :src="getImageUrl(event.cover_image)"
           mode="aspectFill"
           class="cover-image"
         ></image>
@@ -57,7 +57,7 @@
         <!-- 组织者信息 -->
         <view class="organizer-info" @tap="viewOrganizerProfile">
           <image
-            :src="getOrganizerAvatar"
+            :src="getImageUrl(getOrganizerAvatar)"
             mode="aspectFill"
             class="organizer-avatar"
           ></image>
@@ -297,6 +297,7 @@
 import { formatTime as utilFormatTime } from '@/utils/date'
 import eventApi from '@/api/modules/event'
 import AppIcon from '@/components/common/AppIcon.vue'
+import UrlUtils from '@/utils/url'
 
 export default {
   name: 'EventDetail',
@@ -737,9 +738,7 @@ export default {
 
     // 获取完整的图片URL
     getImageUrl(imageUrl) {
-      if (!imageUrl) return '/static/images/event-default.png'
-      if (imageUrl.startsWith('http')) return imageUrl
-      return `http://localhost:3000${imageUrl}`
+      return UrlUtils.ensureImageUrl(imageUrl, 'event')
     },
 
     // 预览图片

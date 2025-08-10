@@ -31,8 +31,8 @@ app.use((req, res, next) => {
     'http://localhost:8080', 
     'http://localhost:8081', 
     'http://localhost:8082', 
-    'http://192.168.1.6:8080',
-    'http://192.168.1.6:8081',
+    'http://192.168.1.3:8080',
+    'http://192.168.1.3:8081',
     'capacitor://*',  // Capacitor移动应用
     'ionic://*',      // Ionic移动应用
     'file://*',       // 本地文件访问（某些移动应用）

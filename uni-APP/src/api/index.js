@@ -16,6 +16,7 @@ import categoryApi from './modules/category';
 import uploadApi from './modules/upload';
 import searchApi from './modules/search';
 import eventApi from './modules/event';
+import bannerApi from './modules/banner';
 
 // 创建API实例
 const userApiInstance = userApi(http);
@@ -30,6 +31,7 @@ const categoryApiInstance = categoryApi(http);
 const uploadApiInstance = uploadApi(http);
 const searchApiInstance = searchApi(http);
 const eventApiInstance = eventApi;
+const bannerApiInstance = bannerApi(http);
 
 // 命名导出
 export {
@@ -47,7 +49,8 @@ export {
   categoryApiInstance as categoryApi,
   uploadApiInstance as uploadApi,
   searchApiInstance as searchApi,
-  eventApiInstance as eventApi
+  eventApiInstance as eventApi,
+  bannerApiInstance as bannerApi
 };
 
 // 默认导出
@@ -66,5 +69,6 @@ export default {
   category: categoryApiInstance,
   upload: uploadApiInstance,
   search: searchApiInstance,
-  event: eventApiInstance
+  event: eventApiInstance,
+  banner: bannerApiInstance
 };

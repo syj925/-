@@ -84,7 +84,8 @@ class PostRepository {
     if (post) {
       try {
         const plainPost = post.toJSON ? post.toJSON() : post;
-        await redisClient.set(cacheKey, JSON.stringify(plainPost), 600); // 缓存10分钟
+        // 注意：不要手动JSON.stringify，Redis客户端会自动处理序列化
+        await redisClient.set(cacheKey, plainPost, 600); // 缓存10分钟
       } catch (error) {
         console.error(`缓存帖子失败 (ID: ${id}):`, error);
         // 缓存失败不影响正常功能，继续返回数据

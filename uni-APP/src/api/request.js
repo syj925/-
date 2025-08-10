@@ -25,7 +25,7 @@ const initBaseUrl = () => {
   // H5环境使用完整URL
   const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
   // 修改为使用完整URL，确保端口号正确
-  BASE_URL = isLocalhost ? 'http://localhost:3000' : 'http://192.168.1.6:3000';
+  BASE_URL = isLocalhost ? 'http://localhost:3000' : 'http://192.168.1.3:3000';
   console.log('H5环境设置BASE_URL:', BASE_URL, '当前域名:', window.location.hostname);
   // #endif
   
@@ -162,7 +162,17 @@ const responseInterceptor = (response) => {
 
   // 请求成功
   if (statusCode >= 200 && statusCode < 300) {
-    // API格式可能是: { code: 0, msg: 'success', data: {} } 
+    // 处理直接返回数组的情况（如分类API）
+    if (Array.isArray(data)) {
+      return {
+        code: 0,
+        msg: '成功',
+        data: data,
+        success: true
+      };
+    }
+
+    // API格式可能是: { code: 0, msg: 'success', data: {} }
     // 或者是: { code: 200, msg: 'success', data: {} }
     if (data.code === 0 || data.code === 200) {
       // 直接返回data对象而非data.data，允许调用者处理完整响应

@@ -7,7 +7,7 @@ export default (http) => ({
    * 获取分类列表
    * @returns {Promise}
    */
-  getList: () => http.get('/api/categories'),
+  getList: () => http.get('/content/categories/type/post'),
 
   /**
    * 获取分类详情

@@ -122,3 +122,22 @@ export function formatId(id) {
   if (!id) return '';
   return id.substring(0, 8) + '...';
 }
+
+/**
+ * 格式化图片URL，确保返回完整的绝对URL
+ * @param {string} imageUrl 图片URL
+ * @param {string} serverBaseUrl 服务器基础URL，默认为 'http://localhost:3000'
+ * @returns {string} 完整的图片URL
+ */
+export function formatImageUrl(imageUrl, serverBaseUrl = 'http://localhost:3000') {
+  if (!imageUrl) return '';
+
+  // 如果已经是完整URL，直接返回
+  if (imageUrl.startsWith('http://') || imageUrl.startsWith('https://')) {
+    return imageUrl;
+  }
+
+  // 如果是相对路径，拼接服务器地址
+  const path = imageUrl.startsWith('/') ? imageUrl : `/${imageUrl}`;
+  return `${serverBaseUrl}${path}`;
+}

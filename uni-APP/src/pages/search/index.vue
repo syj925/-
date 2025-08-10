@@ -27,6 +27,19 @@
       </view>
     </view>
 
+    <!-- 轮播图 -->
+    <view v-if="!searchKeyword" class="banner-section" @longpress="handleLongPress">
+      <Banner
+        ref="banner"
+        scene="search-main"
+        :config="searchBannerConfig"
+        @banner-click="handleBannerClick"
+        @banner-change="handleBannerChange"
+        @banners-loaded="handleBannersLoaded"
+        @banners-error="handleBannersError"
+      />
+    </view>
+
     <!-- 搜索建议 -->
     <view v-if="searchSuggestions.length > 0" class="search-suggestions">
       <view class="suggestions-header">
@@ -136,83 +149,88 @@
         </view>
       </view>
 
-      <!-- 热门话题 -->
-      <view v-if="hotTopics.length > 0" class="discover-section">
-        <view class="section-header">
-          <view class="section-title">
-            <view class="title-icon topic-icon">
-              <text>💬</text>
-            </view>
-            <text class="title-text">热门话题</text>
+      <!-- 热门发现 - 合并热门话题和推荐内容 -->
+      <view v-if="hotTopics.length > 0 || (searchPageSettings.enableRecommendContent && recommendedContent.length > 0)" class="discover-section">
+        <!-- 切换标签头部 -->
+        <view class="discover-tabs">
+          <view
+            class="tab-item"
+            :class="{ active: activeDiscoverTab === 'topics' }"
+            @click="switchDiscoverTab('topics')"
+          >
+            <view class="tab-icon">💬</view>
+            <text class="tab-text">热门话题</text>
           </view>
-          <view class="section-more" @click="goToTopicList">
-            <text class="more-text">更多</text>
-            <text class="more-arrow">→</text>
+          <view
+            class="tab-item"
+            :class="{ active: activeDiscoverTab === 'content' }"
+            @click="switchDiscoverTab('content')"
+          >
+            <view class="tab-icon">✨</view>
+            <text class="tab-text">推荐内容</text>
+          </view>
+          <view class="tab-more" @click="handleDiscoverMore">
+            <text class="more-text">{{ activeDiscoverTab === 'topics' ? '更多' : '刷新' }}</text>
+            <text class="more-arrow">{{ activeDiscoverTab === 'topics' ? '→' : '↻' }}</text>
           </view>
         </view>
-        <scroll-view class="topics-scroll" scroll-x>
-          <view class="topics-container">
+
+        <!-- 内容区域 -->
+        <view class="discover-content">
+          <!-- 热门话题内容 -->
+          <view v-if="activeDiscoverTab === 'topics'" class="topics-content">
+            <scroll-view class="topics-scroll" scroll-x>
+              <view class="topics-container">
+                <view
+                  v-for="topic in hotTopics"
+                  :key="topic.id"
+                  class="topic-card"
+                  @click="goToTopicDetail(topic.id)"
+                >
+                  <view class="topic-avatar">
+                    <image
+                      v-if="topic.cover_image"
+                      :src="getImageUrl(topic.cover_image)"
+                      class="avatar-image"
+                      mode="aspectFill"
+                    />
+                    <view v-else class="default-avatar">
+                      <text class="avatar-text">{{ topic.name.charAt(0) }}</text>
+                    </view>
+                  </view>
+                  <view class="topic-info">
+                    <text class="topic-name">{{ topic.name }}</text>
+                    <text class="topic-stats">{{ topic.post_count }}个帖子</text>
+                  </view>
+                </view>
+              </view>
+            </scroll-view>
+          </view>
+
+          <!-- 推荐内容 -->
+          <view v-if="activeDiscoverTab === 'content'" class="content-list">
             <view
-              v-for="topic in hotTopics"
-              :key="topic.id"
-              class="topic-card"
-              @click="goToTopicDetail(topic.id)"
+              v-for="item in recommendedContent"
+              :key="item.id"
+              class="recommend-item"
+              @click="goToContentDetail(item)"
             >
-              <view class="topic-avatar">
+              <view class="recommend-content">
+                <text class="recommend-title">{{ item.title || item.content }}</text>
+                <view class="recommend-meta">
+                  <view class="meta-tag" :class="getContentTypeClass(item.type)">
+                    <text>{{ getContentTypeText(item.type) }}</text>
+                  </view>
+                  <text class="meta-stats">{{ item.like_count }}赞 · {{ item.view_count }}浏览</text>
+                </view>
+              </view>
+              <view v-if="item.cover_image || getFirstImage(item.images)" class="recommend-thumb">
                 <image
-                  v-if="topic.cover_image"
-                  :src="getImageUrl(topic.cover_image)"
-                  class="avatar-image"
+                  :src="getImageUrl(item.cover_image || getFirstImage(item.images))"
+                  class="thumb-image"
                   mode="aspectFill"
                 />
-                <view v-else class="default-avatar">
-                  <text class="avatar-text">{{ topic.name.charAt(0) }}</text>
-                </view>
               </view>
-              <view class="topic-info">
-                <text class="topic-name">{{ topic.name }}</text>
-                <text class="topic-stats">{{ topic.post_count }}个帖子</text>
-              </view>
-            </view>
-          </view>
-        </scroll-view>
-      </view>
-
-      <!-- 推荐内容 -->
-      <view v-if="searchPageSettings.enableRecommendContent && recommendedContent.length > 0" class="discover-section">
-        <view class="section-header">
-          <view class="section-title">
-            <view class="title-icon recommend-icon">
-              <text>✨</text>
-            </view>
-            <text class="title-text">推荐内容</text>
-          </view>
-          <view class="section-more" @click="refreshRecommended">
-            <text class="more-text">刷新</text>
-          </view>
-        </view>
-        <view class="recommend-list">
-          <view
-            v-for="item in recommendedContent"
-            :key="item.id"
-            class="recommend-item"
-            @click="goToContentDetail(item)"
-          >
-            <view class="recommend-content">
-              <text class="recommend-title">{{ item.title || item.content }}</text>
-              <view class="recommend-meta">
-                <view class="meta-tag" :class="getContentTypeClass(item.type)">
-                  <text>{{ getContentTypeText(item.type) }}</text>
-                </view>
-                <text class="meta-stats">{{ item.like_count }}赞 · {{ item.view_count }}浏览</text>
-              </view>
-            </view>
-            <view v-if="item.cover_image || getFirstImage(item.images)" class="recommend-thumb">
-              <image
-                :src="getImageUrl(item.cover_image || getFirstImage(item.images))"
-                class="thumb-image"
-                mode="aspectFill"
-              />
             </view>
           </view>
         </view>
@@ -225,9 +243,14 @@
 
 <script>
 import api from '@/api'
+import Banner from '@/components/common/Banner.vue'
+import bannerService from '@/services/bannerService'
 
 export default {
   name: 'SearchPage',
+  components: {
+    Banner
+  },
   data() {
     return {
       searchKeyword: '',
@@ -248,14 +271,139 @@ export default {
         recommendContentCount: 6,
         recommendContentTypes: ['post', 'topic'],
         recommendStrategy: 'mixed'
-      }
+      },
+
+      // 搜索页轮播图配置
+      searchBannerConfig: {
+        height: '280rpx',
+        showIndicators: false,
+        showTitle: true,
+        autoplay: true,
+        circular: true,
+        interval: 6000,
+        duration: 500,
+        customIndicators: true,
+        borderRadius: '12rpx'
+      },
+      // 上次手动刷新时间
+      lastRefreshTime: 0,
+      // 发现模块当前激活的标签
+      activeDiscoverTab: 'topics'
     }
   },
 
   onLoad() {
     this.loadInitialData()
   },
+
+  onShow() {
+    // 每次显示页面时检查是否需要刷新轮播图
+    // 使用nextTick确保DOM已经渲染完成
+    this.$nextTick(() => {
+      setTimeout(() => {
+        this.refreshBannerIfNeeded()
+      }, 100)
+    })
+  },
   methods: {
+    // 轮播图事件处理
+    handleBannerClick(banner) {
+      console.log('搜索页轮播图点击:', banner)
+      // 根据轮播图类型进行跳转
+    },
+
+    handleBannerChange(data) {
+      console.log('搜索页轮播图切换:', data)
+    },
+
+    handleBannersLoaded(data) {
+      console.log('搜索页轮播图加载完成:', data)
+    },
+
+    handleBannersError(data) {
+      console.error('搜索页轮播图加载失败:', data)
+    },
+
+    // 检查是否需要刷新轮播图
+    refreshBannerIfNeeded() {
+      // 记录上次刷新时间，避免频繁刷新
+      const lastRefreshTime = this.lastBannerRefreshTime || 0
+      const now = Date.now()
+      const refreshInterval = 2 * 60 * 1000 // 2分钟
+
+      if (now - lastRefreshTime > refreshInterval) {
+        console.log('🔄 搜索页刷新轮播图')
+        this.safeRefreshBanner()
+      }
+    },
+
+    // 安全的轮播图刷新方法
+    safeRefreshBanner() {
+      // 检查组件是否存在且已挂载
+      if (!this.$refs.banner) {
+        console.warn('Banner组件引用不存在，跳过刷新')
+        return
+      }
+
+      try {
+        // 使用nextTick确保DOM操作安全
+        this.$nextTick(() => {
+          setTimeout(() => {
+            if (this.$refs.banner && this.$refs.banner.refresh) {
+              this.$refs.banner.refresh()
+              this.lastBannerRefreshTime = Date.now()
+              console.log('✅ 轮播图刷新成功')
+            }
+          }, 50) // 短暂延迟确保DOM稳定
+        })
+      } catch (error) {
+        console.error('轮播图刷新失败:', error)
+      }
+    },
+
+    // 处理长按事件
+    handleLongPress() {
+      console.log('🔄 搜索页长按触发刷新')
+
+      // 简单的防抖处理
+      const now = Date.now()
+      if (this.lastRefreshTime && (now - this.lastRefreshTime) < 2000) {
+        return
+      }
+      this.lastRefreshTime = now
+
+      // 显示提示
+      uni.showToast({
+        title: '刷新轮播图',
+        icon: 'none',
+        duration: 1000
+      })
+
+      // 直接清除缓存，让Banner组件自然重新加载
+      bannerService.clearCache('search-main')
+    },
+
+    // 切换发现模块标签
+    switchDiscoverTab(tab) {
+      this.activeDiscoverTab = tab
+    },
+
+    // 处理发现模块的更多操作
+    handleDiscoverMore() {
+      if (this.activeDiscoverTab === 'topics') {
+        this.goToTopicList()
+      } else {
+        this.refreshRecommended()
+      }
+    },
+
+
+
+    // 手动刷新轮播图（保留原方法供其他地方调用）
+    refreshBanner() {
+      this.handleLongPress()
+    },
+
     async loadInitialData() {
       try {
         console.log('开始加载搜索页面初始数据...')
@@ -282,6 +430,11 @@ export default {
         } catch (error) {
           console.error('获取推荐内容失败:', error)
           this.recommendedContent = []
+        }
+
+        // 根据数据情况设置默认标签
+        if (this.hotTopics.length === 0 && this.recommendedContent.length > 0) {
+          this.activeDiscoverTab = 'content'
         }
 
         // 加载热门搜索（可选）
@@ -755,6 +908,16 @@ export default {
   flex-direction: column;
 }
 
+/* 轮播图样式 */
+.banner-section {
+  margin: 20rpx 30rpx;
+  border-radius: 12rpx;
+  overflow: hidden;
+  box-shadow: 0 4rpx 16rpx rgba(74, 144, 226, 0.1);
+}
+
+
+
 /* 搜索头部 */
 .search-header {
   background: #fff;
@@ -1133,6 +1296,78 @@ export default {
 
 
 
+/* 发现模块切换标签 */
+.discover-tabs {
+  display: flex;
+  align-items: center;
+  padding: 0 30rpx 20rpx;
+  border-bottom: 2rpx solid #f5f5f5;
+}
+
+.tab-item {
+  display: flex;
+  align-items: center;
+  padding: 16rpx 24rpx;
+  margin-right: 20rpx;
+  border-radius: 20rpx;
+  background: #f8f9fa;
+  transition: all 0.3s ease;
+
+  &.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+
+    .tab-icon {
+      transform: scale(1.1);
+    }
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.tab-icon {
+  font-size: 32rpx;
+  margin-right: 8rpx;
+  transition: transform 0.3s ease;
+}
+
+.tab-text {
+  font-size: 28rpx;
+  font-weight: 500;
+}
+
+.tab-more {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  padding: 12rpx 20rpx;
+  background: #f0f0f0;
+  border-radius: 16rpx;
+  transition: all 0.3s ease;
+
+  &:active {
+    transform: scale(0.95);
+    background: #e0e0e0;
+  }
+}
+
+.more-text {
+  font-size: 24rpx;
+  color: #666;
+  margin-right: 8rpx;
+}
+
+.more-arrow {
+  font-size: 24rpx;
+  color: #666;
+}
+
+.discover-content {
+  padding-top: 20rpx;
+}
+
 /* 热门话题 */
 .topics-scroll {
   white-space: nowrap;
@@ -1207,6 +1442,10 @@ export default {
 }
 
 /* 推荐内容 */
+.content-list {
+  padding: 0 30rpx;
+}
+
 .recommend-list {
   padding: 0 30rpx;
 }

@@ -16,6 +16,19 @@
       </view>
     </view>
 
+    <!-- 轮播图 -->
+    <view class="banner-section">
+      <Banner
+        ref="banner"
+        scene="discover"
+        :config="discoverBannerConfig"
+        @banner-click="handleBannerClick"
+        @banner-change="handleBannerChange"
+        @banners-loaded="handleBannersLoaded"
+        @banners-error="handleBannersError"
+      />
+    </view>
+
     <!-- 主要内容区域 -->
     <scroll-view scroll-y class="content">
       <!-- 热门话题 -->
@@ -173,10 +186,12 @@
 <script>
 import { topicApi, eventApi } from '@/api'
 import AppIcon from '@/components/common/AppIcon.vue'
+import Banner from '@/components/common/Banner.vue'
 
 export default {
   components: {
-    AppIcon
+    AppIcon,
+    Banner
   },
   
   data() {
@@ -184,7 +199,19 @@ export default {
       topics: [],
       events: [],
       recommendations: [],
-      loading: false
+      loading: false,
+
+      // 发现页轮播图配置
+      discoverBannerConfig: {
+        height: '320rpx',
+        showIndicators: true,
+        showTitle: true,
+        autoplay: true,
+        circular: true,
+        interval: 5000,
+        duration: 500,
+        borderRadius: '16rpx'
+      }
     }
   },
 
@@ -198,6 +225,24 @@ export default {
   },
 
   methods: {
+    // 轮播图事件处理
+    handleBannerClick(banner) {
+      console.log('发现页轮播图点击:', banner)
+      // 根据轮播图类型进行跳转
+    },
+
+    handleBannerChange(data) {
+      console.log('发现页轮播图切换:', data)
+    },
+
+    handleBannersLoaded(data) {
+      console.log('发现页轮播图加载完成:', data)
+    },
+
+    handleBannersError(data) {
+      console.error('发现页轮播图加载失败:', data)
+    },
+
     async loadData() {
       this.loading = true
       try {
@@ -326,6 +371,16 @@ export default {
     // 下拉刷新数据
     async refreshData() {
       try {
+        // 刷新轮播图
+        console.log('🔄 发现页开始刷新数据')
+        if (this.$refs.banner) {
+          console.log('🎯 调用轮播图refresh方法')
+          await this.$refs.banner.refresh()
+          console.log('✅ 轮播图refresh完成')
+        } else {
+          console.log('❌ 未找到轮播图ref')
+        }
+
         await Promise.all([
           this.loadTopics(),
           this.loadEvents(),
@@ -361,6 +416,18 @@ export default {
   min-height: 100vh;
   background: linear-gradient(135deg, #f8f9ff 0%, #e8f4fd 100%);
   position: relative;
+}
+
+// 轮播图样式
+.banner-section {
+  margin: 0 $spacing-md $spacing-lg;
+  border-radius: $radius-lg;
+  overflow: hidden;
+  box-shadow: 0 6rpx 20rpx rgba(74, 144, 226, 0.12);
+
+  @media (max-width: 750rpx) {
+    margin: 0 $spacing-sm $spacing-md;
+  }
 }
 
 // 头部区域

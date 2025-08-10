@@ -231,7 +231,7 @@ export default {
       const enhancedParams = { ...params, _t: timestamp };
       
       // 修改请求路径，使用正确的路由
-      return instance.get('/content/banners', { params: enhancedParams })
+      return instance.get('/banners', { params: enhancedParams })
         .then(response => {
           console.log('轮播图API原始响应:', response);
           
@@ -270,8 +270,13 @@ export default {
           throw error;
         });
     },
-    getBanner: (id) => instance.get(`/content/banners/${id}`),
-    
+    getBanner: (id) => instance.get(`/banners/${id}`),
+    createBanner: (data) => instance.post('/banners', data),
+    updateBanner: (id, data) => instance.put(`/banners/${id}`, data),
+    deleteBanner: (id) => instance.delete(`/banners/${id}`),
+    updateBannerStatus: (id, data) => instance.put(`/banners/${id}/status`, data),
+    getBannerStats: (id) => instance.get(`/banners/${id}/statistics`),
+
     // 分类管理
     getCategories: (params) => {
       console.log('正在请求分类API, 参数:', params);
@@ -283,7 +288,7 @@ export default {
         includeInactive: true // 增加参数，表示包含禁用的分类
       };
       
-      return instance.get('/admin/categories', { params: enhancedParams })
+      return instance.get('/content/categories', { params: enhancedParams })
         .then(response => {
           console.log('分类API原始响应:', response);
           
