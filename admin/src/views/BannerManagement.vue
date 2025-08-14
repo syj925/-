@@ -328,7 +328,7 @@
             <el-form-item label="页面路径" prop="linkValue">
               <el-input
                 v-model="form.linkValue"
-                placeholder="请输入应用内页面路径，如：/pages/user/profile"
+                placeholder="请输入应用内页面路径，如：/pages/user/user-profile"
               >
                 <template #prepend>
                   <el-icon><Files /></el-icon>

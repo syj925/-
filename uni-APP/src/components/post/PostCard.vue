@@ -1,7 +1,7 @@
 <template>
   <view class="post-card" @tap="goDetail">
     <view class="post-card__header">
-      <view class="post-card__user">
+      <view class="post-card__user" @tap.stop="onUserClick">
         <image class="post-card__avatar" :src="safeAvatar(post.author)" mode="aspectFill"></image>
         <view class="post-card__info">
           <view class="post-card__name-row">
@@ -233,6 +233,26 @@ export default {
       // 直接跳转到帖子详情页
       uni.navigateTo({
         url: `/pages/post/detail?id=${this.post.id}`
+      });
+    },
+
+    // 用户头像点击事件
+    onUserClick() {
+      // 如果是匿名帖子且不在个人主页，不允许跳转
+      if (this.isAnonymousPost() && !this.showAnonymousBadge) {
+        return;
+      }
+
+      // 获取用户ID
+      const userId = this.post.author?.id;
+      if (!userId) {
+        console.warn('用户ID不存在，无法跳转到用户主页');
+        return;
+      }
+
+      // 跳转到用户主页
+      uni.navigateTo({
+        url: `/pages/user/user-profile?id=${userId}`
       });
     },
     

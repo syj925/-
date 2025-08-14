@@ -208,6 +208,10 @@ router.get('/publish-stats', AuthMiddleware.authenticate(), async (req, res) => 
   }
 });
 
+// 用户主页路由（支持可选认证）
+router.get('/profile/:id', AuthMiddleware.optionalAuthenticate(), userController.getUserProfile);
+router.get('/profile/:id/posts', AuthMiddleware.optionalAuthenticate(), userController.getUserProfilePosts);
+
 // 管理员路由
 router.get('/', AuthMiddleware.authenticate(), AuthMiddleware.authorize('admin'), userController.getUserList);
 router.get('/:id', AuthMiddleware.authenticate(), userController.getUserInfo);
@@ -216,4 +220,4 @@ router.put('/enable/:id', AuthMiddleware.authenticate(), AuthMiddleware.authoriz
 router.delete('/:id', AuthMiddleware.authenticate(), AuthMiddleware.authorize('admin'), userController.deleteUser);
 router.post('/reset-password/:id', AuthMiddleware.authenticate(), AuthMiddleware.authorize('admin'), Validator.validateBody(resetPasswordSchema), userController.resetPassword);
 
-module.exports = router; 
+module.exports = router;

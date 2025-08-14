@@ -931,6 +931,22 @@ class PostRepository {
 
     return results;
   }
+
+  /**
+   * 统计用户发布的帖子数量
+   * @param {String} userId 用户ID
+   * @param {String} status 帖子状态
+   * @returns {Promise<Number>} 帖子数量
+   */
+  async countByUserId(userId, status = 'published') {
+    return await Post.count({
+      where: {
+        user_id: userId,
+        status,
+        deleted_at: null
+      }
+    });
+  }
 }
 
 module.exports = new PostRepository();

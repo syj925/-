@@ -3,7 +3,7 @@
     <!-- 帖子内容 -->
     <view class="post">
       <view class="post-header">
-        <view class="post-user">
+        <view class="post-user" @tap="handleUserClick">
           <image class="post-avatar" :src="processedAvatarUrl" mode="aspectFill"></image>
           <view class="post-info">
             <view class="post-name">{{ post.nickname || '未知用户' }}</view>
@@ -113,7 +113,7 @@
           v-for="(comment, index) in commentList" 
           :key="comment.id || index"
         >
-          <view class="comment-user">
+          <view class="comment-user" @tap="handleCommentUserClick(comment)">
             <image class="comment-avatar" :src="getProcessedCommentAvatar(comment)" mode="aspectFill"></image>
           </view>
           <view class="comment-body">
@@ -292,6 +292,35 @@ export default {
     }
   },
   methods: {
+    // 处理用户头像/名称点击
+    handleUserClick() {
+      if (this.post && this.post.user_id) {
+        uni.navigateTo({
+          url: `/pages/user/user-profile?id=${this.post.user_id}`
+        })
+      }
+    },
+    
+    // 处理评论用户点击
+    handleCommentUserClick(comment) {
+      // 检查是否匿名评论
+      if (comment.is_anonymous) {
+        uni.showToast({
+          title: '匿名用户无法查看主页',
+          icon: 'none'
+        })
+        return
+      }
+      
+      // 获取用户ID
+      const userId = comment.author?.id || comment.user_id
+      if (userId) {
+        uni.navigateTo({
+          url: `/pages/user/user-profile?id=${userId}`
+        })
+      }
+    },
+    
     // 处理评论头像URL
     getProcessedCommentAvatar(comment) {
       // 检查是否匿名
@@ -341,6 +370,7 @@ export default {
           isLiked: postData.is_liked || false,
           isFavorited: postData.is_favorited || false,
           isOwner: postData.user_id === uni.getStorageSync('userInfo')?.id,
+          user_id: postData.user_id,  // 添加用户ID
           avatar: postData.author ? postData.author.avatar : '',
           nickname: postData.author ? postData.author.nickname || postData.author.username : '未知用户',
           createTime: postData.created_at,
@@ -395,11 +425,19 @@ export default {
           // 添加热门标识
           is_hot: Boolean(comment.is_hot),
           hot_score: comment.hot_score || 0,
+          // 添加用户ID和匿名标识
+          user_id: comment.user_id,
+          is_anonymous: comment.is_anonymous || false,
+          author: comment.author,
           replies: (comment.replies || []).map(reply => ({
             id: reply.id,
             content: reply.content,
             nickname: reply.author ? reply.author.nickname || reply.author.username : '未知用户',
-            createTime: reply.created_at
+            createTime: reply.created_at,
+            // 添加回复用户信息
+            user_id: reply.user_id,
+            is_anonymous: reply.is_anonymous || false,
+            author: reply.author
           }))
         }));
         

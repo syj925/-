@@ -540,7 +540,7 @@ export default {
 
     goToUserProfile(userId) {
       uni.navigateTo({
-        url: `/pages/user/profile?id=${userId}`
+        url: `/pages/user/user-profile?id=${userId}`
       })
     },
 

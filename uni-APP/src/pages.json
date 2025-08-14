@@ -103,6 +103,15 @@
 			}
 		},
 		{
+			"path": "pages/user/user-profile",
+			"style": {
+				"navigationBarTitleText": "用户主页",
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": false,
+				"backgroundTextStyle": "dark"
+			}
+		},
+		{
 			"path": "pages/profile/edit",
 			"style": {
 				"navigationBarTitleText": "编辑资料",

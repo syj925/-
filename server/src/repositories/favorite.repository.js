@@ -129,7 +129,7 @@ class FavoriteRepository {
         }
       ]
     });
-    
+
     return {
       list: rows,
       pagination: {
@@ -139,6 +139,17 @@ class FavoriteRepository {
       }
     };
   }
+
+  /**
+   * 统计用户收藏的帖子数量
+   * @param {String} userId 用户ID
+   * @returns {Promise<Number>} 收藏数量
+   */
+  async countByUserId(userId) {
+    return await Favorite.count({
+      where: { user_id: userId }
+    });
+  }
 }
 
-module.exports = new FavoriteRepository(); 
+module.exports = new FavoriteRepository();

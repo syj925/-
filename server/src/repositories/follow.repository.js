@@ -47,6 +47,16 @@ class FollowRepository {
   }
 
   /**
+   * 查询是否已关注（别名方法）
+   * @param {String} followerId 关注者ID
+   * @param {String} followingId 被关注者ID
+   * @returns {Promise<Boolean>} 是否已关注
+   */
+  async isFollowing(followerId, followingId) {
+    return await this.exists(followerId, followingId);
+  }
+
+  /**
    * 获取用户的关注列表
    * @param {String} userId 用户ID
    * @param {Number} page 页码

@@ -141,5 +141,24 @@ export default (http) => ({
    */
   updatePrivacySettings: (privacySettings) => {
     return http.put('/api/settings/privacy', privacySettings);
+  },
+
+  /**
+   * 获取用户主页信息
+   * @param {String} userId 用户ID
+   * @returns {Promise}
+   */
+  getUserProfile: (userId) => {
+    return http.get(`/api/users/profile/${userId}`);
+  },
+
+  /**
+   * 获取用户主页帖子列表
+   * @param {String} userId 用户ID
+   * @param {Object} params 查询参数
+   * @returns {Promise}
+   */
+  getUserPosts: (userId, params = {}) => {
+    return http.get(`/api/users/profile/${userId}/posts`, { params });
   }
 });

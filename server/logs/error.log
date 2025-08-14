@@ -5711,3 +5711,796 @@ Fri Aug 01 2025 23:10:16 GMT+0800 (中国标准时间) error: Admin route error:
   "params": {},
   "query": {}
 }
+2025-08-11 19:24:53 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-08-11 19:26:29 error: [GET] /api/admin/messages/system?page=1&limit=10&type=&searchQuery= {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /api/admin/messages/system?page=1&limit=10&type=&searchQuery=",
+  "stack": "Error: 未找到资源 - /api/admin/messages/system?page=1&limit=10&type=&searchQuery=\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)",
+  "body": {},
+  "params": {},
+  "query": {
+    "page": "1",
+    "limit": "10",
+    "type": "",
+    "searchQuery": ""
+  }
+}
+2025-08-11 19:26:29 error: [GET] /api/admin/messages/interaction?page=1&limit=10&type=&searchQuery= {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /api/admin/messages/interaction?page=1&limit=10&type=&searchQuery=",
+  "stack": "Error: 未找到资源 - /api/admin/messages/interaction?page=1&limit=10&type=&searchQuery=\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)",
+  "body": {},
+  "params": {},
+  "query": {
+    "page": "1",
+    "limit": "10",
+    "type": "",
+    "searchQuery": ""
+  }
+}
+2025-08-11 21:00:49 error: [GET] /favicon.ico {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /favicon.ico",
+  "stack": "Error: 未找到资源 - /favicon.ico\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Function.handle (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:47:12)",
+  "body": {},
+  "params": {},
+  "query": {}
+}
+2025-08-11 21:33:39 error: [GET] /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "error": "postRepository.findWithPagination is not a function",
+  "stack": "TypeError: postRepository.findWithPagination is not a function\n    at UserService.getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:747:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:336:22)",
+  "body": {},
+  "params": {},
+  "query": {
+    "params": "{\"page\":1,\"pageSize\":10,\"sort\":\"latest\"}"
+  }
+}
+2025-08-11 21:33:39 error: Request completed: GET /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "requestId": "1754919219933-6vgwrx3i",
+  "method": "GET",
+  "url": "/api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D",
+  "statusCode": 500,
+  "duration": "14ms",
+  "contentLength": "165"
+}
+2025-08-11 21:33:47 error: [GET] /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "error": "postRepository.findWithPagination is not a function",
+  "stack": "TypeError: postRepository.findWithPagination is not a function\n    at UserService.getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:747:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:336:22)",
+  "body": {},
+  "params": {},
+  "query": {
+    "params": "{\"page\":1,\"pageSize\":10,\"sort\":\"latest\"}"
+  }
+}
+2025-08-11 21:33:47 error: Request completed: GET /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "requestId": "1754919227450-abyfo0ur",
+  "method": "GET",
+  "url": "/api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D",
+  "statusCode": 500,
+  "duration": "5ms",
+  "contentLength": "165"
+}
+2025-08-11 21:33:50 error: [GET] /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "error": "postRepository.findWithPagination is not a function",
+  "stack": "TypeError: postRepository.findWithPagination is not a function\n    at UserService.getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:747:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:336:22)",
+  "body": {},
+  "params": {},
+  "query": {
+    "params": "{\"page\":1,\"pageSize\":10,\"sort\":\"latest\"}"
+  }
+}
+2025-08-11 21:33:50 error: Request completed: GET /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "requestId": "1754919230118-yeg45ash",
+  "method": "GET",
+  "url": "/api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D",
+  "statusCode": 500,
+  "duration": "5ms",
+  "contentLength": "165"
+}
+2025-08-11 21:34:24 error: [GET] /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "error": "postRepository.findWithPagination is not a function",
+  "stack": "TypeError: postRepository.findWithPagination is not a function\n    at UserService.getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:747:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:336:22)",
+  "body": {},
+  "params": {},
+  "query": {
+    "params": "{\"page\":1,\"pageSize\":10,\"sort\":\"latest\"}"
+  }
+}
+2025-08-11 21:34:24 error: Request completed: GET /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "requestId": "1754919264178-tbiduj3x",
+  "method": "GET",
+  "url": "/api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D",
+  "statusCode": 500,
+  "duration": "7ms",
+  "contentLength": "165"
+}
+2025-08-11 21:34:35 error: [GET] /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "error": "postRepository.findWithPagination is not a function",
+  "stack": "TypeError: postRepository.findWithPagination is not a function\n    at UserService.getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:747:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:336:22)",
+  "body": {},
+  "params": {},
+  "query": {
+    "params": "{\"page\":1,\"pageSize\":10,\"sort\":\"latest\"}"
+  }
+}
+2025-08-11 21:34:35 error: Request completed: GET /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "requestId": "1754919275234-6brwq586",
+  "method": "GET",
+  "url": "/api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D",
+  "statusCode": 500,
+  "duration": "5ms",
+  "contentLength": "165"
+}
+2025-08-11 21:35:06 error: [GET] /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "error": "postRepository.findWithPagination is not a function",
+  "stack": "TypeError: postRepository.findWithPagination is not a function\n    at UserService.getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:747:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:336:22)",
+  "body": {},
+  "params": {},
+  "query": {
+    "params": "{\"page\":1,\"pageSize\":10,\"sort\":\"latest\"}"
+  }
+}
+2025-08-11 21:35:06 error: Request completed: GET /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "requestId": "1754919306917-0tbzwha3",
+  "method": "GET",
+  "url": "/api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D",
+  "statusCode": 500,
+  "duration": "7ms",
+  "contentLength": "165"
+}
+2025-08-11 21:56:37 error: [GET] /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "error": "postRepository.findWithPagination is not a function",
+  "stack": "TypeError: postRepository.findWithPagination is not a function\n    at UserService.getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:747:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:336:22)",
+  "body": {},
+  "params": {},
+  "query": {
+    "params": "{\"page\":1,\"pageSize\":10,\"sort\":\"latest\"}"
+  }
+}
+2025-08-11 21:56:37 error: Request completed: GET /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "requestId": "1754920597467-i8gryvc2",
+  "method": "GET",
+  "url": "/api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D",
+  "statusCode": 500,
+  "duration": "12ms",
+  "contentLength": "165"
+}
+2025-08-11 21:56:42 error: [GET] /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A2%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "error": "postRepository.findWithPagination is not a function",
+  "stack": "TypeError: postRepository.findWithPagination is not a function\n    at UserService.getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:747:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:336:22)",
+  "body": {},
+  "params": {},
+  "query": {
+    "params": "{\"page\":2,\"pageSize\":10,\"sort\":\"latest\"}"
+  }
+}
+2025-08-11 21:56:42 error: Request completed: GET /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A2%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "requestId": "1754920602221-p4jcu7lq",
+  "method": "GET",
+  "url": "/api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A2%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D",
+  "statusCode": 500,
+  "duration": "4ms",
+  "contentLength": "165"
+}
+2025-08-11 21:56:44 error: [GET] /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A3%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "error": "postRepository.findWithPagination is not a function",
+  "stack": "TypeError: postRepository.findWithPagination is not a function\n    at UserService.getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:747:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:336:22)",
+  "body": {},
+  "params": {},
+  "query": {
+    "params": "{\"page\":3,\"pageSize\":10,\"sort\":\"latest\"}"
+  }
+}
+2025-08-11 21:56:44 error: Request completed: GET /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A3%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "requestId": "1754920604020-3qt7ttgq",
+  "method": "GET",
+  "url": "/api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A3%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D",
+  "statusCode": 500,
+  "duration": "13ms",
+  "contentLength": "165"
+}
+2025-08-11 21:56:48 error: [GET] /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A4%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "error": "postRepository.findWithPagination is not a function",
+  "stack": "TypeError: postRepository.findWithPagination is not a function\n    at UserService.getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:747:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:336:22)",
+  "body": {},
+  "params": {},
+  "query": {
+    "params": "{\"page\":4,\"pageSize\":10,\"sort\":\"latest\"}"
+  }
+}
+2025-08-11 21:56:48 error: Request completed: GET /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A4%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "requestId": "1754920608673-7j4n8n54",
+  "method": "GET",
+  "url": "/api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A4%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D",
+  "statusCode": 500,
+  "duration": "13ms",
+  "contentLength": "165"
+}
+2025-08-11 21:56:49 error: [GET] /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A5%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "error": "postRepository.findWithPagination is not a function",
+  "stack": "TypeError: postRepository.findWithPagination is not a function\n    at UserService.getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:747:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:336:22)",
+  "body": {},
+  "params": {},
+  "query": {
+    "params": "{\"page\":5,\"pageSize\":10,\"sort\":\"latest\"}"
+  }
+}
+2025-08-11 21:56:49 error: Request completed: GET /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A5%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "requestId": "1754920609603-ufmwprv4",
+  "method": "GET",
+  "url": "/api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A5%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D",
+  "statusCode": 500,
+  "duration": "12ms",
+  "contentLength": "165"
+}
+2025-08-11 21:56:54 error: [GET] /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "error": "postRepository.findWithPagination is not a function",
+  "stack": "TypeError: postRepository.findWithPagination is not a function\n    at UserService.getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:747:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:336:22)",
+  "body": {},
+  "params": {},
+  "query": {
+    "params": "{\"page\":1,\"pageSize\":10,\"sort\":\"latest\"}"
+  }
+}
+2025-08-11 21:56:54 error: Request completed: GET /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "requestId": "1754920614404-6q3dxg9q",
+  "method": "GET",
+  "url": "/api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D",
+  "statusCode": 500,
+  "duration": "13ms",
+  "contentLength": "165"
+}
+2025-08-11 21:57:23 error: [GET] /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "error": "postRepository.findWithPagination is not a function",
+  "stack": "TypeError: postRepository.findWithPagination is not a function\n    at UserService.getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:747:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:336:22)",
+  "body": {},
+  "params": {},
+  "query": {
+    "params": "{\"page\":1,\"pageSize\":10,\"sort\":\"latest\"}"
+  }
+}
+2025-08-11 21:57:23 error: Request completed: GET /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "requestId": "1754920643210-ij3eynfm",
+  "method": "GET",
+  "url": "/api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D",
+  "statusCode": 500,
+  "duration": "4ms",
+  "contentLength": "165"
+}
+2025-08-13 23:53:54 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-08-13 23:56:32 error: [GET] /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "error": "postRepository.findWithPagination is not a function",
+  "stack": "TypeError: postRepository.findWithPagination is not a function\n    at UserService.getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:747:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:336:22)",
+  "body": {},
+  "params": {},
+  "query": {
+    "params": "{\"page\":1,\"pageSize\":10,\"sort\":\"latest\"}"
+  }
+}
+2025-08-13 23:56:32 error: Request completed: GET /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "requestId": "1755100592514-fs4cdnna",
+  "method": "GET",
+  "url": "/api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D",
+  "statusCode": 500,
+  "duration": "11ms",
+  "contentLength": "165"
+}
+2025-08-13 23:56:38 error: [GET] /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A2%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "error": "postRepository.findWithPagination is not a function",
+  "stack": "TypeError: postRepository.findWithPagination is not a function\n    at UserService.getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:747:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:336:22)",
+  "body": {},
+  "params": {},
+  "query": {
+    "params": "{\"page\":2,\"pageSize\":10,\"sort\":\"latest\"}"
+  }
+}
+2025-08-13 23:56:38 error: Request completed: GET /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A2%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "requestId": "1755100598626-1w7gwfh0",
+  "method": "GET",
+  "url": "/api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A2%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D",
+  "statusCode": 500,
+  "duration": "16ms",
+  "contentLength": "165"
+}
+2025-08-13 23:56:39 error: [GET] /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A3%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "error": "postRepository.findWithPagination is not a function",
+  "stack": "TypeError: postRepository.findWithPagination is not a function\n    at UserService.getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:747:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:336:22)",
+  "body": {},
+  "params": {},
+  "query": {
+    "params": "{\"page\":3,\"pageSize\":10,\"sort\":\"latest\"}"
+  }
+}
+2025-08-13 23:56:39 error: Request completed: GET /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A3%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "requestId": "1755100599403-18qy6nb8",
+  "method": "GET",
+  "url": "/api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A3%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D",
+  "statusCode": 500,
+  "duration": "7ms",
+  "contentLength": "165"
+}
+2025-08-13 23:56:41 error: [GET] /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A4%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "error": "postRepository.findWithPagination is not a function",
+  "stack": "TypeError: postRepository.findWithPagination is not a function\n    at UserService.getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:747:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:336:22)",
+  "body": {},
+  "params": {},
+  "query": {
+    "params": "{\"page\":4,\"pageSize\":10,\"sort\":\"latest\"}"
+  }
+}
+2025-08-13 23:56:41 error: Request completed: GET /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A4%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "requestId": "1755100601537-yhkkttns",
+  "method": "GET",
+  "url": "/api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A4%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D",
+  "statusCode": 500,
+  "duration": "12ms",
+  "contentLength": "165"
+}
+2025-08-13 23:56:42 error: [GET] /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A5%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "error": "postRepository.findWithPagination is not a function",
+  "stack": "TypeError: postRepository.findWithPagination is not a function\n    at UserService.getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:747:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:336:22)",
+  "body": {},
+  "params": {},
+  "query": {
+    "params": "{\"page\":5,\"pageSize\":10,\"sort\":\"latest\"}"
+  }
+}
+2025-08-13 23:56:42 error: Request completed: GET /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A5%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "requestId": "1755100602796-rvwmonuw",
+  "method": "GET",
+  "url": "/api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A5%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D",
+  "statusCode": 500,
+  "duration": "12ms",
+  "contentLength": "165"
+}
+2025-08-13 23:56:44 error: [GET] /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A6%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "error": "postRepository.findWithPagination is not a function",
+  "stack": "TypeError: postRepository.findWithPagination is not a function\n    at UserService.getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:747:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:336:22)",
+  "body": {},
+  "params": {},
+  "query": {
+    "params": "{\"page\":6,\"pageSize\":10,\"sort\":\"latest\"}"
+  }
+}
+2025-08-13 23:56:44 error: Request completed: GET /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A6%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "requestId": "1755100604094-v68xlwrh",
+  "method": "GET",
+  "url": "/api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A6%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D",
+  "statusCode": 500,
+  "duration": "14ms",
+  "contentLength": "165"
+}
+2025-08-13 23:56:45 error: [GET] /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A7%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "error": "postRepository.findWithPagination is not a function",
+  "stack": "TypeError: postRepository.findWithPagination is not a function\n    at UserService.getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:747:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:336:22)",
+  "body": {},
+  "params": {},
+  "query": {
+    "params": "{\"page\":7,\"pageSize\":10,\"sort\":\"latest\"}"
+  }
+}
+2025-08-13 23:56:45 error: Request completed: GET /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A7%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "requestId": "1755100605570-qrt6k406",
+  "method": "GET",
+  "url": "/api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A7%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D",
+  "statusCode": 500,
+  "duration": "9ms",
+  "contentLength": "165"
+}
+2025-08-13 23:56:50 error: [GET] /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "error": "postRepository.findWithPagination is not a function",
+  "stack": "TypeError: postRepository.findWithPagination is not a function\n    at UserService.getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:747:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:336:22)",
+  "body": {},
+  "params": {},
+  "query": {
+    "params": "{\"page\":1,\"pageSize\":10,\"sort\":\"latest\"}"
+  }
+}
+2025-08-13 23:56:50 error: Request completed: GET /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "requestId": "1755100609998-jweshtcn",
+  "method": "GET",
+  "url": "/api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D",
+  "statusCode": 500,
+  "duration": "7ms",
+  "contentLength": "165"
+}
+2025-08-14 00:01:15 error: [GET] /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "error": "postRepository.findWithPagination is not a function",
+  "stack": "TypeError: postRepository.findWithPagination is not a function\n    at UserService.getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:747:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:336:22)",
+  "body": {},
+  "params": {},
+  "query": {
+    "params": "{\"page\":1,\"pageSize\":10,\"sort\":\"latest\"}"
+  }
+}
+2025-08-14 00:01:15 error: Request completed: GET /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "requestId": "1755100875924-n2e01mbx",
+  "method": "GET",
+  "url": "/api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D",
+  "statusCode": 500,
+  "duration": "9ms",
+  "contentLength": "165"
+}
+2025-08-14 00:02:11 error: [GET] /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "error": "postRepository.findWithPagination is not a function",
+  "stack": "TypeError: postRepository.findWithPagination is not a function\n    at UserService.getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:747:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:336:22)",
+  "body": {},
+  "params": {},
+  "query": {
+    "params": "{\"page\":1,\"pageSize\":10,\"sort\":\"latest\"}"
+  }
+}
+2025-08-14 00:02:11 error: Request completed: GET /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "requestId": "1755100931453-r6m51f9h",
+  "method": "GET",
+  "url": "/api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D",
+  "statusCode": 500,
+  "duration": "8ms",
+  "contentLength": "165"
+}
+2025-08-14 00:02:16 error: [GET] /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "error": "postRepository.findWithPagination is not a function",
+  "stack": "TypeError: postRepository.findWithPagination is not a function\n    at UserService.getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:747:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:336:22)",
+  "body": {},
+  "params": {},
+  "query": {
+    "params": "{\"page\":1,\"pageSize\":10,\"sort\":\"latest\"}"
+  }
+}
+2025-08-14 00:02:16 error: Request completed: GET /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "requestId": "1755100936153-zyf316gn",
+  "method": "GET",
+  "url": "/api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D",
+  "statusCode": 500,
+  "duration": "7ms",
+  "contentLength": "165"
+}
+2025-08-14 00:02:24 error: [GET] /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22hot%22%7D {
+  "service": "campus-wall-api",
+  "error": "postRepository.findWithPagination is not a function",
+  "stack": "TypeError: postRepository.findWithPagination is not a function\n    at UserService.getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:747:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:336:22)",
+  "body": {},
+  "params": {},
+  "query": {
+    "params": "{\"page\":1,\"pageSize\":10,\"sort\":\"hot\"}"
+  }
+}
+2025-08-14 00:02:24 error: Request completed: GET /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22hot%22%7D {
+  "service": "campus-wall-api",
+  "requestId": "1755100944649-65sv0k50",
+  "method": "GET",
+  "url": "/api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22hot%22%7D",
+  "statusCode": 500,
+  "duration": "5ms",
+  "contentLength": "165"
+}
+2025-08-14 00:02:25 error: [GET] /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "error": "postRepository.findWithPagination is not a function",
+  "stack": "TypeError: postRepository.findWithPagination is not a function\n    at UserService.getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:747:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:336:22)",
+  "body": {},
+  "params": {},
+  "query": {
+    "params": "{\"page\":1,\"pageSize\":10,\"sort\":\"latest\"}"
+  }
+}
+2025-08-14 00:02:25 error: Request completed: GET /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "requestId": "1755100945259-bby0lwnu",
+  "method": "GET",
+  "url": "/api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D",
+  "statusCode": 500,
+  "duration": "6ms",
+  "contentLength": "165"
+}
+2025-08-14 00:02:29 error: [GET] /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "error": "postRepository.findWithPagination is not a function",
+  "stack": "TypeError: postRepository.findWithPagination is not a function\n    at UserService.getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:747:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:336:22)",
+  "body": {},
+  "params": {},
+  "query": {
+    "params": "{\"page\":1,\"pageSize\":10,\"sort\":\"latest\"}"
+  }
+}
+2025-08-14 00:02:29 error: Request completed: GET /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "requestId": "1755100949536-ds0wh3cg",
+  "method": "GET",
+  "url": "/api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D",
+  "statusCode": 500,
+  "duration": "4ms",
+  "contentLength": "165"
+}
+2025-08-14 00:06:46 error: [GET] /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "error": "postRepository.findWithPagination is not a function",
+  "stack": "TypeError: postRepository.findWithPagination is not a function\n    at UserService.getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:747:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:336:22)",
+  "body": {},
+  "params": {},
+  "query": {
+    "params": "{\"page\":1,\"pageSize\":10,\"sort\":\"latest\"}"
+  }
+}
+2025-08-14 00:06:46 error: Request completed: GET /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "requestId": "1755101206989-xr9p81lm",
+  "method": "GET",
+  "url": "/api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D",
+  "statusCode": 500,
+  "duration": "7ms",
+  "contentLength": "165"
+}
+2025-08-14 00:10:10 error: [GET] /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "error": "postRepository.findWithPagination is not a function",
+  "stack": "TypeError: postRepository.findWithPagination is not a function\n    at UserService.getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:747:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:336:22)",
+  "body": {},
+  "params": {},
+  "query": {
+    "params": "{\"page\":1,\"pageSize\":10,\"sort\":\"latest\"}"
+  }
+}
+2025-08-14 00:10:10 error: Request completed: GET /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "requestId": "1755101410661-h0ae7jh5",
+  "method": "GET",
+  "url": "/api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D",
+  "statusCode": 500,
+  "duration": "9ms",
+  "contentLength": "165"
+}
+2025-08-14 00:10:16 error: [GET] /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A2%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "error": "postRepository.findWithPagination is not a function",
+  "stack": "TypeError: postRepository.findWithPagination is not a function\n    at UserService.getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:747:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:336:22)",
+  "body": {},
+  "params": {},
+  "query": {
+    "params": "{\"page\":2,\"pageSize\":10,\"sort\":\"latest\"}"
+  }
+}
+2025-08-14 00:10:16 error: Request completed: GET /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A2%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "requestId": "1755101416322-wcj3jypn",
+  "method": "GET",
+  "url": "/api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A2%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D",
+  "statusCode": 500,
+  "duration": "11ms",
+  "contentLength": "165"
+}
+2025-08-14 00:10:19 error: [GET] /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "error": "postRepository.findWithPagination is not a function",
+  "stack": "TypeError: postRepository.findWithPagination is not a function\n    at UserService.getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:747:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:336:22)",
+  "body": {},
+  "params": {},
+  "query": {
+    "params": "{\"page\":1,\"pageSize\":10,\"sort\":\"latest\"}"
+  }
+}
+2025-08-14 00:10:19 error: Request completed: GET /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "requestId": "1755101419482-3uoctj7m",
+  "method": "GET",
+  "url": "/api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D",
+  "statusCode": 500,
+  "duration": "5ms",
+  "contentLength": "165"
+}
+2025-08-14 00:11:26 error: [GET] /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "error": "postRepository.findWithPagination is not a function",
+  "stack": "TypeError: postRepository.findWithPagination is not a function\n    at UserService.getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:747:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:336:22)",
+  "body": {},
+  "params": {},
+  "query": {
+    "params": "{\"page\":1,\"pageSize\":10,\"sort\":\"latest\"}"
+  }
+}
+2025-08-14 00:11:26 error: Request completed: GET /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "requestId": "1755101486907-715bwi4y",
+  "method": "GET",
+  "url": "/api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D",
+  "statusCode": 500,
+  "duration": "8ms",
+  "contentLength": "165"
+}
+2025-08-14 00:17:33 error: [GET] /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22hot%22%7D {
+  "service": "campus-wall-api",
+  "error": "postRepository.findWithPagination is not a function",
+  "stack": "TypeError: postRepository.findWithPagination is not a function\n    at UserService.getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:747:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:336:22)",
+  "body": {},
+  "params": {},
+  "query": {
+    "params": "{\"page\":1,\"pageSize\":10,\"sort\":\"hot\"}"
+  }
+}
+2025-08-14 00:17:33 error: Request completed: GET /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22hot%22%7D {
+  "service": "campus-wall-api",
+  "requestId": "1755101853673-vpsns01p",
+  "method": "GET",
+  "url": "/api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22hot%22%7D",
+  "statusCode": 500,
+  "duration": "5ms",
+  "contentLength": "165"
+}
+2025-08-14 00:17:34 error: [GET] /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "error": "postRepository.findWithPagination is not a function",
+  "stack": "TypeError: postRepository.findWithPagination is not a function\n    at UserService.getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:747:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:336:22)",
+  "body": {},
+  "params": {},
+  "query": {
+    "params": "{\"page\":1,\"pageSize\":10,\"sort\":\"latest\"}"
+  }
+}
+2025-08-14 00:17:34 error: Request completed: GET /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "requestId": "1755101854450-mg2nqmxw",
+  "method": "GET",
+  "url": "/api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D",
+  "statusCode": 500,
+  "duration": "4ms",
+  "contentLength": "165"
+}
+2025-08-14 00:17:35 error: [GET] /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22hot%22%7D {
+  "service": "campus-wall-api",
+  "error": "postRepository.findWithPagination is not a function",
+  "stack": "TypeError: postRepository.findWithPagination is not a function\n    at UserService.getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:747:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:336:22)",
+  "body": {},
+  "params": {},
+  "query": {
+    "params": "{\"page\":1,\"pageSize\":10,\"sort\":\"hot\"}"
+  }
+}
+2025-08-14 00:17:35 error: Request completed: GET /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22hot%22%7D {
+  "service": "campus-wall-api",
+  "requestId": "1755101855382-vj9yzngc",
+  "method": "GET",
+  "url": "/api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22hot%22%7D",
+  "statusCode": 500,
+  "duration": "6ms",
+  "contentLength": "165"
+}
+2025-08-14 00:17:36 error: [GET] /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "error": "postRepository.findWithPagination is not a function",
+  "stack": "TypeError: postRepository.findWithPagination is not a function\n    at UserService.getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:747:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:336:22)",
+  "body": {},
+  "params": {},
+  "query": {
+    "params": "{\"page\":1,\"pageSize\":10,\"sort\":\"latest\"}"
+  }
+}
+2025-08-14 00:17:36 error: Request completed: GET /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "requestId": "1755101856328-ppot9h8j",
+  "method": "GET",
+  "url": "/api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D",
+  "statusCode": 500,
+  "duration": "6ms",
+  "contentLength": "165"
+}
+2025-08-14 00:17:39 error: [GET] /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "error": "postRepository.findWithPagination is not a function",
+  "stack": "TypeError: postRepository.findWithPagination is not a function\n    at UserService.getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:747:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:336:22)",
+  "body": {},
+  "params": {},
+  "query": {
+    "params": "{\"page\":1,\"pageSize\":10,\"sort\":\"latest\"}"
+  }
+}
+2025-08-14 00:17:39 error: Request completed: GET /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "requestId": "1755101859901-s7wyqs9f",
+  "method": "GET",
+  "url": "/api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D",
+  "statusCode": 500,
+  "duration": "10ms",
+  "contentLength": "165"
+}
+2025-08-14 00:17:50 error: [GET] /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "error": "postRepository.findWithPagination is not a function",
+  "stack": "TypeError: postRepository.findWithPagination is not a function\n    at UserService.getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:747:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:336:22)",
+  "body": {},
+  "params": {},
+  "query": {
+    "params": "{\"page\":1,\"pageSize\":10,\"sort\":\"latest\"}"
+  }
+}
+2025-08-14 00:17:50 error: Request completed: GET /api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "requestId": "1755101870582-gd6ard0z",
+  "method": "GET",
+  "url": "/api/users/profile/650b875e-9c4f-43a1-8f27-82285784bf36/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D",
+  "statusCode": 500,
+  "duration": "7ms",
+  "contentLength": "165"
+}
+2025-08-14 21:40:47 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-08-14 22:28:10 error: [GET] /api/posts/1 {
+  "service": "campus-wall-api",
+  "error": "帖子不存在",
+  "stack": "Error: 帖子不存在\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at PostService.getPostById (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\post.service.js:128:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getPostDetail (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\post.controller.js:155:20)",
+  "body": {},
+  "params": {},
+  "query": {}
+}
+2025-08-14 22:28:13 error: [GET] /api/posts/1 {
+  "service": "campus-wall-api",
+  "error": "帖子不存在",
+  "stack": "Error: 帖子不存在\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at PostService.getPostById (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\post.service.js:128:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getPostDetail (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\post.controller.js:155:20)",
+  "body": {},
+  "params": {},
+  "query": {}
+}

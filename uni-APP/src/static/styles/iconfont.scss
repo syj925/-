@@ -76,3 +76,53 @@
     color: #ef4444;
   }
 }
+
+/* 用户主页相关图标 */
+.icon-more {
+  &:before {
+    content: "⋯";
+    font-size: 1.2em;
+  }
+}
+
+.icon-school {
+  &:before {
+    content: "🏫";
+    font-size: 1.0em;
+  }
+}
+
+.icon-department {
+  &:before {
+    content: "🏢";
+    font-size: 1.0em;
+  }
+}
+
+.icon-calendar {
+  &:before {
+    content: "📅";
+    font-size: 1.0em;
+  }
+}
+
+.icon-user-plus {
+  &:before {
+    content: "👤+";
+    font-size: 1.0em;
+  }
+}
+
+.icon-user-minus {
+  &:before {
+    content: "👤-";
+    font-size: 1.0em;
+  }
+}
+
+.icon-message {
+  &:before {
+    content: "💬";
+    font-size: 1.0em;
+  }
+}

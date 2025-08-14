@@ -635,6 +635,121 @@ class UserService {
       return defaultValue;
     }
   }
+
+  /**
+   * 获取用户主页信息
+   * @param {String} userId 用户ID
+   * @param {String} currentUserId 当前用户ID（可选）
+   * @returns {Promise<Object>} 用户主页信息
+   */
+  async getUserProfile(userId, currentUserId = null) {
+    const userRepository = require('../repositories/user.repository');
+    const followRepository = require('../repositories/follow.repository');
+    const postRepository = require('../repositories/post.repository');
+    const likeRepository = require('../repositories/like.repository');
+    const favoriteRepository = require('../repositories/favorite.repository');
+
+    // 获取用户基本信息
+    const user = await userRepository.findById(userId);
+    if (!user) {
+      throw ErrorMiddleware.createError(
+        '用户不存在',
+        StatusCodes.NOT_FOUND,
+        errorCodes.NOT_FOUND
+      );
+    }
+
+    // 获取用户统计数据
+    const [postCount, likeCount, favoriteCount, followCount, fansCount] = await Promise.all([
+      postRepository.countByUserId(userId),
+      likeRepository.countByUserId(userId),
+      favoriteRepository.countByUserId(userId),
+      followRepository.countFollowings(userId),
+      followRepository.countFollowers(userId)
+    ]);
+
+    // 获取关注状态（如果当前用户已登录）
+    let isFollowed = false;
+    let isMutualFollow = false;
+    if (currentUserId && currentUserId !== userId) {
+      isFollowed = await followRepository.isFollowing(currentUserId, userId);
+      if (isFollowed) {
+        isMutualFollow = await followRepository.isFollowing(userId, currentUserId);
+      }
+    }
+
+    // 构建用户主页信息
+    const userProfile = {
+      id: user.id,
+      username: user.username,
+      nickname: user.nickname,
+      avatar: user.avatar,
+      background_image: user.background_image,
+      bio: user.bio,
+      school: user.school,
+      department: user.department,
+      gender: user.gender,
+      role: user.role,
+      createdAt: user.createdAt,
+
+      // 统计数据
+      stats: {
+        postCount,
+        likeCount,
+        favoriteCount,
+        followCount,
+        fansCount
+      },
+
+      // 关注状态
+      followStatus: {
+        isFollowed,
+        isMutualFollow,
+        isCurrentUser: currentUserId === userId
+      }
+    };
+
+    return userProfile;
+  }
+
+  /**
+   * 获取用户主页帖子列表
+   * @param {Object} options 查询选项
+   * @returns {Promise<Object>} 帖子列表和分页信息
+   */
+  async getUserProfilePosts(options) {
+    const postRepository = require('../repositories/post.repository');
+
+    const { userId, page, pageSize, sort, currentUserId } = options;
+
+    // 验证用户是否存在
+    const userRepository = require('../repositories/user.repository');
+    const user = await userRepository.findById(userId);
+    if (!user) {
+      throw ErrorMiddleware.createError(
+        '用户不存在',
+        StatusCodes.NOT_FOUND,
+        errorCodes.NOT_FOUND
+      );
+    }
+
+    // 构建查询条件
+    const queryOptions = {
+      page,
+      pageSize,
+      userId,
+      status: 'published', // 只显示已发布的帖子
+      // 使用仓储已支持的排序键，避免受管理后台权重影响
+      orderBy: sort === 'hot' ? 'hot' : 'createdAt',
+      orderDirection: 'DESC',
+      includeDetails: true,
+      currentUserId
+    };
+
+    const result = await postRepository.findAll(queryOptions);
+
+    return result;
+  }
 }
 
-module.exports = new UserService(); 
+module.exports = new UserService();

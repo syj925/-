@@ -1,0 +1,34 @@
+warning: in the working copy of 'admin/src/views/BannerManagement.vue', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'server/logs/combined.log', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'server/logs/error.log', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'server/src/controllers/user.controller.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'server/src/services/user.service.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'uni-APP/src/api/modules/user.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'uni-APP/src/components/comment/CommentSection.vue', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'uni-APP/src/components/post/PostCard.vue', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'uni-APP/src/pages/index/home.vue', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'uni-APP/src/pages/profile/profile.vue', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'uni-APP/src/pages/search/results.vue', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'uni-APP/src/pages/topic/detail.vue', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'uni-APP/src/static/styles/iconfont.scss', LF will be replaced by CRLF the next time Git touches it
+M	admin/src/views/BannerManagement.vue
+M	server/logs/combined.log
+M	server/logs/error.log
+M	server/src/controllers/user.controller.js
+M	server/src/repositories/favorite.repository.js
+M	server/src/repositories/follow.repository.js
+M	server/src/repositories/like.repository.js
+M	server/src/repositories/post.repository.js
+M	server/src/routes/user.routes.js
+M	server/src/services/user.service.js
+M	uni-APP/src/api/modules/user.js
+M	uni-APP/src/components/comment/CommentSection.vue
+M	uni-APP/src/components/post/PostCard.vue
+M	uni-APP/src/pages.json
+M	uni-APP/src/pages/event/detail.vue
+M	uni-APP/src/pages/index/home.vue
+M	uni-APP/src/pages/post/detail.vue
+M	uni-APP/src/pages/profile/profile.vue
+M	uni-APP/src/pages/search/results.vue
+M	uni-APP/src/pages/topic/detail.vue
+M	uni-APP/src/static/styles/iconfont.scss

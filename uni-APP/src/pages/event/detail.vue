@@ -551,7 +551,7 @@ export default {
     viewOrganizerProfile() {
       if (this.event?.organizer?.id) {
         uni.navigateTo({
-          url: `/pages/user/profile?id=${this.event.organizer.id}`
+          url: `/pages/user/user-profile?id=${this.event.organizer.id}`
         })
       }
     },

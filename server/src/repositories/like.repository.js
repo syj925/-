@@ -178,6 +178,47 @@ class LikeRepository {
       }
     });
   }
+
+  /**
+   * 统计用户获得的点赞数量（用户发布的帖子和评论获得的点赞总数）
+   * @param {String} userId 用户ID
+   * @returns {Promise<Number>} 点赞数量
+   */
+  async countByUserId(userId) {
+    const { Post, Comment } = require('../models');
+
+    // 获取用户发布的帖子ID列表
+    const userPosts = await Post.findAll({
+      where: { user_id: userId, status: 'published' },
+      attributes: ['id']
+    });
+    const postIds = userPosts.map(post => post.id);
+
+    // 获取用户发布的评论ID列表
+    const userComments = await Comment.findAll({
+      where: { user_id: userId, status: 'normal' },
+      attributes: ['id']
+    });
+    const commentIds = userComments.map(comment => comment.id);
+
+    // 统计帖子点赞数
+    const postLikeCount = postIds.length > 0 ? await Like.count({
+      where: {
+        target_id: postIds,
+        target_type: 'post'
+      }
+    }) : 0;
+
+    // 统计评论点赞数
+    const commentLikeCount = commentIds.length > 0 ? await Like.count({
+      where: {
+        target_id: commentIds,
+        target_type: 'comment'
+      }
+    }) : 0;
+
+    return postLikeCount + commentLikeCount;
+  }
 }
 
-module.exports = new LikeRepository(); 
+module.exports = new LikeRepository();

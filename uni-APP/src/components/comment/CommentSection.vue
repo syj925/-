@@ -255,7 +255,7 @@ export default {
       if (!user || !user.id) return;
       
       uni.navigateTo({
-        url: `/pages/user/profile?id=${user.id}`
+        url: `/pages/user/user-profile?id=${user.id}`
       });
     },
     

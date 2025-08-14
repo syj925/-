@@ -1261,7 +1261,7 @@ export default {
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.1) 100%);
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.05) 100%);
   z-index: 1;
 }
 
@@ -1270,14 +1270,17 @@ export default {
   bottom: 0;
   left: 0;
   right: 0;
-  height: 80rpx;
+  height: 180rpx;
   background: linear-gradient(to top,
-    rgba(255, 255, 255, 0.8) 0%,
-    rgba(255, 255, 255, 0.5) 40%,
-    rgba(255, 255, 255, 0.2) 70%,
+    rgba(255, 255, 255, 0.75) 0%,
+    rgba(255, 255, 255, 0.68) 15%,
+    rgba(255, 255, 255, 0.58) 30%,
+    rgba(255, 255, 255, 0.45) 45%,
+    rgba(255, 255, 255, 0.32) 60%,
+    rgba(255, 255, 255, 0.20) 75%,
+    rgba(255, 255, 255, 0.10) 88%,
     transparent 100%);
-  backdrop-filter: blur(12rpx);
-  -webkit-backdrop-filter: blur(12rpx);
+  pointer-events: none;
   z-index: 2;
 }
 
@@ -1288,13 +1291,7 @@ export default {
   margin-top: -100rpx;
   position: relative;
   z-index: 10;
-  background: linear-gradient(to bottom,
-    transparent 0%,
-    rgba(255, 255, 255, 0.05) 30%,
-    rgba(255, 255, 255, 0.15) 70%,
-    rgba(255, 255, 255, 0.25) 100%);
-  backdrop-filter: blur(6rpx);
-  -webkit-backdrop-filter: blur(6rpx);
+  background: transparent;
 }
 
 .profile-avatar-container {

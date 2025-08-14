@@ -225,7 +225,7 @@ export default {
     handleUserClick(user) {
       // 跳转到用户页面
       uni.navigateTo({
-        url: `/pages/user/profile?id=${user.id}`
+        url: `/pages/user/user-profilee?id=${user.id}`
       })
     },
 

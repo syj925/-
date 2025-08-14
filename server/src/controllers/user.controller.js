@@ -292,6 +292,59 @@ class UserController {
       next(error);
     }
   }
+
+  /**
+   * 获取用户主页信息
+   * @param {Object} req 请求对象
+   * @param {Object} res 响应对象
+   * @param {Function} next 下一个中间件
+   * @returns {Promise<void>}
+   */
+  async getUserProfile(req, res, next) {
+    try {
+      const { id } = req.params;
+      const currentUserId = req.user?.id; // 可选认证，可能为空
+
+      const userProfile = await userService.getUserProfile(id, currentUserId);
+      res.status(StatusCodes.OK).json(ResponseUtil.success(userProfile));
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  /**
+   * 获取用户发布的帖子
+   * @param {Object} req 请求对象
+   * @param {Object} res 响应对象
+   * @param {Function} next 下一个中间件
+   * @returns {Promise<void>}
+   */
+  async getUserProfilePosts(req, res, next) {
+    try {
+      const { id } = req.params;
+      const { page = 1, pageSize = 10, sort = 'latest' } = req.query;
+      const currentUserId = req.user?.id;
+
+      const options = {
+        page: parseInt(page, 10),
+        pageSize: parseInt(pageSize, 10),
+        userId: id,
+        sort,
+        currentUserId
+      };
+
+      const result = await userService.getUserProfilePosts(options);
+
+      res.status(StatusCodes.OK).json(ResponseUtil.page(
+        result.list,
+        result.pagination.page,
+        result.pagination.pageSize,
+        result.pagination.total
+      ));
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
-module.exports = new UserController(); 
+module.exports = new UserController();
