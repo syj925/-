@@ -17,13 +17,14 @@ class AdminDashboardService {
       DASHBOARD_HOT_POSTS: 'admin:dashboard:hot_posts'
     };
 
-    // 缓存过期时间（秒）
+    // 缓存过期时间（使用统一配置）
+    const cacheConfig = require('../../../config/cache');
     this.CACHE_TTL = {
-      BASIC: 300,        // 5分钟
-      TREND: 3600,       // 1小时
-      USER_DIST: 1800,   // 30分钟
-      ACTIVE: 900,       // 15分钟
-      HOT_POSTS: 600     // 10分钟
+      BASIC: cacheConfig.getTTL('DASHBOARD', cacheConfig.DASHBOARD.BASIC),
+      TREND: cacheConfig.DASHBOARD.TREND,
+      USER_DIST: cacheConfig.DASHBOARD.USER_DIST,
+      ACTIVE: cacheConfig.DASHBOARD.ACTIVE,
+      HOT_POSTS: cacheConfig.DASHBOARD.HOT_POSTS
     };
   }
 

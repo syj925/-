@@ -157,6 +157,7 @@ class CommentService {
       messageService.createMessage({
         sender_id: commentData.user_id,
         receiver_id: post.user_id,
+        title: '评论通知',
         content: `${user.username} 评论了你的帖子`,
         type: 'comment',
         related_id: comment.id,
@@ -171,6 +172,7 @@ class CommentService {
         messageService.createMessage({
           sender_id: commentData.user_id,
           receiver_id: parentComment.user_id,
+          title: '回复通知',
           content: `${user.username} 回复了你的评论`,
           type: 'reply',
           related_id: comment.id,

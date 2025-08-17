@@ -42,8 +42,39 @@ class FavoriteRepository {
         user_id: userId,
         post_id: postId
       }
+      // 注意：这里不使用 paranoid: false，只查询未删除的记录
     });
     return count > 0;
+  }
+
+  /**
+   * 查找现有的收藏记录（包括软删除的）
+   * @param {String} userId 用户ID
+   * @param {String} postId 帖子ID
+   * @returns {Promise<Object|null>} 收藏记录
+   */
+  async findExisting(userId, postId) {
+    return await Favorite.findOne({
+      where: {
+        user_id: userId,
+        post_id: postId
+      },
+      paranoid: false // 查询包含软删除的记录
+    });
+  }
+
+  /**
+   * 恢复软删除的收藏记录
+   * @param {String} favoriteId 收藏ID
+   * @returns {Promise<Object>} 恢复的收藏记录
+   */
+  async restore(favoriteId) {
+    const favorite = await Favorite.findByPk(favoriteId, { paranoid: false });
+    if (favorite && favorite.deletedAt) {
+      await favorite.restore();
+      return favorite;
+    }
+    return favorite;
   }
 
   /**

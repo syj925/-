@@ -57,6 +57,36 @@ class FollowRepository {
   }
 
   /**
+   * 查找现有的关注记录（包括软删除的）
+   * @param {String} followerId 关注者ID
+   * @param {String} followingId 被关注者ID
+   * @returns {Promise<Object|null>} 关注记录
+   */
+  async findExisting(followerId, followingId) {
+    return await Follow.findOne({
+      where: {
+        follower_id: followerId,
+        following_id: followingId
+      },
+      paranoid: false // 查询包含软删除的记录
+    });
+  }
+
+  /**
+   * 恢复软删除的关注记录
+   * @param {String} followId 关注ID
+   * @returns {Promise<Object>} 恢复的关注记录
+   */
+  async restore(followId) {
+    const follow = await Follow.findByPk(followId, { paranoid: false });
+    if (follow && follow.deletedAt) {
+      await follow.restore();
+      return follow;
+    }
+    return follow;
+  }
+
+  /**
    * 获取用户的关注列表
    * @param {String} userId 用户ID
    * @param {Number} page 页码

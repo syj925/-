@@ -67,6 +67,38 @@ class LikeRepository {
   }
 
   /**
+   * 查找现有的点赞记录（包括软删除的）
+   * @param {String} userId 用户ID
+   * @param {String} targetId 目标ID
+   * @param {String} targetType 目标类型
+   * @returns {Promise<Object|null>} 点赞记录
+   */
+  async findExisting(userId, targetId, targetType) {
+    return await Like.findOne({
+      where: {
+        user_id: userId,
+        target_id: targetId,
+        target_type: targetType
+      },
+      paranoid: false // 查询包含软删除的记录
+    });
+  }
+
+  /**
+   * 恢复软删除的点赞记录
+   * @param {String} likeId 点赞ID
+   * @returns {Promise<Object>} 恢复的点赞记录
+   */
+  async restore(likeId) {
+    const like = await Like.findByPk(likeId, { paranoid: false });
+    if (like && like.deletedAt) {
+      await like.restore();
+      return like;
+    }
+    return like;
+  }
+
+  /**
    * 获取用户的点赞列表
    * @param {String} userId 用户ID
    * @param {String} targetType 目标类型

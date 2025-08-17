@@ -68,7 +68,7 @@ router.get('/hot', topicController.getHotTopics);
 router.get('/trending', topicController.getTrendingTopics);
 router.get('/search', topicController.searchTopics);
 router.get('/:id', topicController.getTopicById);
-router.get('/:id/posts', topicController.getTopicPosts);
+router.get('/:id/posts', AuthMiddleware.optionalAuthenticate(), topicController.getTopicPosts);
 router.get('/:id/statistics', topicController.getTopicStatistics);
 router.post('/:id/view', topicController.recordTopicView);
 

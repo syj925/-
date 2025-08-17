@@ -18,6 +18,13 @@ class SearchController {
     try {
       const { keyword, type = 'all', page = 1, pageSize = 10 } = req.query;
       
+      logger.info('GlobalSearch 控制器', { 
+        keyword, 
+        type, 
+        hasUser: !!req.user, 
+        userId: req.user?.id || 'null' 
+      });
+      
       if (!keyword || keyword.trim() === '') {
         return res.status(StatusCodes.BAD_REQUEST).json(
           ResponseUtil.error('请输入搜索关键词')
@@ -249,6 +256,44 @@ class SearchController {
       res.status(StatusCodes.OK).json(ResponseUtil.success(result));
     } catch (error) {
       logger.error('获取搜索历史失败:', error);
+      next(error);
+    }
+  }
+
+  /**
+   * 删除单个搜索历史
+   * @param {Object} req 请求对象
+   * @param {Object} res 响应对象
+   * @param {Function} next 下一个中间件
+   * @returns {Promise<void>}
+   */
+  async removeSearchHistory(req, res, next) {
+    try {
+      const { keyword } = req.body;
+      const userId = req.user?.id;
+
+      if (!keyword || keyword.trim() === '') {
+        return res.status(StatusCodes.BAD_REQUEST).json(
+          ResponseUtil.error('搜索关键词不能为空')
+        );
+      }
+
+      if (!userId) {
+        return res.status(StatusCodes.BAD_REQUEST).json(
+          ResponseUtil.error('用户未登录')
+        );
+      }
+
+      await searchService.removeSearchHistory({
+        userId,
+        keyword: keyword.trim()
+      });
+
+      res.status(StatusCodes.OK).json(
+        ResponseUtil.success({ message: '搜索历史删除成功' })
+      );
+    } catch (error) {
+      logger.error('删除搜索历史失败:', error);
       next(error);
     }
   }

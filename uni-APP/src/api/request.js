@@ -137,12 +137,25 @@ const requestInterceptor = (config) => {
     };
   }
 
-  // 只在开发环境显示详细请求日志
-  // #ifdef APP-PLUS
-  if (process.env.NODE_ENV === 'development') {
-    console.log(`📡 ${config.method} ${config.url}`);
+  // 详细的请求日志（特别关注搜索相关请求）
+  if (config.url.includes('/search')) {
+    console.log('🔍 搜索请求详情:', {
+      method: config.method,
+      url: config.url,
+      data: config.data,
+      hasToken: !!token,
+      tokenPreview: token ? token.substring(0, 20) + '...' : 'none',
+      headers: config.header
+    });
+  } else {
+    // 只在开发环境显示详细请求日志
+    // #ifdef APP-PLUS
+    if (process.env.NODE_ENV === 'development') {
+      console.log(`📡 ${config.method} ${config.url}`);
+    }
+    // #endif
   }
-  // #endif
+  
   return config;
 };
 

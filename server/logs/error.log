@@ -6504,3 +6504,1632 @@ Fri Aug 01 2025 23:10:16 GMT+0800 (中国标准时间) error: Admin route error:
   "params": {},
   "query": {}
 }
+2025-08-17 01:07:19 error: 清理搜索历史重复记录失败: Cannot read properties of undefined (reading 'ne') {
+  "service": "campus-wall-api",
+  "stack": "TypeError: Cannot read properties of undefined (reading 'ne')\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\scripts\\cleanup-search-history.js:53:33\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\sequelize.js:507:18\n    at async cleanupDuplicateSearchHistory (C:\\Users\\26933\\Desktop\\校园墙\\server\\scripts\\cleanup-search-history.js:14:5)"
+}
+2025-08-17 01:42:22 error: 搜索用户失败: Maximum call stack size exceeded {
+  "service": "campus-wall-api",
+  "stack": "RangeError: Maximum call stack size exceeded\n    at baseClone (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:2662:23)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:2733:34\n    at arrayEach (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:530:11)\n    at baseClone (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:2727:7)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:2733:34\n    at arrayEach (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:530:11)\n    at baseClone (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:2727:7)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:2733:34\n    at arrayEach (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:530:11)\n    at baseClone (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:2727:7)"
+}
+2025-08-17 01:42:22 error: 全局搜索失败: Maximum call stack size exceeded {
+  "service": "campus-wall-api",
+  "stack": "RangeError: Maximum call stack size exceeded\n    at baseClone (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:2662:23)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:2733:34\n    at arrayEach (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:530:11)\n    at baseClone (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:2727:7)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:2733:34\n    at arrayEach (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:530:11)\n    at baseClone (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:2727:7)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:2733:34\n    at arrayEach (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:530:11)\n    at baseClone (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:2727:7)"
+}
+2025-08-17 01:42:22 error: 全局搜索失败: Maximum call stack size exceeded {
+  "service": "campus-wall-api",
+  "stack": "RangeError: Maximum call stack size exceeded\n    at baseClone (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:2662:23)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:2733:34\n    at arrayEach (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:530:11)\n    at baseClone (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:2727:7)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:2733:34\n    at arrayEach (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:530:11)\n    at baseClone (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:2727:7)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:2733:34\n    at arrayEach (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:530:11)\n    at baseClone (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:2727:7)"
+}
+2025-08-17 01:42:22 error: [GET] /api/search?keyword=%E6%B5%8B%E8%AF%95%E4%BF%9D%E5%AD%98%E8%AE%B0%E5%BD%951&type=all&page=1&pageSize=10&orderBy=relevance&timeFilter=all {
+  "service": "campus-wall-api",
+  "error": "Maximum call stack size exceeded",
+  "stack": "RangeError: Maximum call stack size exceeded\n    at baseClone (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:2662:23)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:2733:34\n    at arrayEach (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:530:11)\n    at baseClone (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:2727:7)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:2733:34\n    at arrayEach (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:530:11)\n    at baseClone (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:2727:7)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:2733:34\n    at arrayEach (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:530:11)\n    at baseClone (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:2727:7)",
+  "body": {},
+  "params": {},
+  "query": {
+    "keyword": "测试保存记录1",
+    "type": "all",
+    "page": "1",
+    "pageSize": "10",
+    "orderBy": "relevance",
+    "timeFilter": "all"
+  }
+}
+2025-08-17 01:42:22 error: Request completed: GET /api/search?keyword=%E6%B5%8B%E8%AF%95%E4%BF%9D%E5%AD%98%E8%AE%B0%E5%BD%951&type=all&page=1&pageSize=10&orderBy=relevance&timeFilter=all {
+  "service": "campus-wall-api",
+  "requestId": "1755366141913-s9ijp12q",
+  "method": "GET",
+  "url": "/api/search?keyword=%E6%B5%8B%E8%AF%95%E4%BF%9D%E5%AD%98%E8%AE%B0%E5%BD%951&type=all&page=1&pageSize=10&orderBy=relevance&timeFilter=all",
+  "statusCode": 500,
+  "duration": "230ms",
+  "contentLength": "146"
+}
+2025-08-17 01:44:02 error: 搜索用户失败: Maximum call stack size exceeded {
+  "service": "campus-wall-api",
+  "stack": "RangeError: Maximum call stack size exceeded\n    at getAllKeys (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:5915:24)\n    at baseClone (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:2726:39)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:2733:34\n    at arrayEach (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:530:11)\n    at baseClone (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:2727:7)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:2733:34\n    at arrayEach (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:530:11)\n    at baseClone (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:2727:7)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:2733:34\n    at arrayEach (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:530:11)"
+}
+2025-08-17 01:44:02 error: 全局搜索失败: Maximum call stack size exceeded {
+  "service": "campus-wall-api",
+  "stack": "RangeError: Maximum call stack size exceeded\n    at getAllKeys (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:5915:24)\n    at baseClone (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:2726:39)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:2733:34\n    at arrayEach (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:530:11)\n    at baseClone (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:2727:7)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:2733:34\n    at arrayEach (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:530:11)\n    at baseClone (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:2727:7)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:2733:34\n    at arrayEach (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:530:11)"
+}
+2025-08-17 01:44:02 error: 全局搜索失败: Maximum call stack size exceeded {
+  "service": "campus-wall-api",
+  "stack": "RangeError: Maximum call stack size exceeded\n    at getAllKeys (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:5915:24)\n    at baseClone (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:2726:39)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:2733:34\n    at arrayEach (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:530:11)\n    at baseClone (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:2727:7)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:2733:34\n    at arrayEach (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:530:11)\n    at baseClone (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:2727:7)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:2733:34\n    at arrayEach (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:530:11)"
+}
+2025-08-17 01:44:02 error: [GET] /api/search?keyword=%E6%B5%8B%E8%AF%95%E4%BF%9D%E5%AD%98%E8%AE%B0%E5%BD%951&type=all&page=1&pageSize=10&orderBy=relevance&timeFilter=all {
+  "service": "campus-wall-api",
+  "error": "Maximum call stack size exceeded",
+  "stack": "RangeError: Maximum call stack size exceeded\n    at getAllKeys (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:5915:24)\n    at baseClone (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:2726:39)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:2733:34\n    at arrayEach (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:530:11)\n    at baseClone (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:2727:7)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:2733:34\n    at arrayEach (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:530:11)\n    at baseClone (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:2727:7)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:2733:34\n    at arrayEach (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\lodash\\lodash.js:530:11)",
+  "body": {},
+  "params": {},
+  "query": {
+    "keyword": "测试保存记录1",
+    "type": "all",
+    "page": "1",
+    "pageSize": "10",
+    "orderBy": "relevance",
+    "timeFilter": "all"
+  }
+}
+2025-08-17 01:44:02 error: Request completed: GET /api/search?keyword=%E6%B5%8B%E8%AF%95%E4%BF%9D%E5%AD%98%E8%AE%B0%E5%BD%951&type=all&page=1&pageSize=10&orderBy=relevance&timeFilter=all {
+  "service": "campus-wall-api",
+  "requestId": "1755366241881-ir4nupt9",
+  "method": "GET",
+  "url": "/api/search?keyword=%E6%B5%8B%E8%AF%95%E4%BF%9D%E5%AD%98%E8%AE%B0%E5%BD%951&type=all&page=1&pageSize=10&orderBy=relevance&timeFilter=all",
+  "statusCode": 500,
+  "duration": "187ms",
+  "contentLength": "146"
+}
+2025-08-17 02:22:01 error: 搜索帖子失败: Unknown column 'Like.userId' in 'where clause' {
+  "service": "campus-wall-api",
+  "name": "SequelizeDatabaseError",
+  "parent": "[Circular]",
+  "original": {
+    "code": "ER_BAD_FIELD_ERROR",
+    "errno": 1054,
+    "sqlState": "42S22",
+    "sqlMessage": "Unknown column 'Like.userId' in 'where clause'",
+    "sql": "SELECT `id`, `user_id`, `target_id`, `target_type`, `created_at` AS `createdAt`, `updated_at` AS `updatedAt`, `deleted_at` AS `deletedAt` FROM `likes` AS `Like` WHERE (`Like`.`deleted_at` IS NULL AND (`Like`.`userId` = '650b875e-9c4f-43a1-8f27-82285784bf36' AND `Like`.`targetId` IN ('c613fecb-8a40-4638-9533-7a01ce5274f6') AND `Like`.`targetType` = 'post'));"
+  },
+  "sql": "SELECT `id`, `user_id`, `target_id`, `target_type`, `created_at` AS `createdAt`, `updated_at` AS `updatedAt`, `deleted_at` AS `deletedAt` FROM `likes` AS `Like` WHERE (`Like`.`deleted_at` IS NULL AND (`Like`.`userId` = '650b875e-9c4f-43a1-8f27-82285784bf36' AND `Like`.`targetId` IN ('c613fecb-8a40-4638-9533-7a01ce5274f6') AND `Like`.`targetType` = 'post'));",
+  "parameters": {},
+  "stack": "Error\n    at Query.run (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\mysql\\query.js:52:25)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\sequelize.js:315:28\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async MySQLQueryInterface.select (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\abstract\\query-interface.js:407:12)\n    at async Like.findAll (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:1140:21)\n    at async SearchService.searchPosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:142:23)\n    at async SearchService.globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:31:29)\n    at async globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\search.controller.js:34:22)"
+}
+2025-08-17 02:22:01 error: 全局搜索失败: Unknown column 'Like.userId' in 'where clause' {
+  "service": "campus-wall-api",
+  "name": "SequelizeDatabaseError",
+  "parent": "[Circular]",
+  "original": {
+    "code": "ER_BAD_FIELD_ERROR",
+    "errno": 1054,
+    "sqlState": "42S22",
+    "sqlMessage": "Unknown column 'Like.userId' in 'where clause'",
+    "sql": "SELECT `id`, `user_id`, `target_id`, `target_type`, `created_at` AS `createdAt`, `updated_at` AS `updatedAt`, `deleted_at` AS `deletedAt` FROM `likes` AS `Like` WHERE (`Like`.`deleted_at` IS NULL AND (`Like`.`userId` = '650b875e-9c4f-43a1-8f27-82285784bf36' AND `Like`.`targetId` IN ('c613fecb-8a40-4638-9533-7a01ce5274f6') AND `Like`.`targetType` = 'post'));"
+  },
+  "sql": "SELECT `id`, `user_id`, `target_id`, `target_type`, `created_at` AS `createdAt`, `updated_at` AS `updatedAt`, `deleted_at` AS `deletedAt` FROM `likes` AS `Like` WHERE (`Like`.`deleted_at` IS NULL AND (`Like`.`userId` = '650b875e-9c4f-43a1-8f27-82285784bf36' AND `Like`.`targetId` IN ('c613fecb-8a40-4638-9533-7a01ce5274f6') AND `Like`.`targetType` = 'post'));",
+  "parameters": {},
+  "stack": "Error\n    at Query.run (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\mysql\\query.js:52:25)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\sequelize.js:315:28\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async MySQLQueryInterface.select (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\abstract\\query-interface.js:407:12)\n    at async Like.findAll (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:1140:21)\n    at async SearchService.searchPosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:142:23)\n    at async SearchService.globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:31:29)\n    at async globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\search.controller.js:34:22)"
+}
+2025-08-17 02:22:01 error: 全局搜索失败: Unknown column 'Like.userId' in 'where clause' {
+  "service": "campus-wall-api",
+  "name": "SequelizeDatabaseError",
+  "parent": "[Circular]",
+  "original": {
+    "code": "ER_BAD_FIELD_ERROR",
+    "errno": 1054,
+    "sqlState": "42S22",
+    "sqlMessage": "Unknown column 'Like.userId' in 'where clause'",
+    "sql": "SELECT `id`, `user_id`, `target_id`, `target_type`, `created_at` AS `createdAt`, `updated_at` AS `updatedAt`, `deleted_at` AS `deletedAt` FROM `likes` AS `Like` WHERE (`Like`.`deleted_at` IS NULL AND (`Like`.`userId` = '650b875e-9c4f-43a1-8f27-82285784bf36' AND `Like`.`targetId` IN ('c613fecb-8a40-4638-9533-7a01ce5274f6') AND `Like`.`targetType` = 'post'));"
+  },
+  "sql": "SELECT `id`, `user_id`, `target_id`, `target_type`, `created_at` AS `createdAt`, `updated_at` AS `updatedAt`, `deleted_at` AS `deletedAt` FROM `likes` AS `Like` WHERE (`Like`.`deleted_at` IS NULL AND (`Like`.`userId` = '650b875e-9c4f-43a1-8f27-82285784bf36' AND `Like`.`targetId` IN ('c613fecb-8a40-4638-9533-7a01ce5274f6') AND `Like`.`targetType` = 'post'));",
+  "parameters": {},
+  "stack": "Error\n    at Query.run (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\mysql\\query.js:52:25)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\sequelize.js:315:28\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async MySQLQueryInterface.select (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\abstract\\query-interface.js:407:12)\n    at async Like.findAll (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:1140:21)\n    at async SearchService.searchPosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:142:23)\n    at async SearchService.globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:31:29)\n    at async globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\search.controller.js:34:22)"
+}
+2025-08-17 02:22:01 error: [GET] /api/search?keyword=1&type=all&page=1&pageSize=10&orderBy=relevance&timeFilter=all {
+  "service": "campus-wall-api",
+  "error": "Unknown column 'Like.userId' in 'where clause'",
+  "stack": "Error\n    at Query.run (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\mysql\\query.js:52:25)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\sequelize.js:315:28\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async MySQLQueryInterface.select (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\abstract\\query-interface.js:407:12)\n    at async Like.findAll (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:1140:21)\n    at async SearchService.searchPosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:142:23)\n    at async SearchService.globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:31:29)\n    at async globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\search.controller.js:34:22)",
+  "body": {},
+  "params": {},
+  "query": {
+    "keyword": "1",
+    "type": "all",
+    "page": "1",
+    "pageSize": "10",
+    "orderBy": "relevance",
+    "timeFilter": "all"
+  }
+}
+2025-08-17 02:22:01 error: Request completed: GET /api/search?keyword=1&type=all&page=1&pageSize=10&orderBy=relevance&timeFilter=all {
+  "service": "campus-wall-api",
+  "requestId": "1755368521589-nxfk5zm8",
+  "method": "GET",
+  "url": "/api/search?keyword=1&type=all&page=1&pageSize=10&orderBy=relevance&timeFilter=all",
+  "statusCode": 500,
+  "duration": "26ms",
+  "contentLength": "160"
+}
+2025-08-17 02:27:02 error: 保存搜索历史失败: Validation error {
+  "service": "campus-wall-api",
+  "name": "SequelizeUniqueConstraintError",
+  "errors": [
+    {
+      "message": "search_histories_user_id_keyword_type must be unique",
+      "type": "unique violation",
+      "path": "search_histories_user_id_keyword_type",
+      "value": "650b875e-9c4f-43a1-8f27-82285784bf36-某某-users",
+      "origin": "DB",
+      "instance": {
+        "id": 11,
+        "userId": "650b875e-9c4f-43a1-8f27-82285784bf36",
+        "keyword": "某某",
+        "type": "users",
+        "createdAt": "2025-08-01T11:25:34.000Z",
+        "updatedAt": "2025-08-16T18:27:02.505Z",
+        "deletedAt": null
+      },
+      "validatorKey": "not_unique",
+      "validatorName": null,
+      "validatorArgs": []
+    }
+  ],
+  "parent": "[Circular]",
+  "original": {
+    "code": "ER_DUP_ENTRY",
+    "errno": 1062,
+    "sqlState": "23000",
+    "sqlMessage": "Duplicate entry '650b875e-9c4f-43a1-8f27-82285784bf36-某某-users' for key 'search_histories.search_histories_user_id_keyword_type'",
+    "sql": "UPDATE `search_histories` SET `type`=?,`updated_at`=? WHERE `id` = ?",
+    "parameters": [
+      "users",
+      "2025-08-17 02:27:02",
+      11
+    ]
+  },
+  "fields": {
+    "search_histories_user_id_keyword_type": "650b875e-9c4f-43a1-8f27-82285784bf36-某某-users"
+  },
+  "sql": "UPDATE `search_histories` SET `type`=?,`updated_at`=? WHERE `id` = ?",
+  "stack": "Error\n    at Query.run (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\mysql\\query.js:52:25)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\sequelize.js:315:28\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async MySQLQueryInterface.update (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\abstract\\query-interface.js:355:12)\n    at async model.save (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:2490:35)\n    at async model.update (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:2598:12)\n    at async SearchService.saveSearchHistory (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:413:9)\n    at async SearchService.globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:61:9)\n    at async globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\search.controller.js:34:22)"
+}
+2025-08-17 02:27:02 error: 全局搜索失败: Validation error {
+  "service": "campus-wall-api",
+  "name": "SequelizeUniqueConstraintError",
+  "errors": [
+    {
+      "message": "search_histories_user_id_keyword_type must be unique",
+      "type": "unique violation",
+      "path": "search_histories_user_id_keyword_type",
+      "value": "650b875e-9c4f-43a1-8f27-82285784bf36-某某-users",
+      "origin": "DB",
+      "instance": {
+        "id": 11,
+        "userId": "650b875e-9c4f-43a1-8f27-82285784bf36",
+        "keyword": "某某",
+        "type": "users",
+        "createdAt": "2025-08-01T11:25:34.000Z",
+        "updatedAt": "2025-08-16T18:27:02.505Z",
+        "deletedAt": null
+      },
+      "validatorKey": "not_unique",
+      "validatorName": null,
+      "validatorArgs": []
+    }
+  ],
+  "parent": "[Circular]",
+  "original": {
+    "code": "ER_DUP_ENTRY",
+    "errno": 1062,
+    "sqlState": "23000",
+    "sqlMessage": "Duplicate entry '650b875e-9c4f-43a1-8f27-82285784bf36-某某-users' for key 'search_histories.search_histories_user_id_keyword_type'",
+    "sql": "UPDATE `search_histories` SET `type`=?,`updated_at`=? WHERE `id` = ?",
+    "parameters": [
+      "users",
+      "2025-08-17 02:27:02",
+      11
+    ]
+  },
+  "fields": {
+    "search_histories_user_id_keyword_type": "650b875e-9c4f-43a1-8f27-82285784bf36-某某-users"
+  },
+  "sql": "UPDATE `search_histories` SET `type`=?,`updated_at`=? WHERE `id` = ?",
+  "stack": "Error\n    at Query.run (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\mysql\\query.js:52:25)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\sequelize.js:315:28\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async MySQLQueryInterface.update (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\abstract\\query-interface.js:355:12)\n    at async model.save (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:2490:35)\n    at async model.update (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:2598:12)\n    at async SearchService.saveSearchHistory (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:413:9)\n    at async SearchService.globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:61:9)\n    at async globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\search.controller.js:34:22)"
+}
+2025-08-17 02:27:02 error: 全局搜索失败: Validation error {
+  "service": "campus-wall-api",
+  "name": "SequelizeUniqueConstraintError",
+  "errors": [
+    {
+      "message": "search_histories_user_id_keyword_type must be unique",
+      "type": "unique violation",
+      "path": "search_histories_user_id_keyword_type",
+      "value": "650b875e-9c4f-43a1-8f27-82285784bf36-某某-users",
+      "origin": "DB",
+      "instance": {
+        "id": 11,
+        "userId": "650b875e-9c4f-43a1-8f27-82285784bf36",
+        "keyword": "某某",
+        "type": "users",
+        "createdAt": "2025-08-01T11:25:34.000Z",
+        "updatedAt": "2025-08-16T18:27:02.505Z",
+        "deletedAt": null
+      },
+      "validatorKey": "not_unique",
+      "validatorName": null,
+      "validatorArgs": []
+    }
+  ],
+  "parent": "[Circular]",
+  "original": {
+    "code": "ER_DUP_ENTRY",
+    "errno": 1062,
+    "sqlState": "23000",
+    "sqlMessage": "Duplicate entry '650b875e-9c4f-43a1-8f27-82285784bf36-某某-users' for key 'search_histories.search_histories_user_id_keyword_type'",
+    "sql": "UPDATE `search_histories` SET `type`=?,`updated_at`=? WHERE `id` = ?",
+    "parameters": [
+      "users",
+      "2025-08-17 02:27:02",
+      11
+    ]
+  },
+  "fields": {
+    "search_histories_user_id_keyword_type": "650b875e-9c4f-43a1-8f27-82285784bf36-某某-users"
+  },
+  "sql": "UPDATE `search_histories` SET `type`=?,`updated_at`=? WHERE `id` = ?",
+  "stack": "Error\n    at Query.run (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\mysql\\query.js:52:25)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\sequelize.js:315:28\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async MySQLQueryInterface.update (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\abstract\\query-interface.js:355:12)\n    at async model.save (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:2490:35)\n    at async model.update (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:2598:12)\n    at async SearchService.saveSearchHistory (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:413:9)\n    at async SearchService.globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:61:9)\n    at async globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\search.controller.js:34:22)"
+}
+2025-08-17 02:29:43 error: 保存搜索历史失败: Validation error {
+  "service": "campus-wall-api",
+  "name": "SequelizeUniqueConstraintError",
+  "errors": [
+    {
+      "message": "search_histories_user_id_keyword_type must be unique",
+      "type": "unique violation",
+      "path": "search_histories_user_id_keyword_type",
+      "value": "650b875e-9c4f-43a1-8f27-82285784bf36-某某-users",
+      "origin": "DB",
+      "instance": {
+        "id": null,
+        "userId": "650b875e-9c4f-43a1-8f27-82285784bf36",
+        "keyword": "某某",
+        "type": "users",
+        "updatedAt": "2025-08-16T18:29:43.603Z",
+        "createdAt": "2025-08-16T18:29:43.603Z"
+      },
+      "validatorKey": "not_unique",
+      "validatorName": null,
+      "validatorArgs": []
+    }
+  ],
+  "parent": "[Circular]",
+  "original": {
+    "code": "ER_DUP_ENTRY",
+    "errno": 1062,
+    "sqlState": "23000",
+    "sqlMessage": "Duplicate entry '650b875e-9c4f-43a1-8f27-82285784bf36-某某-users' for key 'search_histories.search_histories_user_id_keyword_type'",
+    "sql": "INSERT INTO `search_histories` (`id`,`user_id`,`keyword`,`type`,`created_at`,`updated_at`) VALUES (DEFAULT,?,?,?,?,?);",
+    "parameters": [
+      "650b875e-9c4f-43a1-8f27-82285784bf36",
+      "某某",
+      "users",
+      "2025-08-17 02:29:43",
+      "2025-08-17 02:29:43"
+    ]
+  },
+  "fields": {
+    "search_histories_user_id_keyword_type": "650b875e-9c4f-43a1-8f27-82285784bf36-某某-users"
+  },
+  "sql": "INSERT INTO `search_histories` (`id`,`user_id`,`keyword`,`type`,`created_at`,`updated_at`) VALUES (DEFAULT,?,?,?,?,?);",
+  "stack": "Error\n    at Query.run (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\mysql\\query.js:52:25)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\sequelize.js:315:28\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async MySQLQueryInterface.insert (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\abstract\\query-interface.js:308:21)\n    at async model.save (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:2490:35)\n    at async SearchHistory.create (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:1362:12)\n    at async SearchService.saveSearchHistory (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:418:9)\n    at async SearchService.globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:61:9)\n    at async globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\search.controller.js:34:22)"
+}
+2025-08-17 02:29:43 error: 全局搜索失败: Validation error {
+  "service": "campus-wall-api",
+  "name": "SequelizeUniqueConstraintError",
+  "errors": [
+    {
+      "message": "search_histories_user_id_keyword_type must be unique",
+      "type": "unique violation",
+      "path": "search_histories_user_id_keyword_type",
+      "value": "650b875e-9c4f-43a1-8f27-82285784bf36-某某-users",
+      "origin": "DB",
+      "instance": {
+        "id": null,
+        "userId": "650b875e-9c4f-43a1-8f27-82285784bf36",
+        "keyword": "某某",
+        "type": "users",
+        "updatedAt": "2025-08-16T18:29:43.603Z",
+        "createdAt": "2025-08-16T18:29:43.603Z"
+      },
+      "validatorKey": "not_unique",
+      "validatorName": null,
+      "validatorArgs": []
+    }
+  ],
+  "parent": "[Circular]",
+  "original": {
+    "code": "ER_DUP_ENTRY",
+    "errno": 1062,
+    "sqlState": "23000",
+    "sqlMessage": "Duplicate entry '650b875e-9c4f-43a1-8f27-82285784bf36-某某-users' for key 'search_histories.search_histories_user_id_keyword_type'",
+    "sql": "INSERT INTO `search_histories` (`id`,`user_id`,`keyword`,`type`,`created_at`,`updated_at`) VALUES (DEFAULT,?,?,?,?,?);",
+    "parameters": [
+      "650b875e-9c4f-43a1-8f27-82285784bf36",
+      "某某",
+      "users",
+      "2025-08-17 02:29:43",
+      "2025-08-17 02:29:43"
+    ]
+  },
+  "fields": {
+    "search_histories_user_id_keyword_type": "650b875e-9c4f-43a1-8f27-82285784bf36-某某-users"
+  },
+  "sql": "INSERT INTO `search_histories` (`id`,`user_id`,`keyword`,`type`,`created_at`,`updated_at`) VALUES (DEFAULT,?,?,?,?,?);",
+  "stack": "Error\n    at Query.run (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\mysql\\query.js:52:25)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\sequelize.js:315:28\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async MySQLQueryInterface.insert (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\abstract\\query-interface.js:308:21)\n    at async model.save (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:2490:35)\n    at async SearchHistory.create (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:1362:12)\n    at async SearchService.saveSearchHistory (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:418:9)\n    at async SearchService.globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:61:9)\n    at async globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\search.controller.js:34:22)"
+}
+2025-08-17 02:29:43 error: 全局搜索失败: Validation error {
+  "service": "campus-wall-api",
+  "name": "SequelizeUniqueConstraintError",
+  "errors": [
+    {
+      "message": "search_histories_user_id_keyword_type must be unique",
+      "type": "unique violation",
+      "path": "search_histories_user_id_keyword_type",
+      "value": "650b875e-9c4f-43a1-8f27-82285784bf36-某某-users",
+      "origin": "DB",
+      "instance": {
+        "id": null,
+        "userId": "650b875e-9c4f-43a1-8f27-82285784bf36",
+        "keyword": "某某",
+        "type": "users",
+        "updatedAt": "2025-08-16T18:29:43.603Z",
+        "createdAt": "2025-08-16T18:29:43.603Z"
+      },
+      "validatorKey": "not_unique",
+      "validatorName": null,
+      "validatorArgs": []
+    }
+  ],
+  "parent": "[Circular]",
+  "original": {
+    "code": "ER_DUP_ENTRY",
+    "errno": 1062,
+    "sqlState": "23000",
+    "sqlMessage": "Duplicate entry '650b875e-9c4f-43a1-8f27-82285784bf36-某某-users' for key 'search_histories.search_histories_user_id_keyword_type'",
+    "sql": "INSERT INTO `search_histories` (`id`,`user_id`,`keyword`,`type`,`created_at`,`updated_at`) VALUES (DEFAULT,?,?,?,?,?);",
+    "parameters": [
+      "650b875e-9c4f-43a1-8f27-82285784bf36",
+      "某某",
+      "users",
+      "2025-08-17 02:29:43",
+      "2025-08-17 02:29:43"
+    ]
+  },
+  "fields": {
+    "search_histories_user_id_keyword_type": "650b875e-9c4f-43a1-8f27-82285784bf36-某某-users"
+  },
+  "sql": "INSERT INTO `search_histories` (`id`,`user_id`,`keyword`,`type`,`created_at`,`updated_at`) VALUES (DEFAULT,?,?,?,?,?);",
+  "stack": "Error\n    at Query.run (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\mysql\\query.js:52:25)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\sequelize.js:315:28\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async MySQLQueryInterface.insert (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\abstract\\query-interface.js:308:21)\n    at async model.save (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:2490:35)\n    at async SearchHistory.create (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:1362:12)\n    at async SearchService.saveSearchHistory (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:418:9)\n    at async SearchService.globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:61:9)\n    at async globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\search.controller.js:34:22)"
+}
+2025-08-17 02:29:52 error: 保存搜索历史失败: Validation error {
+  "service": "campus-wall-api",
+  "name": "SequelizeUniqueConstraintError",
+  "errors": [
+    {
+      "message": "search_histories_user_id_keyword_type must be unique",
+      "type": "unique violation",
+      "path": "search_histories_user_id_keyword_type",
+      "value": "650b875e-9c4f-43a1-8f27-82285784bf36-某某-all",
+      "origin": "DB",
+      "instance": {
+        "id": null,
+        "userId": "650b875e-9c4f-43a1-8f27-82285784bf36",
+        "keyword": "某某",
+        "type": "all",
+        "updatedAt": "2025-08-16T18:29:52.797Z",
+        "createdAt": "2025-08-16T18:29:52.797Z"
+      },
+      "validatorKey": "not_unique",
+      "validatorName": null,
+      "validatorArgs": []
+    }
+  ],
+  "parent": "[Circular]",
+  "original": {
+    "code": "ER_DUP_ENTRY",
+    "errno": 1062,
+    "sqlState": "23000",
+    "sqlMessage": "Duplicate entry '650b875e-9c4f-43a1-8f27-82285784bf36-某某-all' for key 'search_histories.search_histories_user_id_keyword_type'",
+    "sql": "INSERT INTO `search_histories` (`id`,`user_id`,`keyword`,`type`,`created_at`,`updated_at`) VALUES (DEFAULT,?,?,?,?,?);",
+    "parameters": [
+      "650b875e-9c4f-43a1-8f27-82285784bf36",
+      "某某",
+      "all",
+      "2025-08-17 02:29:52",
+      "2025-08-17 02:29:52"
+    ]
+  },
+  "fields": {
+    "search_histories_user_id_keyword_type": "650b875e-9c4f-43a1-8f27-82285784bf36-某某-all"
+  },
+  "sql": "INSERT INTO `search_histories` (`id`,`user_id`,`keyword`,`type`,`created_at`,`updated_at`) VALUES (DEFAULT,?,?,?,?,?);",
+  "stack": "Error\n    at Query.run (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\mysql\\query.js:52:25)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\sequelize.js:315:28\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async MySQLQueryInterface.insert (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\abstract\\query-interface.js:308:21)\n    at async model.save (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:2490:35)\n    at async SearchHistory.create (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:1362:12)\n    at async SearchService.saveSearchHistory (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:418:9)\n    at async SearchService.globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:61:9)\n    at async globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\search.controller.js:34:22)"
+}
+2025-08-17 02:29:52 error: 全局搜索失败: Validation error {
+  "service": "campus-wall-api",
+  "name": "SequelizeUniqueConstraintError",
+  "errors": [
+    {
+      "message": "search_histories_user_id_keyword_type must be unique",
+      "type": "unique violation",
+      "path": "search_histories_user_id_keyword_type",
+      "value": "650b875e-9c4f-43a1-8f27-82285784bf36-某某-all",
+      "origin": "DB",
+      "instance": {
+        "id": null,
+        "userId": "650b875e-9c4f-43a1-8f27-82285784bf36",
+        "keyword": "某某",
+        "type": "all",
+        "updatedAt": "2025-08-16T18:29:52.797Z",
+        "createdAt": "2025-08-16T18:29:52.797Z"
+      },
+      "validatorKey": "not_unique",
+      "validatorName": null,
+      "validatorArgs": []
+    }
+  ],
+  "parent": "[Circular]",
+  "original": {
+    "code": "ER_DUP_ENTRY",
+    "errno": 1062,
+    "sqlState": "23000",
+    "sqlMessage": "Duplicate entry '650b875e-9c4f-43a1-8f27-82285784bf36-某某-all' for key 'search_histories.search_histories_user_id_keyword_type'",
+    "sql": "INSERT INTO `search_histories` (`id`,`user_id`,`keyword`,`type`,`created_at`,`updated_at`) VALUES (DEFAULT,?,?,?,?,?);",
+    "parameters": [
+      "650b875e-9c4f-43a1-8f27-82285784bf36",
+      "某某",
+      "all",
+      "2025-08-17 02:29:52",
+      "2025-08-17 02:29:52"
+    ]
+  },
+  "fields": {
+    "search_histories_user_id_keyword_type": "650b875e-9c4f-43a1-8f27-82285784bf36-某某-all"
+  },
+  "sql": "INSERT INTO `search_histories` (`id`,`user_id`,`keyword`,`type`,`created_at`,`updated_at`) VALUES (DEFAULT,?,?,?,?,?);",
+  "stack": "Error\n    at Query.run (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\mysql\\query.js:52:25)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\sequelize.js:315:28\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async MySQLQueryInterface.insert (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\abstract\\query-interface.js:308:21)\n    at async model.save (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:2490:35)\n    at async SearchHistory.create (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:1362:12)\n    at async SearchService.saveSearchHistory (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:418:9)\n    at async SearchService.globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:61:9)\n    at async globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\search.controller.js:34:22)"
+}
+2025-08-17 02:29:52 error: 全局搜索失败: Validation error {
+  "service": "campus-wall-api",
+  "name": "SequelizeUniqueConstraintError",
+  "errors": [
+    {
+      "message": "search_histories_user_id_keyword_type must be unique",
+      "type": "unique violation",
+      "path": "search_histories_user_id_keyword_type",
+      "value": "650b875e-9c4f-43a1-8f27-82285784bf36-某某-all",
+      "origin": "DB",
+      "instance": {
+        "id": null,
+        "userId": "650b875e-9c4f-43a1-8f27-82285784bf36",
+        "keyword": "某某",
+        "type": "all",
+        "updatedAt": "2025-08-16T18:29:52.797Z",
+        "createdAt": "2025-08-16T18:29:52.797Z"
+      },
+      "validatorKey": "not_unique",
+      "validatorName": null,
+      "validatorArgs": []
+    }
+  ],
+  "parent": "[Circular]",
+  "original": {
+    "code": "ER_DUP_ENTRY",
+    "errno": 1062,
+    "sqlState": "23000",
+    "sqlMessage": "Duplicate entry '650b875e-9c4f-43a1-8f27-82285784bf36-某某-all' for key 'search_histories.search_histories_user_id_keyword_type'",
+    "sql": "INSERT INTO `search_histories` (`id`,`user_id`,`keyword`,`type`,`created_at`,`updated_at`) VALUES (DEFAULT,?,?,?,?,?);",
+    "parameters": [
+      "650b875e-9c4f-43a1-8f27-82285784bf36",
+      "某某",
+      "all",
+      "2025-08-17 02:29:52",
+      "2025-08-17 02:29:52"
+    ]
+  },
+  "fields": {
+    "search_histories_user_id_keyword_type": "650b875e-9c4f-43a1-8f27-82285784bf36-某某-all"
+  },
+  "sql": "INSERT INTO `search_histories` (`id`,`user_id`,`keyword`,`type`,`created_at`,`updated_at`) VALUES (DEFAULT,?,?,?,?,?);",
+  "stack": "Error\n    at Query.run (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\mysql\\query.js:52:25)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\sequelize.js:315:28\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async MySQLQueryInterface.insert (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\abstract\\query-interface.js:308:21)\n    at async model.save (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:2490:35)\n    at async SearchHistory.create (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:1362:12)\n    at async SearchService.saveSearchHistory (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:418:9)\n    at async SearchService.globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:61:9)\n    at async globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\search.controller.js:34:22)"
+}
+2025-08-17 02:30:46 error: Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:3000 {
+  "service": "campus-wall-api",
+  "code": "EADDRINUSE",
+  "errno": -4091,
+  "syscall": "listen",
+  "address": "0.0.0.0",
+  "port": 3000,
+  "stack": "Error: listen EADDRINUSE: address already in use 0.0.0.0:3000\n    at Server.setupListenHandle [as _listen2] (node:net:1940:16)\n    at listenInCluster (node:net:1997:12)\n    at node:net:2206:7\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)"
+}
+2025-08-17 02:31:15 error: 保存搜索历史失败: Validation error {
+  "service": "campus-wall-api",
+  "name": "SequelizeUniqueConstraintError",
+  "errors": [
+    {
+      "message": "search_histories_user_id_keyword_type must be unique",
+      "type": "unique violation",
+      "path": "search_histories_user_id_keyword_type",
+      "value": "650b875e-9c4f-43a1-8f27-82285784bf36-某某-all",
+      "origin": "DB",
+      "instance": {
+        "id": null,
+        "userId": "650b875e-9c4f-43a1-8f27-82285784bf36",
+        "keyword": "某某",
+        "type": "all",
+        "updatedAt": "2025-08-16T18:31:15.088Z",
+        "createdAt": "2025-08-16T18:31:15.088Z"
+      },
+      "validatorKey": "not_unique",
+      "validatorName": null,
+      "validatorArgs": []
+    }
+  ],
+  "parent": "[Circular]",
+  "original": {
+    "code": "ER_DUP_ENTRY",
+    "errno": 1062,
+    "sqlState": "23000",
+    "sqlMessage": "Duplicate entry '650b875e-9c4f-43a1-8f27-82285784bf36-某某-all' for key 'search_histories.search_histories_user_id_keyword_type'",
+    "sql": "INSERT INTO `search_histories` (`id`,`user_id`,`keyword`,`type`,`created_at`,`updated_at`) VALUES (DEFAULT,?,?,?,?,?);",
+    "parameters": [
+      "650b875e-9c4f-43a1-8f27-82285784bf36",
+      "某某",
+      "all",
+      "2025-08-17 02:31:15",
+      "2025-08-17 02:31:15"
+    ]
+  },
+  "fields": {
+    "search_histories_user_id_keyword_type": "650b875e-9c4f-43a1-8f27-82285784bf36-某某-all"
+  },
+  "sql": "INSERT INTO `search_histories` (`id`,`user_id`,`keyword`,`type`,`created_at`,`updated_at`) VALUES (DEFAULT,?,?,?,?,?);",
+  "stack": "Error\n    at Query.run (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\mysql\\query.js:52:25)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\sequelize.js:315:28\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async MySQLQueryInterface.insert (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\abstract\\query-interface.js:308:21)\n    at async model.save (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:2490:35)\n    at async SearchHistory.create (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:1362:12)\n    at async SearchService.saveSearchHistory (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:418:9)\n    at async SearchService.globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:61:9)\n    at async globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\search.controller.js:34:22)"
+}
+2025-08-17 02:31:15 error: 全局搜索失败: Validation error {
+  "service": "campus-wall-api",
+  "name": "SequelizeUniqueConstraintError",
+  "errors": [
+    {
+      "message": "search_histories_user_id_keyword_type must be unique",
+      "type": "unique violation",
+      "path": "search_histories_user_id_keyword_type",
+      "value": "650b875e-9c4f-43a1-8f27-82285784bf36-某某-all",
+      "origin": "DB",
+      "instance": {
+        "id": null,
+        "userId": "650b875e-9c4f-43a1-8f27-82285784bf36",
+        "keyword": "某某",
+        "type": "all",
+        "updatedAt": "2025-08-16T18:31:15.088Z",
+        "createdAt": "2025-08-16T18:31:15.088Z"
+      },
+      "validatorKey": "not_unique",
+      "validatorName": null,
+      "validatorArgs": []
+    }
+  ],
+  "parent": "[Circular]",
+  "original": {
+    "code": "ER_DUP_ENTRY",
+    "errno": 1062,
+    "sqlState": "23000",
+    "sqlMessage": "Duplicate entry '650b875e-9c4f-43a1-8f27-82285784bf36-某某-all' for key 'search_histories.search_histories_user_id_keyword_type'",
+    "sql": "INSERT INTO `search_histories` (`id`,`user_id`,`keyword`,`type`,`created_at`,`updated_at`) VALUES (DEFAULT,?,?,?,?,?);",
+    "parameters": [
+      "650b875e-9c4f-43a1-8f27-82285784bf36",
+      "某某",
+      "all",
+      "2025-08-17 02:31:15",
+      "2025-08-17 02:31:15"
+    ]
+  },
+  "fields": {
+    "search_histories_user_id_keyword_type": "650b875e-9c4f-43a1-8f27-82285784bf36-某某-all"
+  },
+  "sql": "INSERT INTO `search_histories` (`id`,`user_id`,`keyword`,`type`,`created_at`,`updated_at`) VALUES (DEFAULT,?,?,?,?,?);",
+  "stack": "Error\n    at Query.run (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\mysql\\query.js:52:25)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\sequelize.js:315:28\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async MySQLQueryInterface.insert (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\abstract\\query-interface.js:308:21)\n    at async model.save (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:2490:35)\n    at async SearchHistory.create (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:1362:12)\n    at async SearchService.saveSearchHistory (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:418:9)\n    at async SearchService.globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:61:9)\n    at async globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\search.controller.js:34:22)"
+}
+2025-08-17 02:31:15 error: 全局搜索失败: Validation error {
+  "service": "campus-wall-api",
+  "name": "SequelizeUniqueConstraintError",
+  "errors": [
+    {
+      "message": "search_histories_user_id_keyword_type must be unique",
+      "type": "unique violation",
+      "path": "search_histories_user_id_keyword_type",
+      "value": "650b875e-9c4f-43a1-8f27-82285784bf36-某某-all",
+      "origin": "DB",
+      "instance": {
+        "id": null,
+        "userId": "650b875e-9c4f-43a1-8f27-82285784bf36",
+        "keyword": "某某",
+        "type": "all",
+        "updatedAt": "2025-08-16T18:31:15.088Z",
+        "createdAt": "2025-08-16T18:31:15.088Z"
+      },
+      "validatorKey": "not_unique",
+      "validatorName": null,
+      "validatorArgs": []
+    }
+  ],
+  "parent": "[Circular]",
+  "original": {
+    "code": "ER_DUP_ENTRY",
+    "errno": 1062,
+    "sqlState": "23000",
+    "sqlMessage": "Duplicate entry '650b875e-9c4f-43a1-8f27-82285784bf36-某某-all' for key 'search_histories.search_histories_user_id_keyword_type'",
+    "sql": "INSERT INTO `search_histories` (`id`,`user_id`,`keyword`,`type`,`created_at`,`updated_at`) VALUES (DEFAULT,?,?,?,?,?);",
+    "parameters": [
+      "650b875e-9c4f-43a1-8f27-82285784bf36",
+      "某某",
+      "all",
+      "2025-08-17 02:31:15",
+      "2025-08-17 02:31:15"
+    ]
+  },
+  "fields": {
+    "search_histories_user_id_keyword_type": "650b875e-9c4f-43a1-8f27-82285784bf36-某某-all"
+  },
+  "sql": "INSERT INTO `search_histories` (`id`,`user_id`,`keyword`,`type`,`created_at`,`updated_at`) VALUES (DEFAULT,?,?,?,?,?);",
+  "stack": "Error\n    at Query.run (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\mysql\\query.js:52:25)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\sequelize.js:315:28\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async MySQLQueryInterface.insert (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\abstract\\query-interface.js:308:21)\n    at async model.save (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:2490:35)\n    at async SearchHistory.create (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:1362:12)\n    at async SearchService.saveSearchHistory (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:418:9)\n    at async SearchService.globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:61:9)\n    at async globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\search.controller.js:34:22)"
+}
+2025-08-17 03:13:21 error: [GET] /api/posts/undefined {
+  "service": "campus-wall-api",
+  "error": "帖子不存在",
+  "stack": "Error: 帖子不存在\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at PostService.getPostById (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\post.service.js:128:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getPostDetail (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\post.controller.js:155:20)",
+  "body": {},
+  "params": {},
+  "query": {}
+}
+2025-08-17 03:13:30 error: [GET] /api/posts/undefined {
+  "service": "campus-wall-api",
+  "error": "帖子不存在",
+  "stack": "Error: 帖子不存在\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at PostService.getPostById (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\post.service.js:128:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getPostDetail (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\post.controller.js:155:20)",
+  "body": {},
+  "params": {},
+  "query": {}
+}
+2025-08-17 14:00:06 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-08-17 14:02:34 error: 保存搜索历史失败: Validation error {
+  "service": "campus-wall-api",
+  "name": "SequelizeUniqueConstraintError",
+  "errors": [
+    {
+      "message": "search_histories_user_id_keyword must be unique",
+      "type": "unique violation",
+      "path": "search_histories_user_id_keyword",
+      "value": "650b875e-9c4f-43a1-8f27-82285784bf36-1",
+      "origin": "DB",
+      "instance": {
+        "id": null,
+        "userId": "650b875e-9c4f-43a1-8f27-82285784bf36",
+        "keyword": "1",
+        "type": "all",
+        "updatedAt": "2025-08-17T06:02:34.806Z",
+        "createdAt": "2025-08-17T06:02:34.806Z"
+      },
+      "validatorKey": "not_unique",
+      "validatorName": null,
+      "validatorArgs": []
+    }
+  ],
+  "parent": "[Circular]",
+  "original": {
+    "code": "ER_DUP_ENTRY",
+    "errno": 1062,
+    "sqlState": "23000",
+    "sqlMessage": "Duplicate entry '650b875e-9c4f-43a1-8f27-82285784bf36-1' for key 'search_histories.search_histories_user_id_keyword'",
+    "sql": "INSERT INTO `search_histories` (`id`,`user_id`,`keyword`,`type`,`created_at`,`updated_at`) VALUES (DEFAULT,?,?,?,?,?);",
+    "parameters": [
+      "650b875e-9c4f-43a1-8f27-82285784bf36",
+      "1",
+      "all",
+      "2025-08-17 14:02:34",
+      "2025-08-17 14:02:34"
+    ]
+  },
+  "fields": {
+    "search_histories_user_id_keyword": "650b875e-9c4f-43a1-8f27-82285784bf36-1"
+  },
+  "sql": "INSERT INTO `search_histories` (`id`,`user_id`,`keyword`,`type`,`created_at`,`updated_at`) VALUES (DEFAULT,?,?,?,?,?);",
+  "stack": "Error\n    at Query.run (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\mysql\\query.js:52:25)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\sequelize.js:315:28\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async MySQLQueryInterface.insert (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\abstract\\query-interface.js:308:21)\n    at async model.save (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:2490:35)\n    at async SearchHistory.create (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:1362:12)\n    at async SearchService.saveSearchHistory (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:405:9)\n    at async SearchService.globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:61:9)\n    at async globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\search.controller.js:34:22)"
+}
+2025-08-17 14:02:34 error: 全局搜索失败: Validation error {
+  "service": "campus-wall-api",
+  "name": "SequelizeUniqueConstraintError",
+  "errors": [
+    {
+      "message": "search_histories_user_id_keyword must be unique",
+      "type": "unique violation",
+      "path": "search_histories_user_id_keyword",
+      "value": "650b875e-9c4f-43a1-8f27-82285784bf36-1",
+      "origin": "DB",
+      "instance": {
+        "id": null,
+        "userId": "650b875e-9c4f-43a1-8f27-82285784bf36",
+        "keyword": "1",
+        "type": "all",
+        "updatedAt": "2025-08-17T06:02:34.806Z",
+        "createdAt": "2025-08-17T06:02:34.806Z"
+      },
+      "validatorKey": "not_unique",
+      "validatorName": null,
+      "validatorArgs": []
+    }
+  ],
+  "parent": "[Circular]",
+  "original": {
+    "code": "ER_DUP_ENTRY",
+    "errno": 1062,
+    "sqlState": "23000",
+    "sqlMessage": "Duplicate entry '650b875e-9c4f-43a1-8f27-82285784bf36-1' for key 'search_histories.search_histories_user_id_keyword'",
+    "sql": "INSERT INTO `search_histories` (`id`,`user_id`,`keyword`,`type`,`created_at`,`updated_at`) VALUES (DEFAULT,?,?,?,?,?);",
+    "parameters": [
+      "650b875e-9c4f-43a1-8f27-82285784bf36",
+      "1",
+      "all",
+      "2025-08-17 14:02:34",
+      "2025-08-17 14:02:34"
+    ]
+  },
+  "fields": {
+    "search_histories_user_id_keyword": "650b875e-9c4f-43a1-8f27-82285784bf36-1"
+  },
+  "sql": "INSERT INTO `search_histories` (`id`,`user_id`,`keyword`,`type`,`created_at`,`updated_at`) VALUES (DEFAULT,?,?,?,?,?);",
+  "stack": "Error\n    at Query.run (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\mysql\\query.js:52:25)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\sequelize.js:315:28\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async MySQLQueryInterface.insert (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\abstract\\query-interface.js:308:21)\n    at async model.save (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:2490:35)\n    at async SearchHistory.create (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:1362:12)\n    at async SearchService.saveSearchHistory (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:405:9)\n    at async SearchService.globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:61:9)\n    at async globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\search.controller.js:34:22)"
+}
+2025-08-17 14:02:34 error: 全局搜索失败: Validation error {
+  "service": "campus-wall-api",
+  "name": "SequelizeUniqueConstraintError",
+  "errors": [
+    {
+      "message": "search_histories_user_id_keyword must be unique",
+      "type": "unique violation",
+      "path": "search_histories_user_id_keyword",
+      "value": "650b875e-9c4f-43a1-8f27-82285784bf36-1",
+      "origin": "DB",
+      "instance": {
+        "id": null,
+        "userId": "650b875e-9c4f-43a1-8f27-82285784bf36",
+        "keyword": "1",
+        "type": "all",
+        "updatedAt": "2025-08-17T06:02:34.806Z",
+        "createdAt": "2025-08-17T06:02:34.806Z"
+      },
+      "validatorKey": "not_unique",
+      "validatorName": null,
+      "validatorArgs": []
+    }
+  ],
+  "parent": "[Circular]",
+  "original": {
+    "code": "ER_DUP_ENTRY",
+    "errno": 1062,
+    "sqlState": "23000",
+    "sqlMessage": "Duplicate entry '650b875e-9c4f-43a1-8f27-82285784bf36-1' for key 'search_histories.search_histories_user_id_keyword'",
+    "sql": "INSERT INTO `search_histories` (`id`,`user_id`,`keyword`,`type`,`created_at`,`updated_at`) VALUES (DEFAULT,?,?,?,?,?);",
+    "parameters": [
+      "650b875e-9c4f-43a1-8f27-82285784bf36",
+      "1",
+      "all",
+      "2025-08-17 14:02:34",
+      "2025-08-17 14:02:34"
+    ]
+  },
+  "fields": {
+    "search_histories_user_id_keyword": "650b875e-9c4f-43a1-8f27-82285784bf36-1"
+  },
+  "sql": "INSERT INTO `search_histories` (`id`,`user_id`,`keyword`,`type`,`created_at`,`updated_at`) VALUES (DEFAULT,?,?,?,?,?);",
+  "stack": "Error\n    at Query.run (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\mysql\\query.js:52:25)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\sequelize.js:315:28\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async MySQLQueryInterface.insert (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\abstract\\query-interface.js:308:21)\n    at async model.save (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:2490:35)\n    at async SearchHistory.create (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:1362:12)\n    at async SearchService.saveSearchHistory (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:405:9)\n    at async SearchService.globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:61:9)\n    at async globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\search.controller.js:34:22)"
+}
+2025-08-17 14:07:14 error: 保存搜索历史失败: Validation error {
+  "service": "campus-wall-api",
+  "name": "SequelizeUniqueConstraintError",
+  "errors": [
+    {
+      "message": "search_histories_user_id_keyword must be unique",
+      "type": "unique violation",
+      "path": "search_histories_user_id_keyword",
+      "value": "650b875e-9c4f-43a1-8f27-82285784bf36-1",
+      "origin": "DB",
+      "instance": {
+        "id": null,
+        "userId": "650b875e-9c4f-43a1-8f27-82285784bf36",
+        "keyword": "1",
+        "type": "all",
+        "updatedAt": "2025-08-17T06:07:14.501Z",
+        "createdAt": "2025-08-17T06:07:14.501Z"
+      },
+      "validatorKey": "not_unique",
+      "validatorName": null,
+      "validatorArgs": []
+    }
+  ],
+  "parent": "[Circular]",
+  "original": {
+    "code": "ER_DUP_ENTRY",
+    "errno": 1062,
+    "sqlState": "23000",
+    "sqlMessage": "Duplicate entry '650b875e-9c4f-43a1-8f27-82285784bf36-1' for key 'search_histories.search_histories_user_id_keyword'",
+    "sql": "INSERT INTO `search_histories` (`id`,`user_id`,`keyword`,`type`,`created_at`,`updated_at`) VALUES (DEFAULT,?,?,?,?,?);",
+    "parameters": [
+      "650b875e-9c4f-43a1-8f27-82285784bf36",
+      "1",
+      "all",
+      "2025-08-17 14:07:14",
+      "2025-08-17 14:07:14"
+    ]
+  },
+  "fields": {
+    "search_histories_user_id_keyword": "650b875e-9c4f-43a1-8f27-82285784bf36-1"
+  },
+  "sql": "INSERT INTO `search_histories` (`id`,`user_id`,`keyword`,`type`,`created_at`,`updated_at`) VALUES (DEFAULT,?,?,?,?,?);",
+  "stack": "Error\n    at Query.run (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\mysql\\query.js:52:25)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\sequelize.js:315:28\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async MySQLQueryInterface.insert (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\abstract\\query-interface.js:308:21)\n    at async model.save (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:2490:35)\n    at async SearchHistory.create (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:1362:12)\n    at async SearchService.saveSearchHistory (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:405:9)\n    at async SearchService.globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:61:9)\n    at async globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\search.controller.js:34:22)"
+}
+2025-08-17 14:07:14 error: 全局搜索失败: Validation error {
+  "service": "campus-wall-api",
+  "name": "SequelizeUniqueConstraintError",
+  "errors": [
+    {
+      "message": "search_histories_user_id_keyword must be unique",
+      "type": "unique violation",
+      "path": "search_histories_user_id_keyword",
+      "value": "650b875e-9c4f-43a1-8f27-82285784bf36-1",
+      "origin": "DB",
+      "instance": {
+        "id": null,
+        "userId": "650b875e-9c4f-43a1-8f27-82285784bf36",
+        "keyword": "1",
+        "type": "all",
+        "updatedAt": "2025-08-17T06:07:14.501Z",
+        "createdAt": "2025-08-17T06:07:14.501Z"
+      },
+      "validatorKey": "not_unique",
+      "validatorName": null,
+      "validatorArgs": []
+    }
+  ],
+  "parent": "[Circular]",
+  "original": {
+    "code": "ER_DUP_ENTRY",
+    "errno": 1062,
+    "sqlState": "23000",
+    "sqlMessage": "Duplicate entry '650b875e-9c4f-43a1-8f27-82285784bf36-1' for key 'search_histories.search_histories_user_id_keyword'",
+    "sql": "INSERT INTO `search_histories` (`id`,`user_id`,`keyword`,`type`,`created_at`,`updated_at`) VALUES (DEFAULT,?,?,?,?,?);",
+    "parameters": [
+      "650b875e-9c4f-43a1-8f27-82285784bf36",
+      "1",
+      "all",
+      "2025-08-17 14:07:14",
+      "2025-08-17 14:07:14"
+    ]
+  },
+  "fields": {
+    "search_histories_user_id_keyword": "650b875e-9c4f-43a1-8f27-82285784bf36-1"
+  },
+  "sql": "INSERT INTO `search_histories` (`id`,`user_id`,`keyword`,`type`,`created_at`,`updated_at`) VALUES (DEFAULT,?,?,?,?,?);",
+  "stack": "Error\n    at Query.run (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\mysql\\query.js:52:25)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\sequelize.js:315:28\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async MySQLQueryInterface.insert (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\abstract\\query-interface.js:308:21)\n    at async model.save (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:2490:35)\n    at async SearchHistory.create (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:1362:12)\n    at async SearchService.saveSearchHistory (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:405:9)\n    at async SearchService.globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:61:9)\n    at async globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\search.controller.js:34:22)"
+}
+2025-08-17 14:07:14 error: 全局搜索失败: Validation error {
+  "service": "campus-wall-api",
+  "name": "SequelizeUniqueConstraintError",
+  "errors": [
+    {
+      "message": "search_histories_user_id_keyword must be unique",
+      "type": "unique violation",
+      "path": "search_histories_user_id_keyword",
+      "value": "650b875e-9c4f-43a1-8f27-82285784bf36-1",
+      "origin": "DB",
+      "instance": {
+        "id": null,
+        "userId": "650b875e-9c4f-43a1-8f27-82285784bf36",
+        "keyword": "1",
+        "type": "all",
+        "updatedAt": "2025-08-17T06:07:14.501Z",
+        "createdAt": "2025-08-17T06:07:14.501Z"
+      },
+      "validatorKey": "not_unique",
+      "validatorName": null,
+      "validatorArgs": []
+    }
+  ],
+  "parent": "[Circular]",
+  "original": {
+    "code": "ER_DUP_ENTRY",
+    "errno": 1062,
+    "sqlState": "23000",
+    "sqlMessage": "Duplicate entry '650b875e-9c4f-43a1-8f27-82285784bf36-1' for key 'search_histories.search_histories_user_id_keyword'",
+    "sql": "INSERT INTO `search_histories` (`id`,`user_id`,`keyword`,`type`,`created_at`,`updated_at`) VALUES (DEFAULT,?,?,?,?,?);",
+    "parameters": [
+      "650b875e-9c4f-43a1-8f27-82285784bf36",
+      "1",
+      "all",
+      "2025-08-17 14:07:14",
+      "2025-08-17 14:07:14"
+    ]
+  },
+  "fields": {
+    "search_histories_user_id_keyword": "650b875e-9c4f-43a1-8f27-82285784bf36-1"
+  },
+  "sql": "INSERT INTO `search_histories` (`id`,`user_id`,`keyword`,`type`,`created_at`,`updated_at`) VALUES (DEFAULT,?,?,?,?,?);",
+  "stack": "Error\n    at Query.run (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\mysql\\query.js:52:25)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\sequelize.js:315:28\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async MySQLQueryInterface.insert (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\abstract\\query-interface.js:308:21)\n    at async model.save (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:2490:35)\n    at async SearchHistory.create (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:1362:12)\n    at async SearchService.saveSearchHistory (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:405:9)\n    at async SearchService.globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:61:9)\n    at async globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\search.controller.js:34:22)"
+}
+2025-08-17 14:07:45 error: 保存搜索历史失败: Validation error {
+  "service": "campus-wall-api",
+  "name": "SequelizeUniqueConstraintError",
+  "errors": [
+    {
+      "message": "search_histories_user_id_keyword must be unique",
+      "type": "unique violation",
+      "path": "search_histories_user_id_keyword",
+      "value": "650b875e-9c4f-43a1-8f27-82285784bf36-1",
+      "origin": "DB",
+      "instance": {
+        "id": null,
+        "userId": "650b875e-9c4f-43a1-8f27-82285784bf36",
+        "keyword": "1",
+        "type": "all",
+        "updatedAt": "2025-08-17T06:07:45.349Z",
+        "createdAt": "2025-08-17T06:07:45.349Z"
+      },
+      "validatorKey": "not_unique",
+      "validatorName": null,
+      "validatorArgs": []
+    }
+  ],
+  "parent": "[Circular]",
+  "original": {
+    "code": "ER_DUP_ENTRY",
+    "errno": 1062,
+    "sqlState": "23000",
+    "sqlMessage": "Duplicate entry '650b875e-9c4f-43a1-8f27-82285784bf36-1' for key 'search_histories.search_histories_user_id_keyword'",
+    "sql": "INSERT INTO `search_histories` (`id`,`user_id`,`keyword`,`type`,`created_at`,`updated_at`) VALUES (DEFAULT,?,?,?,?,?);",
+    "parameters": [
+      "650b875e-9c4f-43a1-8f27-82285784bf36",
+      "1",
+      "all",
+      "2025-08-17 14:07:45",
+      "2025-08-17 14:07:45"
+    ]
+  },
+  "fields": {
+    "search_histories_user_id_keyword": "650b875e-9c4f-43a1-8f27-82285784bf36-1"
+  },
+  "sql": "INSERT INTO `search_histories` (`id`,`user_id`,`keyword`,`type`,`created_at`,`updated_at`) VALUES (DEFAULT,?,?,?,?,?);",
+  "stack": "Error\n    at Query.run (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\mysql\\query.js:52:25)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\sequelize.js:315:28\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async MySQLQueryInterface.insert (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\abstract\\query-interface.js:308:21)\n    at async model.save (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:2490:35)\n    at async SearchHistory.create (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:1362:12)\n    at async SearchService.saveSearchHistory (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:405:9)\n    at async SearchService.globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:61:9)\n    at async globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\search.controller.js:34:22)"
+}
+2025-08-17 14:07:45 error: 全局搜索失败: Validation error {
+  "service": "campus-wall-api",
+  "name": "SequelizeUniqueConstraintError",
+  "errors": [
+    {
+      "message": "search_histories_user_id_keyword must be unique",
+      "type": "unique violation",
+      "path": "search_histories_user_id_keyword",
+      "value": "650b875e-9c4f-43a1-8f27-82285784bf36-1",
+      "origin": "DB",
+      "instance": {
+        "id": null,
+        "userId": "650b875e-9c4f-43a1-8f27-82285784bf36",
+        "keyword": "1",
+        "type": "all",
+        "updatedAt": "2025-08-17T06:07:45.349Z",
+        "createdAt": "2025-08-17T06:07:45.349Z"
+      },
+      "validatorKey": "not_unique",
+      "validatorName": null,
+      "validatorArgs": []
+    }
+  ],
+  "parent": "[Circular]",
+  "original": {
+    "code": "ER_DUP_ENTRY",
+    "errno": 1062,
+    "sqlState": "23000",
+    "sqlMessage": "Duplicate entry '650b875e-9c4f-43a1-8f27-82285784bf36-1' for key 'search_histories.search_histories_user_id_keyword'",
+    "sql": "INSERT INTO `search_histories` (`id`,`user_id`,`keyword`,`type`,`created_at`,`updated_at`) VALUES (DEFAULT,?,?,?,?,?);",
+    "parameters": [
+      "650b875e-9c4f-43a1-8f27-82285784bf36",
+      "1",
+      "all",
+      "2025-08-17 14:07:45",
+      "2025-08-17 14:07:45"
+    ]
+  },
+  "fields": {
+    "search_histories_user_id_keyword": "650b875e-9c4f-43a1-8f27-82285784bf36-1"
+  },
+  "sql": "INSERT INTO `search_histories` (`id`,`user_id`,`keyword`,`type`,`created_at`,`updated_at`) VALUES (DEFAULT,?,?,?,?,?);",
+  "stack": "Error\n    at Query.run (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\mysql\\query.js:52:25)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\sequelize.js:315:28\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async MySQLQueryInterface.insert (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\abstract\\query-interface.js:308:21)\n    at async model.save (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:2490:35)\n    at async SearchHistory.create (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:1362:12)\n    at async SearchService.saveSearchHistory (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:405:9)\n    at async SearchService.globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:61:9)\n    at async globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\search.controller.js:34:22)"
+}
+2025-08-17 14:07:45 error: 全局搜索失败: Validation error {
+  "service": "campus-wall-api",
+  "name": "SequelizeUniqueConstraintError",
+  "errors": [
+    {
+      "message": "search_histories_user_id_keyword must be unique",
+      "type": "unique violation",
+      "path": "search_histories_user_id_keyword",
+      "value": "650b875e-9c4f-43a1-8f27-82285784bf36-1",
+      "origin": "DB",
+      "instance": {
+        "id": null,
+        "userId": "650b875e-9c4f-43a1-8f27-82285784bf36",
+        "keyword": "1",
+        "type": "all",
+        "updatedAt": "2025-08-17T06:07:45.349Z",
+        "createdAt": "2025-08-17T06:07:45.349Z"
+      },
+      "validatorKey": "not_unique",
+      "validatorName": null,
+      "validatorArgs": []
+    }
+  ],
+  "parent": "[Circular]",
+  "original": {
+    "code": "ER_DUP_ENTRY",
+    "errno": 1062,
+    "sqlState": "23000",
+    "sqlMessage": "Duplicate entry '650b875e-9c4f-43a1-8f27-82285784bf36-1' for key 'search_histories.search_histories_user_id_keyword'",
+    "sql": "INSERT INTO `search_histories` (`id`,`user_id`,`keyword`,`type`,`created_at`,`updated_at`) VALUES (DEFAULT,?,?,?,?,?);",
+    "parameters": [
+      "650b875e-9c4f-43a1-8f27-82285784bf36",
+      "1",
+      "all",
+      "2025-08-17 14:07:45",
+      "2025-08-17 14:07:45"
+    ]
+  },
+  "fields": {
+    "search_histories_user_id_keyword": "650b875e-9c4f-43a1-8f27-82285784bf36-1"
+  },
+  "sql": "INSERT INTO `search_histories` (`id`,`user_id`,`keyword`,`type`,`created_at`,`updated_at`) VALUES (DEFAULT,?,?,?,?,?);",
+  "stack": "Error\n    at Query.run (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\mysql\\query.js:52:25)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\sequelize.js:315:28\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async MySQLQueryInterface.insert (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\abstract\\query-interface.js:308:21)\n    at async model.save (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:2490:35)\n    at async SearchHistory.create (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:1362:12)\n    at async SearchService.saveSearchHistory (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:405:9)\n    at async SearchService.globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:61:9)\n    at async globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\search.controller.js:34:22)"
+}
+2025-08-18 00:56:14 error: 保存搜索历史失败: Validation error {
+  "service": "campus-wall-api",
+  "name": "SequelizeUniqueConstraintError",
+  "errors": [
+    {
+      "message": "search_histories_user_id_keyword must be unique",
+      "type": "unique violation",
+      "path": "search_histories_user_id_keyword",
+      "value": "650b875e-9c4f-43a1-8f27-82285784bf36-111",
+      "origin": "DB",
+      "instance": {
+        "id": null,
+        "userId": "650b875e-9c4f-43a1-8f27-82285784bf36",
+        "keyword": "111",
+        "type": "all",
+        "updatedAt": "2025-08-17T16:56:14.471Z",
+        "createdAt": "2025-08-17T16:56:14.471Z"
+      },
+      "validatorKey": "not_unique",
+      "validatorName": null,
+      "validatorArgs": []
+    }
+  ],
+  "parent": "[Circular]",
+  "original": {
+    "code": "ER_DUP_ENTRY",
+    "errno": 1062,
+    "sqlState": "23000",
+    "sqlMessage": "Duplicate entry '650b875e-9c4f-43a1-8f27-82285784bf36-111' for key 'search_histories.search_histories_user_id_keyword'",
+    "sql": "INSERT INTO `search_histories` (`id`,`user_id`,`keyword`,`type`,`created_at`,`updated_at`) VALUES (DEFAULT,?,?,?,?,?);",
+    "parameters": [
+      "650b875e-9c4f-43a1-8f27-82285784bf36",
+      "111",
+      "all",
+      "2025-08-18 00:56:14",
+      "2025-08-18 00:56:14"
+    ]
+  },
+  "fields": {
+    "search_histories_user_id_keyword": "650b875e-9c4f-43a1-8f27-82285784bf36-111"
+  },
+  "sql": "INSERT INTO `search_histories` (`id`,`user_id`,`keyword`,`type`,`created_at`,`updated_at`) VALUES (DEFAULT,?,?,?,?,?);",
+  "stack": "Error\n    at Query.run (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\mysql\\query.js:52:25)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\sequelize.js:315:28\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async MySQLQueryInterface.insert (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\abstract\\query-interface.js:308:21)\n    at async model.save (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:2490:35)\n    at async SearchHistory.create (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:1362:12)\n    at async SearchService.saveSearchHistory (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:405:9)\n    at async SearchService.globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:61:9)\n    at async globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\search.controller.js:34:22)"
+}
+2025-08-18 00:56:14 error: 全局搜索失败: Validation error {
+  "service": "campus-wall-api",
+  "name": "SequelizeUniqueConstraintError",
+  "errors": [
+    {
+      "message": "search_histories_user_id_keyword must be unique",
+      "type": "unique violation",
+      "path": "search_histories_user_id_keyword",
+      "value": "650b875e-9c4f-43a1-8f27-82285784bf36-111",
+      "origin": "DB",
+      "instance": {
+        "id": null,
+        "userId": "650b875e-9c4f-43a1-8f27-82285784bf36",
+        "keyword": "111",
+        "type": "all",
+        "updatedAt": "2025-08-17T16:56:14.471Z",
+        "createdAt": "2025-08-17T16:56:14.471Z"
+      },
+      "validatorKey": "not_unique",
+      "validatorName": null,
+      "validatorArgs": []
+    }
+  ],
+  "parent": "[Circular]",
+  "original": {
+    "code": "ER_DUP_ENTRY",
+    "errno": 1062,
+    "sqlState": "23000",
+    "sqlMessage": "Duplicate entry '650b875e-9c4f-43a1-8f27-82285784bf36-111' for key 'search_histories.search_histories_user_id_keyword'",
+    "sql": "INSERT INTO `search_histories` (`id`,`user_id`,`keyword`,`type`,`created_at`,`updated_at`) VALUES (DEFAULT,?,?,?,?,?);",
+    "parameters": [
+      "650b875e-9c4f-43a1-8f27-82285784bf36",
+      "111",
+      "all",
+      "2025-08-18 00:56:14",
+      "2025-08-18 00:56:14"
+    ]
+  },
+  "fields": {
+    "search_histories_user_id_keyword": "650b875e-9c4f-43a1-8f27-82285784bf36-111"
+  },
+  "sql": "INSERT INTO `search_histories` (`id`,`user_id`,`keyword`,`type`,`created_at`,`updated_at`) VALUES (DEFAULT,?,?,?,?,?);",
+  "stack": "Error\n    at Query.run (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\mysql\\query.js:52:25)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\sequelize.js:315:28\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async MySQLQueryInterface.insert (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\abstract\\query-interface.js:308:21)\n    at async model.save (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:2490:35)\n    at async SearchHistory.create (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:1362:12)\n    at async SearchService.saveSearchHistory (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:405:9)\n    at async SearchService.globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:61:9)\n    at async globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\search.controller.js:34:22)"
+}
+2025-08-18 00:56:14 error: 全局搜索失败: Validation error {
+  "service": "campus-wall-api",
+  "name": "SequelizeUniqueConstraintError",
+  "errors": [
+    {
+      "message": "search_histories_user_id_keyword must be unique",
+      "type": "unique violation",
+      "path": "search_histories_user_id_keyword",
+      "value": "650b875e-9c4f-43a1-8f27-82285784bf36-111",
+      "origin": "DB",
+      "instance": {
+        "id": null,
+        "userId": "650b875e-9c4f-43a1-8f27-82285784bf36",
+        "keyword": "111",
+        "type": "all",
+        "updatedAt": "2025-08-17T16:56:14.471Z",
+        "createdAt": "2025-08-17T16:56:14.471Z"
+      },
+      "validatorKey": "not_unique",
+      "validatorName": null,
+      "validatorArgs": []
+    }
+  ],
+  "parent": "[Circular]",
+  "original": {
+    "code": "ER_DUP_ENTRY",
+    "errno": 1062,
+    "sqlState": "23000",
+    "sqlMessage": "Duplicate entry '650b875e-9c4f-43a1-8f27-82285784bf36-111' for key 'search_histories.search_histories_user_id_keyword'",
+    "sql": "INSERT INTO `search_histories` (`id`,`user_id`,`keyword`,`type`,`created_at`,`updated_at`) VALUES (DEFAULT,?,?,?,?,?);",
+    "parameters": [
+      "650b875e-9c4f-43a1-8f27-82285784bf36",
+      "111",
+      "all",
+      "2025-08-18 00:56:14",
+      "2025-08-18 00:56:14"
+    ]
+  },
+  "fields": {
+    "search_histories_user_id_keyword": "650b875e-9c4f-43a1-8f27-82285784bf36-111"
+  },
+  "sql": "INSERT INTO `search_histories` (`id`,`user_id`,`keyword`,`type`,`created_at`,`updated_at`) VALUES (DEFAULT,?,?,?,?,?);",
+  "stack": "Error\n    at Query.run (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\mysql\\query.js:52:25)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\sequelize.js:315:28\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async MySQLQueryInterface.insert (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\dialects\\abstract\\query-interface.js:308:21)\n    at async model.save (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:2490:35)\n    at async SearchHistory.create (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\model.js:1362:12)\n    at async SearchService.saveSearchHistory (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:405:9)\n    at async SearchService.globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:61:9)\n    at async globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\search.controller.js:34:22)"
+}
+2025-08-18 01:17:12 error: [GET] /api/users/profile/undefined {
+  "service": "campus-wall-api",
+  "error": "用户不存在",
+  "stack": "Error: 用户不存在\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at UserService.getUserProfile (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:655:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getUserProfile (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:308:27)",
+  "body": {},
+  "params": {},
+  "query": {}
+}
+2025-08-18 01:17:12 error: [GET] /api/users/profile/undefined/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "error": "用户不存在",
+  "stack": "Error: 用户不存在\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at UserService.getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:729:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:336:22)",
+  "body": {},
+  "params": {},
+  "query": {
+    "params": "{\"page\":1,\"pageSize\":10,\"sort\":\"latest\"}"
+  }
+}
+2025-08-18 01:17:17 error: [GET] /api/users/profile/undefined {
+  "service": "campus-wall-api",
+  "error": "用户不存在",
+  "stack": "Error: 用户不存在\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at UserService.getUserProfile (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:655:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getUserProfile (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:308:27)",
+  "body": {},
+  "params": {},
+  "query": {}
+}
+2025-08-18 01:17:17 error: [GET] /api/users/profile/undefined/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "error": "用户不存在",
+  "stack": "Error: 用户不存在\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at UserService.getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:729:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:336:22)",
+  "body": {},
+  "params": {},
+  "query": {
+    "params": "{\"page\":1,\"pageSize\":10,\"sort\":\"latest\"}"
+  }
+}
+2025-08-18 01:25:10 error: [GET] /api/users/profile/undefined {
+  "service": "campus-wall-api",
+  "error": "用户不存在",
+  "stack": "Error: 用户不存在\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at UserService.getUserProfile (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:655:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getUserProfile (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:308:27)",
+  "body": {},
+  "params": {},
+  "query": {}
+}
+2025-08-18 01:25:10 error: [GET] /api/users/profile/undefined/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "error": "用户不存在",
+  "stack": "Error: 用户不存在\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at UserService.getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:729:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:336:22)",
+  "body": {},
+  "params": {},
+  "query": {
+    "params": "{\"page\":1,\"pageSize\":10,\"sort\":\"latest\"}"
+  }
+}
+2025-08-18 01:47:13 error: [GET] /api/users/profile/undefined {
+  "service": "campus-wall-api",
+  "error": "用户不存在",
+  "stack": "Error: 用户不存在\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at UserService.getUserProfile (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:655:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getUserProfile (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:308:27)",
+  "body": {},
+  "params": {},
+  "query": {}
+}
+2025-08-18 01:47:13 error: [GET] /api/users/profile/undefined/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "error": "用户不存在",
+  "stack": "Error: 用户不存在\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at UserService.getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:729:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:336:22)",
+  "body": {},
+  "params": {},
+  "query": {
+    "params": "{\"page\":1,\"pageSize\":10,\"sort\":\"latest\"}"
+  }
+}
+2025-08-18 01:47:17 error: [GET] /api/users/profile/undefined {
+  "service": "campus-wall-api",
+  "error": "用户不存在",
+  "stack": "Error: 用户不存在\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at UserService.getUserProfile (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:655:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getUserProfile (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:308:27)",
+  "body": {},
+  "params": {},
+  "query": {}
+}
+2025-08-18 01:47:17 error: [GET] /api/users/profile/undefined/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "error": "用户不存在",
+  "stack": "Error: 用户不存在\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at UserService.getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:729:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:336:22)",
+  "body": {},
+  "params": {},
+  "query": {
+    "params": "{\"page\":1,\"pageSize\":10,\"sort\":\"latest\"}"
+  }
+}
+2025-08-18 01:47:22 error: [GET] /api/users/profile/undefined {
+  "service": "campus-wall-api",
+  "error": "用户不存在",
+  "stack": "Error: 用户不存在\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at UserService.getUserProfile (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:655:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getUserProfile (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:308:27)",
+  "body": {},
+  "params": {},
+  "query": {}
+}
+2025-08-18 01:47:22 error: [GET] /api/users/profile/undefined/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "error": "用户不存在",
+  "stack": "Error: 用户不存在\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at UserService.getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:729:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:336:22)",
+  "body": {},
+  "params": {},
+  "query": {
+    "params": "{\"page\":1,\"pageSize\":10,\"sort\":\"latest\"}"
+  }
+}
+2025-08-18 01:49:24 error: [GET] /api/users/profile/undefined {
+  "service": "campus-wall-api",
+  "error": "用户不存在",
+  "stack": "Error: 用户不存在\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at UserService.getUserProfile (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:655:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getUserProfile (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:308:27)",
+  "body": {},
+  "params": {},
+  "query": {}
+}
+2025-08-18 01:49:24 error: [GET] /api/users/profile/undefined/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "error": "用户不存在",
+  "stack": "Error: 用户不存在\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at UserService.getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:729:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:336:22)",
+  "body": {},
+  "params": {},
+  "query": {
+    "params": "{\"page\":1,\"pageSize\":10,\"sort\":\"latest\"}"
+  }
+}
+2025-08-18 03:07:13 error: [POST] /api/favorites {
+  "service": "campus-wall-api",
+  "error": "已收藏，请勿重复操作",
+  "stack": "Error: 已收藏，请勿重复操作\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at FavoriteService.addFavorite (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\favorite.service.js:61:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async addFavorite (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\favorite.controller.js:21:22)",
+  "body": {
+    "post_id": "da1a6ed4-7d1f-44d2-9d33-58dc8c3706f6"
+  },
+  "params": {},
+  "query": {}
+}
+2025-08-18 03:08:24 error: [POST] /api/favorites {
+  "service": "campus-wall-api",
+  "error": "已收藏，请勿重复操作",
+  "stack": "Error: 已收藏，请勿重复操作\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at FavoriteService.addFavorite (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\favorite.service.js:61:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async addFavorite (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\favorite.controller.js:21:22)",
+  "body": {
+    "post_id": "da1a6ed4-7d1f-44d2-9d33-58dc8c3706f6"
+  },
+  "params": {},
+  "query": {}
+}
+2025-08-18 03:09:11 error: [POST] /api/favorites {
+  "service": "campus-wall-api",
+  "error": "已收藏，请勿重复操作",
+  "stack": "Error: 已收藏，请勿重复操作\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at FavoriteService.addFavorite (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\favorite.service.js:61:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async addFavorite (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\favorite.controller.js:21:22)",
+  "body": {
+    "post_id": "da1a6ed4-7d1f-44d2-9d33-58dc8c3706f6"
+  },
+  "params": {},
+  "query": {}
+}
+2025-08-18 03:09:12 error: [POST] /api/favorites {
+  "service": "campus-wall-api",
+  "error": "已收藏，请勿重复操作",
+  "stack": "Error: 已收藏，请勿重复操作\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at FavoriteService.addFavorite (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\favorite.service.js:61:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async addFavorite (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\favorite.controller.js:21:22)",
+  "body": {
+    "post_id": "da1a6ed4-7d1f-44d2-9d33-58dc8c3706f6"
+  },
+  "params": {},
+  "query": {}
+}
+2025-08-18 03:09:55 error: [POST] /api/favorites {
+  "service": "campus-wall-api",
+  "error": "已收藏，请勿重复操作",
+  "stack": "Error: 已收藏，请勿重复操作\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at FavoriteService.addFavorite (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\favorite.service.js:61:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async addFavorite (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\favorite.controller.js:21:22)",
+  "body": {
+    "post_id": "26c1e7e2-5283-44ea-8c92-2085b3b78387"
+  },
+  "params": {},
+  "query": {}
+}
+2025-08-18 03:13:52 error: [POST] /api/favorites {
+  "service": "campus-wall-api",
+  "error": "已收藏，请勿重复操作",
+  "stack": "Error: 已收藏，请勿重复操作\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at FavoriteService.addFavorite (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\favorite.service.js:61:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async addFavorite (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\favorite.controller.js:21:22)",
+  "body": {
+    "post_id": "26c1e7e2-5283-44ea-8c92-2085b3b78387"
+  },
+  "params": {},
+  "query": {}
+}
+2025-08-18 03:20:35 error: [POST] /api/favorites {
+  "service": "campus-wall-api",
+  "error": "已收藏，请勿重复操作",
+  "stack": "Error: 已收藏，请勿重复操作\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at FavoriteService.addFavorite (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\favorite.service.js:61:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async addFavorite (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\favorite.controller.js:21:22)",
+  "body": {
+    "post_id": "da1a6ed4-7d1f-44d2-9d33-58dc8c3706f6"
+  },
+  "params": {},
+  "query": {}
+}
+2025-08-18 03:21:29 error: 清除推荐缓存失败: redisClient.keys is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.keys is not a function\n    at RecommendationService.clearRecommendationCache (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\recommendation.service.js:398:38)\n    at RecommendationService.getRecommendedPosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\recommendation.service.js:47:16)\n    at getRecommended (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\post.controller.js:494:50)\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\route.js:149:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\auth.middleware.js:100:9\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\route.js:149:13)\n    at Route.dispatch (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\route.js:119:3)\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)"
+}
+2025-08-18 03:21:32 error: 清除推荐缓存失败: redisClient.keys is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.keys is not a function\n    at RecommendationService.clearRecommendationCache (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\recommendation.service.js:398:38)\n    at RecommendationService.getRecommendedPosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\recommendation.service.js:47:16)\n    at getRecommended (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\post.controller.js:494:50)\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\route.js:149:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\auth.middleware.js:100:9\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\route.js:149:13)\n    at Route.dispatch (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\route.js:119:3)\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)"
+}
+2025-08-18 03:21:37 error: [POST] /api/favorites {
+  "service": "campus-wall-api",
+  "error": "已收藏，请勿重复操作",
+  "stack": "Error: 已收藏，请勿重复操作\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at FavoriteService.addFavorite (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\favorite.service.js:61:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async addFavorite (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\favorite.controller.js:21:22)",
+  "body": {
+    "post_id": "da1a6ed4-7d1f-44d2-9d33-58dc8c3706f6"
+  },
+  "params": {},
+  "query": {}
+}
+2025-08-18 03:23:48 error: [POST] /api/favorites {
+  "service": "campus-wall-api",
+  "error": "已收藏，请勿重复操作",
+  "stack": "Error: 已收藏，请勿重复操作\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at FavoriteService.addFavorite (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\favorite.service.js:61:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async addFavorite (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\favorite.controller.js:21:22)",
+  "body": {
+    "post_id": "da1a6ed4-7d1f-44d2-9d33-58dc8c3706f6"
+  },
+  "params": {},
+  "query": {}
+}
+2025-08-18 03:25:49 error: [DELETE] /api/favorites/da1a6ed4-7d1f-44d2-9d33-58dc8c3706f6 {
+  "service": "campus-wall-api",
+  "error": "未收藏，无法取消",
+  "stack": "Error: 未收藏，无法取消\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at FavoriteService.removeFavorite (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\favorite.service.js:121:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async removeFavorite (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\favorite.controller.js:41:22)",
+  "body": {},
+  "params": {},
+  "query": {}
+}
+2025-08-18 03:25:57 error: [DELETE] /api/favorites/da1a6ed4-7d1f-44d2-9d33-58dc8c3706f6 {
+  "service": "campus-wall-api",
+  "error": "未收藏，无法取消",
+  "stack": "Error: 未收藏，无法取消\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at FavoriteService.removeFavorite (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\favorite.service.js:121:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async removeFavorite (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\favorite.controller.js:41:22)",
+  "body": {},
+  "params": {},
+  "query": {}
+}
+2025-08-18 03:49:07 error: [POST] /api/favorites {
+  "service": "campus-wall-api",
+  "error": "已收藏，请勿重复操作",
+  "stack": "Error: 已收藏，请勿重复操作\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at FavoriteService.addFavorite (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\favorite.service.js:61:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async addFavorite (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\favorite.controller.js:21:22)",
+  "body": {
+    "post_id": "26c1e7e2-5283-44ea-8c92-2085b3b78387"
+  },
+  "params": {},
+  "query": {}
+}
+2025-08-18 04:19:18 error: 加载用户点赞状态失败: redisClient.sadd is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.sadd is not a function\n    at StatusCacheService.loadUserLikesToCache (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:224:27)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async StatusCacheService.isLiked (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:53:9)\n    at async Promise.all (index 0)\n    at async SearchService.searchPosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:146:46)\n    at async SearchService.globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:33:29)\n    at async globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\search.controller.js:34:22)"
+}
+2025-08-18 04:19:18 error: 获取点赞状态失败: redisClient.sismember is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.sismember is not a function\n    at StatusCacheService.isLiked (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:60:46)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Promise.all (index 0)\n    at async SearchService.searchPosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:146:46)\n    at async SearchService.globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:33:29)\n    at async globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\search.controller.js:34:22)"
+}
+2025-08-18 04:19:18 error: 加载用户收藏状态失败: redisClient.sadd is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.sadd is not a function\n    at StatusCacheService.loadUserFavoritesToCache (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:255:27)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async StatusCacheService.isFavorited (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:89:9)\n    at async Promise.all (index 1)\n    at async SearchService.searchPosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:146:46)\n    at async SearchService.globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:33:29)\n    at async globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\search.controller.js:34:22)"
+}
+2025-08-18 04:19:18 error: 获取收藏状态失败: redisClient.sismember is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.sismember is not a function\n    at StatusCacheService.isFavorited (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:96:46)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Promise.all (index 1)\n    at async SearchService.searchPosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:146:46)\n    at async SearchService.globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:33:29)\n    at async globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\search.controller.js:34:22)"
+}
+2025-08-18 04:19:21 error: 缓存点赞状态失败: redisClient.sadd is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.sadd is not a function\n    at StatusCacheService.addLike (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:123:25)\n    at LikeService.like (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\like.service.js:135:34)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async like (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\like.controller.js:21:22)"
+}
+2025-08-18 04:19:23 error: 加载用户点赞状态失败: redisClient.sadd is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.sadd is not a function\n    at StatusCacheService.loadUserLikesToCache (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:224:27)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async StatusCacheService.isLiked (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:53:9)\n    at async Promise.all (index 0)\n    at async SearchService.searchPosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:146:46)\n    at async SearchService.globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:33:29)\n    at async globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\search.controller.js:34:22)"
+}
+2025-08-18 04:19:23 error: 获取点赞状态失败: redisClient.sismember is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.sismember is not a function\n    at StatusCacheService.isLiked (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:60:46)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Promise.all (index 0)\n    at async SearchService.searchPosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:146:46)\n    at async SearchService.globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:33:29)\n    at async globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\search.controller.js:34:22)"
+}
+2025-08-18 04:19:23 error: 加载用户收藏状态失败: redisClient.sadd is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.sadd is not a function\n    at StatusCacheService.loadUserFavoritesToCache (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:255:27)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async StatusCacheService.isFavorited (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:89:9)\n    at async Promise.all (index 1)\n    at async SearchService.searchPosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:146:46)\n    at async SearchService.globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:33:29)\n    at async globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\search.controller.js:34:22)"
+}
+2025-08-18 04:19:23 error: 获取收藏状态失败: redisClient.sismember is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.sismember is not a function\n    at StatusCacheService.isFavorited (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:96:46)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Promise.all (index 1)\n    at async SearchService.searchPosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:146:46)\n    at async SearchService.globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\search.service.js:33:29)\n    at async globalSearch (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\search.controller.js:34:22)"
+}
+2025-08-18 04:19:25 error: 缓存取消点赞失败: redisClient.srem is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.srem is not a function\n    at StatusCacheService.removeLike (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:148:25)\n    at LikeService.unlike (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\like.service.js:205:34)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async unlike (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\like.controller.js:41:22)"
+}
+2025-08-18 04:19:28 error: 缓存点赞状态失败: redisClient.sadd is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.sadd is not a function\n    at StatusCacheService.addLike (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:123:25)\n    at LikeService.like (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\like.service.js:135:34)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async like (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\like.controller.js:21:22)"
+}
+2025-08-18 04:20:12 error: 缓存取消收藏失败: redisClient.srem is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.srem is not a function\n    at StatusCacheService.removeFavorite (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:197:25)\n    at FavoriteService.removeFavorite (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\favorite.service.js:155:34)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async removeFavorite (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\favorite.controller.js:41:22)"
+}
+2025-08-18 04:20:13 error: 缓存收藏状态失败: redisClient.sadd is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.sadd is not a function\n    at StatusCacheService.addFavorite (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:172:25)\n    at FavoriteService.addFavorite (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\favorite.service.js:98:32)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async addFavorite (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\favorite.controller.js:21:22)"
+}
+2025-08-18 04:22:02 error: [GET] /api/posts/26c1e7e2-5283-44ea-8c92-2085b3b78387 {
+  "service": "campus-wall-api",
+  "error": "redisClient.get is not a function",
+  "stack": "TypeError: redisClient.get is not a function\n    at PostRepository.findById (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\repositories\\post.repository.js:33:42)\n    at PostService.getPostById (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\post.service.js:125:39)\n    at getPostDetail (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\post.controller.js:155:38)\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\route.js:149:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\auth.middleware.js:100:9\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\route.js:149:13)\n    at Route.dispatch (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\route.js:119:3)\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)",
+  "body": {},
+  "params": {},
+  "query": {}
+}
+2025-08-18 04:22:02 error: Request completed: GET /api/posts/26c1e7e2-5283-44ea-8c92-2085b3b78387 {
+  "service": "campus-wall-api",
+  "requestId": "1755462122566-uwyfr63j",
+  "method": "GET",
+  "url": "/api/posts/26c1e7e2-5283-44ea-8c92-2085b3b78387",
+  "statusCode": 500,
+  "duration": "12ms",
+  "contentLength": "147"
+}
+2025-08-18 04:48:52 error: [GET] /api/users/profile/26c1e7e2-5283-44ea-8c92-2085b3b78387 {
+  "service": "campus-wall-api",
+  "error": "用户不存在",
+  "stack": "Error: 用户不存在\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at UserService.getUserProfile (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:655:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getUserProfile (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:308:27)",
+  "body": {},
+  "params": {},
+  "query": {}
+}
+2025-08-18 04:48:52 error: [GET] /api/users/profile/26c1e7e2-5283-44ea-8c92-2085b3b78387/posts?params=%7B%22page%22%3A1%2C%22pageSize%22%3A10%2C%22sort%22%3A%22latest%22%7D {
+  "service": "campus-wall-api",
+  "error": "用户不存在",
+  "stack": "Error: 用户不存在\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at UserService.getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:729:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:336:22)",
+  "body": {},
+  "params": {},
+  "query": {
+    "params": "{\"page\":1,\"pageSize\":10,\"sort\":\"latest\"}"
+  }
+}
+2025-08-18 04:52:29 error: [POST] /api/favorites {
+  "service": "campus-wall-api",
+  "error": "已收藏，请勿重复操作",
+  "stack": "Error: 已收藏，请勿重复操作\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at FavoriteService.addFavorite (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\favorite.service.js:62:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async addFavorite (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\favorite.controller.js:21:22)",
+  "body": {
+    "post_id": "26c1e7e2-5283-44ea-8c92-2085b3b78387"
+  },
+  "params": {},
+  "query": {}
+}
+2025-08-18 04:57:25 error: [GET] /api/users/profile/9388a4db-78d8-4288-8446-f747ea98366f/posts?page=1&pageSize=10&sort=latest {
+  "service": "campus-wall-api",
+  "error": "Converting circular structure to JSON\n    --> starting at object with constructor 'Array'\n    |     index 0 -> object with constructor 'Object'\n    |     property 'parent' -> object with constructor 'Object'\n    --- property 'include' closes the circle",
+  "stack": "TypeError: Converting circular structure to JSON\n    --> starting at object with constructor 'Array'\n    |     index 0 -> object with constructor 'Object'\n    |     property 'parent' -> object with constructor 'Object'\n    --- property 'include' closes the circle\n    at JSON.stringify (<anonymous>)\n    at stringify (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\response.js:1160:12)\n    at ServerResponse.json (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\response.js:271:14)\n    at getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:338:34)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)",
+  "body": {},
+  "params": {},
+  "query": {
+    "page": "1",
+    "pageSize": "10",
+    "sort": "latest"
+  }
+}
+2025-08-18 04:57:25 error: Request completed: GET /api/users/profile/9388a4db-78d8-4288-8446-f747ea98366f/posts?page=1&pageSize=10&sort=latest {
+  "service": "campus-wall-api",
+  "requestId": "1755464245777-o056fig7",
+  "method": "GET",
+  "url": "/api/users/profile/9388a4db-78d8-4288-8446-f747ea98366f/posts?page=1&pageSize=10&sort=latest",
+  "statusCode": 500,
+  "duration": "53ms",
+  "contentLength": "370"
+}
+2025-08-18 04:57:55 error: [GET] /api/users/profile/9388a4db-78d8-4288-8446-f747ea98366f/posts?page=1&pageSize=10&sort=latest {
+  "service": "campus-wall-api",
+  "error": "Converting circular structure to JSON\n    --> starting at object with constructor 'Array'\n    |     index 0 -> object with constructor 'Object'\n    |     property 'parent' -> object with constructor 'Object'\n    --- property 'include' closes the circle",
+  "stack": "TypeError: Converting circular structure to JSON\n    --> starting at object with constructor 'Array'\n    |     index 0 -> object with constructor 'Object'\n    |     property 'parent' -> object with constructor 'Object'\n    --- property 'include' closes the circle\n    at JSON.stringify (<anonymous>)\n    at stringify (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\response.js:1160:12)\n    at ServerResponse.json (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\response.js:271:14)\n    at getUserProfilePosts (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:338:34)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)",
+  "body": {},
+  "params": {},
+  "query": {
+    "page": "1",
+    "pageSize": "10",
+    "sort": "latest"
+  }
+}
+2025-08-18 04:57:55 error: Request completed: GET /api/users/profile/9388a4db-78d8-4288-8446-f747ea98366f/posts?page=1&pageSize=10&sort=latest {
+  "service": "campus-wall-api",
+  "requestId": "1755464275621-i3kuzx1l",
+  "method": "GET",
+  "url": "/api/users/profile/9388a4db-78d8-4288-8446-f747ea98366f/posts?page=1&pageSize=10&sort=latest",
+  "statusCode": 500,
+  "duration": "37ms",
+  "contentLength": "370"
+}
+2025-08-18 05:25:19 error: [POST] /api/favorites {
+  "service": "campus-wall-api",
+  "error": "已收藏，请勿重复操作",
+  "stack": "Error: 已收藏，请勿重复操作\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at FavoriteService.addFavorite (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\favorite.service.js:62:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async addFavorite (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\favorite.controller.js:21:22)",
+  "body": {
+    "post_id": "19f725ca-20f6-4ee8-aed0-f88e252164e5"
+  },
+  "params": {},
+  "query": {}
+}

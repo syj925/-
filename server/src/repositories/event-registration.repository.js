@@ -52,6 +52,33 @@ class EventRegistrationRepository {
   }
 
   /**
+   * 查找现有的报名记录（包括软删除的）
+   * @param {String} eventId 活动ID
+   * @param {String} userId 用户ID
+   * @returns {Promise<Object|null>} 报名记录
+   */
+  async findExistingRegistration(eventId, userId) {
+    return await EventRegistration.findOne({
+      where: { event_id: eventId, user_id: userId },
+      paranoid: false // 查询包含软删除的记录
+    });
+  }
+
+  /**
+   * 恢复软删除的报名记录
+   * @param {String} registrationId 报名记录ID
+   * @returns {Promise<Object>} 恢复的报名记录
+   */
+  async restoreRegistration(registrationId) {
+    const registration = await EventRegistration.findByPk(registrationId, { paranoid: false });
+    if (registration && registration.deletedAt) {
+      await registration.restore();
+      return registration;
+    }
+    return registration;
+  }
+
+  /**
    * 更新报名记录
    * @param {String} id 报名记录ID
    * @param {Object} updateData 更新数据
@@ -189,6 +216,7 @@ class EventRegistrationRepository {
         user_id: userId,
         status: { [Op.in]: [1, 2] } // 已报名或已参加
       }
+      // 注意：这里不使用 paranoid: false，只查询未删除的记录
     });
     return count > 0;
   }

@@ -270,9 +270,17 @@ class PostController {
       };
       
       const currentUserId = req.user ? req.user.id : null;
-      logger.info(`当前用户ID: ${currentUserId}`);
+      logger.info(`🔍 getPosts: 当前用户ID: ${currentUserId}`);
+      logger.info(`🔍 getPosts: req.user存在: ${!!req.user}`);
+      logger.info(`🔍 getPosts: Authorization头: ${req.headers.authorization ? '存在' : '不存在'}`);
       
       const result = await postService.getPosts(options, currentUserId);
+      
+      // 检查返回的第一个帖子是否有状态信息
+      if (result.list.length > 0) {
+        const firstPost = result.list[0];
+        logger.info(`🔍 getPosts: 第一个帖子状态 - isLiked: ${firstPost.dataValues.is_liked}, isFavorited: ${firstPost.dataValues.is_favorited}`);
+      }
       
       // 记录结果数量
       logger.info(`查询到帖子数量: ${result.list.length}, 总数: ${result.pagination.total}`);

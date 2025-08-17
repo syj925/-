@@ -5,6 +5,7 @@ const logger = require('../../config/logger');
 const { StatusCodes } = require('http-status-codes');
 const { ErrorMiddleware } = require('../middlewares');
 const errorCodes = require('../constants/error-codes');
+const cacheConfig = require('../../config/cache');
 
 /**
  * 推荐算法服务层
@@ -12,7 +13,7 @@ const errorCodes = require('../constants/error-codes');
  */
 class RecommendationService {
   constructor() {
-    this.cachePrefix = 'recommendation:';
+    this.cachePrefix = cacheConfig.RECOMMENDATION.PREFIX;
     this.settingsCacheKey = 'recommendation:settings';
     this.defaultSettings = {
       likeWeight: 2.0,
@@ -310,28 +311,35 @@ class RecommendationService {
    */
   async addUserInteractionState(posts, userId) {
     if (!userId || !posts.length) {
-      return posts.map(post => ({
-        ...post,
-        isLiked: false,
-        isFavorited: false
-      }));
+      return posts.map(post => {
+        // 确保转换为普通对象，避免循环引用
+        const plainPost = post.toJSON ? post.toJSON() : post;
+        return {
+          ...plainPost,
+          isLiked: false,
+          isFavorited: false
+        };
+      });
     }
 
-    // 批量查询用户的点赞和收藏状态
+    // 使用状态缓存服务获取用户的点赞和收藏状态
+    const statusCacheService = require('./status-cache.service');
     const postIds = posts.map(post => post.id);
-    const [likedPosts, favoritedPosts] = await Promise.all([
-      postRepository.getUserLikedPosts(userId, postIds),
-      postRepository.getUserFavoritedPosts(userId, postIds)
+    
+    const [likeStates, favoriteStates] = await Promise.all([
+      statusCacheService.isLiked(userId, postIds),
+      statusCacheService.isFavorited(userId, postIds)
     ]);
 
-    const likedSet = new Set(likedPosts);
-    const favoritedSet = new Set(favoritedPosts);
-
-    return posts.map(post => ({
-      ...post,
-      isLiked: likedSet.has(post.id),
-      isFavorited: favoritedSet.has(post.id)
-    }));
+    return posts.map(post => {
+      // 确保转换为普通对象，避免循环引用
+      const plainPost = post.toJSON ? post.toJSON() : post;
+      return {
+        ...plainPost,
+        isLiked: likeStates[post.id] || false,
+        isFavorited: favoriteStates[post.id] || false
+      };
+    });
   }
 
   /**
@@ -376,18 +384,40 @@ class RecommendationService {
   async clearRecommendationCache() {
     try {
       const pattern = `${this.cachePrefix}*`;
-      const keys = await redisClient.keys(pattern);
       
-      if (keys.length > 0) {
-        await redisClient.del(...keys);
-        logger.info(`清除推荐缓存: ${keys.length} 个键`);
-      }
+      // 使用现有的 deletePattern 方法
+      const deletedCount = await redisClient.deletePattern(pattern);
+      logger.info(`清除推荐缓存: ${deletedCount} 个键`);
 
       // 清除配置缓存
       await redisClient.del(this.settingsCacheKey);
     } catch (error) {
       logger.error('清除推荐缓存失败:', error);
     }
+  }
+
+  /**
+   * 智能缓存更新 - 只清除特定用户的缓存
+   * @param {String} userId 用户ID
+   */
+  async invalidateUserCache(userId) {
+    // 注释：此方法已不再使用
+    // 原因：用户操作不应该清除推荐缓存，让缓存自然过期即可
+    // 状态信息通过 statusCacheService 单独管理
+    logger.debug(`推荐缓存清除已禁用，用户ID: ${userId}`);
+    return;
+  }
+
+  /**
+   * 防抖缓存清除 - 避免频繁清除
+   * @param {String} userId 用户ID
+   */
+  async debouncedCacheInvalidation(userId) {
+    // 注释：此方法已不再使用
+    // 原因：用户操作不应该清除推荐缓存，让缓存自然过期即可
+    // 状态信息通过 statusCacheService 单独管理
+    logger.debug(`防抖缓存清除已禁用，用户ID: ${userId}`);
+    return;
   }
 
   /**

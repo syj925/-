@@ -104,137 +104,215 @@ export default {
     height: 48rpx;
   }
   
-  // 点赞图标
+  // 点赞图标 - 现代心形设计
   &-like {
     position: relative;
+    transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     
     &::before {
       content: '';
       position: absolute;
-      top: 10%;
-      left: 15%;
-      width: 70%;
-      height: 60%;
-      background: transparent;
-      border: 2rpx solid var(--icon-color, #666);
-      border-top-left-radius: 50px;
-      border-top-right-radius: 50px;
+      top: 20%;
+      left: 20%;
+      width: 26%;
+      height: 45%;
+      background: var(--icon-color, #666);
+      border-radius: 50% 50% 0 0;
       transform: rotate(-45deg);
+      transform-origin: bottom center;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
     
     &::after {
       content: '';
       position: absolute;
-      top: 10%;
-      left: 15%;
-      width: 35%;
-      height: 60%;
-      background: transparent;
-      border: 2rpx solid var(--icon-color, #666);
-      border-top-left-radius: 50px;
-      border-bottom-left-radius: 50px;
-      transform: rotate(-45deg);
-      border-right: 0;
+      top: 20%;
+      right: 20%;
+      width: 26%;
+      height: 45%;
+      background: var(--icon-color, #666);
+      border-radius: 50% 50% 0 0;
+      transform: rotate(45deg);
+      transform-origin: bottom center;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
     
-    &.active::before,
-    &.active::after {
-      border-color: var(--icon-color, #FF6B6B);
-      background-color: var(--icon-color, #FF6B6B);
+    // 激活状态 - 渐变红色效果  
+    &.active {
+      &::before,
+      &::after {
+        background: linear-gradient(135deg, #ff6b9d 0%, #ff8a56 100%) !important;
+        filter: drop-shadow(0 2rpx 4rpx rgba(255, 107, 157, 0.3));
+      }
+    }
+    
+    // 点击时弹性缩放
+    &:active {
+      transform: scale(0.85);
+    }
+    
+    // 悬停时轻微放大和旋转
+    &:hover {
+      transform: scale(1.1) rotate(-2deg);
     }
   }
   
-  // 收藏图标
+  // 收藏图标 - 精美五角星
   &-favorite {
     position: relative;
+    transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     
     &::before {
       content: '';
       position: absolute;
-      top: 10%;
+      top: 50%;
       left: 50%;
-      width: 50%;
-      height: 50%;
-      background: transparent;
-      border: 2rpx solid var(--icon-color, #666);
-      transform: rotate(-45deg) translate(-50%, 0);
-      transform-origin: 0 0;
+      width: 80%;
+      height: 80%;
+      background: var(--icon-color, #666);
+      clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+      transform: translate(-50%, -50%);
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
     
-    &::after {
-      content: '';
-      position: absolute;
-      top: 10%;
-      left: 50%;
-      width: 50%;
-      height: 50%;
-      background: transparent;
-      border: 2rpx solid var(--icon-color, #666);
-      transform: rotate(45deg) translate(0, 0);
-      transform-origin: 0 0;
-      border-left: 0;
-      border-bottom: 0;
+    &.active {
+      &::before {
+        background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%) !important;
+        filter: drop-shadow(0 2rpx 6rpx rgba(255, 215, 0, 0.4));
+        transform: translate(-50%, -50%) scale(1.1);
+      }
     }
     
-    &.active::before,
-    &.active::after {
-      border-color: var(--icon-color, #FFCE54);
-      background-color: var(--icon-color, #FFCE54);
+    // 点击时弹性缩放
+    &:active {
+      transform: scale(0.85);
+    }
+    
+    // 悬停时轻微放大
+    &:hover {
+      transform: scale(1.08);
     }
   }
   
-  // 评论图标
+  // 评论图标 - 现代聊天气泡
   &-comment {
     position: relative;
+    transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     
     &::before {
       content: '';
       position: absolute;
       top: 15%;
-      left: 15%;
-      width: 70%;
-      height: 60%;
-      background: transparent;
-      border: 2rpx solid var(--icon-color, #666);
-      border-radius: 6rpx;
+      left: 10%;
+      width: 80%;
+      height: 55%;
+      background: var(--icon-color, #666);
+      border-radius: 16rpx 16rpx 16rpx 4rpx;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
     
     &::after {
       content: '';
       position: absolute;
-      bottom: 10%;
-      left: 30%;
-      width: 15%;
-      height: 15%;
-      background: var(--icon-color, #666);
-      transform: rotate(45deg);
+      bottom: 25%;
+      left: 15%;
+      width: 0;
+      height: 0;
+      border-left: 10rpx solid transparent;
+      border-right: 10rpx solid transparent;
+      border-top: 12rpx solid var(--icon-color, #666);
+      border-radius: 2rpx;
+      transition: all 0.3s ease;
+    }
+    
+    // 悬停时颜色变化
+    &:hover {
+      transform: scale(1.08);
+      
+      &::before {
+        background: #4ECDC4;
+        filter: drop-shadow(0 2rpx 4rpx rgba(78, 205, 196, 0.2));
+      }
+      
+      &::after {
+        border-top-color: #4ECDC4;
+      }
+    }
+    
+    // 点击时弹性缩放
+    &:active {
+      transform: scale(0.88);
     }
   }
   
-  // 分享图标
+  // 分享图标 - 现代分享节点设计
   &-share {
     position: relative;
+    transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     
+    // 中心节点
     &::before {
       content: '';
       position: absolute;
-      top: 30%;
-      left: 20%;
-      width: 60%;
-      height: 2rpx;
+      top: 40%;
+      left: 40%;
+      width: 20%;
+      height: 20%;
       background: var(--icon-color, #666);
+      border-radius: 50%;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
     
+    // 左上角节点
     &::after {
       content: '';
       position: absolute;
-      top: 30%;
-      right: 25%;
-      width: 10rpx;
-      height: 10rpx;
-      border-top: 2rpx solid var(--icon-color, #666);
-      border-right: 2rpx solid var(--icon-color, #666);
-      transform: rotate(45deg);
+      top: 15%;
+      left: 15%;
+      width: 16%;
+      height: 16%;
+      background: var(--icon-color, #666);
+      border-radius: 50%;
+      transition: all 0.3s ease;
+    }
+    
+    // 使用额外元素创建右下角节点和连接线
+    &:before {
+      content: '';
+      position: absolute;
+      bottom: 15%;
+      right: 15%;
+      width: 16%;
+      height: 16%;
+      background: var(--icon-color, #666);
+      border-radius: 50%;
+      transition: all 0.3s ease;
+      box-shadow: 
+        -18rpx -18rpx 0 -14rpx var(--icon-color, #666),
+        -12rpx -12rpx 0 -13rpx var(--icon-color, #666);
+    }
+    
+    // 悬停时颜色变化和放大
+    &:hover {
+      transform: scale(1.1);
+      
+      &::before,
+      &::after,
+      &:before {
+        background: #17a2b8;
+        filter: drop-shadow(0 2rpx 4rpx rgba(23, 162, 184, 0.2));
+      }
+      
+      &:before {
+        box-shadow: 
+          -18rpx -18rpx 0 -14rpx #17a2b8,
+          -12rpx -12rpx 0 -13rpx #17a2b8;
+      }
+    }
+    
+    // 点击时弹性缩放
+    &:active {
+      transform: scale(0.85);
     }
   }
   
@@ -322,6 +400,238 @@ export default {
       height: 2rpx;
       background: var(--icon-color, #666);
       transform: translate(-50%, -50%) rotate(-45deg);
+    }
+  }
+  
+  // 火焰图标
+  &-fire {
+    position: relative;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 20%;
+      left: 25%;
+      width: 50%;
+      height: 60%;
+      background: var(--icon-color, #FF6B6B);
+      border-radius: 40rpx 40rpx 10rpx 10rpx;
+      transform: rotate(-15deg);
+    }
+    
+    &::after {
+      content: '';
+      position: absolute;
+      top: 40%;
+      left: 40%;
+      width: 30%;
+      height: 40%;
+      background: var(--icon-color, #FF6B6B);
+      border-radius: 30rpx 30rpx 5rpx 5rpx;
+      transform: rotate(10deg);
+    }
+  }
+  
+  // 消息圆圈图标
+  &-message-circle {
+    position: relative;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 15%;
+      left: 15%;
+      width: 70%;
+      height: 55%;
+      background: transparent;
+      border: 2rpx solid var(--icon-color, #666);
+      border-radius: 50%;
+    }
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 15%;
+      left: 25%;
+      width: 0;
+      height: 0;
+      border-left: 6rpx solid transparent;
+      border-right: 6rpx solid transparent;
+      border-top: 8rpx solid var(--icon-color, #666);
+    }
+  }
+  
+  // 眼睛图标
+  &-eye {
+    position: relative;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 30%;
+      left: 15%;
+      width: 70%;
+      height: 40%;
+      background: transparent;
+      border: 2rpx solid var(--icon-color, #666);
+      border-radius: 50rpx 50rpx 50rpx 50rpx;
+    }
+    
+    &::after {
+      content: '';
+      position: absolute;
+      top: 40%;
+      left: 40%;
+      width: 20%;
+      height: 20%;
+      background: var(--icon-color, #666);
+      border-radius: 50%;
+    }
+  }
+  
+  // 日历图标
+  &-calendar {
+    position: relative;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 25%;
+      left: 20%;
+      width: 60%;
+      height: 60%;
+      background: transparent;
+      border: 2rpx solid var(--icon-color, #4ECDC4);
+      border-radius: 4rpx;
+    }
+    
+    &::after {
+      content: '';
+      position: absolute;
+      top: 40%;
+      left: 20%;
+      width: 60%;
+      height: 2rpx;
+      background: var(--icon-color, #4ECDC4);
+    }
+  }
+  
+  // 星星图标
+  &-star {
+    position: relative;
+    
+    &::before {
+      content: '★';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: var(--icon-color, #FFD93D);
+      font-size: 85%;
+      line-height: 1;
+    }
+  }
+  
+  // 右箭头图标
+  &-chevron-right {
+    position: relative;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 30%;
+      left: 35%;
+      width: 30%;
+      height: 30%;
+      border-right: 2rpx solid var(--icon-color, #6c757d);
+      border-bottom: 2rpx solid var(--icon-color, #6c757d);
+      transform: rotate(-45deg);
+    }
+  }
+  
+  // 地图定位图标
+  &-map-pin {
+    position: relative;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 15%;
+      left: 35%;
+      width: 30%;
+      height: 45%;
+      background: transparent;
+      border: 2rpx solid var(--icon-color, #999);
+      border-radius: 50rpx 50rpx 0 50rpx;
+    }
+    
+    &::after {
+      content: '';
+      position: absolute;
+      top: 25%;
+      left: 42%;
+      width: 16%;
+      height: 16%;
+      background: var(--icon-color, #999);
+      border-radius: 50%;
+    }
+  }
+  
+  // 用户群组图标
+  &-users {
+    position: relative;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 20%;
+      left: 25%;
+      width: 25%;
+      height: 25%;
+      background: transparent;
+      border: 2rpx solid var(--icon-color, #999);
+      border-radius: 50%;
+    }
+    
+    &::after {
+      content: '';
+      position: absolute;
+      top: 20%;
+      left: 50%;
+      width: 25%;
+      height: 25%;
+      background: transparent;
+      border: 2rpx solid var(--icon-color, #999);
+      border-radius: 50%;
+    }
+  }
+  
+  // 搜索图标
+  &-search {
+    position: relative;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 15%;
+      left: 15%;
+      width: 50%;
+      height: 50%;
+      background: transparent;
+      border: 2rpx solid var(--icon-color, #3498db);
+      border-radius: 50%;
+    }
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 20%;
+      right: 20%;
+      width: 25%;
+      height: 2rpx;
+      background: var(--icon-color, #3498db);
+      transform: rotate(45deg);
+      transform-origin: left center;
     }
   }
 }

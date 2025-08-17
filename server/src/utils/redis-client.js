@@ -316,6 +316,100 @@ class RedisClient {
   }
 
   /**
+   * Set数据结构 - 添加元素
+   * @param {String} key 键
+   * @param {...String} members 成员
+   * @returns {Promise<Number>} 添加的元素数量
+   */
+  async sadd(key, ...members) {
+    try {
+      if (!this.isConnected) {
+        logger.warn(`Redis not connected, skipping sadd for key: ${key}`);
+        return 0;
+      }
+      return await this.client.sadd(key, ...members);
+    } catch (err) {
+      logger.error(`Redis sadd error: ${err.message}`, { key, members });
+      return 0;
+    }
+  }
+
+  /**
+   * Set数据结构 - 移除元素
+   * @param {String} key 键
+   * @param {...String} members 成员
+   * @returns {Promise<Number>} 移除的元素数量
+   */
+  async srem(key, ...members) {
+    try {
+      if (!this.isConnected) {
+        logger.warn(`Redis not connected, skipping srem for key: ${key}`);
+        return 0;
+      }
+      return await this.client.srem(key, ...members);
+    } catch (err) {
+      logger.error(`Redis srem error: ${err.message}`, { key, members });
+      return 0;
+    }
+  }
+
+  /**
+   * Set数据结构 - 检查元素是否存在
+   * @param {String} key 键
+   * @param {String} member 成员
+   * @returns {Promise<Boolean>} 是否存在
+   */
+  async sismember(key, member) {
+    try {
+      if (!this.isConnected) {
+        logger.warn(`Redis not connected, skipping sismember for key: ${key}`);
+        return false;
+      }
+      const result = await this.client.sismember(key, member);
+      return result === 1;
+    } catch (err) {
+      logger.error(`Redis sismember error: ${err.message}`, { key, member });
+      return false;
+    }
+  }
+
+  /**
+   * Set数据结构 - 获取所有成员
+   * @param {String} key 键
+   * @returns {Promise<Array>} 成员数组
+   */
+  async smembers(key) {
+    try {
+      if (!this.isConnected) {
+        logger.warn(`Redis not connected, skipping smembers for key: ${key}`);
+        return [];
+      }
+      return await this.client.smembers(key);
+    } catch (err) {
+      logger.error(`Redis smembers error: ${err.message}`, { key });
+      return [];
+    }
+  }
+
+  /**
+   * Set数据结构 - 获取集合元素数量
+   * @param {String} key 键
+   * @returns {Promise<Number>} 元素数量
+   */
+  async scard(key) {
+    try {
+      if (!this.isConnected) {
+        logger.warn(`Redis not connected, skipping scard for key: ${key}`);
+        return 0;
+      }
+      return await this.client.scard(key);
+    } catch (err) {
+      logger.error(`Redis scard error: ${err.message}`, { key });
+      return 0;
+    }
+  }
+
+  /**
    * 缓存查询结果
    * @param {String} key 缓存键
    * @param {Function} queryFn 查询函数

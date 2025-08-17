@@ -66,12 +66,12 @@ const topStatusSchema = Joi.object({
     })
 });
 
-// 帖子列表路由（公开）
-router.get('/', postController.getPosts);
-router.get('/hot', postController.getHotPosts);
-router.get('/recommended', postController.getRecommended);
-router.get('/:id', postController.getPostDetail);
-router.get('/:id/comments', postController.getPostComments);
+// 帖子列表路由（支持可选认证）
+router.get('/', AuthMiddleware.optionalAuthenticate(), postController.getPosts);
+router.get('/hot', AuthMiddleware.optionalAuthenticate(), postController.getHotPosts);
+router.get('/recommended', AuthMiddleware.optionalAuthenticate(), postController.getRecommended);
+router.get('/:id', AuthMiddleware.optionalAuthenticate(), postController.getPostDetail);
+router.get('/:id/comments', AuthMiddleware.optionalAuthenticate(), postController.getPostComments);
 
 // 需要登录的帖子操作路由
 router.post('/',

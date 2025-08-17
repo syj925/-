@@ -44,15 +44,15 @@ router.post('/',
   commentController.createComment
 );
 
-// 评论详情路由
-router.get('/:id', commentController.getCommentById);
-router.get('/:id/replies', commentController.getCommentReplies);
+// 评论详情路由（支持可选认证）
+router.get('/:id', AuthMiddleware.optionalAuthenticate(), commentController.getCommentById);
+router.get('/:id/replies', AuthMiddleware.optionalAuthenticate(), commentController.getCommentReplies);
 
 // 获取评论的多级回复树
-router.get('/:id/replies-tree', commentController.getCommentRepliesTree);
+router.get('/:id/replies-tree', AuthMiddleware.optionalAuthenticate(), commentController.getCommentRepliesTree);
 
 // 获取评论的直接回复
-router.get('/:id/direct-replies', commentController.getCommentDirectReplies);
+router.get('/:id/direct-replies', AuthMiddleware.optionalAuthenticate(), commentController.getCommentDirectReplies);
 
 // 更新和删除评论路由（需要登录）
 router.put('/:id',
@@ -62,8 +62,8 @@ router.put('/:id',
 );
 router.delete('/:id', AuthMiddleware.authenticate(), commentController.deleteComment);
 
-// 帖子评论路由
-router.get('/post/:postId', commentController.getPostComments);
+// 帖子评论路由（支持可选认证）
+router.get('/post/:postId', AuthMiddleware.optionalAuthenticate(), commentController.getPostComments);
 
 // 用户评论路由
 router.get('/user/me', AuthMiddleware.authenticate(), commentController.getUserComments);

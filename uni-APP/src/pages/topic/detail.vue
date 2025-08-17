@@ -186,8 +186,56 @@ export default {
   methods: {
     // PostList组件事件处理
     handleLike(post) {
-      // 处理点赞
-      console.log('点赞帖子:', post.id)
+      // 检查登录状态
+      const token = uni.getStorageSync('token');
+      if (!token) {
+        uni.showToast({ title: '请先登录', icon: 'none' });
+        uni.navigateTo({ url: '/pages/auth/login/index' });
+        return;
+      }
+
+      // 乐观更新UI
+      const originalState = post.isLiked;
+      const originalCount = post.likeCount || post.like_count || 0;
+      const newState = !post.isLiked;
+      
+      post.isLiked = newState;
+      // 更新实际存在的字段
+      if (post.like_count !== undefined) {
+        post.like_count += newState ? 1 : -1;
+      }
+      if (post.likeCount !== undefined) {
+        post.likeCount += newState ? 1 : -1;
+      }
+
+      // 调用API
+      const apiPromise = newState
+        ? this.$api.like.like('post', post.id)
+        : this.$api.like.unlike('post', post.id);
+
+      apiPromise
+        .then(res => {
+          uni.showToast({ 
+            title: newState ? '点赞成功' : '取消点赞', 
+            icon: 'success' 
+          });
+        })
+        .catch(err => {
+          console.error('点赞操作失败:', err);
+          // 恢复原始状态
+          post.isLiked = originalState;
+          // 恢复实际存在的字段
+          if (post.like_count !== undefined) {
+            post.like_count = originalCount;
+          }
+          if (post.likeCount !== undefined) {
+            post.likeCount = originalCount;
+          }
+          uni.showToast({ 
+            title: '操作失败，请稍后重试', 
+            icon: 'none' 
+          });
+        });
     },
 
     handleComment(post) {
@@ -198,8 +246,69 @@ export default {
     },
 
     handleFavorite(post) {
-      // 处理收藏
-      console.log('收藏帖子:', post.id)
+      // 检查登录状态
+      const token = uni.getStorageSync('token');
+      if (!token) {
+        uni.showToast({ title: '请先登录', icon: 'none' });
+        uni.navigateTo({ url: '/pages/auth/login/index' });
+        return;
+      }
+
+      // 乐观更新UI
+      const originalState = post.isFavorited;
+      const originalCount = post.favoriteCount || post.favorite_count || 0;
+      const newState = !post.isFavorited;
+      
+      post.isFavorited = newState;
+      // 更新实际存在的字段
+      if (post.favorite_count !== undefined) {
+        post.favorite_count += newState ? 1 : -1;
+      }
+      if (post.favoriteCount !== undefined) {
+        post.favoriteCount += newState ? 1 : -1;
+      }
+
+      // 调用API
+      const apiPromise = newState
+        ? this.$api.favorite.favorite(post.id)
+        : this.$api.favorite.unfavorite(post.id);
+
+      apiPromise
+        .then(res => {
+          uni.showToast({ 
+            title: newState ? '收藏成功' : '取消收藏', 
+            icon: 'success' 
+          });
+        })
+        .catch(err => {
+          console.error('收藏操作失败:', err);
+          // 恢复原始状态
+          post.isFavorited = originalState;
+          // 恢复实际存在的字段
+          if (post.favorite_count !== undefined) {
+            post.favorite_count = originalCount;
+          }
+          if (post.favoriteCount !== undefined) {
+            post.favoriteCount = originalCount;
+          }
+          
+          // 处理特定错误
+          if (err.code === 100 && err.data && err.data.details) {
+            const detail = err.data.details[0];
+            if (detail && detail.field === 'favorites_user_id_post_id') {
+              uni.showToast({ 
+                title: '请刷新后重试', 
+                icon: 'none' 
+              });
+              return;
+            }
+          }
+          
+          uni.showToast({ 
+            title: '操作失败，请稍后重试', 
+            icon: 'none' 
+          });
+        });
     },
 
     handleShare(post) {
@@ -218,14 +327,50 @@ export default {
     },
 
     handleCommentLike(comment) {
-      // 处理评论点赞
-      console.log('点赞评论:', comment.id)
+      // 检查登录状态
+      const token = uni.getStorageSync('token');
+      if (!token) {
+        uni.showToast({ title: '请先登录', icon: 'none' });
+        uni.navigateTo({ url: '/pages/auth/login/index' });
+        return;
+      }
+
+      // 乐观更新UI
+      const originalState = comment.is_liked;
+      const originalCount = comment.like_count || 0;
+      const newState = !comment.is_liked;
+      
+      comment.is_liked = newState;
+      comment.like_count += newState ? 1 : -1;
+
+      // 调用API
+      const apiPromise = newState
+        ? this.$api.like.like('comment', comment.id)
+        : this.$api.like.unlike('comment', comment.id);
+
+      apiPromise
+        .then(res => {
+          uni.showToast({ 
+            title: newState ? '点赞成功' : '取消点赞', 
+            icon: 'success' 
+          });
+        })
+        .catch(err => {
+          console.error('评论点赞操作失败:', err);
+          // 恢复原始状态
+          comment.is_liked = originalState;
+          comment.like_count = originalCount;
+          uni.showToast({ 
+            title: '操作失败，请稍后重试', 
+            icon: 'none' 
+          });
+        });
     },
 
     handleUserClick(user) {
       // 跳转到用户页面
       uni.navigateTo({
-        url: `/pages/user/user-profilee?id=${user.id}`
+        url: `/pages/user/user-profile?id=${user.id}`
       })
     },
 

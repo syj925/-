@@ -3,6 +3,7 @@ const postRepository = require('../repositories/post.repository');
 const commentRepository = require('../repositories/comment.repository');
 const userRepository = require('../repositories/user.repository');
 const messageService = require('./message.service');
+const statusCacheService = require('./status-cache.service');
 const { StatusCodes } = require('http-status-codes');
 const { ErrorMiddleware } = require('../middlewares');
 const errorCodes = require('../constants/error-codes');
@@ -82,27 +83,24 @@ class LikeService {
       );
     }
     
-    // 使用 findOrCreate 避免并发问题
+    // 检查是否已点赞（包括软删除的记录）
+    const existingLike = await likeRepository.findExisting(userId, targetId, targetType);
+    if (existingLike && !existingLike.deletedAt) {
+      // 已经点赞，直接返回
+      return { message: '已点赞' };
+    }
+    
     let like;
-    try {
-      const [likeRecord, created] = await likeRepository.findOrCreate({
+    if (existingLike && existingLike.deletedAt) {
+      // 恢复软删除的点赞记录
+      like = await likeRepository.restore(existingLike.id);
+    } else {
+      // 创建新点赞
+      like = await likeRepository.create({
         user_id: userId,
         target_id: targetId,
         target_type: targetType
       });
-
-      like = likeRecord;
-
-      if (!created) {
-        // 如果已经存在，直接返回成功
-        return { message: '已点赞' };
-      }
-    } catch (error) {
-      // 如果是唯一约束错误，说明已经点赞了
-      if (error.name === 'SequelizeUniqueConstraintError') {
-        return { message: '已点赞' };
-      }
-      throw error;
     }
 
     // 更新计数
@@ -118,9 +116,12 @@ class LikeService {
         ? `${user.username} 点赞了你的帖子`
         : `${user.username} 点赞了你的评论`;
 
+      const messageTitle = targetType === 'post' ? '点赞通知' : '评论点赞通知';
+      
       messageService.createMessage({
         sender_id: userId,
         receiver_id: targetOwnerId,
+        title: messageTitle,
         content: messageContent,
         type: 'like',
         related_id: like.id,
@@ -128,6 +129,19 @@ class LikeService {
       }).catch(err => console.error('发送消息失败', err));
     }
     
+    // 更新状态缓存（仅对帖子）
+    if (targetType === 'post') {
+      try {
+        await statusCacheService.addLike(userId, targetId);
+      } catch (error) {
+        logger.warn('更新点赞缓存失败，但不影响点赞操作:', error);
+      }
+    }
+
+    // 注释：移除推荐缓存清除逻辑
+    // 原因：用户点赞不应该影响推荐内容缓存，让推荐缓存自然过期即可
+    // 状态信息已通过 statusCacheService 实时更新
+
     return {
       success: true,
       message: '点赞成功'
@@ -180,6 +194,19 @@ class LikeService {
         await commentRepository.updateCounter(targetId, 'like_count', -1);
       }
     }
+
+    // 更新状态缓存（仅对帖子）
+    if (result && targetType === 'post') {
+      try {
+        await statusCacheService.removeLike(userId, targetId);
+      } catch (error) {
+        logger.warn('更新取消点赞缓存失败，但不影响取消点赞操作:', error);
+      }
+    }
+
+    // 注释：移除推荐缓存清除逻辑
+    // 原因：用户取消点赞不应该影响推荐内容缓存，让推荐缓存自然过期即可
+    // 状态信息已通过 statusCacheService 实时更新
 
     return {
       success: true,

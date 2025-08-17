@@ -220,6 +220,7 @@ class TopicController {
     try {
       const { id } = req.params;
       const { page = 1, pageSize = 10, orderBy = 'createdAt', orderDirection = 'DESC' } = req.query;
+      const userId = req.user?.id; // 从optionalAuthenticate中获取用户ID
 
       const options = {
         page: parseInt(page, 10),
@@ -228,7 +229,7 @@ class TopicController {
         orderDirection
       };
 
-      const result = await topicService.getTopicPosts(parseInt(id, 10), options);
+      const result = await topicService.getTopicPosts(parseInt(id, 10), options, userId);
 
       res.status(StatusCodes.OK).json(ResponseUtil.page(
         result.list,

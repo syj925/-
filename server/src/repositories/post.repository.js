@@ -947,6 +947,43 @@ class PostRepository {
       }
     });
   }
+  /**
+   * 更新帖子计数字段
+   * @param {String} postId 帖子ID
+   * @param {String} field 计数字段名 (like_count, favorite_count, comment_count, view_count)
+   * @param {Number} increment 增量值（正数增加，负数减少）
+   * @returns {Promise<Boolean>} 是否成功
+   */
+  async updateCounter(postId, field, increment = 1) {
+    try {
+      // 验证字段名，防止SQL注入
+      const allowedFields = ['like_count', 'favorite_count', 'comment_count', 'view_count'];
+      if (!allowedFields.includes(field)) {
+        throw new Error(`不允许的计数字段: ${field}`);
+      }
+
+      // 使用Sequelize的increment方法更新计数
+      const [affectedRows] = await Post.increment(field, {
+        by: increment,
+        where: { id: postId }
+      });
+
+      // 清除相关缓存
+      const cacheKey = `post:${postId}`;
+      try {
+        await redisClient.del(cacheKey);
+        await redisClient.del(`${cacheKey}:details`);
+      } catch (cacheError) {
+        console.error(`清除帖子缓存失败 (ID: ${postId}):`, cacheError);
+        // 缓存清除失败不影响主要功能
+      }
+
+      return affectedRows > 0;
+    } catch (error) {
+      console.error(`更新帖子计数失败 (ID: ${postId}, field: ${field}, increment: ${increment}):`, error);
+      throw error;
+    }
+  }
 }
 
 module.exports = new PostRepository();

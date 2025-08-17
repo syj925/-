@@ -2,6 +2,7 @@ const favoriteRepository = require('../repositories/favorite.repository');
 const postRepository = require('../repositories/post.repository');
 const userRepository = require('../repositories/user.repository');
 const messageService = require('./message.service');
+const statusCacheService = require('./status-cache.service');
 const { StatusCodes } = require('http-status-codes');
 const { ErrorMiddleware } = require('../middlewares');
 const errorCodes = require('../constants/error-codes');
@@ -55,9 +56,9 @@ class FavoriteService {
       );
     }
     
-    // 检查是否已收藏
-    const exists = await favoriteRepository.exists(userId, postId);
-    if (exists) {
+    // 检查是否已收藏（包括软删除的记录）
+    const existingFavorite = await favoriteRepository.findExisting(userId, postId);
+    if (existingFavorite && !existingFavorite.deletedAt) {
       throw ErrorMiddleware.createError(
         '已收藏，请勿重复操作',
         StatusCodes.BAD_REQUEST,
@@ -65,11 +66,17 @@ class FavoriteService {
       );
     }
     
-    // 创建收藏
-    const favorite = await favoriteRepository.create({
-      user_id: userId,
-      post_id: postId
-    });
+    let favorite;
+    if (existingFavorite && existingFavorite.deletedAt) {
+      // 恢复软删除的收藏记录
+      favorite = await favoriteRepository.restore(existingFavorite.id);
+    } else {
+      // 创建新收藏
+      favorite = await favoriteRepository.create({
+        user_id: userId,
+        post_id: postId
+      });
+    }
     
     // 更新帖子收藏计数
     await postRepository.updateCounter(postId, 'favorite_count', 1);
@@ -86,6 +93,17 @@ class FavoriteService {
       }).catch(err => console.error('发送消息失败', err));
     }
     
+    // 更新状态缓存
+    try {
+      await statusCacheService.addFavorite(userId, postId);
+    } catch (error) {
+      logger.warn('更新收藏缓存失败，但不影响收藏操作:', error);
+    }
+    
+    // 注释：移除推荐缓存清除逻辑
+    // 原因：用户收藏不应该影响推荐内容缓存，让推荐缓存自然过期即可
+    // 状态信息已通过 statusCacheService 实时更新
+
     return {
       success: true,
       message: '收藏成功'
@@ -127,6 +145,19 @@ class FavoriteService {
       await postRepository.updateCounter(postId, 'favorite_count', -1);
     }
     
+    // 更新状态缓存
+    if (result) {
+      try {
+        await statusCacheService.removeFavorite(userId, postId);
+      } catch (error) {
+        logger.warn('更新取消收藏缓存失败，但不影响取消收藏操作:', error);
+      }
+    }
+    
+    // 注释：移除推荐缓存清除逻辑
+    // 原因：用户取消收藏不应该影响推荐内容缓存，让推荐缓存自然过期即可
+    // 状态信息已通过 statusCacheService 实时更新
+
     return {
       success: result,
       message: result ? '取消收藏成功' : '取消收藏失败'

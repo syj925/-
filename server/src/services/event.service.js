@@ -305,13 +305,23 @@ class EventService {
       );
     }
 
-    // 检查是否存在已取消的报名记录
-    const existingRegistration = await eventRegistrationRepository.findByEventAndUser(eventId, userId);
+    // 检查是否存在报名记录（包括软删除的）
+    const existingRegistration = await eventRegistrationRepository.findExistingRegistration(eventId, userId);
 
     let registration;
     let shouldUpdateCount = true;
 
-    if (existingRegistration && existingRegistration.status === 0) {
+    if (existingRegistration && existingRegistration.deletedAt) {
+      // 如果存在软删除的记录，恢复并更新为新报名
+      registration = await eventRegistrationRepository.restoreRegistration(existingRegistration.id);
+      registration = await eventRegistrationRepository.update(existingRegistration.id, {
+        status: 1,
+        form_data: formData,
+        registered_at: new Date(),
+        canceled_at: null,
+        cancel_reason: null
+      });
+    } else if (existingRegistration && existingRegistration.status === 0) {
       // 如果存在已取消的记录，更新状态（重新报名）
       registration = await eventRegistrationRepository.update(existingRegistration.id, {
         status: 1,

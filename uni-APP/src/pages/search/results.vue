@@ -9,14 +9,8 @@
         <view class="nav-center">
           <view class="search-bar">
             <view class="search-input-wrapper">
-              <input
-                v-model="searchKeyword"
-                class="search-input"
-                placeholder="搜索内容"
-                confirm-type="search"
-                @confirm="onSearchConfirm"
-                @input="onSearchInput"
-              />
+              <input v-model="searchKeyword" class="search-input" placeholder="搜索内容" confirm-type="search"
+                @confirm="onSearchConfirm" @input="onSearchInput" />
               <view v-if="searchKeyword" class="clear-btn" @click="clearSearch">
                 <text>✕</text>
               </view>
@@ -47,16 +41,10 @@
         <view class="category-tabs">
           <scroll-view class="tabs-scroll" scroll-x>
             <view class="tabs-container" style="display: flex; flex-direction: row; flex-wrap: nowrap;">
-              <view
-                v-for="tab in searchTabs"
-                :key="tab.type"
-                class="tab-item"
-                :class="{ 
-                  active: currentTab === tab.type,
-                  'has-count': getTabCount(tab.type) > 0
-                }"
-                @click="switchTab(tab.type)"
-              >
+              <view v-for="tab in searchTabs" :key="tab.type" class="tab-item" :class="{
+                active: currentTab === tab.type,
+                'has-count': getTabCount(tab.type) > 0
+              }" @click="switchTab(tab.type)">
                 <view class="tab-icon">
                   <text>{{ getTabIcon(tab.type) }}</text>
                 </view>
@@ -72,34 +60,27 @@
         <!-- 筛选器 -->
         <view v-if="currentTab !== 'all'" class="filters-bar">
           <scroll-view class="filters-scroll" scroll-x>
-            <view class="filters-container" style="display: flex; flex-direction: row; align-items: center; flex-wrap: nowrap; overflow-x: auto;">
+            <view class="filters-container"
+              style="display: flex; flex-direction: row; align-items: center; flex-wrap: nowrap; overflow-x: auto;">
               <!-- 排序筛选 -->
-              <view class="filter-section" style="display: flex; flex-direction: row; align-items: center; flex-shrink: 0;">
+              <view class="filter-section"
+                style="display: flex; flex-direction: row; align-items: center; flex-shrink: 0;">
                 <text class="section-title">排序</text>
                 <view class="filter-chips" style="display: flex; flex-direction: row; flex-wrap: nowrap;">
-                  <view
-                    v-for="sort in sortOptions"
-                    :key="sort.value"
-                    class="filter-chip"
-                    :class="{ active: currentSort === sort.value }"
-                    @click="changeSortOrder(sort.value)"
-                  >
+                  <view v-for="sort in sortOptions" :key="sort.value" class="filter-chip"
+                    :class="{ active: currentSort === sort.value }" @click="changeSortOrder(sort.value)">
                     <text>{{ sort.label }}</text>
                   </view>
                 </view>
               </view>
 
               <!-- 时间筛选 -->
-              <view class="filter-section" style="display: flex; flex-direction: row; align-items: center; flex-shrink: 0;">
+              <view class="filter-section"
+                style="display: flex; flex-direction: row; align-items: center; flex-shrink: 0;">
                 <text class="section-title">时间</text>
                 <view class="filter-chips" style="display: flex; flex-direction: row; flex-wrap: nowrap;">
-                  <view
-                    v-for="time in timeFilters"
-                    :key="time.value"
-                    class="filter-chip"
-                    :class="{ active: currentTimeFilter === time.value }"
-                    @click="changeTimeFilter(time.value)"
-                  >
+                  <view v-for="time in timeFilters" :key="time.value" class="filter-chip"
+                    :class="{ active: currentTimeFilter === time.value }" @click="changeTimeFilter(time.value)">
                     <text>{{ time.label }}</text>
                   </view>
                 </view>
@@ -113,36 +94,38 @@
           <view class="list-container">
             <!-- 全部结果展示 -->
             <template v-if="currentTab === 'all'">
-              <!-- 帖子结果 -->
-              <view v-if="searchResults.posts?.list?.length > 0" class="result-category">
+              <!-- 话题结果 -->
+              <view v-if="searchResults.topics?.list?.length > 0" class="result-category">
                 <view class="category-header">
                   <view class="header-left">
-                    <text class="category-icon">📝</text>
-                    <text class="category-title">帖子</text>
+                    <text class="category-icon">💬</text>
+                    <text class="category-title">话题</text>
                   </view>
-                  <view class="header-right" @click="switchTab('posts')">
-                    <text class="view-all">查看全部 {{ searchResults.posts.pagination?.total || 0 }}</text>
+                  <view class="header-right" @click="switchTab('topics')">
+                    <text class="view-all">查看全部 {{ searchResults.topics.pagination?.total || 0 }}</text>
                     <text class="arrow">→</text>
                   </view>
                 </view>
                 <view class="category-items">
-                  <view
-                    v-for="post in searchResults.posts.list.slice(0, 3)"
-                    :key="'post-' + post.id"
-                    class="result-card post-card"
-                    @click="goToPostDetail(post.id)"
-                  >
-                    <view class="card-content">
-                      <text class="post-title">{{ post.title || post.content }}</text>
-                      <view class="post-meta">
-                        <text class="author">{{ post.author?.nickname || post.author?.username }}</text>
-                        <text class="stats">{{ post.like_count }}赞 · {{ post.comment_count }}评论</text>
+                  <view v-for="topic in searchResults.topics.list.slice(0, 3)" :key="'topic-' + topic.id"
+                    class="result-card topic-card" @click="goToTopicDetail(topic.id)">
+                    <view class="topic-avatar">
+                      <image v-if="topic.cover_image" :src="getImageUrl(topic.cover_image)" mode="aspectFill" />
+                      <view v-else class="default-avatar">
+                        <text>{{ topic.name.charAt(0) }}</text>
                       </view>
                     </view>
-                    <view v-if="post.images?.length > 0" class="card-thumb">
-                      <image :src="getImageUrl(getFirstImage(post.images))" mode="aspectFill" />
+                    <view class="topic-info">
+                      <text class="topic-name">{{ topic.name }}</text>
+                      <text class="topic-desc">{{ topic.description || '暂无描述' }}</text>
+                      <text class="topic-stats">{{ topic.post_count }}个帖子</text>
                     </view>
                   </view>
+                </view>
+                <!-- 话题展示更多提示 -->
+                <view v-if="searchResults.topics.list.length > 3" class="show-more-btn" @click="switchTab('topics')">
+                  <text class="show-more-text">点击显示更多话题 ({{ searchResults.topics.list.length - 3 }})</text>
+                  <text class="show-more-arrow">→</text>
                 </view>
               </view>
 
@@ -159,100 +142,59 @@
                   </view>
                 </view>
                 <view class="category-items">
-                  <view
-                    v-for="user in searchResults.users.list.slice(0, 3)"
+                  <SearchUserCard 
+                    v-for="user in searchResults.users.list.slice(0, 6)" 
                     :key="'user-' + user.id"
-                    class="result-card user-card"
-                    @click="goToUserProfile(user.id)"
-                  >
-                    <view class="user-avatar">
-                      <image :src="getImageUrl(user.avatar)" mode="aspectFill" />
-                    </view>
-                    <view class="user-info">
-                      <text class="user-name">{{ user.nickname || user.username }}</text>
-                      <text class="user-bio">{{ user.bio || '这个人很懒，什么都没写~' }}</text>
-                    </view>
-                    <view class="follow-button">
-                      <text>关注</text>
-                    </view>
-                  </view>
+                    :user="user"
+                    @follow-change="handleFollowChange"
+                  />
+                </view>
+                <!-- 用户展示更多提示 -->
+                <view v-if="searchResults.users.list.length > 6" class="show-more-btn" @click="switchTab('users')">
+                  <text class="show-more-text">查看更多用户 ({{ searchResults.users.list.length - 6 }})</text>
+                  <text class="show-more-arrow">→</text>
                 </view>
               </view>
 
-              <!-- 话题结果 -->
-              <view v-if="searchResults.topics?.list?.length > 0" class="result-category">
+              <!-- 帖子结果 -->
+              <view v-if="searchResults.posts?.list?.length > 0" class="result-category">
                 <view class="category-header">
                   <view class="header-left">
-                    <text class="category-icon">💬</text>
-                    <text class="category-title">话题</text>
-                  </view>
-                  <view class="header-right" @click="switchTab('topics')">
-                    <text class="view-all">查看全部 {{ searchResults.topics.pagination?.total || 0 }}</text>
-                    <text class="arrow">→</text>
+                    <text class="category-icon">📝</text>
+                    <text class="category-title">帖子</text>
                   </view>
                 </view>
                 <view class="category-items">
-                  <view
-                    v-for="topic in searchResults.topics.list.slice(0, 3)"
-                    :key="'topic-' + topic.id"
-                    class="result-card topic-card"
-                    @click="goToTopicDetail(topic.id)"
-                  >
-                    <view class="topic-avatar">
-                      <image v-if="topic.cover_image" :src="getImageUrl(topic.cover_image)" mode="aspectFill" />
-                      <view v-else class="default-avatar">
-                        <text>{{ topic.name.charAt(0) }}</text>
-                      </view>
-                    </view>
-                    <view class="topic-info">
-                      <text class="topic-name">{{ topic.name }}</text>
-                      <text class="topic-desc">{{ topic.description || '暂无描述' }}</text>
-                      <text class="topic-stats">{{ topic.post_count }}个帖子</text>
-                    </view>
-                  </view>
+                  <PostCard v-for="post in searchResults.posts.list" :key="'post-' + post.id" :post="post"
+                    :compact="true" @like="handlePostLike" @comment="handlePostComment" @favorite="handlePostFavorite"
+                    @share="handlePostShare" @userClick="handleUserClick" @commentLike="handleCommentLike" />
                 </view>
               </view>
             </template>
 
             <!-- 单类型结果展示 -->
             <template v-else>
-              <view
-                v-for="item in currentResults.list"
-                :key="item.id"
-                class="result-card"
-                :class="currentTab + '-card'"
-                @click="goToItemDetail(item, currentTab)"
-              >
-                <!-- 帖子卡片 -->
-                <template v-if="currentTab === 'posts'">
-                  <view class="card-content">
-                    <text class="post-title">{{ item.title || item.content }}</text>
-                    <view class="post-meta">
-                      <text class="author">{{ item.author?.nickname || item.author?.username }}</text>
-                      <text class="stats">{{ item.like_count }}赞 · {{ item.comment_count }}评论</text>
-                    </view>
-                  </view>
-                  <view v-if="item.images?.length > 0" class="card-thumb">
-                    <image :src="getImageUrl(getFirstImage(item.images))" mode="aspectFill" />
-                  </view>
-                </template>
-                
-                <!-- 用户卡片 -->
-                <template v-else-if="currentTab === 'users'">
-                  <view class="user-avatar">
-                    <image :src="getImageUrl(item.avatar)" mode="aspectFill" />
-                  </view>
-                  <view class="user-info">
-                    <text class="user-name">{{ item.nickname || item.username }}</text>
-                    <text class="user-bio">{{ item.bio || '这个人很懒，什么都没写~' }}</text>
-                  </view>
-                  <view class="follow-button">
-                    <text>关注</text>
-                  </view>
-                </template>
-                
-                <!-- 话题卡片 -->
-                <template v-else-if="currentTab === 'topics'">
+              <!-- 帖子列表 -->
+              <template v-if="currentTab === 'posts'">
+                <PostCard v-for="item in currentResults.list" :key="item.id" :post="item" :compact="true"
+                  @like="handlePostLike" @comment="handlePostComment" @favorite="handlePostFavorite"
+                  @share="handlePostShare" @userClick="handleUserClick" @commentLike="handleCommentLike" />
+              </template>
+
+              <!-- 用户列表 -->
+              <template v-else-if="currentTab === 'users'">
+                <SearchUserCard 
+                  v-for="item in currentResults.list" 
+                  :key="item.id"
+                  :user="item"
+                  @follow-change="handleFollowChange"
+                />
+              </template>
+
+              <!-- 话题列表 -->
+              <template v-else-if="currentTab === 'topics'">
+                <view v-for="item in currentResults.list" :key="item.id" class="result-card topic-card"
+                  @click="goToItemDetail(item, currentTab)">
                   <view class="topic-avatar">
                     <image v-if="item.cover_image" :src="getImageUrl(item.cover_image)" mode="aspectFill" />
                     <view v-else class="default-avatar">
@@ -264,8 +206,8 @@
                     <text class="topic-desc">{{ item.description || '暂无描述' }}</text>
                     <text class="topic-stats">{{ item.post_count }}个帖子</text>
                   </view>
-                </template>
-              </view>
+                </view>
+              </template>
             </template>
 
             <!-- 加载更多 -->
@@ -303,9 +245,15 @@
 
 <script>
 import api from '@/api'
+import PostCard from '@/components/post/PostCard.vue'
+import SearchUserCard from '@/components/user/SearchUserCard.vue'
 
 export default {
   name: 'SearchResultsPage',
+  components: {
+    PostCard,
+    SearchUserCard
+  },
   data() {
     return {
       searchKeyword: '',
@@ -354,7 +302,7 @@ export default {
     },
     isEmptyResults() {
       if (!this.searchResults) return false
-      
+
       if (this.currentTab === 'all') {
         const posts = this.searchResults.posts?.list || []
         const users = this.searchResults.users?.list || []
@@ -397,14 +345,14 @@ export default {
       this.loading = true
       const startTime = Date.now()
 
-      try {
-        // 保存搜索历史
-        await api.search.saveSearchHistory({
-          keyword: this.searchKeyword,
-          type: this.currentTab
-        })
+      console.log('🔍 开始搜索:', {
+        keyword: this.searchKeyword,
+        type: this.currentTab,
+        hasToken: !!uni.getStorageSync('token')
+      })
 
-        // 执行搜索
+      try {
+        // 执行搜索（后端会自动保存搜索历史）
         const res = await api.search.globalSearch({
           keyword: this.searchKeyword,
           type: this.currentTab,
@@ -414,19 +362,57 @@ export default {
           timeFilter: this.currentTimeFilter
         })
 
+        console.log('✅ 搜索成功:', {
+          keyword: this.searchKeyword,
+          resultsCount: {
+            posts: res.data.posts?.list?.length || 0,
+            users: res.data.users?.list?.length || 0,
+            topics: res.data.topics?.list?.length || 0
+          },
+          searchTime: Date.now() - startTime + 'ms'
+        })
+
         this.searchResults = res.data
         this.currentPage = 1
         this.searchTime = Date.now() - startTime
         this.updateHasMore()
 
+        // 手动保存搜索历史（作为备用方案）
+        this.saveSearchHistoryManually()
+
       } catch (error) {
-        console.error('搜索失败:', error)
+        console.error('❌ 搜索失败:', error)
         uni.showToast({
           title: '搜索失败',
           icon: 'none'
         })
       } finally {
         this.loading = false
+      }
+    },
+
+    // 手动保存搜索历史
+    async saveSearchHistoryManually() {
+      const token = uni.getStorageSync('token')
+      if (!token) {
+        console.log('⚠️ 未登录，跳过保存搜索历史')
+        return
+      }
+
+      try {
+        console.log('💾 手动保存搜索历史:', {
+          keyword: this.searchKeyword,
+          type: this.currentTab
+        })
+
+        const res = await api.search.saveSearchHistory({
+          keyword: this.searchKeyword,
+          type: this.currentTab
+        })
+
+        console.log('✅ 搜索历史保存成功:', res)
+      } catch (error) {
+        console.error('❌ 搜索历史保存失败:', error)
       }
     },
 
@@ -544,6 +530,20 @@ export default {
       })
     },
 
+    // 处理关注状态变化
+    handleFollowChange(event) {
+      const { userId, isFollowed } = event
+      console.log(`用户 ${userId} 关注状态变化为: ${isFollowed}`)
+      
+      // 可以在这里更新搜索结果中的用户关注状态
+      if (this.searchResults?.users?.list) {
+        const userIndex = this.searchResults.users.list.findIndex(user => user.id === userId)
+        if (userIndex !== -1) {
+          this.searchResults.users.list[userIndex].isFollowed = isFollowed
+        }
+      }
+    },
+
     goToTopicDetail(topicId) {
       uni.navigateTo({
         url: `/pages/topic/detail?id=${topicId}`
@@ -584,6 +584,135 @@ export default {
         }
       }
       return null
+    },
+
+    // PostCard 事件处理方法
+    handlePostLike(post) {
+      // 检查登录状态
+      const token = uni.getStorageSync('token');
+      if (!token) {
+        uni.showToast({ title: '请先登录', icon: 'none' });
+        uni.navigateTo({ url: '/pages/auth/login/index' });
+        return;
+      }
+
+      // 先乐观更新UI
+      const originalState = post.isLiked;
+      const originalCount = post.likeCount;
+      const newState = !post.isLiked;
+      post.isLiked = newState;
+      post.likeCount += newState ? 1 : -1;
+
+      // 调用API
+      const apiPromise = newState 
+        ? this.$api.like.like('post', post.id)
+        : this.$api.like.unlike('post', post.id);
+      
+      apiPromise
+        .then(res => {
+          uni.showToast({ title: newState ? '点赞成功' : '取消点赞', icon: 'success' });
+        })
+        .catch(err => {
+          console.error('点赞操作失败:', err);
+          // 恢复原始状态
+          post.isLiked = originalState;
+          post.likeCount = originalCount;
+          uni.showToast({ title: '操作失败，请稍后重试', icon: 'none' });
+        });
+    },
+
+    handlePostComment(post) {
+      console.log('评论帖子:', post.id)
+      // 跳转到帖子详情页的评论区
+      uni.navigateTo({
+        url: `/pages/post/detail?id=${post.id}&scrollToComments=true`
+      })
+    },
+
+    handlePostFavorite(post) {
+      // 检查登录状态
+      const token = uni.getStorageSync('token');
+      if (!token) {
+        uni.showToast({ title: '请先登录', icon: 'none' });
+        uni.navigateTo({ url: '/pages/auth/login/index' });
+        return;
+      }
+
+      // 先乐观更新UI
+      const originalState = post.isFavorited;
+      const originalCount = post.favoriteCount;
+      const newState = !post.isFavorited;
+      post.isFavorited = newState;
+      post.favoriteCount += newState ? 1 : -1;
+
+      // 调用API
+      const apiPromise = newState 
+        ? this.$api.favorite.favorite(post.id)
+        : this.$api.favorite.unfavorite(post.id);
+      
+      apiPromise
+        .then(res => {
+          uni.showToast({ title: newState ? '收藏成功' : '取消收藏', icon: 'success' });
+        })
+        .catch(err => {
+          console.error('收藏操作失败:', err);
+          // 恢复原始状态
+          post.isFavorited = originalState;
+          post.favoriteCount = originalCount;
+          uni.showToast({ title: '操作失败，请稍后重试', icon: 'none' });
+        });
+    },
+
+    handlePostShare(post) {
+      console.log('分享帖子:', post.id)
+      // TODO: 实现分享逻辑
+      uni.showToast({
+        title: '分享功能待实现',
+        icon: 'none'
+      })
+    },
+
+    handleUserClick(user) {
+      console.log('点击用户:', user.id)
+      if (user && user.id) {
+        uni.navigateTo({
+          url: `/pages/user/user-profile?id=${user.id}`
+        })
+      }
+    },
+
+    handleCommentLike(comment) {
+      // 检查登录状态
+      const token = uni.getStorageSync('token');
+      if (!token) {
+        uni.showToast({ title: '请先登录', icon: 'none' });
+        uni.navigateTo({ url: '/pages/auth/login/index' });
+        return;
+      }
+
+      // 先乐观更新UI
+      const originalState = comment.isLiked;
+      const originalCount = comment.likeCount;
+      const newState = !comment.isLiked;
+      comment.isLiked = newState;
+      comment.likeCount += newState ? 1 : -1;
+
+      // 调用API
+      const apiPromise = newState 
+        ? this.$api.like.like('comment', comment.id)
+        : this.$api.like.unlike('comment', comment.id);
+      
+      apiPromise
+        .then(res => {
+          uni.showToast({ title: newState ? '点赞成功' : '取消点赞', icon: 'success' });
+        })
+        .catch(err => {
+          console.error('评论点赞操作失败:', err);
+          // 恢复原始状态
+          comment.isLiked = originalState;
+          comment.likeCount = originalCount;
+          uni.showToast({ title: '操作失败，请稍后重试', icon: 'none' });
+        });
     }
   }
 }
@@ -708,9 +837,17 @@ export default {
       background: #007aff;
       animation: loading-bounce 1.4s ease-in-out infinite both;
 
-      &:nth-child(1) { animation-delay: -0.32s; }
-      &:nth-child(2) { animation-delay: -0.16s; }
-      &:nth-child(3) { animation-delay: 0s; }
+      &:nth-child(1) {
+        animation-delay: -0.32s;
+      }
+
+      &:nth-child(2) {
+        animation-delay: -0.16s;
+      }
+
+      &:nth-child(3) {
+        animation-delay: 0s;
+      }
     }
   }
 
@@ -721,9 +858,13 @@ export default {
 }
 
 @keyframes loading-bounce {
-  0%, 80%, 100% {
+
+  0%,
+  80%,
+  100% {
     transform: scale(0);
   }
+
   40% {
     transform: scale(1);
   }
@@ -895,13 +1036,13 @@ export default {
 
 /* 结果分类 */
 .result-category {
-  margin-bottom: 50rpx;
+  margin-bottom: 10rpx;
 
   .category-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 30rpx;
+    margin-bottom: 10rpx;
 
     .header-left {
       display: flex;
@@ -941,6 +1082,37 @@ export default {
     flex-direction: column;
     gap: 20rpx;
   }
+
+  /* 显示更多按钮 */
+  .show-more-btn {
+    margin-top: 14rpx;
+    padding: 24rpx 32rpx;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 16rpx;
+    border: 2rpx solid #e9ecef;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+
+    &:active {
+      transform: scale(0.98);
+      background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+    }
+
+    .show-more-text {
+      font-size: 26rpx;
+      color: #007aff;
+      font-weight: 500;
+      margin-right: 12rpx;
+    }
+
+    .show-more-arrow {
+      font-size: 26rpx;
+      color: #007aff;
+      font-weight: 600;
+    }
+  }
 }
 
 /* 结果卡片 */
@@ -957,56 +1129,7 @@ export default {
   }
 }
 
-/* 帖子卡片 */
-.post-card {
-  display: flex;
-
-  .card-content {
-    flex: 1;
-    margin-right: 30rpx;
-
-    .post-title {
-      font-size: 28rpx;
-      color: #333;
-      line-height: 1.5;
-      margin-bottom: 20rpx;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-
-    .post-meta {
-      display: flex;
-      align-items: center;
-      gap: 20rpx;
-
-      .author {
-        font-size: 24rpx;
-        color: #666;
-      }
-
-      .stats {
-        font-size: 24rpx;
-        color: #999;
-      }
-    }
-  }
-
-  .card-thumb {
-    width: 120rpx;
-    height: 120rpx;
-    border-radius: 16rpx;
-    overflow: hidden;
-    background: #f5f7fa;
-
-    image {
-      width: 100%;
-      height: 100%;
-    }
-  }
-}
+/* PostCard组件在搜索结果页面中使用compact模式，无需额外样式调整 */
 
 /* 用户卡片 */
 .user-card {

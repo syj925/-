@@ -209,7 +209,10 @@ class SettingRepository {
       maxAdminRecommended: { value: '5', description: '首页最多显示的管理员推荐数量' },
       strategy: { value: 'mixed', description: '推荐策略: hot-热门, latest-最新, mixed-混合' },
       enableCache: { value: 'true', description: '是否启用推荐结果缓存' },
-      cacheExpireMinutes: { value: '15', description: '推荐结果缓存过期时间(分钟)' },
+      cacheExpireMinutes: { 
+        value: String(require('../../config/cache').RECOMMENDATION.TTL / 60), 
+        description: '推荐结果缓存过期时间(分钟)' 
+      },
       minInteractionScore: { value: '2', description: '推荐算法的最低互动分数阈值' }
     };
 

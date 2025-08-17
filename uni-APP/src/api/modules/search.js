@@ -13,6 +13,11 @@ export default (http) => ({
    * @returns {Promise}
    */
   globalSearch: (params) => {
+    console.log('🌐 发起全局搜索请求:', {
+      url: '/api/search',
+      params: params,
+      hasToken: !!uni.getStorageSync('token')
+    });
     return http.get('/api/search', params);
   },
 
@@ -94,6 +99,11 @@ export default (http) => ({
    * @returns {Promise}
    */
   saveSearchHistory: (data) => {
+    console.log('💾 发起保存搜索历史请求:', {
+      url: '/api/search/history',
+      data: data,
+      hasToken: !!uni.getStorageSync('token')
+    });
     return http.post('/api/search/history', data);
   },
 
@@ -105,6 +115,16 @@ export default (http) => ({
    */
   getSearchHistory: (params) => {
     return http.get('/api/search/history', params);
+  },
+
+  /**
+   * 删除单个搜索历史
+   * @param {Object} data 搜索数据
+   * @param {string} data.keyword 搜索关键词
+   * @returns {Promise}
+   */
+  removeSearchHistory: (data) => {
+    return http.delete('/api/search/history/item', data);
   },
 
   /**

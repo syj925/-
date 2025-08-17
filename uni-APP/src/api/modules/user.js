@@ -159,6 +159,6 @@ export default (http) => ({
    * @returns {Promise}
    */
   getUserPosts: (userId, params = {}) => {
-    return http.get(`/api/users/profile/${userId}/posts`, { params });
+    return http.get(`/api/users/profile/${userId}/posts`, params);
   }
 });

@@ -45,9 +45,9 @@ class FollowService {
       );
     }
     
-    // 检查是否已关注
-    const exists = await followRepository.exists(followerId, followingId);
-    if (exists) {
+    // 检查是否已关注（包括软删除的记录）
+    const existingFollow = await followRepository.findExisting(followerId, followingId);
+    if (existingFollow && !existingFollow.deletedAt) {
       throw ErrorMiddleware.createError(
         '已关注该用户',
         StatusCodes.BAD_REQUEST,
@@ -55,11 +55,17 @@ class FollowService {
       );
     }
     
-    // 创建关注关系
-    const follow = await followRepository.create({
-      follower_id: followerId,
-      following_id: followingId
-    });
+    let follow;
+    if (existingFollow && existingFollow.deletedAt) {
+      // 恢复软删除的关注记录
+      follow = await followRepository.restore(existingFollow.id);
+    } else {
+      // 创建新关注关系
+      follow = await followRepository.create({
+        follower_id: followerId,
+        following_id: followingId
+      });
+    }
     
     // 发送消息通知
     messageService.createMessage({

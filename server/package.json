@@ -14,7 +14,8 @@
     "add-foreign-keys": "node scripts/add-foreign-keys.js",
     "check-config": "node scripts/check-database-config.js",
     "clear-cache": "node scripts/clear-cache.js",
-    "create-missing-tables": "node scripts/create-missing-tables.js"
+    "create-missing-tables": "node scripts/create-missing-tables.js",
+    "cleanup-search-history": "node scripts/cleanup-search-history.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

@@ -719,6 +719,7 @@ class UserService {
    */
   async getUserProfilePosts(options) {
     const postRepository = require('../repositories/post.repository');
+    const recommendationService = require('./recommendation.service');
 
     const { userId, page, pageSize, sort, currentUserId } = options;
 
@@ -748,7 +749,13 @@ class UserService {
 
     const result = await postRepository.findAll(queryOptions);
 
-    return result;
+    // 添加用户交互状态（点赞、收藏）
+    const postsWithUserState = await recommendationService.addUserInteractionState(result.list, currentUserId);
+
+    return {
+      ...result,
+      list: postsWithUserState
+    };
   }
 }
 

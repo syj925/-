@@ -32,22 +32,23 @@ module.exports = (sequelize, DataTypes) => {
     {
       tableName: 'search_histories',
       timestamps: true,
+      paranoid: true, // 启用软删除
       indexes: [
         {
-          fields: ['user_id']  // 使用数据库实际字段名
+          fields: ['userId']  // 使用模型字段名，Sequelize会自动转换
         },
         {
           fields: ['keyword']
         },
         {
-          fields: ['user_id', 'keyword', 'type'],  // 使用数据库实际字段名
+          fields: ['userId', 'keyword'],  // 同一用户的同一关键词只能有一条记录
           unique: true
         },
         {
-          fields: ['created_at']  // 使用数据库实际字段名
+          fields: ['createdAt']  // 使用模型字段名
         },
         {
-          fields: ['updated_at']  // 使用数据库实际字段名
+          fields: ['updatedAt']  // 使用模型字段名
         }
       ],
       comment: '搜索历史表'

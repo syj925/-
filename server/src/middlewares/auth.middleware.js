@@ -56,6 +56,56 @@ class AuthMiddleware {
   }
 
   /**
+   * 可选认证 - 如果有token就解析用户信息，没有也不报错
+   * @returns {Function} Express中间件
+   */
+  static optionalAuthenticate() {
+    return (req, res, next) => {
+      try {
+        logger.info('🔍 optionalAuthenticate 中间件被调用', {
+          method: req.method,
+          url: req.url,
+          hasAuthHeader: !!req.headers.authorization,
+          authHeader: req.headers.authorization
+        });
+
+        // 获取认证头
+        const authHeader = req.headers.authorization;
+        if (!authHeader) {
+          logger.info('❌ 可选认证：未提供认证头，继续执行');
+          return next();
+        }
+
+        // 解析token
+        const parts = authHeader.split(' ');
+        if (parts.length !== 2 || parts[0] !== 'Bearer') {
+          logger.warn('❌ 可选认证：认证头格式错误，继续执行', { authHeader });
+          return next();
+        }
+
+        const token = parts[1];
+        logger.info('🔑 可选认证：开始验证JWT token', { tokenPreview: token.substring(0, 20) + '...' });
+
+        const payload = JwtUtil.verifyToken(token);
+
+        if (!payload) {
+          logger.warn('❌ 可选认证：JWT token验证失败，继续执行');
+          return next();
+        }
+
+        logger.info('✅ 可选认证：JWT token验证成功', { userId: payload.id, username: payload.username });
+
+        // 将用户信息添加到请求对象
+        req.user = payload;
+        next();
+      } catch (err) {
+        logger.error('💥 可选认证中间件异常，继续执行:', err);
+        next();
+      }
+    };
+  }
+
+  /**
    * 验证用户角色
    * @param {String|Array} roles 允许的角色
    * @returns {Function} Express中间件
@@ -103,21 +153,7 @@ class AuthMiddleware {
     };
   }
 
-  /**
-   * 可选认证中间件
-   * 如果有token则验证并设置req.user，没有则继续
-   * @returns {Function} Express中间件
-   */
-  static optionalAuthenticate() {
-    return (req, res, next) => {
-      // 简化版本：直接跳过认证，避免任何可能的阻塞
-      logger.debug('Optional authentication: skipping for now', {
-        url: req.originalUrl,
-        method: req.method
-      });
-      next();
-    };
-  }
+
 }
 
 module.exports = AuthMiddleware; 

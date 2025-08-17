@@ -286,7 +286,8 @@ class WebSocketService {
    */
   async _setUserOnline(userId) {
     try {
-      await redisClient.set(`online:${userId}`, '1', 3600); // 1小时过期
+      const cacheConfig = require('../../config/cache');
+      await redisClient.set(`online:${userId}`, '1', cacheConfig.REALTIME.ONLINE_STATUS); // 在线状态过期
     } catch (error) {
       logger.error(`设置用户在线状态失败: ${error.message}`, { userId });
     }

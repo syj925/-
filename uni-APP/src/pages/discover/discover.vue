@@ -49,7 +49,7 @@
         <view class="topics-container">
           <view 
             class="topic-item" 
-            v-for="(topic, index) in topics" 
+            v-for="(topic, index) in topics.slice(0, 6)" 
             :key="index"
             @tap="goToTopic(topic.id)"
           >
@@ -420,13 +420,13 @@ export default {
 
 // 轮播图样式
 .banner-section {
-  margin: 0 $spacing-md $spacing-lg;
-  border-radius: $radius-lg;
+  margin: 0 32rpx 16rpx;
+  border-radius: 16rpx;
   overflow: hidden;
   box-shadow: 0 6rpx 20rpx rgba(74, 144, 226, 0.12);
 
   @media (max-width: 750rpx) {
-    margin: 0 $spacing-sm $spacing-md;
+    margin: 0 24rpx 12rpx;
   }
 }
 
@@ -436,11 +436,11 @@ export default {
   padding: 20rpx 32rpx 32rpx;
   border-radius: 0 0 24rpx 24rpx;
   box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.08);
-  margin-bottom: 32rpx;
+  margin-bottom: 16rpx;
 
   .header-content {
     .title-section {
-      margin-bottom: 32rpx;
+      margin-bottom: 24rpx;
 
       .main-title {
         display: block;
@@ -487,16 +487,16 @@ export default {
 // 主要内容区域
 .content {
   flex: 1;
-  padding: 0 32rpx;
+  padding: 0 32rpx 16rpx;
 
   .section {
-    margin-bottom: 48rpx;
+    margin-bottom: 24rpx;
 
     .section-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 32rpx;
+      margin-bottom: 16rpx;
 
       .section-title-wrapper {
         display: flex;
@@ -543,12 +543,12 @@ export default {
 .topics-container {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 24rpx;
+  gap: 16rpx;
 
   .topic-item {
     background: #ffffff;
     border-radius: 16rpx;
-    padding: 32rpx;
+    padding: 24rpx;
     position: relative;
     box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.08);
     border: 1rpx solid #f0f0f0;
@@ -588,17 +588,32 @@ export default {
 
     .hot-badge {
       position: absolute;
-      top: 16rpx;
-      right: 16rpx;
-      background: #e74c3c;
-      border-radius: 12rpx;
-      padding: 8rpx 16rpx;
+      top: 12rpx;
+      right: 12rpx;
+      background: linear-gradient(135deg, #ff6b9d 0%, #ff8a56 50%, #ffad56 100%);
+      border-radius: 20rpx;
+      padding: 6rpx 12rpx;
+      box-shadow: 0 4rpx 12rpx rgba(255, 107, 157, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 4rpx;
+      
+      &::before {
+        content: '🔥';
+        font-size: 18rpx;
+        line-height: 1;
+      }
 
       .hot-text {
-        font-size: 20rpx;
+        font-size: 18rpx;
         color: #fff;
-        font-weight: 600;
+        font-weight: 500;
+        letter-spacing: 0.5rpx;
+        text-shadow: 0 1rpx 2rpx rgba(0, 0, 0, 0.1);
       }
+      
+      // 添加呼吸动画效果
+      animation: hotPulse 2s ease-in-out infinite;
     }
   }
 }
@@ -824,6 +839,18 @@ export default {
 // 底部间距
 .bottom-space {
   height: 120rpx;
+}
+
+// 动画定义
+@keyframes hotPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
 }
 
 // 响应式适配

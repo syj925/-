@@ -7,9 +7,11 @@ const {
   Category,
   SearchHistory,
   Like,
+  Favorite,
   Follow,
   sequelize
 } = require('../models');
+const statusCacheService = require('./status-cache.service');
 const logger = require('../../config/logger');
 
 /**
@@ -136,22 +138,22 @@ class SearchService {
         distinct: true
       });
 
-      // 如果用户已登录，获取点赞状态
+      // 如果用户已登录，获取点赞和收藏状态（使用缓存）
       if (userId && rows.length > 0) {
         const postIds = rows.map(post => post.id);
-        const likes = await Like.findAll({
-          where: {
-            userId,
-            targetId: { [Op.in]: postIds },
-            targetType: 'post'
-          }
-        });
-
-        const likedPostIds = new Set(likes.map(like => like.targetId));
+        
+        // 使用缓存服务批量获取状态
+        const [likeStates, favoriteStates] = await Promise.all([
+          statusCacheService.isLiked(userId, postIds),
+          statusCacheService.isFavorited(userId, postIds)
+        ]);
 
         rows.forEach(post => {
-          post.dataValues.isLiked = likedPostIds.has(post.id);
+          post.dataValues.isLiked = likeStates[post.id] || false;
+          post.dataValues.isFavorited = favoriteStates[post.id] || false;
         });
+        
+        logger.info(`✅ 从缓存获取${postIds.length}个帖子的用户状态`);
       }
 
       // 为每个帖子添加热门评论预览和字段映射
@@ -167,8 +169,11 @@ class SearchService {
         post.dataValues.favoriteCount = post.favorite_count || 0;
         post.dataValues.viewCount = post.view_count || 0;
         post.dataValues.createTime = post.created_at;
-        post.dataValues.isLiked = post.dataValues.isLiked || false;
-        post.dataValues.isFavorited = post.dataValues.isFavorited || false;
+        // 如果没有用户登录，设置默认值
+        if (!userId) {
+          post.dataValues.isLiked = false;
+          post.dataValues.isFavorited = false;
+        }
       }
 
       return {
@@ -195,6 +200,7 @@ class SearchService {
     try {
       const offset = (page - 1) * pageSize;
       
+      // 不排除当前用户，与搜索建议保持一致
       const whereCondition = {
         [Op.or]: [
           { username: { [Op.like]: `%${keyword}%` } },
@@ -202,17 +208,9 @@ class SearchService {
         ]
       };
 
-      // 排除当前用户
-      if (currentUserId) {
-        whereCondition[Op.and] = [
-          whereCondition,
-          { id: { [Op.ne]: currentUserId } }
-        ];
-      }
-
       const { count, rows } = await User.findAndCountAll({
         where: whereCondition,
-        attributes: ['id', 'username', 'nickname', 'avatar'],
+        attributes: ['id', 'username', 'nickname', 'avatar', 'bio', 'role', 'department'],
         order: [
           ['created_at', 'DESC']
         ],
@@ -225,12 +223,12 @@ class SearchService {
         const userIds = rows.map(user => user.id);
         const follows = await Follow.findAll({
           where: {
-            followerId: currentUserId,
-            followingId: { [Op.in]: userIds }
+            follower_id: currentUserId,
+            following_id: { [Op.in]: userIds }
           }
         });
         
-        const followedUserIds = new Set(follows.map(follow => follow.followingId));
+        const followedUserIds = new Set(follows.map(follow => follow.following_id));
         
         rows.forEach(user => {
           user.dataValues.isFollowed = followedUserIds.has(user.id);
@@ -371,7 +369,7 @@ class SearchService {
 
       const hotSearches = await SearchHistory.findAll({
         where: {
-          created_at: { [Op.gte]: sevenDaysAgo }
+          createdAt: { [Op.gte]: sevenDaysAgo }
         },
         attributes: [
           'keyword',
@@ -396,14 +394,27 @@ class SearchService {
    */
   async saveSearchHistory({ userId, keyword, type }) {
     try {
-      // 检查是否已存在相同的搜索记录
+      // 检查是否已存在相同关键词的搜索记录（包含软删除的记录）
       const existingRecord = await SearchHistory.findOne({
-        where: { userId, keyword, type }
+        where: { userId, keyword },
+        paranoid: false // 查询包含软删除的记录
       });
 
       if (existingRecord) {
-        // 更新时间
-        await existingRecord.update({ updated_at: new Date() });
+        if (existingRecord.deletedAt) {
+          // 如果记录被软删除，恢复它并更新
+          await existingRecord.restore();
+          await existingRecord.update({ 
+            updatedAt: new Date(),
+            type: type // 更新为最新的搜索类型
+          });
+        } else {
+          // 更新时间和类型，使搜索记录移到最前面
+          await existingRecord.update({ 
+            updatedAt: new Date(),
+            type: type // 更新为最新的搜索类型
+          });
+        }
       } else {
         // 创建新记录
         await SearchHistory.create({ userId, keyword, type });
@@ -414,7 +425,7 @@ class SearchService {
       if (userHistoryCount > 50) {
         const oldRecords = await SearchHistory.findAll({
           where: { userId },
-          order: [['updated_at', 'ASC']],
+          order: [['updatedAt', 'ASC']],
           limit: userHistoryCount - 50
         });
         
@@ -438,14 +449,32 @@ class SearchService {
     try {
       const history = await SearchHistory.findAll({
         where: { userId },
-        attributes: ['keyword', 'type', 'updated_at'],
-        order: [['updated_at', 'DESC']],
+        attributes: ['keyword', 'type', 'updatedAt'],
+        order: [['updatedAt', 'DESC']],
         limit
       });
 
       return { history };
     } catch (error) {
       logger.error('获取搜索历史失败:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * 删除单个搜索历史
+   * @param {Object} params 参数
+   * @param {string} params.userId 用户ID
+   * @param {string} params.keyword 关键词
+   * @returns {Promise<void>}
+   */
+  async removeSearchHistory({ userId, keyword }) {
+    try {
+      await SearchHistory.destroy({ 
+        where: { userId, keyword } 
+      });
+    } catch (error) {
+      logger.error('删除搜索历史失败:', error);
       throw error;
     }
   }

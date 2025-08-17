@@ -1,5 +1,5 @@
 <template>
-  <view class="post-card" @tap="goDetail">
+  <view class="post-card" :class="{ compact: compact }" @tap="goDetail">
     <view class="post-card__header">
       <view class="post-card__user" @tap.stop="onUserClick">
         <image class="post-card__avatar" :src="safeAvatar(post.author)" mode="aspectFill"></image>
@@ -21,25 +21,19 @@
         <app-icon name="more" color="#666"></app-icon>
       </view>
     </view>
-    
+
     <view class="post-card__content">
       <view class="post-card__title" v-if="post.title">{{ post.title }}</view>
       <view class="post-card__text">{{ post.content }}</view>
-      
+
       <!-- 图片展示区 -->
       <view class="post-card__images" v-if="post.images && post.images.length">
         <view class="post-card__image-container" :class="imageLayoutClass">
-          <image 
-            v-for="(image, index) in processedImages" 
-            :key="index"
-            :src="safeImageUrl(image)" 
-            mode="aspectFill" 
-            class="post-card__image" 
-            @tap.stop="previewImage(index)"
-          ></image>
+          <image v-for="(image, index) in processedImages" :key="index" :src="safeImageUrl(image)" mode="aspectFill"
+            class="post-card__image" @tap.stop="previewImage(index)"></image>
         </view>
       </view>
-      
+
       <!-- 话题标签 -->
       <view class="post-card__tags" v-if="post.tags && post.tags.length">
         <view class="post-card__tag" v-for="(tag, index) in post.tags" :key="index">
@@ -55,32 +49,18 @@
       </view>
 
       <view class="post-card__comment-list">
-        <view
-          class="post-card__comment-item"
-          v-for="(comment, index) in post.hot_comments"
-          :key="comment.id"
-          @tap.stop="handleCommentLike(comment)"
-        >
+        <view class="post-card__comment-item" v-for="(comment, index) in post.hot_comments" :key="comment.id"
+          @tap.stop="handleCommentLike(comment)">
           <view class="post-card__comment-header">
-            <image
-              class="post-card__comment-avatar"
-              :src="safeCommentAvatar(comment)"
-              mode="aspectFill"
-              @tap.stop="handleUserClick(comment.author)"
-            ></image>
+            <image class="post-card__comment-avatar" :src="safeCommentAvatar(comment)" mode="aspectFill"
+              @tap.stop="handleUserClick(comment.author)"></image>
             <view class="post-card__comment-info">
-              <text
-                class="post-card__comment-name"
-                @tap.stop="handleUserClick(comment.author)"
-              >{{ safeCommentName(comment) }}</text>
+              <text class="post-card__comment-name" @tap.stop="handleUserClick(comment.author)">{{
+                safeCommentName(comment) }}</text>
               <text class="post-card__comment-time">{{ formatCommentTime(comment.created_at) }}</text>
             </view>
             <view class="post-card__comment-like" v-if="comment.like_count > 0">
-              <app-icon
-                name="like"
-                size="xs"
-                :color="comment.is_liked ? '#FF6B6B' : '#999'"
-              ></app-icon>
+              <app-icon name="like" size="xs" :color="comment.is_liked ? '#FF6B6B' : '#999'"></app-icon>
               <text :class="['post-card__comment-like-count', comment.is_liked ? 'active' : '']">
                 {{ comment.like_count }}
               </text>
@@ -93,11 +73,7 @@
       </view>
 
       <!-- 查看更多评论按钮 -->
-      <view
-        class="post-card__more-comments"
-        v-if="post.total_comments > 3"
-        @tap.stop="goToComments"
-      >
+      <view class="post-card__more-comments" v-if="post.total_comments > 3" @tap.stop="goToComments">
         <text class="post-card__more-comments-text">查看全部 {{ post.total_comments }} 条评论</text>
         <app-icon name="arrow-right" size="xs" color="#999"></app-icon>
       </view>
@@ -105,28 +81,22 @@
 
     <view class="post-card__footer">
       <view class="post-card__action" @tap.stop="onLikeClick">
-        <app-icon 
-          name="like" 
-          :customClass="post.isLiked ? 'active' : ''"
-          :color="post.isLiked ? '#FF6B6B' : '#666'"
-        ></app-icon>
-        <text :class="['post-card__count', post.isLiked ? 'active' : '']">{{ post.likeCount || 0 }}</text>
+        <app-icon name="like" :customClass="post.isLiked ? 'active' : ''"
+          :color="post.isLiked ? '#FF6B6B' : '#666'"></app-icon>
+        <text :class="['post-card__count', post.isLiked ? 'active' : '']">{{ post.likeCount || post.like_count || 0 }}</text>
       </view>
-      
+
       <view class="post-card__action" @tap.stop="onCommentClick">
         <app-icon name="comment" color="#666"></app-icon>
-        <text class="post-card__count">{{ post.commentCount || 0 }}</text>
+        <text class="post-card__count">{{ post.commentCount || post.comment_count || 0 }}</text>
       </view>
-      
+
       <view class="post-card__action" @tap.stop="onFavoriteClick">
-        <app-icon 
-          name="favorite" 
-          :customClass="post.isFavorited ? 'active' : ''"
-          :color="post.isFavorited ? '#FFCE54' : '#666'"
-        ></app-icon>
-        <text :class="['post-card__count', post.isFavorited ? 'active' : '']">{{ post.favoriteCount || 0 }}</text>
+        <app-icon name="favorite" :customClass="post.isFavorited ? 'active' : ''"
+          :color="post.isFavorited ? '#FFCE54' : '#666'"></app-icon>
+        <text :class="['post-card__count', post.isFavorited ? 'active' : '']">{{ post.favoriteCount || post.favorite_count || 0 }}</text>
       </view>
-      
+
       <view class="post-card__action" @tap.stop="onShareClick">
         <app-icon name="share" color="#666"></app-icon>
         <text class="post-card__count">分享</text>
@@ -155,8 +125,14 @@ export default {
     showAnonymousBadge: {
       type: Boolean,
       default: false
+    },
+    // 是否使用紧凑布局（减少margin）
+    compact: {
+      type: Boolean,
+      default: false
     }
   },
+
   computed: {
     formatTime() {
       return formatTimeAgo(this.post.createTime || Date.now());
@@ -207,11 +183,11 @@ export default {
     isAnonymousPost() {
       // 支持多种匿名字段格式
       return this.post.is_anonymous === true ||
-             this.post.is_anonymous === 1 ||
-             this.post.is_anonymous === '1' ||
-             this.post.isAnonymous === true ||
-             this.post.isAnonymous === 1 ||
-             this.post.isAnonymous === '1';
+        this.post.is_anonymous === 1 ||
+        this.post.is_anonymous === '1' ||
+        this.post.isAnonymous === true ||
+        this.post.isAnonymous === 1 ||
+        this.post.isAnonymous === '1';
     },
 
     // 获取显示名称
@@ -227,7 +203,7 @@ export default {
       }
       return this.post.author?.nickname || this.post.author?.username || '未知用户';
     },
-    
+
     // 跳转到详情页
     goDetail() {
       // 直接跳转到帖子详情页
@@ -255,35 +231,35 @@ export default {
         url: `/pages/user/user-profile?id=${userId}`
       });
     },
-    
+
     // 图片预览
     previewImage(index) {
       if (!this.post.images || !this.post.images.length) return;
-      
+
       // 确保所有图片URL都是绝对路径
       const absoluteUrls = this.processedImages;
-      
+
       uni.previewImage({
         current: index,
         urls: absoluteUrls
       });
     },
-    
+
     // 点赞操作
     onLikeClick() {
       this.$emit('like', this.post);
     },
-    
+
     // 评论操作
     onCommentClick() {
       this.$emit('comment', this.post);
     },
-    
+
     // 收藏操作
     onFavoriteClick() {
       this.$emit('favorite', this.post);
     },
-    
+
     // 分享操作
     onShareClick() {
       uni.showShareMenu({
@@ -352,7 +328,7 @@ export default {
         url: `/pages/post/detail?id=${this.post.id}&scrollToComments=true`
       });
     },
-    
+
     // 更多操作
     onMoreClick() {
       if (!this.post.isOwner) {
@@ -378,7 +354,7 @@ export default {
         });
       }
     },
-    
+
     // 安全处理图片URL
     safeImageUrl(url) {
       if (!url) return '';
@@ -412,7 +388,12 @@ export default {
   transition: transform $transition-normal, box-shadow $transition-normal;
   overflow: hidden;
   position: relative;
-  
+
+  // 紧凑布局样式
+  &.compact {
+    margin: 0 0 $spacing-sm 0; // 只保留底部间距
+  }
+
   &::before {
     content: '';
     position: absolute;
@@ -423,22 +404,22 @@ export default {
     background: $gradient-blue;
     border-radius: 0 0 $radius-sm $radius-sm;
   }
-  
+
   &:active {
     transform: translateY(2rpx);
     box-shadow: $shadow-sm;
   }
-  
+
   &__header {
     @include flex(row, space-between, center);
     margin-bottom: $spacing-md;
   }
-  
+
   &__user {
     @include flex(row, flex-start, center);
     flex: 1;
   }
-  
+
   &__avatar {
     width: 80rpx;
     height: 80rpx;
@@ -448,7 +429,7 @@ export default {
     border: 3rpx solid $bg-light-blue;
     box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.1);
   }
-  
+
   &__info {
     flex: 1;
   }
@@ -477,21 +458,22 @@ export default {
     color: #FFFFFF;
     font-weight: 500;
   }
-  
+
   &__meta {
     @include flex(row, flex-start, center);
   }
-  
-  &__time, &__location {
+
+  &__time,
+  &__location {
     font-size: $font-size-xs;
     color: $text-tertiary;
   }
-  
+
   &__location {
     margin-left: $spacing-sm;
     position: relative;
     padding-left: $spacing-sm;
-    
+
     &:before {
       content: '';
       position: absolute;
@@ -503,15 +485,15 @@ export default {
       background-color: $border-color;
     }
   }
-  
+
   &__more {
     padding: $spacing-sm;
   }
-  
+
   &__content {
     margin-bottom: $spacing-md;
   }
-  
+
   &__title {
     font-size: $font-size-lg;
     font-weight: bold;
@@ -519,7 +501,7 @@ export default {
     line-height: 1.4;
     margin-bottom: $spacing-xs;
   }
-  
+
   &__text {
     font-size: $font-size-md;
     color: $text-primary;
@@ -527,15 +509,15 @@ export default {
     margin-bottom: $spacing-sm;
     word-break: break-all;
   }
-  
+
   &__images {
     margin: $spacing-sm 0;
   }
-  
+
   &__image-container {
     display: flex;
     flex-wrap: wrap;
-    
+
     &.single {
       .post-card__image {
         width: 66%;
@@ -544,10 +526,10 @@ export default {
         box-shadow: $shadow-sm;
       }
     }
-    
+
     &.double {
       justify-content: space-between;
-      
+
       .post-card__image {
         width: 48%;
         height: 240rpx;
@@ -555,10 +537,10 @@ export default {
         box-shadow: $shadow-sm;
       }
     }
-    
+
     &.grid {
       justify-content: space-between;
-      
+
       .post-card__image {
         width: 32%;
         height: 200rpx;
@@ -567,10 +549,10 @@ export default {
         box-shadow: $shadow-sm;
       }
     }
-    
+
     &.four {
       justify-content: space-between;
-      
+
       .post-card__image {
         width: 48%;
         height: 200rpx;
@@ -580,13 +562,13 @@ export default {
       }
     }
   }
-  
+
   &__tags {
     @include flex(row, flex-start, center);
     flex-wrap: wrap;
     margin-top: $spacing-xs;
   }
-  
+
   &__tag {
     font-size: $font-size-xs;
     color: $primary-color;
@@ -596,7 +578,7 @@ export default {
     margin-right: $spacing-sm;
     margin-bottom: $spacing-xs;
     transition: background-color $transition-fast, transform $transition-fast;
-    
+
     &:active {
       transform: scale(0.95);
       background-color: rgba($primary-color, 0.15);
@@ -724,7 +706,7 @@ export default {
     padding-top: $spacing-md;
     margin-top: $spacing-md;
     position: relative;
-    
+
     &::before {
       content: '';
       position: absolute;
@@ -736,27 +718,27 @@ export default {
       border-radius: $radius-circle;
     }
   }
-  
+
   &__action {
     @include flex(row, center, center);
     padding: $spacing-xs $spacing-sm;
     border-radius: $radius-lg;
     transition: background-color $transition-fast;
-    
+
     &:active {
       background-color: $bg-light-blue;
     }
   }
-  
+
   &__count {
     font-size: $font-size-sm;
     color: $text-tertiary;
     margin-left: $spacing-xs;
-    
+
     &.active {
       color: $primary-color;
       font-weight: 500;
     }
   }
 }
-</style> 
+</style>

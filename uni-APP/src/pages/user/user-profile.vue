@@ -368,11 +368,14 @@ export default {
         if (response.code === 0) {
           const newPosts = response.data.list || []
           
+
+          
           if (refresh || this.currentPage === 1) {
             this.postList = newPosts
           } else {
             this.postList.push(...newPosts)
           }
+
           
           // 检查是否还有更多数据
           if (newPosts.length < this.pageSize) {
@@ -495,8 +498,57 @@ export default {
     
     // 帖子交互方法
     handleLike(post) {
-      // 处理点赞逻辑
-      console.log('点赞帖子:', post.id)
+      const token = uni.getStorageSync('token');
+      if (!token) {
+        uni.showToast({ title: '请先登录', icon: 'none' });
+        uni.navigateTo({ url: '/pages/auth/login/index' });
+        return;
+      }
+
+      // 乐观更新UI
+      const originalState = post.isLiked;
+      const originalCount = post.likeCount || post.like_count || 0;
+      const newState = !post.isLiked;
+      
+      post.isLiked = newState;
+      // 更新实际存在的字段
+      if (post.like_count !== undefined) {
+        post.like_count += newState ? 1 : -1;
+      }
+      if (post.likeCount !== undefined) {
+        post.likeCount += newState ? 1 : -1;
+      }
+
+
+
+      // 调用API
+      const apiPromise = newState
+        ? this.$api.like.like('post', post.id)
+        : this.$api.like.unlike('post', post.id);
+
+      apiPromise
+        .then(res => {
+          uni.showToast({ 
+            title: newState ? '点赞成功' : '取消点赞', 
+            icon: 'success' 
+          });
+        })
+        .catch(err => {
+          console.error('点赞操作失败:', err);
+          // 恢复原始状态
+          post.isLiked = originalState;
+          // 恢复实际存在的字段
+          if (post.like_count !== undefined) {
+            post.like_count = originalCount;
+          }
+          if (post.likeCount !== undefined) {
+            post.likeCount = originalCount;
+          }
+          uni.showToast({ 
+            title: '操作失败，请稍后重试', 
+            icon: 'none' 
+          });
+        });
     },
     
     handleComment(post) {
@@ -506,8 +558,68 @@ export default {
     },
     
     handleFavorite(post) {
-      // 处理收藏逻辑
-      console.log('收藏帖子:', post.id)
+      const token = uni.getStorageSync('token');
+      if (!token) {
+        uni.showToast({ title: '请先登录', icon: 'none' });
+        uni.navigateTo({ url: '/pages/auth/login/index' });
+        return;
+      }
+
+      // 乐观更新UI
+      const originalState = post.isFavorited;
+      const originalCount = post.favoriteCount || post.favorite_count || 0;
+      const newState = !post.isFavorited;
+      
+      post.isFavorited = newState;
+      // 更新实际存在的字段
+      if (post.favorite_count !== undefined) {
+        post.favorite_count += newState ? 1 : -1;
+      }
+      if (post.favoriteCount !== undefined) {
+        post.favoriteCount += newState ? 1 : -1;
+      }
+
+
+
+      // 调用API
+      const apiPromise = newState
+        ? this.$api.favorite.favorite(post.id)
+        : this.$api.favorite.unfavorite(post.id);
+
+      apiPromise
+        .then(res => {
+          uni.showToast({ 
+            title: newState ? '收藏成功' : '取消收藏', 
+            icon: 'success' 
+          });
+        })
+        .catch(err => {
+          console.error('收藏操作失败:', err);
+          // 恢复原始状态
+          post.isFavorited = originalState;
+          // 恢复实际存在的字段
+          if (post.favorite_count !== undefined) {
+            post.favorite_count = originalCount;
+          }
+          if (post.favoriteCount !== undefined) {
+            post.favoriteCount = originalCount;
+          }
+          
+          // 处理特定错误
+          if (err.code === 100 && err.data && err.data.details) {
+            const detail = err.data.details[0];
+            if (detail && detail.field === 'favorites_user_id_post_id') {
+              post.isFavorited = true;
+              uni.showToast({ title: '已收藏', icon: 'none' });
+              return;
+            }
+          }
+          
+          uni.showToast({ 
+            title: err.msg || '操作失败，请稍后重试', 
+            icon: 'none' 
+          });
+        });
     },
     
     goToPostDetail(post) {

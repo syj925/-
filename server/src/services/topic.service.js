@@ -267,9 +267,10 @@ class TopicService {
    * 获取话题下的帖子
    * @param {Number} topicId 话题ID
    * @param {Object} options 分页选项
+   * @param {String} userId 用户ID（可选）
    * @returns {Promise<Object>} 分页结果
    */
-  async getTopicPosts(topicId, options = {}) {
+  async getTopicPosts(topicId, options = {}, userId = null) {
     // 检查话题是否存在
     const topic = await topicRepository.findById(topicId);
 
@@ -281,7 +282,16 @@ class TopicService {
       );
     }
 
-    return await topicRepository.getTopicPosts(topicId, options);
+    const result = await topicRepository.getTopicPosts(topicId, options);
+
+    // 如果有用户ID，添加用户交互状态
+    if (userId && result.list && result.list.length > 0) {
+      const recommendationService = require('./recommendation.service');
+      const postsWithUserState = await recommendationService.addUserInteractionState(result.list, userId);
+      result.list = postsWithUserState;
+    }
+
+    return result;
   }
 
   /**
