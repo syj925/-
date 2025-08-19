@@ -29,7 +29,7 @@ router.get('/user/:user_id/followers', followController.getFollowers);
 router.get('/user/:user_id/counts', followController.getFollowCounts);
 
 // 检查是否已关注
-router.get('/check/:user_id', followController.isFollowing);
+router.get('/check/:user_id', AuthMiddleware.optionalAuthenticate(), followController.isFollowing);
 
 // 获取共同关注
 router.get('/common/:user_id1/:user_id2', followController.getCommonFollowings);

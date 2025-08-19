@@ -1,9 +1,11 @@
 const followRepository = require('../repositories/follow.repository');
 const userRepository = require('../repositories/user.repository');
 const messageService = require('./message.service');
+const statusCacheService = require('./status-cache.service');
 const { StatusCodes } = require('http-status-codes');
 const { ErrorMiddleware } = require('../middlewares');
 const errorCodes = require('../constants/error-codes');
+const logger = require('../../config/logger');
 
 /**
  * 关注服务层
@@ -45,28 +47,72 @@ class FollowService {
       );
     }
     
-    // 检查是否已关注（包括软删除的记录）
+    // Write-Back策略：优先检查缓存状态，再检查数据库
+    // 这样避免缓存已更新但数据库未同步导致的状态冲突
+    let isFollowingInCache = false;
+    try {
+      // 检查缓存中的关注状态
+      const cacheStatus = await statusCacheService.isFollowing(followerId, [followingId]);
+      isFollowingInCache = cacheStatus[followingId] || false;
+      
+      if (isFollowingInCache) {
+        logger.info(`缓存检查：用户${followerId}已关注${followingId} - 幂等性处理`);
+        // 幂等性处理：已关注状态直接返回成功，不报错
+        return {
+          success: true,
+          message: '关注成功',
+          isFollowing: true
+        };
+      }
+    } catch (error) {
+      logger.warn('缓存检查失败，回退到数据库检查:', error);
+    }
+    
+    // 检查数据库中的关注状态（软删除记录）
     const existingFollow = await followRepository.findExisting(followerId, followingId);
-    if (existingFollow && !existingFollow.deletedAt) {
-      throw ErrorMiddleware.createError(
-        '已关注该用户',
-        StatusCodes.BAD_REQUEST,
-        errorCodes.ALREADY_FOLLOWED
-      );
+    if (existingFollow && !existingFollow.deletedAt && !isFollowingInCache) {
+      // 幂等性处理：数据库中已存在关注记录，直接返回成功
+      logger.info(`数据库检查：用户${followerId}已关注${followingId} - 幂等性处理`);
+      return {
+        success: true,
+        message: '关注成功',
+        isFollowing: true
+      };
     }
     
     let follow;
     if (existingFollow && existingFollow.deletedAt) {
-      // 恢复软删除的关注记录
+      // 恢复软删除的关注记录 - 这种情况仍需立即操作数据库
       follow = await followRepository.restore(existingFollow.id);
     } else {
-      // 创建新关注关系
-      follow = await followRepository.create({
-        follower_id: followerId,
-        following_id: followingId
-      });
+      // Write-Back策略：只更新缓存，添加到待处理队列
+      follow = { success: true }; // 模拟创建成功，实际会在定时任务中写入DB
     }
     
+    // 更新状态缓存
+    try {
+      await statusCacheService.addFollowing(followerId, followingId);
+      
+      // 立即更新统计数据缓存（保证数据一致性）
+      await Promise.all([
+        statusCacheService.updateFollowingCount(followerId, 1), // 关注者的关注数+1
+        statusCacheService.updateFollowerCount(followingId, 1)   // 被关注者的粉丝数+1
+      ]);
+      
+      // 添加到待处理操作队列（Write-Back策略）
+      await statusCacheService.addPendingOperation({
+        type: 'follow',
+        action: 'follow',
+        userId: followerId,
+        targetId: followingId,
+        timestamp: Date.now()
+      });
+      
+      logger.info(`关注操作已加入队列: ${followerId} -> ${followingId}`);
+    } catch (error) {
+      console.warn('更新关注缓存失败，但不影响关注操作:', error);
+    }
+
     // 发送消息通知
     messageService.createMessage({
       sender_id: followerId,
@@ -108,18 +154,69 @@ class FollowService {
       );
     }
     
-    // 检查是否已关注
-    const exists = await followRepository.exists(followerId, followingId);
-    if (!exists) {
-      throw ErrorMiddleware.createError(
-        '未关注该用户',
-        StatusCodes.BAD_REQUEST,
-        errorCodes.NOT_FOLLOWED
-      );
+    // Write-Back策略：优先检查缓存状态，再检查数据库
+    // 这样避免缓存已更新但数据库未同步导致的状态冲突
+    let isFollowingInCache = false;
+    try {
+      // 检查缓存中的关注状态
+      const cacheStatus = await statusCacheService.isFollowing(followerId, [followingId]);
+      isFollowingInCache = cacheStatus[followingId] || false;
+      
+      if (!isFollowingInCache) {
+        // 如果缓存中没有关注状态，再检查数据库
+        const exists = await followRepository.exists(followerId, followingId);
+        if (!exists) {
+          // 幂等性处理：未关注状态直接返回成功，不报错
+          logger.info(`缓存和数据库检查：用户${followerId}未关注${followingId} - 幂等性处理`);
+          return {
+            success: true,
+            message: '取消关注成功',
+            isFollowing: false
+          };
+        }
+      }
+    } catch (error) {
+      logger.warn('缓存检查失败，回退到数据库检查:', error);
+      
+      // 纯数据库检查
+      const exists = await followRepository.exists(followerId, followingId);
+      if (!exists) {
+        // 幂等性处理：未关注状态直接返回成功，不报错
+        logger.info(`数据库检查：用户${followerId}未关注${followingId} - 幂等性处理`);
+        return {
+          success: true,
+          message: '取消关注成功',
+          isFollowing: false
+        };
+      }
     }
     
-    // 删除关注关系
-    const result = await followRepository.delete(followerId, followingId);
+    // Write-Back策略：只更新缓存，添加到待处理队列
+    const result = true; // 模拟删除成功，实际会在定时任务中删除DB记录
+    
+    // 更新状态缓存
+    try {
+      await statusCacheService.removeFollowing(followerId, followingId);
+      
+      // 立即更新统计数据缓存（保证数据一致性）
+      await Promise.all([
+        statusCacheService.updateFollowingCount(followerId, -1), // 关注者的关注数-1
+        statusCacheService.updateFollowerCount(followingId, -1)   // 被关注者的粉丝数-1
+      ]);
+      
+      // 添加到待处理操作队列（Write-Back策略）
+      await statusCacheService.addPendingOperation({
+        type: 'follow',
+        action: 'unfollow',
+        userId: followerId,
+        targetId: followingId,
+        timestamp: Date.now()
+      });
+      
+      logger.info(`取消关注操作已加入队列: ${followerId} -> ${followingId}`);
+    } catch (error) {
+      console.warn('更新取消关注缓存失败，但不影响取消关注操作:', error);
+    }
     
     return {
       success: result,
@@ -170,7 +267,7 @@ class FollowService {
   }
 
   /**
-   * 获取用户的关注数量
+   * 获取用户的关注数量（优先缓存）
    * @param {String} userId 用户ID
    * @returns {Promise<Number>} 关注数量
    */
@@ -185,11 +282,19 @@ class FollowService {
       );
     }
     
-    return await followRepository.countFollowings(userId);
+    try {
+      // 优先从缓存获取
+      const counts = await statusCacheService.getUserCounts(userId);
+      return counts.following_count;
+    } catch (error) {
+      logger.warn(`获取关注数量缓存失败，回退到数据库查询: ${userId}`, error);
+      // 缓存失败，回退到数据库查询
+      return await followRepository.countFollowings(userId);
+    }
   }
 
   /**
-   * 获取用户的粉丝数量
+   * 获取用户的粉丝数量（优先缓存）
    * @param {String} userId 用户ID
    * @returns {Promise<Number>} 粉丝数量
    */
@@ -204,7 +309,15 @@ class FollowService {
       );
     }
     
-    return await followRepository.countFollowers(userId);
+    try {
+      // 优先从缓存获取
+      const counts = await statusCacheService.getUserCounts(userId);
+      return counts.follower_count;
+    } catch (error) {
+      logger.warn(`获取粉丝数量缓存失败，回退到数据库查询: ${userId}`, error);
+      // 缓存失败，回退到数据库查询
+      return await followRepository.countFollowers(userId);
+    }
   }
 
   /**

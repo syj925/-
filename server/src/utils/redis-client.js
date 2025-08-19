@@ -439,6 +439,118 @@ class RedisClient {
   }
 
   /**
+   * List数据结构 - 左侧推入元素
+   * @param {String} key 键
+   * @param {...String} values 值
+   * @returns {Promise<Number>} 推入后列表长度
+   */
+  async lpush(key, ...values) {
+    try {
+      if (!this.isConnected) {
+        logger.warn(`Redis not connected, skipping lpush for key: ${key}`);
+        return 0;
+      }
+      return await this.client.lpush(key, ...values);
+    } catch (err) {
+      logger.error(`Redis lpush error: ${err.message}`, { key, values });
+      return 0;
+    }
+  }
+
+  /**
+   * List数据结构 - 右侧推入元素
+   * @param {String} key 键
+   * @param {...String} values 值
+   * @returns {Promise<Number>} 推入后列表长度
+   */
+  async rpush(key, ...values) {
+    try {
+      if (!this.isConnected) {
+        logger.warn(`Redis not connected, skipping rpush for key: ${key}`);
+        return 0;
+      }
+      return await this.client.rpush(key, ...values);
+    } catch (err) {
+      logger.error(`Redis rpush error: ${err.message}`, { key, values });
+      return 0;
+    }
+  }
+
+  /**
+   * List数据结构 - 左侧弹出元素
+   * @param {String} key 键
+   * @returns {Promise<String|null>} 弹出的元素或null
+   */
+  async lpop(key) {
+    try {
+      if (!this.isConnected) {
+        logger.warn(`Redis not connected, skipping lpop for key: ${key}`);
+        return null;
+      }
+      return await this.client.lpop(key);
+    } catch (err) {
+      logger.error(`Redis lpop error: ${err.message}`, { key });
+      return null;
+    }
+  }
+
+  /**
+   * List数据结构 - 右侧弹出元素
+   * @param {String} key 键
+   * @returns {Promise<String|null>} 弹出的元素或null
+   */
+  async rpop(key) {
+    try {
+      if (!this.isConnected) {
+        logger.warn(`Redis not connected, skipping rpop for key: ${key}`);
+        return null;
+      }
+      return await this.client.rpop(key);
+    } catch (err) {
+      logger.error(`Redis rpop error: ${err.message}`, { key });
+      return null;
+    }
+  }
+
+  /**
+   * List数据结构 - 获取列表长度
+   * @param {String} key 键
+   * @returns {Promise<Number>} 列表长度
+   */
+  async llen(key) {
+    try {
+      if (!this.isConnected) {
+        logger.warn(`Redis not connected, skipping llen for key: ${key}`);
+        return 0;
+      }
+      return await this.client.llen(key);
+    } catch (err) {
+      logger.error(`Redis llen error: ${err.message}`, { key });
+      return 0;
+    }
+  }
+
+  /**
+   * List数据结构 - 获取指定范围的元素
+   * @param {String} key 键
+   * @param {Number} start 开始位置
+   * @param {Number} stop 结束位置
+   * @returns {Promise<Array>} 元素数组
+   */
+  async lrange(key, start, stop) {
+    try {
+      if (!this.isConnected) {
+        logger.warn(`Redis not connected, skipping lrange for key: ${key}`);
+        return [];
+      }
+      return await this.client.lrange(key, start, stop);
+    } catch (err) {
+      logger.error(`Redis lrange error: ${err.message}`, { key, start, stop });
+      return [];
+    }
+  }
+
+  /**
    * 清理数据以避免循环引用
    * @param {any} data 要清理的数据
    * @returns {any} 清理后的数据

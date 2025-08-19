@@ -372,6 +372,9 @@ export default {
             this.postList = [...this.postList, ...newPosts];
           }
           
+          // 批量获取关注状态
+          this.loadFollowStatus(processedPosts);
+          
           // 判断是否加载完毕
           this.finished = posts.length < this.pageSize;
           
@@ -659,6 +662,84 @@ export default {
       uni.navigateTo({
         url: '/pages/search/index'
       });
+    },
+
+    // 批量获取关注状态
+    async loadFollowStatus(posts) {
+      // 检查用户是否登录
+      const currentUser = uni.getStorageSync('userInfo');
+      const currentUserId = currentUser?.id || uni.getStorageSync('userId') || uni.getStorageSync('user_id');
+      
+      if (!currentUserId) {
+        return; // 用户未登录，无需获取关注状态
+      }
+
+      try {
+        // 提取所有非匿名且非自己的帖子作者ID
+        const authorIds = posts
+          .filter(post => {
+            return post.author && 
+                   post.author.id && 
+                   post.author.id !== 'anonymous' && 
+                   post.author.id !== currentUserId;
+          })
+          .map(post => post.author.id);
+
+        if (authorIds.length === 0) {
+          return; // 没有需要查询关注状态的作者
+        }
+
+        console.log('📋 批量查询关注状态，作者IDs:', authorIds);
+
+        // 使用批量查询API（更高效）
+        const followStates = {};
+        try {
+          const result = await this.$api.follow.batchCheckFollow(authorIds);
+          
+          // 处理批量查询结果
+          if (result && result.data) {
+            Object.assign(followStates, result.data);
+          }
+          
+          console.log('📋 批量查询结果:', followStates);
+        } catch (error) {
+          console.warn('批量查询关注状态失败，使用单个查询:', error);
+          
+          // 降级到单个查询
+          for (const authorId of authorIds) {
+            try {
+              const result = await this.$api.follow.isFollowing(authorId);
+              followStates[authorId] = result?.following || result?.isFollowing || false;
+            } catch (err) {
+              console.warn(`查询关注状态失败 ${authorId}:`, err);
+              followStates[authorId] = false;
+            }
+          }
+        }
+
+        console.log('📋 获取到的关注状态:', followStates);
+
+        // 更新postList中的关注状态
+        this.postList.forEach(post => {
+          if (post.author && post.author.id && followStates.hasOwnProperty(post.author.id)) {
+            // 确保author有dataValues属性
+            if (!post.author.dataValues) {
+              post.author.dataValues = {};
+            }
+            post.author.dataValues.isFollowing = followStates[post.author.id];
+            // 同时设置isFollowing属性（兼容不同的访问方式）
+            post.author.isFollowing = followStates[post.author.id];
+            
+            console.log(`📋 更新帖子 ${post.id} 作者 ${post.author.id} 关注状态: ${followStates[post.author.id]}`);
+          }
+        });
+
+        // 强制更新视图
+        this.$forceUpdate();
+
+      } catch (error) {
+        console.error('批量获取关注状态失败:', error);
+      }
     }
   }
 }

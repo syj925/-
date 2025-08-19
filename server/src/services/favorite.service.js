@@ -6,6 +6,7 @@ const statusCacheService = require('./status-cache.service');
 const { StatusCodes } = require('http-status-codes');
 const { ErrorMiddleware } = require('../middlewares');
 const errorCodes = require('../constants/error-codes');
+const logger = require('../../config/logger');
 
 /**
  * 收藏服务层
@@ -68,18 +69,15 @@ class FavoriteService {
     
     let favorite;
     if (existingFavorite && existingFavorite.deletedAt) {
-      // 恢复软删除的收藏记录
+      // 恢复软删除的收藏记录 - 这种情况仍需立即操作数据库
       favorite = await favoriteRepository.restore(existingFavorite.id);
+      
+      // 更新帖子收藏计数
+      await postRepository.updateCounter(postId, 'favorite_count', 1);
     } else {
-      // 创建新收藏
-      favorite = await favoriteRepository.create({
-        user_id: userId,
-        post_id: postId
-      });
+      // Write-Back策略：只更新缓存，添加到待处理队列
+      favorite = { success: true }; // 模拟创建成功
     }
-    
-    // 更新帖子收藏计数
-    await postRepository.updateCounter(postId, 'favorite_count', 1);
     
     // 发送消息通知
     if (post.user_id !== userId) {
@@ -96,6 +94,20 @@ class FavoriteService {
     // 更新状态缓存
     try {
       await statusCacheService.addFavorite(userId, postId);
+      
+      // 如果不是恢复操作，添加到待处理操作队列（Write-Back策略）
+      if (!existingFavorite || !existingFavorite.deletedAt) {
+        await statusCacheService.addPendingOperation({
+          type: 'favorite',
+          action: 'favorite',
+          userId: userId,
+          targetId: postId,
+          targetType: 'post',
+          timestamp: Date.now()
+        });
+        
+        logger.info(`收藏操作已加入队列: ${userId} -> post:${postId}`);
+      }
     } catch (error) {
       logger.warn('更新收藏缓存失败，但不影响收藏操作:', error);
     }
@@ -137,18 +149,25 @@ class FavoriteService {
       );
     }
     
-    // 删除收藏
-    const result = await favoriteRepository.delete(userId, postId);
-    
-    // 更新帖子收藏计数
-    if (result) {
-      await postRepository.updateCounter(postId, 'favorite_count', -1);
-    }
+    // Write-Back策略：只更新缓存，添加到待处理队列
+    const result = true; // 模拟删除成功，实际会在定时任务中删除DB记录
     
     // 更新状态缓存
     if (result) {
       try {
         await statusCacheService.removeFavorite(userId, postId);
+        
+        // 添加到待处理操作队列（Write-Back策略）
+        await statusCacheService.addPendingOperation({
+          type: 'favorite',
+          action: 'unfavorite',
+          userId: userId,
+          targetId: postId,
+          targetType: 'post',
+          timestamp: Date.now()
+        });
+        
+        logger.info(`取消收藏操作已加入队列: ${userId} -> post:${postId}`);
       } catch (error) {
         logger.warn('更新取消收藏缓存失败，但不影响取消收藏操作:', error);
       }

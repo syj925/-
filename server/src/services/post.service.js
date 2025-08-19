@@ -5,6 +5,7 @@ const categoryRepository = require('../repositories/category.repository');
 const topicRepository = require('../repositories/topic.repository');
 const commentRepository = require('../repositories/comment.repository');
 const messageService = require('./message.service');
+const statusCacheService = require('./status-cache.service');
 const { StatusCodes } = require('http-status-codes');
 const { ErrorMiddleware } = require('../middlewares');
 const errorCodes = require('../constants/error-codes');
@@ -144,10 +145,27 @@ class PostService {
     // 处理匿名帖子
     this.processAnonymousPost(post, currentUserId);
 
-    // 如果有当前用户ID，添加是否点赞和收藏的信息
+    // 如果有当前用户ID，添加是否点赞、收藏和关注的信息
     if (currentUserId) {
-      post.dataValues.is_liked = await postRepository.isLikedByUser(id, currentUserId);
-      post.dataValues.is_favorited = await postRepository.isFavoritedByUser(id, currentUserId);
+      const promises = [
+        statusCacheService.isLiked(currentUserId, id),
+        statusCacheService.isFavorited(currentUserId, id)
+      ];
+      
+      // 如果有作者信息，查询关注状态
+      if (post.author && post.author.id) {
+        promises.push(statusCacheService.isFollowing(currentUserId, post.author.id));
+      }
+      
+      const results = await Promise.all(promises);
+      post.dataValues.is_liked = results[0];
+      post.dataValues.is_favorited = results[1];
+      
+      // 添加作者的关注状态
+      if (post.author && post.author.id && results.length > 2) {
+        post.author.dataValues = post.author.dataValues || {};
+        post.author.dataValues.isFollowing = results[2];
+      }
     }
 
     return post;
@@ -379,12 +397,27 @@ class PostService {
   async getPosts(options, currentUserId = null) {
     const posts = await postRepository.findAll(options);
 
-    // 如果有当前用户ID，添加是否点赞和收藏的信息
+    // 如果有当前用户ID，批量添加是否点赞、收藏和关注的信息
     if (currentUserId) {
-      for (const post of posts.list) {
-        post.dataValues.is_liked = await postRepository.isLikedByUser(post.id, currentUserId);
-        post.dataValues.is_favorited = await postRepository.isFavoritedByUser(post.id, currentUserId);
-      }
+      const postIds = posts.list.map(post => post.id);
+      const authorIds = posts.list.map(post => post.author?.id).filter(Boolean);
+      
+      const [likeStates, favoriteStates, followingStates] = await Promise.all([
+        statusCacheService.isLiked(currentUserId, postIds),
+        statusCacheService.isFavorited(currentUserId, postIds),
+        authorIds.length > 0 ? statusCacheService.isFollowing(currentUserId, authorIds) : {}
+      ]);
+
+      posts.list.forEach(post => {
+        post.dataValues.is_liked = likeStates[post.id] || false;
+        post.dataValues.is_favorited = favoriteStates[post.id] || false;
+        
+        // 添加作者的关注状态
+        if (post.author && post.author.id) {
+          post.author.dataValues = post.author.dataValues || {};
+          post.author.dataValues.isFollowing = followingStates[post.author.id] || false;
+        }
+      });
     }
 
     // 处理匿名帖子和添加热门评论预览
@@ -410,12 +443,27 @@ class PostService {
   async getHotPosts(limit = 10, currentUserId = null) {
     const posts = await postRepository.findHotPosts(limit);
     
-    // 如果有当前用户ID，添加是否点赞和收藏的信息
+    // 如果有当前用户ID，批量添加是否点赞、收藏和关注的信息
     if (currentUserId) {
-      for (const post of posts) {
-        post.dataValues.is_liked = await postRepository.isLikedByUser(post.id, currentUserId);
-        post.dataValues.is_favorited = await postRepository.isFavoritedByUser(post.id, currentUserId);
-      }
+      const postIds = posts.map(post => post.id);
+      const authorIds = posts.map(post => post.author?.id).filter(Boolean);
+      
+      const [likeStates, favoriteStates, followingStates] = await Promise.all([
+        statusCacheService.isLiked(currentUserId, postIds),
+        statusCacheService.isFavorited(currentUserId, postIds),
+        authorIds.length > 0 ? statusCacheService.isFollowing(currentUserId, authorIds) : {}
+      ]);
+
+      posts.forEach(post => {
+        post.dataValues.is_liked = likeStates[post.id] || false;
+        post.dataValues.is_favorited = favoriteStates[post.id] || false;
+        
+        // 添加作者的关注状态
+        if (post.author && post.author.id) {
+          post.author.dataValues = post.author.dataValues || {};
+          post.author.dataValues.isFollowing = followingStates[post.author.id] || false;
+        }
+      });
     }
     
     return posts;
@@ -593,10 +641,15 @@ class PostService {
     
     const posts = await postRepository.findAll(options);
     
-    // 添加是否点赞和收藏的信息
-    for (const post of posts.list) {
-      post.dataValues.is_liked = await postRepository.isLikedByUser(post.id, userId);
-      post.dataValues.is_favorited = true; // 已知是收藏的
+    // 批量添加是否点赞的信息（收藏状态已知为true）
+    if (posts.list.length > 0) {
+      const postIds = posts.list.map(post => post.id);
+      const likeStates = await statusCacheService.isLiked(userId, postIds);
+
+      posts.list.forEach(post => {
+        post.dataValues.is_liked = likeStates[post.id] || false;
+        post.dataValues.is_favorited = true; // 已知是收藏的
+      });
     }
     
     return posts;

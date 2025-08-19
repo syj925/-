@@ -77,3 +77,130 @@ Error: listen EADDRINUSE: address already in use 0.0.0.0:3000
   ],
   "service": "campus-wall-api"
 }
+2025-08-20 01:04:02 error: uncaughtException: this.startFlushTimer is not a function
+TypeError: this.startFlushTimer is not a function
+    at new StatusCacheService (C:\Users\26933\Desktop\校园墙\server\src\services\status-cache.service.js:22:10)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\services\status-cache.service.js:520:18)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16) {
+  "error": {},
+  "stack": "TypeError: this.startFlushTimer is not a function\n    at new StatusCacheService (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:22:10)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:520:18)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)",
+  "exception": true,
+  "date": "Wed Aug 20 2025 01:04:02 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 4752,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 103129088,
+      "heapTotal": 61546496,
+      "heapUsed": 40210624,
+      "external": 2441388,
+      "arrayBuffers": 52095
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 249736.265
+  },
+  "trace": [
+    {
+      "column": 10,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js",
+      "function": "new StatusCacheService",
+      "line": 22,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 18,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js",
+      "function": null,
+      "line": 520,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}

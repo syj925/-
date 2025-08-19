@@ -8133,3 +8133,1114 @@ Fri Aug 01 2025 23:10:16 GMT+0800 (中国标准时间) error: Admin route error:
   "params": {},
   "query": {}
 }
+2025-08-18 14:21:32 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-08-18 14:21:42 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-08-18 14:25:33 error: [GET] /static/images/common/default-avatar.png {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /static/images/common/default-avatar.png",
+  "stack": "Error: 未找到资源 - /static/images/common/default-avatar.png\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Function.handle (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:47:12)",
+  "body": {},
+  "params": {},
+  "query": {}
+}
+2025-08-18 14:33:46 error: [GET] /static/images/common/default-avatar.png {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /static/images/common/default-avatar.png",
+  "stack": "Error: 未找到资源 - /static/images/common/default-avatar.png\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Function.handle (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:47:12)",
+  "body": {},
+  "params": {},
+  "query": {}
+}
+2025-08-20 00:25:53 error: Redis connection error: connect ETIMEDOUT {
+  "service": "campus-wall-api",
+  "errorno": "ETIMEDOUT",
+  "code": "ETIMEDOUT",
+  "syscall": "connect",
+  "stack": "Error: connect ETIMEDOUT\n    at Socket.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\ioredis\\built\\Redis.js:170:41)\n    at Object.onceWrapper (node:events:632:28)\n    at Socket.emit (node:events:518:28)\n    at Socket._onTimeout (node:net:604:8)\n    at listOnTimeout (node:internal/timers:588:17)\n    at process.processTimers (node:internal/timers:523:7)"
+}
+2025-08-20 00:28:32 error: [GET] /static/images/common/default-avatar.png {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /static/images/common/default-avatar.png",
+  "stack": "Error: 未找到资源 - /static/images/common/default-avatar.png\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Function.handle (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:47:12)",
+  "body": {},
+  "params": {},
+  "query": {}
+}
+2025-08-20 00:28:51 error: [GET] /static/images/common/default-avatar.png {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /static/images/common/default-avatar.png",
+  "stack": "Error: 未找到资源 - /static/images/common/default-avatar.png\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Function.handle (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:47:12)",
+  "body": {},
+  "params": {},
+  "query": {}
+}
+2025-08-20 00:51:24 error: [DELETE] /api/follows {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /api/follows",
+  "stack": "Error: 未找到资源 - /api/follows\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)",
+  "body": {
+    "userId": "650b875e-9c4f-43a1-8f27-82285784bf36"
+  },
+  "params": {},
+  "query": {}
+}
+2025-08-20 00:51:29 error: [DELETE] /api/follows {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /api/follows",
+  "stack": "Error: 未找到资源 - /api/follows\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)",
+  "body": {
+    "userId": "650b875e-9c4f-43a1-8f27-82285784bf36"
+  },
+  "params": {},
+  "query": {}
+}
+2025-08-20 01:04:55 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:04:55 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:05:00 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:05:00 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:05:10 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:05:10 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:05:15 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:05:15 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:05:20 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:05:20 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:05:25 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:05:25 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:05:33 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:05:33 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:05:38 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:05:38 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:05:43 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:05:43 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:05:52 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:05:52 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:05:57 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:05:57 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:06:02 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:06:02 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:06:07 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:06:07 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:06:12 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:06:12 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:06:17 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:06:17 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:06:27 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:06:27 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:06:32 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:06:32 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:06:37 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:06:37 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:06:42 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:06:42 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:06:47 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:06:47 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:06:52 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:06:52 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:06:57 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:06:57 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:07:02 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:07:02 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:07:07 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:07:07 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:07:12 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:07:12 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:07:17 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:07:17 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:07:22 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:07:22 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:07:27 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:07:27 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:07:32 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:07:32 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:07:37 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:07:37 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:07:42 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:07:42 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:07:47 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:07:47 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:07:52 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:07:52 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:07:57 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:07:57 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:08:02 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:08:02 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:08:07 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:08:07 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:08:12 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:08:12 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:08:17 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:08:17 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:08:22 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:08:22 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:08:27 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:08:27 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:08:32 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:08:32 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:08:37 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:08:37 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:08:42 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:08:42 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:08:47 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:08:47 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:08:52 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:08:52 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:08:57 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:08:57 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:09:02 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:09:02 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:09:07 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:09:07 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:09:12 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:09:12 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:09:17 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:09:17 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:09:22 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:09:22 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:09:27 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:09:27 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:09:32 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:09:32 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:09:37 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:09:37 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:09:42 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:09:42 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:09:47 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:09:47 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:09:52 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:09:52 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:09:57 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:09:57 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:10:02 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:10:02 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:10:07 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:10:07 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:10:12 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:10:12 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:10:17 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:10:17 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:10:23 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:10:23 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:10:28 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:10:28 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:10:33 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:10:33 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:10:38 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:10:38 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:10:43 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:10:43 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:10:48 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:10:48 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:10:53 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:10:53 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:10:58 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:10:58 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:11:03 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:11:03 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:11:08 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:11:08 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:11:13 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:11:13 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:11:18 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:11:18 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:11:23 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:11:23 error: 获取待处理操作失败: redisClient.rpop is not a function {
+  "service": "campus-wall-api",
+  "stack": "TypeError: redisClient.rpop is not a function\n    at StatusCacheService.getAllPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:633:49)\n    at StatusCacheService.flushPendingOperations (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:563:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Timeout._onTimeout (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\status-cache.service.js:527:7)"
+}
+2025-08-20 01:11:29 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:11:34 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:11:39 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:11:44 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:11:49 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:11:54 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:11:59 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:12:04 error: Redis set error: ERR value is not an integer or out of range {
+  "service": "campus-wall-api",
+  "key": "user_status:flush_lock",
+  "value": "locked",
+  "ttl": "EX"
+}
+2025-08-20 01:20:51 error: [POST] /api/follows {
+  "service": "campus-wall-api",
+  "error": "已关注该用户",
+  "stack": "Error: 已关注该用户\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at FollowService.followUser (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\follow.service.js:53:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async followUser (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\follow.controller.js:21:22)",
+  "body": {
+    "user_id": "650b875e-9c4f-43a1-8f27-82285784bf36"
+  },
+  "params": {},
+  "query": {}
+}
+2025-08-20 01:20:51 error: [POST] /api/follows {
+  "service": "campus-wall-api",
+  "error": "已关注该用户",
+  "stack": "Error: 已关注该用户\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at FollowService.followUser (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\follow.service.js:53:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async followUser (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\follow.controller.js:21:22)",
+  "body": {
+    "user_id": "650b875e-9c4f-43a1-8f27-82285784bf36"
+  },
+  "params": {},
+  "query": {}
+}
+2025-08-20 01:26:49 error: [POST] /api/follows {
+  "service": "campus-wall-api",
+  "error": "已关注该用户",
+  "stack": "Error: 已关注该用户\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at FollowService.followUser (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\follow.service.js:53:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async followUser (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\follow.controller.js:21:22)",
+  "body": {
+    "user_id": "650b875e-9c4f-43a1-8f27-82285784bf36"
+  },
+  "params": {},
+  "query": {}
+}
+2025-08-20 01:26:49 error: [POST] /api/follows {
+  "service": "campus-wall-api",
+  "error": "已关注该用户",
+  "stack": "Error: 已关注该用户\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at FollowService.followUser (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\follow.service.js:53:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async followUser (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\follow.controller.js:21:22)",
+  "body": {
+    "user_id": "650b875e-9c4f-43a1-8f27-82285784bf36"
+  },
+  "params": {},
+  "query": {}
+}
+2025-08-20 01:26:50 error: [POST] /api/follows {
+  "service": "campus-wall-api",
+  "error": "已关注该用户",
+  "stack": "Error: 已关注该用户\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at FollowService.followUser (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\follow.service.js:53:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async followUser (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\follow.controller.js:21:22)",
+  "body": {
+    "user_id": "650b875e-9c4f-43a1-8f27-82285784bf36"
+  },
+  "params": {},
+  "query": {}
+}
+2025-08-20 01:28:06 error: [POST] /api/follows {
+  "service": "campus-wall-api",
+  "error": "已关注该用户",
+  "stack": "Error: 已关注该用户\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at FollowService.followUser (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\follow.service.js:53:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async followUser (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\follow.controller.js:21:22)",
+  "body": {
+    "user_id": "650b875e-9c4f-43a1-8f27-82285784bf36"
+  },
+  "params": {},
+  "query": {}
+}
+2025-08-20 01:28:06 error: [POST] /api/follows {
+  "service": "campus-wall-api",
+  "error": "已关注该用户",
+  "stack": "Error: 已关注该用户\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at FollowService.followUser (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\follow.service.js:53:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async followUser (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\follow.controller.js:21:22)",
+  "body": {
+    "user_id": "650b875e-9c4f-43a1-8f27-82285784bf36"
+  },
+  "params": {},
+  "query": {}
+}
+2025-08-20 01:28:07 error: [POST] /api/follows {
+  "service": "campus-wall-api",
+  "error": "已关注该用户",
+  "stack": "Error: 已关注该用户\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at FollowService.followUser (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\follow.service.js:53:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async followUser (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\follow.controller.js:21:22)",
+  "body": {
+    "user_id": "650b875e-9c4f-43a1-8f27-82285784bf36"
+  },
+  "params": {},
+  "query": {}
+}
+2025-08-20 01:31:13 error: [POST] /api/follows {
+  "service": "campus-wall-api",
+  "error": "已关注该用户",
+  "stack": "Error: 已关注该用户\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at FollowService.followUser (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\follow.service.js:60:31)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async followUser (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\follow.controller.js:21:22)",
+  "body": {
+    "user_id": "650b875e-9c4f-43a1-8f27-82285784bf36"
+  },
+  "params": {},
+  "query": {}
+}
+2025-08-20 01:31:13 error: [POST] /api/follows {
+  "service": "campus-wall-api",
+  "error": "已关注该用户",
+  "stack": "Error: 已关注该用户\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at FollowService.followUser (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\follow.service.js:60:31)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async followUser (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\follow.controller.js:21:22)",
+  "body": {
+    "user_id": "650b875e-9c4f-43a1-8f27-82285784bf36"
+  },
+  "params": {},
+  "query": {}
+}
+2025-08-20 01:31:14 error: [POST] /api/follows {
+  "service": "campus-wall-api",
+  "error": "已关注该用户",
+  "stack": "Error: 已关注该用户\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at FollowService.followUser (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\follow.service.js:60:31)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async followUser (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\follow.controller.js:21:22)",
+  "body": {
+    "user_id": "650b875e-9c4f-43a1-8f27-82285784bf36"
+  },
+  "params": {},
+  "query": {}
+}
+2025-08-20 01:31:17 error: [POST] /api/follows {
+  "service": "campus-wall-api",
+  "error": "已关注该用户",
+  "stack": "Error: 已关注该用户\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at FollowService.followUser (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\follow.service.js:60:31)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async followUser (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\follow.controller.js:21:22)",
+  "body": {
+    "user_id": "650b875e-9c4f-43a1-8f27-82285784bf36"
+  },
+  "params": {},
+  "query": {}
+}
+2025-08-20 01:31:37 error: [POST] /api/follows {
+  "service": "campus-wall-api",
+  "error": "已关注该用户",
+  "stack": "Error: 已关注该用户\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at FollowService.followUser (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\follow.service.js:60:31)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async followUser (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\follow.controller.js:21:22)",
+  "body": {
+    "user_id": "650b875e-9c4f-43a1-8f27-82285784bf36"
+  },
+  "params": {},
+  "query": {}
+}
+2025-08-20 01:31:37 error: [POST] /api/follows {
+  "service": "campus-wall-api",
+  "error": "已关注该用户",
+  "stack": "Error: 已关注该用户\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at FollowService.followUser (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\follow.service.js:60:31)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async followUser (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\follow.controller.js:21:22)",
+  "body": {
+    "user_id": "650b875e-9c4f-43a1-8f27-82285784bf36"
+  },
+  "params": {},
+  "query": {}
+}
+2025-08-20 01:31:38 error: [POST] /api/follows {
+  "service": "campus-wall-api",
+  "error": "已关注该用户",
+  "stack": "Error: 已关注该用户\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at FollowService.followUser (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\follow.service.js:60:31)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async followUser (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\follow.controller.js:21:22)",
+  "body": {
+    "user_id": "650b875e-9c4f-43a1-8f27-82285784bf36"
+  },
+  "params": {},
+  "query": {}
+}
+2025-08-20 01:31:41 error: [POST] /api/follows {
+  "service": "campus-wall-api",
+  "error": "已关注该用户",
+  "stack": "Error: 已关注该用户\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at FollowService.followUser (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\follow.service.js:60:31)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async followUser (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\follow.controller.js:21:22)",
+  "body": {
+    "user_id": "650b875e-9c4f-43a1-8f27-82285784bf36"
+  },
+  "params": {},
+  "query": {}
+}
+2025-08-20 01:32:20 error: [POST] /api/follows {
+  "service": "campus-wall-api",
+  "error": "已关注该用户",
+  "stack": "Error: 已关注该用户\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at FollowService.followUser (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\follow.service.js:60:31)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async followUser (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\follow.controller.js:21:22)",
+  "body": {
+    "user_id": "650b875e-9c4f-43a1-8f27-82285784bf36"
+  },
+  "params": {},
+  "query": {}
+}
+2025-08-20 01:32:20 error: [POST] /api/follows {
+  "service": "campus-wall-api",
+  "error": "已关注该用户",
+  "stack": "Error: 已关注该用户\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at FollowService.followUser (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\follow.service.js:60:31)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async followUser (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\follow.controller.js:21:22)",
+  "body": {
+    "user_id": "650b875e-9c4f-43a1-8f27-82285784bf36"
+  },
+  "params": {},
+  "query": {}
+}
+2025-08-20 01:32:21 error: [POST] /api/follows {
+  "service": "campus-wall-api",
+  "error": "已关注该用户",
+  "stack": "Error: 已关注该用户\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at FollowService.followUser (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\follow.service.js:60:31)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async followUser (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\follow.controller.js:21:22)",
+  "body": {
+    "user_id": "650b875e-9c4f-43a1-8f27-82285784bf36"
+  },
+  "params": {},
+  "query": {}
+}
+2025-08-20 01:32:24 error: [POST] /api/follows {
+  "service": "campus-wall-api",
+  "error": "已关注该用户",
+  "stack": "Error: 已关注该用户\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at FollowService.followUser (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\follow.service.js:60:31)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async followUser (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\follow.controller.js:21:22)",
+  "body": {
+    "user_id": "650b875e-9c4f-43a1-8f27-82285784bf36"
+  },
+  "params": {},
+  "query": {}
+}
+2025-08-20 01:32:43 error: [POST] /api/follows {
+  "service": "campus-wall-api",
+  "error": "已关注该用户",
+  "stack": "Error: 已关注该用户\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at FollowService.followUser (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\follow.service.js:60:31)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async followUser (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\follow.controller.js:21:22)",
+  "body": {
+    "user_id": "650b875e-9c4f-43a1-8f27-82285784bf36"
+  },
+  "params": {},
+  "query": {}
+}
+2025-08-20 01:32:43 error: [POST] /api/follows {
+  "service": "campus-wall-api",
+  "error": "已关注该用户",
+  "stack": "Error: 已关注该用户\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at FollowService.followUser (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\follow.service.js:60:31)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async followUser (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\follow.controller.js:21:22)",
+  "body": {
+    "user_id": "650b875e-9c4f-43a1-8f27-82285784bf36"
+  },
+  "params": {},
+  "query": {}
+}
+2025-08-20 01:32:44 error: [POST] /api/follows {
+  "service": "campus-wall-api",
+  "error": "已关注该用户",
+  "stack": "Error: 已关注该用户\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at FollowService.followUser (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\follow.service.js:60:31)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async followUser (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\follow.controller.js:21:22)",
+  "body": {
+    "user_id": "650b875e-9c4f-43a1-8f27-82285784bf36"
+  },
+  "params": {},
+  "query": {}
+}
+2025-08-20 01:32:47 error: [POST] /api/follows {
+  "service": "campus-wall-api",
+  "error": "已关注该用户",
+  "stack": "Error: 已关注该用户\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at FollowService.followUser (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\follow.service.js:60:31)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async followUser (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\follow.controller.js:21:22)",
+  "body": {
+    "user_id": "650b875e-9c4f-43a1-8f27-82285784bf36"
+  },
+  "params": {},
+  "query": {}
+}

@@ -7,6 +7,7 @@ module.exports = {
   // 🔧 用户状态缓存（点赞、收藏、关注等）
   USER_STATUS: {
     TTL: 24 * 60 * 60,          // 24小时 - 用户行为状态
+    COUNT_TTL: 5 * 60,          // 5分钟 - 用户统计数据（关注数、粉丝数等）
     PREFIX: 'user_status:',      // 缓存前缀
     DIRTY_PREFIX: 'dirty:',      // 脏数据标记前缀
   },
@@ -92,14 +93,16 @@ module.exports = {
   ENVIRONMENT: {
     // 开发环境 - 较短的缓存时间，便于调试
     development: {
-      USER_STATUS_TTL: 10 * 60,          // 10分钟
+      USER_STATUS_TTL: 5,                // 5秒 - 开发阶段实时响应
+      USER_COUNT_TTL: 30,                // 30秒 - 统计数据
       RECOMMENDATION_TTL: 2 * 60,        // 2分钟
       DASHBOARD_TTL: 1 * 60,             // 1分钟
     },
     
-    // 生产环境 - 正常的缓存时间
+    // 生产环境 - 优化后的缓存时间（Write-Back策略下的快速响应）
     production: {
-      USER_STATUS_TTL: 24 * 60 * 60,     // 24小时
+      USER_STATUS_TTL: 12,               // 12秒 - 用户行为状态
+      USER_COUNT_TTL: 8,                 // 8秒 - 统计数据
       RECOMMENDATION_TTL: 15 * 60,       // 15分钟
       DASHBOARD_TTL: 5 * 60,             // 5分钟
     },
@@ -107,6 +110,7 @@ module.exports = {
     // 测试环境 - 很短的缓存时间
     test: {
       USER_STATUS_TTL: 30,               // 30秒
+      USER_COUNT_TTL: 10,                // 10秒 - 统计数据
       RECOMMENDATION_TTL: 10,            // 10秒
       DASHBOARD_TTL: 5,                  // 5秒
     }
@@ -129,6 +133,8 @@ module.exports = {
     switch(cacheType) {
       case 'USER_STATUS':
         return envConfig.USER_STATUS_TTL || defaultTTL;
+      case 'USER_COUNT':
+        return envConfig.USER_COUNT_TTL || defaultTTL;
       case 'RECOMMENDATION':
         return envConfig.RECOMMENDATION_TTL || defaultTTL;
       case 'DASHBOARD':

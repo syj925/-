@@ -7,6 +7,7 @@ const statusCacheService = require('./status-cache.service');
 const { StatusCodes } = require('http-status-codes');
 const { ErrorMiddleware } = require('../middlewares');
 const errorCodes = require('../constants/error-codes');
+const logger = require('../../config/logger');
 
 /**
  * 点赞服务层
@@ -92,22 +93,18 @@ class LikeService {
     
     let like;
     if (existingLike && existingLike.deletedAt) {
-      // 恢复软删除的点赞记录
+      // 恢复软删除的点赞记录 - 这种情况仍需立即操作数据库
       like = await likeRepository.restore(existingLike.id);
+      
+      // 更新计数
+      if (targetType === 'post') {
+        await postRepository.updateCounter(targetId, 'like_count', 1);
+      } else if (targetType === 'comment') {
+        await commentRepository.updateCounter(targetId, 'like_count', 1);
+      }
     } else {
-      // 创建新点赞
-      like = await likeRepository.create({
-        user_id: userId,
-        target_id: targetId,
-        target_type: targetType
-      });
-    }
-
-    // 更新计数
-    if (targetType === 'post') {
-      await postRepository.updateCounter(targetId, 'like_count', 1);
-    } else if (targetType === 'comment') {
-      await commentRepository.updateCounter(targetId, 'like_count', 1);
+      // Write-Back策略：只更新缓存，添加到待处理队列
+      like = { success: true }; // 模拟创建成功
     }
 
     // 发送消息通知
@@ -133,6 +130,20 @@ class LikeService {
     if (targetType === 'post') {
       try {
         await statusCacheService.addLike(userId, targetId);
+        
+        // 如果不是恢复操作，添加到待处理操作队列（Write-Back策略）
+        if (!existingLike || !existingLike.deletedAt) {
+          await statusCacheService.addPendingOperation({
+            type: 'like',
+            action: 'like',
+            userId: userId,
+            targetId: targetId,
+            targetType: targetType,
+            timestamp: Date.now()
+          });
+          
+          logger.info(`点赞操作已加入队列: ${userId} -> ${targetType}:${targetId}`);
+        }
       } catch (error) {
         logger.warn('更新点赞缓存失败，但不影响点赞操作:', error);
       }
@@ -183,22 +194,25 @@ class LikeService {
       );
     }
     
-    // 直接尝试删除点赞记录
-    const result = await likeRepository.delete(userId, targetId, targetType);
-
-    // 更新计数
-    if (result) {
-      if (targetType === 'post') {
-        await postRepository.updateCounter(targetId, 'like_count', -1);
-      } else if (targetType === 'comment') {
-        await commentRepository.updateCounter(targetId, 'like_count', -1);
-      }
-    }
+    // Write-Back策略：只更新缓存，添加到待处理队列
+    const result = true; // 模拟删除成功，实际会在定时任务中删除DB记录
 
     // 更新状态缓存（仅对帖子）
     if (result && targetType === 'post') {
       try {
         await statusCacheService.removeLike(userId, targetId);
+        
+        // 添加到待处理操作队列（Write-Back策略）
+        await statusCacheService.addPendingOperation({
+          type: 'like',
+          action: 'unlike',
+          userId: userId,
+          targetId: targetId,
+          targetType: targetType,
+          timestamp: Date.now()
+        });
+        
+        logger.info(`取消点赞操作已加入队列: ${userId} -> ${targetType}:${targetId}`);
       } catch (error) {
         logger.warn('更新取消点赞缓存失败，但不影响取消点赞操作:', error);
       }

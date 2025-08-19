@@ -9,12 +9,13 @@
 ### 1. **用户状态缓存** - `USER_STATUS`
 ```javascript
 USER_STATUS: {
-  TTL: 24 * 60 * 60,          // 24小时
+  TTL: 24 * 60 * 60,          // 24小时 - 用户行为状态
+  COUNT_TTL: 5 * 60,          // 5分钟 - 用户统计数据（关注数、粉丝数等）
   PREFIX: 'user_status:',      // 缓存前缀
   DIRTY_PREFIX: 'dirty:',      // 脏数据标记前缀
 }
 ```
-**用途**：用户点赞、收藏、关注等状态缓存
+**用途**：用户点赞、收藏、关注等状态缓存 + 统计数据缓存
 
 ### 2. **推荐系统缓存** - `RECOMMENDATION`
 ```javascript
@@ -74,11 +75,12 @@ const prefix = cacheConfig.USER_STATUS.PREFIX;
 ### **环境敏感配置**
 ```javascript
 // 自动根据环境调整TTL
-const ttl = cacheConfig.getTTL('USER_STATUS', cacheConfig.USER_STATUS.TTL);
+const userStatusTTL = cacheConfig.getTTL('USER_STATUS', cacheConfig.USER_STATUS.TTL);
+const userCountTTL = cacheConfig.getTTL('USER_COUNT', cacheConfig.USER_STATUS.COUNT_TTL);
 
-// 开发环境：10分钟
-// 生产环境：24小时
-// 测试环境：30秒
+// 开发环境：用户状态5秒，统计数据30秒
+// 生产环境：用户状态12秒，统计数据8秒 (Write-Back优化策略)
+// 测试环境：用户状态30秒，统计数据10秒
 ```
 
 ### **工具方法**
@@ -95,7 +97,8 @@ const dbUrl = cacheConfig.UTILS.env('DATABASE_URL', 'localhost');
 ## 📊 已迁移的文件
 
 ### ✅ **已完成**
-- `server/src/services/status-cache.service.js` - 用户状态缓存
+- `server/src/services/status-cache.service.js` - 用户状态缓存 + 统计数据缓存
+- `server/src/services/follow.service.js` - 关注功能缓存优化
 - `server/src/services/recommendation.service.js` - 推荐缓存前缀
 - `server/src/services/admin/dashboard.service.js` - 仪表盘缓存
 - `server/config/jwt.js` - JWT过期时间
@@ -110,17 +113,22 @@ const dbUrl = cacheConfig.UTILS.env('DATABASE_URL', 'localhost');
 ## 🎯 环境配置
 
 ### **开发环境** (`NODE_ENV=development`)
-- 用户状态缓存：10分钟（便于调试）
+- 用户状态缓存：5秒（实时调试）
+- 用户统计数据：30秒（快速验证）
 - 推荐缓存：2分钟（快速更新）
 - 仪表盘缓存：1分钟（实时数据）
 
-### **生产环境** (`NODE_ENV=production`) 
-- 用户状态缓存：24小时（减少DB压力）
+### **生产环境** (`NODE_ENV=production`) - Write-Back优化策略
+- 用户状态缓存：12秒（快速多实例同步）
+- 用户统计数据：8秒（实时统计显示）
 - 推荐缓存：15分钟（平衡性能和实时性）
 - 仪表盘缓存：5分钟（管理效率）
+- **特点**：采用Write-Back策略，Redis作为权威数据源，5秒批量写入数据库
 
 ### **测试环境** (`NODE_ENV=test`)
-- 所有缓存都很短，便于测试
+- 用户状态缓存：30秒（便于测试验证）
+- 用户统计数据：10秒（快速测试反馈）
+- 其他缓存都很短，便于自动化测试
 
 ## 🚀 优势
 
@@ -131,7 +139,7 @@ const dbUrl = cacheConfig.UTILS.env('DATABASE_URL', 'localhost');
 
 ### **2. 环境敏感**
 - ✅ 开发环境短缓存，便于调试
-- ✅ 生产环境长缓存，优化性能
+- ✅ 生产环境优化缓存，Write-Back策略下实现秒级数据同步
 - ✅ 测试环境超短缓存，快速验证
 
 ### **3. 一致性**
@@ -174,6 +182,21 @@ class EmailService {
 // 在ENVIRONMENT配置中添加
 development: {
   EMAIL_COOLDOWN: 10,         // 开发环境缩短冷却时间
+},
+
+// 在getTTL方法中添加支持
+getTTL(cacheType, defaultTTL) {
+  const envConfig = this.getEnvConfig();
+  switch(cacheType) {
+    case 'USER_STATUS':
+      return envConfig.USER_STATUS_TTL || defaultTTL;
+    case 'USER_COUNT':         // 用户统计数据缓存
+      return envConfig.USER_COUNT_TTL || defaultTTL;
+    case 'EMAIL':              // 新增的邮件缓存
+      return envConfig.EMAIL_COOLDOWN || defaultTTL;
+    default:
+      return defaultTTL;
+  }
 }
 ```
 
@@ -183,6 +206,8 @@ development: {
 2. **性能考虑**：require缓存配置不会有性能问题
 3. **热更新**：修改cache.js需要重启服务生效
 4. **环境变量**：JWT等敏感配置仍可通过环境变量覆盖
+5. **Write-Back策略**：用户状态缓存采用Write-Back，缓存TTL主要影响多实例同步而非数据持久化
+6. **数据一致性**：短TTL + Write-Back策略 = 快速同步 + 高性能，适合高并发场景
 
 ## 🎯 最佳实践
 
@@ -191,3 +216,45 @@ development: {
 3. **相同类型的缓存使用相同TTL**
 4. **为新配置添加清晰的注释**
 5. **考虑不同环境的需求差异**
+6. **Write-Back场景下优先考虑数据同步速度而非减少数据库压力**
+7. **统计数据缓存TTL应小于操作缓存TTL，确保数据一致性**
+8. **生产环境短TTL配合Write-Back策略，实现高性能 + 实时性的平衡**
+
+---
+
+## 📋 实际案例：关注功能缓存优化
+
+### **问题背景**
+传统缓存策略下，生产环境用户状态缓存24小时，统计数据缓存5分钟，导致：
+- 用户关注操作后，对方可能5分钟后才看到粉丝数变化
+- 多实例部署时，不同服务器缓存数据不一致时间过长
+
+### **优化策略**
+```javascript
+// 优化前
+production: {
+  USER_STATUS_TTL: 24 * 60 * 60,     // 24小时
+  USER_COUNT_TTL: 5 * 60,            // 5分钟
+}
+
+// 优化后
+production: {
+  USER_STATUS_TTL: 12,               // 12秒
+  USER_COUNT_TTL: 8,                 // 8秒
+}
+```
+
+### **技术保障**
+- **Write-Back策略**：5秒批量写入数据库，保证数据持久化
+- **Redis权威**：缓存作为数据权威来源，确保一致性
+- **分布式锁**：防止多实例同时写入，避免数据冲突
+
+### **优化效果**
+| 指标 | 优化前 | 优化后 | 提升效果 |
+|------|--------|--------|----------|
+| 关注状态同步 | 最长24小时 | 最长12秒 | 7200倍 |
+| 统计数据同步 | 最长5分钟 | 最长8秒 | 37.5倍 |
+| 多实例一致性 | 小时级 | 秒级 | 质的飞跃 |
+| 用户体验 | 延迟感知 | 近实时 | 极大改善 |
+
+**总结**：Write-Back策略下，短TTL不会增加数据库压力，反而能显著提升数据一致性和用户体验。

@@ -1,24 +1,41 @@
 <template>
   <view class="post-card" :class="{ compact: compact }" @tap="goDetail">
     <view class="post-card__header">
-      <view class="post-card__user" @tap.stop="onUserClick">
-        <image class="post-card__avatar" :src="safeAvatar(post.author)" mode="aspectFill"></image>
-        <view class="post-card__info">
-          <view class="post-card__name-row">
-            <text class="post-card__name">{{ getDisplayName() }}</text>
-            <!-- 匿名提示 - 只在个人主页显示 -->
-            <view class="post-card__anonymous-badge" v-if="showAnonymousBadge && isAnonymousPost()">
-              <text class="post-card__anonymous-text">匿名</text>
+      <view class="post-card__user">
+        <!-- 用户头像和信息区域，独立点击 -->
+        <view class="post-card__user-info" @tap.stop="onUserClick">
+          <image class="post-card__avatar" :src="safeAvatar(post.author)" mode="aspectFill"></image>
+          <view class="post-card__info">
+            <view class="post-card__name-row">
+              <text class="post-card__name">{{ getDisplayName() }}</text>
+              <!-- 匿名提示 - 只在个人主页显示 -->
+              <view class="post-card__anonymous-badge" v-if="showAnonymousBadge && isAnonymousPost()">
+                <text class="post-card__anonymous-text">匿名</text>
+              </view>
+            </view>
+            <view class="post-card__meta">
+              <text class="post-card__time">{{ formatTime }}</text>
+              <text v-if="post.location" class="post-card__location">{{ post.location }}</text>
             </view>
           </view>
-          <view class="post-card__meta">
-            <text class="post-card__time">{{ formatTime }}</text>
-            <text v-if="post.location" class="post-card__location">{{ post.location }}</text>
+        </view>
+        
+        <!-- 右侧操作区域 -->
+        <view class="post-card__user-actions">
+          <!-- 关注按钮 - 只在非匿名且非自己的帖子时显示 -->
+          <follow-button
+            v-if="shouldShowFollowButton"
+            :user-id="post.author?.id"
+            :is-following="post.author?.isFollowing"
+            size="small"
+            @success="onFollowSuccess"
+            class="post-card__follow-btn"
+            @tap.stop
+          />
+          <view class="post-card__more" @tap.stop="onMoreClick">
+            <app-icon name="more" color="#666"></app-icon>
           </view>
         </view>
-      </view>
-      <view class="post-card__more" @tap.stop="onMoreClick">
-        <app-icon name="more" color="#666"></app-icon>
       </view>
     </view>
 
@@ -49,24 +66,27 @@
       </view>
 
       <view class="post-card__comment-list">
-        <view class="post-card__comment-item" v-for="(comment, index) in post.hot_comments" :key="comment.id"
-          @tap.stop="handleCommentLike(comment)">
+        <view class="post-card__comment-item" v-for="(comment, index) in post.hot_comments" :key="comment.id">
           <view class="post-card__comment-header">
-            <image class="post-card__comment-avatar" :src="safeCommentAvatar(comment)" mode="aspectFill"
-              @tap.stop="handleUserClick(comment.author)"></image>
-            <view class="post-card__comment-info">
-              <text class="post-card__comment-name" @tap.stop="handleUserClick(comment.author)">{{
-                safeCommentName(comment) }}</text>
-              <text class="post-card__comment-time">{{ formatCommentTime(comment.created_at) }}</text>
+            <!-- 用户信息区域，点击跳转到用户页面 -->
+            <view class="post-card__comment-user" @tap.stop="handleUserClick(comment.author)">
+              <image class="post-card__comment-avatar" :src="safeCommentAvatar(comment)" mode="aspectFill"></image>
+              <view class="post-card__comment-info">
+                <text class="post-card__comment-name">{{ safeCommentName(comment) }}</text>
+                <text class="post-card__comment-time">{{ formatCommentTime(comment.created_at) }}</text>
+              </view>
             </view>
-            <view class="post-card__comment-like" v-if="comment.like_count > 0">
+            
+            <!-- 点赞区域，独立点击 -->
+            <view class="post-card__comment-like" @tap.stop="handleCommentLike(comment)">
               <app-icon name="like" size="xs" :color="comment.is_liked ? '#FF6B6B' : '#999'"></app-icon>
               <text :class="['post-card__comment-like-count', comment.is_liked ? 'active' : '']">
-                {{ comment.like_count }}
+                {{ comment.like_count || 0 }}
               </text>
             </view>
           </view>
-          <view class="post-card__comment-content">
+          <!-- 评论内容区域，点击进入详情 -->
+          <view class="post-card__comment-content" @tap.stop="goToComments">
             <text class="post-card__comment-text">{{ truncateComment(comment.content) }}</text>
           </view>
         </view>
@@ -107,13 +127,15 @@
 
 <script>
 import AppIcon from '@/components/common/AppIcon.vue';
+import FollowButton from '@/components/FollowButton.vue';
 import { formatTimeAgo } from '@/utils/date';
 import { ensureAbsoluteUrl } from '@/utils/url';
 
 export default {
   name: 'PostCard',
   components: {
-    AppIcon
+    AppIcon,
+    FollowButton
   },
   props: {
     post: {
@@ -160,6 +182,31 @@ export default {
         // 确保URL是绝对路径
         return ensureAbsoluteUrl(imageUrl);
       });
+    },
+    // 判断是否显示关注按钮
+    shouldShowFollowButton() {
+      // 不显示关注按钮的情况：
+      // 1. 匿名帖子
+      // 2. 没有作者信息
+      // 3. 是自己的帖子
+      // 4. 用户未登录
+      if (this.isAnonymousPost() || !this.post.author || !this.post.author.id) {
+        return false;
+      }
+      
+      // 检查用户是否已登录
+      const currentUserInfo = uni.getStorageSync('userInfo');
+      const currentUserId = currentUserInfo?.id || uni.getStorageSync('userId') || uni.getStorageSync('user_id');
+      if (!currentUserId) {
+        return false;
+      }
+      
+      // 检查是否是当前用户自己的帖子
+      if (currentUserId === this.post.author.id) {
+        return false;
+      }
+      
+      return true;
     }
   },
   methods: {
@@ -370,6 +417,21 @@ export default {
 
       // 确保URL是绝对路径
       return ensureAbsoluteUrl(imageUrl);
+    },
+
+    // 关注操作成功回调
+    onFollowSuccess(data) {
+      // 更新帖子作者的关注状态
+      if (this.post.author) {
+        this.post.author.isFollowing = data.isFollowing;
+        
+        // 向父组件发送关注状态变化事件
+        this.$emit('followStatusChange', {
+          userId: data.userId,
+          isFollowing: data.isFollowing,
+          action: data.action
+        });
+      }
     }
   }
 }
@@ -416,8 +478,25 @@ export default {
   }
 
   &__user {
+    @include flex(row, space-between, center);
+    flex: 1;
+  }
+
+  &__user-info {
     @include flex(row, flex-start, center);
     flex: 1;
+    padding: $spacing-xs;
+    border-radius: $radius-md;
+    transition: background-color $transition-fast;
+
+    &:active {
+      background-color: $bg-light;
+    }
+  }
+
+  &__user-actions {
+    @include flex(row, center, center);
+    margin-left: $spacing-sm;
   }
 
   &__avatar {
@@ -486,8 +565,21 @@ export default {
     }
   }
 
+  &__follow-btn {
+    margin-right: $spacing-xs;
+  }
+
   &__more {
     padding: $spacing-sm;
+    border-radius: $radius-sm;
+    transition: background-color $transition-fast;
+    min-width: 60rpx;
+    min-height: 60rpx;
+    @include flex(row, center, center);
+
+    &:active {
+      background-color: $bg-light;
+    }
   }
 
   &__content {
@@ -611,11 +703,6 @@ export default {
     padding: $spacing-sm;
     background-color: $bg-light;
     border-radius: $radius-md;
-    transition: background-color $transition-fast;
-
-    &:active {
-      background-color: $bg-hover;
-    }
 
     &:last-child {
       margin-bottom: 0;
@@ -625,6 +712,18 @@ export default {
   &__comment-header {
     @include flex(row, space-between, center);
     margin-bottom: $spacing-xs;
+  }
+
+  &__comment-user {
+    @include flex(row, flex-start, center);
+    flex: 1;
+    padding: $spacing-xs;
+    border-radius: $radius-sm;
+    transition: background-color $transition-fast;
+
+    &:active {
+      background-color: rgba($primary-color, 0.1);
+    }
   }
 
   &__comment-avatar {
@@ -673,6 +772,13 @@ export default {
 
   &__comment-content {
     margin-left: 72rpx; // 头像宽度 + 间距
+    padding: $spacing-xs;
+    border-radius: $radius-sm;
+    transition: background-color $transition-fast;
+
+    &:active {
+      background-color: rgba($primary-color, 0.05);
+    }
   }
 
   &__comment-text {
@@ -721,12 +827,15 @@ export default {
 
   &__action {
     @include flex(row, center, center);
-    padding: $spacing-xs $spacing-sm;
+    padding: $spacing-sm $spacing-md;
     border-radius: $radius-lg;
-    transition: background-color $transition-fast;
+    transition: all $transition-fast;
+    min-width: 120rpx;
+    min-height: 60rpx;
 
     &:active {
       background-color: $bg-light-blue;
+      transform: scale(0.95);
     }
   }
 

@@ -77,7 +77,8 @@ export default {
       
       // 检查登录状态
       const userInfo = uni.getStorageSync('userInfo');
-      if (!userInfo || !userInfo.token) {
+      const token = uni.getStorageSync('token');
+      if (!userInfo || !token) {
         this.showLoginModal();
         return;
       }
@@ -105,7 +106,7 @@ export default {
           ? await this.$api.follow.unfollow(this.userId)
           : await this.$api.follow.follow(this.userId);
         
-        if (response.success) {
+        if (response.code === 0) {
           // 触发成功事件
           this.$emit('success', {
             userId: this.userId,
@@ -125,11 +126,11 @@ export default {
           this.$emit('error', {
             userId: this.userId,
             action: originalStatus ? 'unfollow' : 'follow',
-            message: response.message
+            message: response.msg || response.message
           });
           
           uni.showToast({
-            title: response.message || `${action}失败`,
+            title: response.msg || response.message || `${action}失败`,
             icon: 'none'
           });
         }
@@ -146,8 +147,17 @@ export default {
           error
         });
         
+        // 智能错误提示
+        let errorMessage = `${action}失败，请重试`;
+        const errorText = error.message || '';
+        
+        if (errorText.includes('操作太频繁')) {
+          errorMessage = '操作太频繁，请稍后再试';
+        }
+        // 注意：后端已实现幂等性处理，不会再抛出"已关注"或"未关注"错误
+        
         uni.showToast({
-          title: `${action}失败，请重试`,
+          title: errorMessage,
           icon: 'none'
         });
       } finally {
@@ -187,8 +197,8 @@ export default {
   transition: all 0.3s ease;
   cursor: pointer;
 
-  // 默认状态（未关注）
-  background: linear-gradient(135deg, $primary-color, $primary-light);
+  // 默认状态（未关注）- 使用更柔和的蓝灰色
+  background: linear-gradient(135deg, #8B9DC3, #A5B4D0);
   color: #fff;
   border: 2rpx solid transparent;
 
@@ -199,8 +209,8 @@ export default {
   // 已关注状态
   &.following {
     background: #fff;
-    color: $text-secondary;
-    border: 2rpx solid $border-color;
+    color: #8B9DC3;
+    border: 2rpx solid #D1DAE6;
   }
 
   // 加载状态

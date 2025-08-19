@@ -3,18 +3,35 @@
     <!-- 帖子内容 -->
     <view class="post">
       <view class="post-header">
-        <view class="post-user" @tap="handleUserClick">
-          <image class="post-avatar" :src="processedAvatarUrl" mode="aspectFill"></image>
-          <view class="post-info">
-            <view class="post-name">{{ post.nickname || '未知用户' }}</view>
-            <view class="post-meta">
-              <text class="post-time">{{ formatTime }}</text>
-              <text v-if="post.location" class="post-location">{{ post.location }}</text>
+        <view class="post-user">
+          <!-- 用户信息区域，独立点击 -->
+          <view class="post-user-info" @tap="handleUserClick">
+            <image class="post-avatar" :src="processedAvatarUrl" mode="aspectFill"></image>
+            <view class="post-info">
+              <view class="post-name">{{ post.nickname || '未知用户' }}</view>
+              <view class="post-meta">
+                <text class="post-time">{{ formatTime }}</text>
+                <text v-if="post.location" class="post-location">{{ post.location }}</text>
+              </view>
             </view>
           </view>
-        </view>
-        <view class="post-more" @tap="handleMore">
-          <app-icon name="more" color="#666"></app-icon>
+          
+          <!-- 右侧操作区域 -->
+          <view class="post-user-actions">
+            <!-- 关注按钮 - 只在非自己的帖子时显示 -->
+            <follow-button
+              v-if="shouldShowFollowButton"
+              :user-id="post.user_id"
+              :is-following="post.isFollowing"
+              size="small"
+              @success="onFollowSuccess"
+              class="post-follow-btn"
+              @tap.stop
+            />
+            <view class="post-more" @tap="handleMore">
+              <app-icon name="more" color="#666"></app-icon>
+            </view>
+          </view>
         </view>
       </view>
       
@@ -208,12 +225,14 @@
 
 <script>
 import AppIcon from '@/components/common/AppIcon.vue';
+import FollowButton from '@/components/FollowButton.vue';
 import { formatTimeAgo } from '@/utils/date';
 import { UrlUtils } from '@/utils';
 
 export default {
   components: {
-    AppIcon
+    AppIcon,
+    FollowButton
   },
   data() {
     return {
@@ -229,6 +248,7 @@ export default {
         favoriteCount: 0,
         isLiked: false,
         isFavorited: false,
+        isFollowing: false,
         isOwner: false,
         avatar: '',
         nickname: '',
@@ -274,6 +294,30 @@ export default {
     processedImages() {
       if (!this.post.images || !this.post.images.length) return [];
       return this.post.images.map(image => UrlUtils.ensureAbsoluteUrl(image));
+    },
+    // 判断是否显示关注按钮
+    shouldShowFollowButton() {
+      // 不显示关注按钮的情况：
+      // 1. 没有用户ID
+      // 2. 是自己的帖子
+      // 3. 用户未登录
+      if (!this.post.user_id) {
+        return false;
+      }
+      
+      // 检查用户是否已登录
+      const currentUser = uni.getStorageSync('userInfo');
+      const currentUserId = currentUser?.id || uni.getStorageSync('userId') || uni.getStorageSync('user_id');
+      if (!currentUserId) {
+        return false;
+      }
+      
+      // 检查是否是当前用户自己的帖子
+      if (currentUserId === this.post.user_id) {
+        return false;
+      }
+      
+      return true;
     }
   },
   onLoad(options) {
@@ -299,6 +343,14 @@ export default {
           url: `/pages/user/user-profile?id=${this.post.user_id}`
         })
       }
+    },
+
+    // 关注操作成功回调
+    onFollowSuccess(data) {
+      // 更新帖子作者的关注状态
+      this.post.isFollowing = data.isFollowing;
+      
+      console.log(`帖子详情页 - 关注状态更新: ${data.isFollowing}`);
     },
     
     // 处理评论用户点击
@@ -369,6 +421,7 @@ export default {
           favoriteCount: postData.favorite_count || 0,
           isLiked: postData.is_liked || false,
           isFavorited: postData.is_favorited || false,
+          isFollowing: postData.author ? postData.author.isFollowing || false : false,
           isOwner: postData.user_id === uni.getStorageSync('userInfo')?.id,
           user_id: postData.user_id,  // 添加用户ID
           avatar: postData.author ? postData.author.avatar : '',
@@ -939,8 +992,29 @@ export default {
 }
 
 .post-user {
+  @include flex(row, space-between, center);
+  flex: 1;
+}
+
+.post-user-info {
   @include flex(row, flex-start, center);
   flex: 1;
+  padding: $spacing-xs;
+  border-radius: $radius-md;
+  transition: background-color $transition-fast;
+
+  &:active {
+    background-color: $bg-light;
+  }
+}
+
+.post-user-actions {
+  @include flex(row, center, center);
+  margin-left: $spacing-sm;
+}
+
+.post-follow-btn {
+  margin-right: $spacing-xs;
 }
 
 .post-avatar {
@@ -990,6 +1064,15 @@ export default {
 
 .post-more {
   padding: $spacing-sm;
+  border-radius: $radius-sm;
+  transition: background-color $transition-fast;
+  min-width: 60rpx;
+  min-height: 60rpx;
+  @include flex(row, center, center);
+
+  &:active {
+    background-color: $bg-light;
+  }
 }
 
 .post-content {

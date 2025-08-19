@@ -138,19 +138,27 @@ class SearchService {
         distinct: true
       });
 
-      // 如果用户已登录，获取点赞和收藏状态（使用缓存）
+      // 如果用户已登录，获取点赞、收藏和关注状态（使用缓存）
       if (userId && rows.length > 0) {
         const postIds = rows.map(post => post.id);
+        const authorIds = rows.map(post => post.author?.id).filter(Boolean);
         
         // 使用缓存服务批量获取状态
-        const [likeStates, favoriteStates] = await Promise.all([
+        const [likeStates, favoriteStates, followingStates] = await Promise.all([
           statusCacheService.isLiked(userId, postIds),
-          statusCacheService.isFavorited(userId, postIds)
+          statusCacheService.isFavorited(userId, postIds),
+          authorIds.length > 0 ? statusCacheService.isFollowing(userId, authorIds) : {}
         ]);
 
         rows.forEach(post => {
           post.dataValues.isLiked = likeStates[post.id] || false;
           post.dataValues.isFavorited = favoriteStates[post.id] || false;
+          
+          // 为帖子作者添加关注状态
+          if (post.author && post.author.id) {
+            post.author.dataValues = post.author.dataValues || {};
+            post.author.dataValues.isFollowing = followingStates[post.author.id] || false;
+          }
         });
         
         logger.info(`✅ 从缓存获取${postIds.length}个帖子的用户状态`);
