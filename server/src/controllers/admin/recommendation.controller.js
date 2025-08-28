@@ -1,9 +1,11 @@
-const recommendationService = require('../../services/recommendation.service');
+const recommendationService = require('../../services/recommendation.service.v2');
 const settingRepository = require('../../repositories/setting.repository');
 const { ResponseUtil } = require('../../utils');
 const { StatusCodes } = require('http-status-codes');
 const logger = require('../../../config/logger');
 const { Post } = require('../../models');
+const redisClient = require('../../utils/redis-client'); // 🆕 添加Redis客户端导入
+const RecommendationPresets = require('../../../config/recommendation-presets'); // 🆕 预设配置
 
 /**
  * 管理员推荐算法控制器
@@ -52,7 +54,21 @@ class AdminRecommendationController {
         minInteractionScore,
         strategy,
         enableCache,
-        cacheExpireMinutes
+        cacheExpireMinutes,
+        // 🆕 v2.0 新增字段
+        scoreThreshold,
+        newPostBonus,
+        imageBonus,
+        contentBonus,
+        topicBonus,
+        engagementFactor,
+        maxSameAuthorRatio,
+        diversityPeriodHours,
+        updateIntervalHours,
+        enableScoreSort,
+        searchPageRecommendCount,
+        enableSearchPageRecommend,
+        searchRecommendTypes
       } = req.body;
 
       logger.info('管理员更新推荐算法设置', {
@@ -71,17 +87,44 @@ class AdminRecommendationController {
 
       // 更新设置
       const settingsToUpdate = {};
+      
+      // 🎯 基础权重设置
       if (likeWeight !== undefined) settingsToUpdate.likeWeight = likeWeight;
       if (commentWeight !== undefined) settingsToUpdate.commentWeight = commentWeight;
       if (collectionWeight !== undefined) settingsToUpdate.collectionWeight = collectionWeight;
       if (viewWeight !== undefined) settingsToUpdate.viewWeight = viewWeight;
       if (timeDecayDays !== undefined) settingsToUpdate.timeDecayDays = timeDecayDays;
       if (maxAgeDays !== undefined) settingsToUpdate.maxAgeDays = maxAgeDays;
+      
+      // 🎛️ 推荐策略设置
+      if (scoreThreshold !== undefined) settingsToUpdate.scoreThreshold = scoreThreshold;
       if (maxAdminRecommended !== undefined) settingsToUpdate.maxAdminRecommended = maxAdminRecommended;
+      if (enableScoreSort !== undefined) settingsToUpdate.enableScoreSort = enableScoreSort;
       if (minInteractionScore !== undefined) settingsToUpdate.minInteractionScore = minInteractionScore;
       if (strategy !== undefined) settingsToUpdate.strategy = strategy;
+      
+      // 🎨 质量评估设置 (v2.0新增)
+      if (newPostBonus !== undefined) settingsToUpdate.newPostBonus = newPostBonus;
+      if (imageBonus !== undefined) settingsToUpdate.imageBonus = imageBonus;
+      if (contentBonus !== undefined) settingsToUpdate.contentBonus = contentBonus;
+      if (topicBonus !== undefined) settingsToUpdate.topicBonus = topicBonus;
+      if (engagementFactor !== undefined) settingsToUpdate.engagementFactor = engagementFactor;
+      
+      // 🔄 多样性控制设置 (v2.0新增)
+      if (maxSameAuthorRatio !== undefined) settingsToUpdate.maxSameAuthorRatio = maxSameAuthorRatio;
+      if (diversityPeriodHours !== undefined) settingsToUpdate.diversityPeriodHours = diversityPeriodHours;
+      
+      // ⏰ 更新频率设置
+      if (updateIntervalHours !== undefined) settingsToUpdate.updateIntervalHours = updateIntervalHours;
+      
+      // 🏪 缓存设置
       if (enableCache !== undefined) settingsToUpdate.enableCache = enableCache;
       if (cacheExpireMinutes !== undefined) settingsToUpdate.cacheExpireMinutes = cacheExpireMinutes;
+      
+      // 🔍 搜索页推荐设置
+      if (searchPageRecommendCount !== undefined) settingsToUpdate.searchPageRecommendCount = searchPageRecommendCount;
+      if (enableSearchPageRecommend !== undefined) settingsToUpdate.enableSearchPageRecommend = enableSearchPageRecommend;
+      if (searchRecommendTypes !== undefined) settingsToUpdate.searchRecommendTypes = JSON.stringify(searchRecommendTypes);
 
       await settingRepository.setMultipleSettings(settingsToUpdate);
 
@@ -164,8 +207,15 @@ class AdminRecommendationController {
         adminUsername: req.admin?.username
       });
 
-      // 获取推荐统计数据
-      const stats = await this.calculateRecommendationStats();
+      // 🆕 使用新版推荐服务获取统计数据
+      const stats = await recommendationService.getRecommendationStats();
+
+      // 🔧 修复：强制禁用缓存，确保获取最新数据
+      res.set({
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0'
+      });
 
       res.status(StatusCodes.OK).json(
         ResponseUtil.success(stats, '获取推荐统计成功')
@@ -288,13 +338,218 @@ class AdminRecommendationController {
   }
 
   /**
-   * 计算推荐算法统计信息
+   * 🆕 触发推荐分数重新计算
+   * @param {Object} req 请求对象
+   * @param {Object} res 响应对象
+   * @param {Function} next 下一个中间件
+   */
+  async triggerScoreRecalculation(req, res, next) {
+    try {
+      logger.info('🎯 管理员触发推荐分数重新计算开始', {
+        adminId: req.admin?.id,
+        adminUsername: req.admin?.username,
+        timestamp: new Date().toISOString()
+      });
+
+      logger.info('📋 正在调用推荐服务执行重新计算...');
+      const result = await recommendationService.triggerScoreRecalculation();
+      
+      logger.info('✅ 推荐分数重新计算完成', {
+        result,
+        adminId: req.admin?.id,
+        adminUsername: req.admin?.username,
+        timestamp: new Date().toISOString()
+      });
+
+      res.status(StatusCodes.OK).json(
+        ResponseUtil.success(result, '推荐分数重计算已完成')
+      );
+    } catch (error) {
+      logger.error('❌ 触发推荐分数重计算失败', {
+        error: error.message,
+        stack: error.stack,
+        adminId: req.admin?.id,
+        adminUsername: req.admin?.username,
+        timestamp: new Date().toISOString()
+      });
+      next(error);
+    }
+  }
+
+  /**
+   * 🔍 分析帖子推荐分数详情
+   */
+  async analyzePostScore(req, res, next) {
+    try {
+      const { postId } = req.body;
+      
+      if (!postId) {
+        return res.status(StatusCodes.BAD_REQUEST).json(
+          ResponseUtil.error('参数错误：缺少帖子ID', 400)
+        );
+      }
+
+      logger.info('🔍 管理员请求分析帖子分数', {
+        adminId: req.admin?.id,
+        adminUsername: req.admin?.username,
+        postId: postId
+      });
+      
+      const analysis = await recommendationService.analyzePostScore(postId);
+      
+      logger.info('✅ 帖子分数分析完成', {
+        adminId: req.admin?.id,
+        postId: postId,
+        finalScore: analysis.analysis.result.finalScore,
+        isRecommended: analysis.analysis.result.isRecommended
+      });
+      
+      res.status(StatusCodes.OK).json(
+        ResponseUtil.success(analysis, '帖子分数分析完成')
+      );
+    } catch (error) {
+      logger.error('❌ 分析帖子分数失败', {
+        error: error.message,
+        stack: error.stack,
+        adminId: req.admin?.id,
+        postId: req.body?.postId,
+        timestamp: new Date().toISOString()
+      });
+      next(error);
+    }
+  }
+
+  /**
+   * 🚀 启动自动更新任务
+   */
+  async startAutoUpdate(req, res, next) {
+    try {
+      const { strategy = 'incremental', frequency = '1hour' } = req.body;
+      
+      logger.info('🚀 启动推荐内容自动更新任务', { 
+        strategy, 
+        frequency,
+        adminId: req.admin?.id 
+      });
+      
+      // 保存自动更新配置到Redis
+      const config = {
+        enabled: true,
+        strategy,
+        frequency,
+        startTime: new Date().toISOString(),
+        nextUpdateTime: this.calculateNextUpdateTime(frequency)
+      };
+      
+      await redisClient.set('recommendation:auto_update:config', config, 86400); // 24小时过期
+      
+      // 🆕 同时更新运行状态
+      const status = {
+        running: true,
+        lastRun: null,
+        lastError: null,
+        taskId: `auto_update_${Date.now()}`,
+        startedAt: new Date().toISOString()
+      };
+      await redisClient.set('recommendation:auto_update:status', status, 86400); // 24小时过期
+      
+      res.status(StatusCodes.OK).json(
+        ResponseUtil.success(config, '自动更新任务已启动')
+      );
+      
+    } catch (error) {
+      logger.error('启动自动更新任务失败:', error);
+      next(error);
+    }
+  }
+
+  /**
+   * 🛑 停止自动更新任务
+   */
+  async stopAutoUpdate(req, res, next) {
+    try {
+      logger.info('🛑 停止推荐内容自动更新任务', {
+        adminId: req.admin?.id
+      });
+      
+      // 从Redis删除配置和状态
+      await redisClient.del('recommendation:auto_update:config');
+      await redisClient.del('recommendation:auto_update:status');
+      
+      const result = {
+        status: 'stopped',
+        timestamp: new Date().toISOString()
+      };
+      
+      res.status(StatusCodes.OK).json(
+        ResponseUtil.success(result, '自动更新任务已停止')
+      );
+      
+    } catch (error) {
+      logger.error('停止自动更新任务失败:', error);
+      next(error);
+    }
+  }
+
+  /**
+   * 📊 获取自动更新状态
+   */
+  async getAutoUpdateStatus(req, res, next) {
+    try {
+      // 从Redis获取配置（Redis客户端自动处理反序列化）
+      const config = await redisClient.get('recommendation:auto_update:config');
+      
+      // 从Redis获取运行状态（Redis客户端自动处理反序列化）
+      const status = await redisClient.get('recommendation:auto_update:status') || {};
+      
+      const result = {
+        enabled: config ? config.enabled : false,
+        strategy: config ? config.strategy : 'incremental',
+        frequency: config ? config.frequency : '1hour',
+        nextUpdateTime: config ? config.nextUpdateTime : null,
+        running: status.running || false,
+        lastRun: status.lastRun || null,
+        lastError: status.lastError || null,
+        taskId: status.taskId || null
+      };
+      
+      res.status(StatusCodes.OK).json(
+        ResponseUtil.success(result, '获取自动更新状态成功')
+      );
+      
+    } catch (error) {
+      logger.error('获取自动更新状态失败:', error);
+      next(error);
+    }
+  }
+
+  /**
+   * 🕐 计算下次更新时间
+   */
+  calculateNextUpdateTime(frequency) {
+    const now = new Date();
+    const frequencyMap = {
+      '10sec': 10 * 1000,        // 🆕 开发测试：10秒
+      '30min': 30 * 60 * 1000,
+      '1hour': 60 * 60 * 1000,
+      '2hour': 2 * 60 * 60 * 1000,
+      '6hour': 6 * 60 * 60 * 1000,
+      '12hour': 12 * 60 * 60 * 1000,
+      '24hour': 24 * 60 * 60 * 1000
+    };
+    
+    const interval = frequencyMap[frequency] || frequencyMap['1hour'];
+    return new Date(now.getTime() + interval).toISOString();
+  }
+
+  /**
+   * 计算推荐算法统计信息（保留兼容性）
    * @returns {Promise<Object>} 统计信息
    */
   async calculateRecommendationStats() {
     try {
       // 获取推荐设置
-      const recommendationService = require('../../services/recommendation.service');
+      const recommendationService = require('../../services/recommendation.service.v2');
       const postRepository = require('../../repositories/post.repository');
       const settings = await recommendationService.getRecommendationSettings();
 
@@ -338,6 +593,180 @@ class AdminRecommendationController {
         algorithmCandidates: 0,
         recommendationCoverage: 0
       };
+    }
+  }
+
+  /**
+   * 🎯 获取预设配置列表
+   * @param {Object} req 请求对象
+   * @param {Object} res 响应对象
+   * @param {Function} next 下一个中间件
+   */
+  async getPresetConfigurations(req, res, next) {
+    try {
+      logger.info('管理员获取预设配置列表', {
+        adminId: req.admin?.id,
+        adminUsername: req.admin?.username
+      });
+
+      // 转换预设配置为前端友好格式
+      const presets = Object.keys(RecommendationPresets).map(key => ({
+        id: key,
+        name: RecommendationPresets[key].name,
+        description: RecommendationPresets[key].description,
+        settings: RecommendationPresets[key].settings
+      }));
+
+      res.status(StatusCodes.OK).json(
+        ResponseUtil.success(presets, '获取预设配置成功')
+      );
+    } catch (error) {
+      logger.error('获取预设配置失败:', error);
+      next(error);
+    }
+  }
+
+  /**
+   * 🚀 应用预设配置
+   * @param {Object} req 请求对象
+   * @param {Object} res 响应对象  
+   * @param {Function} next 下一个中间件
+   */
+  async applyPresetConfiguration(req, res, next) {
+    try {
+      const { presetId } = req.body;
+
+      logger.info('管理员应用预设配置', {
+        adminId: req.admin?.id,
+        adminUsername: req.admin?.username,
+        presetId
+      });
+
+      // 验证预设ID
+      if (!RecommendationPresets[presetId]) {
+        return res.status(StatusCodes.BAD_REQUEST).json(
+          ResponseUtil.error('无效的预设配置ID')
+        );
+      }
+
+      const preset = RecommendationPresets[presetId];
+      
+      // 批量更新设置
+      await settingRepository.setMultipleSettings(preset.settings);
+
+      // 清除推荐缓存
+      await recommendationService.clearRecommendationCache();
+
+      // 获取更新后的设置
+      const updatedSettings = await recommendationService.getRecommendationSettings();
+
+      logger.info('预设配置应用成功', {
+        adminId: req.admin?.id,
+        presetName: preset.name,
+        settingsCount: Object.keys(preset.settings).length
+      });
+
+      res.status(StatusCodes.OK).json(
+        ResponseUtil.success({
+          applied: preset.name,
+          settings: updatedSettings
+        }, `${preset.name}配置应用成功`)
+      );
+    } catch (error) {
+      logger.error('应用预设配置失败:', error);
+      next(error);
+    }
+  }
+
+  /**
+   * 📤 导出当前配置
+   * @param {Object} req 请求对象
+   * @param {Object} res 响应对象
+   * @param {Function} next 下一个中间件
+   */
+  async exportCurrentConfiguration(req, res, next) {
+    try {
+      logger.info('管理员导出当前配置', {
+        adminId: req.admin?.id,
+        adminUsername: req.admin?.username
+      });
+
+      // 获取当前设置
+      const currentSettings = await recommendationService.getRecommendationSettings();
+      
+      // 构造导出格式
+      const exportData = {
+        name: "自定义配置",
+        description: `导出时间: ${new Date().toLocaleString()}`,
+        version: "v2.0",
+        timestamp: new Date().toISOString(),
+        settings: currentSettings
+      };
+
+      res.status(StatusCodes.OK).json(
+        ResponseUtil.success(exportData, '配置导出成功')
+      );
+    } catch (error) {
+      logger.error('导出配置失败:', error);
+      next(error);
+    }
+  }
+
+  /**
+   * 📥 导入自定义配置
+   * @param {Object} req 请求对象
+   * @param {Object} res 响应对象
+   * @param {Function} next 下一个中间件
+   */
+  async importCustomConfiguration(req, res, next) {
+    try {
+      const { configData } = req.body;
+
+      logger.info('管理员导入自定义配置', {
+        adminId: req.admin?.id,
+        adminUsername: req.admin?.username,
+        configName: configData?.name
+      });
+
+      // 验证配置数据格式
+      if (!configData || !configData.settings) {
+        return res.status(StatusCodes.BAD_REQUEST).json(
+          ResponseUtil.error('无效的配置数据格式')
+        );
+      }
+
+      // 验证配置字段
+      const validationErrors = this.validateRecommendationSettings(configData.settings);
+      if (validationErrors.length > 0) {
+        return res.status(StatusCodes.BAD_REQUEST).json(
+          ResponseUtil.error('配置验证失败', validationErrors)
+        );
+      }
+
+      // 批量更新设置
+      await settingRepository.setMultipleSettings(configData.settings);
+
+      // 清除推荐缓存
+      await recommendationService.clearRecommendationCache();
+
+      // 获取更新后的设置
+      const updatedSettings = await recommendationService.getRecommendationSettings();
+
+      logger.info('自定义配置导入成功', {
+        adminId: req.admin?.id,
+        configName: configData.name,
+        settingsCount: Object.keys(configData.settings).length
+      });
+
+      res.status(StatusCodes.OK).json(
+        ResponseUtil.success({
+          imported: configData.name,
+          settings: updatedSettings
+        }, '自定义配置导入成功')
+      );
+    } catch (error) {
+      logger.error('导入自定义配置失败:', error);
+      next(error);
     }
   }
 }

@@ -18,17 +18,43 @@ class SettingRepository {
   async getRecommendationSettings() {
     try {
       const recommendationKeys = [
+        // 🎯 基础权重配置
         'likeWeight',
         'commentWeight', 
         'collectionWeight',
         'viewWeight',
         'timeDecayDays',
         'maxAgeDays',
+        
+        // 🎛️ 推荐策略配置
+        'scoreThreshold',
         'maxAdminRecommended',
+        'enableScoreSort',
+        'minInteractionScore',
         'strategy',
+        
+        // 🎨 质量评估配置 (v2.0新增)
+        'newPostBonus',
+        'imageBonus',
+        'contentBonus',
+        'topicBonus',
+        'engagementFactor',
+        
+        // 🔄 多样性控制配置 (v2.0新增)
+        'maxSameAuthorRatio',
+        'diversityPeriodHours',
+        
+        // ⏰ 更新频率配置
+        'updateIntervalHours',
+        
+        // 🏪 缓存配置
         'enableCache',
         'cacheExpireMinutes',
-        'minInteractionScore'
+        
+        // 🔍 搜索页推荐配置
+        'searchPageRecommendCount',
+        'enableSearchPageRecommend',
+        'searchRecommendTypes'
       ];
 
       const settings = await Setting.findAll({
@@ -46,12 +72,21 @@ class SettingRepository {
         let value = setting.value;
 
         // 根据类型转换值
-        if (['likeWeight', 'commentWeight', 'collectionWeight', 'viewWeight'].includes(key)) {
+        if (['likeWeight', 'commentWeight', 'collectionWeight', 'viewWeight', 
+             'scoreThreshold', 'minInteractionScore', 'newPostBonus', 'imageBonus', 
+             'contentBonus', 'topicBonus', 'engagementFactor', 'maxSameAuthorRatio'].includes(key)) {
           value = parseFloat(value);
-        } else if (['timeDecayDays', 'maxAgeDays', 'maxAdminRecommended', 'cacheExpireMinutes', 'minInteractionScore'].includes(key)) {
+        } else if (['timeDecayDays', 'maxAgeDays', 'maxAdminRecommended', 'cacheExpireMinutes', 
+                    'diversityPeriodHours', 'updateIntervalHours', 'searchPageRecommendCount'].includes(key)) {
           value = parseInt(value);
-        } else if (['enableCache'].includes(key)) {
+        } else if (['enableCache', 'enableScoreSort', 'enableSearchPageRecommend'].includes(key)) {
           value = value === 'true' || value === true;
+        } else if (key === 'searchRecommendTypes') {
+          try {
+            value = JSON.parse(value);
+          } catch (e) {
+            value = [];
+          }
         }
         // strategy 保持字符串
 

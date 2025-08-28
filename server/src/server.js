@@ -38,9 +38,18 @@ async function startServer() {
     WebSocketService.initialize(server);
     logger.info('WebSocket服务已启动');
 
+    // 🆕 启动推荐算法自动更新服务
+    const autoUpdater = require('./services/recommendation-auto-updater');
+    autoUpdater.start();
+    logger.info('🚀 推荐自动更新服务已启动');
+
     // 处理信号
     const gracefulShutdown = () => {
       logger.info('收到关闭信号，正在关闭服务器...');
+      
+      // 停止自动更新服务
+      autoUpdater.stop();
+      
       server.close(() => {
         logger.info('HTTP服务器已关闭');
         process.exit(0);

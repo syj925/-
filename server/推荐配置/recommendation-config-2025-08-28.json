@@ -1,0 +1,35 @@
+{
+  "name": "自定义配置",
+  "description": "导出时间: 2025/8/28 16:22:32",
+  "version": "v2.0",
+  "timestamp": "2025-08-28T08:22:32.136Z",
+  "settings": {
+    "likeWeight": 2,
+    "commentWeight": 3,
+    "collectionWeight": 4,
+    "viewWeight": 0.5,
+    "timeDecayDays": 5,
+    "maxAgeDays": 7,
+    "scoreThreshold": 10,
+    "maxAdminRecommended": 1,
+    "enableScoreSort": true,
+    "updateIntervalHours": 1,
+    "newPostBonus": 5,
+    "imageBonus": 3,
+    "contentBonus": 2,
+    "topicBonus": 1,
+    "engagementFactor": 0.2,
+    "minInteractionScore": 4,
+    "strategy": "mixed",
+    "enableCache": true,
+    "cacheExpireMinutes": 15,
+    "maxSameAuthorRatio": 0.3,
+    "diversityPeriodHours": 24,
+    "searchPageRecommendCount": 6,
+    "enableSearchPageRecommend": true,
+    "searchRecommendTypes": [
+      "post",
+      "topic"
+    ]
+  }
+}

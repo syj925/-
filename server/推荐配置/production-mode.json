@@ -1,0 +1,34 @@
+{
+  "name": "生产模式",
+  "description": "平衡质量和数量，适合正式运营环境",
+  "version": "v2.0",
+  "timestamp": "2025-08-28T08:30:00.000Z",
+  "settings": {
+    "likeWeight": 2.0,
+    "commentWeight": 3.0,
+    "collectionWeight": 4.0,
+    "viewWeight": 0.5,
+    "timeDecayDays": 5,
+    "maxAgeDays": 14,
+    "scoreThreshold": 12.0,
+    "maxAdminRecommended": 2,
+    "enableScoreSort": true,
+    "updateIntervalHours": 2,
+    "newPostBonus": 5.0,
+    "imageBonus": 3.0,
+    "contentBonus": 2.0,
+    "topicBonus": 1.0,
+    "engagementFactor": 0.2,
+    "minInteractionScore": 4.0,
+    "strategy": "mixed",
+    "enableCache": true,
+    "cacheExpireMinutes": 30,
+    "maxSameAuthorRatio": 0.3,
+    "diversityPeriodHours": 24,
+    "searchPageRecommendCount": 3,
+    "enableSearchPageRecommend": true,
+    "searchRecommendTypes": [
+      "post"
+    ]
+  }
+}

@@ -93,7 +93,24 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false,
-        comment: '是否推荐'
+        comment: '管理员手动推荐'
+      },
+      auto_recommended: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+        comment: '算法自动推荐标记'
+      },
+      recommend_score: {
+        type: DataTypes.DECIMAL(6, 2),
+        allowNull: false,
+        defaultValue: 0.00,
+        comment: '推荐分数(0-100)，用于排序'
+      },
+      score_updated_at: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        comment: '推荐分数最后更新时间'
       }
     },
     {
@@ -128,6 +145,23 @@ module.exports = (sequelize, DataTypes) => {
         // 复合索引优化 - 首页查询
         {
           fields: ['status', 'is_top', 'created_at']
+        },
+        // 🆕 推荐系统优化索引
+        {
+          name: 'idx_posts_recommendation',
+          fields: ['auto_recommended', 'recommend_score', 'created_at']
+        },
+        {
+          name: 'idx_posts_manual_recommend', 
+          fields: ['is_recommended', 'created_at']
+        },
+        {
+          name: 'idx_posts_score_updated',
+          fields: ['score_updated_at']
+        },
+        {
+          name: 'idx_posts_recommend_status',
+          fields: ['status', 'auto_recommended', 'is_recommended', 'recommend_score']
         }
       ]
     }

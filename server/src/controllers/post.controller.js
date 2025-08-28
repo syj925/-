@@ -482,7 +482,7 @@ class PostController {
       logger.info('获取推荐内容', { page, pageSize, userId, strategy });
 
       // 使用新的推荐服务
-      const recommendationService = require('../services/recommendation.service');
+      const recommendationService = require('../services/recommendation.service.v2');
 
       const options = {
         page: parseInt(page, 10),

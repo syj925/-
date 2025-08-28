@@ -1,0 +1,36 @@
+{
+  "name": "活跃模式",
+  "description": "鼓励更多推荐，提升社区活跃度",
+  "version": "v2.0",
+  "timestamp": "2025-08-28T08:30:00.000Z",
+  "settings": {
+    "likeWeight": 1.8,
+    "commentWeight": 2.0,
+    "collectionWeight": 3.5,
+    "viewWeight": 0.8,
+    "timeDecayDays": 10,
+    "maxAgeDays": 21,
+    "scoreThreshold": 8.0,
+    "maxAdminRecommended": 5,
+    "enableScoreSort": true,
+    "updateIntervalHours": 1,
+    "newPostBonus": 6.0,
+    "imageBonus": 3.5,
+    "contentBonus": 2.5,
+    "topicBonus": 2.5,
+    "engagementFactor": 0.25,
+    "minInteractionScore": 3.0,
+    "strategy": "mixed",
+    "enableCache": true,
+    "cacheExpireMinutes": 15,
+    "maxSameAuthorRatio": 0.35,
+    "diversityPeriodHours": 36,
+    "searchPageRecommendCount": 8,
+    "enableSearchPageRecommend": true,
+    "searchRecommendTypes": [
+      "post",
+      "topic",
+      "user"
+    ]
+  }
+}

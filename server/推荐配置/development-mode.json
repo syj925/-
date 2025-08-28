@@ -1,0 +1,35 @@
+{
+  "name": "开发模式",
+  "description": "宽松的推荐条件，便于测试功能和调试算法",
+  "version": "v2.0",
+  "timestamp": "2025-08-28T08:30:00.000Z",
+  "settings": {
+    "likeWeight": 1.5,
+    "commentWeight": 2.5,
+    "collectionWeight": 3.0,
+    "viewWeight": 0.3,
+    "timeDecayDays": 7,
+    "maxAgeDays": 30,
+    "scoreThreshold": 5.0,
+    "maxAdminRecommended": 3,
+    "enableScoreSort": true,
+    "updateIntervalHours": 0.5,
+    "newPostBonus": 8.0,
+    "imageBonus": 4.0,
+    "contentBonus": 3.0,
+    "topicBonus": 2.0,
+    "engagementFactor": 0.3,
+    "minInteractionScore": 2.0,
+    "strategy": "mixed",
+    "enableCache": true,
+    "cacheExpireMinutes": 10,
+    "maxSameAuthorRatio": 0.4,
+    "diversityPeriodHours": 48,
+    "searchPageRecommendCount": 5,
+    "enableSearchPageRecommend": true,
+    "searchRecommendTypes": [
+      "post",
+      "topic"
+    ]
+  }
+}

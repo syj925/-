@@ -57,14 +57,27 @@ class FavoriteService {
       );
     }
     
-    // 检查是否已收藏（包括软删除的记录）
+    // 🔄 缓存优先检查 + 幂等性处理
+    const isCachedFavorited = await statusCacheService.isFavorited(userId, postId);
+    
+    // 检查数据库实际状态  
     const existingFavorite = await favoriteRepository.findExisting(userId, postId);
-    if (existingFavorite && !existingFavorite.deletedAt) {
-      throw ErrorMiddleware.createError(
-        '已收藏，请勿重复操作',
-        StatusCodes.BAD_REQUEST,
-        errorCodes.ALREADY_FAVORITED
-      );
+    const isDbFavorited = existingFavorite && !existingFavorite.deletedAt;
+    
+    // 🧠 智能状态检查：如果用户已经收藏，直接返回成功（幂等性）
+    if (isDbFavorited) {
+      // 确保缓存与数据库状态一致
+      if (!isCachedFavorited) {
+        logger.warn(`收藏状态不一致 用户${userId}->帖子${postId}: 数据库已收藏但缓存未标记，正在修复缓存`);
+        await statusCacheService.addFavorite(userId, postId);
+      }
+      
+      // 返回幂等成功响应
+      return {
+        success: true,
+        message: '收藏成功',
+        alreadyFavorited: true
+      };
     }
     
     let favorite;
@@ -139,14 +152,26 @@ class FavoriteService {
       );
     }
     
-    // 检查是否已收藏
+    // 🔄 缓存优先检查 + 幂等性处理
+    const isCachedFavorited = await statusCacheService.isFavorited(userId, postId);
+    
+    // 检查数据库实际状态
     const exists = await favoriteRepository.exists(userId, postId);
+    
+    // 🧠 智能状态检查：如果用户没有收藏，直接返回成功（幂等性）
     if (!exists) {
-      throw ErrorMiddleware.createError(
-        '未收藏，无法取消',
-        StatusCodes.BAD_REQUEST,
-        errorCodes.NOT_FAVORITED
-      );
+      // 确保缓存与数据库状态一致
+      if (isCachedFavorited) {
+        logger.warn(`收藏状态不一致 用户${userId}->帖子${postId}: 数据库未收藏但缓存已标记，正在修复缓存`);
+        await statusCacheService.removeFavorite(userId, postId);
+      }
+      
+      // 返回幂等成功响应
+      return {
+        success: true,
+        message: '取消收藏成功',
+        alreadyUnfavorited: true
+      };
     }
     
     // Write-Back策略：只更新缓存，添加到待处理队列

@@ -399,6 +399,65 @@ router.get('/recommendation/stats', (req, res, next) => adminRecommendationContr
  */
 router.get('/recommendation/test', (req, res, next) => adminRecommendationController.testRecommendationAlgorithm(req, res, next));
 
+/**
+ * @route POST /api/admin/recommendation/recalculate
+ * @desc 触发推荐分数重新计算
+ * @access Private (Admin)
+ */
+router.post('/recommendation/recalculate', (req, res, next) => adminRecommendationController.triggerScoreRecalculation(req, res, next));
+router.post('/recommendation/analyze', (req, res, next) => adminRecommendationController.analyzePostScore(req, res, next));
+
+/**
+ * @route POST /api/admin/recommendation/auto-update/start
+ * @desc 启动推荐内容自动更新任务
+ * @access Private (Admin)
+ */
+router.post('/recommendation/auto-update/start', (req, res, next) => adminRecommendationController.startAutoUpdate(req, res, next));
+
+/**
+ * @route POST /api/admin/recommendation/auto-update/stop
+ * @desc 停止推荐内容自动更新任务
+ * @access Private (Admin)
+ */
+router.post('/recommendation/auto-update/stop', (req, res, next) => adminRecommendationController.stopAutoUpdate(req, res, next));
+
+/**
+ * @route GET /api/admin/recommendation/auto-update/status
+ * @desc 获取推荐内容自动更新状态
+ * @access Private (Admin)
+ */
+router.get('/recommendation/auto-update/status', (req, res, next) => adminRecommendationController.getAutoUpdateStatus(req, res, next));
+
+/**
+ * @route GET /api/admin/recommendation/presets
+ * @desc 获取预设配置列表
+ * @access Private (Admin)
+ */
+router.get('/recommendation/presets', (req, res, next) => adminRecommendationController.getPresetConfigurations(req, res, next));
+
+/**
+ * @route POST /api/admin/recommendation/presets/apply
+ * @desc 应用预设配置
+ * @body {string} presetId - 预设配置ID
+ * @access Private (Admin)
+ */
+router.post('/recommendation/presets/apply', (req, res, next) => adminRecommendationController.applyPresetConfiguration(req, res, next));
+
+/**
+ * @route GET /api/admin/recommendation/export
+ * @desc 导出当前配置
+ * @access Private (Admin)
+ */
+router.get('/recommendation/export', (req, res, next) => adminRecommendationController.exportCurrentConfiguration(req, res, next));
+
+/**
+ * @route POST /api/admin/recommendation/import
+ * @desc 导入自定义配置
+ * @body {Object} configData - 配置数据
+ * @access Private (Admin)
+ */
+router.post('/recommendation/import', (req, res, next) => adminRecommendationController.importCustomConfiguration(req, res, next));
+
 // ==================== 评论管理路由 ====================
 
 /**

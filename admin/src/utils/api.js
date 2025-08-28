@@ -191,14 +191,27 @@ export default {
     initSearchSettings: () => instance.post('/admin/settings/init-search')
   },
 
-  // 推荐算法管理
+  // 推荐算法管理 v2.0
   recommendation: {
     getSettings: () => instance.get('/admin/recommendation/settings'),
     updateSettings: (data) => instance.put('/admin/recommendation/settings', data),
     initSettings: () => instance.post('/admin/recommendation/init'),
     clearCache: () => instance.delete('/admin/recommendation/cache'),
     getStats: () => instance.get('/admin/recommendation/stats'),
-    test: (params) => instance.get('/admin/recommendation/test', { params })
+    test: (params) => instance.get('/admin/recommendation/test', { params }),
+    recalculate: () => instance.post('/admin/recommendation/recalculate'), // 🆕 v2.0新增：触发分数重新计算
+    analyzePost: (postId) => instance.post('/admin/recommendation/analyze', { postId }), // 🆕 v2.0新增：分析帖子分数详情
+    
+    // 🆕 v2.0新增：自动更新控制
+    startAutoUpdate: (config) => instance.post('/admin/recommendation/auto-update/start', config),
+    stopAutoUpdate: () => instance.post('/admin/recommendation/auto-update/stop'),
+    getAutoUpdateStatus: () => instance.get('/admin/recommendation/auto-update/status'),
+    
+    // 🆕 v2.0新增：预设配置管理
+    getPresets: () => instance.get('/admin/recommendation/presets'), // 获取预设配置列表
+    applyPreset: (presetId) => instance.post('/admin/recommendation/presets/apply', { presetId }), // 应用预设配置
+    exportConfig: () => instance.get('/admin/recommendation/export'), // 导出当前配置
+    importConfig: (configData) => instance.post('/admin/recommendation/import', { configData }) // 导入自定义配置
   },
   
   // 用户标签管理

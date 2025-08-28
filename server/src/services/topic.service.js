@@ -284,11 +284,37 @@ class TopicService {
 
     const result = await topicRepository.getTopicPosts(topicId, options);
 
-    // 如果有用户ID，添加用户交互状态
+    // 🔧 使用StatusCacheService添加用户交互状态
     if (userId && result.list && result.list.length > 0) {
-      const recommendationService = require('./recommendation.service');
-      const postsWithUserState = await recommendationService.addUserInteractionState(result.list, userId);
-      result.list = postsWithUserState;
+      const statusCacheService = require('./status-cache.service');
+      const postIds = result.list.map(post => post.id);
+      const authorIds = result.list.map(post => post.author?.id).filter(Boolean);
+
+      try {
+        const [likeStates, favoriteStates, followingStates] = await Promise.all([
+          statusCacheService.isLiked(userId, postIds),
+          statusCacheService.isFavorited(userId, postIds),
+          authorIds.length > 0 ? statusCacheService.isFollowing(userId, authorIds) : {}
+        ]);
+
+        // 统一状态注入
+        result.list.forEach(post => {
+          delete post.is_liked;
+          delete post.is_favorited;
+          
+          post.dataValues = post.dataValues || {};
+          post.dataValues.is_liked = likeStates[post.id] || false;
+          post.dataValues.is_favorited = favoriteStates[post.id] || false;
+          
+          if (post.author && post.author.id) {
+            post.author.dataValues = post.author.dataValues || {};
+            post.author.dataValues.isFollowing = followingStates[post.author.id] || false;
+          }
+        });
+      } catch (error) {
+        logger.error('用户状态注入失败:', error);
+        // 状态注入失败不影响主要功能
+      }
     }
 
     return result;

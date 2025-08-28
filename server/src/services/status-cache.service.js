@@ -231,7 +231,10 @@ class StatusCacheService {
   async loadUserLikesToCache(userId) {
     try {
       const likes = await Like.findAll({
-        where: { user_id: userId },
+        where: { 
+          user_id: userId,
+          deleted_at: null  // 🔧 只加载未删除的点赞
+        },
         attributes: ['target_id'],
         raw: true
       });
@@ -262,7 +265,10 @@ class StatusCacheService {
   async loadUserFavoritesToCache(userId) {
     try {
       const favorites = await Favorite.findAll({
-        where: { user_id: userId },
+        where: { 
+          user_id: userId,
+          deleted_at: null  // 🔧 只加载未删除的收藏
+        },
         attributes: ['post_id'],
         raw: true
       });
@@ -442,7 +448,10 @@ class StatusCacheService {
   async loadUserFollowingsToCache(userId) {
     try {
       const followings = await Follow.findAll({
-        where: { follower_id: userId },
+        where: { 
+          follower_id: userId,
+          deleted_at: null  // 🔧 只加载未删除的关注
+        },
         attributes: ['following_id'],
         raw: true
       });
@@ -709,29 +718,63 @@ class StatusCacheService {
    * 批量处理点赞操作
    */
   async flushLikeOperations(operations) {
-    const Like = require('../models').Like;
+    const { Like, Post, Comment } = require('../models');
     
     for (const op of operations) {
       try {
+        const targetType = op.targetType || 'post';
+        
         if (op.action === 'like') {
-          await Like.findOrCreate({
+          const [like, created] = await Like.findOrCreate({
             where: {
               user_id: op.userId,
-              post_id: op.targetId
+              target_id: op.targetId,
+              target_type: targetType
             },
             defaults: {
               user_id: op.userId,
-              post_id: op.targetId,
-              type: op.targetType || 'post'
+              target_id: op.targetId,
+              target_type: targetType
             }
           });
+          
+          // 🔧 只有真正创建了新记录才更新计数
+          if (created) {
+            if (targetType === 'post') {
+              await Post.increment('like_count', {
+                where: { id: op.targetId }
+              });
+              logger.debug(`Write-Back: 更新帖子${op.targetId}点赞计数 +1`);
+            } else if (targetType === 'comment') {
+              await Comment.increment('like_count', {
+                where: { id: op.targetId }
+              });
+              logger.debug(`Write-Back: 更新评论${op.targetId}点赞计数 +1`);
+            }
+          }
         } else if (op.action === 'unlike') {
-          await Like.destroy({
+          const deletedCount = await Like.destroy({
             where: {
               user_id: op.userId,
-              post_id: op.targetId
+              target_id: op.targetId,
+              target_type: targetType
             }
           });
+          
+          // 🔧 只有真正删除了记录才更新计数
+          if (deletedCount > 0) {
+            if (targetType === 'post') {
+              await Post.decrement('like_count', {
+                where: { id: op.targetId }
+              });
+              logger.debug(`Write-Back: 更新帖子${op.targetId}点赞计数 -1`);
+            } else if (targetType === 'comment') {
+              await Comment.decrement('like_count', {
+                where: { id: op.targetId }
+              });
+              logger.debug(`Write-Back: 更新评论${op.targetId}点赞计数 -1`);
+            }
+          }
         }
       } catch (error) {
         logger.error(`处理点赞操作失败 ${op.userId}->${op.targetId}:`, error);
@@ -743,12 +786,12 @@ class StatusCacheService {
    * 批量处理收藏操作
    */
   async flushFavoriteOperations(operations) {
-    const Favorite = require('../models').Favorite;
+    const { Favorite, Post } = require('../models');
     
     for (const op of operations) {
       try {
         if (op.action === 'favorite') {
-          await Favorite.findOrCreate({
+          const [favorite, created] = await Favorite.findOrCreate({
             where: {
               user_id: op.userId,
               post_id: op.targetId
@@ -758,13 +801,29 @@ class StatusCacheService {
               post_id: op.targetId
             }
           });
+          
+          // 🔧 只有真正创建了新记录才更新计数
+          if (created) {
+            await Post.increment('favorite_count', {
+              where: { id: op.targetId }
+            });
+            logger.debug(`Write-Back: 更新帖子${op.targetId}收藏计数 +1`);
+          }
         } else if (op.action === 'unfavorite') {
-          await Favorite.destroy({
+          const deletedCount = await Favorite.destroy({
             where: {
               user_id: op.userId,
               post_id: op.targetId
             }
           });
+          
+          // 🔧 只有真正删除了记录才更新计数
+          if (deletedCount > 0) {
+            await Post.decrement('favorite_count', {
+              where: { id: op.targetId }
+            });
+            logger.debug(`Write-Back: 更新帖子${op.targetId}收藏计数 -1`);
+          }
         }
       } catch (error) {
         logger.error(`处理收藏操作失败 ${op.userId}->${op.targetId}:`, error);

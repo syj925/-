@@ -1,0 +1,32 @@
+{
+  "name": "高质量模式",
+  "description": "严格的推荐标准，确保推荐内容质量",
+  "version": "v2.0",
+  "timestamp": "2025-08-28T08:30:00.000Z",
+  "settings": {
+    "likeWeight": 2.5,
+    "commentWeight": 4.0,
+    "collectionWeight": 5.0,
+    "viewWeight": 0.3,
+    "timeDecayDays": 3,
+    "maxAgeDays": 7,
+    "scoreThreshold": 18.0,
+    "maxAdminRecommended": 1,
+    "enableScoreSort": true,
+    "updateIntervalHours": 4,
+    "newPostBonus": 3.0,
+    "imageBonus": 2.0,
+    "contentBonus": 4.0,
+    "topicBonus": 1.5,
+    "engagementFactor": 0.15,
+    "minInteractionScore": 6.0,
+    "strategy": "algorithm",
+    "enableCache": true,
+    "cacheExpireMinutes": 60,
+    "maxSameAuthorRatio": 0.2,
+    "diversityPeriodHours": 12,
+    "searchPageRecommendCount": 2,
+    "enableSearchPageRecommend": false,
+    "searchRecommendTypes": []
+  }
+}
