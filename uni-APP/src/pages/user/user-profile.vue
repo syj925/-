@@ -165,22 +165,28 @@
             <view class="title-decoration"></view>
           </view>
 
-          <view class="filter-tabs">
-            <view
-              class="filter-tab"
-              :class="{ 'active': currentTab === 'latest' }"
-              @click="switchTab('latest')"
-            >
-              <text class="tab-text">最新</text>
-              <view class="tab-indicator" v-if="currentTab === 'latest'"></view>
-            </view>
+          <view class="filter-tabs" :class="{ 'latest-active': currentTab === 'latest' }">
             <view
               class="filter-tab"
               :class="{ 'active': currentTab === 'hot' }"
               @click="switchTab('hot')"
+              @touchstart="onTouchStart"
+              @touchmove="onTouchMove"
+              @touchend="onTouchEnd"
             >
               <text class="tab-text">热门</text>
               <view class="tab-indicator" v-if="currentTab === 'hot'"></view>
+            </view>
+            <view
+              class="filter-tab"
+              :class="{ 'active': currentTab === 'latest' }"
+              @click="switchTab('latest')"
+              @touchstart="onTouchStart"
+              @touchmove="onTouchMove"
+              @touchend="onTouchEnd"
+            >
+              <text class="tab-text">最新</text>
+              <view class="tab-indicator" v-if="currentTab === 'latest'"></view>
             </view>
           </view>
         </view>
@@ -276,7 +282,14 @@ export default {
       followLoading: false,
       noMorePosts: false,
       currentPage: 1,
-      pageSize: 10
+      pageSize: 10,
+      // 触摸滑动相关
+      touchStartX: 0,
+      touchStartY: 0,
+      touchStartTime: 0,
+      minSwipeDistance: 50, // 最小滑动距离
+      maxSwipeTime: 300, // 最大滑动时间
+      isTouching: false // 触摸状态
     }
   },
   computed: {
@@ -368,12 +381,37 @@ export default {
         if (response.code === 0) {
           const newPosts = response.data.list || []
           
-
+          // 🔧 处理帖子数据，确保字段格式正确
+          const processedPosts = newPosts.map(post => {
+            return {
+              ...post,
+              // 确保关键字段存在
+              id: post.id,
+              title: post.title || '',
+              content: post.content || '',
+              createTime: post.created_at || post.createdAt || post.create_time,
+              // 确保作者信息结构正确
+              author: post.author || {},
+              // 位置信息
+              location: post.location_name || post.locationName || '',
+              // 计数信息 - 支持多种格式
+              likeCount: post.like_count || post.likeCount || 0,
+              commentCount: post.comment_count || post.commentCount || 0,
+              favoriteCount: post.favorite_count || post.favoriteCount || 0,
+              // 🎯 交互状态 - 关键修复点
+              isLiked: post.isLiked || post.is_liked || false,
+              isFavorited: post.isFavorited || post.is_favorited || false,
+              // 图片处理
+              images: post.images || [],
+              // 标签处理
+              tags: post.tags || []
+            };
+          });
           
           if (refresh || this.currentPage === 1) {
-            this.postList = newPosts
+            this.postList = processedPosts
           } else {
-            this.postList.push(...newPosts)
+            this.postList.push(...processedPosts)
           }
 
           
@@ -665,6 +703,122 @@ export default {
         title: '拉黑功能开发中',
         icon: 'none'
       })
+    },
+
+    // 触摸滑动切换标签页
+    onTouchStart(e) {
+      this.touchStartX = e.touches[0].clientX
+      this.touchStartY = e.touches[0].clientY
+      this.touchStartTime = Date.now()
+      this.isTouching = true
+      
+      // 添加触摸反馈（仅在移动端）
+      this.safeVibrate('light')
+    },
+
+    onTouchMove(e) {
+      if (!this.isTouching) return
+      
+      const currentX = e.touches[0].clientX
+      const deltaX = currentX - this.touchStartX
+      
+      // 只在水平滑动时阻止默认行为
+      if (Math.abs(deltaX) > 10) {
+        e.preventDefault()
+      }
+    },
+
+    onTouchEnd(e) {
+      if (!this.isTouching) return
+      
+      this.isTouching = false
+      
+      const touchEndX = e.changedTouches[0].clientX
+      const touchEndY = e.changedTouches[0].clientY
+      const touchEndTime = Date.now()
+      
+      const deltaX = touchEndX - this.touchStartX
+      const deltaY = touchEndY - this.touchStartY
+      const deltaTime = touchEndTime - this.touchStartTime
+      
+      // 检查是否符合滑动条件
+      if (deltaTime <= this.maxSwipeTime && Math.abs(deltaX) >= this.minSwipeDistance) {
+        // 确保是水平滑动（水平距离大于垂直距离）
+        if (Math.abs(deltaX) > Math.abs(deltaY)) {
+          // 添加滑动成功的反馈
+          this.safeVibrate('medium')
+          
+          if (deltaX > 0) {
+            // 向右滑动
+            this.switchToTab('right')
+          } else {
+            // 向左滑动
+            this.switchToTab('left')
+          }
+        }
+      }
+    },
+
+    // 安全震动函数 - 只在支持的平台上震动
+    safeVibrate(type = 'light') {
+      // 检测是否为移动端应用环境
+      // #ifdef APP-PLUS || MP
+      try {
+        if (type === 'light') {
+          uni.vibrateShort({
+            type: 'light',
+            fail: () => {
+              // 静默失败，不影响功能
+            }
+          })
+        } else if (type === 'medium') {
+          uni.vibrateShort({
+            type: 'medium', 
+            fail: () => {
+              // 静默失败，不影响功能
+            }
+          })
+        }
+      } catch (error) {
+        // 静默捕获错误，不影响主要功能
+        console.debug('震动功能不可用:', error)
+      }
+      // #endif
+      
+      // H5环境下不执行震动，避免控制台错误
+      // #ifdef H5
+      // 可以在这里添加其他反馈方式，比如CSS动画
+      // #endif
+    },
+
+    // 根据滑动方向切换标签
+    switchToTab(direction) {
+      const oldTab = this.currentTab
+      let newTab = null
+      
+      if (direction === 'left') {
+        // 向左滑动：热门 → 最新
+        if (this.currentTab === 'hot') {
+          newTab = 'latest'
+          this.switchTab('latest')
+        }
+      } else if (direction === 'right') {
+        // 向右滑动：最新 → 热门
+        if (this.currentTab === 'latest') {
+          newTab = 'hot'
+          this.switchTab('hot')
+        }
+      }
+      
+      // 如果成功切换，显示提示
+      if (newTab && newTab !== oldTab) {
+        const tabName = newTab === 'hot' ? '热门' : '最新'
+        uni.showToast({
+          title: `切换到${tabName}`,
+          icon: 'none',
+          duration: 1000
+        })
+      }
     }
   }
 }
@@ -1162,6 +1316,11 @@ export default {
     .filter-tabs {
       display: flex;
       gap: 8rpx;
+      position: relative;
+      overflow: hidden;
+      border-radius: 40rpx;
+      background: rgba(102, 126, 234, 0.03);
+      padding: 4rpx;
 
       .filter-tab {
         position: relative;
@@ -1171,39 +1330,80 @@ export default {
         align-items: center;
         justify-content: center;
         border-radius: 36rpx;
-        transition: all 0.3s ease;
-        background: rgba(102, 126, 234, 0.05);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        background: transparent;
+        z-index: 2;
+        
+        // 添加触摸反馈
+        &:active {
+          transform: scale(0.96);
+          transition: transform 0.1s ease;
+        }
+        
+        // 滑动时的触摸反馈
+        &.touching {
+          transform: scale(0.98);
+          transition: transform 0.1s ease;
+        }
 
         .tab-text {
           font-size: 28rpx;
           font-weight: 500;
           color: $text-secondary;
-          transition: all 0.3s ease;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          position: relative;
+          z-index: 3;
         }
 
         .tab-indicator {
           position: absolute;
-          bottom: -2rpx;
+          bottom: 8rpx;
           left: 50%;
           transform: translateX(-50%);
-          width: 40rpx;
-          height: 6rpx;
+          width: 32rpx;
+          height: 4rpx;
           background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-          border-radius: 3rpx;
+          border-radius: 2rpx;
+          opacity: 0;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         &.active {
-          background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+          background: linear-gradient(135deg, rgba(102, 126, 234, 0.12) 0%, rgba(118, 75, 162, 0.12) 100%);
+          box-shadow: 0 2rpx 8rpx rgba(102, 126, 234, 0.2);
 
           .tab-text {
             color: #667eea;
             font-weight: 600;
+            transform: translateY(-1rpx);
+          }
+          
+          .tab-indicator {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
           }
         }
-
-        &:active {
-          transform: scale(0.98);
-        }
+      }
+      
+      // 滑动背景指示器
+      &::before {
+        content: '';
+        position: absolute;
+        top: 4rpx;
+        bottom: 4rpx;
+        width: calc(50% - 4rpx);
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.6) 100%);
+        border-radius: 36rpx;
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 1;
+        left: 4rpx;
+        transform: translateX(0);
+        box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.1);
+      }
+      
+      // 当选中"最新"时移动指示器
+      &.latest-active::before {
+        transform: translateX(100%);
       }
     }
   }

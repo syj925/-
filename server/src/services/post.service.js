@@ -44,9 +44,9 @@ class PostService {
     
     // 检查分类是否存在（category_id为null表示"全部"分类，无需检查）
     if (postData.category_id !== null && postData.category_id !== undefined) {
-      console.log('查找分类ID:', postData.category_id, '类型:', typeof postData.category_id);
+
       const category = await categoryRepository.findById(postData.category_id);
-      console.log('查找结果:', category);
+
       if (!category) {
         throw ErrorMiddleware.createError(
           '分类不存在',
@@ -55,7 +55,7 @@ class PostService {
         );
       }
     } else {
-      console.log('使用"全部"分类（category_id为null），跳过分类存在性检查');
+
     }
     
     // 使用事务确保所有操作成功或全部失败
@@ -160,6 +160,13 @@ class PostService {
       const results = await Promise.all(promises);
       post.dataValues.is_liked = results[0];
       post.dataValues.is_favorited = results[1];
+      
+      // 🔧 同时设置到根级别，支持两种命名格式
+      post.is_liked = results[0];
+      post.is_favorited = results[1];
+      // 🔧 同时设置驼峰命名格式，确保前端组件能访问到
+      post.isLiked = results[0];
+      post.isFavorited = results[1];
       
       // 添加作者的关注状态
       if (post.author && post.author.id && results.length > 2) {
@@ -412,6 +419,13 @@ class PostService {
         post.dataValues.is_liked = likeStates[post.id] || false;
         post.dataValues.is_favorited = favoriteStates[post.id] || false;
         
+        // 🔧 同时设置到根级别，支持两种命名格式
+        post.is_liked = likeStates[post.id] || false;
+        post.is_favorited = favoriteStates[post.id] || false;
+        // 🔧 同时设置驼峰命名格式，确保前端组件能访问到
+        post.isLiked = likeStates[post.id] || false;
+        post.isFavorited = favoriteStates[post.id] || false;
+        
         // 添加作者的关注状态
         if (post.author && post.author.id) {
           post.author.dataValues = post.author.dataValues || {};
@@ -426,7 +440,7 @@ class PostService {
       this.processAnonymousPost(post, currentUserId);
 
       // 添加热门评论预览
-      const hotComments = await this.getPostHotComments(post.id, 3, currentUserId);
+      const hotComments = await this.getPostHotComments(post.id, 2, currentUserId);
       post.dataValues.hot_comments = hotComments.list;
       post.dataValues.total_comments = hotComments.total;
     }
@@ -457,6 +471,13 @@ class PostService {
       posts.forEach(post => {
         post.dataValues.is_liked = likeStates[post.id] || false;
         post.dataValues.is_favorited = favoriteStates[post.id] || false;
+        
+        // 🔧 同时设置到根级别，支持两种命名格式
+        post.is_liked = likeStates[post.id] || false;
+        post.is_favorited = favoriteStates[post.id] || false;
+        // 🔧 同时设置驼峰命名格式，确保前端组件能访问到
+        post.isLiked = likeStates[post.id] || false;
+        post.isFavorited = favoriteStates[post.id] || false;
         
         // 添加作者的关注状态
         if (post.author && post.author.id) {
@@ -595,6 +616,70 @@ class PostService {
   }
 
   /**
+   * 获取帖子评论统计信息
+   * @param {String} postId 帖子ID
+   * @returns {Promise<Object>} 统计信息
+   */
+  async getPostCommentStats(postId) {
+    // 检查帖子是否存在
+    const post = await postRepository.findById(postId);
+    if (!post) {
+      throw ErrorMiddleware.createError(
+        '帖子不存在',
+        StatusCodes.NOT_FOUND,
+        errorCodes.POST_NOT_EXIST
+      );
+    }
+
+    const { Comment, User } = require('../models');
+    const { Sequelize } = require('sequelize');
+
+    // 获取总评论数
+    const totalComments = await Comment.count({
+      where: { 
+        post_id: postId,
+        status: 'approved'
+      }
+    });
+
+    // 获取参与评论的用户数（去重）
+    const participantCount = await Comment.count({
+      where: { 
+        post_id: postId,
+        status: 'approved'
+      },
+      distinct: true,
+      col: 'user_id'
+    });
+
+    // 获取总点赞数
+    const totalLikes = await Comment.sum('like_count', {
+      where: { 
+        post_id: postId,
+        status: 'approved'
+      }
+    }) || 0;
+
+    // 获取热门评论数（点赞数 >= 10）
+    const hotCommentCount = await Comment.count({
+      where: { 
+        post_id: postId,
+        status: 'approved',
+        like_count: {
+          [Sequelize.Op.gte]: 10
+        }
+      }
+    });
+
+    return {
+      totalComments,
+      participantCount,
+      totalLikes,
+      hotCommentCount
+    };
+  }
+
+  /**
    * 设置帖子置顶状态
    * @param {String} id 帖子ID
    * @param {Boolean} isTop 是否置顶
@@ -649,6 +734,13 @@ class PostService {
       posts.list.forEach(post => {
         post.dataValues.is_liked = likeStates[post.id] || false;
         post.dataValues.is_favorited = true; // 已知是收藏的
+        
+        // 🔧 同时设置到根级别，支持两种命名格式
+        post.is_liked = likeStates[post.id] || false;
+        post.is_favorited = true; // 已知是收藏的
+        // 🔧 同时设置驼峰命名格式，确保前端组件能访问到
+        post.isLiked = likeStates[post.id] || false;
+        post.isFavorited = true; // 已知是收藏的
       });
     }
     

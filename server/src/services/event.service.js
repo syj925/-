@@ -86,7 +86,7 @@ class EventService {
     // 如果有当前用户，检查报名状态（简化查询）
     let registrationStatus = null;
     if (currentUserId) {
-      console.log('开始检查报名状态...');
+
       try {
         // 使用简化的查询，不包含关联表
         const { EventRegistration } = require('../models');
@@ -95,7 +95,7 @@ class EventService {
           attributes: ['id', 'status', 'registered_at', 'form_data']
         });
 
-        console.log('报名状态查询完成:', registration ? '已报名' : '未报名');
+
 
         if (registration) {
           registrationStatus = {

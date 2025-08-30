@@ -56,6 +56,7 @@ class CommentService {
     
     // 如果是回复评论，检查父评论是否存在
     if (commentData.reply_to) {
+
       const parentComment = await commentRepository.findById(commentData.reply_to);
       if (!parentComment) {
         throw ErrorMiddleware.createError(
@@ -78,25 +79,22 @@ class CommentService {
     // 获取用户设置，决定是否匿名（安全的后端控制）
     let isAnonymous = false;
 
-    console.log('=== 后端匿名检查调试 ===');
-    console.log('用户ID:', commentData.user_id);
-    console.log('用户对象:', user);
-    console.log('用户设置字段:', user?.settings);
+
 
     if (user && user.settings) {
       try {
         const settings = typeof user.settings === 'string'
           ? JSON.parse(user.settings)
           : user.settings;
-        console.log('解析后的设置:', settings);
+
         isAnonymous = settings?.privacy?.anonymousMode || false;
-        console.log('匿名模式设置:', isAnonymous);
+
       } catch (error) {
         console.error('解析用户设置失败:', error);
         isAnonymous = false;
       }
     } else {
-      console.log('用户或设置为空，使用默认值 false');
+
     }
 
     // 将匿名设置和状态添加到评论数据中
@@ -106,13 +104,14 @@ class CommentService {
       status: commentData.status || 'normal' // 默认为正常状态
     };
 
-    console.log('最终评论数据:', finalCommentData);
-    console.log('=== 后端匿名检查结束 ===');
+
 
     // 创建评论（使用增强的多级回复方法）
     const comment = finalCommentData.reply_to
       ? await commentRepository.createReply(finalCommentData)
       : await commentRepository.create(finalCommentData);
+
+
 
     // 更新帖子评论计数
     await postRepository.updateCounter(post.id, 'comment_count', 1);
@@ -215,7 +214,7 @@ class CommentService {
             }
           });
 
-          console.log(`✅ 发送@通知成功: ${user.username} -> ${mentionedUser.username}`);
+
         }
       } catch (error) {
         console.error('处理@用户通知失败:', error);

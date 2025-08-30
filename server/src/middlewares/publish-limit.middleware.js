@@ -129,8 +129,7 @@ class PublishLimitMiddleware {
   static postLimiter() {
     return async (req, res, next) => {
       try {
-        console.log('🔍 PublishLimitMiddleware.postLimiter 被调用');
-        console.log('用户ID:', req.user?.id);
+
 
         const userId = req.user?.id;
         

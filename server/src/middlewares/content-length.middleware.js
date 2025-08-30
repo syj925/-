@@ -73,12 +73,11 @@ class ContentLengthMiddleware {
   static validatePostLength(contentField = 'content') {
     return async (req, res, next) => {
       try {
-        console.log('🔍 ContentLengthMiddleware.validatePostLength 被调用');
-        console.log('请求体:', JSON.stringify(req.body, null, 2));
+
 
         // 获取内容长度设置
         const settings = await this.getContentLengthSettings();
-        console.log('长度设置:', settings);
+
         
         // 获取要验证的内容
         const content = req.body[contentField];
@@ -251,9 +250,7 @@ class ContentLengthMiddleware {
   static validateMultipleFields(fieldConfigs) {
     return async (req, res, next) => {
       try {
-        console.log('🔍 ContentLengthMiddleware.validateMultipleFields 被调用');
-        console.log('字段配置:', fieldConfigs);
-        console.log('请求体:', JSON.stringify(req.body, null, 2));
+
 
         const validationResults = [];
 

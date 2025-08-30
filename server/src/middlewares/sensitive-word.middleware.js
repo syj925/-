@@ -198,13 +198,11 @@ class SensitiveWordMiddleware {
   static multiContentFilter(contentFields = ['content', 'title']) {
     return async (req, res, next) => {
       try {
-        console.log('🔍 SensitiveWordMiddleware.multiContentFilter 被调用');
-        console.log('检查字段:', contentFields);
-        console.log('请求体:', JSON.stringify(req.body, null, 2));
+
 
         // 获取敏感词设置
         const settings = await this.getSensitiveWordSettings();
-        console.log('敏感词设置:', settings);
+
         
         // 如果未启用敏感词过滤，直接通过
         if (!settings.enableSensitiveFilter) {

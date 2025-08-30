@@ -531,16 +531,12 @@ class TopicRepository {
       where.is_hot = is_hot;
     }
 
-
-
     const { rows, count } = await Topic.findAndCountAll({
       where,
       order: [[orderBy, orderDirection]],
       limit: pageSize,
       offset: (page - 1) * pageSize
     });
-
-
 
     return {
       list: rows,

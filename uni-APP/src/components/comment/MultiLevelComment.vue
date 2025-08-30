@@ -69,9 +69,9 @@
     </view>
     
     <!-- 子回复 -->
-    <view class="comment-children" v-if="comment.children && comment.children.length > 0">
+    <view class="comment-children" v-if="(comment.children && comment.children.length > 0) || (comment.replies && comment.replies.length > 0)">
       <multi-level-comment
-        v-for="child in comment.children"
+        v-for="child in (comment.children || comment.replies || [])"
         :key="child.id"
         :comment="child"
         :level="level + 1"
@@ -85,11 +85,11 @@
     <!-- 加载更多回复 -->
     <view 
       class="load-more-replies" 
-      v-if="comment.reply_count > (comment.children?.length || 0) && level < maxLevel"
+      v-if="comment.reply_count > ((comment.children?.length || 0) + (comment.replies?.length || 0)) && level < maxLevel"
       @tap="loadMoreReplies"
     >
       <text class="load-more-text">
-        查看更多 {{ comment.reply_count - (comment.children?.length || 0) }} 条回复
+        查看更多 {{ comment.reply_count - ((comment.children?.length || 0) + (comment.replies?.length || 0)) }} 条回复
       </text>
       <app-icon name="arrow-down" size="xs" color="#999"></app-icon>
     </view>

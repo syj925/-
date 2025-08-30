@@ -10123,3 +10123,78 @@ Thu Aug 28 2025 18:12:22 GMT+0800 (中国标准时间) error: Admin route error:
   "duration": "9ms",
   "contentLength": "85"
 }
+2025-08-30 16:59:43 error: [GET] /static/images/common/default-avatar.png {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /static/images/common/default-avatar.png",
+  "stack": "Error: 未找到资源 - /static/images/common/default-avatar.png\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Function.handle (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:47:12)",
+  "body": {},
+  "params": {},
+  "query": {}
+}
+2025-08-30 16:59:46 error: [GET] /static/images/common/default-avatar.png {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /static/images/common/default-avatar.png",
+  "stack": "Error: 未找到资源 - /static/images/common/default-avatar.png\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Function.handle (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:47:12)",
+  "body": {},
+  "params": {},
+  "query": {}
+}
+2025-08-30 17:57:56 error: [GET] /api/posts/1 {
+  "service": "campus-wall-api",
+  "error": "帖子不存在",
+  "stack": "Error: 帖子不存在\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at PostService.getPostById (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\post.service.js:129:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getPostDetail (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\post.controller.js:155:20)",
+  "body": {},
+  "params": {},
+  "query": {}
+}
+2025-08-30 17:57:58 error: [GET] /api/posts/1 {
+  "service": "campus-wall-api",
+  "error": "帖子不存在",
+  "stack": "Error: 帖子不存在\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at PostService.getPostById (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\post.service.js:129:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getPostDetail (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\post.controller.js:155:20)",
+  "body": {},
+  "params": {},
+  "query": {}
+}
+2025-08-30 18:23:51 error: [GET] /api/posts/1 {
+  "service": "campus-wall-api",
+  "error": "帖子不存在",
+  "stack": "Error: 帖子不存在\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at PostService.getPostById (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\post.service.js:129:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getPostDetail (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\post.controller.js:155:20)",
+  "body": {},
+  "params": {},
+  "query": {}
+}
+2025-08-30 18:26:33 error: [GET] /api/posts/1 {
+  "service": "campus-wall-api",
+  "error": "帖子不存在",
+  "stack": "Error: 帖子不存在\n    at ErrorMiddleware.createError (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:154:19)\n    at PostService.getPostById (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\post.service.js:129:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async getPostDetail (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\post.controller.js:155:20)",
+  "body": {},
+  "params": {},
+  "query": {}
+}
+2025-08-30 18:51:47 error: [GET] /static/images/common/default-avatar.png {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /static/images/common/default-avatar.png",
+  "stack": "Error: 未找到资源 - /static/images/common/default-avatar.png\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Function.handle (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:47:12)",
+  "body": {},
+  "params": {},
+  "query": {}
+}
+2025-08-30 21:38:52 error: [GET] /api/tags?page=1&limit=10 {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /api/tags?page=1&limit=10",
+  "stack": "Error: 未找到资源 - /api/tags?page=1&limit=10\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Function.handle (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:47:12)",
+  "body": {},
+  "params": {},
+  "query": {
+    "page": "1",
+    "limit": "10"
+  }
+}
+2025-08-30 21:39:10 error: [GET] /static/images/common/default-avatar.png {
+  "service": "campus-wall-api",
+  "error": "未找到资源 - /static/images/common/default-avatar.png",
+  "stack": "Error: 未找到资源 - /static/images/common/default-avatar.png\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\error.middleware.js:16:21\n    at Layer.handle [as handle_request] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:646:15\n    at next (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:265:14)\n    at Function.handle (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:47:12)",
+  "body": {},
+  "params": {},
+  "query": {}
+}

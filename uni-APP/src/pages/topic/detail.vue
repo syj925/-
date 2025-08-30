@@ -439,7 +439,8 @@ export default {
               id: post.author?.id || post.user_id,
               username: post.author?.username || post.username,
               nickname: post.author?.nickname || post.author?.username || post.nickname || post.username || '未知用户',
-              avatar: post.author?.avatar || post.avatar
+              avatar: post.author?.avatar || post.avatar,
+              isFollowing: post.author?.isFollowing || post.author?.is_following || post.is_following || false
             },
             // 位置信息
             location: post.location_name || post.locationName || '',

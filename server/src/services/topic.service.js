@@ -306,9 +306,19 @@ class TopicService {
           post.dataValues.is_liked = likeStates[post.id] || false;
           post.dataValues.is_favorited = favoriteStates[post.id] || false;
           
+          // 🔧 同时设置到根级别，支持两种命名格式
+          post.is_liked = likeStates[post.id] || false;
+          post.is_favorited = favoriteStates[post.id] || false;
+          // 🔧 同时设置驼峰命名格式，确保前端组件能访问到
+          post.isLiked = likeStates[post.id] || false;
+          post.isFavorited = favoriteStates[post.id] || false;
+          
           if (post.author && post.author.id) {
             post.author.dataValues = post.author.dataValues || {};
             post.author.dataValues.isFollowing = followingStates[post.author.id] || false;
+            // 🔧 同时设置到根级别，确保前端能正确访问
+            post.author.isFollowing = followingStates[post.author.id] || false;
+            post.author.is_following = followingStates[post.author.id] || false;
           }
         });
       } catch (error) {

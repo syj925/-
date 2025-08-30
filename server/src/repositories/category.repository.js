@@ -28,9 +28,9 @@ class CategoryRepository {
   async findById(id) {
     try {
       // 直接从数据库查询，跳过Redis缓存
-      console.log('直接从数据库查询分类ID:', id);
+
       const category = await Category.findByPk(id);
-      console.log('数据库查询结果:', category);
+
       return category;
     } catch (err) {
       console.error('查询分类出错:', err);

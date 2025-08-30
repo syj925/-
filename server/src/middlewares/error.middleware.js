@@ -25,21 +25,7 @@ class ErrorMiddleware {
    */
   static handler() {
     return (err, req, res, next) => {
-      // 记录详细的错误信息用于调试
-      console.log('=== 错误处理中间件调试 ===');
-      console.log('错误对象:', {
-        message: err.message,
-        statusCode: err.statusCode,
-        errorCode: err.errorCode,
-        name: err.name,
-        stack: err.stack?.split('\n').slice(0, 3).join('\n')
-      });
-      console.log('请求信息:', {
-        method: req.method,
-        url: req.originalUrl,
-        body: req.body,
-        params: req.params
-      });
+      // 记录详细的错误信息用于调试（开发环境）
 
       // 获取状态码，默认500
       const statusCode = err.statusCode || StatusCodes.INTERNAL_SERVER_ERROR;
@@ -74,8 +60,7 @@ class ErrorMiddleware {
         errorCode = err.errorCode;
       }
 
-      console.log('最终错误码:', errorCode);
-      console.log('状态码:', statusCode);
+
 
       // Sequelize错误处理
       if (err.name === 'SequelizeValidationError' || err.name === 'SequelizeUniqueConstraintError') {
@@ -135,8 +120,7 @@ class ErrorMiddleware {
         }
       };
 
-      console.log('错误响应:', errorResponse);
-      console.log('=== 错误处理结束 ===\n');
+
 
       // 返回错误响应
       res.status(statusCode).json(errorResponse);

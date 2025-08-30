@@ -70,6 +70,11 @@ class RecommendationServiceV2 {
         await this.addUserInteractionStates(result.list, userId);
       }
 
+      // 3. 添加热门评论预览功能
+      if (result.list && result.list.length > 0) {
+        await this.addHotCommentsPreview(result.list, userId);
+      }
+
       return result;
     } catch (error) {
       logger.error('获取推荐帖子失败:', error);
@@ -181,10 +186,20 @@ class RecommendationServiceV2 {
         post.dataValues.is_liked = likeStates[post.id] || false;
         post.dataValues.is_favorited = favoriteStates[post.id] || false;
         
+        // 🔧 同时设置到根级别，支持两种命名格式
+        post.is_liked = likeStates[post.id] || false;
+        post.is_favorited = favoriteStates[post.id] || false;
+        // 🔧 同时设置驼峰命名格式，确保前端组件能访问到
+        post.isLiked = likeStates[post.id] || false;
+        post.isFavorited = favoriteStates[post.id] || false;
+        
         // 添加作者关注状态
         if (post.author && post.author.id) {
           post.author.dataValues = post.author.dataValues || {};
           post.author.dataValues.isFollowing = followingStates[post.author.id] || false;
+          // 🔧 同时设置到根级别，确保前端能正确访问
+          post.author.isFollowing = followingStates[post.author.id] || false;
+          post.author.is_following = followingStates[post.author.id] || false;
         }
       });
 
@@ -343,6 +358,35 @@ class RecommendationServiceV2 {
     } catch (error) {
       logger.error(`分析帖子 ${postId} 分数失败:`, error);
       throw new Error(`分析失败: ${error.message}`);
+    }
+  }
+
+  /**
+   * 🔥 为帖子列表添加热门评论预览
+   * @param {Array} posts 帖子列表
+   * @param {String} userId 当前用户ID（可选）
+   */
+  async addHotCommentsPreview(posts, userId = null) {
+    try {
+      const postService = require('./post.service');
+      
+      // 为每个帖子添加热门评论预览
+      for (const post of posts) {
+        const hotComments = await postService.getPostHotComments(post.id, 2, userId);
+        
+        // 添加到帖子数据中（同时设置到dataValues和根级别，确保前端能访问）
+        if (post.dataValues) {
+          post.dataValues.hot_comments = hotComments.list;
+          post.dataValues.total_comments = hotComments.total;
+        }
+        
+        // 同时设置到根级别，确保前端组件能访问
+        post.hot_comments = hotComments.list;
+        post.total_comments = hotComments.total;
+      }
+    } catch (error) {
+      logger.error('添加热门评论预览失败:', error);
+      // 不影响主要功能，只记录错误
     }
   }
 }

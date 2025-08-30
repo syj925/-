@@ -210,9 +210,9 @@ class UserService {
    * @returns {Promise<Object>} 用户信息
    */
   async getUserInfo(id) {
-    console.log('🔍 getUserInfo called for userId:', id);
+
     const user = await userRepository.findById(id);
-    console.log('🔍 User found:', user ? 'YES' : 'NO');
+
     if (!user) {
       throw ErrorMiddleware.createError(
         '用户不存在',
@@ -222,11 +222,11 @@ class UserService {
     }
 
     // 获取用户统计数据
-    console.log('🔍 Calling getUserStats for userId:', id);
+
     let stats;
     try {
       stats = await this.getUserStats(id);
-      console.log('🔍 getUserStats result:', stats);
+
     } catch (error) {
       console.error('🔍 getUserStats error:', error);
       stats = {
@@ -250,7 +250,7 @@ class UserService {
       ...userJson,
       stats
     };
-    console.log('🔍 getUserInfo returning result:', JSON.stringify(result, null, 2));
+
     return result;
   }
 
@@ -260,7 +260,7 @@ class UserService {
    * @returns {Promise<Object>} 统计数据
    */
   async getUserStats(userId) {
-    console.log('🔍 getUserStats method called for userId:', userId);
+
     try {
       const { Post, Comment, Favorite, Follow } = require('../models');
 
@@ -744,7 +744,9 @@ class UserService {
       orderBy: sort === 'hot' ? 'hot' : 'createdAt',
       orderDirection: 'DESC',
       includeDetails: true,
-      currentUserId
+      currentUserId,
+      // 🔥 热门标签过滤：只显示上过推荐的帖子
+      onlyRecommended: sort === 'hot'
     };
 
     const result = await postRepository.findAll(queryOptions);
@@ -770,6 +772,13 @@ class UserService {
           post.dataValues.is_liked = likeStates[post.id] || false;
           post.dataValues.is_favorited = favoriteStates[post.id] || false;
           
+          // 🔧 同时设置到根级别，支持两种命名格式
+          post.is_liked = likeStates[post.id] || false;
+          post.is_favorited = favoriteStates[post.id] || false;
+          // 🔧 同时设置驼峰命名格式，确保前端组件能访问到
+          post.isLiked = likeStates[post.id] || false;
+          post.isFavorited = favoriteStates[post.id] || false;
+          
           if (post.author && post.author.id) {
             post.author.dataValues = post.author.dataValues || {};
             post.author.dataValues.isFollowing = followingStates[post.author.id] || false;
@@ -779,6 +788,20 @@ class UserService {
         logger.error('用户状态注入失败:', error);
         // 状态注入失败不影响主要功能
       }
+    } else if (result.list && result.list.length > 0) {
+      // 🔧 为未登录用户设置默认状态，确保前端组件正常工作
+      result.list.forEach(post => {
+        post.dataValues = post.dataValues || {};
+        post.dataValues.is_liked = false;
+        post.dataValues.is_favorited = false;
+        
+        // 🔧 同时设置到根级别，支持两种命名格式
+        post.is_liked = false;
+        post.is_favorited = false;
+        // 🔧 同时设置驼峰命名格式，确保前端组件能访问到
+        post.isLiked = false;
+        post.isFavorited = false;
+      });
     }
 
     return result;

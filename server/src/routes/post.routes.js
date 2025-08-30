@@ -72,6 +72,7 @@ router.get('/hot', AuthMiddleware.optionalAuthenticate(), postController.getHotP
 router.get('/recommended', AuthMiddleware.optionalAuthenticate(), postController.getRecommended);
 router.get('/:id', AuthMiddleware.optionalAuthenticate(), postController.getPostDetail);
 router.get('/:id/comments', AuthMiddleware.optionalAuthenticate(), postController.getPostComments);
+router.get('/:id/comments/stats', AuthMiddleware.optionalAuthenticate(), postController.getPostCommentStats);
 
 // 需要登录的帖子操作路由
 router.post('/',

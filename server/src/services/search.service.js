@@ -151,8 +151,15 @@ class SearchService {
         ]);
 
         rows.forEach(post => {
-          post.dataValues.isLiked = likeStates[post.id] || false;
-          post.dataValues.isFavorited = favoriteStates[post.id] || false;
+          post.dataValues.is_liked = likeStates[post.id] || false;
+          post.dataValues.is_favorited = favoriteStates[post.id] || false;
+          
+          // 🔧 同时设置到根级别，支持两种命名格式
+          post.is_liked = likeStates[post.id] || false;
+          post.is_favorited = favoriteStates[post.id] || false;
+          // 🔧 同时设置驼峰命名格式，确保前端组件能访问到
+          post.isLiked = likeStates[post.id] || false;
+          post.isFavorited = favoriteStates[post.id] || false;
           
           // 为帖子作者添加关注状态
           if (post.author && post.author.id) {
@@ -167,7 +174,7 @@ class SearchService {
       // 为每个帖子添加热门评论预览和字段映射
       const postService = require('./post.service');
       for (const post of rows) {
-        const hotComments = await postService.getPostHotComments(post.id, 3, userId);
+        const hotComments = await postService.getPostHotComments(post.id, 2, userId);
         post.dataValues.hot_comments = hotComments.list;
         post.dataValues.total_comments = hotComments.total;
 
@@ -179,8 +186,15 @@ class SearchService {
         post.dataValues.createTime = post.created_at;
         // 如果没有用户登录，设置默认值
         if (!userId) {
-          post.dataValues.isLiked = false;
-          post.dataValues.isFavorited = false;
+          post.dataValues.is_liked = false;
+          post.dataValues.is_favorited = false;
+          
+          // 🔧 同时设置到根级别，支持两种命名格式
+          post.is_liked = false;
+          post.is_favorited = false;
+          // 🔧 同时设置驼峰命名格式，确保前端组件能访问到
+          post.isLiked = false;
+          post.isFavorited = false;
         }
       }
 

@@ -349,6 +349,25 @@ class PostController {
   }
 
   /**
+   * 获取帖子评论统计信息
+   * @param {Object} req 请求对象
+   * @param {Object} res 响应对象
+   * @param {Function} next 下一个中间件
+   * @returns {Promise<void>}
+   */
+  async getPostCommentStats(req, res, next) {
+    try {
+      const { id } = req.params;
+      
+      const stats = await postService.getPostCommentStats(id);
+      
+      res.status(StatusCodes.OK).json(ResponseUtil.success(stats));
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  /**
    * 设置帖子置顶状态
    * @param {Object} req 请求对象
    * @param {Object} res 响应对象

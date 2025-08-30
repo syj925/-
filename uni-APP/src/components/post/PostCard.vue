@@ -93,7 +93,7 @@
       </view>
 
       <!-- 查看更多评论按钮 -->
-      <view class="post-card__more-comments" v-if="post.total_comments > 3" @tap.stop="goToComments">
+      <view class="post-card__more-comments" v-if="post.total_comments > 2" @tap.stop="goToComments">
         <text class="post-card__more-comments-text">查看全部 {{ post.total_comments }} 条评论</text>
         <app-icon name="arrow-right" size="xs" color="#999"></app-icon>
       </view>
@@ -352,9 +352,17 @@ export default {
     },
 
     // 截断评论内容
-    truncateComment(content, maxLength = 50) {
+    truncateComment(content, maxLength = 30) {
       if (!content) return '';
       if (content.length <= maxLength) return content;
+      
+      // 对于纯数字内容，进一步缩短截断长度
+      if (/^\d+$/.test(content.trim())) {
+        const numMaxLength = Math.min(maxLength, 20);
+        if (content.length <= numMaxLength) return content;
+        return content.substring(0, numMaxLength) + '...';
+      }
+      
       return content.substring(0, maxLength) + '...';
     },
 
@@ -445,7 +453,7 @@ export default {
   background-color: $bg-card;
   border-radius: $radius-lg;
   margin: $spacing-md $spacing-md $spacing-lg $spacing-md;
-  padding: $spacing-lg;
+  padding: 16rpx;
   box-shadow: $shadow-card;
   transition: transform $transition-normal, box-shadow $transition-normal;
   overflow: hidden;
@@ -679,13 +687,13 @@ export default {
 
   // 热门评论预览样式
   &__comments {
-    margin-top: $spacing-md;
-    padding-top: $spacing-md;
+    margin-top: 24rpx;
+    padding-top: 24rpx;
     border-top: 1px solid $border-light;
   }
 
   &__comments-title {
-    margin-bottom: $spacing-sm;
+    margin-bottom: 20rpx;
   }
 
   &__comments-label {
@@ -695,12 +703,12 @@ export default {
   }
 
   &__comment-list {
-    margin-top: $spacing-xs;
+    margin-top: 16rpx;
   }
 
   &__comment-item {
-    margin-bottom: $spacing-sm;
-    padding: $spacing-sm;
+    margin-bottom: 20rpx;
+    padding: 3rpx;
     background-color: $bg-light;
     border-radius: $radius-md;
 
@@ -711,13 +719,13 @@ export default {
 
   &__comment-header {
     @include flex(row, space-between, center);
-    margin-bottom: $spacing-xs;
+    margin-bottom: 4rpx;
   }
 
   &__comment-user {
     @include flex(row, flex-start, center);
     flex: 1;
-    padding: $spacing-xs;
+    padding: 8rpx 12rpx;
     border-radius: $radius-sm;
     transition: background-color $transition-fast;
 
@@ -771,8 +779,8 @@ export default {
   }
 
   &__comment-content {
-    margin-left: 72rpx; // 头像宽度 + 间距
-    padding: $spacing-xs;
+    margin-left: 30rpx; // 减少左边距，让内容更靠左，减少头像下方空白
+    padding: 8rpx 12rpx;
     border-radius: $radius-sm;
     transition: background-color $transition-fast;
 
@@ -785,12 +793,16 @@ export default {
     font-size: $font-size-sm;
     color: $text-secondary;
     line-height: 1.4;
+    word-break: break-all;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    max-width: 100%;
   }
 
   &__more-comments {
     @include flex(row, center, center);
-    margin-top: $spacing-sm;
-    padding: $spacing-sm;
+    margin-top: 20rpx;
+    padding: 20rpx;
     background-color: $bg-light;
     border-radius: $radius-md;
     transition: background-color $transition-fast;

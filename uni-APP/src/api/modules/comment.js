@@ -72,5 +72,14 @@ export default (http) => ({
    */
   getDirectReplies: (commentId, params = {}) => {
     return http.get(`/api/comments/${commentId}/direct-replies`, params);
+  },
+
+  /**
+   * 获取帖子评论统计信息
+   * @param {String|Number} postId 帖子ID
+   * @returns {Promise}
+   */
+  getStats: (postId) => {
+    return http.get(`/api/posts/${postId}/comments/stats`);
   }
 });

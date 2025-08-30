@@ -119,8 +119,7 @@ class SettingsController {
       const privacySettings = req.body;
 
       // 调试日志
-      console.log('更新隐私设置 - 用户ID:', userId);
-      console.log('更新隐私设置 - 接收到的数据:', privacySettings);
+
 
       // 查询用户记录
       const user = await User.findByPk(userId);
@@ -131,7 +130,7 @@ class SettingsController {
         );
       }
 
-      console.log('更新隐私设置 - 当前用户settings:', user.settings);
+
 
       // 获取当前设置或初始化
       let currentSettings = user.settings || { privacy: {} };
@@ -142,7 +141,7 @@ class SettingsController {
         ...privacySettings
       };
 
-      console.log('更新隐私设置 - 合并后的settings:', currentSettings);
+
 
       // 保存到数据库 - 强制标记字段为已修改
       user.settings = currentSettings;
@@ -153,7 +152,7 @@ class SettingsController {
       const updatedUser = await User.findByPk(userId, {
         attributes: ['id', 'settings']
       });
-      console.log('更新隐私设置 - 保存后的settings:', updatedUser.settings);
+
 
       res.status(StatusCodes.OK).json(
         ResponseUtil.success(currentSettings.privacy, '隐私设置更新成功')
@@ -186,8 +185,7 @@ class SettingsController {
       }
 
       // 调试日志
-      console.log('获取隐私设置 - 用户ID:', userId);
-      console.log('获取隐私设置 - 原始settings:', user.settings);
+
 
       // 获取隐私设置
       const privacySettings = user.settings?.privacy || {
@@ -202,7 +200,7 @@ class SettingsController {
         fansListVisible: true
       };
 
-      console.log('获取隐私设置 - 返回的隐私设置:', privacySettings);
+
 
       res.status(StatusCodes.OK).json(
         ResponseUtil.success(privacySettings, '获取隐私设置成功')

@@ -171,7 +171,8 @@ class PostRepository {
       schoolFilter,
       nearbyLat,
       nearbyLng,
-      nearbyDistance = 5 // 默认5公里内
+      nearbyDistance = 5, // 默认5公里内
+      onlyRecommended = false // 🔥 新增：是否只显示上过推荐的帖子
     } = options;
     
     // 构建查询条件
@@ -202,6 +203,18 @@ class PostRepository {
         { title: { [Op.like]: `%${keyword}%` } },
         { content: { [Op.like]: `%${keyword}%` } }
       ];
+    }
+    
+    // 🔥 推荐过滤：只显示上过推荐的帖子
+    if (onlyRecommended) {
+      // 使用独立的OR条件，表示帖子必须曾经被推荐过（管理员推荐或算法推荐）
+      where[Op.and] = where[Op.and] || [];
+      where[Op.and].push({
+        [Op.or]: [
+          { is_recommended: true },     // 管理员推荐过的
+          { auto_recommended: true }    // 算法推荐过的
+        ]
+      });
     }
     
     // 学校过滤（需要联表查询用户表）
@@ -543,7 +556,7 @@ class PostRepository {
       offset: (page - 1) * pageSize,
       order,
       attributes: [
-        'id', 'content', 'user_id', 'post_id', 'reply_to', 'like_count', 'status', 'is_anonymous', 'created_at', 'updated_at', 'deleted_at',
+        'id', 'content', 'user_id', 'post_id', 'reply_to', 'like_count', 'reply_count', 'status', 'is_anonymous', 'created_at', 'updated_at', 'deleted_at',
         // 添加热度分数计算
         [
           sequelize.literal(`(
@@ -561,6 +574,17 @@ class PostRepository {
             ) > 1.5
           ) OR Comment.like_count >= 10`),
           'is_hot'
+        ],
+        // 动态计算回复数量
+        [
+          sequelize.literal(`(
+            SELECT COUNT(*) 
+            FROM comments AS reply_comments 
+            WHERE reply_comments.reply_to = Comment.id 
+            AND reply_comments.status = 'normal'
+            AND reply_comments.deleted_at IS NULL
+          )`),
+          'calculated_reply_count'
         ]
       ],
       include: [
@@ -582,6 +606,19 @@ class PostRepository {
               model: User,
               as: 'author',
               attributes: ['id', 'username', 'nickname', 'avatar']
+            },
+            {
+              model: Comment,
+              as: 'parentComment',
+              required: false,
+              attributes: ['id'],
+              include: [
+                {
+                  model: User,
+                  as: 'author',
+                  attributes: ['id', 'nickname', 'username']
+                }
+              ]
             }
           ]
         }

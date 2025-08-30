@@ -12,7 +12,36 @@ class CommentRepository {
    * @returns {Promise<Object>} 创建的评论对象
    */
   async create(commentData) {
-    return await Comment.create(commentData);
+    const comment = await Comment.create(commentData);
+
+    return comment;
+  }
+
+  /**
+   * 创建回复评论（增强方法）
+   * @param {Object} commentData 评论数据
+   * @returns {Promise<Object>} 创建的评论对象
+   */
+  async createReply(commentData) {
+    const comment = await Comment.create(commentData);
+
+    
+    // 更新父评论的回复数量
+    if (comment.reply_to) {
+      await this.incrementReplyCount(comment.reply_to);
+    }
+    
+    return comment;
+  }
+
+  /**
+   * 增加评论的回复数量
+   * @param {String} commentId 评论ID
+   */
+  async incrementReplyCount(commentId) {
+    await Comment.increment('reply_count', {
+      where: { id: commentId }
+    });
   }
 
   /**
@@ -141,7 +170,7 @@ class CommentRepository {
         {
           model: User,
           as: 'author',
-          attributes: ['id', 'username', 'avatar']
+          attributes: ['id', 'username', 'nickname', 'avatar']
         },
         {
           model: Comment,
@@ -154,7 +183,7 @@ class CommentRepository {
             {
               model: User,
               as: 'author',
-              attributes: ['id', 'username', 'avatar']
+              attributes: ['id', 'username', 'nickname', 'avatar']
             }
           ]
         }

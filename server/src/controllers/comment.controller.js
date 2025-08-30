@@ -180,14 +180,15 @@ class CommentController {
   async getPostComments(req, res, next) {
     try {
       const { postId } = req.params;
-      const { page = 1, pageSize = 20 } = req.query;
+      const { page = 1, pageSize = 20, sort = 'latest' } = req.query;
       const currentUserId = req.user ? req.user.id : null;
-      
+
       const result = await commentService.getPostComments(
         postId,
         parseInt(page, 10),
         parseInt(pageSize, 10),
-        currentUserId
+        currentUserId,
+        sort
       );
       
       res.status(StatusCodes.OK).json(ResponseUtil.page(
