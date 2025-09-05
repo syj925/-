@@ -98,7 +98,7 @@
         <text class="empty-title">还没有评论</text>
         <text class="empty-subtitle">快来发表第一条评论吧~</text>
         <button class="first-comment-btn" @tap="showCommentInput">
-          <app-icon name="edit" size="sm" color="#fff"></app-icon>
+          <app-icon name="edit" size="sm" color="#333333"></app-icon>
           <text class="btn-text">写评论</text>
         </button>
       </view>
@@ -120,7 +120,6 @@
                   <text class="username">{{ comment.author?.nickname || comment.author?.username || '用户' }}</text>
                   <text class="comment-time">{{ formatTimeAgo(comment.createTime) }}</text>
                 </view>
-                <text class="floor-number">#{{ index + 1 }}</text>
               </view>
             </view>
             
@@ -819,16 +818,7 @@ export default {
 }
 
 .comment-count-badge {
-  background: linear-gradient(135deg, #4a90e2 0%, #667eea 100%);
-  border-radius: 20rpx;
-  padding: 4rpx 12rpx;
-  margin-left: 16rpx;
-  
-  .count-text {
-    font-size: 22rpx;
-    color: #ffffff;
-    font-weight: 600;
-  }
+  display: none;
 }
 
 .subtitle-text {
@@ -864,13 +854,13 @@ export default {
   }
   
   &.active {
-    background: linear-gradient(135deg, #4a90e2 0%, #667eea 100%);
-    box-shadow: 0 4rpx 16rpx rgba(74, 144, 226, 0.3);
-    transform: translateY(-2rpx);
+    background: transparent;
+    box-shadow: none;
+    transform: none;
     
     .sort-text {
-      color: #ffffff;
-      font-weight: 600;
+      color: #333333;
+      font-weight: bold;
     }
   }
   
@@ -992,21 +982,24 @@ export default {
 
 .first-comment-btn {
   @include flex(row, center, center);
-  background: linear-gradient(135deg, #4a90e2 0%, #667eea 100%);
+  background: #f5f5f5;
   border: none;
   border-radius: 28rpx;
   padding: 16rpx 32rpx;
   gap: 8rpx;
-  box-shadow: 0 8rpx 24rpx rgba(74, 144, 226, 0.3);
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+  display: flex;
   
   .btn-text {
     font-size: 28rpx;
-    color: #ffffff;
+    color: #333333;
     font-weight: 600;
   }
   
   &:active {
     transform: scale(0.95);
+    background: #e8e8e8;
   }
 }
 
@@ -1056,10 +1049,6 @@ export default {
         }
       }
       
-      .floor-number {
-        font-size: 24rpx;
-        color: #999;
-      }
     }
   }
   

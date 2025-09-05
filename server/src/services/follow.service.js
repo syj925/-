@@ -442,6 +442,99 @@ class FollowService {
 
     return await followRepository.findMutualFollowings(userId, page, pageSize);
   }
+
+  /**
+   * 获取用户的关注和粉丝数据（合并API）
+   * @param {String} userId 用户ID
+   * @param {Object} options 分页选项
+   * @returns {Promise<Object>} 包含关注和粉丝数据的结果
+   */
+  async getUserFollowData(userId, options = {}) {
+    const {
+      followingPage = 1,
+      followingPageSize = 20,
+      followersPage = 1,
+      followersPageSize = 20
+    } = options;
+
+    // 检查用户是否存在
+    const user = await userRepository.findById(userId);
+    if (!user) {
+      throw ErrorMiddleware.createError(
+        '用户不存在',
+        StatusCodes.NOT_FOUND,
+        errorCodes.USER_NOT_EXIST
+      );
+    }
+
+    // 并行获取关注和粉丝数据
+    const [followingResult, followersResult] = await Promise.all([
+      followRepository.findFollowings(userId, followingPage, followingPageSize),
+      followRepository.findFollowers(userId, followersPage, followersPageSize)
+    ]);
+
+    // 提取用户信息并添加统计数据
+    const followingList = await Promise.all(
+      followingResult.list.map(async follow => {
+        const user = follow.following?.dataValues || follow.following;
+        
+        // 并行获取统计数据
+        const [followingCount, followerCount, likeCount] = await Promise.all([
+          this.getFollowingCount(user.id),
+          this.getFollowerCount(user.id), 
+          require('./user.service').getUserLikeCount(user.id)
+        ]);
+        
+        return {
+          ...user,
+          nickname: user.nickname || user.username,
+          followedAt: follow.created_at,
+          followersCount: followerCount,
+          followingCount: followingCount,
+          likesCount: likeCount
+        };
+      })
+    );
+
+    const followersList = await Promise.all(
+      followersResult.list.map(async follow => {
+        const user = follow.follower?.dataValues || follow.follower;
+        
+        // 并行获取统计数据
+        const [followingCount, followerCount, likeCount] = await Promise.all([
+          this.getFollowingCount(user.id),
+          this.getFollowerCount(user.id),
+          require('./user.service').getUserLikeCount(user.id)
+        ]);
+        
+        return {
+          ...user,
+          nickname: user.nickname || user.username,
+          followedAt: follow.created_at,
+          followersCount: followerCount,
+          followingCount: followingCount,
+          likesCount: likeCount
+        };
+      })
+    );
+
+
+
+    return {
+      following: {
+        list: followingList,
+        pagination: followingResult.pagination
+      },
+      followers: {
+        list: followersList,
+        pagination: followersResult.pagination
+      },
+      summary: {
+        followingTotal: followingResult.pagination.total,
+        followersTotal: followersResult.pagination.total
+      }
+    };
+  }
 }
 
 module.exports = new FollowService();

@@ -5,9 +5,9 @@
         <div class="card-header">
           <h3>用户增长趋势</h3>
           <el-radio-group v-model="userTimeRange" size="small">
-            <el-radio-button label="week">本周</el-radio-button>
-            <el-radio-button label="month">本月</el-radio-button>
-            <el-radio-button label="year">全年</el-radio-button>
+            <el-radio-button value="week">本周</el-radio-button>
+            <el-radio-button value="month">本月</el-radio-button>
+            <el-radio-button value="year">全年</el-radio-button>
           </el-radio-group>
         </div>
       </template>

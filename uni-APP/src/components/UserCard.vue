@@ -2,7 +2,7 @@
   <view class="user-card" @tap="handleCardClick">
     <view class="user-avatar">
       <image 
-        :src="user.avatar || '/static/images/common/default-avatar.png'" 
+        :src="safeAvatar" 
         mode="aspectFill"
         @error="handleAvatarError"
       ></image>
@@ -21,7 +21,7 @@
       </view>
     </view>
     
-    <view class="user-info" @tap.stop>
+    <view class="user-info">
       <view class="user-name-row">
         <text class="user-nickname">{{ user.nickname || user.username }}</text>
         
@@ -39,22 +39,13 @@
       <!-- 用户简介 -->
       <view class="user-bio" v-if="user.bio && showBio">{{ user.bio }}</view>
       
-      <!-- 学校信息 -->
-      <view class="user-school" v-if="user.school && showSchool">
-        <text class="school-name">{{ user.school }}</text>
-        <text class="department" v-if="user.department">{{ user.department }}</text>
-      </view>
-      
       <!-- 用户统计 -->
       <view class="user-stats" v-if="showStats">
-        <text class="stat-item" v-if="user.postCount !== undefined">
-          {{ user.postCount || 0 }} 帖子
-        </text>
         <text class="stat-item" v-if="user.followersCount !== undefined">
           {{ user.followersCount || 0 }} 粉丝
         </text>
-        <text class="stat-item" v-if="user.followingCount !== undefined">
-          {{ user.followingCount || 0 }} 关注
+        <text class="stat-item" v-if="user.likesCount !== undefined">
+          {{ user.likesCount || 0 }} 获赞
         </text>
       </view>
       
@@ -74,12 +65,12 @@
       <slot name="action">
         <!-- 默认关注按钮 -->
         <FollowButton
-          v-if="showFollowButton && !isCurrentUser"
+          v-if="showFollowButton && !isCurrentUser && user.id"
           :userId="user.id"
           :isFollowing="user.isFollowing"
           :size="actionButtonSize"
-          @success="handleFollowSuccess"
-          @error="handleFollowError"
+          :loading="followLoading"
+          @follow-action="handleFollowClick"
         />
         
         <!-- 当前用户标识 -->
@@ -93,6 +84,7 @@
 
 <script>
 import FollowButton from './FollowButton.vue';
+import { ensureAbsoluteUrl } from '@/utils/url';
 
 export default {
   name: 'UserCard',
@@ -158,7 +150,38 @@ export default {
     }
   },
   
+  data() {
+    return {
+      followLoading: false
+    };
+  },
+  
+  created() {
+    // 验证用户对象的完整性
+    if (!this.user || !this.user.id) {
+      console.warn('⚠️ UserCard: 收到无效的用户对象', this.user);
+    }
+  },
+  
   computed: {
+    safeAvatar() {
+      if (!this.user.avatar) {
+        console.log('👤 UserCard: 用户没有头像，使用默认头像 -', this.user);
+        return '/static/logo.png';
+      }
+      
+      const originalUrl = this.user.avatar;
+      const processedUrl = ensureAbsoluteUrl(this.user.avatar);
+      
+      console.log('👤 UserCard头像处理:', {
+        original: originalUrl,
+        processed: processedUrl,
+        userInfo: this.user
+      });
+      
+      return processedUrl;
+    },
+    
     isCurrentUser() {
       const userInfo = uni.getStorageSync('userInfo');
       return userInfo && userInfo.id === this.user.id;
@@ -168,21 +191,29 @@ export default {
   methods: {
     // 处理卡片点击
     handleCardClick() {
-      if (!this.clickable) return;
+      if (!this.clickable || this.isCurrentUser) return;
       
       this.$emit('click', this.user);
-      
-      // 默认跳转到用户资料页
-      if (this.user.id) {
-        uni.navigateTo({
-          url: `/pages/profile/profile?userId=${this.user.id}`
-        });
-      }
     },
     
     // 处理头像加载错误
     handleAvatarError() {
       this.$emit('avatar-error', this.user);
+    },
+    
+    // 处理关注按钮点击
+    handleFollowClick(data) {
+      console.log('🔍 UserCard接收到FollowButton数据:', data);
+      console.log('🔍 当前用户信息:', this.user);
+      
+      // 向父组件传递关注请求
+      const emitData = {
+        ...data,
+        user: this.user
+      };
+      
+      console.log('🔍 UserCard发出的数据:', emitData);
+      this.$emit('follow-click', emitData);
     },
     
     // 处理关注成功
@@ -240,26 +271,26 @@ export default {
 
 .user-card {
   @include flex(row, flex-start, center);
-  padding: 24rpx 20rpx;
+  padding: 20rpx;
+  margin: 0 20rpx 12rpx;
   background-color: #fff;
-  border-radius: 16rpx;
-  margin-bottom: 16rpx;
-  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.05);
+  border-radius: 12rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
   transition: all 0.3s ease;
 
   &:active {
     transform: scale(0.98);
-    box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.1);
   }
 }
 
 .user-avatar {
   position: relative;
-  margin-right: 24rpx;
+  margin-right: 16rpx;
 
   image {
-    width: 88rpx;
-    height: 88rpx;
+    width: 72rpx;
+    height: 72rpx;
     border-radius: 50%;
     border: 2rpx solid $border-color;
   }
@@ -315,10 +346,10 @@ export default {
 
   .user-name-row {
     @include flex(row, flex-start, center);
-    margin-bottom: 8rpx;
+    margin-bottom: 6rpx;
 
     .user-nickname {
-      font-size: $font-size-lg;
+      font-size: $font-size-base;
       font-weight: 600;
       color: $text-primary;
       margin-right: 12rpx;
@@ -352,35 +383,19 @@ export default {
   .user-bio {
     font-size: $font-size-sm;
     color: $text-secondary;
-    margin-bottom: 12rpx;
-    @include ellipsis(2);
+    margin-bottom: 8rpx;
+    @include ellipsis(1);
     line-height: 1.4;
-  }
-
-  .user-school {
-    @include flex(row, flex-start, center);
-    margin-bottom: 12rpx;
-
-    .school-name {
-      font-size: $font-size-xs;
-      color: $text-tertiary;
-      margin-right: 16rpx;
-    }
-
-    .department {
-      font-size: $font-size-xs;
-      color: $text-tertiary;
-    }
   }
 
   .user-stats {
     @include flex(row, flex-start, center);
-    margin-bottom: 8rpx;
+    margin-bottom: 4rpx;
 
     .stat-item {
       font-size: $font-size-xs;
       color: $text-tertiary;
-      margin-right: 24rpx;
+      margin-right: 16rpx;
     }
   }
 
@@ -392,17 +407,19 @@ export default {
 }
 
 .user-action {
-  margin-left: 16rpx;
+  margin-left: 12rpx;
 
   .current-user-badge {
     @include center;
-    width: 48rpx;
+    padding: 0 24rpx;
     height: 48rpx;
-    background-color: $primary-color;
-    color: #fff;
-    border-radius: 50%;
+    background-color: transparent;
+    color: $text-primary;
+    border: 2rpx solid $border-color;
+    border-radius: 24rpx;
     font-size: $font-size-xs;
-    font-weight: 600;
+    font-weight: 500;
+    min-width: 48rpx;
   }
 }
 </style>

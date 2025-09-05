@@ -16,9 +16,12 @@ const adminTopicController = require('../controllers/admin/topic.controller');
 const categoryStatsRoutes = require('./admin/category-stats.routes');
 // 引入分类管理路由
 const categoryRoutes = require('./admin/category.routes');
+// 引入徽章管理路由
+const badgeRoutes = require('./admin/badge.routes');
 
 // 引入中间件
 const AdminMiddleware = require('../middlewares/admin.middleware');
+const validationMiddleware = require('../middlewares/validation.middleware');
 const { Validator } = require('../utils');
 
 // 管理员登录验证规则
@@ -273,6 +276,17 @@ router.put('/users/:id/disable', adminUserController.disableUser);
  * @access Private (Admin)
  */
 router.put('/users/:id/enable', adminUserController.enableUser);
+
+/**
+ * @route GET /api/admin/users/:userId/badges
+ * @desc 获取用户徽章列表
+ * @param {string} userId - 用户ID
+ * @access Private (Admin)
+ */
+router.get('/users/:userId/badges', 
+  validationMiddleware.validateUUID('userId'),
+  adminUserController.getUserBadges
+);
 
 // ==================== 帖子管理路由 ====================
 
@@ -602,6 +616,15 @@ router.use('/categories', categoryRoutes);
  * @access Private (Admin)
  */
 router.use('/category-stats', categoryStatsRoutes);
+
+// ==================== 徽章管理路由 ====================
+
+/**
+ * @route /api/admin/badges/*
+ * @desc 徽章管理相关路由
+ * @access Private (Admin)
+ */
+router.use('/badges', badgeRoutes);
 
 // ==================== 系统设置路由 ====================
 

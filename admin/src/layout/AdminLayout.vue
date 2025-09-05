@@ -56,10 +56,14 @@
           <span>活动管理</span>
         </el-menu-item>
         
-        <el-menu-item index="/tag">
-          <el-icon><PriceTag /></el-icon>
-          <span>标签管理</span>
-        </el-menu-item>
+        <el-sub-menu index="/label">
+          <template #title>
+            <el-icon><PriceTag /></el-icon>
+            <span>标签管理</span>
+          </template>
+          <el-menu-item index="/label/tags">标签管理</el-menu-item>
+          <el-menu-item index="/label/badges">徽章管理</el-menu-item>
+        </el-sub-menu>
         
         <el-menu-item index="/collection">
           <el-icon><Star /></el-icon>
@@ -139,7 +143,7 @@ import {
   Odometer, User, Document, Collection, 
   TrendCharts, Setting, List, Fold, Expand,
   CaretBottom, ChatDotRound, Calendar, PriceTag,
-  Star, Message
+  Star, Message, Discount
 } from '@element-plus/icons-vue';
 
 const route = useRoute();
@@ -158,14 +162,23 @@ const activeMenu = computed(() => {
 
 // 面包屑导航
 const breadcrumbs = computed(() => {
-  const { path, meta } = route;
+  const { path, meta, matched } = route;
   // 根据路由meta信息生成面包屑
   const result = [
     { path: '/dashboard', title: '首页' }
   ];
   
-  if (path !== '/dashboard' && meta.title) {
-    result.push({ path, title: meta.title });
+  if (path !== '/dashboard') {
+    // 处理嵌套路由的面包屑
+    matched.forEach((match) => {
+      if (match.meta && match.meta.title && match.path !== '/') {
+        // 避免重复添加相同的面包屑
+        const existing = result.find(item => item.path === match.path);
+        if (!existing) {
+          result.push({ path: match.path, title: match.meta.title });
+        }
+      }
+    });
   }
   
   return result;

@@ -213,6 +213,26 @@ module.exports = (sequelize, DataTypes) => {
       otherKey: 'follower_id',
       as: 'followerUsers'
     });
+
+    // 用户与徽章多对多关联
+    User.belongsToMany(models.Badge, {
+      through: models.UserBadge,
+      foreignKey: 'user_id',
+      otherKey: 'badge_id',
+      as: 'badges'
+    });
+
+    // 用户与用户徽章关联
+    User.hasMany(models.UserBadge, {
+      foreignKey: 'user_id',
+      as: 'userBadges'
+    });
+
+    // 用户作为授予者的徽章关联
+    User.hasMany(models.UserBadge, {
+      foreignKey: 'granted_by',
+      as: 'grantedBadges'
+    });
   };
 
   return User;

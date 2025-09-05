@@ -335,3 +335,4739 @@ SyntaxError: Unexpected identifier 'status'
   ],
   "service": "campus-wall-api"
 }
+2025-08-31 01:22:46 error: uncaughtException: Badge.belongsToMany(User) requires through option, pass either a string or a model
+SequelizeAssociationError: Badge.belongsToMany(User) requires through option, pass either a string or a model
+    at new BelongsToMany (C:\Users\26933\Desktop\校园墙\server\node_modules\sequelize\lib\associations\belongs-to-many.js:35:13)
+    at Badge.belongsToMany (C:\Users\26933\Desktop\校园墙\server\node_modules\sequelize\lib\associations\mixin.js:43:25)
+    at Badge.associate (C:\Users\26933\Desktop\校园墙\server\src\models\badge.model.js:85:11)
+    at C:\Users\26933\Desktop\校园墙\server\src\models\index.js:50:19
+    at Array.forEach (<anonymous>)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\models\index.js:48:17)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12) {
+  "error": {
+    "name": "SequelizeAssociationError"
+  },
+  "stack": "SequelizeAssociationError: Badge.belongsToMany(User) requires through option, pass either a string or a model\n    at new BelongsToMany (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\associations\\belongs-to-many.js:35:13)\n    at Badge.belongsToMany (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\associations\\mixin.js:43:25)\n    at Badge.associate (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\badge.model.js:85:11)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\index.js:50:19\n    at Array.forEach (<anonymous>)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\index.js:48:17)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)",
+  "exception": true,
+  "date": "Sun Aug 31 2025 01:22:46 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 27548,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 92930048,
+      "heapTotal": 58662912,
+      "heapUsed": 39277200,
+      "external": 2441388,
+      "arrayBuffers": 52381
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 277864.5
+  },
+  "trace": [
+    {
+      "column": 13,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\associations\\belongs-to-many.js",
+      "function": "new BelongsToMany",
+      "line": 35,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 25,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\sequelize\\lib\\associations\\mixin.js",
+      "function": "Badge.belongsToMany",
+      "line": 43,
+      "method": "belongsToMany",
+      "native": false
+    },
+    {
+      "column": 11,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\badge.model.js",
+      "function": "Badge.associate",
+      "line": 85,
+      "method": "associate",
+      "native": false
+    },
+    {
+      "column": 19,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\index.js",
+      "function": null,
+      "line": 50,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": null,
+      "file": null,
+      "function": "Array.forEach",
+      "line": null,
+      "method": "forEach",
+      "native": false
+    },
+    {
+      "column": 17,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\index.js",
+      "function": null,
+      "line": 48,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-08-31 01:30:09 error: uncaughtException: Class constructor RateLimitMiddleware cannot be invoked without 'new'
+TypeError: Class constructor RateLimitMiddleware cannot be invoked without 'new'
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\routes\badge.routes.js:15:3)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\routes\index.js:21:21) {
+  "error": {},
+  "stack": "TypeError: Class constructor RateLimitMiddleware cannot be invoked without 'new'\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\badge.routes.js:15:3)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\index.js:21:21)",
+  "exception": true,
+  "date": "Sun Aug 31 2025 01:30:09 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 8352,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 109891584,
+      "heapTotal": 66265088,
+      "heapUsed": 42107592,
+      "external": 2441102,
+      "arrayBuffers": 52095
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 278307.14
+  },
+  "trace": [
+    {
+      "column": 3,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\badge.routes.js",
+      "function": null,
+      "line": 15,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 21,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\index.js",
+      "function": null,
+      "line": 21,
+      "method": null,
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-08-31 01:30:17 error: uncaughtException: Class constructor RateLimitMiddleware cannot be invoked without 'new'
+TypeError: Class constructor RateLimitMiddleware cannot be invoked without 'new'
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\routes\badge.routes.js:15:3)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\routes\index.js:21:21) {
+  "error": {},
+  "stack": "TypeError: Class constructor RateLimitMiddleware cannot be invoked without 'new'\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\badge.routes.js:15:3)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\index.js:21:21)",
+  "exception": true,
+  "date": "Sun Aug 31 2025 01:30:17 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 51428,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 110043136,
+      "heapTotal": 66527232,
+      "heapUsed": 42414616,
+      "external": 2441102,
+      "arrayBuffers": 52095
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 278315.437
+  },
+  "trace": [
+    {
+      "column": 3,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\badge.routes.js",
+      "function": null,
+      "line": 15,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 21,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\index.js",
+      "function": null,
+      "line": 21,
+      "method": null,
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-08-31 01:30:30 error: uncaughtException: Router.use() requires a middleware function
+TypeError: Router.use() requires a middleware function
+    at Function.use (C:\Users\26933\Desktop\校园墙\server\node_modules\express\lib\router\index.js:462:11)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\routes\admin\badge.routes.js:16:8)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16) {
+  "error": {},
+  "stack": "TypeError: Router.use() requires a middleware function\n    at Function.use (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:462:11)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\admin\\badge.routes.js:16:8)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)",
+  "exception": true,
+  "date": "Sun Aug 31 2025 01:30:30 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 5564,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 111296512,
+      "heapTotal": 66789376,
+      "heapUsed": 36256256,
+      "external": 2441102,
+      "arrayBuffers": 52095
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 278328.187
+  },
+  "trace": [
+    {
+      "column": 11,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js",
+      "function": "Function.use",
+      "line": 462,
+      "method": "use",
+      "native": false
+    },
+    {
+      "column": 8,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\admin\\badge.routes.js",
+      "function": null,
+      "line": 16,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-08-31 01:30:39 error: uncaughtException: Router.use() requires a middleware function
+TypeError: Router.use() requires a middleware function
+    at Function.use (C:\Users\26933\Desktop\校园墙\server\node_modules\express\lib\router\index.js:462:11)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\routes\admin\badge.routes.js:16:8)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16) {
+  "error": {},
+  "stack": "TypeError: Router.use() requires a middleware function\n    at Function.use (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:462:11)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\admin\\badge.routes.js:16:8)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)",
+  "exception": true,
+  "date": "Sun Aug 31 2025 01:30:39 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 32520,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 109625344,
+      "heapTotal": 67051520,
+      "heapUsed": 36210968,
+      "external": 2441102,
+      "arrayBuffers": 52095
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 278337.468
+  },
+  "trace": [
+    {
+      "column": 11,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js",
+      "function": "Function.use",
+      "line": 462,
+      "method": "use",
+      "native": false
+    },
+    {
+      "column": 8,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\admin\\badge.routes.js",
+      "function": null,
+      "line": 16,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-08-31 01:31:08 error: uncaughtException: Router.use() requires a middleware function
+TypeError: Router.use() requires a middleware function
+    at Function.use (C:\Users\26933\Desktop\校园墙\server\node_modules\express\lib\router\index.js:462:11)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\routes\admin\badge.routes.js:16:8)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16) {
+  "error": {},
+  "stack": "TypeError: Router.use() requires a middleware function\n    at Function.use (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:462:11)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\admin\\badge.routes.js:16:8)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)",
+  "exception": true,
+  "date": "Sun Aug 31 2025 01:31:08 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 19636,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 110407680,
+      "heapTotal": 66265088,
+      "heapUsed": 37880776,
+      "external": 2441102,
+      "arrayBuffers": 52095
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 278366.703
+  },
+  "trace": [
+    {
+      "column": 11,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js",
+      "function": "Function.use",
+      "line": 462,
+      "method": "use",
+      "native": false
+    },
+    {
+      "column": 8,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\admin\\badge.routes.js",
+      "function": null,
+      "line": 16,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-08-31 01:33:30 error: uncaughtException: Class constructor RateLimitMiddleware cannot be invoked without 'new'
+TypeError: Class constructor RateLimitMiddleware cannot be invoked without 'new'
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\routes\admin\badge.routes.js:18:3)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\routes\admin.routes.js:20:21) {
+  "error": {},
+  "stack": "TypeError: Class constructor RateLimitMiddleware cannot be invoked without 'new'\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\admin\\badge.routes.js:18:3)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\admin.routes.js:20:21)",
+  "exception": true,
+  "date": "Sun Aug 31 2025 01:33:30 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 34560,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 109486080,
+      "heapTotal": 66527232,
+      "heapUsed": 37595376,
+      "external": 2441102,
+      "arrayBuffers": 52095
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 278508.25
+  },
+  "trace": [
+    {
+      "column": 3,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\admin\\badge.routes.js",
+      "function": null,
+      "line": 18,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 21,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\admin.routes.js",
+      "function": null,
+      "line": 20,
+      "method": null,
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-08-31 01:39:08 error: uncaughtException: RateLimitMiddleware.apiLimiter is not a function
+TypeError: RateLimitMiddleware.apiLimiter is not a function
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\app.js:107:37)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\server.js:1:13) {
+  "error": {},
+  "stack": "TypeError: RateLimitMiddleware.apiLimiter is not a function\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\app.js:107:37)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js:1:13)",
+  "exception": true,
+  "date": "Sun Aug 31 2025 01:39:08 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 21224,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 83181568,
+      "heapTotal": 56373248,
+      "heapUsed": 27154960,
+      "external": 2441011,
+      "arrayBuffers": 52091
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 278846.671
+  },
+  "trace": [
+    {
+      "column": 37,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\app.js",
+      "function": null,
+      "line": 107,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 13,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js",
+      "function": null,
+      "line": 1,
+      "method": null,
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-08-31 01:39:25 error: uncaughtException: RateLimitMiddleware.apiLimiter is not a function
+TypeError: RateLimitMiddleware.apiLimiter is not a function
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\app.js:107:37)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\server.js:1:13) {
+  "error": {},
+  "stack": "TypeError: RateLimitMiddleware.apiLimiter is not a function\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\app.js:107:37)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js:1:13)",
+  "exception": true,
+  "date": "Sun Aug 31 2025 01:39:25 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 46736,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 83169280,
+      "heapTotal": 56111104,
+      "heapUsed": 27582808,
+      "external": 2441011,
+      "arrayBuffers": 52091
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 278862.937
+  },
+  "trace": [
+    {
+      "column": 37,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\app.js",
+      "function": null,
+      "line": 107,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 13,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js",
+      "function": null,
+      "line": 1,
+      "method": null,
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-08-31 01:39:55 error: uncaughtException: RateLimitMiddleware.apiLimiter is not a function
+TypeError: RateLimitMiddleware.apiLimiter is not a function
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\app.js:107:37)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\server.js:1:13) {
+  "error": {},
+  "stack": "TypeError: RateLimitMiddleware.apiLimiter is not a function\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\app.js:107:37)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js:1:13)",
+  "exception": true,
+  "date": "Sun Aug 31 2025 01:39:55 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 30524,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 83644416,
+      "heapTotal": 57159680,
+      "heapUsed": 25746472,
+      "external": 2441011,
+      "arrayBuffers": 52091
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 278893.875
+  },
+  "trace": [
+    {
+      "column": 37,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\app.js",
+      "function": null,
+      "line": 107,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 13,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js",
+      "function": null,
+      "line": 1,
+      "method": null,
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-08-31 01:41:04 error: uncaughtException: RateLimitMiddleware.apiLimiter is not a function
+TypeError: RateLimitMiddleware.apiLimiter is not a function
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\app.js:107:37)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\server.js:1:13) {
+  "error": {},
+  "stack": "TypeError: RateLimitMiddleware.apiLimiter is not a function\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\app.js:107:37)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js:1:13)",
+  "exception": true,
+  "date": "Sun Aug 31 2025 01:41:04 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 14436,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 83243008,
+      "heapTotal": 56897536,
+      "heapUsed": 25886088,
+      "external": 2441011,
+      "arrayBuffers": 52091
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 278962.015
+  },
+  "trace": [
+    {
+      "column": 37,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\app.js",
+      "function": null,
+      "line": 107,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 13,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js",
+      "function": null,
+      "line": 1,
+      "method": null,
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-08-31 01:41:12 error: uncaughtException: RateLimitMiddleware.apiLimiter is not a function
+TypeError: RateLimitMiddleware.apiLimiter is not a function
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\app.js:107:37)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\server.js:1:13) {
+  "error": {},
+  "stack": "TypeError: RateLimitMiddleware.apiLimiter is not a function\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\app.js:107:37)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js:1:13)",
+  "exception": true,
+  "date": "Sun Aug 31 2025 01:41:12 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 29280,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 82960384,
+      "heapTotal": 56111104,
+      "heapUsed": 27750880,
+      "external": 2441011,
+      "arrayBuffers": 52091
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 278970.015
+  },
+  "trace": [
+    {
+      "column": 37,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\app.js",
+      "function": null,
+      "line": 107,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 13,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js",
+      "function": null,
+      "line": 1,
+      "method": null,
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-08-31 01:41:21 error: uncaughtException: RateLimitMiddleware.apiLimiter is not a function
+TypeError: RateLimitMiddleware.apiLimiter is not a function
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\app.js:107:37)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\server.js:1:13) {
+  "error": {},
+  "stack": "TypeError: RateLimitMiddleware.apiLimiter is not a function\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\app.js:107:37)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js:1:13)",
+  "exception": true,
+  "date": "Sun Aug 31 2025 01:41:21 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 65384,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 83435520,
+      "heapTotal": 56373248,
+      "heapUsed": 27184616,
+      "external": 2441011,
+      "arrayBuffers": 52091
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 278979.609
+  },
+  "trace": [
+    {
+      "column": 37,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\app.js",
+      "function": null,
+      "line": 107,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 13,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js",
+      "function": null,
+      "line": 1,
+      "method": null,
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-08-31 01:41:29 error: uncaughtException: RateLimitMiddleware.apiLimiter is not a function
+TypeError: RateLimitMiddleware.apiLimiter is not a function
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\app.js:107:37)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\server.js:1:13) {
+  "error": {},
+  "stack": "TypeError: RateLimitMiddleware.apiLimiter is not a function\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\app.js:107:37)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js:1:13)",
+  "exception": true,
+  "date": "Sun Aug 31 2025 01:41:29 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 21120,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 82882560,
+      "heapTotal": 56373248,
+      "heapUsed": 26986136,
+      "external": 2441011,
+      "arrayBuffers": 52091
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 278987.453
+  },
+  "trace": [
+    {
+      "column": 37,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\app.js",
+      "function": null,
+      "line": 107,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 13,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js",
+      "function": null,
+      "line": 1,
+      "method": null,
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-08-31 01:41:38 error: uncaughtException: RateLimitMiddleware.apiLimiter is not a function
+TypeError: RateLimitMiddleware.apiLimiter is not a function
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\app.js:107:37)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\server.js:1:13) {
+  "error": {},
+  "stack": "TypeError: RateLimitMiddleware.apiLimiter is not a function\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\app.js:107:37)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js:1:13)",
+  "exception": true,
+  "date": "Sun Aug 31 2025 01:41:38 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 44388,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 83185664,
+      "heapTotal": 56897536,
+      "heapUsed": 26360280,
+      "external": 2441011,
+      "arrayBuffers": 52091
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 278996.156
+  },
+  "trace": [
+    {
+      "column": 37,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\app.js",
+      "function": null,
+      "line": 107,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 13,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js",
+      "function": null,
+      "line": 1,
+      "method": null,
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-08-31 01:42:00 error: uncaughtException: RateLimitMiddleware.apiLimiter is not a function
+TypeError: RateLimitMiddleware.apiLimiter is not a function
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\app.js:107:37)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\server.js:1:13) {
+  "error": {},
+  "stack": "TypeError: RateLimitMiddleware.apiLimiter is not a function\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\app.js:107:37)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js:1:13)",
+  "exception": true,
+  "date": "Sun Aug 31 2025 01:42:00 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 49524,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 82771968,
+      "heapTotal": 56373248,
+      "heapUsed": 26930008,
+      "external": 2441011,
+      "arrayBuffers": 52091
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 279018.078
+  },
+  "trace": [
+    {
+      "column": 37,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\app.js",
+      "function": null,
+      "line": 107,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 13,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js",
+      "function": null,
+      "line": 1,
+      "method": null,
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-08-31 01:45:36 error: uncaughtException: RateLimitMiddleware.verifyCodeLimiter is not a function
+TypeError: RateLimitMiddleware.verifyCodeLimiter is not a function
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\routes\user.routes.js:179:47)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\routes\index.js:5:20) {
+  "error": {},
+  "stack": "TypeError: RateLimitMiddleware.verifyCodeLimiter is not a function\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\user.routes.js:179:47)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\index.js:5:20)",
+  "exception": true,
+  "date": "Sun Aug 31 2025 01:45:36 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 4792,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 99876864,
+      "heapTotal": 61546496,
+      "heapUsed": 41035736,
+      "external": 2318178,
+      "arrayBuffers": 51919
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 279233.984
+  },
+  "trace": [
+    {
+      "column": 47,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\user.routes.js",
+      "function": null,
+      "line": 179,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 20,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\index.js",
+      "function": null,
+      "line": 5,
+      "method": null,
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-08-31 01:46:19 error: uncaughtException: RateLimitMiddleware.postLimiter is not a function
+TypeError: RateLimitMiddleware.postLimiter is not a function
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\routes\post.routes.js:81:23)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\routes\index.js:6:20) {
+  "error": {},
+  "stack": "TypeError: RateLimitMiddleware.postLimiter is not a function\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\post.routes.js:81:23)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\index.js:6:20)",
+  "exception": true,
+  "date": "Sun Aug 31 2025 01:46:19 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 8,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 101240832,
+      "heapTotal": 61808640,
+      "heapUsed": 42820640,
+      "external": 2441388,
+      "arrayBuffers": 52095
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 279277.734
+  },
+  "trace": [
+    {
+      "column": 23,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\post.routes.js",
+      "function": null,
+      "line": 81,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 20,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\index.js",
+      "function": null,
+      "line": 6,
+      "method": null,
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-08-31 01:46:29 error: uncaughtException: RateLimitMiddleware.postLimiter is not a function
+TypeError: RateLimitMiddleware.postLimiter is not a function
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\routes\post.routes.js:81:23)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\routes\index.js:6:20) {
+  "error": {},
+  "stack": "TypeError: RateLimitMiddleware.postLimiter is not a function\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\post.routes.js:81:23)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\index.js:6:20)",
+  "exception": true,
+  "date": "Sun Aug 31 2025 01:46:29 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 72096,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 100724736,
+      "heapTotal": 61546496,
+      "heapUsed": 42143664,
+      "external": 2318178,
+      "arrayBuffers": 51919
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 279287.078
+  },
+  "trace": [
+    {
+      "column": 23,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\post.routes.js",
+      "function": null,
+      "line": 81,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 20,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\index.js",
+      "function": null,
+      "line": 6,
+      "method": null,
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-08-31 01:47:25 error: uncaughtException: validationMiddleware.validateUUID is not a function
+TypeError: validationMiddleware.validateUUID is not a function
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\routes\admin\badge.routes.js:39:24)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\routes\admin.routes.js:20:21) {
+  "error": {},
+  "stack": "TypeError: validationMiddleware.validateUUID is not a function\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\admin\\badge.routes.js:39:24)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\admin.routes.js:20:21)",
+  "exception": true,
+  "date": "Sun Aug 31 2025 01:47:25 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 29172,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 106131456,
+      "heapTotal": 66002944,
+      "heapUsed": 37452768,
+      "external": 2317892,
+      "arrayBuffers": 51919
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 279343.406
+  },
+  "trace": [
+    {
+      "column": 24,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\admin\\badge.routes.js",
+      "function": null,
+      "line": 39,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 21,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\admin.routes.js",
+      "function": null,
+      "line": 20,
+      "method": null,
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-08-31 02:01:12 error: uncaughtException: sequelize.define is not a function
+TypeError: sequelize.define is not a function
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\models\tag.model.js:4:23)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at C:\Users\26933\Desktop\校园墙\server\src\models\index.js:43:19 {
+  "error": {},
+  "stack": "TypeError: sequelize.define is not a function\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\tag.model.js:4:23)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\index.js:43:19",
+  "exception": true,
+  "date": "Sun Aug 31 2025 02:01:12 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 50736,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 91287552,
+      "heapTotal": 58925056,
+      "heapUsed": 38681800,
+      "external": 2441388,
+      "arrayBuffers": 52381
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 280170.437
+  },
+  "trace": [
+    {
+      "column": 23,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\tag.model.js",
+      "function": null,
+      "line": 4,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 19,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\index.js",
+      "function": null,
+      "line": 43,
+      "method": null,
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-08-31 02:01:33 error: uncaughtException: sequelize.define is not a function
+TypeError: sequelize.define is not a function
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\models\tag.model.js:4:23)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at C:\Users\26933\Desktop\校园墙\server\src\models\index.js:43:19 {
+  "error": {},
+  "stack": "TypeError: sequelize.define is not a function\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\tag.model.js:4:23)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\index.js:43:19",
+  "exception": true,
+  "date": "Sun Aug 31 2025 02:01:33 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 53252,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 91934720,
+      "heapTotal": 58662912,
+      "heapUsed": 39417432,
+      "external": 2441388,
+      "arrayBuffers": 52381
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 280191.093
+  },
+  "trace": [
+    {
+      "column": 23,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\tag.model.js",
+      "function": null,
+      "line": 4,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 19,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\index.js",
+      "function": null,
+      "line": 43,
+      "method": null,
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-08-31 02:02:07 error: uncaughtException: sequelize.define is not a function
+TypeError: sequelize.define is not a function
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\models\tag.model.js:4:23)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at C:\Users\26933\Desktop\校园墙\server\src\models\index.js:43:19 {
+  "error": {},
+  "stack": "TypeError: sequelize.define is not a function\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\tag.model.js:4:23)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\index.js:43:19",
+  "exception": true,
+  "date": "Sun Aug 31 2025 02:02:07 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 40680,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 94883840,
+      "heapTotal": 61022208,
+      "heapUsed": 29942560,
+      "external": 2441388,
+      "arrayBuffers": 52095
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 280225.39
+  },
+  "trace": [
+    {
+      "column": 23,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\tag.model.js",
+      "function": null,
+      "line": 4,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 19,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\index.js",
+      "function": null,
+      "line": 43,
+      "method": null,
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-08-31 02:02:33 error: uncaughtException: sequelize.define is not a function
+TypeError: sequelize.define is not a function
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\models\tag.model.js:4:23)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at C:\Users\26933\Desktop\校园墙\server\src\models\index.js:43:19 {
+  "error": {},
+  "stack": "TypeError: sequelize.define is not a function\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\tag.model.js:4:23)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\index.js:43:19",
+  "exception": true,
+  "date": "Sun Aug 31 2025 02:02:33 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 65472,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 91590656,
+      "heapTotal": 58662912,
+      "heapUsed": 39452704,
+      "external": 2441388,
+      "arrayBuffers": 52381
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 280251.328
+  },
+  "trace": [
+    {
+      "column": 23,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\tag.model.js",
+      "function": null,
+      "line": 4,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 19,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\index.js",
+      "function": null,
+      "line": 43,
+      "method": null,
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-08-31 02:02:34 error: uncaughtException: sequelize.define is not a function
+TypeError: sequelize.define is not a function
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\models\tag.model.js:4:23)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at C:\Users\26933\Desktop\校园墙\server\src\models\index.js:43:19 {
+  "error": {},
+  "stack": "TypeError: sequelize.define is not a function\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\tag.model.js:4:23)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\index.js:43:19",
+  "exception": true,
+  "date": "Sun Aug 31 2025 02:02:34 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 24156,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 91033600,
+      "heapTotal": 58662912,
+      "heapUsed": 38018136,
+      "external": 2441388,
+      "arrayBuffers": 52381
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 280252.312
+  },
+  "trace": [
+    {
+      "column": 23,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\tag.model.js",
+      "function": null,
+      "line": 4,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 19,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\index.js",
+      "function": null,
+      "line": 43,
+      "method": null,
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-08-31 02:02:58 error: uncaughtException: sequelize.define is not a function
+TypeError: sequelize.define is not a function
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\models\tag.model.js:4:23)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at C:\Users\26933\Desktop\校园墙\server\src\models\index.js:43:19 {
+  "error": {},
+  "stack": "TypeError: sequelize.define is not a function\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\tag.model.js:4:23)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\index.js:43:19",
+  "exception": true,
+  "date": "Sun Aug 31 2025 02:02:58 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 41200,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 91541504,
+      "heapTotal": 58925056,
+      "heapUsed": 38924320,
+      "external": 2441388,
+      "arrayBuffers": 52381
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 280276.046
+  },
+  "trace": [
+    {
+      "column": 23,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\tag.model.js",
+      "function": null,
+      "line": 4,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 19,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\index.js",
+      "function": null,
+      "line": 43,
+      "method": null,
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-08-31 02:02:59 error: uncaughtException: sequelize.define is not a function
+TypeError: sequelize.define is not a function
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\models\tag.model.js:4:23)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at C:\Users\26933\Desktop\校园墙\server\src\models\index.js:43:19 {
+  "error": {},
+  "stack": "TypeError: sequelize.define is not a function\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\tag.model.js:4:23)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\index.js:43:19",
+  "exception": true,
+  "date": "Sun Aug 31 2025 02:02:59 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 30364,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 97861632,
+      "heapTotal": 57876480,
+      "heapUsed": 36957720,
+      "external": 2441388,
+      "arrayBuffers": 52381
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 280277.031
+  },
+  "trace": [
+    {
+      "column": 23,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\tag.model.js",
+      "function": null,
+      "line": 4,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 19,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\index.js",
+      "function": null,
+      "line": 43,
+      "method": null,
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-08-31 02:03:19 error: uncaughtException: Unexpected end of input
+C:\Users\26933\Desktop\校园墙\server\src\models\tag.model.js:65
+
+
+
+SyntaxError: Unexpected end of input
+    at wrapSafe (node:internal/modules/cjs/loader:1662:18)
+    at Module._compile (node:internal/modules/cjs/loader:1704:20)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at C:\Users\26933\Desktop\校园墙\server\src\models\index.js:43:19 {
+  "error": {},
+  "stack": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\tag.model.js:65\n\n\n\nSyntaxError: Unexpected end of input\n    at wrapSafe (node:internal/modules/cjs/loader:1662:18)\n    at Module._compile (node:internal/modules/cjs/loader:1704:20)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\index.js:43:19",
+  "exception": true,
+  "date": "Sun Aug 31 2025 02:03:19 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 41988,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 90927104,
+      "heapTotal": 58662912,
+      "heapUsed": 38095808,
+      "external": 2441388,
+      "arrayBuffers": 52381
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 280297.296
+  },
+  "trace": [
+    {
+      "column": 18,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapSafe",
+      "line": 1662,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 20,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1704,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 19,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\index.js",
+      "function": null,
+      "line": 43,
+      "method": null,
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-08-31 02:16:58 error: uncaughtException: Route.patch() requires a callback function but got a [object Undefined]
+Error: Route.patch() requires a callback function but got a [object Undefined]
+    at Route.<computed> [as patch] (C:\Users\26933\Desktop\校园墙\server\node_modules\express\lib\router\route.js:216:15)
+    at proto.<computed> [as patch] (C:\Users\26933\Desktop\校园墙\server\node_modules\express\lib\router\index.js:521:19)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\routes\tag.routes.js:104:8)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12) {
+  "error": {},
+  "stack": "Error: Route.patch() requires a callback function but got a [object Undefined]\n    at Route.<computed> [as patch] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\route.js:216:15)\n    at proto.<computed> [as patch] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:521:19)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\tag.routes.js:104:8)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)",
+  "exception": true,
+  "date": "Sun Aug 31 2025 02:16:58 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 41300,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 109121536,
+      "heapTotal": 66265088,
+      "heapUsed": 44258288,
+      "external": 2441102,
+      "arrayBuffers": 52095
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 281116.531
+  },
+  "trace": [
+    {
+      "column": 15,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\route.js",
+      "function": "Route.<computed> [as patch]",
+      "line": 216,
+      "method": "<computed> [as patch]",
+      "native": false
+    },
+    {
+      "column": 19,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js",
+      "function": "proto.<computed> [as patch]",
+      "line": 521,
+      "method": "<computed> [as patch]",
+      "native": false
+    },
+    {
+      "column": 8,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\tag.routes.js",
+      "function": null,
+      "line": 104,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-08-31 03:47:34 error: uncaughtException: Route.get() requires a callback function but got a [object Undefined]
+Error: Route.get() requires a callback function but got a [object Undefined]
+    at Route.<computed> [as get] (C:\Users\26933\Desktop\校园墙\server\node_modules\express\lib\router\route.js:216:15)
+    at proto.<computed> [as get] (C:\Users\26933\Desktop\校园墙\server\node_modules\express\lib\router\index.js:521:19)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\routes\admin.routes.js:207:8)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12) {
+  "error": {},
+  "stack": "Error: Route.get() requires a callback function but got a [object Undefined]\n    at Route.<computed> [as get] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\route.js:216:15)\n    at proto.<computed> [as get] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:521:19)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\admin.routes.js:207:8)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)",
+  "exception": true,
+  "date": "Sun Aug 31 2025 03:47:34 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 39552,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 109166592,
+      "heapTotal": 66789376,
+      "heapUsed": 36947888,
+      "external": 2441102,
+      "arrayBuffers": 52095
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 286552.234
+  },
+  "trace": [
+    {
+      "column": 15,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\route.js",
+      "function": "Route.<computed> [as get]",
+      "line": 216,
+      "method": "<computed> [as get]",
+      "native": false
+    },
+    {
+      "column": 19,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js",
+      "function": "proto.<computed> [as get]",
+      "line": 521,
+      "method": "<computed> [as get]",
+      "native": false
+    },
+    {
+      "column": 8,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\admin.routes.js",
+      "function": null,
+      "line": 207,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-08-31 03:48:07 error: uncaughtException: validationMiddleware is not defined
+ReferenceError: validationMiddleware is not defined
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\routes\admin.routes.js:208:3)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\routes\index.js:15:21) {
+  "error": {},
+  "stack": "ReferenceError: validationMiddleware is not defined\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\admin.routes.js:208:3)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\index.js:15:21)",
+  "exception": true,
+  "date": "Sun Aug 31 2025 03:48:07 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 27172,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 108703744,
+      "heapTotal": 66265088,
+      "heapUsed": 38867960,
+      "external": 2441102,
+      "arrayBuffers": 52095
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 286585.734
+  },
+  "trace": [
+    {
+      "column": 3,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\admin.routes.js",
+      "function": null,
+      "line": 208,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 21,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\index.js",
+      "function": null,
+      "line": 15,
+      "method": null,
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-08-31 03:49:19 error: uncaughtException: validationMiddleware is not defined
+ReferenceError: validationMiddleware is not defined
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\routes\admin.routes.js:208:3)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\routes\index.js:15:21) {
+  "error": {},
+  "stack": "ReferenceError: validationMiddleware is not defined\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\admin.routes.js:208:3)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\index.js:15:21)",
+  "exception": true,
+  "date": "Sun Aug 31 2025 03:49:19 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 3304,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 109092864,
+      "heapTotal": 66789376,
+      "heapUsed": 37971248,
+      "external": 2441102,
+      "arrayBuffers": 52095
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 286657.109
+  },
+  "trace": [
+    {
+      "column": 3,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\admin.routes.js",
+      "function": null,
+      "line": 208,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 21,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\index.js",
+      "function": null,
+      "line": 15,
+      "method": null,
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-08-31 03:49:47 error: uncaughtException: validationMiddleware is not defined
+ReferenceError: validationMiddleware is not defined
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\routes\admin.routes.js:208:3)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\routes\index.js:15:21) {
+  "error": {},
+  "stack": "ReferenceError: validationMiddleware is not defined\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\admin.routes.js:208:3)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\index.js:15:21)",
+  "exception": true,
+  "date": "Sun Aug 31 2025 03:49:47 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 4404,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 108769280,
+      "heapTotal": 66265088,
+      "heapUsed": 38876624,
+      "external": 2441102,
+      "arrayBuffers": 52095
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 286685.593
+  },
+  "trace": [
+    {
+      "column": 3,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\admin.routes.js",
+      "function": null,
+      "line": 208,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 21,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\index.js",
+      "function": null,
+      "line": 15,
+      "method": null,
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-08-31 05:22:07 error: uncaughtException: Cannot find module '../repositories/user-badge.repository'
+Require stack:
+- C:\Users\26933\Desktop\校园墙\server\src\services\badge.service.js
+- C:\Users\26933\Desktop\校园墙\server\src\controllers\admin\badge.controller.js
+- C:\Users\26933\Desktop\校园墙\server\src\routes\admin\badge.routes.js
+- C:\Users\26933\Desktop\校园墙\server\src\routes\admin.routes.js
+- C:\Users\26933\Desktop\校园墙\server\src\routes\index.js
+- C:\Users\26933\Desktop\校园墙\server\src\app.js
+- C:\Users\26933\Desktop\校园墙\server\src\server.js
+Error: Cannot find module '../repositories/user-badge.repository'
+Require stack:
+- C:\Users\26933\Desktop\校园墙\server\src\services\badge.service.js
+- C:\Users\26933\Desktop\校园墙\server\src\controllers\admin\badge.controller.js
+- C:\Users\26933\Desktop\校园墙\server\src\routes\admin\badge.routes.js
+- C:\Users\26933\Desktop\校园墙\server\src\routes\admin.routes.js
+- C:\Users\26933\Desktop\校园墙\server\src\routes\index.js
+- C:\Users\26933\Desktop\校园墙\server\src\app.js
+- C:\Users\26933\Desktop\校园墙\server\src\server.js
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)
+    at Function._load (node:internal/modules/cjs/loader:1211:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\services\badge.service.js:2:29)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14) {
+  "error": {
+    "code": "MODULE_NOT_FOUND",
+    "requireStack": [
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\badge.service.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\admin\\badge.controller.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\admin\\badge.routes.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\admin.routes.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\index.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\app.js",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ]
+  },
+  "stack": "Error: Cannot find module '../repositories/user-badge.repository'\nRequire stack:\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\badge.service.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\admin\\badge.controller.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\admin\\badge.routes.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\admin.routes.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\index.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\app.js\n- C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js\n    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)\n    at Function._load (node:internal/modules/cjs/loader:1211:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\badge.service.js:2:29)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)",
+  "exception": true,
+  "date": "Sun Aug 31 2025 05:22:07 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 51028,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 110809088,
+      "heapTotal": 67051520,
+      "heapUsed": 35837576,
+      "external": 2441102,
+      "arrayBuffers": 52095
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 292225.437
+  },
+  "trace": [
+    {
+      "column": 15,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._resolveFilename",
+      "line": 1401,
+      "method": "_resolveFilename",
+      "native": false
+    },
+    {
+      "column": 19,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "defaultResolveImpl",
+      "line": 1057,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 22,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "resolveForCJSWithHooks",
+      "line": 1062,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 37,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1211,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 29,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\badge.service.js",
+      "function": null,
+      "line": 2,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-09-01 00:38:06 error: uncaughtException: Route.get() requires a callback function but got a [object Undefined]
+Error: Route.get() requires a callback function but got a [object Undefined]
+    at Route.<computed> [as get] (C:\Users\26933\Desktop\校园墙\server\node_modules\express\lib\router\route.js:216:15)
+    at proto.<computed> [as get] (C:\Users\26933\Desktop\校园墙\server\node_modules\express\lib\router\index.js:521:19)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\routes\badge.routes.js:42:8)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12) {
+  "error": {},
+  "stack": "Error: Route.get() requires a callback function but got a [object Undefined]\n    at Route.<computed> [as get] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\route.js:216:15)\n    at proto.<computed> [as get] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:521:19)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\badge.routes.js:42:8)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)",
+  "exception": true,
+  "date": "Mon Sep 01 2025 00:38:06 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 16648,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 113233920,
+      "heapTotal": 66789376,
+      "heapUsed": 43166776,
+      "external": 2441102,
+      "arrayBuffers": 52095
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 57809.968
+  },
+  "trace": [
+    {
+      "column": 15,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\route.js",
+      "function": "Route.<computed> [as get]",
+      "line": 216,
+      "method": "<computed> [as get]",
+      "native": false
+    },
+    {
+      "column": 19,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js",
+      "function": "proto.<computed> [as get]",
+      "line": 521,
+      "method": "<computed> [as get]",
+      "native": false
+    },
+    {
+      "column": 8,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\badge.routes.js",
+      "function": null,
+      "line": 42,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-09-01 00:38:17 error: uncaughtException: Route.get() requires a callback function but got a [object Undefined]
+Error: Route.get() requires a callback function but got a [object Undefined]
+    at Route.<computed> [as get] (C:\Users\26933\Desktop\校园墙\server\node_modules\express\lib\router\route.js:216:15)
+    at proto.<computed> [as get] (C:\Users\26933\Desktop\校园墙\server\node_modules\express\lib\router\index.js:521:19)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\routes\badge.routes.js:42:8)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12) {
+  "error": {},
+  "stack": "Error: Route.get() requires a callback function but got a [object Undefined]\n    at Route.<computed> [as get] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\route.js:216:15)\n    at proto.<computed> [as get] (C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js:521:19)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\badge.routes.js:42:8)\n    at Module._compile (node:internal/modules/cjs/loader:1730:14)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)",
+  "exception": true,
+  "date": "Mon Sep 01 2025 00:38:17 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 41664,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 113205248,
+      "heapTotal": 66527232,
+      "heapUsed": 43427936,
+      "external": 2441102,
+      "arrayBuffers": 52095
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 57821.734
+  },
+  "trace": [
+    {
+      "column": 15,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\route.js",
+      "function": "Route.<computed> [as get]",
+      "line": 216,
+      "method": "<computed> [as get]",
+      "native": false
+    },
+    {
+      "column": 19,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\node_modules\\express\\lib\\router\\index.js",
+      "function": "proto.<computed> [as get]",
+      "line": 521,
+      "method": "<computed> [as get]",
+      "native": false
+    },
+    {
+      "column": 8,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\badge.routes.js",
+      "function": null,
+      "line": 42,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1730,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-09-01 01:56:50 error: uncaughtException: Unexpected identifier 'visible'
+C:\Users\26933\Desktop\校园墙\server\src\services\user.service.js:829
+        where: { is_  visible: true }, // 只获取可见的徽章
+                      ^^^^^^^
+
+SyntaxError: Unexpected identifier 'visible'
+    at wrapSafe (node:internal/modules/cjs/loader:1662:18)
+    at Module._compile (node:internal/modules/cjs/loader:1704:20)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\controllers\user.controller.js:1:21) {
+  "error": {},
+  "stack": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:829\n        where: { is_  visible: true }, // 只获取可见的徽章\n                      ^^^^^^^\n\nSyntaxError: Unexpected identifier 'visible'\n    at wrapSafe (node:internal/modules/cjs/loader:1662:18)\n    at Module._compile (node:internal/modules/cjs/loader:1704:20)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js:1:21)",
+  "exception": true,
+  "date": "Mon Sep 01 2025 01:56:50 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 38160,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 88334336,
+      "heapTotal": 56635392,
+      "heapUsed": 26579312,
+      "external": 2441011,
+      "arrayBuffers": 52091
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 62534.421
+  },
+  "trace": [
+    {
+      "column": 18,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapSafe",
+      "line": 1662,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 20,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1704,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 21,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\user.controller.js",
+      "function": null,
+      "line": 1,
+      "method": null,
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}

@@ -17,60 +17,64 @@
         <!-- 背景遮罩层 -->
         <view class="profile-overlay"></view>
         <!-- 底部模糊过渡效果 -->
-        <view class="profile-bottom-blur"></view>
-      </view>
-      
-      <!-- 用户信息 -->
-      <view class="profile-info">
-        <view class="profile-avatar-container">
-          <view class="profile-avatar-wrap">
-            <image class="profile-avatar" :src="userInfo.avatar || '/static/images/common/default-avatar.png'" mode="aspectFill"></image>
-            <view class="profile-avatar-border"></view>
-            <view class="profile-avatar-glow"></view>
-          </view>
-        </view>
-        
-        <view class="profile-user-container">
-          <view class="profile-user">
-            <view class="profile-nickname">{{ userInfo.nickname || '游客' }}</view>
-            <view class="profile-userid">ID: {{ userInfo.userId || '未登录' }}</view>
-            <view class="profile-bio" v-if="userInfo.bio">{{ userInfo.bio }}</view>
-          </view>
+        <!-- 模糊效果已移除 -->
           
-
-        </view>
-      </view>
-      
-      <!-- 成就徽章 -->
-      <view class="profile-achievements" v-if="userInfo.isLogin && userAchievements.length > 0">
-        <view class="section-title">我的成就</view>
-        <scroll-view scroll-x class="achievements-scroll" show-scrollbar="false">
-          <view class="achievements-content">
-            <view 
-              v-for="(achievement, index) in userAchievements" 
-              :key="index"
-              class="achievement-item"
-              :style="{animationDelay: index * 0.1 + 's'}"
-            >
-              <image class="achievement-icon" :src="achievement.icon"></image>
-              <text class="achievement-name">{{ achievement.name }}</text>
+        <!-- 用户信息（覆盖在背景上） -->
+        <view class="profile-info">
+          <!-- 头像区域 -->
+          <view class="profile-avatar-container">
+            <view class="profile-avatar-wrap">
+              <image class="profile-avatar" :src="userInfo.avatar || '/static/images/common/default-avatar.png'" mode="aspectFill"></image>
+              <view class="profile-avatar-glow"></view>
             </view>
           </view>
-        </scroll-view>
-      </view>
-      
-      <!-- 学校信息 -->
-      <view class="profile-school" v-if="userInfo.isLogin && (userInfo.school || userInfo.department)">
-        <view class="profile-school-content">
-          <view class="profile-school-icon">
-            <text class="iconfont icon-school"></text>
-          </view>
-          <view class="profile-school-info">
-            <text class="profile-school-name" v-if="userInfo.school">{{ userInfo.school }}</text>
-            <text class="profile-school-dept" v-if="userInfo.department">{{ userInfo.department }}</text>
+          
+          <!-- 用户信息区域 -->
+          <view class="profile-user-container">
+            <!-- 用户昵称 -->
+            <view class="profile-nickname">{{ userInfo.nickname || '游客' }}</view>
+            
+            <!-- 认证徽章标识 -->
+            <view class="profile-badges-row" v-if="displayBadges.length > 0">
+              <view 
+                v-for="badge in displayBadges" 
+                :key="badge.id"
+                class="certification-badge"
+                @longpress="showBadgeDetails(badge)"
+                @touchstart="onBadgeTouchStart"
+                @touchend="onBadgeTouchEnd"
+              >
+                <view class="cert-icon" :style="{backgroundColor: badge.color}">
+                  <image class="cert-icon-svg" src="/static/images/badge-icon.svg" mode="aspectFit"></image>
+                </view>
+                <text class="cert-name">{{ badge.name }}</text>
+              </view>
+            </view>
+
+            <!-- 用户ID和统计信息 -->
+            <view class="profile-userid-stats-row">
+              <view class="profile-userid-container" @tap="copyUserId">
+                <text class="profile-userid-text">ID: {{ shortUserId }}</text>
+              </view>
+              <view class="profile-stats-text">
+                <text class="stat-item" @tap="goToFollowList('following')">{{ formatNumber(userInfo.followingCount || 0) }} 关注</text>
+                <text class="stat-item" @tap="goToFollowList('followers')">{{ formatNumber(userInfo.followersCount || 0) }} 粉丝</text>
+                <text class="stat-item">{{ formatNumber(userInfo.likeCount || 0) }} 获赞</text>
+              </view>
+            </view>
+
+            <!-- 用户简介 -->
+            <view class="profile-bio" v-if="userInfo.bio">{{ userInfo.bio }}</view>
+            
+            <!-- 学校信息（文字形式） -->
+            <view class="profile-school-text" v-if="userInfo.isLogin && (userInfo.school || userInfo.department)">
+              {{ formatSchoolInfo(userInfo.school, userInfo.department) }}
+            </view>
           </view>
         </view>
       </view>
+      
+
       
       <!-- 标签展示区 -->
       <view class="profile-tags" v-if="userInfo.isLogin && userInfo.tags && userInfo.tags.length > 0">
@@ -82,111 +86,12 @@
               :key="index" 
               class="profile-tag"
               :style="{animationDelay: index * 0.05 + 's'}"
+              @tap="showTagDetail(tag, $event)"
             >
               {{ tag }}
             </view>
           </view>
         </scroll-view>
-      </view>
-      
-      <!-- 用户数据 -->
-      <view class="profile-stats-container">
-        <view class="profile-stats">
-          <view class="profile-stat" @tap="handleTabClick('post')">
-            <view class="profile-stat-number">{{ formatNumber(userInfo.postCount || 0) }}</view>
-            <view class="profile-stat-label">帖子</view>
-          </view>
-
-          <view class="profile-stat" @tap="handleTabClick('favorite')">
-            <view class="profile-stat-number">{{ formatNumber(userInfo.favoriteCount || 0) }}</view>
-            <view class="profile-stat-label">收藏</view>
-          </view>
-
-          <view class="profile-stat" @tap="goToFollowList('following')">
-            <view class="profile-stat-number">{{ formatNumber(userInfo.followingCount || 0) }}</view>
-            <view class="profile-stat-label">关注</view>
-          </view>
-
-          <view class="profile-stat" @tap="goToFollowList('followers')">
-            <view class="profile-stat-number">{{ formatNumber(userInfo.followersCount || 0) }}</view>
-            <view class="profile-stat-label">粉丝</view>
-          </view>
-
-          <view class="profile-stat">
-            <view class="profile-stat-number">{{ formatNumber(userInfo.likeCount || 0) }}</view>
-            <view class="profile-stat-label">获赞</view>
-          </view>
-        </view>
-      </view>
-
-      <!-- 功能菜单 -->
-      <view class="profile-menu-container">
-        <view class="profile-menu">
-          <view class="menu-item" @tap="goToMyEvents">
-            <view class="menu-icon">
-              <app-icon name="calendar" size="lg" color="#AC92EC" />
-            </view>
-            <view class="menu-content">
-              <text class="menu-title">我的活动</text>
-              <text class="menu-desc">查看我参与的活动</text>
-            </view>
-            <view class="menu-arrow">
-              <app-icon name="arrow-right" size="sm" color="#C4C4C4" />
-            </view>
-          </view>
-
-          <view class="menu-item" @tap="goToMyPosts">
-            <view class="menu-icon">
-              <app-icon name="edit" size="lg" color="#5B8EF9" />
-            </view>
-            <view class="menu-content">
-              <text class="menu-title">我的帖子</text>
-              <text class="menu-desc">管理我发布的内容</text>
-            </view>
-            <view class="menu-arrow">
-              <app-icon name="arrow-right" size="sm" color="#C4C4C4" />
-            </view>
-          </view>
-
-          <view class="menu-item" @tap="goToMyFavorites">
-            <view class="menu-icon">
-              <app-icon name="star" size="lg" color="#FFB800" />
-            </view>
-            <view class="menu-content">
-              <text class="menu-title">我的收藏</text>
-              <text class="menu-desc">查看收藏的内容</text>
-            </view>
-            <view class="menu-arrow">
-              <app-icon name="arrow-right" size="sm" color="#C4C4C4" />
-            </view>
-          </view>
-
-          <view class="menu-item" @tap="goToAuditHistory">
-            <view class="menu-icon">
-              <app-icon name="check-circle" size="lg" color="#34C759" />
-            </view>
-            <view class="menu-content">
-              <text class="menu-title">审核记录</text>
-              <text class="menu-desc">查看帖子审核状态</text>
-            </view>
-            <view class="menu-arrow">
-              <app-icon name="arrow-right" size="sm" color="#C4C4C4" />
-            </view>
-          </view>
-
-          <view class="menu-item" @tap="goToEventTest">
-            <view class="menu-icon">
-              <app-icon name="settings" size="lg" color="#FF6B6B" />
-            </view>
-            <view class="menu-content">
-              <text class="menu-title">活动API测试</text>
-              <text class="menu-desc">测试活动相关API接口</text>
-            </view>
-            <view class="menu-arrow">
-              <app-icon name="arrow-right" size="sm" color="#C4C4C4" />
-            </view>
-          </view>
-        </view>
       </view>
     </view>
 
@@ -200,7 +105,7 @@
           :class="['profile-tab', { 'active': currentTab === tab.key }]"
           @tap="handleTabClick(tab.key)"
         >
-          <text class="tab-text">{{ tab.name }}</text>
+          <text class="tab-text">{{ tab.name }} {{ getTabCount(tab.key) }}</text>
           <view class="tab-indicator" v-if="currentTab === tab.key"></view>
         </view>
       </view>
@@ -222,6 +127,11 @@
             :refresher-triggered="postRefreshing" 
             @refresherrefresh="refreshPosts"
           >
+            <!-- 帖子统计信息 -->
+            <view class="content-stats-header">
+              <text class="stats-text">{{ userInfo.postCount || 0 }}个帖子</text>
+            </view>
+            
             <view class="profile-posts" v-if="posts.length > 0">
               <view class="post-list">
                 <post-card
@@ -275,6 +185,11 @@
             :refresher-triggered="likeRefreshing"
             @refresherrefresh="refreshLikes"
           >
+            <!-- 收藏统计信息 -->
+            <view class="content-stats-header">
+              <text class="stats-text">{{ userInfo.favoriteCount || 0 }}个收藏</text>
+            </view>
+            
             <view class="profile-likes" v-if="likes.length > 0">
               <view class="post-list">
                 <post-card
@@ -313,6 +228,48 @@
             </view>
           </scroll-view>
         </swiper-item>
+        
+        <!-- 更多页 -->
+        <swiper-item class="profile-swiper-item">
+          <scroll-view 
+            scroll-y 
+            class="profile-scroll"
+            refresher-enabled
+            :refresher-triggered="false"
+          >
+            <view class="more-content">
+              <view class="more-title">更多功能</view>
+              
+              <view class="more-options">
+                <view class="more-option" @tap="goToMyEvents">
+                  <view class="option-icon">
+                    <app-icon name="calendar" size="lg" color="#AC92EC" />
+                  </view>
+                  <view class="option-info">
+                    <view class="option-title">我的活动</view>
+                    <view class="option-desc">查看活动报名记录</view>
+                  </view>
+                  <view class="option-arrow">
+                    <app-icon name="arrow-right" size="sm" color="#999" />
+                  </view>
+                </view>
+                
+                <view class="more-option" @tap="goToAuditHistory">
+                  <view class="option-icon">
+                    <app-icon name="list" size="lg" color="#AC92EC" />
+                  </view>
+                  <view class="option-info">
+                    <view class="option-title">审核记录</view>
+                    <view class="option-desc">查看内容审核状态</view>
+                  </view>
+                  <view class="option-arrow">
+                    <app-icon name="arrow-right" size="sm" color="#999" />
+                  </view>
+                </view>
+              </view>
+            </view>
+          </scroll-view>
+        </swiper-item>
       </swiper>
     </view>
     
@@ -320,6 +277,55 @@
     <view class="profile-settings-container">
       <view class="profile-settings" @tap="goSettings">
         <app-icon name="more" size="md" color="#fff"></app-icon>
+      </view>
+    </view>
+    
+    <!-- 徽章详情弹窗遮罩层 -->
+    <view class="badge-modal-mask" v-if="showBadgeDetail" @tap="closeBadgeDetail">
+      <view class="badge-detail-modal" @tap.stop>
+        <view class="badge-detail-header">
+          <view class="badge-large-icon" :style="{backgroundColor: selectedBadge?.color}">
+            <image class="badge-large-icon-svg" src="/static/images/badge-icon.svg" mode="aspectFit"></image>
+          </view>
+          <text class="badge-large-name">{{ selectedBadge?.name }}</text>
+          <view class="badge-rarity-tag" :class="selectedBadge?.rarity">
+            {{ getRarityName(selectedBadge?.rarity) }}
+          </view>
+        </view>
+        <view class="badge-detail-content">
+          <text class="badge-description">{{ selectedBadge?.description || '暂无描述' }}</text>
+          <view class="badge-grant-info" v-if="selectedBadge?.grantedAt">
+            <text class="grant-time">获得时间：{{ formatTime(selectedBadge.grantedAt) }}</text>
+          </view>
+        </view>
+        <view class="badge-detail-footer">
+          <button class="close-btn" @tap="closeBadgeDetail">确定</button>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 标签详情弹窗遮罩层 -->
+    <view class="tag-modal-mask" v-if="showTagPopup" @tap="closeTagDetail">
+      <view class="tag-detail-modal" :style="tagModalStyle" @tap.stop>
+        <view class="tag-detail-header">
+          <view class="tag-large-icon">
+            <text class="tag-icon-text">#</text>
+          </view>
+          <text class="tag-large-name">{{ selectedTag }}</text>
+          <view class="tag-type-badge">兴趣标签</view>
+        </view>
+        <view class="tag-detail-content">
+          <text class="tag-description">这是我的个人兴趣标签，代表了我的爱好和特长。</text>
+          <view class="tag-stats">
+            <view class="tag-stat-item">
+              <text class="tag-stat-label">我的标签</text>
+              <text class="tag-stat-value">{{ userInfo.tags?.length || 0 }}/8</text>
+            </view>
+          </view>
+        </view>
+        <view class="tag-detail-footer">
+          <button class="tag-close-btn" @tap="closeTagDetail">确定</button>
+        </view>
       </view>
     </view>
     
@@ -333,6 +339,7 @@ import PostList from '@/components/post/PostList.vue';
 import AppIcon from '@/components/common/AppIcon.vue';
 import { UrlUtils } from '@/utils';
 import PostCard from '@/components/post/PostCard.vue';
+// 移除组件导入
 // 导入API
 import api from '@/api';
 
@@ -360,10 +367,18 @@ export default {
         followersCount: 0,
         tags: []
       },
-      userAchievements: [], // 改为空数组，从API获取
+      userAchievements: [], // 保持兼容性
+      userBadges: [], // 用户徽章数据
+      selectedBadge: null, // 当前选中的徽章（用于详情弹窗）
+      showBadgeDetail: false, // 是否显示徽章详情弹窗
+      selectedTag: null, // 当前选中的标签
+      showTagPopup: false, // 是否显示标签详情弹窗
+      tagModalStyle: {}, // 标签弹窗样式（用于动画）
+      showFullUserId: false, // 是否显示完整用户ID
       tabs: [
-        { key: 'post', name: '我的帖子' },
-        { key: 'favorite', name: '我的收藏' }
+        { key: 'post', name: '帖子' },
+        { key: 'favorite', name: '收藏' },
+        { key: 'more', name: '更多' }
       ],
       currentTab: 'post',
       tabIndex: 0,
@@ -383,6 +398,8 @@ export default {
       likeHasMore: true,
       likeRefreshing: false,
       likeLoading: false,
+
+      // 活动和审核记录数据已移动到各自的组件中
       
       // 原始数据（保持兼容性）
       activeTab: 'post',
@@ -407,11 +424,29 @@ export default {
     
     userId() {
       return this.userInfo?.userId || '';
+    },
+    
+    // 显示的徽章（最多3个）
+    displayBadges() {
+      if (!this.userInfo.isLogin || !this.userBadges.length) {
+        return [];
+      }
+      return this.userBadges.slice(0, 3); // 最多显示3个认证徽章
+    },
+    
+    // 缩短的用户ID
+    shortUserId() {
+      const id = this.userInfo.userId || '';
+      if (id.length <= 12) return id;
+      return id.substring(0, 8) + '...';
     }
   },
   onLoad() {
     this.loadUserInfo();
     this.loadPosts();
+    // 活动和审核记录现在由各自的组件处理，无需在这里加载
+    // this.loadEvents();
+    // this.loadAuditRecords();
   },
   onShow() {
     // 页面显示时刷新数据
@@ -441,6 +476,7 @@ export default {
       // 我的收藏
       this.loadMoreLikes();
     }
+    // 注意：活动和审核记录页面不需要加载更多功能
   },
   methods: {
     // 加载用户信息
@@ -511,6 +547,9 @@ export default {
           if (userData.achievements) {
             this.userAchievements = userData.achievements;
           }
+          
+          // 加载用户徽章
+          this.loadUserBadges();
         } else {
           // 登录状态失效
           this.userInfo.isLogin = false;
@@ -522,6 +561,174 @@ export default {
         this.userInfo.isLogin = false;
         this.userInfo.nickname = '游客';
       });
+    },
+    
+    // 加载用户徽章
+    loadUserBadges() {
+      if (!this.userInfo.isLogin || !this.userInfo.userId) {
+        return;
+      }
+      
+      api.badge.getUserBadges(this.userInfo.userId, {
+        includeHidden: false, // 只显示可见的徽章
+        type: 'achievement' // 只显示成就类型的徽章
+      }).then(res => {
+        console.log('🏆 获取用户徽章API响应:', res);
+        
+        if (res.success && res.data) {
+          this.userBadges = res.data.map(userBadge => {
+            return {
+              id: userBadge.id,
+              name: userBadge.badge.name,
+              description: userBadge.badge.description,
+              color: userBadge.badge.color,
+              rarity: userBadge.badge.rarity,
+              type: userBadge.badge.type,
+              grantedAt: userBadge.granted_at,
+              displayOrder: userBadge.display_order,
+              badge: userBadge.badge
+            };
+          });
+          
+          // 更新现有的userAchievements以保持兼容性
+          this.userAchievements = this.userBadges.map(badge => ({
+            name: badge.name,
+            description: badge.description
+          }));
+          
+          console.log('🏆 处理后的用户徽章:', this.userBadges);
+        }
+      }).catch(err => {
+        console.error('获取用户徽章失败:', err);
+      });
+    },
+    
+    // 显示徽章详情
+    showBadgeDetails(badge) {
+      console.log('🏆 显示徽章详情:', badge);
+      this.selectedBadge = badge;
+      this.showBadgeDetail = true;
+    },
+    
+    // 关闭徽章详情弹窗
+    closeBadgeDetail() {
+      this.showBadgeDetail = false;
+      this.selectedBadge = null;
+    },
+    
+    // 徽章触摸开始
+    onBadgeTouchStart() {
+      // 这里可以添加触摸反馈，比如轻微的动画
+    },
+    
+    // 徽章触摸结束
+    onBadgeTouchEnd() {
+      // 这里可以添加触摸结束的处理
+    },
+    
+    // 切换用户ID显示
+    toggleUserId() {
+      this.showFullUserId = !this.showFullUserId;
+    },
+    
+    // 复制用户ID
+    copyUserId() {
+      const userId = this.userInfo.userId;
+      if (!userId) return;
+      
+      uni.setClipboardData({
+        data: userId,
+        success: () => {
+          uni.showToast({
+            title: 'ID已复制',
+            icon: 'success',
+            duration: 1500
+          });
+        },
+        fail: () => {
+          uni.showToast({
+            title: '复制失败',
+            icon: 'none'
+          });
+        }
+      });
+    },
+
+    // 获取标签页数量（已移除所有计数显示）
+    getTabCount(tabKey) {
+      return '';
+    },
+    
+    // 显示标签详情（带放大动画）
+    showTagDetail(tag, event) {
+      this.selectedTag = tag;
+      
+      // 获取点击元素的位置信息
+      const query = uni.createSelectorQuery().in(this);
+      query.selectAll('.profile-tag').boundingClientRect((rects) => {
+        if (rects && rects.length > 0) {
+          // 找到被点击的标签元素
+          const tagIndex = this.userInfo.tags.indexOf(tag);
+          const rect = rects[tagIndex];
+          
+          if (rect) {
+            // 计算弹窗初始位置（从点击位置开始）
+            this.tagModalStyle = {
+              transformOrigin: `${rect.left + rect.width/2}px ${rect.top + rect.height/2}px`,
+              opacity: 0,
+              transform: 'scale(0.3)'
+            };
+            
+            this.showTagPopup = true;
+            
+            // 延迟执行动画
+            this.$nextTick(() => {
+              setTimeout(() => {
+                this.tagModalStyle = {
+                  transformOrigin: `${rect.left + rect.width/2}px ${rect.top + rect.height/2}px`,
+                  opacity: 1,
+                  transform: 'scale(1)',
+                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+                };
+              }, 50);
+            });
+          }
+        }
+      }).exec();
+    },
+    
+    // 关闭标签详情弹窗
+    closeTagDetail() {
+      // 先执行缩小动画
+      this.tagModalStyle = {
+        ...this.tagModalStyle,
+        opacity: 0,
+        transform: 'scale(0.3)',
+        transition: 'all 0.2s ease-in'
+      };
+      
+      // 动画结束后隐藏弹窗
+      setTimeout(() => {
+        this.showTagPopup = false;
+        this.selectedTag = null;
+        this.tagModalStyle = {};
+      }, 200);
+    },
+    
+    // 获取稀有度样式类
+    getRarityClass(rarity) {
+      return `rarity-${rarity}`;
+    },
+    
+    // 获取稀有度名称
+    getRarityName(rarity) {
+      const names = {
+        common: '普通',
+        rare: '稀有',
+        epic: '史诗',
+        legendary: '传奇'
+      };
+      return names[rarity] || '未知';
     },
     
     // 编辑个人资料
@@ -553,8 +760,10 @@ export default {
       this.refreshCurrentTab();
 
       // 兼容原始功能
-      this.activeTab = tab === 'post' ? 'post' : 'favorite';
-      this.changeTab(this.activeTab);
+      if (tab === 'post' || tab === 'favorite') {
+        this.activeTab = tab === 'post' ? 'post' : 'favorite';
+        this.changeTab(this.activeTab);
+      }
     },
 
     // 跳转到关注/粉丝列表
@@ -591,6 +800,9 @@ export default {
           break;
         case 'favorite':
           this.refreshLikes();
+          break;
+        case 'more':
+          // 更多页面无需刷新
           break;
       }
     },
@@ -864,6 +1076,18 @@ export default {
       }
 
       return num.toString();
+    },
+    
+    // 格式化学校信息
+    formatSchoolInfo(school, department) {
+      if (school && department) {
+        return `${school}${department}`;
+      } else if (school) {
+        return school;
+      } else if (department) {
+        return department;
+      }
+      return '';
     },
     
     // 跳转帖子详情页
@@ -1146,68 +1370,21 @@ export default {
       });
     },
 
-    // 跳转到我的活动
+    // 跳转到我的活动页面
     goToMyEvents() {
-      if (!this.userInfo.isLogin) {
-        uni.showToast({
-          title: '请先登录',
-          icon: 'none'
-        });
-        return;
-      }
-
       uni.navigateTo({
         url: '/pages/event/my-events'
       });
     },
 
-    // 跳转到我的帖子
-    goToMyPosts() {
-      if (!this.userInfo.isLogin) {
-        uni.showToast({
-          title: '请先登录',
-          icon: 'none'
-        });
-        return;
-      }
-
-      this.handleTabClick('post');
-    },
-
-    // 跳转到我的收藏
-    goToMyFavorites() {
-      if (!this.userInfo.isLogin) {
-        uni.showToast({
-          title: '请先登录',
-          icon: 'none'
-        });
-        return;
-      }
-
-      this.handleTabClick('favorite');
-    },
-
     // 跳转到审核记录页面
     goToAuditHistory() {
-      if (!this.userInfo.isLogin) {
-        uni.showToast({
-          title: '请先登录',
-          icon: 'none'
-        });
-        return;
-      }
-
       uni.navigateTo({
         url: '/pages/profile/audit-history'
       });
-    },
-
-    // 跳转到活动API测试页面
-    goToEventTest() {
-      uni.navigateTo({
-        url: '/pages/test/event-test'
-      });
     }
+
+
   }
 }
 </script>
@@ -1228,15 +1405,14 @@ export default {
   position: relative;
   border-radius: 0 0 50rpx 50rpx;
   overflow: hidden;
-  box-shadow: 0 20rpx 40rpx rgba(102, 126, 234, 0.15);
-  margin-bottom: 30rpx;
-  padding-bottom: 40rpx;
+  margin-bottom: 0;
+  padding-bottom: 0;
 }
 
 /* 封面背景 */
 .profile-cover {
   position: relative;
-  height: 400rpx;
+  height: 670rpx;
   overflow: hidden;
 }
 
@@ -1270,7 +1446,7 @@ export default {
   bottom: 0;
   left: 0;
   right: 0;
-  height: 180rpx;
+  height: 220rpx;
   background: linear-gradient(to top,
     rgba(255, 255, 255, 0.75) 0%,
     rgba(255, 255, 255, 0.68) 15%,
@@ -1286,19 +1462,23 @@ export default {
 
 /* 用户信息 */
 .profile-info {
-  @include flex(row, flex-start, center);
-  padding: 40rpx 30rpx;
-  margin-top: -100rpx;
-  position: relative;
+  position: absolute;
+  bottom: 80rpx; /* 距离背景图底部80rpx，整体下移 */
+  left: 0;
+  right: 0;
+  @include flex(column, flex-start, flex-start);
+  padding: 0 30rpx;
   z-index: 10;
   background: transparent;
+  text-align: left;
 }
 
 .profile-avatar-container {
   position: relative;
-  margin-right: 30rpx;
-  width: 180rpx;
-  height: 180rpx;
+  margin-bottom: 16rpx; /* 头像下方间距 */
+  width: 150rpx; /* 适度放大头像 */
+  height: 150rpx; /* 适度放大头像 */
+  align-self: flex-start; /* 头像左对齐 */
 }
 
 .profile-avatar-wrap {
@@ -1308,7 +1488,6 @@ export default {
   border-radius: 50%;
   overflow: hidden;
   box-shadow: 0 15rpx 35rpx rgba(0, 0, 0, 0.2), 0 5rpx 15rpx rgba(0, 0, 0, 0.1);
-  border: 6rpx solid rgba(255, 255, 255, 0.9);
 }
 
 .profile-avatar {
@@ -1317,23 +1496,7 @@ export default {
   object-fit: cover;
 }
 
-.profile-avatar-border {
-  position: absolute;
-  top: -8rpx;
-  left: -8rpx;
-  right: -8rpx;
-  bottom: -8rpx;
-  border-radius: 50%;
-  border: 3rpx solid rgba(255, 255, 255, 0.6);
-  z-index: 3;
-  animation: avatarPulse 2s infinite ease-in-out;
-}
 
-@keyframes avatarPulse {
-  0% { transform: scale(1); opacity: 0.6; }
-  50% { transform: scale(1.05); opacity: 0.8; }
-  100% { transform: scale(1); opacity: 0.6; }
-}
 
 .profile-avatar-glow {
   position: absolute;
@@ -1355,32 +1518,136 @@ export default {
 }
 
 .profile-user-container {
-  flex: 1;
-  @include flex(column, space-between, flex-start);
-}
-
-.profile-user {
-  @include flex(column, center, flex-start);
+  @include flex(column, flex-start, flex-start);
+  width: 100%;
+  text-align: left;
 }
 
 .profile-nickname {
-  font-size: 44rpx;
+  font-size: 40rpx; /* 稍微缩小字体 */
   color: #ffffff;
   font-weight: 700;
-  margin-bottom: 10rpx;
   text-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.8), 0 0 20rpx rgba(0, 0, 0, 0.5);
   letter-spacing: 1rpx;
+  margin-bottom: 8rpx;
+  margin-left: 30rpx; /* 只有名字往右移动 */
+  /* 处理溢出 */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: calc(100% - 30rpx); /* 调整最大宽度以适应左边距 */
 }
 
-.profile-userid {
-  font-size: 26rpx;
-  color: #ffffff;
-  margin-bottom: 15rpx;
-  background: rgba(0, 0, 0, 0.4);
-  padding: 8rpx 16rpx;
+/* 徽章行样式 */
+.profile-badges-row {
+  @include flex(row, flex-start, center);
+  flex-wrap: wrap;
+  gap: 12rpx;
+  margin-bottom: 20rpx;
+}
+
+/* 认证徽章样式 */
+.certification-badge {
+  @include flex(row, flex-start, center);
+  background: rgba(255, 255, 255, 0.15);
+  /* backdrop-filter: blur(10rpx); 模糊效果已移除 */
   border-radius: 20rpx;
-  backdrop-filter: blur(10rpx);
+  padding: 6rpx 12rpx;
+  margin-right: 12rpx;
+  margin-bottom: 8rpx;
+  border: 1rpx solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+  
+  &:active {
+    transform: scale(0.95);
+    background: rgba(255, 255, 255, 0.25);
+  }
+}
+
+.cert-icon {
+  width: 32rpx;
+  height: 32rpx;
+  border-radius: 50%;
+  @include flex(row, center, center);
+  margin-right: 8rpx;
+  box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.2);
+}
+
+.cert-icon-svg {
+  width: 24rpx;
+  height: 24rpx;
+}
+
+.cert-name {
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.95);
+  font-weight: 500;
+  text-shadow: 0 1rpx 3rpx rgba(0, 0, 0, 0.5);
+  max-width: 120rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 用户ID和统计信息行 */
+.profile-userid-stats-row {
+  margin-bottom: 12rpx;
+  @include flex(row, space-between, center);
+  align-items: center;
+  width: 100%;
+}
+
+.profile-userid-container {
+  @include flex(row, flex-start, center);
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.profile-userid-text {
+  font-size: 24rpx;
+  color: #ffffff;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 6rpx 16rpx;
+  border-radius: 16rpx;
   text-shadow: 0 1rpx 4rpx rgba(0, 0, 0, 0.6);
+  transition: all 0.3s ease;
+  
+  &:active {
+    background: rgba(0, 0, 0, 0.6);
+  }
+}
+
+.profile-stats-text {
+  @include flex(row, flex-end, center);
+  gap: 20rpx;
+  flex-shrink: 0;
+}
+
+.stat-item {
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 1rpx 4rpx rgba(0, 0, 0, 0.6);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 4rpx 12rpx;
+  border-radius: 12rpx;
+  
+  &:active {
+    color: rgba(255, 255, 255, 1);
+    background: rgba(0, 0, 0, 0.5);
+    transform: scale(0.95);
+  }
+}
+
+.copy-hint {
+  font-size: 20rpx;
+  color: rgba(255, 255, 255, 0.8);
+  background: rgba(0, 0, 0, 0.3);
+  padding: 4rpx 12rpx;
+  border-radius: 12rpx;
+  animation: fadeInUp 0.3s ease;
 }
 
 .profile-bio {
@@ -1399,62 +1666,36 @@ export default {
   text-shadow: 0 1rpx 4rpx rgba(0, 0, 0, 0.8);
 }
 
+/* 学校信息文字样式 */
+.profile-school-text {
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.9);
+  margin-top: 8rpx;
+  line-height: 1.4;
+  max-width: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 4rpx 12rpx;
+  border-radius: 12rpx;
+  text-shadow: 0 1rpx 4rpx rgba(0, 0, 0, 0.6);
+  display: inline-block;
+}
+
+
+
 
 
 /* 学校信息 */
-.profile-school {
-  padding: 0 30rpx;
-  margin-top: 25rpx;
-}
-
-.profile-school-content {
-  @include flex(row, flex-start, center);
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%);
-  border-radius: 25rpx;
-  padding: 20rpx 28rpx;
-  box-shadow: 0 10rpx 30rpx rgba(0, 0, 0, 0.08);
-  backdrop-filter: blur(10rpx);
-  border: 1rpx solid rgba(255, 255, 255, 0.2);
-}
-
-.profile-school-icon {
-  color: #667eea;
-  font-size: 40rpx;
-  margin-right: 20rpx;
-}
-
-.profile-school-info {
-  @include flex(column, center, flex-start);
-}
-
-.profile-school-name {
-  font-size: 32rpx;
-  color: #2d3748;
-  font-weight: 600;
-  margin-bottom: 6rpx;
-}
-
-.profile-school-dept {
-  font-size: 26rpx;
-  color: #718096;
-}
+  /* 删除了独立的学校信息显示区域样式 */
 
 /* 统计信息 */
-.profile-stats-container {
-  padding: 0 30rpx;
-  margin-top: 30rpx;
-  margin-bottom: 30rpx;
-}
-
 .profile-stats {
-  @include flex(row, space-around, center);
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.85) 100%);
-  backdrop-filter: blur(20rpx);
-  border-radius: 30rpx;
-  padding: 40rpx 20rpx;
-  box-shadow: 0 15rpx 40rpx rgba(0, 0, 0, 0.1), 0 5rpx 15rpx rgba(0, 0, 0, 0.05);
-  border: 1rpx solid rgba(255, 255, 255, 0.3);
   position: relative;
+  padding: 30rpx 30rpx 20rpx 30rpx; /* 底部padding减少 */
+  background: rgba(255, 255, 255, 1); /* 白色背景 */
+  border-radius: 50rpx 50rpx 0 0; /* 顶部圆角 */
+  z-index: 1;
+  @include flex(row, space-around, center);
+  /* backdrop-filter: blur(20rpx); 模糊效果已移除 */
   overflow: hidden;
 
   &::before {
@@ -1512,13 +1753,17 @@ export default {
 
 /* 功能菜单 */
 .profile-menu-container {
-  padding: 0 30rpx;
+  position: relative;
+  padding: 0 30rpx 30rpx 30rpx; /* 底部padding增加 */
+  background: rgba(255, 255, 255, 1); /* 白色背景 */
+  border-radius: 0 0 50rpx 50rpx; /* 底部圆角 */
   margin-bottom: 30rpx;
+  z-index: 1;
 }
 
 .profile-menu {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.85) 100%);
-  backdrop-filter: blur(20rpx);
+  background: transparent; /* 透明背景，使用父容器的白色背景 */
+  /* backdrop-filter: blur(20rpx); 模糊效果已移除 */
   border-radius: 30rpx;
   box-shadow: 0 15rpx 40rpx rgba(0, 0, 0, 0.1), 0 5rpx 15rpx rgba(0, 0, 0, 0.05);
   border: 1rpx solid rgba(255, 255, 255, 0.3);
@@ -1591,28 +1836,11 @@ export default {
   }
 }
 
-/* 成就徽章 */
-.profile-achievements {
-  padding: 25rpx 30rpx;
-}
+/* 旧徽章样式已删除，使用认证标识样式 */
 
-.section-title {
-  font-size: 32rpx;
-  font-weight: 600;
-  color: #ffffff;
-  margin-bottom: 20rpx;
-  text-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.8);
-}
+/* 删除section相关样式 */
 
-.achievements-scroll {
-  overflow-x: auto;
-  padding: 15rpx 0;
-  width: 100%;
-}
-
-.achievements-content {
-  @include flex(row, flex-start, center);
-}
+/* 删除achievements相关样式 */
 
 .achievement-item {
   @include flex(column, center, center);
@@ -1622,14 +1850,29 @@ export default {
   margin-right: 25rpx;
   width: 130rpx;
   box-shadow: 0 10rpx 30rpx rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(10rpx);
+  /* backdrop-filter: blur(10rpx); 模糊效果已移除 */
   border: 1rpx solid rgba(255, 255, 255, 0.2);
   animation: achievementFadeIn 0.6s ease-out;
   animation-fill-mode: both;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
 
   &:active {
     transform: scale(0.95);
+  }
+  
+  /* 稀有度发光效果 */
+  &.rarity-rare {
+    box-shadow: 0 10rpx 30rpx rgba(70, 130, 180, 0.3);
+  }
+  
+  &.rarity-epic {
+    box-shadow: 0 10rpx 30rpx rgba(138, 43, 226, 0.3);
+  }
+  
+  &.rarity-legendary {
+    box-shadow: 0 10rpx 30rpx rgba(255, 215, 0, 0.4);
+    animation: achievementFadeIn 0.6s ease-out, legendaryGlow 2s ease-in-out infinite alternate;
   }
 }
 
@@ -1644,11 +1887,68 @@ export default {
   }
 }
 
-.achievement-icon {
+@keyframes legendaryGlow {
+  from {
+    box-shadow: 0 10rpx 30rpx rgba(255, 215, 0, 0.4);
+  }
+  to {
+    box-shadow: 0 15rpx 40rpx rgba(255, 215, 0, 0.6);
+  }
+}
+
+.badge-icon-container {
+  position: relative;
+  margin-bottom: 12rpx;
+}
+
+.badge-icon {
   width: 80rpx;
   height: 80rpx;
-  margin-bottom: 12rpx;
   border-radius: 50%;
+  @include flex(row, center, center);
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.15);
+}
+
+.badge-icon-text {
+  font-size: 36rpx;
+  color: white;
+  text-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.3);
+}
+
+.rarity-indicator {
+  position: absolute;
+  top: -4rpx;
+  right: -4rpx;
+  width: 20rpx;
+  height: 20rpx;
+  border-radius: 50%;
+  border: 2rpx solid white;
+  
+  &.common {
+    background: #95a5a6;
+  }
+  
+  &.rare {
+    background: #3498db;
+  }
+  
+  &.epic {
+    background: #9b59b6;
+  }
+  
+  &.legendary {
+    background: linear-gradient(45deg, #f1c40f, #f39c12);
+    animation: legendaryPulse 1.5s ease-in-out infinite;
+  }
+}
+
+@keyframes legendaryPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
 }
 
 .achievement-name {
@@ -1666,7 +1966,10 @@ export default {
 
 /* 标签 */
 .profile-tags {
+  position: relative;
   padding: 25rpx 30rpx;
+  margin-top: 50rpx; /* 给白色区域顶部留出空间 */
+  z-index: 1;
 }
 
 .tags-scroll {
@@ -1691,7 +1994,7 @@ export default {
   animation: tagFadeIn 0.5s ease-out;
   animation-fill-mode: both;
   border: 1rpx solid rgba(102, 126, 234, 0.2);
-  backdrop-filter: blur(10rpx);
+  /* backdrop-filter: blur(10rpx); 模糊效果已移除 */
   font-weight: 500;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
@@ -1715,21 +2018,19 @@ export default {
 /* 内容区 */
 .profile-content {
   flex: 1;
-  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-  border-radius: 50rpx 50rpx 0 0;
+  background: rgba(255, 255, 255, 1);
+  border-radius: 0;
   overflow: hidden;
-  margin-top: 30rpx;
-  box-shadow: 0 -10rpx 30rpx rgba(0, 0, 0, 0.05);
+  margin-top: 0;
 }
 
 /* 标签页 */
 .profile-tabs {
   @include flex(row, space-around, center);
-  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-  border-bottom: 1rpx solid rgba(226, 232, 240, 0.8);
+  background: rgba(255, 255, 255, 1);
   position: relative;
   z-index: 10;
-  padding: 10rpx 0;
+  padding: 0 0 20rpx 0;
 }
 
 .profile-tab {
@@ -1740,8 +2041,8 @@ export default {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
   &.active {
-    color: #667eea;
-    font-weight: 600;
+    color: #333333;
+    font-weight: bold;
 
     .tab-text {
       transform: scale(1.05);
@@ -1766,7 +2067,7 @@ export default {
   transform: translateX(-50%);
   width: 80rpx;
   height: 6rpx;
-  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  background: #333333;
   border-radius: 3rpx;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   animation: slideIn 0.3s ease-out;
@@ -1785,8 +2086,10 @@ export default {
 
 /* 滑动区域 */
 .profile-swiper {
-  height: calc(100vh - 520rpx);
+  position: relative;
+  height: calc(100vh - 640rpx);
   width: 100%;
+  z-index: 1;
 }
 
 .profile-swiper-item {
@@ -1796,6 +2099,19 @@ export default {
 
 .profile-scroll {
   height: 100%;
+}
+
+/* 内容统计信息头部 */
+.content-stats-header {
+  padding: 20rpx 30rpx 10rpx 30rpx;
+  background: rgba(255, 255, 255, 1);
+  border-bottom: 1rpx solid rgba(0, 0, 0, 0.06);
+}
+
+.stats-text {
+  font-size: 24rpx;
+  color: #999999;
+  font-weight: 400;
 }
 
 /* 帖子列表 */
@@ -1844,7 +2160,7 @@ export default {
 
 .load-more-text {
   font-size: $font-size-sm;
-  color: $text-tertiary;
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .no-more {
@@ -1854,7 +2170,7 @@ export default {
 
 .no-more-text {
   font-size: $font-size-sm;
-  color: $text-tertiary;
+  color: rgba(255, 255, 255, 0.8);
 }
 
 /* 空状态 */
@@ -1871,7 +2187,7 @@ export default {
 
 .empty-text {
   font-size: $font-size-md;
-  color: $text-tertiary;
+  color: rgba(255, 255, 255, 0.8);
   margin-bottom: 30rpx;
 }
 
@@ -1911,7 +2227,7 @@ export default {
   border: 2rpx solid rgba(255, 255, 255, 0.3);
   border-radius: 50%;
   @include flex(row, center, center);
-  backdrop-filter: blur(20rpx);
+  /* backdrop-filter: blur(20rpx); 模糊效果已移除 */
   box-shadow: 0 8rpx 25rpx rgba(0, 0, 0, 0.1);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
@@ -2000,13 +2316,341 @@ export default {
 
 .empty-text {
   font-size: $font-size-md;
-  color: $text-tertiary;
+  color: rgba(255, 255, 255, 0.8);
   margin-bottom: 40rpx;
+}
+
+/* 徽章详情弹窗 */
+.badge-modal-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  @include flex(row, center, center);
+  z-index: 9999;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.badge-detail-modal {
+  width: 600rpx;
+  background: white;
+  border-radius: 30rpx;
+  padding: 40rpx;
+  text-align: center;
+  animation: modalSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 20rpx 60rpx rgba(0, 0, 0, 0.3);
+  /* backdrop-filter: blur(20rpx); 模糊效果已移除 */
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8) translateY(50rpx);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.badge-detail-header {
+  margin-bottom: 30rpx;
+}
+
+.badge-large-icon {
+  width: 140rpx;
+  height: 140rpx;
+  border-radius: 50%;
+  @include flex(row, center, center);
+  margin: 0 auto 20rpx;
+  box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.15);
+}
+
+.badge-large-icon-svg {
+  width: 80rpx;
+  height: 80rpx;
+}
+
+.badge-large-name {
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #333;
+  display: block;
+  margin-bottom: 10rpx;
+}
+
+.badge-rarity-tag {
+  display: inline-block;
+  padding: 6rpx 16rpx;
+  border-radius: 12rpx;
+  font-size: 22rpx;
+  color: white;
+  font-weight: 500;
+  
+  &.common {
+    background: #95a5a6;
+  }
+  
+  &.rare {
+    background: #3498db;
+  }
+  
+  &.epic {
+    background: #9b59b6;
+  }
+  
+  &.legendary {
+    background: linear-gradient(45deg, #f1c40f, #f39c12);
+  }
+}
+
+.badge-detail-content {
+  margin: 30rpx 0;
+}
+
+.badge-description {
+  font-size: 28rpx;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 20rpx;
+}
+
+.badge-grant-info {
+  margin-top: 20rpx;
+}
+
+.grant-time {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.badge-detail-footer {
+  margin-top: 30rpx;
+}
+
+.close-btn {
+  width: 200rpx;
+  height: 70rpx;
+  background: #007aff;
+  color: white;
+  border: none;
+  border-radius: 35rpx;
+  font-size: 28rpx;
+  transition: all 0.3s ease;
+  
+  &:active {
+    transform: scale(0.95);
+    background: #0056cc;
+  }
+}
+
+/* 标签详情弹窗 */
+.tag-modal-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  @include flex(row, center, center);
+  z-index: 9998;
+}
+
+.tag-detail-modal {
+  width: 600rpx;
+  background: white;
+  border-radius: 30rpx;
+  padding: 40rpx;
+  text-align: center;
+  box-shadow: 0 20rpx 60rpx rgba(0, 0, 0, 0.3);
+  /* backdrop-filter: blur(20rpx); 模糊效果已移除 */
+}
+
+.tag-detail-header {
+  margin-bottom: 30rpx;
+}
+
+.tag-large-icon {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  @include flex(row, center, center);
+  margin: 0 auto 20rpx;
+  box-shadow: 0 8rpx 24rpx rgba(102, 126, 234, 0.3);
+}
+
+.tag-icon-text {
+  font-size: 48rpx;
+  color: white;
+  font-weight: bold;
+  text-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.3);
+}
+
+.tag-large-name {
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #333;
+  display: block;
+  margin-bottom: 10rpx;
+}
+
+.tag-type-badge {
+  display: inline-block;
+  padding: 6rpx 16rpx;
+  border-radius: 12rpx;
+  font-size: 22rpx;
+  color: white;
+  font-weight: 500;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.tag-detail-content {
+  margin: 30rpx 0;
+}
+
+.tag-description {
+  font-size: 28rpx;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 20rpx;
+}
+
+.tag-stats {
+  margin-top: 20rpx;
+}
+
+.tag-stat-item {
+  @include flex(row, space-between, center);
+  padding: 12rpx 0;
+}
+
+.tag-stat-label {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.tag-stat-value {
+  font-size: 24rpx;
+  color: #667eea;
+  font-weight: 600;
+}
+
+.tag-detail-footer {
+  margin-top: 30rpx;
+}
+
+.tag-close-btn {
+  width: 200rpx;
+  height: 70rpx;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 35rpx;
+  font-size: 28rpx;
+  transition: all 0.3s ease;
+  
+  &:active {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
 }
 
 /* 安全区域 */
 .safe-area {
   height: env(safe-area-inset-bottom);
   background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+}
+
+/* 更多页面样式 */
+.more-content {
+  padding: 40rpx 30rpx;
+}
+
+.more-title {
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 40rpx;
+  text-align: center;
+}
+
+.more-options {
+  background: #fff;
+  border-radius: 20rpx;
+  overflow: hidden;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.05);
+}
+
+.more-option {
+  @include flex(row, flex-start, center);
+  padding: 30rpx;
+  position: relative;
+  transition: background-color 0.3s ease;
+
+  &:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 100rpx;
+    right: 30rpx;
+    height: 1rpx;
+    background-color: rgba(0, 0, 0, 0.06);
+  }
+
+  &:active {
+    background-color: rgba(172, 146, 236, 0.1);
+  }
+}
+
+.option-icon {
+  width: 60rpx;
+  height: 60rpx;
+  @include center;
+  background: rgba(172, 146, 236, 0.1);
+  border-radius: 16rpx;
+  margin-right: 20rpx;
+}
+
+.option-info {
+  flex: 1;
+}
+
+.option-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 6rpx;
+}
+
+.option-desc {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.option-arrow {
+  margin-left: 20rpx;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40rpx);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 </style> 

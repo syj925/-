@@ -185,6 +185,24 @@ export default (http) => ({
   getMyFollowers: (page = 1, pageSize = 10) => http.get('/api/follows/me/followers', { page, pageSize }),
 
   /**
+   * 获取指定用户的关注列表
+   * @param {String|Number} userId 用户ID
+   * @param {Number} page 页码
+   * @param {Number} pageSize 每页数量
+   * @returns {Promise}
+   */
+  getUserFollowings: (userId, page = 1, pageSize = 10) => http.get(`/api/follows/user/${userId}/followings`, { page, pageSize }),
+
+  /**
+   * 获取指定用户的粉丝列表
+   * @param {String|Number} userId 用户ID
+   * @param {Number} page 页码
+   * @param {Number} pageSize 每页数量
+   * @returns {Promise}
+   */
+  getUserFollowers: (userId, page = 1, pageSize = 10) => http.get(`/api/follows/user/${userId}/followers`, { page, pageSize }),
+
+  /**
    * 检查是否关注
    * @param {String|Number} userId 目标用户ID
    * @returns {Promise}
@@ -238,5 +256,48 @@ export default (http) => ({
    * @param {Number} pageSize 每页数量
    * @returns {Promise}
    */
-  getCommonFollowings: (userId1, userId2, page = 1, pageSize = 20) => http.get(`/api/follows/common/${userId1}/${userId2}`, { page, pageSize })
+  getCommonFollowings: (userId1, userId2, page = 1, pageSize = 20) => http.get(`/api/follows/common/${userId1}/${userId2}`, { page, pageSize }),
+
+  /**
+   * 获取我的关注和粉丝数据（合并API）
+   * @param {Object} options 分页选项
+   * @returns {Promise}
+   */
+  getMyFollowData: (options = {}) => {
+    const {
+      followingPage = 1,
+      followingPageSize = 20,
+      followersPage = 1,
+      followersPageSize = 20
+    } = options;
+    
+    return http.get('/api/follows/me/data', {
+      followingPage,
+      followingPageSize,
+      followersPage,
+      followersPageSize
+    });
+  },
+
+  /**
+   * 获取指定用户的关注和粉丝数据（合并API）
+   * @param {String|Number} userId 用户ID
+   * @param {Object} options 分页选项
+   * @returns {Promise}
+   */
+  getUserFollowData: (userId, options = {}) => {
+    const {
+      followingPage = 1,
+      followingPageSize = 20,
+      followersPage = 1,
+      followersPageSize = 20
+    } = options;
+    
+    return http.get(`/api/follows/user/${userId}/data`, {
+      followingPage,
+      followingPageSize,
+      followersPage,
+      followersPageSize
+    });
+  }
 });

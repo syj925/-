@@ -5,8 +5,8 @@
         <div class="card-header">
           <h3>内容审核</h3>
           <el-radio-group v-model="auditType" size="small" @change="handleTypeChange">
-            <el-radio-button label="posts">帖子</el-radio-button>
-            <el-radio-button label="comments">评论</el-radio-button>
+            <el-radio-button value="posts">帖子</el-radio-button>
+            <el-radio-button value="comments">评论</el-radio-button>
           </el-radio-group>
         </div>
       </template>

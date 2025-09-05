@@ -1,7 +1,25 @@
 <template>
   <view class="index">
+    <!-- 自定义状态栏 + 搜索框 -->
+    <view class="custom-header" :class="{ 'header-hidden': !searchHeaderVisible }">
+      <!-- 状态栏占位 -->
+      <view class="status-bar"></view>
+      
+      <!-- 搜索区域 -->
+      <view class="search-header">
+        <view class="search-container" @click="goToSearch">
+          <view class="search-box">
+            <view class="search-icon">
+              <image src="/static/images/ss.svg" mode="aspectFit"></image>
+            </view>
+            <text class="search-placeholder">搜索帖子、用户、话题...</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
     <!-- 顶部分类栏 -->
-    <view class="category">
+    <view class="category" :class="{ 'category-sticky': !searchHeaderVisible }">
       <scroll-view
         class="category-scroll"
         scroll-x
@@ -22,6 +40,9 @@
         </view>
       </scroll-view>
     </view>
+    
+    <!-- 分类栏占位 (当分类栏固定时) -->
+    <view v-if="!searchHeaderVisible" class="category-placeholder"></view>
     
     <!-- 轮播图 -->
     <Banner
@@ -86,7 +107,11 @@ export default {
       // 推荐模拟数据 - 移除所有模拟数据
       recommendMockData: [],
       // 热门模拟数据 - 移除所有模拟数据
-      hotMockData: []
+      hotMockData: [],
+      // 滚动控制相关
+      lastScrollTop: 0,
+      searchHeaderVisible: true,
+      scrollDirection: 'down'
     };
   },
   onLoad() {
@@ -98,14 +123,6 @@ export default {
     this.loadPosts();
   },
 
-  // 处理导航栏按钮点击
-  onNavigationBarButtonTap(e) {
-    const index = e.index;
-    if (index === 0) {
-      // 搜索按钮
-      this.goToSearch();
-    }
-  },
   onShow() {
     // 检查是否从发布页面返回，如果是则刷新数据
     const pages = getCurrentPages();
@@ -150,6 +167,38 @@ export default {
       }
     }
   },
+
+  // 监听页面滚动
+  onPageScroll(e) {
+    const scrollTop = e.scrollTop;
+    const deltaY = scrollTop - this.lastScrollTop;
+    
+    // 滚动距离小于10px时不处理，避免频繁触发
+    if (Math.abs(deltaY) < 10) return;
+    
+    // 判断滚动方向
+    const isScrollingDown = deltaY > 0;
+    const isScrollingUp = deltaY < 0;
+    
+    // 在顶部附近时总是显示搜索栏
+    if (scrollTop < 50) {
+      this.searchHeaderVisible = true;
+    } else {
+      // 向下滚动时隐藏搜索栏
+      if (isScrollingDown && this.searchHeaderVisible) {
+        this.searchHeaderVisible = false;
+        this.scrollDirection = 'down';
+      }
+      // 向上滚动时显示搜索栏
+      else if (isScrollingUp && !this.searchHeaderVisible) {
+        this.searchHeaderVisible = true;
+        this.scrollDirection = 'up';
+      }
+    }
+    
+    this.lastScrollTop = scrollTop;
+  },
+
   async onPullDownRefresh() {
     this.refreshing = true;
     this.page = 1;
@@ -418,33 +467,51 @@ export default {
     
     // 处理点赞
     handleLike(post) {
-      // 调用点赞API
-      const isLiked = !post.isLiked;
-      
-      // 正确调用API
-      const apiPromise = isLiked 
+      // 检查登录状态
+      const token = uni.getStorageSync('token');
+      if (!token) {
+        uni.showToast({
+          title: '请先登录',
+          icon: 'none'
+        });
+        uni.navigateTo({
+          url: '/pages/auth/login/index'
+        });
+        return;
+      }
+
+      // 使用乐观更新：先立即更新UI
+      const originalState = post.isLiked;
+      const originalCount = post.likeCount;
+      const newState = !post.isLiked;
+
+      // 立即更新UI
+      post.isLiked = newState;
+      post.likeCount += newState ? 1 : -1;
+
+      // 调用API
+      const apiPromise = newState 
         ? this.$api.like.like('post', post.id)
         : this.$api.like.unlike('post', post.id);
       
       apiPromise
         .then(res => {
-          // 找到对应的帖子并更新点赞状态
-          const index = this.postList.findIndex(item => item.id === post.id);
-          if (index !== -1) {
-            this.postList[index].isLiked = isLiked;
-            this.postList[index].likeCount += isLiked ? 1 : -1;
-            
-            // 提示
-            uni.showToast({
-              title: isLiked ? '点赞成功' : '取消点赞',
-              icon: 'none'
-            });
-          }
+          console.log('点赞操作成功:', res);
+          // 提示
+          uni.showToast({
+            title: newState ? '点赞成功' : '取消点赞',
+            icon: 'success'
+          });
         })
         .catch(err => {
           console.error('点赞操作失败:', err);
+
+          // 恢复原始状态
+          post.isLiked = originalState;
+          post.likeCount = originalCount;
+
           uni.showToast({
-            title: '操作失败，请稍后重试',
+            title: err.msg || '操作失败，请稍后重试',
             icon: 'none'
           });
         });
@@ -769,13 +836,95 @@ export default {
   }
 }
 
+/* 自定义头部样式 */
+.custom-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.9));
+  backdrop-filter: blur(10rpx);
+  border-bottom: 1rpx solid rgba(0, 0, 0, 0.05);
+  transform: translateY(0);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  &.header-hidden {
+    transform: translateY(-100%);
+  }
+}
+
+.status-bar {
+  height: var(--status-bar-height);
+  width: 100%;
+}
+
+.search-header {
+  padding: 20rpx 30rpx;
+}
+
+.search-container {
+  position: relative;
+}
+
+.search-box {
+  @include flex(row, flex-start, center);
+  background: rgba(247, 248, 250, 0.8);
+  border-radius: 50rpx;
+  padding: 20rpx 30rpx;
+  border: 2rpx solid rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+  
+  &:active {
+    background: rgba(240, 242, 245, 0.9);
+    transform: scale(0.98);
+  }
+}
+
+.search-icon {
+  width: 32rpx;
+  height: 32rpx;
+  margin-right: 20rpx;
+  
+  image {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.search-placeholder {
+  font-size: 28rpx;
+  color: #999;
+  flex: 1;
+}
+
 .category {
+  margin-top: calc(var(--status-bar-height) + 120rpx); /* 为固定头部留出空间 */
   background-color: $bg-card;
   padding: $spacing-sm 0;
   border-radius: 0 0 $radius-lg $radius-lg;
   box-shadow: $shadow-sm;
   position: relative;
-  z-index: 1;
+  z-index: 999;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  &.category-sticky {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin-top: var(--status-bar-height);
+    border-radius: 0;
+    box-shadow: 0 2rpx 16rpx rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10rpx);
+    background: rgba(255, 255, 255, 0.95);
+  }
+}
+
+/* 分类栏占位空间 */
+.category-placeholder {
+  height: calc(var(--status-bar-height) + 88rpx); /* 状态栏高度 + 分类栏高度 */
+  width: 100%;
 }
 
 .category-scroll {
@@ -800,10 +949,11 @@ export default {
   overflow: hidden;
   
   &.active {
-    color: $text-white;
-    background: $gradient-blue;
-    box-shadow: 0 4rpx 12rpx rgba($primary-color, 0.3);
-    transform: translateY(-2rpx);
+    color: #333333;
+    font-weight: bold;
+    background: transparent;
+    box-shadow: none;
+    transform: none;
   }
   
   &:last-child {

@@ -400,10 +400,11 @@ export default {
   overflow: hidden;
 
   &.active {
-    color: $text-white;
-    background: $gradient-blue;
-    box-shadow: 0 4rpx 12rpx rgba($primary-color, 0.3);
-    transform: translateY(-2rpx);
+    color: #333333;
+    font-weight: bold;
+    background: transparent;
+    box-shadow: none;
+    transform: none;
   }
 
   &:last-child {
@@ -439,15 +440,15 @@ export default {
     .topic-tag {
       width: 60rpx;
       height: 60rpx;
-      background: $gradient-blue;
+      background: #ffffff;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: $text-white;
+      color: #333333;
       font-size: $font-size-xl;
       font-weight: bold;
-      box-shadow: 0 4rpx 12rpx rgba($primary-color, 0.3);
+      box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
     }
   }
 

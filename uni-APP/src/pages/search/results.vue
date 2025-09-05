@@ -39,22 +39,15 @@
 
         <!-- 分类标签 -->
         <view class="category-tabs">
-          <scroll-view class="tabs-scroll" scroll-x>
-            <view class="tabs-container" style="display: flex; flex-direction: row; flex-wrap: nowrap;">
+          <view class="tabs-scroll">
+            <view class="tabs-container">
               <view v-for="tab in searchTabs" :key="tab.type" class="tab-item" :class="{
-                active: currentTab === tab.type,
-                'has-count': getTabCount(tab.type) > 0
+                active: currentTab === tab.type
               }" @click="switchTab(tab.type)">
-                <view class="tab-icon">
-                  <text>{{ getTabIcon(tab.type) }}</text>
-                </view>
                 <text class="tab-name">{{ tab.name }}</text>
-                <view v-if="getTabCount(tab.type) > 0" class="tab-badge">
-                  <text>{{ getTabCount(tab.type) }}</text>
-                </view>
               </view>
             </view>
-          </scroll-view>
+          </view>
         </view>
 
         <!-- 筛选器 -->
@@ -98,12 +91,15 @@
               <view v-if="searchResults.topics?.list?.length > 0" class="result-category">
                 <view class="category-header">
                   <view class="header-left">
-                    <text class="category-icon">💬</text>
                     <text class="category-title">话题</text>
                   </view>
                   <view class="header-right" @click="switchTab('topics')">
-                    <text class="view-all">查看全部 {{ searchResults.topics.pagination?.total || 0 }}</text>
-                    <text class="arrow">→</text>
+                    <view class="view-all-container">
+                      <text class="view-all">查看全部</text>
+                      <view class="view-all-count">
+                        <text>{{ searchResults.topics.pagination?.total || 0 }}</text>
+                      </view>
+                    </view>
                   </view>
                 </view>
                 <view class="category-items">
@@ -124,8 +120,12 @@
                 </view>
                 <!-- 话题展示更多提示 -->
                 <view v-if="searchResults.topics.list.length > 3" class="show-more-btn" @click="switchTab('topics')">
-                  <text class="show-more-text">点击显示更多话题 ({{ searchResults.topics.list.length - 3 }})</text>
-                  <text class="show-more-arrow">→</text>
+                  <view class="show-more-container">
+                    <text class="show-more-text">点击显示更多话题</text>
+                    <view class="show-more-count">
+                      <text>{{ searchResults.topics.list.length - 3 }}</text>
+                    </view>
+                  </view>
                 </view>
               </view>
 
@@ -133,12 +133,15 @@
               <view v-if="searchResults.users?.list?.length > 0" class="result-category">
                 <view class="category-header">
                   <view class="header-left">
-                    <text class="category-icon">👥</text>
                     <text class="category-title">用户</text>
                   </view>
                   <view class="header-right" @click="switchTab('users')">
-                    <text class="view-all">查看全部 {{ searchResults.users.pagination?.total || 0 }}</text>
-                    <text class="arrow">→</text>
+                    <view class="view-all-container">
+                      <text class="view-all">查看全部</text>
+                      <view class="view-all-count">
+                        <text>{{ searchResults.users.pagination?.total || 0 }}</text>
+                      </view>
+                    </view>
                   </view>
                 </view>
                 <view class="category-items">
@@ -151,8 +154,12 @@
                 </view>
                 <!-- 用户展示更多提示 -->
                 <view v-if="searchResults.users.list.length > 6" class="show-more-btn" @click="switchTab('users')">
-                  <text class="show-more-text">查看更多用户 ({{ searchResults.users.list.length - 6 }})</text>
-                  <text class="show-more-arrow">→</text>
+                  <view class="show-more-container">
+                    <text class="show-more-text">查看更多用户</text>
+                    <view class="show-more-count">
+                      <text>{{ searchResults.users.list.length - 6 }}</text>
+                    </view>
+                  </view>
                 </view>
               </view>
 
@@ -160,7 +167,6 @@
               <view v-if="searchResults.posts?.list?.length > 0" class="result-category">
                 <view class="category-header">
                   <view class="header-left">
-                    <text class="category-icon">📝</text>
                     <text class="category-title">帖子</text>
                   </view>
                 </view>
@@ -222,9 +228,6 @@
 
             <!-- 空状态 -->
             <view v-if="isEmptyResults" class="empty-state">
-              <view class="empty-icon">
-                <text>🔍</text>
-              </view>
               <text class="empty-title">没有找到相关内容</text>
               <text class="empty-desc">试试其他关键词吧</text>
             </view>
@@ -234,9 +237,6 @@
 
       <!-- 初始状态 -->
       <view v-else class="initial-state">
-        <view class="initial-icon">
-          <text>🔍</text>
-        </view>
         <text class="initial-text">输入关键词开始搜索</text>
       </view>
     </view>
@@ -465,15 +465,6 @@ export default {
       return this.getTabCount('all')
     },
 
-    getTabIcon(type) {
-      const iconMap = {
-        'all': '🌟',
-        'posts': '📝',
-        'users': '👥',
-        'topics': '💬'
-      }
-      return iconMap[type] || '🔍'
-    },
 
     updateHasMore() {
       if (this.currentTab === 'all') {
@@ -803,7 +794,7 @@ export default {
 
       .search-btn {
         font-size: 28rpx;
-        color: #007aff;
+        color: #333333;
         font-weight: 500;
       }
     }
@@ -878,78 +869,50 @@ export default {
   border-bottom: 1rpx solid #eee;
 
   .tabs-scroll {
-    white-space: nowrap;
+    width: 100%;
   }
 
   .tabs-container {
     display: flex !important;
     flex-direction: row !important;
     flex-wrap: nowrap !important;
-    padding: 20rpx 30rpx;
-    gap: 16rpx;
-    min-width: max-content;
+    padding: 20rpx 20rpx;
+    gap: 12rpx;
+    width: 100%;
+    justify-content: space-between;
   }
 
   .tab-item {
     position: relative;
     display: flex;
     align-items: center;
-    padding: 16rpx 24rpx;
+    justify-content: center;
+    padding: 16rpx 12rpx;
     border-radius: 50rpx;
     background: #f5f7fa;
     transition: all 0.3s ease;
     white-space: nowrap;
-    flex-shrink: 0;
+    flex: 1;
+    min-width: 0;
 
     &.active {
-      background: linear-gradient(135deg, #007aff, #4dabf7);
+      background: #ffffff;
 
-      .tab-icon text,
       .tab-name {
-        color: #fff;
-      }
-
-      .tab-badge {
-        background: rgba(255, 255, 255, 0.2);
-
-        text {
-          color: #fff;
-        }
-      }
-    }
-
-    &.has-count {
-      border: 2rpx solid rgba(0, 122, 255, 0.1);
-    }
-
-    .tab-icon {
-      margin-right: 8rpx;
-
-      text {
-        font-size: 22rpx;
-        transition: color 0.3s ease;
+        color: #333333;
+        font-weight: bold;
       }
     }
 
     .tab-name {
-      font-size: 24rpx;
-      color: #333;
+      font-size: 26rpx;
+      color: #333333;
       font-weight: 500;
-      margin-right: 8rpx;
-      transition: color 0.3s ease;
+      transition: all 0.3s ease;
       white-space: nowrap;
-    }
-
-    .tab-badge {
-      padding: 4rpx 12rpx;
-      border-radius: 20rpx;
-      background: rgba(0, 122, 255, 0.1);
-
-      text {
-        font-size: 20rpx;
-        color: #007aff;
-        font-weight: 600;
-      }
+      text-align: center;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 }
@@ -1048,11 +1011,6 @@ export default {
       display: flex;
       align-items: center;
 
-      .category-icon {
-        font-size: 28rpx;
-        margin-right: 12rpx;
-      }
-
       .category-title {
         font-size: 32rpx;
         color: #333;
@@ -1064,15 +1022,32 @@ export default {
       display: flex;
       align-items: center;
 
-      .view-all {
-        font-size: 24rpx;
-        color: #007aff;
-        margin-right: 8rpx;
+      .view-all-container {
+        display: flex;
+        align-items: center;
+        gap: 8rpx;
       }
 
-      .arrow {
+      .view-all {
         font-size: 24rpx;
-        color: #007aff;
+        color: #333333;
+        padding: 8rpx 16rpx;
+        border: 1rpx solid #ddd;
+        border-radius: 20rpx;
+        background: #ffffff;
+      }
+
+      .view-all-count {
+        padding: 6rpx 12rpx;
+        background: #f5f5f5;
+        border: 1rpx solid #ddd;
+        border-radius: 16rpx;
+
+        text {
+          font-size: 20rpx;
+          color: #666666;
+          font-weight: 500;
+        }
       }
     }
   }
@@ -1100,17 +1075,33 @@ export default {
       background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
     }
 
-    .show-more-text {
-      font-size: 26rpx;
-      color: #007aff;
-      font-weight: 500;
-      margin-right: 12rpx;
+    .show-more-container {
+      display: flex;
+      align-items: center;
+      gap: 8rpx;
     }
 
-    .show-more-arrow {
+    .show-more-text {
       font-size: 26rpx;
-      color: #007aff;
-      font-weight: 600;
+      color: #333333;
+      font-weight: 500;
+      padding: 8rpx 16rpx;
+      border: 1rpx solid #ddd;
+      border-radius: 20rpx;
+      background: #ffffff;
+    }
+
+    .show-more-count {
+      padding: 6rpx 12rpx;
+      background: #f5f5f5;
+      border: 1rpx solid #ddd;
+      border-radius: 16rpx;
+
+      text {
+        font-size: 22rpx;
+        color: #666666;
+        font-weight: 500;
+      }
     }
   }
 }
@@ -1165,8 +1156,8 @@ export default {
       color: #999;
       line-height: 1.4;
       display: -webkit-box;
-      -webkit-line-clamp: 2;
-      line-clamp: 2;
+      -webkit-line-clamp: 1;
+      line-clamp: 1;
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
@@ -1206,15 +1197,15 @@ export default {
     .default-avatar {
       width: 100%;
       height: 100%;
-      background: linear-gradient(135deg, #007aff, #4dabf7);
+      background: #ffffff;
       display: flex;
       align-items: center;
       justify-content: center;
 
       text {
         font-size: 40rpx;
-        color: #fff;
-        font-weight: 600;
+        color: #333333;
+        font-weight: bold;
       }
     }
   }
@@ -1280,22 +1271,6 @@ export default {
   justify-content: center;
   padding: 120rpx 60rpx;
 
-  .empty-icon {
-    width: 120rpx;
-    height: 120rpx;
-    border-radius: 50%;
-    background: rgba(153, 153, 153, 0.1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 40rpx;
-
-    text {
-      font-size: 60rpx;
-      opacity: 0.5;
-    }
-  }
-
   .empty-title {
     font-size: 32rpx;
     color: #666;
@@ -1315,22 +1290,6 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
-  .initial-icon {
-    width: 120rpx;
-    height: 120rpx;
-    border-radius: 50%;
-    background: rgba(0, 122, 255, 0.1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 40rpx;
-
-    text {
-      font-size: 60rpx;
-      opacity: 0.8;
-    }
-  }
 
   .initial-text {
     font-size: 28rpx;

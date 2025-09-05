@@ -1,0 +1,52 @@
+# 校园墙ADB命令修正版（Windows PowerShell）
+
+## 当前目录：D:\ADB\platform-tools\
+
+## 1. 测试ADB是否正常工作
+.\adb version
+
+## 2. 检查设备连接
+.\adb devices
+
+## 3. 安装校园墙APK
+.\adb install "C:\Users\26933\Desktop\校园墙\uni-APP\dist\release\apk\__UNI__EEDF88D__20250904224548.apk"
+
+## 4. 启动应用（安装后手动打开校园墙应用）
+
+## 5. 查看应用日志
+# 清除旧日志
+.\adb logcat -c
+
+# 查看校园墙相关日志
+.\adb logcat | findstr "dcloud"
+
+# 查看错误日志
+.\adb logcat | findstr "ERROR"
+
+# 查看JavaScript控制台输出
+.\adb logcat | findstr "console"
+
+# 查看特定应用包名的日志（正确包名）
+.\adb logcat | findstr "xyq.app"
+
+## 6. 保存日志到文件
+.\adb logcat > campus_wall_log.txt
+
+## 7. 其他有用命令
+# 查看应用进程
+.\adb shell ps | findstr "xyq"
+
+# 查看应用内存使用
+.\adb shell dumpsys meminfo xyq.app
+
+# 启动应用
+.\adb shell am start -n xyq.app/.MainActivity
+
+# 停止应用
+.\adb shell am force-stop xyq.app
+
+# 卸载应用
+.\adb uninstall xyq.app
+
+# 查看设备信息
+.\adb shell getprop ro.build.version.release

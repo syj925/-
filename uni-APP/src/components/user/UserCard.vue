@@ -52,8 +52,21 @@ export default {
   },
   computed: {
     safeAvatar() {
-      if (!this.user.avatar) return this.defaultAvatar
-      return ensureAbsoluteUrl(this.user.avatar)
+      if (!this.user.avatar) {
+        console.log('👤 UserCard: 用户没有头像，使用默认头像');
+        return this.defaultAvatar;
+      }
+      
+      const originalUrl = this.user.avatar;
+      const processedUrl = ensureAbsoluteUrl(this.user.avatar);
+      
+      console.log('👤 UserCard头像处理:', {
+        original: originalUrl,
+        processed: processedUrl,
+        userInfo: this.user
+      });
+      
+      return processedUrl;
     },
     isCurrentUser() {
       const userInfo = uni.getStorageSync('userInfo')
@@ -165,11 +178,12 @@ export default {
       font-size: 26rpx;
       color: #999;
       line-height: 1.4;
-      max-height: 2.8em;
+      max-height: 1.4em;
       overflow: hidden;
       text-overflow: ellipsis;
       display: -webkit-box;
-      -webkit-line-clamp: 2;
+      -webkit-line-clamp: 1;
+      line-clamp: 1;
       -webkit-box-orient: vertical;
     }
   }

@@ -648,6 +648,8 @@ class UserService {
     const postRepository = require('../repositories/post.repository');
     const likeRepository = require('../repositories/like.repository');
     const favoriteRepository = require('../repositories/favorite.repository');
+    const userBadgeRepository = require('../repositories/user-badge.repository');
+    const badgeRepository = require('../repositories/badge.repository');
 
     // 获取用户基本信息
     const user = await userRepository.findById(userId);
@@ -659,22 +661,39 @@ class UserService {
       );
     }
 
-    // 获取用户统计数据
-    const [postCount, likeCount, favoriteCount, followCount, fansCount] = await Promise.all([
+    // 获取用户统计数据和徽章信息
+    const [postCount, likeCount, favoriteCount, followCount, fansCount, userBadges] = await Promise.all([
       postRepository.countByUserId(userId),
       likeRepository.countByUserId(userId),
       favoriteRepository.countByUserId(userId),
       followRepository.countFollowings(userId),
-      followRepository.countFollowers(userId)
+      followRepository.countFollowers(userId),
+      this._getUserBadgesWithDetails(userId)
     ]);
 
     // 获取关注状态（如果当前用户已登录）
     let isFollowed = false;
     let isMutualFollow = false;
     if (currentUserId && currentUserId !== userId) {
-      isFollowed = await followRepository.isFollowing(currentUserId, userId);
-      if (isFollowed) {
-        isMutualFollow = await followRepository.isFollowing(userId, currentUserId);
+      const statusCacheService = require('./status-cache.service');
+      
+      try {
+        // 优先从缓存获取关注状态
+        const cacheStatus = await statusCacheService.isFollowing(currentUserId, [userId]);
+        isFollowed = cacheStatus[userId] || false;
+        
+        if (isFollowed) {
+          // 检查互相关注状态（也优先缓存）
+          const reverseCacheStatus = await statusCacheService.isFollowing(userId, [currentUserId]);
+          isMutualFollow = reverseCacheStatus[currentUserId] || false;
+        }
+      } catch (error) {
+        // 缓存失败时回退到数据库查询
+        logger.warn('获取关注状态缓存失败，回退到数据库查询:', error);
+        isFollowed = await followRepository.isFollowing(currentUserId, userId);
+        if (isFollowed) {
+          isMutualFollow = await followRepository.isFollowing(userId, currentUserId);
+        }
       }
     }
 
@@ -698,8 +717,12 @@ class UserService {
         likeCount,
         favoriteCount,
         followCount,
-        fansCount
+        fansCount,
+        badgeCount: userBadges.length
       },
+
+      // 徽章信息
+      badges: userBadges,
 
       // 关注状态
       followStatus: {
@@ -805,6 +828,88 @@ class UserService {
     }
 
     return result;
+  }
+
+  /**
+   * 获取用户徽章详细信息（私有方法）
+   * @param {String} userId 用户ID
+   * @returns {Promise<Array>} 用户徽章列表
+   */
+  async _getUserBadgesWithDetails(userId) {
+    const userBadgeRepository = require('../repositories/user-badge.repository');
+    const badgeRepository = require('../repositories/badge.repository');
+
+    try {
+      // 获取用户的所有徽章关联记录
+      const userBadges = await userBadgeRepository.findByUserId(userId, {
+        where: { is_visible: true }, // 只获取可见的徽章
+        orderBy: { displayOrder: 'ASC', grantedAt: 'DESC' } // 按显示顺序和获得时间排序
+      });
+
+      if (!userBadges || userBadges.length === 0) {
+        return [];
+      }
+
+      // 获取徽章详细信息
+      const badgeIds = userBadges.map(ub => ub.badgeId);
+      const badges = await badgeRepository.findByIds(badgeIds, {
+        where: { status: 'active' } // 只获取激活状态的徽章
+      });
+
+      // 将徽章信息与用户徽章信息合并
+      const badgeMap = new Map();
+      badges.forEach(badge => {
+        badgeMap.set(badge.id, badge);
+      });
+
+      const result = userBadges
+        .map(userBadge => {
+          const badge = badgeMap.get(userBadge.badgeId);
+          if (!badge) return null;
+
+          return {
+            id: badge.id,
+            name: badge.name,
+            description: badge.description,
+            color: badge.color,
+            icon: badge.icon,
+            type: badge.type,
+            rarity: badge.rarity,
+            grantedAt: userBadge.grantedAt,
+            isVisible: userBadge.isVisible,
+            displayOrder: userBadge.displayOrder
+          };
+        })
+        .filter(item => item !== null); // 过滤掉无效的徽章
+
+      return result;
+    } catch (error) {
+      logger.error('获取用户徽章详情失败:', error);
+      return []; // 如果获取徽章失败，返回空数组而不是抛出错误
+    }
+  }
+
+  /**
+   * 查找用户列表
+   * @param {Object} options 查询选项
+   * @returns {Promise<Object>} 用户列表和分页信息
+   */
+  async findUsers(options = {}) {
+    try {
+      const result = await userRepository.findAll(options);
+      return {
+        list: result.list,
+        pagination: {
+          total: result.total,
+          page: result.page,
+          pageSize: result.pageSize,
+          totalPages: Math.ceil(result.total / result.pageSize)
+        }
+      };
+    } catch (error) {
+      logger.error('查找用户列表失败:', error);
+      throw error;
+    }
   }
 }
 

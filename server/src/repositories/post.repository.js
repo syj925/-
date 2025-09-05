@@ -1,4 +1,4 @@
-const { Post, User, Category, PostImage, Comment, Topic, Like, Favorite, Setting, sequelize } = require('../models');
+const { Post, User, Category, PostImage, Comment, Topic, Like, Favorite, Setting, Badge, UserBadge, sequelize } = require('../models');
 const { Op, Sequelize } = require('sequelize');
 const redisClient = require('../utils/redis-client');
 
@@ -273,12 +273,31 @@ class PostRepository {
     // 包含关联数据
     queryOptions.include = [];
     
-    // 添加作者信息
+    // 添加作者信息（包含徽章）
     queryOptions.include.push({
       model: User,
       as: 'author',
       attributes: ['id', 'username', 'nickname', 'avatar', 'school', 'department'],
-      where: userWhere
+      where: userWhere,
+      include: [{
+        model: UserBadge,
+        as: 'userBadges',  // 修正别名，匹配模型定义
+        where: {
+          is_visible: true  // 只获取可见的徽章
+        },
+        required: false,  // 左联接，用户没有徽章也要返回
+        include: [{
+          model: Badge,
+          as: 'badge',
+          where: {
+            status: 'active',
+            type: 'achievement'  // 只获取成就类徽章
+          },
+          attributes: ['id', 'name', 'description', 'color', 'icon', 'rarity']
+        }],
+        // 在主查询的order中处理排序，而不是在include中
+        // limit在include中不可靠，我们在应用层处理
+      }]
     });
     
     // 添加分类信息
@@ -488,7 +507,24 @@ class PostRepository {
         {
           model: User,
           as: 'author',
-          attributes: ['id', 'username', 'nickname', 'avatar']
+          attributes: ['id', 'username', 'nickname', 'avatar'],
+          include: [{
+            model: UserBadge,
+            as: 'userBadges',
+            where: {
+              is_visible: true
+            },
+            required: false,
+            include: [{
+              model: Badge,
+              as: 'badge',
+              where: {
+                status: 'active',
+                type: 'achievement'
+              },
+              attributes: ['id', 'name', 'description', 'color', 'icon', 'rarity']
+            }]
+          }]
         },
         {
           model: Category,

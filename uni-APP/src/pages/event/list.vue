@@ -348,7 +348,7 @@ export default {
     transition: color $transition-fast;
     
     &.active {
-      color: $accent-purple;
+      color: #333333;
       font-weight: bold;
       
       &::after {
@@ -359,7 +359,7 @@ export default {
         transform: translateX(-50%);
         width: 40rpx;
         height: 6rpx;
-        background: $gradient-purple;
+        background: #333333;
         border-radius: $radius-sm;
       }
     }

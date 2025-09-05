@@ -256,12 +256,12 @@ export default {
       color: #666;
       line-height: 1.4;
       margin-bottom: 12rpx;
-      max-height: 2.8em;
+      max-height: 1.4em;
       overflow: hidden;
       text-overflow: ellipsis;
       display: -webkit-box;
-      line-clamp: 2;
-      -webkit-line-clamp: 2;
+      line-clamp: 1;
+      -webkit-line-clamp: 1;
       -webkit-box-orient: vertical;
     }
     

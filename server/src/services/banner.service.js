@@ -338,11 +338,8 @@ class BannerService {
       if (!redisClient) return true;
       
       const pattern = scene ? `banners:${scene}:*` : 'banners:*';
-      const keys = await redisClient.keys(pattern);
-      
-      if (keys.length > 0) {
-        await redisClient.del(keys);
-      }
+      // 使用封装的deletePattern方法
+      await redisClient.deletePattern(pattern);
       
       logger.info('轮播图缓存清除成功', { pattern });
       return true;

@@ -41,15 +41,21 @@
           <el-option label="全部" value="" />
           <el-option label="热门" value="hot" />
           <el-option label="普通" value="normal" />
-          <el-option label="已禁用" value="disabled" />
+          <el-option label="已禁用" value="inactive" />
         </el-select>
         <el-button type="primary" @click="handleSearch">搜索</el-button>
         <el-button @click="resetFilter">重置</el-button>
       </div>
       
       <!-- 标签列表 -->
-      <el-table :data="tagList" style="width: 100%" v-loading="loading">
-        <el-table-column prop="id" label="ID" width="80" />
+      <el-table :data="tagList" style="width: 100%" v-loading="loading" table-layout="auto">
+        <el-table-column label="ID" width="120">
+          <template #default="scope">
+            <el-tooltip :content="scope.row.id" placement="top">
+              <span class="tag-id-display">{{ formatId(scope.row.id) }}</span>
+            </el-tooltip>
+          </template>
+        </el-table-column>
         <el-table-column label="标签名称" width="120">
           <template #default="scope">
             <div class="tag-name">
@@ -58,21 +64,21 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="category" label="分类" width="100">
+        <el-table-column prop="category" label="分类" min-width="100">
           <template #default="scope">
             <el-tag :type="getCategoryType(scope.row.category)">
               {{ getCategoryText(scope.row.category) }}
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="description" label="描述" show-overflow-tooltip />
-        <el-table-column prop="usageCount" label="使用次数" width="100" sortable />
+        <el-table-column prop="description" label="描述" min-width="200" show-overflow-tooltip />
+        <el-table-column prop="usageCount" label="使用次数" min-width="110" sortable />
         <el-table-column prop="createdAt" label="创建时间" width="180" sortable>
           <template #default="scope">
             {{ formatDate(scope.row.createdAt) }}
           </template>
         </el-table-column>
-        <el-table-column prop="status" label="状态" width="100">
+        <el-table-column prop="status" label="状态" min-width="100">
           <template #default="scope">
             <el-tag :type="getStatusType(scope.row.status)">
               {{ getStatusText(scope.row.status) }}
@@ -91,10 +97,10 @@
             </el-button>
             <el-button 
               size="small" 
-              :type="scope.row.status === 'disabled' ? 'success' : 'danger'" 
+              :type="scope.row.status === 'inactive' ? 'success' : 'danger'" 
               @click="handleToggleStatus(scope.row)"
             >
-              {{ scope.row.status === 'disabled' ? '启用' : '禁用' }}
+              {{ scope.row.status === 'inactive' ? '启用' : '禁用' }}
             </el-button>
           </template>
         </el-table-column>
@@ -150,7 +156,7 @@
           <el-select v-model="editingTag.status" placeholder="请选择标签状态">
             <el-option label="普通" value="normal" />
             <el-option label="热门" value="hot" />
-            <el-option label="已禁用" value="disabled" />
+            <el-option label="已禁用" value="inactive" />
           </el-select>
         </el-form-item>
       </el-form>
@@ -169,6 +175,7 @@ import { ref, reactive, onMounted } from 'vue';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import { Plus } from '@element-plus/icons-vue';
 import api from '@/utils/api';
+import { formatId } from '@/utils/format';
 
 // 列表数据
 const loading = ref(false);
@@ -314,7 +321,7 @@ const handleToggleHot = async (row) => {
 };
 
 const handleToggleStatus = async (row) => {
-  const action = row.status === 'disabled' ? '启用' : '禁用';
+  const action = row.status === 'inactive' ? '启用' : '禁用';
   
   try {
     await ElMessageBox.confirm(`确定要${action}该标签吗?`, '提示', {
@@ -366,7 +373,7 @@ const getStatusType = (status) => {
   const map = {
     'normal': 'success',
     'hot': 'danger',
-    'disabled': 'info'
+    'inactive': 'info'
   };
   return map[status] || 'info';
 };
@@ -375,7 +382,7 @@ const getStatusText = (status) => {
   const map = {
     'normal': '普通',
     'hot': '热门',
-    'disabled': '已禁用'
+    'inactive': '已禁用'
   };
   return map[status] || '未知';
 };
@@ -491,5 +498,32 @@ const handleSubmit = async () => {
   height: 12px;
   border-radius: 50%;
   margin-right: 6px;
+}
+
+/* 标签ID显示样式 */
+.tag-id-display {
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  color: #666;
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 3px;
+  background-color: #f5f5f5;
+}
+
+.tag-id-display:hover {
+  background-color: #e6f7ff;
+  color: #1890ff;
+}
+
+/* 表格自适应优化 */
+:deep(.el-table) {
+  table-layout: auto;
+}
+
+:deep(.el-table .el-table__cell) {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 </style> 

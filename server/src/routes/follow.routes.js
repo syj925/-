@@ -44,4 +44,8 @@ router.get('/mutual/:user_id1/:user_id2', followController.checkMutualFollow);
 router.get('/me/mutual', AuthMiddleware.authenticate(), followController.getMyMutualFollowings);
 router.get('/user/:user_id/mutual', followController.getMutualFollowings);
 
+// 获取关注和粉丝数据（合并API）
+router.get('/me/data', AuthMiddleware.authenticate(), followController.getMyFollowData);
+router.get('/user/:user_id/data', followController.getUserFollowData);
+
 module.exports = router;

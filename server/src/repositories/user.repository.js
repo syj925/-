@@ -142,7 +142,8 @@ class UserRepository {
       role,
       school,
       status,
-      isDisabled
+      isDisabled,
+      includeBadges = false
     } = options;
 
     const where = {};
@@ -151,6 +152,7 @@ class UserRepository {
     if (keyword) {
       where[Op.or] = [
         { username: { [Op.like]: `%${keyword}%` } },
+        { nickname: { [Op.like]: `%${keyword}%` } },
         { email: { [Op.like]: `%${keyword}%` } },
         { phone: { [Op.like]: `%${keyword}%` } }
       ];
@@ -176,13 +178,32 @@ class UserRepository {
       where.is_disabled = isDisabled;
     }
 
-    // 执行查询
-    const { rows, count } = await User.findAndCountAll({
+    // 构建查询选项
+    const queryOptions = {
       where,
       limit: pageSize,
       offset: (page - 1) * pageSize,
       order: [['created_at', 'DESC']]
-    });
+    };
+
+    // 如果需要包含徽章数据
+    if (includeBadges) {
+      const { Badge, UserBadge } = require('../models');
+      queryOptions.include = [{
+        model: Badge,
+        as: 'badges',
+        through: {
+          model: UserBadge,
+          attributes: [],
+          where: { is_visible: true }
+        },
+        required: false,
+        where: { status: 'active' }
+      }];
+    }
+
+    // 执行查询
+    const { rows, count } = await User.findAndCountAll(queryOptions);
 
     return {
       list: rows,
@@ -325,6 +346,25 @@ class UserRepository {
       limit: parseInt(limit),
       offset,
       order: [['created_at', 'DESC']]
+    });
+  }
+
+  /**
+   * 根据ID数组查找用户列表
+   * @param {Array} ids 用户ID数组
+   * @returns {Promise<Array>} 用户列表
+   */
+  async findByIds(ids) {
+    if (!Array.isArray(ids) || ids.length === 0) {
+      return [];
+    }
+
+    return await User.findAll({
+      where: {
+        id: {
+          [Op.in]: ids
+        }
+      }
     });
   }
 }

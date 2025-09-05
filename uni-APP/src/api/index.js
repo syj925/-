@@ -17,6 +17,7 @@ import uploadApi from './modules/upload';
 import searchApi from './modules/search';
 import eventApi from './modules/event';
 import bannerApi from './modules/banner';
+import badgeApi from './modules/badge';
 
 // 创建API实例
 const userApiInstance = userApi(http);
@@ -32,6 +33,7 @@ const uploadApiInstance = uploadApi(http);
 const searchApiInstance = searchApi(http);
 const eventApiInstance = eventApi;
 const bannerApiInstance = bannerApi(http);
+const badgeApiInstance = badgeApi(http);
 
 // 命名导出
 export {
@@ -50,7 +52,8 @@ export {
   uploadApiInstance as uploadApi,
   searchApiInstance as searchApi,
   eventApiInstance as eventApi,
-  bannerApiInstance as bannerApi
+  bannerApiInstance as bannerApi,
+  badgeApiInstance as badgeApi
 };
 
 // 默认导出
@@ -70,5 +73,6 @@ export default {
   upload: uploadApiInstance,
   search: searchApiInstance,
   event: eventApiInstance,
-  banner: bannerApiInstance
+  banner: bannerApiInstance,
+  badge: badgeApiInstance
 };

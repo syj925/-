@@ -530,7 +530,7 @@ class PostService {
             id: 'anonymous',
             username: '匿名用户',
             nickname: '匿名用户',
-            avatar: '/static/images/default-avatar.png'
+            avatar: null  // 让前端处理默认头像
           };
         }
       }
@@ -550,7 +550,7 @@ class PostService {
                 id: 'anonymous',
                 username: '匿名用户',
                 nickname: '匿名用户',
-                avatar: '/static/images/default-avatar.png'
+                avatar: null  // 让前端处理默认头像
               };
             }
           }
@@ -586,7 +586,7 @@ class PostService {
             id: 'anonymous',
             username: '匿名用户',
             nickname: '匿名用户',
-            avatar: '/static/images/default-avatar.png'
+            avatar: null  // 让前端处理默认头像
           };
         }
       }

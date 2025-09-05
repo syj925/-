@@ -337,6 +337,71 @@ class FollowController {
       next(error);
     }
   }
+  /**
+   * 获取用户的关注和粉丝数据（合并API）
+   * @param {Object} req 请求对象
+   * @param {Object} res 响应对象
+   * @param {Function} next 下一个中间件
+   * @returns {Promise<void>}
+   */
+  async getUserFollowData(req, res, next) {
+    try {
+      const { user_id } = req.params;
+      const { 
+        followingPage = 1, 
+        followingPageSize = 20,
+        followersPage = 1,
+        followersPageSize = 20
+      } = req.query;
+      
+      const result = await followService.getUserFollowData(
+        user_id,
+        {
+          followingPage: parseInt(followingPage, 10),
+          followingPageSize: parseInt(followingPageSize, 10),
+          followersPage: parseInt(followersPage, 10),
+          followersPageSize: parseInt(followersPageSize, 10)
+        }
+      );
+      
+      res.status(StatusCodes.OK).json(ResponseUtil.success(result));
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  /**
+   * 获取当前用户的关注和粉丝数据（合并API）
+   * @param {Object} req 请求对象
+   * @param {Object} res 响应对象
+   * @param {Function} next 下一个中间件
+   * @returns {Promise<void>}
+   */
+  async getMyFollowData(req, res, next) {
+    try {
+      const userId = req.user.id;
+      const { 
+        followingPage = 1, 
+        followingPageSize = 20,
+        followersPage = 1,
+        followersPageSize = 20
+      } = req.query;
+      
+      const result = await followService.getUserFollowData(
+        userId,
+        {
+          followingPage: parseInt(followingPage, 10),
+          followingPageSize: parseInt(followingPageSize, 10),
+          followersPage: parseInt(followersPage, 10),
+          followersPageSize: parseInt(followersPageSize, 10)
+        }
+      );
+      
+      res.status(StatusCodes.OK).json(ResponseUtil.success(result));
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 module.exports = new FollowController();

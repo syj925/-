@@ -19,7 +19,7 @@
           </div>
         </div>
       </template>
-      <el-table :data="userList" style="width: 100%" v-loading="loading">
+      <el-table :data="userList" style="width: 100%" v-loading="loading" table-layout="auto">
         <el-table-column label="ID" width="100">
           <template #default="scope">
             <el-tooltip :content="scope.row.id" placement="top">
@@ -27,9 +27,9 @@
             </el-tooltip>
           </template>
         </el-table-column>
-        <el-table-column prop="username" label="账号" width="120" />
-        <el-table-column prop="nickname" label="昵称" width="120" />
-        <el-table-column prop="email" label="邮箱" width="180" />
+        <el-table-column prop="username" label="账号" min-width="120" />
+        <el-table-column prop="nickname" label="昵称" min-width="120" />
+        <el-table-column prop="email" label="邮箱" min-width="180" />
         <el-table-column prop="bio" label="简介" show-overflow-tooltip>
           <template #default="scope">
             {{ scope.row.bio || '暂无简介' }}
@@ -61,7 +61,7 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="标签" width="180">
+        <el-table-column label="徽章" width="180">
           <template #default="scope">
             <div class="badge-tags">
               <el-tag
@@ -73,7 +73,7 @@
               >
                 {{ badge.name }}
               </el-tag>
-              <span v-if="!scope.row.badges || scope.row.badges.length === 0" class="no-badges">无标签</span>
+              <span v-if="!scope.row.badges || scope.row.badges.length === 0" class="no-badges">无徽章</span>
             </div>
           </template>
         </el-table-column>
@@ -81,7 +81,7 @@
           <template #default="scope">
             <el-button size="small" @click="handleDetail(scope.row)" type="primary" plain>详情</el-button>
             <el-button size="small" @click="handleEdit(scope.row)">编辑</el-button>
-            <el-button size="small" type="info" @click="handleManageBadges(scope.row)">标签</el-button>
+            <el-button size="small" type="info" @click="handleManageBadges(scope.row)">徽章</el-button>
             <el-button
               size="small"
               type="danger"
@@ -267,40 +267,51 @@
       </template>
     </el-dialog>
 
-    <!-- 用户标签管理对话框 -->
+    <!-- 用户徽章管理对话框 -->
     <el-dialog
       v-model="badgeDialogVisible"
-      title="管理用户标签"
+      title="管理用户徽章"
       width="600px"
     >
       <div class="badge-management" v-loading="badgeLoading">
         <div class="user-info">
-          <strong>用户:</strong> {{ currentUser.nickname || currentUser.username }} (ID: {{ currentUser.id }})
+          <strong>用户:</strong> {{ currentUser.nickname || currentUser.username }} (ID: {{ formatUserId(currentUser.id) }})
         </div>
         
+        <!-- 未保存更改提示 -->
+        <el-alert
+          v-if="hasUnsavedChanges"
+          title="有未保存的更改"
+          type="warning"
+          description="您对徽章的修改尚未保存，请点击保存更改按钮确认操作"
+          show-icon
+          :closable="false"
+          style="margin: 10px 0;"
+        />
+        
         <div class="badge-section">
-          <h4>已分配标签</h4>
+          <h4>已分配徽章</h4>
           <div class="badge-list">
             <template v-if="userBadges.length > 0">
               <el-tag
-                v-for="badge in userBadges"
-                :key="badge.id"
-                :style="{backgroundColor: badge.color, color: '#fff'}"
+                v-for="userBadge in userBadges"
+                :key="userBadge.id"
+                :style="{backgroundColor: userBadge.badge?.color || '#4A90E2', color: '#fff'}"
                 class="badge-item clickable"
-                @click="removeUserBadge(badge)"
+                @click="removeUserBadge(userBadge)"
               >
-                {{ badge.name }}
+                {{ userBadge.badge?.name || userBadge.name }}
                 <el-icon class="delete-icon"><Delete /></el-icon>
               </el-tag>
             </template>
-            <div v-else class="no-badges-msg">该用户暂无标签</div>
+            <div v-else class="no-badges-msg">该用户暂无徽章</div>
           </div>
         </div>
         
         <div class="badge-section">
           <div class="section-header">
-            <h4>可添加标签</h4>
-            <el-button type="primary" size="small" @click="openCreateBadgeForm">创建新标签</el-button>
+            <h4>可添加徽章</h4>
+            <el-button type="primary" size="small" @click="openCreateBadgeForm">创建新徽章</el-button>
           </div>
           <div class="badge-list">
             <template v-if="availableBadges.length > 0">
@@ -314,21 +325,29 @@
                 {{ badge.name }}
               </el-tag>
             </template>
-            <div v-else class="no-badges-msg">没有可添加的标签</div>
+            <div v-else class="no-badges-msg">没有可添加的徽章</div>
           </div>
         </div>
       </div>
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="badgeDialogVisible = false">关闭</el-button>
+          <el-button @click="cancelBadgeChanges">取消</el-button>
+          <el-button 
+            type="primary" 
+            @click="saveBadgeChanges"
+            :loading="badgeLoading"
+            :disabled="!hasUnsavedChanges"
+          >
+            保存更改
+          </el-button>
         </span>
       </template>
     </el-dialog>
 
-    <!-- 创建标签对话框 -->
+    <!-- 创建徽章对话框 -->
     <el-dialog
       v-model="createBadgeDialogVisible"
-      title="创建新标签"
+      title="创建新徽章"
       width="500px"
     >
       <el-form 
@@ -339,18 +358,38 @@
         v-loading="createBadgeLoading"
       >
         <el-form-item label="名称" prop="name">
-          <el-input v-model="badgeForm.name" placeholder="请输入标签名称"></el-input>
+          <el-input v-model="badgeForm.name" placeholder="请输入徽章名称"></el-input>
         </el-form-item>
         <el-form-item label="描述" prop="description">
-          <el-input v-model="badgeForm.description" type="textarea" placeholder="请输入标签描述"></el-input>
+          <el-input v-model="badgeForm.description" type="textarea" placeholder="请输入徽章描述"></el-input>
         </el-form-item>
         <el-form-item label="颜色" prop="color">
           <el-color-picker v-model="badgeForm.color"></el-color-picker>
           <span class="color-preview" :style="{backgroundColor: badgeForm.color}"></span>
         </el-form-item>
+        <el-form-item label="图标" prop="icon">
+          <el-input v-model="badgeForm.icon" placeholder="请输入图标名称（如：StarFilled）"></el-input>
+        </el-form-item>
+        <el-form-item label="类型" prop="type">
+          <el-select v-model="badgeForm.type" style="width: 100%">
+            <el-option label="成就徽章" value="achievement" />
+            <el-option label="兴趣标签" value="interest" />
+            <el-option label="系统标签" value="system" />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="稀有度" prop="rarity">
+          <el-select v-model="badgeForm.rarity" style="width: 100%">
+            <el-option label="普通" value="common" />
+            <el-option label="稀有" value="rare" />
+            <el-option label="史诗" value="epic" />
+            <el-option label="传说" value="legendary" />
+          </el-select>
+        </el-form-item>
         <el-form-item label="状态" prop="status">
-          <el-switch v-model="badgeForm.status" :active-value="true" :inactive-value="false"></el-switch>
-          <span class="status-text">{{ badgeForm.status ? '启用' : '禁用' }}</span>
+          <el-select v-model="badgeForm.status" style="width: 100%">
+            <el-option label="启用" value="enabled" />
+            <el-option label="禁用" value="disabled" />
+          </el-select>
         </el-form-item>
       </el-form>
       <template #footer>
@@ -364,7 +403,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { Search, Delete, DocumentCopy } from '@element-plus/icons-vue';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import api from '@/utils/api';
@@ -413,8 +452,19 @@ const badgeLoading = ref(false);
 const userBadges = ref([]);
 const availableBadges = ref([]);
 const allBadges = ref([]);
+// 徽章变更跟踪
+const originalUserBadges = ref([]); // 原始徽章列表
+const pendingChanges = ref({
+  toAdd: [], // 待添加的徽章
+  toRemove: [] // 待移除的徽章
+});
+const hasUnsavedChanges = ref(false);
 
-// 创建标签相关
+// 并发控制
+const badgeOperationLock = ref(false); // 徽章操作锁
+const currentAbortController = ref(null); // 当前请求的取消控制器
+
+// 创建徽章相关
 const createBadgeDialogVisible = ref(false);
 const createBadgeLoading = ref(false);
 const badgeFormRef = ref(null);
@@ -422,24 +472,51 @@ const badgeForm = ref({
   name: '',
   description: '',
   color: '#4A90E2',
-  status: true
+  icon: 'StarFilled',
+  type: 'achievement',
+  rarity: 'common',
+  status: 'enabled'
 });
 const badgeFormRules = {
   name: [
-    { required: true, message: '请输入标签名称', trigger: 'blur' },
+    { required: true, message: '请输入徽章名称', trigger: 'blur' },
     { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' }
   ],
   description: [
     { max: 200, message: '描述不能超过 200 个字符', trigger: 'blur' }
   ],
   color: [
-    { required: true, message: '请选择标签颜色', trigger: 'change' }
+    { required: true, message: '请选择徽章颜色', trigger: 'change' }
+  ],
+  icon: [
+    { required: true, message: '请输入徽章图标', trigger: 'blur' }
+  ],
+  type: [
+    { required: true, message: '请选择徽章类型', trigger: 'change' }
+  ],
+  rarity: [
+    { required: true, message: '请选择稀有度', trigger: 'change' }
+  ],
+  status: [
+    { required: true, message: '请选择状态', trigger: 'change' }
   ]
 };
 
 // 初始化
 onMounted(() => {
   fetchUsers();
+});
+
+// 监听徽章对话框关闭事件，确保释放操作锁
+watch(badgeDialogVisible, (newValue) => {
+  if (!newValue) {
+    // 对话框关闭时释放操作锁
+    badgeOperationLock.value = false;
+    if (currentAbortController.value) {
+      currentAbortController.value.abort();
+      currentAbortController.value = null;
+    }
+  }
 });
 
 // 获取用户列表
@@ -693,102 +770,302 @@ const copyToClipboard = async (text) => {
   }
 };
 
-// 处理管理用户标签
+// 处理管理用户徽章
 const handleManageBadges = async (user) => {
+  // 并发控制：检查是否有操作正在进行
+  if (badgeOperationLock.value) {
+    ElMessage.warning('徽章操作正在进行中，请稍候...');
+    return;
+  }
+  
+  // 取消之前的请求（如果存在）
+  if (currentAbortController.value) {
+    currentAbortController.value.abort();
+  }
+  
+  // 设置操作锁和新的取消控制器
+  badgeOperationLock.value = true;
+  currentAbortController.value = new AbortController();
+  const signal = currentAbortController.value.signal;
+  
   currentUser.value = user;
   badgeDialogVisible.value = true;
   badgeLoading.value = true;
   
   try {
-    // 加载所有标签
-    const badgesRes = await api.badge.getList({ limit: 100 });
+    // 检查请求是否被取消
+    if (signal.aborted) {
+      throw new Error('Request aborted');
+    }
+    
+    // 加载所有徽章
+    const badgesRes = await api.badge.getAdminList({ limit: 100 });
+    if (signal.aborted) throw new Error('Request aborted');
+    
     if (badgesRes.success) {
       allBadges.value = badgesRes.data.items || [];
     }
     
-    // 加载用户标签
-    const userBadgesRes = await api.badge.getUserBadges(user.id);
+    // 加载用户徽章
+    const userBadgesRes = await api.badge.getUserBadges(user.id, false);
+    if (signal.aborted) throw new Error('Request aborted');
+    
     if (userBadgesRes.success) {
-      userBadges.value = userBadgesRes.data || [];
+      const rawData = userBadgesRes.data?.items || userBadgesRes.data || [];
+      userBadges.value = [...rawData]; // 当前显示的徽章
+      originalUserBadges.value = [...rawData]; // 保存原始状态
       
-      // 计算可添加的标签
+      // 计算可添加的徽章
       availableBadges.value = allBadges.value.filter(badge => 
-        !userBadges.value.some(userBadge => userBadge.id === badge.id)
+        !userBadges.value.some(userBadge => 
+          (userBadge.badge?.id === badge.id) || (userBadge.badge_id === badge.id)
+        )
       );
     }
+    
+    // 重置变更跟踪
+    pendingChanges.value = {
+      toAdd: [],
+      toRemove: []
+    };
+    hasUnsavedChanges.value = false;
+    
   } catch (error) {
-    console.error('获取标签数据失败:', error);
-    ElMessage.error('获取标签数据失败');
+    if (error.name === 'AbortError' || error.message === 'Request aborted') {
+      console.log('徽章管理请求被取消');
+      return; // 请求被取消，不显示错误消息
+    }
+    console.error('获取徽章数据失败:', error);
+    ElMessage.error('获取徽章数据失败');
+  } finally {
+    badgeLoading.value = false;
+    badgeOperationLock.value = false; // 释放操作锁
+    currentAbortController.value = null;
+  }
+};
+
+// 添加徽章给用户（本地操作，不立即保存）
+const addUserBadge = (badge) => {
+  // 创建一个 UserBadge 对象模拟数据结构
+  const newUserBadge = {
+    id: `temp-${Date.now()}`, // 临时ID
+    user_id: currentUser.value.id,
+    badge_id: badge.id,
+    badge: badge,
+    is_visible: true,
+    granted_at: new Date().toISOString(),
+    isNew: true // 标记为新添加的
+  };
+  
+  // 将徽章从可添加列表移到已添加列表
+  userBadges.value.push(newUserBadge);
+  availableBadges.value = availableBadges.value.filter(b => b.id !== badge.id);
+  
+  // 记录到待添加列表
+  pendingChanges.value.toAdd.push(badge);
+  
+  // 检查是否在待移除列表中，如果是则移除（撤销删除操作）
+  const removeIndex = pendingChanges.value.toRemove.findIndex(b => b.id === badge.id);
+  if (removeIndex > -1) {
+    pendingChanges.value.toRemove.splice(removeIndex, 1);
+  }
+  
+  hasUnsavedChanges.value = true;
+  ElMessage.info(`已添加徽章: ${badge.name}（未保存）`);
+};
+
+// 移除用户徽章（本地操作，不立即保存）
+const removeUserBadge = (userBadge) => {
+  const badgeId = userBadge.badge?.id || userBadge.badge_id;
+  const badgeName = userBadge.badge?.name || userBadge.name;
+  
+  // 将徽章从已添加列表移到可添加列表
+  const removedBadge = userBadge.badge || { id: badgeId, name: badgeName };
+  availableBadges.value.push(removedBadge);
+  userBadges.value = userBadges.value.filter(ub => ub.id !== userBadge.id);
+  
+  // 如果是新添加的徽章，从待添加列表中移除
+  if (userBadge.isNew) {
+    const addIndex = pendingChanges.value.toAdd.findIndex(b => b.id === badgeId);
+    if (addIndex > -1) {
+      pendingChanges.value.toAdd.splice(addIndex, 1);
+    }
+  } else {
+    // 如果是原有徽章，添加到待移除列表
+    pendingChanges.value.toRemove.push(removedBadge);
+  }
+  
+  hasUnsavedChanges.value = true;
+  ElMessage.info(`已移除徽章: ${badgeName}（未保存）`);
+};
+
+// 保存徽章变更
+const saveBadgeChanges = async () => {
+  if (!hasUnsavedChanges.value) return;
+  
+  // 并发控制：防止重复点击保存
+  if (badgeLoading.value) {
+    ElMessage.warning('正在保存徽章变更，请稍候...');
+    return;
+  }
+  
+  badgeLoading.value = true;
+  
+  try {
+    let successCount = 0;
+    let errorCount = 0;
+    const totalOperations = pendingChanges.value.toAdd.length + pendingChanges.value.toRemove.length;
+    
+    console.log(`🚀 开始保存徽章变更，共 ${totalOperations} 项操作`);
+    
+    // 使用Promise.all进行并发处理，但限制并发数量避免服务器压力
+    const chunkSize = 3; // 每次最多3个并发请求
+    
+    // 处理添加操作
+    const addPromises = [];
+    for (let i = 0; i < pendingChanges.value.toAdd.length; i += chunkSize) {
+      const chunk = pendingChanges.value.toAdd.slice(i, i + chunkSize);
+      const chunkPromises = chunk.map(async (badge) => {
+        try {
+          const result = await api.badge.grantUserBadge(currentUser.value.id, badge.id);
+          if (result.success) {
+            console.log(`✅ 成功添加徽章: ${badge.name}`);
+            return { success: true, badge: badge.name };
+          } else {
+            console.error('❌ 添加徽章失败:', badge.name, result.message);
+            return { success: false, badge: badge.name, error: result.message };
+          }
+        } catch (error) {
+          console.error('❌ 添加徽章出错:', badge.name, error);
+          return { success: false, badge: badge.name, error: error.message };
+        }
+      });
+      
+      const chunkResults = await Promise.all(chunkPromises);
+      chunkResults.forEach(result => {
+        if (result.success) successCount++;
+        else errorCount++;
+      });
+    }
+    
+    // 处理移除操作
+    for (let i = 0; i < pendingChanges.value.toRemove.length; i += chunkSize) {
+      const chunk = pendingChanges.value.toRemove.slice(i, i + chunkSize);
+      const chunkPromises = chunk.map(async (badge) => {
+        try {
+          const result = await api.badge.revokeBadge({
+            userId: currentUser.value.id,
+            badgeId: badge.id
+          });
+          if (result.success) {
+            console.log(`✅ 成功移除徽章: ${badge.name}`);
+            return { success: true, badge: badge.name };
+          } else {
+            console.error('❌ 移除徽章失败:', badge.name, result.message);
+            return { success: false, badge: badge.name, error: result.message };
+          }
+        } catch (error) {
+          console.error('❌ 移除徽章出错:', badge.name, error);
+          return { success: false, badge: badge.name, error: error.message };
+        }
+      });
+      
+      const chunkResults = await Promise.all(chunkPromises);
+      chunkResults.forEach(result => {
+        if (result.success) successCount++;
+        else errorCount++;
+      });
+    }
+    
+    console.log(`📊 保存结果: 成功 ${successCount} 项，失败 ${errorCount} 项`);
+    
+    // 显示结果消息
+    if (errorCount === 0) {
+      ElMessage.success(`徽章更改保存成功！共处理 ${successCount} 项操作`);
+    } else {
+      ElMessage.warning(`部分操作失败：成功 ${successCount} 项，失败 ${errorCount} 项`);
+    }
+    
+    // 重置状态
+    pendingChanges.value = { toAdd: [], toRemove: [] };
+    hasUnsavedChanges.value = false;
+    
+    // 关闭对话框并刷新用户列表
+    badgeDialogVisible.value = false;
+    
+    // 缓存已修复，立即刷新数据
+    await fetchUsers();
+    
+  } catch (error) {
+    console.error('保存徽章变更失败:', error);
+    ElMessage.error('保存徽章变更失败');
   } finally {
     badgeLoading.value = false;
   }
 };
 
-// 添加标签给用户
-const addUserBadge = async (badge) => {
-  try {
-    const result = await api.badge.addUserBadge(currentUser.value.id, badge.id);
-    if (result.success) {
-      // 将标签从可添加列表移到已添加列表
-      userBadges.value.push(badge);
-      availableBadges.value = availableBadges.value.filter(b => b.id !== badge.id);
-      
-      // 更新用户列表中的数据
-      const userIndex = userList.value.findIndex(u => u.id === currentUser.value.id);
-      if (userIndex !== -1) {
-        if (!userList.value[userIndex].badges) {
-          userList.value[userIndex].badges = [];
-        }
-        userList.value[userIndex].badges.push(badge);
+// 取消徽章变更
+const cancelBadgeChanges = () => {
+  if (hasUnsavedChanges.value) {
+    ElMessageBox.confirm(
+      '您有未保存的更改，确定要取消吗？',
+      '确认取消',
+      {
+        confirmButtonText: '确定',
+        cancelButtonText: '继续编辑',
+        type: 'warning',
       }
+    ).then(() => {
+      // 恢复到原始状态
+      userBadges.value = [...originalUserBadges.value];
       
-      ElMessage.success(`已为用户添加标签: ${badge.name}`);
-    } else {
-      ElMessage.error(result.message || '添加标签失败');
+      // 重新计算可添加的徽章
+      availableBadges.value = allBadges.value.filter(badge => 
+        !userBadges.value.some(userBadge => 
+          (userBadge.badge?.id === badge.id) || (userBadge.badge_id === badge.id)
+        )
+      );
+      
+      // 重置状态
+      pendingChanges.value = { toAdd: [], toRemove: [] };
+      hasUnsavedChanges.value = false;
+      badgeDialogVisible.value = false;
+      
+      // 释放操作锁
+      badgeOperationLock.value = false;
+      if (currentAbortController.value) {
+        currentAbortController.value.abort();
+        currentAbortController.value = null;
+      }
+    }).catch(() => {
+      // 用户选择继续编辑，不执行任何操作
+    });
+  } else {
+    badgeDialogVisible.value = false;
+    // 释放操作锁
+    badgeOperationLock.value = false;
+    if (currentAbortController.value) {
+      currentAbortController.value.abort();
+      currentAbortController.value = null;
     }
-  } catch (error) {
-    console.error('添加标签出错:', error);
-    ElMessage.error('添加标签失败');
   }
 };
 
-// 移除用户标签
-const removeUserBadge = async (badge) => {
-  try {
-    const result = await api.badge.removeUserBadge(currentUser.value.id, badge.id);
-    if (result.success) {
-      // 将标签从已添加列表移到可添加列表
-      availableBadges.value.push(badge);
-      userBadges.value = userBadges.value.filter(b => b.id !== badge.id);
-      
-      // 更新用户列表中的数据
-      const userIndex = userList.value.findIndex(u => u.id === currentUser.value.id);
-      if (userIndex !== -1 && userList.value[userIndex].badges) {
-        userList.value[userIndex].badges = userList.value[userIndex].badges.filter(b => b.id !== badge.id);
-      }
-      
-      ElMessage.success(`已从用户移除标签: ${badge.name}`);
-    } else {
-      ElMessage.error(result.message || '移除标签失败');
-    }
-  } catch (error) {
-    console.error('移除标签出错:', error);
-    ElMessage.error('移除标签失败');
-  }
-};
-
-// 打开创建标签表单
+// 打开创建徽章表单
 const openCreateBadgeForm = () => {
   createBadgeDialogVisible.value = true;
   badgeForm.value = {
     name: '',
     description: '',
     color: '#4A90E2',
-    status: true
+    icon: 'StarFilled',
+    type: 'achievement',
+    rarity: 'common',
+    status: 'enabled'
   };
 };
 
-// 提交创建标签
+// 提交创建徽章
 const submitCreateBadge = async () => {
   if (!badgeFormRef.value) return;
   
@@ -799,20 +1076,20 @@ const submitCreateBadge = async () => {
     try {
       const result = await api.badge.create(badgeForm.value);
       if (result.success) {
-        // 创建成功，添加到可用标签列表
+        // 创建成功，添加到可用徽章列表
         const newBadge = result.data;
         availableBadges.value.push(newBadge);
         allBadges.value.push(newBadge);
         
         // 关闭创建对话框
         createBadgeDialogVisible.value = false;
-        ElMessage.success(`标签"${newBadge.name}"创建成功`);
+        ElMessage.success(`徽章"${newBadge.name}"创建成功`);
       } else {
-        ElMessage.error(result.message || '创建标签失败');
+        ElMessage.error(result.message || '创建徽章失败');
       }
     } catch (error) {
-      console.error('创建标签出错:', error);
-      ElMessage.error(error.message || '创建标签失败');
+      console.error('创建徽章出错:', error);
+      ElMessage.error(error.message || '创建徽章失败');
     } finally {
       createBadgeLoading.value = false;
     }
@@ -1069,5 +1346,16 @@ const submitCreateBadge = async () => {
 
 .stat-tag {
   margin: 0;
+}
+
+/* 表格自适应优化 */
+:deep(.el-table) {
+  table-layout: auto;
+}
+
+:deep(.el-table .el-table__cell) {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 </style> 

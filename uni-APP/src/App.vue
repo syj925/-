@@ -1,6 +1,7 @@
 <script>
 import appConfig from './config';
 import configUpdateManager from '@/utils/configUpdateManager';
+import { useFollowStore } from './stores/followStore';
 
 export default {
   globalData: {
@@ -67,6 +68,9 @@ export default {
       // 初始化服务器设置
       this.initServerConfig();
 
+      // 初始化关注状态管理
+      this.initFollowStore();
+
       // 检查配置文件更新
       this.checkConfigUpdates();
     },
@@ -86,6 +90,31 @@ export default {
       // 确保http配置中有正确的baseURL
       if (this.$api && this.$api.http) {
         console.log('当前API服务器地址:', this.$api.http.config.baseURL);
+      }
+    },
+
+    // 初始化关注状态管理
+    async initFollowStore() {
+      try {
+        // 检查用户是否已登录
+        const token = uni.getStorageSync('token');
+        if (!token) {
+          console.log('用户未登录，跳过关注状态初始化');
+          return;
+        }
+        
+        const followStore = useFollowStore();
+        
+        // 检查是否需要初始化
+        if (!followStore.isInitialized) {
+          console.log('🚀 开始初始化关注状态...');
+          await followStore.initializeFollowData();
+          console.log('✅ 关注状态初始化完成');
+        } else {
+          console.log('关注状态已初始化，跳过');
+        }
+      } catch (error) {
+        console.error('初始化关注状态失败:', error);
       }
     },
 

@@ -85,7 +85,9 @@ export default {
     // 审核用户
     auditUser: (id, action, reason = null) => instance.put(`/admin/users/${id}/audit`, { action, reason }),
     // 获取用户注册拒绝记录
-    getRejectionLogs: (params) => instance.get('/admin/users/rejection-logs', { params })
+    getRejectionLogs: (params) => instance.get('/admin/users/rejection-logs', { params }),
+    // 搜索用户
+    search: (params) => instance.get('/admin/users/search', { params })
   },
   
   // 帖子管理
@@ -148,9 +150,9 @@ export default {
     // 删除标签
     delete: (id) => instance.delete(`/tags/${id}`),
     // 设置/取消热门标签
-    toggleHot: (id) => instance.put(`/tags/${id}/hot`),
+    toggleHot: (id) => instance.patch(`/tags/${id}/toggle-hot`),
     // 启用/禁用标签
-    toggleStatus: (id) => instance.put(`/tags/${id}/status`),
+    toggleStatus: (id) => instance.patch(`/tags/${id}/toggle-status`),
     // 获取指定分类的标签
     getByCategory: (category, limit) => instance.get(`/tags/category/${category}`, { params: { limit } }),
     // 获取热门标签
@@ -214,20 +216,96 @@ export default {
     importConfig: (configData) => instance.post('/admin/recommendation/import', { configData }) // 导入自定义配置
   },
   
-  // 用户标签管理
+  // 用户徽章管理
   badge: {
-    getList: (params) => instance.get('/admin/badges', { params }),
+    // 获取管理后台徽章列表（支持搜索和筛选）
+    getAdminList: (params) => instance.get('/admin/badges', { params }),
+    // 获取单个徽章详情
     getOne: (id) => instance.get(`/admin/badges/${id}`),
+    // 创建新徽章
     create: (data) => instance.post('/admin/badges', data),
+    // 更新徽章信息
     update: (id, data) => instance.put(`/admin/badges/${id}`, data),
+    // 删除徽章
     delete: (id) => instance.delete(`/admin/badges/${id}`),
-    updateStatus: (id, data) => instance.put(`/admin/badges/${id}/status`, data),
-    // 获取用户的标签
-    getUserBadges: (userId) => instance.get(`/admin/users/${userId}/badges`),
-    // 为用户添加标签
-    addUserBadge: (userId, badgeId) => instance.post(`/admin/users/${userId}/badges`, { badgeId }),
-    // 删除用户的标签
-    removeUserBadge: (userId, badgeId) => instance.delete(`/admin/users/${userId}/badges/${badgeId}`)
+    // 更新徽章状态
+    updateStatus: (id, data) => instance.patch(`/admin/badges/${id}/status`, data),
+    // 获取徽章统计信息
+    getStatistics: () => instance.get('/admin/badges/statistics'),
+    // 获取徽章授予记录
+    getGrants: (badgeId, params) => instance.get(`/admin/badges/${badgeId}/grants`, { params }),
+    
+    // 批量操作
+    batchGrant: (data) => instance.post('/admin/badges/batch-grant', data),
+    batchRevoke: (data) => instance.post('/admin/badges/batch-revoke', data),
+    
+    // 单个撤销和可见性控制
+    revokeBadge: (data) => instance.post('/admin/badges/revoke', data),
+    updateVisibility: (data) => instance.post('/admin/badges/visibility', data),
+    
+    // 自动授予徽章检查
+    checkAutoGrant: (userId) => instance.post('/admin/badges/check-auto-grant', { userId }),
+    
+    // 用户徽章管理
+    getUserBadges: (userId, includeHidden = false) => instance.get(`/admin/users/${userId}/badges`, {
+      params: { includeHidden }
+    }),
+    grantUserBadge: (userId, badgeId, grantedBy) => instance.post(`/admin/badges/grant`, {
+      userId,
+      badgeId,
+      grantedBy
+    }),
+    // 删除徽章使用 revokeBadge API
+    // revokeUserBadge: (userId, badgeId) => instance.delete(`/admin/users/${userId}/badges/${badgeId}`),
+    
+    // 用户徽章显示设置
+    updateUserBadgeDisplay: (userId, badgeId, data) => 
+      instance.put(`/admin/users/${userId}/badges/${badgeId}/display`, data)
+  },
+  
+  // 标签管理
+  tags: {
+    // 获取标签列表
+    getList: (params) => {
+      return instance.get('/tags', { params }).then(response => {
+        // 转换数据格式以匹配前端期望
+        if (response.success && response.data) {
+          return {
+            ...response,
+            data: {
+              tags: response.data.items || [],
+              pagination: {
+                total: response.data.total || 0,
+                page: response.data.page || 1,
+                limit: response.data.limit || 10,
+                totalPages: response.data.totalPages || 0
+              }
+            }
+          };
+        }
+        return response;
+      });
+    },
+    // 获取单个标签
+    getOne: (id) => instance.get(`/tags/${id}`),
+    // 创建标签
+    create: (data) => instance.post('/tags', data),
+    // 更新标签
+    update: (id, data) => instance.put(`/tags/${id}`, data),
+    // 删除标签
+    delete: (id) => instance.delete(`/tags/${id}`),
+    // 切换热门状态
+    toggleHot: (id) => instance.patch(`/tags/${id}/toggle-hot`),
+    // 切换标签状态 
+    toggleStatus: (id) => instance.patch(`/tags/${id}/toggle-status`),
+    // 批量更新状态
+    batchUpdateStatus: (data) => instance.patch('/tags/batch/status', data),
+    // 获取统计信息
+    getStatistics: () => instance.get('/tags/admin/statistics'),
+    // 获取热门标签
+    getHot: (params) => instance.get('/tags/hot', { params }),
+    // 根据分类获取标签
+    getByCategory: (category, params) => instance.get(`/tags/category/${category}`, { params })
   },
   
   // 日志查询

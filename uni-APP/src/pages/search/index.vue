@@ -5,7 +5,7 @@
       <view class="search-container">
         <view class="search-box">
           <view class="search-icon-wrapper">
-            <text class="search-icon">🔍</text>
+            <image class="search-icon-img" src="/static/images/ss.svg" mode="aspectFit"></image>
           </view>
           <input
             class="search-input"
@@ -44,7 +44,7 @@
     <view v-if="searchSuggestions.length > 0" class="search-suggestions">
       <view class="suggestions-header">
         <view class="header-icon">
-          <text>💡</text>
+          <image src="/static/images/ssjy.svg" mode="aspectFit"></image>
         </view>
         <text class="header-text">搜索建议</text>
         <view class="header-line"></view>
@@ -59,7 +59,8 @@
         >
           <view class="suggestion-left">
             <view class="suggestion-icon" :class="getSuggestionIconClass(suggestion)">
-              <text>{{ getSuggestionIcon(suggestion) }}</text>
+              <image v-if="getSuggestionIconSrc(suggestion)" :src="getSuggestionIconSrc(suggestion)" mode="aspectFit"></image>
+              <text v-else>{{ getSuggestionIcon(suggestion) }}</text>
             </view>
             <view class="suggestion-content">
               <text class="suggestion-text">{{ getSuggestionText(suggestion) }}</text>
@@ -90,7 +91,7 @@
         <view class="section-header">
           <view class="section-title">
             <view class="title-icon history-icon">
-              <text>🕒</text>
+              <image class="title-icon-img" src="/static/images/ssls.svg" mode="aspectFit"></image>
             </view>
             <text class="title-text">搜索历史</text>
           </view>
@@ -122,7 +123,7 @@
         <view class="section-header">
           <view class="section-title">
             <view class="title-icon hot-icon">
-              <text>🔥</text>
+              <image class="title-icon-img" src="/static/images/hrrm.svg" mode="aspectFit"></image>
             </view>
             <text class="title-text">热门搜索</text>
           </view>
@@ -158,7 +159,6 @@
             :class="{ active: activeDiscoverTab === 'topics' }"
             @click="switchDiscoverTab('topics')"
           >
-            <view class="tab-icon">💬</view>
             <text class="tab-text">热门话题</text>
           </view>
           <view
@@ -166,12 +166,10 @@
             :class="{ active: activeDiscoverTab === 'content' }"
             @click="switchDiscoverTab('content')"
           >
-            <view class="tab-icon">✨</view>
             <text class="tab-text">推荐内容</text>
           </view>
           <view class="tab-more" @click="handleDiscoverMore">
             <text class="more-text">{{ activeDiscoverTab === 'topics' ? '更多' : '刷新' }}</text>
-            <text class="more-arrow">{{ activeDiscoverTab === 'topics' ? '→' : '↻' }}</text>
           </view>
         </view>
 
@@ -713,7 +711,7 @@ export default {
 
     goToUserProfile(id) {
       uni.navigateTo({
-        url: `/pages/user-profile/user-profile?id=${id}`
+        url: `/pages/user/user-profile?id=${id}`
       })
     },
 
@@ -802,6 +800,20 @@ export default {
         return `icon-${suggestion.type}`
       }
       return 'icon-default'
+    },
+
+    getSuggestionIconSrc(suggestion) {
+      if (typeof suggestion === 'object' && suggestion.type) {
+        switch (suggestion.type) {
+          case 'topic':
+            return '/static/images/ht.svg'
+          case 'user':
+            return '/static/images/yh.svg'
+          default:
+            return null
+        }
+      }
+      return null
     },
 
     getSuggestionText(suggestion) {
@@ -954,6 +966,11 @@ export default {
         font-size: 32rpx;
         color: #999;
       }
+
+      .search-icon-img {
+        width: 32rpx;
+        height: 32rpx;
+      }
     }
 
     .search-input {
@@ -995,7 +1012,7 @@ export default {
   .cancel-btn {
     padding: 20rpx 30rpx;
     border-radius: 50rpx;
-    background: linear-gradient(135deg, rgba(0, 122, 255, 0.1), rgba(0, 122, 255, 0.05));
+    background: transparent;
     transition: all 0.3s ease;
 
     &:active {
@@ -1004,8 +1021,8 @@ export default {
 
     text {
       font-size: 28rpx;
-      color: #007aff;
-      font-weight: 500;
+      color: #333333;
+      font-weight: bold;
     }
   }
 }
@@ -1028,11 +1045,16 @@ export default {
       width: 50rpx;
       height: 50rpx;
       border-radius: 50%;
-      background: linear-gradient(135deg, #ffd43b, #fab005);
+      background: transparent;
       display: flex;
       align-items: center;
       justify-content: center;
       margin-right: 20rpx;
+
+      image {
+        width: 28rpx;
+        height: 28rpx;
+      }
 
       text {
         font-size: 24rpx;
@@ -1114,20 +1136,25 @@ export default {
       justify-content: center;
       margin-right: 25rpx;
 
+      image {
+        width: 36rpx;
+        height: 36rpx;
+      }
+
       &.icon-topic {
-        background: linear-gradient(135deg, #845ef7, #9775fa);
+        background: transparent;
       }
 
       &.icon-user {
-        background: linear-gradient(135deg, #51cf66, #69db7c);
+        background: transparent;
       }
 
       &.icon-post {
-        background: linear-gradient(135deg, #ff8cc8, #ff6b9d);
+        background: transparent;
       }
 
       &.icon-default {
-        background: linear-gradient(135deg, #74c0fc, #339af0);
+        background: transparent;
       }
 
       text {
@@ -1166,19 +1193,19 @@ export default {
       align-items: center;
       padding: 12rpx 20rpx;
       border-radius: 50rpx;
-      background: linear-gradient(135deg, rgba(0, 122, 255, 0.1), rgba(77, 171, 247, 0.05));
-      border: 2rpx solid rgba(0, 122, 255, 0.15);
+      background: #ffffff;
+      border: 2rpx solid rgba(0, 0, 0, 0.1);
 
       .action-text {
         font-size: 24rpx;
-        color: #007aff;
+        color: #333333;
         font-weight: 500;
         margin-right: 8rpx;
       }
 
       .action-arrow {
         font-size: 24rpx;
-        color: #007aff;
+        color: #333333;
         transform: translateX(0);
         transition: transform 0.3s ease;
       }
@@ -1238,25 +1265,15 @@ export default {
         align-items: center;
         justify-content: center;
         margin-right: 20rpx;
-
-        &.hot-icon {
-          background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
-        }
-
-        &.topic-icon {
-          background: linear-gradient(135deg, #845ef7, #9775fa);
-        }
-
-        &.recommend-icon {
-          background: linear-gradient(135deg, #ffd43b, #fab005);
-        }
-
-        &.history-icon {
-          background: linear-gradient(135deg, #74c0fc, #339af0);
-        }
+        background: transparent;
 
         text {
           font-size: 28rpx;
+        }
+
+        .title-icon-img {
+          width: 120rpx;
+          height: 120rpx;
         }
       }
 
@@ -1272,23 +1289,24 @@ export default {
       align-items: center;
       padding: 16rpx 24rpx;
       border-radius: 50rpx;
-      background: rgba(0, 122, 255, 0.1);
+      background: transparent;
       transition: all 0.3s ease;
 
       &:active {
         transform: scale(0.95);
-        background: rgba(0, 122, 255, 0.15);
       }
 
       .more-text {
         font-size: 24rpx;
-        color: #007aff;
+        color: #333333;
+        font-weight: bold;
         margin-right: 8rpx;
       }
 
       .more-arrow {
         font-size: 24rpx;
-        color: #007aff;
+        color: #333333;
+        font-weight: bold;
       }
     }
   }
@@ -1310,15 +1328,15 @@ export default {
   padding: 16rpx 24rpx;
   margin-right: 20rpx;
   border-radius: 20rpx;
-  background: #f8f9fa;
+  background: transparent;
   transition: all 0.3s ease;
 
   &.active {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: #fff;
+    background: transparent;
 
-    .tab-icon {
-      transform: scale(1.1);
+    .tab-text {
+      color: #333333;
+      font-weight: bold;
     }
   }
 
@@ -1343,25 +1361,26 @@ export default {
   display: flex;
   align-items: center;
   padding: 12rpx 20rpx;
-  background: #f0f0f0;
+  background: transparent;
   border-radius: 16rpx;
   transition: all 0.3s ease;
 
   &:active {
     transform: scale(0.95);
-    background: #e0e0e0;
   }
 }
 
 .more-text {
   font-size: 24rpx;
-  color: #666;
+  color: #333333;
+  font-weight: bold;
   margin-right: 8rpx;
 }
 
 .more-arrow {
   font-size: 24rpx;
-  color: #666;
+  color: #333333;
+  font-weight: bold;
 }
 
 .discover-content {
@@ -1407,15 +1426,15 @@ export default {
     .default-avatar {
       width: 100%;
       height: 100%;
-      background: linear-gradient(135deg, #007aff, #4dabf7);
+      background: transparent;
       display: flex;
       align-items: center;
       justify-content: center;
 
       .avatar-text {
         font-size: 32rpx;
-        color: #fff;
-        font-weight: 600;
+        color: #333333;
+        font-weight: bold;
       }
     }
   }
@@ -1430,6 +1449,7 @@ export default {
       margin-bottom: 8rpx;
       display: -webkit-box;
       -webkit-line-clamp: 1;
+      line-clamp: 1;
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
@@ -1475,6 +1495,7 @@ export default {
       margin-bottom: 20rpx;
       display: -webkit-box;
       -webkit-line-clamp: 2;
+      line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
@@ -1488,21 +1509,9 @@ export default {
         padding: 8rpx 16rpx;
         border-radius: 20rpx;
         font-size: 22rpx;
-
-        &.type-post {
-          background: rgba(0, 122, 255, 0.1);
-          color: #007aff;
-        }
-
-        &.type-topic {
-          background: rgba(132, 94, 247, 0.1);
-          color: #845ef7;
-        }
-
-        &.type-user {
-          background: rgba(81, 207, 102, 0.1);
-          color: #51cf66;
-        }
+        background: transparent;
+        color: #333333;
+        font-weight: bold;
       }
 
       .meta-stats {

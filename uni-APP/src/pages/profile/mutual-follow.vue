@@ -291,7 +291,7 @@ export default {
     font-size: $font-size-sm;
     color: $text-secondary;
     margin-bottom: 12rpx;
-    @include ellipsis(2);
+    @include ellipsis(1);
   }
   
   .user-stats {

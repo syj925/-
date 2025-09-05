@@ -103,7 +103,6 @@
     <!-- 底部发布按钮 -->
     <view class="bottom-publish">
       <view class="publish-btn" @tap="goToPublish">
-        <text class="publish-icon">✏️</text>
         <text class="publish-text">参与话题讨论</text>
       </view>
     </view>
@@ -746,16 +745,17 @@ export default {
       .topic-icon {
         width: 120rpx;
         height: 120rpx;
-        background: $gradient-blue;
+        background: #ffffff;
+        border: 2rpx solid #ddd;
         border-radius: $radius-md;
         display: flex;
         align-items: center;
         justify-content: center;
         margin-right: $spacing-md;
-        box-shadow: 0 8rpx 20rpx rgba($primary-color, 0.3);
+        box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
 
         .topic-hash {
-          color: $text-white;
+          color: #333333;
           font-size: 48rpx;
           font-weight: bold;
         }
@@ -851,12 +851,16 @@ export default {
 }
 
 .filter-scroll {
-  white-space: nowrap;
   width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .filter-list {
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-md;
   padding: 0 $spacing-md;
 }
 
@@ -865,21 +869,18 @@ export default {
   font-size: $font-size-md;
   color: $text-tertiary;
   padding: $spacing-xs $spacing-md;
-  margin-right: $spacing-md;
   border-radius: $radius-xl;
   transition: all 0.3s;
   position: relative;
   overflow: hidden;
 
   &.active {
-    color: $text-white;
-    background: $gradient-blue;
-    box-shadow: 0 4rpx 12rpx rgba($primary-color, 0.3);
+    color: #333333;
+    background: #ffffff;
+    border: 2rpx solid #ddd;
+    font-weight: bold;
+    box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
     transform: translateY(-2rpx);
-  }
-
-  &:last-child {
-    margin-right: 0;
   }
 }
 
@@ -903,19 +904,15 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: $gradient-blue;
+    background: #ffffff;
+    border: 2rpx solid #ddd;
     border-radius: $radius-xl;
     padding: $spacing-md;
-    box-shadow: 0 4rpx 12rpx rgba($primary-color, 0.3);
-
-    .publish-icon {
-      font-size: $font-size-lg;
-      margin-right: $spacing-xs;
-    }
+    box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
 
     .publish-text {
       font-size: $font-size-md;
-      color: $text-white;
+      color: #333333;
       font-weight: 500;
     }
   }

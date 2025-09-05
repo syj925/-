@@ -103,7 +103,7 @@ class FollowRepository {
         {
           model: User,
           as: 'following',
-          attributes: ['id', 'username', 'avatar', 'school', 'department', 'bio']
+          attributes: ['id', 'username', 'nickname', 'avatar', 'bio']
         }
       ]
     });
@@ -135,7 +135,7 @@ class FollowRepository {
         {
           model: User,
           as: 'follower',
-          attributes: ['id', 'username', 'avatar', 'school', 'department', 'bio']
+          attributes: ['id', 'username', 'nickname', 'avatar', 'bio']
         }
       ]
     });
@@ -203,7 +203,7 @@ class FollowRepository {
         {
           model: User,
           as: 'following',
-          attributes: ['id', 'username', 'avatar', 'school', 'department', 'bio']
+          attributes: ['id', 'username', 'nickname', 'avatar', 'school', 'department', 'bio']
         }
       ]
     });
@@ -293,7 +293,7 @@ class FollowRepository {
         {
           model: User,
           as: 'follower',
-          attributes: ['id', 'username', 'avatar', 'school', 'department', 'bio']
+          attributes: ['id', 'username', 'nickname', 'avatar', 'school', 'department', 'bio']
         }
       ]
     });

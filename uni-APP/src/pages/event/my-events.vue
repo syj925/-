@@ -1,9 +1,5 @@
 <template>
   <view class="my-events-page">
-    <!-- 页面头部 -->
-    <view class="page-header">
-      <text class="page-title">我的活动</text>
-    </view>
     
     <!-- 统计卡片 -->
     <view class="stats-card">
@@ -507,28 +503,14 @@ export default {
   background-color: $bg-page;
 }
 
-// 页面头部
-.page-header {
-  @include center;
-  padding: $spacing-lg;
-  background-color: $bg-card;
-  border-radius: 0 0 $radius-lg $radius-lg;
-  box-shadow: $shadow-sm;
-
-  .page-title {
-    font-size: $font-size-xl;
-    font-weight: bold;
-    color: $text-primary;
-  }
-}
-
 // 统计卡片
 .stats-card {
   @include card;
   @include flex(row, space-around, center);
-  margin: $spacing-lg;
+  margin: 15rpx 20rpx;
   border-radius: $radius-lg;
-  background: $gradient-purple;
+  background: #ffffff;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.1);
 
   .stat-item {
     @include center;
@@ -538,20 +520,20 @@ export default {
     .stat-number {
       font-size: $font-size-xl;
       font-weight: bold;
-      color: $accent-purple;
+      color: #333333;
       margin-bottom: 8rpx;
     }
 
     .stat-label {
       font-size: $font-size-xs;
-      color: $text-secondary;
+      color: #333333;
     }
   }
 
   .stat-divider {
     width: 1rpx;
     height: 60rpx;
-    background-color: rgba($accent-purple, 0.2);
+    background-color: rgba(0, 0, 0, 0.1);
   }
 }
 
@@ -560,10 +542,10 @@ export default {
   @include flex(row, space-around, center);
   background-color: $bg-card;
   padding: $spacing-md 0;
-  margin-bottom: $spacing-md;
+  margin-bottom: 15rpx;
   border-radius: $radius-lg;
-  margin-left: $spacing-lg;
-  margin-right: $spacing-lg;
+  margin-left: 20rpx;
+  margin-right: 20rpx;
   box-shadow: $shadow-sm;
 
   .status-tab {
@@ -575,9 +557,9 @@ export default {
     position: relative;
 
     &.active {
-      color: $accent-purple;
+      color: #333333;
       font-weight: bold;
-      background-color: $bg-light-purple;
+      background-color: rgba(0, 0, 0, 0.05);
     }
   }
 }
@@ -585,13 +567,13 @@ export default {
 // 活动内容
 .events-content {
   flex: 1;
-  padding: 0 $spacing-lg;
+  padding: 0 20rpx;
 }
 
 .events-list {
   .event-item {
     @include card;
-    margin-bottom: $spacing-lg;
+    margin-bottom: 15rpx;
     border-radius: $radius-lg;
     overflow: hidden;
     transition: transform $transition-fast;
@@ -638,18 +620,18 @@ export default {
 }
 
 .event-info {
-  padding: $spacing-lg;
+  padding: 20rpx;
 
   .event-title {
     font-size: $font-size-lg;
     font-weight: bold;
     color: $text-primary;
-    margin-bottom: $spacing-md;
+    margin-bottom: 15rpx;
     @include ellipsis(2);
   }
 
   .event-meta {
-    margin-bottom: $spacing-md;
+    margin-bottom: 15rpx;
 
     .meta-item {
       @include flex(row, flex-start, center);
@@ -669,7 +651,7 @@ export default {
 
   .registration-info {
     @include flex(row, space-between, center);
-    padding-top: $spacing-md;
+    padding-top: 15rpx;
     border-top: 1rpx solid $border-light;
 
     .registration-status {
@@ -703,14 +685,14 @@ export default {
 
 .event-actions {
   @include flex(row, flex-end, center);
-  padding: 0 $spacing-lg $spacing-lg;
+  padding: 0 20rpx 20rpx;
 
   .action-btn {
-    padding: $spacing-sm $spacing-lg;
+    padding: 10rpx 20rpx;
     border-radius: $radius-lg;
     font-size: $font-size-sm;
     border: none;
-    margin-left: $spacing-sm;
+    margin-left: 10rpx;
 
     &.cancel-btn {
       background-color: $bg-light-red;
@@ -718,8 +700,9 @@ export default {
     }
 
     &.detail-btn {
-      background: $gradient-purple;
-      color: $text-white;
+      background: #ffffff;
+      color: #333333;
+      border: 2rpx solid #e0e0e0;
     }
   }
 }
@@ -748,11 +731,12 @@ export default {
 
   .explore-btn {
     padding: $spacing-md $spacing-xl;
-    background: $gradient-purple;
-    color: $text-white;
+    background: #ffffff;
+    color: #333333;
     font-size: $font-size-sm;
+    font-weight: bold;
     border-radius: $radius-xl;
-    border: none;
+    border: 2rpx solid #e0e0e0;
   }
 }
 

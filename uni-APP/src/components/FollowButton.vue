@@ -49,12 +49,16 @@ export default {
     followingText: {
       type: String,
       default: '已关注'
+    },
+    // 外部控制的加载状态
+    loading: {
+      type: Boolean,
+      default: false
     }
   },
   
   data() {
     return {
-      loading: false,
       internalFollowing: this.isFollowing
     };
   },
@@ -72,8 +76,10 @@ export default {
   },
   
   methods: {
-    async handleClick() {
+    handleClick() {
       if (this.loading || this.disabled) return;
+      
+      console.log('🔘 FollowButton点击 - userId:', this.userId, 'currentStatus:', this.internalFollowing);
       
       // 检查登录状态
       const userInfo = uni.getStorageSync('userInfo');
@@ -92,77 +98,22 @@ export default {
         return;
       }
       
-      const originalStatus = this.internalFollowing;
-      const action = originalStatus ? '取消关注' : '关注';
-      
-      this.loading = true;
-      
-      try {
-        // 乐观更新UI
-        this.internalFollowing = !originalStatus;
-        
-        // 调用API
-        const response = originalStatus 
-          ? await this.$api.follow.unfollow(this.userId)
-          : await this.$api.follow.follow(this.userId);
-        
-        if (response.code === 0) {
-          // 触发成功事件
-          this.$emit('success', {
-            userId: this.userId,
-            isFollowing: this.internalFollowing,
-            action: originalStatus ? 'unfollow' : 'follow'
-          });
-          
-          uni.showToast({
-            title: originalStatus ? '已取消关注' : '关注成功',
-            icon: 'success'
-          });
-        } else {
-          // 恢复原状态
-          this.internalFollowing = originalStatus;
-          
-          // 触发失败事件
-          this.$emit('error', {
-            userId: this.userId,
-            action: originalStatus ? 'unfollow' : 'follow',
-            message: response.msg || response.message
-          });
-          
-          uni.showToast({
-            title: response.msg || response.message || `${action}失败`,
-            icon: 'none'
-          });
-        }
-      } catch (error) {
-        // 恢复原状态
-        this.internalFollowing = originalStatus;
-        
-        console.error(`${action}失败:`, error);
-        
-        // 触发错误事件
-        this.$emit('error', {
-          userId: this.userId,
-          action: originalStatus ? 'unfollow' : 'follow',
-          error
-        });
-        
-        // 智能错误提示
-        let errorMessage = `${action}失败，请重试`;
-        const errorText = error.message || '';
-        
-        if (errorText.includes('操作太频繁')) {
-          errorMessage = '操作太频繁，请稍后再试';
-        }
-        // 注意：后端已实现幂等性处理，不会再抛出"已关注"或"未关注"错误
-        
-        uni.showToast({
-          title: errorMessage,
-          icon: 'none'
-        });
-      } finally {
-        this.loading = false;
+      // 验证userId
+      if (!this.userId || this.userId === 'undefined') {
+        console.error('❌ FollowButton: userId无效', this.userId);
+        return;
       }
+      
+      const emitData = {
+        userId: this.userId,
+        currentStatus: this.internalFollowing,
+        action: this.internalFollowing ? 'unfollow' : 'follow'
+      };
+      
+      console.log('🔘 FollowButton发出事件:', emitData);
+      
+      // 触发点击事件，让父组件处理关注逻辑
+      this.$emit('follow-action', emitData);
     },
     
     showLoginModal() {

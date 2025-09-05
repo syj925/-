@@ -2,6 +2,7 @@ const userService = require('../../services/user.service');
 const { ResponseUtil } = require('../../utils');
 const { StatusCodes } = require('http-status-codes');
 const logger = require('../../../config/logger');
+const ValidationMiddleware = require('../../middlewares/validation.middleware');
 
 /**
  * 管理后台用户管理控制器
@@ -54,6 +55,13 @@ class AdminUserController {
         page: result.pagination.page,
         limit: result.pagination.pageSize
       };
+
+      // 对于包含动态徽章数据的响应，设置较短的缓存时间
+      if (includeBadges === 'true') {
+        res.set({
+          'Cache-Control': 'private, max-age=10' // 10秒缓存，平衡性能和实时性
+        });
+      }
 
       res.status(StatusCodes.OK).json(ResponseUtil.success(responseData, '获取用户列表成功'));
     } catch (error) {
@@ -412,31 +420,112 @@ class AdminUserController {
         adminId: req.user.id
       });
 
-      if (!query || query.trim().length < 2) {
+      if (!query || query.trim().length < 1) {
         return res.status(StatusCodes.BAD_REQUEST).json(
-          ResponseUtil.error('搜索关键词至少2个字符', StatusCodes.BAD_REQUEST)
+          ResponseUtil.error('搜索关键词不能为空', StatusCodes.BAD_REQUEST)
         );
       }
 
-      const options = {
-        page: 1,
-        pageSize: 20,
-        keyword: query.trim()
-      };
+      const keyword = query.trim();
+      let users = [];
 
-      const result = await userService.findUsers(options);
+      // 如果是UUID格式，直接按ID搜索
+      if (ValidationMiddleware.isUUID(keyword)) {
+        try {
+          const user = await userService.getUserInfo(keyword);
+          if (user) {
+            users = [{
+              id: user.id,
+              username: user.username,
+              nickname: user.nickname,
+              avatar: user.avatar
+            }];
+          }
+        } catch (error) {
+          // ID搜索失败，继续进行关键词搜索
+          logger.debug('ID搜索未找到用户，继续关键词搜索:', error.message);
+        }
+      }
 
-      // 只返回基本信息
-      const users = result.list.map(user => ({
-        id: user.id,
-        username: user.username,
-        nickname: user.nickname,
-        avatar: user.avatar
-      }));
+      // 如果ID搜索没有结果，进行关键词搜索
+      if (users.length === 0) {
+        const options = {
+          page: 1,
+          pageSize: 50, // 增加搜索结果数量
+          keyword: keyword
+        };
+
+        const result = await userService.findUsers(options);
+
+        // 只返回基本信息
+        users = result.list.map(user => ({
+          id: user.id,
+          username: user.username,
+          nickname: user.nickname,
+          avatar: user.avatar
+        }));
+      }
 
       res.status(StatusCodes.OK).json(ResponseUtil.success(users, '搜索用户成功'));
     } catch (error) {
       logger.error('Admin search users error:', error);
+      next(error);
+    }
+  }
+
+  /**
+   * 获取用户徽章列表
+   * @param {Object} req 请求对象
+   * @param {Object} res 响应对象
+   * @param {Function} next 下一个中间件
+   * @returns {Promise<void>}
+   */
+  async getUserBadges(req, res, next) {
+    try {
+      const { userId } = req.params;
+      const { type, includeHidden = false } = req.query;
+
+      logger.info('Admin get user badges request:', {
+        userId,
+        adminId: req.user.id
+      });
+
+      // 验证用户是否存在
+      const user = await userService.getUserInfo(userId);
+      if (!user) {
+        return res.status(StatusCodes.NOT_FOUND).json(
+          ResponseUtil.error('用户不存在', StatusCodes.NOT_FOUND)
+        );
+      }
+
+      // 引入badge相关服务
+      const badgeService = require('../../services/badge.service');
+      
+      // 管理后台直接查询数据库，不使用缓存确保数据实时性
+      console.log('🎯 [管理后台] 获取用户徽章，查询参数:', { 
+        userId, 
+        type, 
+        includeHidden: includeHidden === 'true'
+      });
+      
+      const userBadges = await badgeService.getUserBadgesFromDB(userId, { 
+        type, 
+        includeHidden: includeHidden === 'true' 
+      });
+
+      // 设置缓存控制头，防止浏览器缓存用户徽章数据
+      res.set({
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0'
+      });
+
+      res.status(StatusCodes.OK).json(ResponseUtil.success({
+        items: userBadges,
+        total: userBadges.length
+      }, '获取用户徽章成功'));
+    } catch (error) {
+      logger.error('Admin get user badges error:', error);
       next(error);
     }
   }

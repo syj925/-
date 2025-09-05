@@ -215,6 +215,267 @@ class ValidationMiddleware {
     }
     return file.size <= maxSize;
   }
+
+  /**
+   * 验证URL参数中的UUID
+   * @param {String} paramName 参数名称
+   * @returns {Function} Express中间件
+   */
+  static validateUUID(paramName) {
+    return (req, res, next) => {
+      const value = req.params[paramName];
+      const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+      
+      if (!value || !uuidRegex.test(value)) {
+        return res.status(StatusCodes.BAD_REQUEST).json({
+          success: false,
+          message: `参数 ${paramName} 必须是有效的UUID格式`,
+          error: 'INVALID_UUID'
+        });
+      }
+      
+      next();
+    };
+  }
+
+  /**
+   * 验证请求体数据
+   * @param {Object} schema JSON Schema对象
+   * @returns {Function} Express中间件
+   */
+  static validateBody(schema) {
+    return (req, res, next) => {
+      if (!req.body || typeof req.body !== 'object') {
+        return res.status(StatusCodes.BAD_REQUEST).json({
+          success: false,
+          message: '请求体不能为空',
+          error: 'EMPTY_BODY'
+        });
+      }
+
+      // 简单的JSON Schema验证实现
+      const errors = this.validateSchema(req.body, schema);
+      
+      if (errors.length > 0) {
+
+        return res.status(StatusCodes.BAD_REQUEST).json({
+          success: false,
+          message: '请求参数验证失败',
+          errors: errors
+        });
+      }
+      
+      next();
+    };
+  }
+
+  /**
+   * 简单的JSON Schema验证
+   * @param {Object} data 要验证的数据
+   * @param {Object} schema JSON Schema
+   * @returns {Array} 错误数组
+   */
+  static validateSchema(data, schema) {
+    const errors = [];
+    
+    // 验证必需字段
+    if (schema.required) {
+      for (const field of schema.required) {
+        if (!(field in data) || data[field] === undefined || data[field] === null) {
+          errors.push({
+            field: field,
+            message: `字段 ${field} 是必需的`,
+            code: 'REQUIRED_FIELD'
+          });
+        }
+      }
+    }
+    
+    // 验证字段类型和约束
+    if (schema.properties) {
+      for (const [field, fieldSchema] of Object.entries(schema.properties)) {
+        if (field in data && data[field] !== undefined && data[field] !== null) {
+          const fieldErrors = this.validateField(data[field], fieldSchema, field);
+          errors.push(...fieldErrors);
+        }
+      }
+    }
+    
+    // 验证不允许的额外属性
+    if (schema.additionalProperties === false) {
+      const allowedFields = schema.properties ? Object.keys(schema.properties) : [];
+      for (const field of Object.keys(data)) {
+        if (!allowedFields.includes(field)) {
+          errors.push({
+            field: field,
+            message: `不允许的字段: ${field}`,
+            code: 'ADDITIONAL_PROPERTY'
+          });
+        }
+      }
+    }
+
+    // 验证最少属性数量
+    if (schema.minProperties && Object.keys(data).length < schema.minProperties) {
+      errors.push({
+        field: 'object',
+        message: `至少需要 ${schema.minProperties} 个属性`,
+        code: 'MIN_PROPERTIES'
+      });
+    }
+    
+    return errors;
+  }
+
+  /**
+   * 验证单个字段
+   * @param {*} value 字段值
+   * @param {Object} fieldSchema 字段Schema
+   * @param {String} fieldName 字段名
+   * @returns {Array} 错误数组
+   */
+  static validateField(value, fieldSchema, fieldName) {
+    const errors = [];
+    
+    // 类型验证
+    if (fieldSchema.type) {
+      let actualType;
+      
+      if (Array.isArray(value)) {
+        actualType = 'array';
+      } else if (fieldSchema.type === 'integer') {
+        // 特殊处理 integer 类型：检查是否为整数
+        actualType = (typeof value === 'number' && Number.isInteger(value)) ? 'integer' : typeof value;
+      } else if (Array.isArray(fieldSchema.type)) {
+        // 处理多类型情况，如 ['object', 'null']
+        const possibleTypes = fieldSchema.type.map(type => {
+          if (type === 'integer') {
+            return (typeof value === 'number' && Number.isInteger(value)) ? 'integer' : null;
+          } else if (type === 'null' && value === null) {
+            return 'null';
+          } else {
+            return typeof value === type ? type : null;
+          }
+        }).filter(Boolean);
+        
+        if (possibleTypes.length === 0) {
+          errors.push({
+            field: fieldName,
+            message: `字段 ${fieldName} 必须是 ${fieldSchema.type.join(' 或 ')} 类型`,
+            code: 'INVALID_TYPE'
+          });
+          return errors;
+        }
+        // 如果匹配任一类型，则通过验证
+      } else {
+        actualType = typeof value;
+      }
+      
+      // 单一类型验证
+      if (!Array.isArray(fieldSchema.type) && actualType !== fieldSchema.type) {
+        errors.push({
+          field: fieldName,
+          message: `字段 ${fieldName} 必须是 ${fieldSchema.type} 类型`,
+          code: 'INVALID_TYPE'
+        });
+        return errors; // 类型错误时不再进行其他验证
+      }
+    }
+    
+    // 字符串验证
+    if (fieldSchema.type === 'string') {
+      if (fieldSchema.minLength && value.length < fieldSchema.minLength) {
+        errors.push({
+          field: fieldName,
+          message: `字段 ${fieldName} 最少需要 ${fieldSchema.minLength} 个字符`,
+          code: 'MIN_LENGTH'
+        });
+      }
+      
+      if (fieldSchema.maxLength && value.length > fieldSchema.maxLength) {
+        errors.push({
+          field: fieldName,
+          message: `字段 ${fieldName} 最多允许 ${fieldSchema.maxLength} 个字符`,
+          code: 'MAX_LENGTH'
+        });
+      }
+      
+      if (fieldSchema.pattern && !new RegExp(fieldSchema.pattern).test(value)) {
+        errors.push({
+          field: fieldName,
+          message: `字段 ${fieldName} 格式不正确`,
+          code: 'PATTERN_MISMATCH'
+        });
+      }
+      
+      if (fieldSchema.enum && !fieldSchema.enum.includes(value)) {
+        errors.push({
+          field: fieldName,
+          message: `字段 ${fieldName} 必须是以下值之一: ${fieldSchema.enum.join(', ')}`,
+          code: 'ENUM_MISMATCH'
+        });
+      }
+
+      if (fieldSchema.format === 'uuid') {
+        const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+        if (!uuidRegex.test(value)) {
+          errors.push({
+            field: fieldName,
+            message: `字段 ${fieldName} 必须是有效的UUID格式`,
+            code: 'INVALID_UUID'
+          });
+        }
+      }
+    }
+    
+    // 数字验证
+    if (fieldSchema.type === 'integer' || fieldSchema.type === 'number') {
+      if (fieldSchema.minimum !== undefined && value < fieldSchema.minimum) {
+        errors.push({
+          field: fieldName,
+          message: `字段 ${fieldName} 不能小于 ${fieldSchema.minimum}`,
+          code: 'MINIMUM'
+        });
+      }
+      
+      if (fieldSchema.maximum !== undefined && value > fieldSchema.maximum) {
+        errors.push({
+          field: fieldName,
+          message: `字段 ${fieldName} 不能大于 ${fieldSchema.maximum}`,
+          code: 'MAXIMUM'
+        });
+      }
+    }
+    
+    // 数组验证
+    if (fieldSchema.type === 'array') {
+      if (fieldSchema.minItems && value.length < fieldSchema.minItems) {
+        errors.push({
+          field: fieldName,
+          message: `字段 ${fieldName} 至少需要 ${fieldSchema.minItems} 个项目`,
+          code: 'MIN_ITEMS'
+        });
+      }
+      
+      if (fieldSchema.maxItems && value.length > fieldSchema.maxItems) {
+        errors.push({
+          field: fieldName,
+          message: `字段 ${fieldName} 最多允许 ${fieldSchema.maxItems} 个项目`,
+          code: 'MAX_ITEMS'
+        });
+      }
+      
+      // 验证数组项目
+      if (fieldSchema.items) {
+        value.forEach((item, index) => {
+          const itemErrors = this.validateField(item, fieldSchema.items, `${fieldName}[${index}]`);
+          errors.push(...itemErrors);
+        });
+      }
+    }
+    
+    return errors;
+  }
 }
 
 module.exports = ValidationMiddleware;

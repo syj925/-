@@ -12,6 +12,18 @@
               <view class="post-card__anonymous-badge" v-if="showAnonymousBadge && isAnonymousPost()">
                 <text class="post-card__anonymous-text">匿名</text>
               </view>
+              <!-- 用户徽章显示 - 只在非匿名帖子时显示 -->
+              <view class="post-card__badges" v-if="!isAnonymousPost() && authorBadges.length > 0">
+                <view 
+                  v-for="badge in authorBadges" 
+                  :key="badge.id"
+                  class="post-card__badge"
+                  :class="`badge-rarity-${badge.rarity}`"
+                  :style="{backgroundColor: badge.color}"
+                >
+                  <image class="post-card__badge-icon" src="/static/images/badge-icon.svg" mode="aspectFit"></image>
+                </view>
+              </view>
             </view>
             <view class="post-card__meta">
               <text class="post-card__time">{{ formatTime }}</text>
@@ -154,8 +166,28 @@ export default {
       default: false
     }
   },
+  
+  data() {
+    return {
+    };
+  },
 
   computed: {
+    // 从帖子数据中提取作者徽章
+    authorBadges() {
+      if (!this.post.author?.userBadges) {
+        return [];
+      }
+      
+      return this.post.author.userBadges
+        .slice(0, 3) // 最多显示3个徽章
+        .map(userBadge => ({
+          id: userBadge.id,
+          name: userBadge.badge.name,
+          color: userBadge.badge.color,
+          rarity: userBadge.badge.rarity
+        }));
+    },
     formatTime() {
       return formatTimeAgo(this.post.createTime || Date.now());
     },
@@ -209,6 +241,7 @@ export default {
       return true;
     }
   },
+  
   methods: {
     // 安全获取用户头像
     safeAvatar(user) {
@@ -544,6 +577,50 @@ export default {
     font-size: $font-size-xs;
     color: #FFFFFF;
     font-weight: 500;
+  }
+
+  // 用户徽章样式
+  &__badges {
+    @include flex(row, flex-start, center);
+    margin-left: $spacing-xs;
+    gap: 4rpx;
+  }
+
+  &__badge {
+    width: 36rpx;
+    height: 36rpx;
+    border-radius: 50%;
+    @include flex(row, center, center);
+    box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.15);
+    border: 1rpx solid rgba(255, 255, 255, 0.8);
+    
+    // 稀有度发光效果
+    &.badge-rarity-rare {
+      box-shadow: 0 2rpx 8rpx rgba(70, 130, 180, 0.4);
+    }
+    
+    &.badge-rarity-epic {
+      box-shadow: 0 2rpx 8rpx rgba(138, 43, 226, 0.4);
+    }
+    
+    &.badge-rarity-legendary {
+      box-shadow: 0 2rpx 8rpx rgba(255, 215, 0, 0.5);
+      animation: badgeGlow 2s ease-in-out infinite alternate;
+    }
+  }
+
+  &__badge-icon {
+    width: 26rpx;
+    height: 26rpx;
+  }
+
+  @keyframes badgeGlow {
+    from {
+      box-shadow: 0 2rpx 8rpx rgba(255, 215, 0, 0.5);
+    }
+    to {
+      box-shadow: 0 3rpx 12rpx rgba(255, 215, 0, 0.7);
+    }
   }
 
   &__meta {

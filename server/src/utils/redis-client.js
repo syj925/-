@@ -291,6 +291,26 @@ class RedisClient {
   }
 
   /**
+   * 获取匹配模式的键列表
+   * @param {String} pattern 匹配模式
+   * @returns {Promise<Array>} 键名数组
+   */
+  async keys(pattern) {
+    try {
+      // 如果未连接，直接返回空数组
+      if (!this.isConnected) {
+        logger.warn(`Redis not connected, skipping keys for pattern: ${pattern}`);
+        return [];
+      }
+
+      return await this.client.keys(pattern);
+    } catch (err) {
+      logger.error(`Redis keys error: ${err.message}`, { pattern });
+      return [];
+    }
+  }
+
+  /**
    * 删除匹配模式的键
    * @param {String} pattern 匹配模式
    * @returns {Promise<Number>} 删除的键数量
@@ -308,7 +328,18 @@ class RedisClient {
         return 0;
       }
 
-      return await this.client.del(...keys);
+           // 修复前缀问题：keys()返回的是完整key，需要去掉前缀再删除
+           const config = require('../../config');
+           const keyPrefix = config.redis.keyPrefix || '';
+           
+           const keysWithoutPrefix = keys.map(key => {
+             if (keyPrefix && key.startsWith(keyPrefix)) {
+               return key.substring(keyPrefix.length);
+             }
+             return key;
+           });
+     
+           return await this.client.del(...keysWithoutPrefix);
     } catch (err) {
       logger.error(`Redis deletePattern error: ${err.message}`, { pattern });
       return 0;

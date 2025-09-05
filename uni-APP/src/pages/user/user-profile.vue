@@ -1,15 +1,6 @@
 <template>
   <view class="user-profile">
-    <!-- 顶部悬浮操作栏（对齐 profile.vue 风格） -->
-    <view class="top-action-bar" :style="{ paddingTop: statusBarHeight + 'px' }">
-      <view class="action-btn" @click="goBack">
-        <app-icon name="arrow-left" size="sm" color="#fff" />
-      </view>
-      <view class="action-title">{{ userInfo.nickname || userInfo.username || '用户主页' }}</view>
-      <view class="action-btn" @click="showMoreActions">
-        <app-icon name="more" size="sm" color="#fff" />
-      </view>
-    </view>
+
 
     <!-- 页面内容 -->
     <scroll-view 
@@ -38,162 +29,175 @@
             :style="{ background: safeBackgroundUrl }"
           ></view>
           <view class="profile-overlay"></view>
+
+          <!-- 半透明操作按钮（在背景图上） -->
+          <view class="background-action-bar" :style="{ paddingTop: statusBarHeight + 9 + 'px' }">
+            <view class="bg-action-btn" @click="goBack">
+              <app-icon name="arrow-left" size="sm" color="#fff" />
+            </view>
+            <view class="bg-action-btn" @click="showMoreActions">
+              <app-icon name="more" size="sm" color="#fff" />
+            </view>
+          </view>
           <view class="bg-decoration">
             <view class="decoration-circle circle-1"></view>
             <view class="decoration-circle circle-2"></view>
             <view class="decoration-circle circle-3"></view>
           </view>
           <!-- 背景与内容边界模糊过渡 -->
-          <view class="bg-bottom-blur"></view>
-        </view>
+          <!-- 模糊效果已移除 -->
 
-        <!-- 信息行：头像 + 基本信息（与个人主页一致，右侧展示文字） -->
+          <!-- 信息行：头像 + 基本信息（覆盖在背景图上） -->
         <view class="header-info-row">
           <!-- 用户头像区域 -->
           <view class="avatar-section">
-            <view class="avatar-wrapper">
-              <view class="avatar-ring">
                 <image
                   :src="safeAvatarUrl"
                   class="user-avatar"
                   mode="aspectFill"
                 />
-              </view>
               <view class="avatar-status" v-if="userInfo.isOnline">
                 <view class="status-dot"></view>
-              </view>
-              <view class="avatar-border"></view>
-              <view class="avatar-glow"></view>
             </view>
           </view>
 
           <!-- 用户信息区域 -->
           <view class="user-info-section">
-            <view class="user-name-area">
-              <text class="display-name">{{ userInfo.nickname || userInfo.username }}</text>
-              <text class="username-text" v-if="userInfo.nickname">@{{ userInfo.username }}</text>
+              <!-- 用户昵称和操作按钮行 -->
+              <view class="nickname-action-row">
+                <view class="profile-nickname">{{ userInfo.nickname || userInfo.username }}</view>
+                <!-- 操作按钮 -->
+                <view class="inline-action-buttons" v-if="!userInfo.followStatus?.isCurrentUser">
+                  <button
+                    class="inline-follow-btn"
+                    :class="{ 'followed': currentFollowStatus }"
+                    @click="toggleFollow"
+                    :disabled="followLoading"
+                  >
+                    <text class="inline-btn-text">{{ followButtonText }}</text>
+                  </button>
+
+                  <button class="inline-message-btn" @click="sendMessage">
+                    <text class="inline-btn-text">私信</text>
+                  </button>
+                </view>
             </view>
 
-            <view class="user-bio-area" v-if="userInfo.bio">
-              <text class="bio-text">{{ userInfo.bio }}</text>
-            </view>
+              <!-- 认证徽章标识 -->
+              <view class="profile-badges-row" v-if="displayBadges.length > 0">
+                <view 
+                  v-for="badge in displayBadges" 
+                  :key="badge.id"
+                  class="certification-badge"
+                  @longpress="showBadgeDetails(badge)"
+                  @touchstart="onBadgeTouchStart"
+                  @touchend="onBadgeTouchEnd"
+                >
+                  <view class="cert-icon" :style="{backgroundColor: badge.color}">
+                    <image class="cert-icon-svg" src="/static/images/badge-icon.svg" mode="aspectFit"></image>
+              </view>
+                  <text class="cert-name">{{ badge.name }}</text>
+              </view>
+              </view>
 
-            <view class="user-meta-area">
-              <view class="meta-tag" v-if="userInfo.school">
-                <text class="meta-icon">🏫</text>
-                <text class="meta-text">{{ userInfo.school }}</text>
+              <!-- 用户ID和统计信息 -->
+              <view class="profile-userid-stats-row">
+                <view class="profile-userid-container" @tap="copyUserId" v-if="userInfo.id">
+                  <text class="profile-userid-text">ID: {{ shortUserId }}</text>
+            </view>
+                <view class="profile-stats-text">
+                  <text class="stat-item" @tap="goToFollowList('following')">{{ formatNumber(userInfo.stats?.followingCount || userInfo.stats?.followCount || userInfo.followingCount || 0) }} 关注</text>
+                  <text class="stat-item" @tap="goToFollowList('followers')">{{ formatNumber(userInfo.stats?.fansCount || userInfo.stats?.followersCount || userInfo.followersCount || 0) }} 粉丝</text>
+                  <text class="stat-item">{{ formatNumber(userInfo.stats?.likeCount || userInfo.likeCount || 0) }} 获赞</text>
+          </view>
+        </view>
+
+              <!-- 用户简介 -->
+              <view class="profile-bio" v-if="userInfo.bio">{{ userInfo.bio }}</view>
+
+              <!-- 学校信息和加入时间（水平显示） -->
+              <view class="user-info-row" v-if="(userInfo.school || userInfo.department) || userInfo.createdAt">
+                <view class="profile-school-text" v-if="userInfo.school || userInfo.department">
+                  {{ formatSchoolInfo(userInfo.school, userInfo.department) }}
               </view>
-              <view class="meta-tag" v-if="userInfo.department">
-                <text class="meta-icon">🏢</text>
-                <text class="meta-text">{{ userInfo.department }}</text>
-              </view>
-              <view class="meta-tag">
-                <text class="meta-icon">📅</text>
-                <text class="meta-text">{{ formatJoinDate(userInfo.createdAt) }}</text>
+                <view class="user-join-text" v-if="userInfo.createdAt">
+                  {{ formatJoinDate(userInfo.createdAt) }}
+            </view>
               </view>
             </view>
           </view>
         </view>
 
-        <!-- 统计数据卡片 -->
-        <view class="stats-cards">
-          <view class="stats-grid">
-            <view class="stat-card" @click="showFollowList('posts')">
-              <view class="stat-icon"><app-icon name="edit" size="sm" color="#667eea" /></view>
-              <view class="stat-content">
-                <text class="stat-number">{{ userInfo.stats?.postCount || 0 }}</text>
-                <text class="stat-label">帖子</text>
-              </view>
-            </view>
 
-            <view class="stat-card" @click="showFollowList('likes')">
-              <view class="stat-icon"><app-icon name="heart" size="sm" color="#ff6b6b" /></view>
-              <view class="stat-content">
-                <text class="stat-number">{{ userInfo.stats?.likeCount || 0 }}</text>
-                <text class="stat-label">获赞</text>
-              </view>
-            </view>
+        
 
-            <view class="stat-card" @click="showFollowList('following')">
-              <view class="stat-icon"><app-icon name="users" size="sm" color="#5b8ef9" /></view>
-              <view class="stat-content">
-                <text class="stat-number">{{ userInfo.stats?.followCount || 0 }}</text>
-                <text class="stat-label">关注</text>
-              </view>
-            </view>
 
-            <view class="stat-card" @click="showFollowList('followers')">
-              <view class="stat-icon"><app-icon name="star" size="sm" color="#ffb800" /></view>
-              <view class="stat-content">
-                <text class="stat-number">{{ userInfo.stats?.fansCount || 0 }}</text>
-                <text class="stat-label">粉丝</text>
+        <!-- 徽章已改为认证标识方式显示在用户名后 -->
+
+        <!-- 用户标签展示区域 -->
+        <view class="user-tags-section" v-if="userInfo.tags && userInfo.tags.length > 0">
+          <view class="section-header">
+            <view class="section-title">兴趣标签</view>
+            <view class="tag-count">({{ userInfo.tags.length }})</view>
               </view>
-            </view>
+          <scroll-view scroll-x class="tags-scroll" show-scrollbar="false">
+            <view class="tags-content">
+              <view 
+                v-for="(tag, index) in userInfo.tags" 
+                :key="index"
+                class="tag-item"
+                :style="{animationDelay: index * 0.05 + 's'}"
+                @tap="showTagDetail(tag, $event)"
+              >
+                <text class="tag-text">{{ tag }}</text>
           </view>
         </view>
-
-        <!-- 操作按钮区域 -->
-        <view class="action-section" v-if="!userInfo.followStatus?.isCurrentUser">
-          <view class="action-buttons">
-            <button
-              class="primary-action-btn"
-              :class="{ 'followed': userInfo.followStatus?.isFollowed }"
-              @click="toggleFollow"
-              :loading="followLoading"
-            >
-              <view class="btn-content">
-                <text class="btn-icon" :class="followButtonIcon"></text>
-                <text class="btn-text">{{ followButtonText }}</text>
-              </view>
-            </button>
-
-            <button class="secondary-action-btn" @click="sendMessage">
-              <view class="btn-content">
-                <text class="btn-icon">💬</text>
-                <text class="btn-text">私信</text>
-              </view>
-            </button>
-          </view>
-        </view>
+          </scroll-view>
       </view>
       
-      <!-- 帖子列表标题 -->
-      <view class="posts-section" v-if="!loading">
-        <view class="section-header">
-          <view class="section-title">
-            <text class="title-text">动态</text>
-            <view class="title-decoration"></view>
+
           </view>
 
-          <view class="filter-tabs" :class="{ 'latest-active': currentTab === 'latest' }">
+      <!-- 内容区 -->
+      <view class="profile-content">
+        <!-- 标签页 -->
+        <view class="profile-tabs">
             <view
-              class="filter-tab"
-              :class="{ 'active': currentTab === 'hot' }"
-              @click="switchTab('hot')"
-              @touchstart="onTouchStart"
-              @touchmove="onTouchMove"
-              @touchend="onTouchEnd"
-            >
-              <text class="tab-text">热门</text>
-              <view class="tab-indicator" v-if="currentTab === 'hot'"></view>
+            v-for="(tab, index) in tabs" 
+            :key="index" 
+            :class="['profile-tab', { 'active': currentTab === tab.key }]"
+            @tap="handleTabClick(tab.key)"
+          >
+            <text class="tab-text">{{ tab.name }}</text>
+            <view class="tab-indicator" v-if="currentTab === tab.key"></view>
             </view>
-            <view
-              class="filter-tab"
-              :class="{ 'active': currentTab === 'latest' }"
-              @click="switchTab('latest')"
-              @touchstart="onTouchStart"
-              @touchmove="onTouchMove"
-              @touchend="onTouchEnd"
-            >
-              <text class="tab-text">最新</text>
-              <view class="tab-indicator" v-if="currentTab === 'latest'"></view>
-            </view>
-          </view>
         </view>
-      </view>
+        
+        <!-- 内容区 -->
+        <swiper 
+          class="profile-swiper" 
+          :current="tabIndex" 
+          @change="handleSwiperChange"
+          :duration="300"
+        >
+          <!-- 帖子页 -->
+          <swiper-item class="profile-swiper-item">
+            <scroll-view 
+              scroll-y 
+              class="profile-scroll" 
+              @scrolltolower="loadMorePosts" 
+              refresher-enabled 
+              :refresher-triggered="postRefreshing" 
+              @refresherrefresh="refreshPosts"
+            >
+              <!-- 帖子统计信息 -->
+              <view class="content-stats-header">
+                <text class="stats-text">{{ userInfo.stats?.postCount || 0 }}个帖子</text>
+            </view>
       
-      <!-- 帖子列表 -->
-      <view class="posts-container">
+      
+              <view class="profile-posts" v-if="postList.length > 0">
+                <view class="post-list">
         <post-card
           v-for="post in postList"
           :key="post.id"
@@ -201,23 +205,120 @@
           @like="handleLike"
           @comment="handleComment"
           @favorite="handleFavorite"
-          @click="goToPostDetail"
         />
+          </view>
         
         <!-- 加载更多 -->
         <view class="load-more" v-if="postList.length > 0">
           <text v-if="loadingMore">加载中...</text>
-          <text v-else-if="noMorePosts">没有更多了</text>
-          <text v-else @click="loadMorePosts">点击加载更多</text>
+                  <text v-else-if="noMorePosts" style="color: #ffffff;">没有更多了</text>
+                  <text v-else @click="loadMorePosts" style="color: #ffffff;">点击加载更多</text>
+        </view>
+      </view>
+      
+        <!-- 空状态 -->
+        <view class="empty-state" v-if="!loading && postList.length === 0">
+                <image class="empty-image" src="/static/images/empty-posts.png" mode="aspectFit"></image>
+                <text class="empty-text" style="color: #ffffff;">这个人很神秘，还没有发布帖子</text>
+        </view>
+            </scroll-view>
+          </swiper-item>
+          
+          <!-- 热门页 -->
+          <swiper-item class="profile-swiper-item">
+            <scroll-view 
+              scroll-y 
+              class="profile-scroll" 
+              @scrolltolower="loadMorePosts" 
+              refresher-enabled 
+              :refresher-triggered="postRefreshing" 
+              @refresherrefresh="refreshPosts"
+            >
+              <!-- 热门帖子统计信息 -->
+              <view class="content-stats-header">
+                <text class="stats-text">热门帖子</text>
+              </view>
+              
+              <view class="profile-posts" v-if="postList.length > 0">
+                <view class="post-list">
+        <post-card
+          v-for="post in postList"
+          :key="post.id"
+          :post="post"
+          @like="handleLike"
+          @comment="handleComment"
+          @favorite="handleFavorite"
+        />
+                </view>
+        
+        <!-- 加载更多 -->
+        <view class="load-more" v-if="postList.length > 0">
+          <text v-if="loadingMore">加载中...</text>
+                  <text v-else-if="noMorePosts" style="color: #ffffff;">没有更多了</text>
+                  <text v-else @click="loadMorePosts" style="color: #ffffff;">点击加载更多</text>
+                </view>
         </view>
         
         <!-- 空状态 -->
         <view class="empty-state" v-if="!loading && postList.length === 0">
-          <image src="/static/images/empty-posts.png" class="empty-image" />
-          <text class="empty-text">还没有发布任何帖子</text>
+                <image class="empty-image" src="/static/images/empty-posts.png" mode="aspectFit"></image>
+                <text class="empty-text" style="color: #ffffff;">暂无热门帖子</text>
         </view>
+            </scroll-view>
+          </swiper-item>
+          
+        </swiper>
       </view>
     </scroll-view>
+    
+    <!-- 徽章详情弹窗遮罩层 -->
+    <view class="badge-modal-mask" v-if="showBadgeDetail" @tap="closeBadgeDetail">
+      <view class="badge-detail-modal" @tap.stop>
+        <view class="badge-detail-header">
+          <view class="badge-large-icon" :style="{backgroundColor: selectedBadge?.color}">
+            <image class="badge-large-icon-svg" src="/static/images/badge-icon.svg" mode="aspectFit"></image>
+          </view>
+          <text class="badge-large-name">{{ selectedBadge?.name }}</text>
+          <view class="badge-rarity-tag" :class="selectedBadge?.rarity">
+            {{ getRarityName(selectedBadge?.rarity) }}
+          </view>
+        </view>
+        <view class="badge-detail-content">
+          <text class="badge-description">{{ selectedBadge?.description || '暂无描述' }}</text>
+          <view class="badge-grant-info" v-if="selectedBadge?.grantedAt">
+            <text class="grant-time">获得时间：{{ formatTime(selectedBadge.grantedAt) }}</text>
+          </view>
+        </view>
+        <view class="badge-detail-footer">
+          <button class="close-btn" @tap="closeBadgeDetail">确定</button>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 标签详情弹窗遮罩层 -->
+    <view class="tag-modal-mask" v-if="showTagPopup" @tap="closeTagDetail">
+      <view class="tag-detail-modal" :style="tagModalStyle" @tap.stop>
+        <view class="tag-detail-header">
+          <view class="tag-large-icon">
+            <text class="tag-icon-text">#</text>
+          </view>
+          <text class="tag-large-name">{{ selectedTag }}</text>
+          <view class="tag-type-badge">兴趣标签</view>
+        </view>
+        <view class="tag-detail-content">
+          <text class="tag-description">这是该用户的兴趣标签，代表了他们的爱好和特长。</text>
+          <view class="tag-stats">
+            <view class="tag-stat-item">
+              <text class="tag-stat-label">用户标签</text>
+              <text class="tag-stat-value">{{ userInfo.tags?.length || 0 }}/8</text>
+            </view>
+          </view>
+        </view>
+        <view class="tag-detail-footer">
+          <button class="tag-close-btn" @tap="closeTagDetail">确定</button>
+        </view>
+      </view>
+    </view>
     
     <!-- 加载状态 -->
     <view class="loading-container" v-if="loading">
@@ -259,8 +360,9 @@
 <script>
 import PostCard from '@/components/post/PostCard.vue'
 import AppIcon from '@/components/common/AppIcon.vue'
-import { userApi, followApi } from '@/api'
+import api from '@/api'
 import { ensureAbsoluteUrl } from '@/utils/url'
+import { useFollowStore } from '@/stores/followStore'
 
 export default {
   name: 'UserProfile',
@@ -274,14 +376,33 @@ export default {
       scrollViewHeight: 0,
       userId: '',
       userInfo: {},
-      postList: [],
-      currentTab: 'latest',
+      followStore: null, // Pinia store引用
+      userBadges: [], // 用户徽章数据
+      selectedBadge: null, // 当前选中的徽章（用于详情弹窗）
+      showBadgeDetail: false, // 是否显示徽章详情弹窗
+      selectedTag: null, // 当前选中的标签
+      showTagPopup: false, // 是否显示标签详情弹窗
+      tagModalStyle: {}, // 标签弹窗样式（用于动画）
+      
+      // 标签页数据
+      tabs: [
+        { key: 'post', name: '帖子' },
+        { key: 'hot', name: '热门' }
+      ],
+      currentTab: 'post',
+      tabIndex: 0,
+      
+      // 帖子数据 - 分标签存储
+      postData: {
+        post: { list: [], currentPage: 1, hasMore: true, loading: false },
+        hot: { list: [], currentPage: 1, hasMore: true, loading: false }
+      },
+      loadedTabs: new Set(['post']), // 记录已加载的标签，默认加载帖子标签
       loading: true,
       refreshing: false,
+      postRefreshing: false,
       loadingMore: false,
       followLoading: false,
-      noMorePosts: false,
-      currentPage: 1,
       pageSize: 10,
       // 触摸滑动相关
       touchStartX: 0,
@@ -294,17 +415,42 @@ export default {
   },
   computed: {
     followButtonIcon() {
-      if (this.userInfo.followStatus?.isFollowed) {
-        return this.userInfo.followStatus?.isMutualFollow ? 'icon-heart-fill' : 'icon-user-minus'
+      // 完全使用 API 返回的状态
+      const isFollowing = this.userInfo.followStatus?.isFollowed || false
+      const isMutualFollow = this.userInfo.followStatus?.isMutualFollow
+      
+      if (isFollowing) {
+        // 检查是否互相关注（从 userInfo 获取）
+        return isMutualFollow ? 'icon-heart-fill' : 'icon-user-minus'
       }
       return 'icon-user-plus'
     },
     followButtonText() {
-      if (this.userInfo.followStatus?.isFollowed) {
-        return this.userInfo.followStatus?.isMutualFollow ? '互相关注' : '已关注'
+      // 完全使用 API 返回的状态
+      const isFollowing = this.userInfo.followStatus?.isFollowed || false
+      const isMutualFollow = this.userInfo.followStatus?.isMutualFollow
+      
+      if (isFollowing) {
+        // 检查是否互相关注（从 userInfo 获取）
+        return isMutualFollow ? '互相关注' : '已关注'
       }
       return '关注'
     },
+    
+    // 获取当前关注状态（用于样式绑定）
+    currentFollowStatus() {
+      // 完全使用 API 返回的状态
+      return this.userInfo.followStatus?.isFollowed || false
+    },
+    
+    // 显示的徽章（最多3个）
+    displayBadges() {
+      if (!this.userBadges.length) {
+        return [];
+      }
+      return this.userBadges.slice(0, 3); // 最多显示3个认证徽章
+    },
+    
     safeAvatarUrl() {
       if (!this.userInfo.avatar) {
         return '/static/images/common/default-avatar.png'
@@ -316,10 +462,34 @@ export default {
         return 'linear-gradient(135deg, #2b85e4 0%, #6ba7f0 100%)'
       }
       return ensureAbsoluteUrl(this.userInfo.background_image)
+    },
+    
+    // 缩短的用户ID
+    shortUserId() {
+      const id = this.userInfo.id || '';
+      if (id.length <= 12) return id;
+      return id.substring(0, 8) + '...';
+    },
+    
+    // 当前标签的帖子列表
+    postList() {
+      return this.postData[this.currentTab]?.list || [];
+    },
+    
+    // 当前标签是否还有更多数据
+    noMorePosts() {
+      return !this.postData[this.currentTab]?.hasMore;
+    },
+    
+    // 当前标签的页码
+    currentPage() {
+      return this.postData[this.currentTab]?.currentPage || 1;
     }
   },
   onLoad(options) {
     this.userId = options.id
+    // 初始化Pinia store
+    this.followStore = useFollowStore()
     this.initPage()
   },
   onReady() {
@@ -331,22 +501,26 @@ export default {
       const systemInfo = uni.getSystemInfoSync()
       this.statusBarHeight = systemInfo.statusBarHeight || 0
       
-      // 加载用户信息和帖子
+      // 加载用户信息和默认标签(post)的帖子
       this.loadUserProfile()
-      this.loadUserPosts()
+      this.loadUserPosts(false, 'post')
     },
     
     calculateScrollViewHeight() {
       const systemInfo = uni.getSystemInfoSync()
-      const navbarHeight = this.statusBarHeight + 44 // 导航栏高度
-      this.scrollViewHeight = systemInfo.windowHeight - navbarHeight
+      // 移除横幅后，使用全屏高度
+      this.scrollViewHeight = systemInfo.windowHeight
     },
     
     async loadUserProfile() {
       try {
-        const response = await userApi.getUserProfile(this.userId)
+        const response = await api.user.getUserProfile(this.userId)
+        
         if (response.code === 0) {
           this.userInfo = response.data
+          
+          // 加载用户徽章
+          this.loadUserBadges()
         } else {
           uni.showToast({
             title: response.msg || '获取用户信息失败',
@@ -362,20 +536,205 @@ export default {
       }
     },
     
-    async loadUserPosts(refresh = false) {
-      if (refresh) {
-        this.currentPage = 1
-        this.noMorePosts = false
+    // 加载用户徽章
+    async loadUserBadges() {
+      if (!this.userId) {
+        return
       }
       
       try {
-        this.loading = refresh ? false : this.currentPage === 1
-        this.loadingMore = !refresh && this.currentPage > 1
+        const response = await api.badge.getUserBadges(this.userId, {
+          includeHidden: false, // 只显示可见的徽章
+          type: 'achievement' // 只显示成就类型的徽章
+        })
         
-        const response = await userApi.getUserPosts(this.userId, {
-          page: this.currentPage,
+        console.log('🏆 获取用户徽章API响应:', response)
+        
+        if (response.success && response.data) {
+          this.userBadges = response.data.map(userBadge => {
+            return {
+              id: userBadge.id,
+              name: userBadge.badge.name,
+              description: userBadge.badge.description,
+              color: userBadge.badge.color,
+              rarity: userBadge.badge.rarity,
+              type: userBadge.badge.type,
+              grantedAt: userBadge.granted_at,
+              displayOrder: userBadge.display_order,
+              badge: userBadge.badge
+            }
+          })
+          
+          console.log('🏆 处理后的用户徽章:', this.userBadges)
+          console.log('🏆 徽章颜色检查:', this.userBadges.map(b => ({ name: b.name, color: b.color })))
+        }
+      } catch (error) {
+        console.error('获取用户徽章失败:', error)
+      }
+    },
+    
+    // 显示徽章详情
+    showBadgeDetails(badge) {
+      console.log('🏆 显示徽章详情:', badge);
+      this.selectedBadge = badge
+      this.showBadgeDetail = true
+    },
+    
+    // 关闭徽章详情弹窗
+    closeBadgeDetail() {
+      this.showBadgeDetail = false
+      this.selectedBadge = null
+    },
+
+    // 徽章触摸开始
+    onBadgeTouchStart() {
+      // 这里可以添加触摸反馈，比如轻微的动画
+    },
+    
+    // 徽章触摸结束
+    onBadgeTouchEnd() {
+      // 这里可以添加触摸结束的处理
+    },
+    
+    // 显示标签详情（带放大动画）
+    showTagDetail(tag, event) {
+      this.selectedTag = tag
+      
+      // 获取点击元素的位置信息
+      const query = uni.createSelectorQuery().in(this)
+      query.selectAll('.tag-item').boundingClientRect((rects) => {
+        if (rects && rects.length > 0) {
+          // 找到被点击的标签元素
+          const tagIndex = this.userInfo.tags.indexOf(tag)
+          const rect = rects[tagIndex]
+          
+          if (rect) {
+            // 计算弹窗初始位置（从点击位置开始）
+            this.tagModalStyle = {
+              transformOrigin: `${rect.left + rect.width/2}px ${rect.top + rect.height/2}px`,
+              opacity: 0,
+              transform: 'scale(0.3)'
+            }
+            
+            this.showTagPopup = true
+            
+            // 延迟执行动画
+            this.$nextTick(() => {
+              setTimeout(() => {
+                this.tagModalStyle = {
+                  transformOrigin: `${rect.left + rect.width/2}px ${rect.top + rect.height/2}px`,
+                  opacity: 1,
+                  transform: 'scale(1)',
+                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+                }
+              }, 50)
+            })
+          }
+        }
+      }).exec()
+    },
+    
+    // 关闭标签详情弹窗
+    closeTagDetail() {
+      // 先执行缩小动画
+      this.tagModalStyle = {
+        ...this.tagModalStyle,
+        opacity: 0,
+        transform: 'scale(0.3)',
+        transition: 'all 0.2s ease-in'
+      }
+      
+      // 动画结束后隐藏弹窗
+      setTimeout(() => {
+        this.showTagPopup = false
+        this.selectedTag = null
+        this.tagModalStyle = {}
+      }, 200)
+    },
+    
+    // 获取稀有度样式类
+    getRarityClass(rarity) {
+      return `rarity-${rarity}`
+    },
+    
+    // 获取稀有度名称
+    getRarityName(rarity) {
+      const names = {
+        common: '普通',
+        rare: '稀有',
+        epic: '史诗',
+        legendary: '传奇'
+      }
+      return names[rarity] || '未知'
+    },
+    
+    // 格式化时间
+    formatTime(time) {
+      if (!time) return ''
+      
+      const now = new Date().getTime()
+      const diff = now - new Date(time).getTime()
+      
+      if (diff < 60 * 1000) {
+        return '刚刚'
+      } else if (diff < 60 * 60 * 1000) {
+        return Math.floor(diff / (60 * 1000)) + '分钟前'
+      } else if (diff < 24 * 60 * 60 * 1000) {
+        return Math.floor(diff / (60 * 60 * 1000)) + '小时前'
+      } else if (diff < 30 * 24 * 60 * 60 * 1000) {
+        return Math.floor(diff / (24 * 60 * 60 * 1000)) + '天前'
+      } else {
+        const date = new Date(time)
+        return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+      }
+    },
+
+    // 格式化学校信息
+    formatSchoolInfo(school, department) {
+      if (school && department) {
+        return `${school}${department}`;
+      } else if (school) {
+        return school;
+      } else if (department) {
+        return department;
+      }
+      return '';
+    },
+
+    // 复制用户ID
+    copyUserId() {
+      const userId = this.userInfo.id;
+      if (!userId) return;
+      
+      uni.setClipboardData({
+        data: userId,
+        success: () => {
+          uni.showToast({
+            title: 'ID已复制',
+            icon: 'success',
+            duration: 1500
+          });
+        }
+      });
+    },
+    
+    async loadUserPosts(refresh = false, tab = null) {
+      const targetTab = tab || this.currentTab;
+      const tabData = this.postData[targetTab];
+      
+      if (refresh) {
+        tabData.currentPage = 1;
+        tabData.hasMore = true;
+      }
+      
+      try {
+        this.loading = refresh ? false : tabData.currentPage === 1;
+        this.loadingMore = !refresh && tabData.currentPage > 1;
+        
+        const response = await api.user.getUserPosts(this.userId, {
+          page: tabData.currentPage,
           pageSize: this.pageSize,
-          sort: this.currentTab
+          sort: targetTab
         })
         
         if (response.code === 0) {
@@ -408,16 +767,15 @@ export default {
             };
           });
           
-          if (refresh || this.currentPage === 1) {
-            this.postList = processedPosts
+          if (refresh || tabData.currentPage === 1) {
+            tabData.list = processedPosts;
           } else {
-            this.postList.push(...processedPosts)
+            tabData.list.push(...processedPosts);
           }
-
           
           // 检查是否还有更多数据
           if (newPosts.length < this.pageSize) {
-            this.noMorePosts = true
+            tabData.hasMore = false;
           }
         } else {
           uni.showToast({
@@ -434,6 +792,7 @@ export default {
       } finally {
         this.loading = false
         this.loadingMore = false
+        tabData.loading = false;
         // 只有在非刷新模式下才重置 refreshing 状态
         // 刷新模式下的 refreshing 状态由 onRefresh 方法统一管理
         if (!refresh) {
@@ -463,37 +822,91 @@ export default {
     async toggleFollow() {
       if (this.followLoading) return
       
+      // 保存原始状态，供回滚使用
+      const originalIsFollowed = this.userInfo.followStatus?.isFollowed || false
+      const originalIsMutual = this.userInfo.followStatus?.isMutualFollow || false
+      
       try {
         this.followLoading = true
-        const isFollowed = this.userInfo.followStatus?.isFollowed
         
-        const response = isFollowed 
-          ? await followApi.unfollow(this.userId)
-          : await followApi.follow(this.userId)
+        // 乐观更新：立即更新前端状态
+        if (!this.userInfo.followStatus) {
+          this.userInfo.followStatus = {}
+        }
         
-        if (response.code === 0) {
-          // 更新关注状态
-          this.userInfo.followStatus.isFollowed = !isFollowed
+        this.userInfo.followStatus.isFollowed = !originalIsFollowed
+        
+        // 更新互相关注状态：只有在取消关注时才需要更新
+        if (originalIsFollowed && originalIsMutual) {
+          // 如果当前是互相关注，取消关注后就不再是互相关注
+          this.userInfo.followStatus.isMutualFollow = false
+        }
+        
+        // 更新粉丝数
+        if (!this.userInfo.stats) {
+          this.userInfo.stats = {}
+        }
+        if (originalIsFollowed) {
+          this.userInfo.stats.fansCount = Math.max(0, (this.userInfo.stats.fansCount || 0) - 1)
+        } else {
+          this.userInfo.stats.fansCount = (this.userInfo.stats.fansCount || 0) + 1
+        }
+        
+        // 调用API进行关注操作
+        let response
+        if (originalIsFollowed) {
+          response = await api.follow.unfollow(this.userId)
+        } else {
+          response = await api.follow.follow(this.userId)
+        }
+        
+        if (response && (response.success || response.code === 0)) {
+          uni.showToast({
+            title: originalIsFollowed ? '取消关注成功' : '关注成功',
+            icon: 'success'
+          })
           
-          // 更新粉丝数
-          if (isFollowed) {
-            this.userInfo.stats.fansCount = Math.max(0, this.userInfo.stats.fansCount - 1)
+          // 延迟1秒后重新获取用户信息，确保后端数据已写入
+          setTimeout(async () => {
+            await this.loadUserProfile()
+          }, 1000)
+        } else {
+          // API失败，回滚乐观更新
+          this.userInfo.followStatus.isFollowed = originalIsFollowed
+          // 回滚互相关注状态
+          if (originalIsFollowed && originalIsMutual) {
+            this.userInfo.followStatus.isMutualFollow = true
+          }
+          
+          if (originalIsFollowed) {
+            this.userInfo.stats.fansCount = (this.userInfo.stats.fansCount || 0) + 1
           } else {
-            this.userInfo.stats.fansCount += 1
+            this.userInfo.stats.fansCount = Math.max(0, (this.userInfo.stats.fansCount || 0) - 1)
           }
           
           uni.showToast({
-            title: isFollowed ? '取消关注成功' : '关注成功',
-            icon: 'success'
-          })
-        } else {
-          uni.showToast({
-            title: response.msg || '操作失败',
+            title: response?.message || response?.msg || '操作失败',
             icon: 'none'
           })
         }
       } catch (error) {
         console.error('关注操作失败:', error)
+        
+        // 发生异常，回滚乐观更新到原始状态
+        this.userInfo.followStatus.isFollowed = originalIsFollowed
+        
+        // 回滚互相关注状态
+        if (originalIsFollowed && originalIsMutual) {
+          this.userInfo.followStatus.isMutualFollow = true
+        }
+        
+        // 回滚粉丝数
+        if (originalIsFollowed) {
+          this.userInfo.stats.fansCount = (this.userInfo.stats.fansCount || 0) + 1
+        } else {
+          this.userInfo.stats.fansCount = Math.max(0, (this.userInfo.stats.fansCount || 0) - 1)
+        }
+        
         uni.showToast({
           title: '操作失败',
           icon: 'none'
@@ -521,17 +934,18 @@ export default {
       this.refreshing = true
       Promise.all([
         this.loadUserProfile(),
-        this.loadUserPosts(true)
+        this.loadUserPosts(true, this.currentTab)
       ]).finally(() => {
         this.refreshing = false
       })
     },
     
     loadMorePosts() {
-      if (this.loadingMore || this.noMorePosts) return
+      const tabData = this.postData[this.currentTab];
+      if (this.loadingMore || !tabData.hasMore) return
       
-      this.currentPage++
-      this.loadUserPosts()
+      tabData.currentPage++;
+      this.loadUserPosts(false, this.currentTab);
     },
     
     // 帖子交互方法
@@ -660,24 +1074,12 @@ export default {
         });
     },
     
-    goToPostDetail(post) {
-      uni.navigateTo({
-        url: `/pages/post/detail?id=${post.id}`
-      })
-    },
-    
     showFollowList(type) {
-      const routes = {
-        following: `/pages/follow/following?userId=${this.userId}`,
-        followers: `/pages/follow/followers?userId=${this.userId}`,
-        posts: '', // 当前页面已经显示帖子
-        likes: '' // 可以扩展显示获赞列表
-      }
-      
-      if (routes[type]) {
+      // 使用共用的follow页面处理关注/粉丝列表
+      if (type === 'following' || type === 'followers') {
         uni.navigateTo({
-          url: routes[type]
-        })
+          url: `/pages/profile/follow?type=${type}&userId=${this.userId}`
+        });
       }
     },
     
@@ -689,6 +1091,64 @@ export default {
       const month = date.getMonth() + 1
       
       return `${year}年${month}月加入`
+    },
+
+    formatNumber(num) {
+      if (num >= 10000) {
+        return (num / 10000).toFixed(1) + 'w'
+      } else if (num >= 1000) {
+        return (num / 1000).toFixed(1) + 'k'
+      }
+      return num.toString()
+    },
+
+    goToFollowList(type) {
+      // 根据类型跳转到关注/粉丝列表页
+      uni.navigateTo({
+        url: `/pages/profile/follow?type=${type}&userId=${this.userId}`
+      });
+    },
+    
+    // 标签页点击切换处理
+    handleTabClick(tab) {
+      this.currentTab = tab;
+      this.tabIndex = this.tabs.findIndex(t => t.key === tab);
+      this.refreshCurrentTab();
+    },
+    
+    // 滑动切换处理
+    handleSwiperChange(e) {
+      const index = e.detail.current;
+      this.tabIndex = index;
+      this.currentTab = this.tabs[index].key;
+      this.refreshCurrentTab();
+    },
+    
+    // 刷新当前标签页数据
+    refreshCurrentTab() {
+      // 只在标签未加载过时才加载数据
+      if (!this.loadedTabs.has(this.currentTab)) {
+        this.loadTabData(this.currentTab);
+        this.loadedTabs.add(this.currentTab);
+      }
+    },
+    
+    // 加载指定标签的数据
+    loadTabData(tab) {
+      this.postData[tab].loading = true;
+      this.postData[tab].currentPage = 1;
+      this.postData[tab].hasMore = true;
+      this.postData[tab].list = [];
+      this.loadUserPosts(false, tab);
+    },
+    
+    // 刷新帖子数据
+    refreshPosts() {
+      this.postRefreshing = true;
+      this.loadTabData(this.currentTab);
+      setTimeout(() => {
+        this.postRefreshing = false;
+      }, 500);
     },
     
     reportUser() {
@@ -833,57 +1293,14 @@ export default {
   background: linear-gradient(180deg, #f8f9ff 0%, #ffffff 100%);
 }
 
-/* 顶部悬浮操作栏 */
-.top-action-bar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16rpx 24rpx 8rpx;
-  background: linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.05) 100%);
-  backdrop-filter: blur(12rpx);
+/* 顶部悬浮操作栏样式已移除，改为背景图上的半透明按钮 */
 
-  .action-title {
-    flex: 1;
-    text-align: center;
-    font-size: 32rpx;
-    color: #fff;
-    font-weight: 600;
-    text-shadow: 0 2rpx 6rpx rgba(0,0,0,0.25);
-  }
-
-  .action-btn {
-    width: 72rpx;
-    height: 56rpx;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 28rpx;
-    background: rgba(255,255,255,0.18);
-    border: 1rpx solid rgba(255,255,255,0.25);
-    box-shadow: 0 6rpx 16rpx rgba(0,0,0,0.12);
-    transition: all .2s ease;
-
-    &:active {
-      transform: scale(0.95);
-      background: rgba(255,255,255,0.28);
-    }
-  }
-}
-
-/* 内容滚动区域 */
-.content-scroll {
-  padding-top: 88rpx;
-}
+/* 内容滚动区域 - 横幅已移除，无需额外样式 */
 
 /* 用户主页头部 */
 .user-profile-header {
   position: relative;
-  margin: 0 0 24rpx;
+  margin: 0;
   background: transparent;
   border-radius: 0;
   overflow: visible;
@@ -892,14 +1309,46 @@ export default {
   /* 顶部背景区域 */
   .header-background {
     position: relative;
-    height: 360rpx;
+    height: 715rpx;
     overflow: hidden;
+    border-radius: 0 0 50rpx 50rpx;
 
     .profile-bg {
       width: 100%;
       height: 100%;
       object-fit: cover;
       filter: brightness(0.8);
+    }
+
+    /* 半透明操作按钮栏 */
+    .background-action-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 16rpx 20rpx;
+      z-index: 10;
+    }
+
+    .bg-action-btn {
+      width: 72rpx;
+      height: 72rpx;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(10rpx);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      border: 1rpx solid rgba(255, 255, 255, 0.2);
+
+      &:active {
+        background: rgba(0, 0, 0, 0.5);
+        transform: scale(0.95);
+      }
     }
 
     .bg-primary {
@@ -963,7 +1412,7 @@ export default {
       bottom: 0;
       left: 0;
       right: 0;
-      height: 180rpx;
+      height: 220rpx;
       background: linear-gradient(to top,
         rgba(255, 255, 255, 0.75) 0%,
         rgba(255, 255, 255, 0.68) 15%,
@@ -979,13 +1428,16 @@ export default {
 
   /* 顶部信息行：参照 profile.vue 布局（flex 对齐） */
   .header-info-row {
+    position: absolute;
+    bottom: 45rpx; /* 距离背景图底部40rpx，整体再往下移 */
+    left: 0;
+    right: 0;
     display: flex;
-    align-items: center; /* 让名字垂直对齐头像中心 */
-    padding: 40rpx 30rpx;
-    margin-top: -120rpx; /* 接近 profile.vue 的上移高度 */
-    position: relative;
+    flex-direction: column;
+    align-items: flex-start; /* 左对齐 */
+    padding: 0 30rpx;
     z-index: 2;
-    column-gap: 0; /* 使用头像右侧外边距控制间距 */
+    text-align: left;
   }
 
   /* 头像区域 */
@@ -993,55 +1445,16 @@ export default {
     position: relative;
     display: flex;
     justify-content: flex-start;
-    width: 180rpx; /* 与个人主页一致的头像容器宽度 */
-    margin-right: 30rpx; /* 与个人主页一致的间距 */
-    margin-top: -140rpx; /* 头像上移一点 */
+    width: 150rpx; /* 适度放大头像 */
+    margin-bottom: 16rpx; /* 头像下方间距 */
     flex-shrink: 0;
     padding: 0;
 
-    .avatar-wrapper {
-      position: relative;
-
-      .avatar-ring {
-        position: relative;
-        width: 180rpx;
-        height: 180rpx;
-        border-radius: 90rpx;
-        background: linear-gradient(45deg, #667eea, #764ba2);
-        padding: 6rpx;
-        box-shadow: 0 16rpx 40rpx rgba(102, 126, 234, 0.3);
-
         .user-avatar {
-          width: 168rpx;
-          height: 168rpx;
-          border-radius: 84rpx;
-          border: 4rpx solid #ffffff;
-        }
-      }
-
-      .avatar-border {
-        position: absolute;
-        top: -8rpx;
-        left: -8rpx;
-        right: -8rpx;
-        bottom: -8rpx;
-        border-radius: 50%;
-        border: 3rpx solid rgba(255, 255, 255, 0.6);
-        z-index: 3;
-        animation: avatarPulse 2s infinite ease-in-out;
-      }
-
-      .avatar-glow {
-        position: absolute;
-        top: -10rpx;
-        left: -10rpx;
-        right: -10rpx;
-        bottom: -10rpx;
-        border-radius: 50%;
-        background: linear-gradient(45deg, rgba(255,255,255,0.3), rgba(255,255,255,0.1));
-        opacity: 0.7;
-        z-index: 2;
-        animation: avatarGlow 3s infinite ease-in-out;
+      width: 150rpx;
+      height: 150rpx;
+      border-radius: 75rpx;
+      object-fit: cover;
       }
 
       .avatar-status {
@@ -1061,366 +1474,414 @@ export default {
           height: 20rpx;
           border-radius: 10rpx;
           background: #4ade80;
-        }
       }
     }
   }
 
-  @keyframes avatarPulse {
-    0% { transform: scale(1); opacity: 0.6; }
-    50% { transform: scale(1.05); opacity: 0.8; }
-    100% { transform: scale(1); opacity: 0.6; }
-  }
 
-  @keyframes avatarGlow {
-    0% { opacity: 0.7; transform: rotate(0deg); }
-    50% { opacity: 0.9; transform: rotate(180deg); }
-    100% { opacity: 0.7; transform: rotate(360deg); }
-  }
 
   /* 用户信息区域 */
   .user-info-section {
-    /* 占据右侧弹性列，和主页一致排列 */
+    /* 垂直左对齐排列 */
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    margin-top: 55rpx; /* 整体下移一点 */
     padding: 0;
     text-align: left;
-    min-width: 0;
+    width: 100%;
     box-sizing: border-box;
+  }
 
-    .user-name-area {
-      margin-bottom: 16rpx;
-      padding: 0;
+  /* 昵称和操作按钮行 */
+  .nickname-action-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 8rpx;
+  }
 
-      .display-name {
-        display: block;
-        font-size: 44rpx;
+  .profile-nickname {
+    font-size: 40rpx;
+    color: #ffffff;
         font-weight: 700;
-        color: $text-primary;
-        margin-bottom: 8rpx;
+    text-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.8), 0 0 20rpx rgba(0, 0, 0, 0.5);
+    letter-spacing: 1rpx;
+    flex: 1;
+    margin-left: 30rpx;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-      }
+    max-width: calc(100% - 150rpx); /* 为右侧按钮留出空间 */
+  }
 
-      .username-text {
-        font-size: 28rpx;
-        color: $text-secondary;
-        opacity: 0.8;
-      }
-    }
+  /* 行内操作按钮 */
+  .inline-action-buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12rpx;
+    flex-shrink: 0;
+    margin-right: 16rpx; /* 更靠近右边 */
+    /* 整体抗锯齿优化 */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transform: translateZ(0);
+  }
 
-    .user-bio-area {
-      margin-bottom: 24rpx;
-      padding: 0;
-
-      .bio-text {
-        font-size: 28rpx;
-        line-height: 1.5;
-        color: $text-secondary;
-      }
-    }
-
-    .user-meta-area {
+  .inline-follow-btn,
+  .inline-message-btn {
+    height: 60rpx;
+    border-radius: 30rpx;
+    border: none;
+    padding: 0 24rpx;
+    font-size: 24rpx;
       display: flex;
-      justify-content: flex-start;
-      flex-wrap: wrap;
-      gap: 16rpx;
-      padding: 0;
-      /* 让标签行部分占用头像下方的空白区域 */
-      transform: translateX(-215rpx);
-      width: calc(100% + 140rpx);
-
-      .meta-tag {
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    /* 基础抗锯齿优化 */
+    box-sizing: border-box;
+    outline: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    
+    .inline-btn-text {
+      color: #ffffff;
+      font-weight: 500;
+      text-shadow: 0 1rpx 3rpx rgba(0, 0, 0, 0.3);
+      line-height: 1;
         display: flex;
         align-items: center;
-        gap: 8rpx;
-        padding: 12rpx 20rpx;
-        background: rgba(102, 126, 234, 0.08);
-        border-radius: 20rpx;
+      height: 100%;
+      /* 文字抗锯齿 */
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
 
-        .meta-icon {
-          font-size: 24rpx;
-        }
-
-        .meta-text {
-          font-size: 24rpx;
-          color: $text-secondary;
-        }
-      }
+    &:active {
+      transform: scale(0.95) translateZ(0);
     }
   }
 
-  /* 统计卡片 */
-  .stats-cards {
-    padding: 0 24rpx 24rpx;
+  .inline-follow-btn {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10rpx);
+    border: 1rpx solid rgba(255, 255, 255, 0.4);
+    /* 按钮宽度变化时的平滑过渡 */
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    /* 抗锯齿优化 */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transform: translateZ(0);
+    will-change: transform;
+  }
 
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16rpx;
+  .inline-message-btn {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10rpx);
+    border: 1rpx solid rgba(255, 255, 255, 0.4);
+    /* 抗锯齿优化 */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transform: translateZ(0);
+    will-change: transform;
+  }
 
-      .stat-card {
-        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-        border-radius: 24rpx;
-        padding: 24rpx 16rpx;
-        text-align: center;
-        transition: all 0.3s ease;
-        border: 1rpx solid rgba(102, 126, 234, 0.1);
+  /* 徽章行样式 */
+  .profile-badges-row {
+    @include flex(row, flex-start, center);
+    flex-wrap: wrap;
+    gap: 12rpx;
+    margin-bottom: 20rpx;
+  }
+
+  /* 认证徽章样式 */
+  .certification-badge {
+    @include flex(row, flex-start, center);
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 20rpx;
+    padding: 6rpx 12rpx;
+    margin-right: 12rpx;
+    margin-bottom: 8rpx;
+    backdrop-filter: blur(10rpx);
+    border: 1rpx solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.3);
+    transition: all 0.2s ease;
 
         &:active {
-          transform: translateY(-4rpx);
-          box-shadow: 0 12rpx 32rpx rgba(102, 126, 234, 0.15);
-        }
+      transform: scale(0.95);
+      box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.3);
+    }
+  }
 
-        .stat-icon {
-          margin-bottom: 12rpx;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
+  .cert-icon {
+    width: 32rpx;
+    height: 32rpx;
+    border-radius: 50%;
+    @include flex(row, center, center);
+    margin-right: 8rpx;
+    /* 背景色通过内联样式动态设置，移除硬编码 */
+    box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.2);
+  }
 
-        .stat-content {
-          .stat-number {
+  .cert-icon-svg {
+    width: 18rpx;
+    height: 18rpx;
+    flex-shrink: 0; /* 防止压缩 */
+    /* 确保SVG在所有设备上正常显示 */
+    opacity: 1;
+    visibility: visible;
             display: block;
-            font-size: 32rpx;
-            font-weight: 700;
-            color: $text-primary;
-            margin-bottom: 4rpx;
-          }
+  }
 
-          .stat-label {
-            font-size: 22rpx;
-            color: $text-secondary;
-            opacity: 0.8;
-          }
-        }
-      }
+  .cert-name {
+    font-size: 24rpx;
+    color: rgba(255, 255, 255, 0.95);
+    font-weight: 500;
+    letter-spacing: 0.5rpx;
+    text-shadow: 0 1rpx 4rpx rgba(0, 0, 0, 0.6);
+  }
+
+  /* 用户ID和统计信息行 */
+  .profile-userid-stats-row {
+    margin-bottom: 12rpx;
+    @include flex(row, space-between, center);
+    width: 100%;
+  }
+
+  .profile-userid-container {
+    @include flex(row, flex-start, center);
+    flex-shrink: 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .profile-userid-text {
+    font-size: 24rpx;
+    color: #ffffff;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 6rpx 16rpx;
+    border-radius: 16rpx;
+    text-shadow: 0 1rpx 4rpx rgba(0, 0, 0, 0.6);
+    transition: all 0.3s ease;
+    
+    &:active {
+      background: rgba(0, 0, 0, 0.6);
     }
   }
 
-  /* 操作按钮区域 */
-  .action-section {
-    padding: 0 40rpx 40rpx;
-
-    .action-buttons {
-      display: flex;
+  .profile-stats-text {
+    @include flex(row, flex-end, center);
       gap: 20rpx;
+    flex-shrink: 0;
+  }
 
-      .primary-action-btn,
-      .secondary-action-btn {
-        flex: 1;
-        height: 88rpx;
-        border-radius: 44rpx;
-        border: none;
+  .stat-item {
+    font-size: 24rpx;
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 1rpx 4rpx rgba(0, 0, 0, 0.6);
         transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 4rpx 12rpx;
+    border-radius: 12rpx;
 
         &:active {
-          transform: scale(0.98);
-        }
-
-        .btn-content {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 12rpx;
-          height: 100%;
-
-          .btn-icon {
-            font-size: 28rpx;
-          }
-
-          .btn-text {
-            font-size: 28rpx;
-            font-weight: 600;
-          }
-        }
-      }
-
-      .primary-action-btn {
-        background: linear-gradient(135deg, #2b85e4 0%, #6ba7f0 100%);
-        color: #ffffff;
-        box-shadow: 0 8rpx 24rpx rgba(43, 133, 228, 0.3);
-
-        &.followed {
-          background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
-          color: $text-primary;
-          box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
-        }
-
-        &::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-          transition: left 0.5s ease;
-        }
-
-        &:active::before {
-          left: 100%;
-        }
-      }
-
-      .secondary-action-btn {
-        background: rgba(102, 126, 234, 0.08);
-        color: $text-primary;
-        border: 2rpx solid rgba(102, 126, 234, 0.2);
-
-        &:active {
-          background: rgba(102, 126, 234, 0.15);
-        }
-      }
+      color: rgba(255, 255, 255, 1);
+      background: rgba(0, 0, 0, 0.5);
+      transform: scale(0.95);
     }
+  }
+
+  .profile-bio {
+            font-size: 28rpx;
+        color: #ffffff;
+    margin-top: 10rpx;
+    line-height: 1.6;
+    max-width: 100%;
+    word-break: break-all;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-shadow: 0 1rpx 4rpx rgba(0, 0, 0, 0.8);
+  }
+
+  /* 用户信息行（学校和加入时间水平显示） */
+  .user-info-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16rpx;
+    margin-top: 8rpx;
+    margin-bottom: 12rpx;
+    flex-wrap: wrap; /* 允许换行以防内容过长 */
+  }
+
+  /* 学校信息文字样式 */
+  .profile-school-text {
+    font-size: 24rpx;
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.4;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 4rpx 12rpx;
+    border-radius: 12rpx;
+    text-shadow: 0 1rpx 4rpx rgba(0, 0, 0, 0.6);
+    display: inline-block;
+    white-space: nowrap;
+  }
+
+  /* 加入时间文字样式 */
+  .user-join-text {
+    font-size: 24rpx;
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.4;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 4rpx 12rpx;
+    border-radius: 12rpx;
+    text-shadow: 0 1rpx 4rpx rgba(0, 0, 0, 0.6);
+    display: inline-block;
+    white-space: nowrap;
   }
 }
 
-/* 帖子区域 */
-.posts-section {
-  margin: 0 24rpx 32rpx;
-
-  .section-header {
-    background: #ffffff;
-    border-radius: 32rpx;
-    padding: 32rpx 40rpx;
-    margin-bottom: 24rpx;
-    box-shadow: 0 8rpx 32rpx rgba(0, 0, 0, 0.06);
-
-    .section-title {
+/* 标签页 */
+.profile-content {
+    background: rgba(255, 255, 255, 1);
+    border-radius: 50rpx 50rpx 0 0;
       position: relative;
-      margin-bottom: 32rpx;
+    z-index: 10;
+    overflow: hidden;
+    margin-top: 0;
+  }
 
-      .title-text {
-        font-size: 36rpx;
-        font-weight: 700;
-        color: $text-primary;
-      }
-
-      .title-decoration {
-        position: absolute;
-        bottom: -8rpx;
-        left: 0;
-        width: 60rpx;
-        height: 6rpx;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        border-radius: 3rpx;
-      }
-    }
-
-    .filter-tabs {
+/* 标签页样式 */
+.profile-tabs {
       display: flex;
-      gap: 8rpx;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  background: rgba(255, 255, 255, 1);
       position: relative;
-      overflow: hidden;
-      border-radius: 40rpx;
-      background: rgba(102, 126, 234, 0.03);
-      padding: 4rpx;
+  z-index: 10;
+  padding: 0 0 20rpx 0;
+}
 
-      .filter-tab {
-        position: relative;
-        flex: 1;
-        height: 72rpx;
+.profile-tab {
         display: flex;
-        align-items: center;
+  flex-direction: column;
         justify-content: center;
-        border-radius: 36rpx;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        background: transparent;
-        z-index: 2;
-        
-        // 添加触摸反馈
-        &:active {
-          transform: scale(0.96);
-          transition: transform 0.1s ease;
-        }
-        
-        // 滑动时的触摸反馈
-        &.touching {
-          transform: scale(0.98);
-          transition: transform 0.1s ease;
-        }
+  align-items: center;
+  position: relative;
+  padding: 24rpx 0 16rpx;
+  min-width: 120rpx;
+  cursor: pointer;
+  transition: all 0.3s ease;
 
         .tab-text {
           font-size: 28rpx;
+    color: #999999;
           font-weight: 500;
-          color: $text-secondary;
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          position: relative;
-          z-index: 3;
+    transition: all 0.3s ease;
         }
 
         .tab-indicator {
           position: absolute;
-          bottom: 8rpx;
+    bottom: 0;
           left: 50%;
-          transform: translateX(-50%);
-          width: 32rpx;
-          height: 4rpx;
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-          border-radius: 2rpx;
-          opacity: 0;
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 60rpx;
+    height: 6rpx;
+    background: #333333;
+    border-radius: 3rpx;
+    transform: translateX(-50%) scaleX(0);
+    transition: all 0.3s ease;
         }
 
         &.active {
-          background: linear-gradient(135deg, rgba(102, 126, 234, 0.12) 0%, rgba(118, 75, 162, 0.12) 100%);
-          box-shadow: 0 2rpx 8rpx rgba(102, 126, 234, 0.2);
-
           .tab-text {
-            color: #667eea;
-            font-weight: 600;
-            transform: translateY(-1rpx);
+            color: #333333;
+      font-weight: bold;
           }
           
           .tab-indicator {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-          }
-        }
-      }
-      
-      // 滑动背景指示器
-      &::before {
-        content: '';
-        position: absolute;
-        top: 4rpx;
-        bottom: 4rpx;
-        width: calc(50% - 4rpx);
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.6) 100%);
-        border-radius: 36rpx;
-        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        z-index: 1;
-        left: 4rpx;
-        transform: translateX(0);
-        box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.1);
-      }
-      
-      // 当选中"最新"时移动指示器
-      &.latest-active::before {
-        transform: translateX(100%);
-      }
+      transform: translateX(-50%) scaleX(1);
     }
   }
 }
 
+/* 滑动区域 */
+.profile-swiper {
+  position: relative;
+  height: calc(100vh - 400rpx);
+  min-height: 800rpx;
+  width: 100%;
+        z-index: 1;
+}
+
+.profile-swiper-item {
+  height: calc(100vh - 400rpx);
+  min-height: 800rpx;
+  overflow: hidden;
+}
+
+.profile-scroll {
+  height: calc(100vh - 400rpx);
+  min-height: 800rpx;
+}
+
+  /* 内容统计信息头部 */
+  .content-stats-header {
+    padding: 20rpx 30rpx 10rpx 30rpx;
+    background: rgba(255, 255, 255, 1);
+    border-bottom: 1rpx solid rgba(0, 0, 0, 0.06);
+  }
+
+  .stats-text {
+    font-size: 24rpx;
+    color: #999999;
+    font-weight: 400;
+  }
+
+
+
+  /* 帖子样式 */
+  .profile-posts {
+    padding: 0;
+    background: transparent;
+  }
+
+  .post-list {
+    background: transparent;
+  }
+
+  .load-more {
+    text-align: center;
+    padding: 20rpx 0 40rpx;
+    font-size: 28rpx;
+    color: #999999;
+    background: transparent;
+  }
+
+
+
 /* 帖子容器 */
 .posts-container {
-  padding: 0 24rpx;
+  padding: 20rpx 24rpx 0;
+  background: rgba(255, 255, 255, 1); /* 白色背景 */
 
   .load-more {
     text-align: center;
     padding: 40rpx 0 60rpx;
     font-size: 28rpx;
     color: $text-secondary;
-    background: rgba(255, 255, 255, 0.8);
-    border-radius: 20rpx;
-    margin: 24rpx 0;
+    background: rgba(255, 255, 255, 1); /* 完全不透明的白色 */
+    border-radius: 0 0 50rpx 50rpx; /* 底部圆角 */
+    margin: 0; /* 去掉间距让区域连接 */
   }
 
   .empty-state {
@@ -1680,31 +2141,38 @@ export default {
     border-radius: 32rpx;
 
     .header-background {
-      height: 200rpx;
+      height: 240rpx;
+      
+      /* 小屏幕按钮样式调整 */
+      .background-action-bar {
+        padding: 0 15rpx 15rpx;
+      }
+      
+      .bg-action-btn {
+        width: 64rpx;
+        height: 64rpx;
+      }
     }
 
       .header-info-row {
+        position: absolute;
+        bottom: 60rpx;
+        left: 0;
+        right: 0;
         display: flex;
         align-items: center;
-        padding: 30rpx 24rpx;
-        margin-top: -100rpx;
+        padding: 0 24rpx;
       }
 
       .avatar-section {
-        margin: -8rpx 20rpx 0 0; /* 小屏头像稍微上移 */
-        padding: 0 0 24rpx;
-        width: 140rpx;
-
-      .avatar-wrapper .avatar-ring {
-        width: 140rpx;
-        height: 140rpx;
-        border-radius: 70rpx;
+        margin: 0 0 12rpx 0; /* 小屏头像间距 */
+        padding: 0;
+        width: 120rpx; /* 小屏头像适当放大 */
 
         .user-avatar {
-          width: 128rpx;
-          height: 128rpx;
-          border-radius: 64rpx;
-        }
+          width: 120rpx;
+          height: 120rpx;
+          border-radius: 60rpx;
       }
     }
 
@@ -1712,77 +2180,79 @@ export default {
       padding: 0 0 24rpx; /* 左侧与头像对齐 */
       margin-top: 12rpx; /* 小屏同样整体下移 */
 
-      .user-meta-area {
-        transform: translateX(-110rpx);
-        width: calc(100% + 110rpx);
-      }
 
-      .user-name-area .display-name {
+
+      .nickname-action-row {
+        .profile-nickname {
         font-size: 36rpx;
+          max-width: calc(100% - 120rpx); /* 小屏幕为按钮留更少空间 */
+        }
+
+        .inline-action-buttons {
+          gap: 8rpx;
+          margin-right: 12rpx; /* 小屏幕也更靠近右边 */
+          /* 小屏幕整体抗锯齿优化 */
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+          transform: translateZ(0);
+
+          .inline-follow-btn,
+          .inline-message-btn {
+            height: 50rpx;
+            padding: 0 18rpx;
+          font-size: 22rpx;
+            border-radius: 25rpx;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            /* 小屏幕基础抗锯齿优化 */
+            box-sizing: border-box;
+            outline: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            
+            .inline-btn-text {
+              line-height: 1;
+              display: flex;
+              align-items: center;
+              height: 100%;
+              /* 小屏幕文字抗锯齿 */
+              -webkit-font-smoothing: antialiased;
+              -moz-osx-font-smoothing: grayscale;
+            }
+          }
+          
+          .inline-follow-btn {
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            /* 小屏幕抗锯齿优化 */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            transform: translateZ(0);
+            will-change: transform;
+          }
+          
+          .inline-message-btn {
+            /* 小屏幕抗锯齿优化 */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            transform: translateZ(0);
+            will-change: transform;
+          }
+        }
       }
 
       .user-bio-area .bio-text {
         font-size: 26rpx;
       }
 
-      .user-meta-area .meta-tag {
-        padding: 8rpx 16rpx;
 
-        .meta-text {
-          font-size: 22rpx;
-        }
-      }
     }
 
-    .stats-cards {
-      padding: 0 32rpx 24rpx;
 
-      .stats-grid {
-        gap: 12rpx;
 
-        .stat-card {
-          padding: 20rpx 12rpx;
 
-          .stat-icon {
-            font-size: 28rpx;
-          }
-
-          .stat-content {
-            .stat-number {
-              font-size: 28rpx;
-            }
-
-            .stat-label {
-              font-size: 20rpx;
-            }
-          }
-        }
-      }
-    }
-
-    .action-section {
-      padding: 0 32rpx 32rpx;
-
-      .action-buttons {
-        gap: 16rpx;
-
-        .primary-action-btn,
-        .secondary-action-btn {
-          height: 76rpx;
-          border-radius: 38rpx;
-
-          .btn-content {
-            .btn-icon {
-              font-size: 24rpx;
-            }
-
-            .btn-text {
-              font-size: 26rpx;
-            }
-          }
-        }
-      }
-    }
   }
 
   .posts-section {
@@ -1845,24 +2315,371 @@ export default {
 /* 超小屏幕适配 */
 @media screen and (max-width: 600rpx) {
   .user-profile-header {
-    .stats-cards .stats-grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16rpx;
-
-      .stat-card {
-        padding: 24rpx 16rpx;
-      }
+    .header-background {
+      height: 200rpx; /* 超小屏幕背景高度调整 */
     }
+  }
+}
 
-    .action-section .action-buttons {
-      flex-direction: column;
-      gap: 16rpx;
+/* 认证徽章样式 - 与个人页面完全一致 */
+.certification-badge {
+  @include flex(row, flex-start, center);
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 20rpx;
+  padding: 6rpx 12rpx;
+  margin-right: 12rpx;
+  margin-bottom: 8rpx;
+  border: 1rpx solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+  
+  &:active {
+    transform: scale(0.95);
+    background: rgba(255, 255, 255, 0.25);
+  }
+}
 
-      .primary-action-btn,
-      .secondary-action-btn {
+.cert-icon {
+  width: 32rpx;
+  height: 32rpx;
+  border-radius: 50%;
+  @include flex(row, center, center);
+  margin-right: 8rpx;
+  box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.2);
+}
+
+.cert-icon-svg {
+  width: 24rpx;
+  height: 24rpx;
+  flex-shrink: 0; /* 防止压缩 */
+  /* 确保SVG在所有设备上正常显示 */
+  opacity: 1;
+  visibility: visible;
+  display: block;
+}
+
+.cert-name {
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.95);
+  font-weight: 500;
+  text-shadow: 0 1rpx 3rpx rgba(0, 0, 0, 0.5);
+  max-width: 120rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 徽章详情弹窗 */
+.badge-modal-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  @include flex(row, center, center);
+  z-index: 9999;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.badge-detail-modal {
+  width: 600rpx;
+  background: white;
+  border-radius: 30rpx;
+  padding: 40rpx;
+  text-align: center;
+  animation: modalSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 20rpx 60rpx rgba(0, 0, 0, 0.3);
+  /* backdrop-filter: blur(20rpx); 模糊效果已移除 */
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8) translateY(50rpx);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.badge-detail-header {
+  margin-bottom: 30rpx;
+}
+
+.badge-large-icon {
+  width: 140rpx;
+  height: 140rpx;
+  border-radius: 50%;
+  @include flex(row, center, center);
+  margin: 0 auto 20rpx;
+  box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.15);
+}
+
+.badge-large-icon-svg {
+  width: 80rpx;
+  height: 80rpx;
+}
+
+.badge-large-name {
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #333;
+  display: block;
+  margin-bottom: 10rpx;
+}
+
+.badge-rarity-tag {
+  display: inline-block;
+  padding: 6rpx 16rpx;
+  border-radius: 12rpx;
+  font-size: 22rpx;
+  color: white;
+  font-weight: 500;
+  
+  &.common {
+    background: #95a5a6;
+  }
+  
+  &.rare {
+    background: #3498db;
+  }
+  
+  &.epic {
+    background: #9b59b6;
+  }
+  
+  &.legendary {
+    background: linear-gradient(45deg, #f1c40f, #f39c12);
+  }
+}
+
+.badge-detail-content {
+  margin: 30rpx 0;
+}
+
+.badge-description {
+  font-size: 28rpx;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 20rpx;
+}
+
+.badge-grant-info {
+  margin-top: 20rpx;
+}
+
+.grant-time {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.badge-detail-footer {
+  margin-top: 30rpx;
+}
+
+.close-btn {
+  width: 200rpx;
+  height: 70rpx;
+  background: #007aff;
+  color: white;
+  border: none;
+  border-radius: 35rpx;
+  font-size: 28rpx;
+  transition: all 0.3s ease;
+  
+  &:active {
+    transform: scale(0.95);
+    background: #0056cc;
+  }
+}
+
+/* 用户标签样式 */
+.user-tags-section {
+  padding: 30rpx 32rpx;
+  margin-bottom: 20rpx;
+}
+
+.user-tags-section .section-header {
+  @include flex(row, flex-start, center);
+  margin-bottom: 24rpx;
+}
+
+.user-tags-section .section-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.user-tags-section .tag-count {
+  font-size: 24rpx;
+  color: #718096;
+  margin-left: 8rpx;
+}
+
+.tags-scroll {
+  overflow-x: auto;
+  padding: 10rpx 0;
         width: 100%;
       }
-    }
+
+.tags-content {
+  @include flex(row, flex-start, center);
+}
+
+.tag-item {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%);
+  border-radius: 20rpx;
+  padding: 12rpx 24rpx;
+  margin-right: 20rpx;
+  border: 1rpx solid rgba(102, 126, 234, 0.2);
+  /* backdrop-filter: blur(10rpx); 模糊效果已移除 */
+  animation: tagFadeIn 0.5s ease-out;
+  animation-fill-mode: both;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &:active {
+    transform: scale(0.95);
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.25) 0%, rgba(118, 75, 162, 0.25) 100%);
+  }
+}
+
+.tag-text {
+  font-size: 26rpx;
+  color: #667eea;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+@keyframes tagFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20rpx) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+/* 标签详情弹窗 */
+.tag-modal-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  @include flex(row, center, center);
+  z-index: 9998;
+}
+
+.tag-detail-modal {
+  width: 600rpx;
+  background: white;
+  border-radius: 30rpx;
+  padding: 40rpx;
+  text-align: center;
+  box-shadow: 0 20rpx 60rpx rgba(0, 0, 0, 0.3);
+  /* backdrop-filter: blur(20rpx); 模糊效果已移除 */
+}
+
+.tag-detail-header {
+  margin-bottom: 30rpx;
+}
+
+.tag-large-icon {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  @include flex(row, center, center);
+  margin: 0 auto 20rpx;
+  box-shadow: 0 8rpx 24rpx rgba(102, 126, 234, 0.3);
+}
+
+.tag-icon-text {
+  font-size: 48rpx;
+  color: white;
+  font-weight: bold;
+  text-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.3);
+}
+
+.tag-large-name {
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #333;
+  display: block;
+  margin-bottom: 10rpx;
+}
+
+.tag-type-badge {
+  display: inline-block;
+  padding: 6rpx 16rpx;
+  border-radius: 12rpx;
+  font-size: 22rpx;
+  color: white;
+  font-weight: 500;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.tag-detail-content {
+  margin: 30rpx 0;
+}
+
+.tag-description {
+  font-size: 28rpx;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 20rpx;
+}
+
+.tag-stats {
+  margin-top: 20rpx;
+}
+
+.tag-stat-item {
+  @include flex(row, space-between, center);
+  padding: 12rpx 0;
+}
+
+.tag-stat-label {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.tag-stat-value {
+  font-size: 24rpx;
+  color: #667eea;
+  font-weight: 600;
+}
+
+.tag-detail-footer {
+  margin-top: 30rpx;
+}
+
+.tag-close-btn {
+  width: 200rpx;
+  height: 70rpx;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 35rpx;
+  font-size: 28rpx;
+  transition: all 0.3s ease;
+  
+  &:active {
+    transform: scale(0.95);
+    opacity: 0.8;
   }
 }
 
@@ -1880,11 +2697,6 @@ export default {
       .bg-primary {
         background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
       }
-    }
-
-    .stats-cards .stats-grid .stat-card {
-      background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
-      border-color: rgba(255, 255, 255, 0.1);
     }
   }
 

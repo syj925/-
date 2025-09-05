@@ -137,10 +137,24 @@ const routes = [
         ]
       },
       {
-        path: 'tag',
-        name: 'Tag',
-        component: () => import('@/views/tag/TagManagement.vue'),
-        meta: { title: '标签管理', icon: 'price-tag' }
+        path: 'label',
+        name: 'Label',
+        redirect: '/label/tags',
+        meta: { title: '标签管理', icon: 'price-tag' },
+        children: [
+          {
+            path: 'tags',
+            name: 'TagManagement',
+            component: () => import('@/views/tag/TagManagement.vue'),
+            meta: { title: '标签管理' }
+          },
+          {
+            path: 'badges',
+            name: 'BadgeManagement',
+            component: () => import('@/views/badge/BadgeManagement.vue'),
+            meta: { title: '徽章管理' }
+          }
+        ]
       },
       // {
       //   path: 'collection',
@@ -159,12 +173,6 @@ const routes = [
         name: 'Category',
         component: () => import('@/views/CategoryManagement.vue'),
         meta: { title: '分类管理', icon: 'collection' }
-      },
-      {
-        path: 'badge',
-        name: 'BadgeManagement',
-        component: () => import('@/views/badge/BadgeManagement.vue'),
-        meta: { title: '用户标签管理', icon: 'discount' }
       },
       {
         path: 'statistics',

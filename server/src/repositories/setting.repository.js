@@ -296,10 +296,8 @@ class SettingRepository {
       ];
 
       for (const pattern of patterns) {
-        const keys = await redisClient.keys(pattern);
-        if (keys.length > 0) {
-          await redisClient.del(...keys);
-        }
+        // 使用封装的deletePattern方法
+        await redisClient.deletePattern(pattern);
       }
 
       logger.info('推荐相关缓存已清除');

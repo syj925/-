@@ -3,9 +3,9 @@
     <el-form :model="configData" :rules="rules" ref="configFormRef" label-position="top">
       <el-form-item label="敏感词过滤级别" prop="sensitiveWordsLevel">
         <el-radio-group v-model="configData.sensitiveWordsLevel">
-          <el-radio-button label="low">低级过滤</el-radio-button>
-          <el-radio-button label="medium">中级过滤</el-radio-button>
-          <el-radio-button label="high">高级过滤</el-radio-button>
+          <el-radio-button value="low">低级过滤</el-radio-button>
+          <el-radio-button value="medium">中级过滤</el-radio-button>
+          <el-radio-button value="high">高级过滤</el-radio-button>
         </el-radio-group>
         <div class="tip">过滤级别越高，过滤的敏感词范围越广</div>
       </el-form-item>

@@ -16,14 +16,14 @@
           :class="['tab-item', { active: currentTab === 'following' }]"
           @tap="switchTab('following')"
         >
-          <text class="tab-text">关注 {{ followingCount }}</text>
+          <text class="tab-text">关注 {{ followingCount || 0 }}</text>
           <view class="tab-indicator" v-if="currentTab === 'following'"></view>
         </view>
         <view 
           :class="['tab-item', { active: currentTab === 'followers' }]"
           @tap="switchTab('followers')"
         >
-          <text class="tab-text">粉丝 {{ followersCount }}</text>
+          <text class="tab-text">粉丝 {{ followersCount || 0 }}</text>
           <view class="tab-indicator" v-if="currentTab === 'followers'"></view>
         </view>
       </view>
@@ -40,27 +40,29 @@
       <swiper-item class="swiper-item">
         <scroll-view 
           scroll-y 
-          class="scroll-view" 
+          class="content-container" 
           @scrolltolower="loadMore('following')"
           refresher-enabled 
-          :refresher-triggered="followingRefreshing" 
+          :refresher-triggered="refreshing && currentTab === 'following'" 
           @refresherrefresh="refreshFollowing"
         >
-          <view class="user-list" v-if="followingList.length > 0">
+          <view class="card-list" v-if="followingList.length > 0">
             <UserCard
               v-for="(user, index) in followingList"
               :key="user.id"
               :user="user"
               :showFollowTime="true"
+              @follow-click="handleFollowClick"
               @follow-success="handleFollowSuccess"
               @follow-error="handleFollowError"
+              @click="handleUserCardClick"
             />
           </view>
           
           <!-- 空状态 -->
           <view class="empty-container" v-else>
             <image class="empty-image" src="/static/images/common/empty-follow.png" mode="aspectFit"></image>
-            <text class="empty-text">{{ followingLoading ? '加载中...' : '暂无关注用户' }}</text>
+            <text class="empty-text">{{ loading ? '加载中...' : '暂无关注用户' }}</text>
           </view>
           
           <!-- 加载更多 -->
@@ -74,27 +76,29 @@
       <swiper-item class="swiper-item">
         <scroll-view 
           scroll-y 
-          class="scroll-view" 
+          class="content-container" 
           @scrolltolower="loadMore('followers')"
           refresher-enabled 
-          :refresher-triggered="followersRefreshing" 
+          :refresher-triggered="refreshing && currentTab === 'followers'" 
           @refresherrefresh="refreshFollowers"
         >
-          <view class="user-list" v-if="followersList.length > 0">
+          <view class="card-list" v-if="followersList.length > 0">
             <UserCard
               v-for="user in followersList"
               :key="user.id"
               :user="user"
               :showFollowTime="false"
+              @follow-click="handleFollowClick"
               @follow-success="handleFollowSuccess"
               @follow-error="handleFollowError"
+              @click="handleUserCardClick"
             />
           </view>
           
           <!-- 空状态 -->
           <view class="empty-container" v-else>
             <image class="empty-image" src="/static/images/common/empty-follow.png" mode="aspectFit"></image>
-            <text class="empty-text">{{ followersLoading ? '加载中...' : '暂无粉丝' }}</text>
+            <text class="empty-text">{{ loading ? '加载中...' : '暂无粉丝' }}</text>
           </view>
           
           <!-- 加载更多 -->
@@ -109,6 +113,7 @@
 
 <script>
 import UserCard from '@/components/UserCard.vue';
+import { useFollowStore } from '@/stores/followStore';
 
 export default {
   components: {
@@ -119,14 +124,14 @@ export default {
       userId: '',
       currentTab: 'following',
       tabIndex: 0,
+      followStore: null, // Pinia store引用
+      followingOperations: new Set(), // 正在进行的关注操作，防止重复
       
       // 关注列表
       followingList: [],
       followingPage: 1,
       followingPageSize: 20,
       followingHasMore: true,
-      followingRefreshing: false,
-      followingLoading: false,
       followingCount: 0,
       
       // 粉丝列表
@@ -134,9 +139,14 @@ export default {
       followersPage: 1,
       followersPageSize: 20,
       followersHasMore: true,
-      followersRefreshing: false,
-      followersLoading: false,
-      followersCount: 0
+      followersCount: 0,
+      
+      // 统一加载状态
+      loading: false,
+      refreshing: false,
+      
+      // 页面销毁标识
+      isDestroyed: false
     };
   },
   
@@ -152,7 +162,23 @@ export default {
     this.currentTab = options.type || 'following';
     this.tabIndex = this.currentTab === 'following' ? 0 : 1;
 
+    // 初始化Pinia store
+    this.followStore = useFollowStore();
+
     this.loadData();
+  },
+  
+  onUnload() {
+    // 标记页面已销毁，阻止后续的状态更新
+    this.isDestroyed = true;
+    
+    // 清理资源，防止内存泄漏
+    this.followingList = [];
+    this.followersList = [];
+    this.loading = false;
+    this.refreshing = false;
+    
+    console.log('🔥 Follow页面已销毁，资源已清理');
   },
   
   methods: {
@@ -162,237 +188,340 @@ export default {
     },
     
     // 切换标签页
-    switchTab(tab) {
+    async switchTab(tab) {
+      if (this.currentTab === tab) return; // 避免重复切换
+      
       this.currentTab = tab;
       this.tabIndex = tab === 'following' ? 0 : 1;
+      
+      // 切换标签页时重新更新用户状态
+      await this.updateCurrentTabFollowStatus();
     },
     
     // 滑动切换
-    handleSwiperChange(e) {
+    async handleSwiperChange(e) {
       const index = e.detail.current;
+      const newTab = index === 0 ? 'following' : 'followers';
+      
+      if (this.currentTab === newTab) return; // 避免重复切换
+      
       this.tabIndex = index;
-      this.currentTab = index === 0 ? 'following' : 'followers';
+      this.currentTab = newTab;
+      
+      // 切换标签页时重新更新用户状态
+      await this.updateCurrentTabFollowStatus();
     },
     
-    // 加载数据
-    loadData() {
-      if (this.currentTab === 'following') {
-        this.loadFollowing();
+    // 更新当前标签页的关注状态
+    async updateCurrentTabFollowStatus() {
+      try {
+        if (this.currentTab === 'following' && this.followingList.length > 0) {
+          await this.updateUsersFollowStatus(this.followingList);
+        } else if (this.currentTab === 'followers' && this.followersList.length > 0) {
+          await this.updateUsersFollowStatus(this.followersList);
+        }
+      } catch (error) {
+        console.error('更新标签页关注状态失败:', error);
+      }
+    },
+    
+    // 加载数据（使用合并API）
+    async loadData() {
+      if (this.loading || this.isDestroyed) return;
+
+      this.loading = true;
+      
+      try {
+        console.log('🔥 开始加载关注和粉丝数据');
+        
+        // 测试模式下可以启用模拟数据 (目前已禁用)
+        /* 
+        if (process.env.NODE_ENV === 'development' && false) {
+          // 模拟数据已禁用
+        }
+        */
+        
+        // 使用合并API一次性获取关注和粉丝数据
+        const response = this.userId 
+          ? await this.$api.follow.getUserFollowData(this.userId, {
+              followingPage: this.followingPage,
+              followingPageSize: this.followingPageSize,
+              followersPage: this.followersPage,
+              followersPageSize: this.followersPageSize
+            })
+          : await this.$api.follow.getMyFollowData({
+              followingPage: this.followingPage,
+              followingPageSize: this.followingPageSize,
+              followersPage: this.followersPage,
+              followersPageSize: this.followersPageSize
+            });
+
+        await this.handleDataResponse(response);
+      } catch (error) {
+        console.error('加载数据失败:', error);
+        if (!this.isDestroyed) {
+          uni.showToast({
+            title: '网络错误，请重试',
+            icon: 'none'
+          });
+        }
+      } finally {
+        if (!this.isDestroyed) {
+          this.loading = false;
+          this.refreshing = false;
+        }
+      }
+    },
+
+    // 处理数据响应
+    async handleDataResponse(response) {
+      // 检查页面是否已销毁
+      if (this.isDestroyed) {
+        console.log('🔥 页面已销毁，取消数据更新');
+        return;
+      }
+
+      console.log('🔥 handleDataResponse - 响应数据:', response);
+      if (response.success) {
+        const { following, followers, summary } = response.data;
+        console.log('🔥 处理数据 - following:', following?.list?.length, 'followers:', followers?.list?.length);
+        
+        // 关键修复：先处理关注状态，再设置列表数据（避免时序问题）
+        const followingUsers = following.list || [];
+        const followersUsers = followers.list || [];
+        
+        // 先为数据添加关注状态
+        if (followingUsers.length > 0 && !this.isDestroyed) {
+          console.log('🔄 处理关注列表用户状态');
+          await this.updateUsersFollowStatus(followingUsers);
+        }
+        
+        if (followersUsers.length > 0 && !this.isDestroyed) {
+          console.log('🔄 处理粉丝列表用户状态');
+          await this.updateUsersFollowStatus(followersUsers);
+        }
+        
+        // 状态处理完成后，再设置列表数据（这样组件渲染时就有正确状态了）
+        if (this.followingPage === 1) {
+          this.followingList = followingUsers;
+        } else {
+          this.followingList = [...this.followingList, ...followingUsers];
+        }
+        
+        if (this.followersPage === 1) {
+          this.followersList = followersUsers;
+        } else {
+          this.followersList = [...this.followersList, ...followersUsers];
+        }
+        
+        // 更新分页状态
+        this.followingHasMore = followingUsers.length >= this.followingPageSize;
+        this.followersHasMore = followersUsers.length >= this.followersPageSize;
+        
+        // 更新总数
+        this.followingCount = summary.followingTotal || 0;
+        this.followersCount = summary.followersTotal || 0;
+        
+        console.log('🔥 更新后的列表长度 - followingList:', this.followingList.length, 'followersList:', this.followersList.length);
+        console.log('🔥 当前标签页:', this.currentTab, '当前显示列表长度:', this.currentTab === 'following' ? this.followingList.length : this.followersList.length);
       } else {
-        this.loadFollowers();
-      }
-    },
-    
-    // 加载关注列表
-    async loadFollowing() {
-      if (this.followingLoading) return;
-
-      this.followingLoading = true;
-
-      try {
-        // 根据是否有userId参数决定调用哪个API
-        const response = this.userId
-          ? await this.$api.follow.getUserFollowings(this.userId, this.followingPage, this.followingPageSize)
-          : await this.$api.follow.getMyFollowings(this.followingPage, this.followingPageSize);
-
-        if (response.success) {
-          const newData = response.data.list || [];
-
-          if (this.followingPage === 1) {
-            this.followingList = newData;
-          } else {
-            this.followingList = [...this.followingList, ...newData];
-          }
-
-          // 批量检查关注状态
-          if (newData.length > 0) {
-            await this.batchCheckFollowStatus(newData);
-          }
-
-          this.followingHasMore = newData.length >= this.followingPageSize;
-          this.followingCount = response.data.pagination?.total || this.followingList.length;
-        } else {
+        if (!this.isDestroyed) {
           uni.showToast({
             title: response.message || '加载失败',
             icon: 'none'
           });
         }
-      } catch (error) {
-        console.error('加载关注列表失败:', error);
-        uni.showToast({
-          title: '网络错误，请重试',
-          icon: 'none'
-        });
-      } finally {
-        this.followingLoading = false;
-        this.followingRefreshing = false;
-      }
-    },
-    
-    // 加载粉丝列表
-    async loadFollowers() {
-      if (this.followersLoading) return;
-
-      this.followersLoading = true;
-
-      try {
-        // 根据是否有userId参数决定调用哪个API
-        const response = this.userId
-          ? await this.$api.follow.getUserFollowers(this.userId, this.followersPage, this.followersPageSize)
-          : await this.$api.follow.getMyFollowers(this.followersPage, this.followersPageSize);
-
-        if (response.success) {
-          const newData = response.data.list || [];
-
-          if (this.followersPage === 1) {
-            this.followersList = newData;
-          } else {
-            this.followersList = [...this.followersList, ...newData];
-          }
-
-          // 批量检查关注状态
-          if (newData.length > 0) {
-            await this.batchCheckFollowStatus(newData);
-          }
-
-          this.followersHasMore = newData.length >= this.followersPageSize;
-          this.followersCount = response.data.pagination?.total || this.followersList.length;
-        } else {
-          uni.showToast({
-            title: response.message || '加载失败',
-            icon: 'none'
-          });
-        }
-      } catch (error) {
-        console.error('加载粉丝列表失败:', error);
-        uni.showToast({
-          title: '网络错误，请重试',
-          icon: 'none'
-        });
-      } finally {
-        this.followersLoading = false;
-        this.followersRefreshing = false;
       }
     },
     
     // 刷新关注列表
     refreshFollowing() {
-      this.followingRefreshing = true;
+      this.refreshing = true;
       this.followingPage = 1;
-      this.loadFollowing();
+      this.followersPage = 1;
+      this.loadData();
     },
     
     // 刷新粉丝列表
     refreshFollowers() {
-      this.followersRefreshing = true;
+      this.refreshing = true;
+      this.followingPage = 1;
       this.followersPage = 1;
-      this.loadFollowers();
+      this.loadData();
     },
     
     // 加载更多
     loadMore(type) {
       if (type === 'following' && this.followingHasMore) {
         this.followingPage++;
-        this.loadFollowing();
+        this.loadData();
       } else if (type === 'followers' && this.followersHasMore) {
         this.followersPage++;
-        this.loadFollowers();
+        this.loadData();
       }
     },
-    
-    // 切换关注状态
-    async toggleFollow(user) {
-      if (!user || !user.id) return;
 
-      // 检查登录状态
-      const userInfo = uni.getStorageSync('userInfo');
-      if (!userInfo || !userInfo.token) {
-        uni.showModal({
-          title: '提示',
-          content: '请先登录',
-          confirmText: '去登录',
-          success: (res) => {
-            if (res.confirm) {
-              uni.navigateTo({
-                url: '/pages/auth/login'
-              });
-            }
-          }
-        });
-        return;
-      }
-
-      const originalStatus = user.isFollowing;
-      const action = originalStatus ? '取消关注' : '关注';
+    // 更新用户关注状态（简化版本）
+    async updateUsersFollowStatus(users) {
+      if (!users || users.length === 0 || !this.followStore) return;
 
       try {
+        // 获取需要查询状态的用户ID
+        const userIds = users.map(user => user.id).filter(Boolean);
+        const unknownUserIds = userIds.filter(userId => 
+          this.followStore.followMap[userId] === undefined
+        );
+        
+        console.log(`🔍 需要查询关注状态的用户: ${unknownUserIds.length}/${userIds.length}`);
+        
+        // 如果有未知状态的用户，先批量查询
+        if (unknownUserIds.length > 0) {
+          console.log('📡 批量查询关注状态:', unknownUserIds);
+          await this.followStore.batchCheckFollowStatus(unknownUserIds);
+        }
+        
+        // 从store获取关注状态并更新用户数据
+        users.forEach(user => {
+          if (user && user.id) {
+            user.isFollowing = this.followStore.isFollowing(user.id);
+            console.log(`✅ 用户${user.id}(${user.nickname})的关注状态: ${user.isFollowing}`);
+          }
+        });
+        
+        console.log('✅ 已从Pinia store更新所有用户的关注状态');
+      } catch (error) {
+        console.error('从store获取关注状态失败:', error);
+      }
+    },
+
+    // 处理关注按钮点击事件（使用Pinia store
+    async handleFollowClick(data) {
+      console.log('🔍 Follow页面接收到的数据:', data);
+      
+      const { userId, currentStatus, action, user } = data;
+      
+      console.log('🔍 解构后的变量:', { userId, currentStatus, action, user: user?.nickname });
+      
+      // 验证userId
+      if (!userId || userId === 'undefined') {
+        console.error('❌ Follow页面: userId无效', userId);
+        return;
+      }
+      
+      // 防止重复操作
+      const operationKey = `${userId}-${action}`;
+      if (this.followingOperations.has(operationKey)) {
+        console.warn('⚠️ 操作正在进行中，跳过重复请求:', operationKey);
+        return;
+      }
+      
+      if (!this.followStore) {
+        console.error('Pinia store未初始化');
+        return;
+      }
+      
+      // 添加到操作集合
+      this.followingOperations.add(operationKey);
+      
+      try {
+        console.log(`开始${action}操作: 用户${userId}(${user?.nickname})`);
+        
         // 乐观更新UI
-        user.isFollowing = !originalStatus;
-
-        // 调用API
-        const response = originalStatus
-          ? await this.$api.follow.unfollow(user.id)
-          : await this.$api.follow.follow(user.id);
-
-        if (response.success) {
+        this.updateUserInLists(userId, { isFollowing: !currentStatus });
+        
+        // 使用Pinia store进行关注/取消关注
+        const success = action === 'follow' 
+          ? await this.followStore.followUser(userId)
+          : await this.followStore.unfollowUser(userId);
+        
+        if (success) {
+          // 触发成功事件
+          this.handleFollowSuccess({
+            userId,
+            isFollowing: !currentStatus,
+            action
+          });
+          
           uni.showToast({
-            title: originalStatus ? '已取消关注' : '关注成功',
+            title: action === 'follow' ? '关注成功' : '已取消关注',
             icon: 'success'
           });
-
-          // 更新计数
-          if (originalStatus) {
-            this.followingCount = Math.max(0, this.followingCount - 1);
-          } else {
-            this.followingCount += 1;
-          }
         } else {
-          // 恢复原状态
-          user.isFollowing = originalStatus;
+          // 失败时回滚UI状态
+          this.updateUserInLists(userId, { isFollowing: currentStatus });
+          
+          this.handleFollowError({
+            userId,
+            action,
+            message: this.followStore.error || '操作失败'
+          });
+          
           uni.showToast({
-            title: response.message || `${action}失败`,
+            title: this.followStore.error || `${action === 'follow' ? '关注' : '取消关注'}失败`,
             icon: 'none'
           });
         }
       } catch (error) {
-        // 恢复原状态
-        user.isFollowing = originalStatus;
-        console.error(`${action}失败:`, error);
+        console.error(`${action}操作失败:`, error);
+        
+        // 失败时回滚UI状态
+        this.updateUserInLists(userId, { isFollowing: currentStatus });
+        
+        this.handleFollowError({
+          userId,
+          action,
+          error
+        });
+        
         uni.showToast({
-          title: `${action}失败，请重试`,
+          title: `${action === 'follow' ? '关注' : '取消关注'}失败`,
           icon: 'none'
         });
+      } finally {
+        // 清理操作标记
+        this.followingOperations.delete(operationKey);
+        console.log('🧹 操作完成，清理标记:', operationKey);
       }
     },
 
-    // 批量检查关注状态
-    async batchCheckFollowStatus(users) {
-      if (!users || users.length === 0) return;
+    // 处理关注成功事件（从UserCard组件触发）
+    handleFollowSuccess(data) {
+      const { userId, isFollowing } = data;
+      
+      console.log(`关注状态更新成功: 用户${userId} -> ${isFollowing ? '已关注' : '未关注'}`);
+    },
 
-      try {
-        const userIds = users.map(user => user.id);
-        const response = await this.$api.follow.batchCheckFollow(userIds);
+    // 处理关注失败事件
+    handleFollowError(data) {
+      console.error('关注操作失败:', data);
+    },
 
-        if (response.success) {
-          const followStatusMap = response.data;
-
-          // 更新用户的关注状态
-          users.forEach(user => {
-            if (followStatusMap.hasOwnProperty(user.id)) {
-              user.isFollowing = followStatusMap[user.id];
-            }
-          });
-        }
-      } catch (error) {
-        console.error('批量检查关注状态失败:', error);
-        // 不显示错误提示，因为这不是关键功能
+    // 更新列表中指定用户的数据
+    updateUserInLists(userId, updates) {
+      // 更新关注列表
+      const followingUser = this.followingList.find(user => user.id === userId);
+      if (followingUser) {
+        Object.assign(followingUser, updates);
+      }
+      
+      // 更新粉丝列表
+      const followerUser = this.followersList.find(user => user.id === userId);
+      if (followerUser) {
+        Object.assign(followerUser, updates);
       }
     },
     
+    // 处理用户卡片点击事件
+    handleUserCardClick(user) {
+      if (user && user.id) {
+        this.goToUserProfile(user.id);
+      }
+    },
+
     // 跳转到用户主页
     goToUserProfile(userId) {
       uni.navigateTo({
-        url: `/pages/profile/profile?userId=${userId}`
+        url: `/pages/user/user-profile?id=${userId}`
       });
     },
 
@@ -429,8 +558,10 @@ export default {
 @import '@/styles/mixins.scss';
 
 .follow-page {
+  position: relative;
   height: 100vh;
   background-color: $bg-page;
+  overflow-x: hidden;
 }
 
 /* 导航栏 */
@@ -468,7 +599,11 @@ export default {
 
 /* 标签页 */
 .tabs-container {
-  margin-top: 88rpx;
+  position: fixed;
+  top: 88rpx;
+  left: 0;
+  right: 0;
+  z-index: 100;
   background-color: #fff;
   border-bottom: 1rpx solid $border-color;
 }
@@ -510,22 +645,33 @@ export default {
 
 /* 内容区 */
 .content-swiper {
-  margin-top: 176rpx;
-  height: calc(100vh - 176rpx);
+  position: absolute;
+  top: 161rpx;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: calc(100vh - 161rpx);
 }
 
 .swiper-item {
   height: 100%;
+  position: relative;
 }
 
-.scroll-view {
-  height: 100%;
-  padding: 20rpx;
+.content-container {
+  height: calc(100vh - 161rpx);
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* 用户列表 */
-.user-list {
-  padding-bottom: 40rpx;
+.card-list {
+  padding: 16rpx 0 30rpx;
+  min-height: 100%;
+}
+
+/* 第一个用户卡片减少顶部间距 */
+.card-list .user-card:first-child {
+  margin-top: 0;
 }
 
 /* 空状态 */

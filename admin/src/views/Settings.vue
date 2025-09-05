@@ -132,9 +132,9 @@
             </el-form-item>
             <el-form-item label="敏感词处理方式" v-if="contentSettings.enableSensitiveFilter">
               <el-radio-group v-model="contentSettings.sensitiveWordAction">
-                <el-radio label="replace">替换为***</el-radio>
-                <el-radio label="reject">直接拒绝发布</el-radio>
-                <el-radio label="audit">提交审核</el-radio>
+                <el-radio value="replace">替换为***</el-radio>
+                <el-radio value="reject">直接拒绝发布</el-radio>
+                <el-radio value="audit">提交审核</el-radio>
               </el-radio-group>
             </el-form-item>
             <el-form-item label="敏感词列表" v-if="contentSettings.enableSensitiveFilter">
@@ -416,9 +416,9 @@
 
             <el-form-item label="热门搜索数据源">
               <el-radio-group v-model="searchSettings.hotSearchSource">
-                <el-radio label="manual">手动配置</el-radio>
-                <el-radio label="auto">自动统计</el-radio>
-                <el-radio label="mixed">混合模式</el-radio>
+                <el-radio value="manual">手动配置</el-radio>
+                <el-radio value="auto">自动统计</el-radio>
+                <el-radio value="mixed">混合模式</el-radio>
               </el-radio-group>
               <div class="weight-hint">
                 <p>• 手动配置：仅使用上方配置的热门搜索词</p>
@@ -462,9 +462,9 @@
 
             <el-form-item label="推荐算法策略">
               <el-radio-group v-model="searchSettings.recommendStrategy">
-                <el-radio label="hot">热门优先</el-radio>
-                <el-radio label="latest">最新优先</el-radio>
-                <el-radio label="mixed">智能推荐</el-radio>
+                <el-radio value="hot">热门优先</el-radio>
+                <el-radio value="latest">最新优先</el-radio>
+                <el-radio value="mixed">智能推荐</el-radio>
               </el-radio-group>
               <div class="weight-hint">
                 <p>• 热门优先：按点赞、评论等互动数据排序</p>
@@ -717,9 +717,9 @@
 
             <el-form-item label="更新策略" v-if="autoUpdateConfig.enabled">
               <el-radio-group v-model="autoUpdateConfig.strategy" @change="onStrategyChange">
-                <el-radio label="incremental">增量更新</el-radio>
-                <el-radio label="full">全量更新</el-radio>
-                <el-radio label="smart">智能更新</el-radio>
+                <el-radio value="incremental">增量更新</el-radio>
+                <el-radio value="full">全量更新</el-radio>
+                <el-radio value="smart">智能更新</el-radio>
               </el-radio-group>
               <div class="weight-hint">
                 <p>• 增量更新：只更新最近变动的内容，速度快</p>
