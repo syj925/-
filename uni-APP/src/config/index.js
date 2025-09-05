@@ -13,7 +13,7 @@ export const SERVER_CONFIG = {
     serverUrls: [
       'http://localhost:3000',        // 本地开发服务器 (H5模式首选)
       'http://127.0.0.1:3000',        // 本地开发服务器 (备用)
-      'http://192.168.1.112:3000',      // 网络地址
+      'http://10.1.5.148:3000',      // 网络地址
       'http://10.0.2.2:3000'          // Android模拟器专用
     ],
     // API版本
@@ -27,8 +27,9 @@ export const SERVER_CONFIG = {
   production: {
     // 服务器地址列表，按优先级排序
     serverUrls: [
-      'https://api.campuswall.example.com',  // 主服务器
-      'https://api-backup.campuswall.example.com'  // 备用服务器
+      'http://10.1.5.148:3000',      // 主服务器（您的实际服务器地址）
+      'http://127.0.0.1:3000',        // 备用服务器
+      'http://localhost:3000'         // 本地备用
     ],
     // API版本
     apiVersion: 'v1',

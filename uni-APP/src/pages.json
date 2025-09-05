@@ -1,22 +1,23 @@
 {
 	"pages": [ 
 		{
+			"path": "pages/splash/splash",
+			"style": {
+				"navigationStyle": "custom",
+				"disableScroll": true,
+				"app-plus": {
+					"background": "transparent",
+					"titleNView": false
+				}
+			}
+		},
+		{
 			"path": "pages/index/home",
 			"style": {
-				"navigationBarTitleText": "校园墙",
+				"navigationStyle": "custom",
 				"enablePullDownRefresh": true,
 				"backgroundTextStyle": "dark",
 				"app-plus": {
-					"titleNView": {
-						"buttons": [
-							{
-								"text": "🔍",
-								"fontSize": "16px",
-								"color": "#333333",
-								"width": "50px"
-							}
-						]
-					},
 					"pullToRefresh": {
 						"support": true,
 						"style": "circle",
@@ -258,6 +259,13 @@
 				"navigationBarTitleText": "我的活动",
 				"enablePullDownRefresh": true,
 				"backgroundTextStyle": "dark"
+			}
+		},
+		{
+			"path": "pages/test/log-demo",
+			"style": {
+				"navigationBarTitleText": "日志演示",
+				"navigationStyle": "custom"
 			}
 		}
 	],

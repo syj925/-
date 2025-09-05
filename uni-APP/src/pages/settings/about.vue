@@ -13,7 +13,7 @@
     <view class="about-content">
       <!-- 应用信息 -->
       <view class="app-info">
-        <view class="app-logo">
+        <view class="app-logo" @tap="onLogoTap">
           <image src="/static/logo.png" mode="aspectFit" class="logo-image"></image>
         </view>
         <view class="app-name">校园墙</view>
@@ -109,16 +109,75 @@ export default {
   },
   data() {
     return {
-      appVersion: '1.0.0'
+      appVersion: '1.0.0',
+      // 隐藏入口相关
+      logoClickCount: 0,
+      logoClickTimer: null
     };
   },
   onLoad() {
     this.loadAppVersion();
   },
+  onUnload() {
+    // 清理计时器
+    if (this.logoClickTimer) {
+      clearTimeout(this.logoClickTimer);
+      this.logoClickTimer = null;
+    }
+  },
   methods: {
     // 返回上一页
     goBack() {
       uni.navigateBack();
+    },
+
+    // Logo点击事件 - 隐藏入口
+    onLogoTap() {
+      // 清除之前的计时器
+      if (this.logoClickTimer) {
+        clearTimeout(this.logoClickTimer);
+      }
+      
+      // 增加点击次数
+      this.logoClickCount++;
+      
+      // 设置3秒后重置计数器
+      this.logoClickTimer = setTimeout(() => {
+        this.logoClickCount = 0;
+        this.logoClickTimer = null;
+      }, 3000);
+      
+      // 检查是否达到10次
+      if (this.logoClickCount >= 10) {
+        // 重置计数器
+        this.logoClickCount = 0;
+        if (this.logoClickTimer) {
+          clearTimeout(this.logoClickTimer);
+          this.logoClickTimer = null;
+        }
+        
+        // 显示成功提示
+        uni.showToast({
+          title: '🎉 隐藏功能已解锁',
+          icon: 'none',
+          duration: 1500
+        });
+        
+        // 延迟跳转到日志页面
+        setTimeout(() => {
+          uni.navigateTo({
+            url: '/pages/test/log-demo'
+          });
+        }, 1500);
+      } else if (this.logoClickCount >= 5) {
+        // 超过5次时给出提示
+        const remaining = 10 - this.logoClickCount;
+        uni.showToast({
+          title: `再点击${remaining}次...`,
+          icon: 'none',
+          duration: 800
+        });
+      }
     },
 
     // 加载应用版本
@@ -231,6 +290,13 @@ export default {
   width: 120rpx;
   height: 120rpx;
   margin-bottom: 30rpx;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  &:active {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
 }
 
 .logo-image {
