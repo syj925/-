@@ -193,6 +193,26 @@
         <el-tab-pane label="消息设置" name="message">
           <el-form :model="messageSettings" label-width="180px">
             <el-alert
+              title="私信功能全局控制"
+              type="warning"
+              description="控制整个应用的私信功能是否开启。关闭后，所有用户都无法发送和接收私信。"
+              :closable="false"
+              style="margin-bottom: 20px;"
+            />
+            <el-form-item label="全局私信功能">
+              <el-switch
+                v-model="messageSettings.enablePrivateMessage"
+                active-text="开启"
+                inactive-text="关闭"
+                active-color="#13ce66"
+                inactive-color="#ff4949"
+              />
+              <span class="weight-hint">关闭后，所有用户的私信功能将被禁用</span>
+            </el-form-item>
+            
+            <el-divider />
+            
+            <el-alert
               title="消息阅读延迟设置"
               type="info"
               description="设置用户在消息详情页面停留多少秒后系统自动将消息标记为已读"
@@ -1910,6 +1930,7 @@ const userSettings = ref({
 
 // 消息设置
 const messageSettings = ref({
+  enablePrivateMessage: true,
   readDelaySeconds: 5
 });
 
@@ -2022,6 +2043,7 @@ const fetchSettings = async () => {
       if (res.data.avatarSizeLimit) userSettings.value.avatarSizeLimit = parseInt(res.data.avatarSizeLimit);
       
       // 解析消息设置
+      if (res.data.enablePrivateMessage !== undefined) messageSettings.value.enablePrivateMessage = res.data.enablePrivateMessage === 'true' || res.data.enablePrivateMessage === true;
       if (res.data.readDelaySeconds) messageSettings.value.readDelaySeconds = parseInt(res.data.readDelaySeconds);
     }
   } catch (error) {
@@ -2171,6 +2193,7 @@ const saveSettings = async () => {
       avatarSizeLimit: String(userSettings.value.avatarSizeLimit),
       
       // 消息设置
+      enablePrivateMessage: String(messageSettings.value.enablePrivateMessage),
       readDelaySeconds: String(messageSettings.value.readDelaySeconds)
     };
     
@@ -2281,6 +2304,7 @@ const resetSettings = () => {
     };
     
     messageSettings.value = {
+      enablePrivateMessage: true,
       readDelaySeconds: 5
     };
     
@@ -3935,6 +3959,30 @@ const importConfiguration = async () => {
   }
 }
 
+@media (max-width: 768px) {
+  .info-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  
+  .info-label {
+    min-width: auto;
+  }
+  
+  .score-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  
+  .result-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+}
+</style> 
 @media (max-width: 768px) {
   .info-row {
     flex-direction: column;

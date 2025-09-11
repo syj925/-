@@ -10,6 +10,7 @@ const commentRoutes = require('./comment.routes');
 const likeRoutes = require('./like.routes');
 const favoriteRoutes = require('./favorite.routes');
 const messageRoutes = require('./message.routes');
+const privateMessageRoutes = require('./private-message.routes');
 const followRoutes = require('./follow.routes');
 const uploadRoutes = require('./upload.routes');
 const adminRoutes = require('./admin.routes');
@@ -49,6 +50,7 @@ router.use('/api/likes', likeRoutes);
 router.use('/api/favorites', favoriteRoutes);
 router.use('/api/follows', followRoutes);
 router.use('/api/messages', messageRoutes);
+router.use('/api/private-messages', privateMessageRoutes);
 router.use('/api/topics', topicRoutes);
 router.use('/api/categories', categoryRoutes);
 router.use('/api/upload', uploadRoutes);
@@ -372,5 +374,7 @@ router.post('/api/reset-force-update', async (req, res) => {
     });
   }
 });
+
+module.exports = router;
 
 module.exports = router;

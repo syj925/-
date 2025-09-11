@@ -68,16 +68,27 @@
 		{
 			"path": "pages/message/message",
 			"style": {
-				"navigationBarTitleText": "消息",
-				"enablePullDownRefresh": true,
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": false,
 				"backgroundTextStyle": "dark",
-				"app-plus": {
-					"pullToRefresh": {
-						"support": true,
-						"style": "circle",
-						"color": "#5B8EF9"
-					}
-				}
+				"disableScroll": true
+			}
+		},
+		{
+			"path": "pages/message/detail",
+			"style": {
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": false,
+				"backgroundTextStyle": "dark"
+			}
+		},
+		{
+			"path": "pages/message/chat",
+			"style": {
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": false,
+				"disableScroll": true,
+				"backgroundTextStyle": "dark"
 			}
 		},
 		{

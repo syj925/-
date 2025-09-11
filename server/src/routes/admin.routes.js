@@ -11,6 +11,7 @@ const adminEventController = require('../controllers/admin/event.controller');
 const adminPostController = require('../controllers/admin/post.controller');
 const adminCommentController = require('../controllers/admin/comment.controller');
 const adminTopicController = require('../controllers/admin/topic.controller');
+const adminMessageController = require('../controllers/admin/message.controller');
 
 // 引入分类统计路由
 const categoryStatsRoutes = require('./admin/category-stats.routes');
@@ -86,7 +87,22 @@ const adminUpdateUserSchema = Joi.object({
   role: Joi.string().valid('student', 'teacher', 'admin').optional().messages({
     'any.only': '角色只能是student、teacher或admin'
   }),
-  is_disabled: Joi.boolean().optional()
+  is_disabled: Joi.boolean().optional(),
+  settings: Joi.object({
+    privacy: Joi.object({
+      anonymousMode: Joi.boolean().optional(),
+      allowSearch: Joi.boolean().optional(),
+      showLocation: Joi.boolean().optional(),
+      allowFollow: Joi.boolean().optional(),
+      allowComment: Joi.boolean().optional(),
+      allowMessage: Joi.boolean().optional(),
+      favoriteVisible: Joi.boolean().optional(),
+      followListVisible: Joi.boolean().optional(),
+      fansListVisible: Joi.boolean().optional()
+    }).optional()
+  }).optional().messages({
+    'object.base': '用户设置必须是对象格式'
+  })
 }).min(1).messages({
   'object.min': '至少需要提供一个要更新的字段'
 });
@@ -656,6 +672,61 @@ router.post('/settings/init-recommendation', adminSettingsController.initRecomme
  * @access Private (Admin)
  */
 router.post('/settings/init-search', adminSettingsController.initSearchSettings);
+
+// ==================== 消息管理路由 ====================
+
+/**
+ * @route GET /api/admin/messages/system
+ * @desc 获取系统通知列表
+ * @query {number} page - 页码
+ * @query {number} limit - 每页数量
+ * @query {string} type - 通知类型
+ * @query {string} searchQuery - 搜索关键词
+ * @access Private (Admin)
+ */
+router.get('/messages/system', adminMessageController.getSystemMessages);
+
+/**
+ * @route GET /api/admin/messages/system/stats
+ * @desc 获取系统通知统计
+ * @access Private (Admin)
+ */
+router.get('/messages/system/stats', adminMessageController.getSystemMessageStats);
+
+/**
+ * @route POST /api/admin/messages/system
+ * @desc 创建系统通知
+ * @body {Object} messageData - 通知数据
+ * @access Private (Admin)
+ */
+router.post('/messages/system', adminMessageController.createSystemMessage);
+
+/**
+ * @route GET /api/admin/messages/system/:id
+ * @desc 获取系统通知详情
+ * @param {string} id - 通知ID
+ * @access Private (Admin)
+ */
+router.get('/messages/system/:id', adminMessageController.getSystemMessageDetail);
+
+/**
+ * @route DELETE /api/admin/messages/system/:id
+ * @desc 删除系统通知
+ * @param {string} id - 通知ID
+ * @access Private (Admin)
+ */
+router.delete('/messages/system/:id', adminMessageController.deleteSystemMessage);
+
+/**
+ * @route GET /api/admin/messages/system/:id/recipients
+ * @desc 获取系统通知接收者列表
+ * @param {string} id - 通知ID
+ * @query {number} page - 页码
+ * @query {number} limit - 每页数量
+ * @query {string} isRead - 阅读状态
+ * @access Private (Admin)
+ */
+router.get('/messages/system/:id/recipients', adminMessageController.getSystemMessageRecipients);
 
 // ==================== 管理员状态检查路由 ====================
 

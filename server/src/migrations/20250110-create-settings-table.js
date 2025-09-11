@@ -291,6 +291,15 @@ module.exports = {
       },
       // 消息设置
       {
+        key: 'enablePrivateMessage',
+        value: 'true',
+        description: '是否启用私信功能',
+        type: 'boolean',
+        is_system: true,
+        created_at: new Date(),
+        updated_at: new Date()
+      },
+      {
         key: 'readDelaySeconds',
         value: '5',
         description: '消息已读延迟秒数',

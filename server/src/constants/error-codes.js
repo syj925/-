@@ -65,6 +65,8 @@ module.exports = {
   MESSAGE_NOT_EXIST: { code: 700, message: '消息不存在' },
   MESSAGE_READ_ERROR: { code: 701, message: '标记消息已读失败' },
   MESSAGE_DELETE_ERROR: { code: 702, message: '删除消息失败' },
+  PRIVATE_MESSAGE_DISABLED: { code: 703, message: '私信功能已关闭' },
+  RECEIVER_DISABLED_PRIVATE_MESSAGE: { code: 704, message: '对方已关闭私信功能' },
 
   // 活动相关错误 (8xx)
   EVENT_NOT_FOUND: { code: 800, message: '活动不存在' },

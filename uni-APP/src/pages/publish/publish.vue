@@ -27,6 +27,9 @@
               placeholder="请输入标题（选填）" 
               v-model="form.title"
               @input="onTitleInput"
+              confirm-type="done"
+              :adjust-position="false"
+              :hold-keyboard="false"
             />
             <text class="title-count">{{ form.title.length }}/30</text>
           </view>
@@ -441,7 +444,7 @@ export default {
           return postData;
         })
         .then(finalPostData => {
-          console.log('准备发送请求:', 'POST', 'http://localhost:3000/api/posts', finalPostData);
+          console.log('准备发送请求:', 'POST', this.$api.http.config.baseURL + '/api/posts', finalPostData);
 
           // 创建或更新帖子
           const apiMethod = this.isEdit
@@ -983,17 +986,26 @@ export default {
   border-radius: $radius-lg;
   margin-bottom: $spacing-md;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+.options-card,
+.topics-card {
   overflow: hidden;
 }
 
 /* 主编辑区样式 */
 .edit-card {
-  padding: $spacing-md;
+  padding: $spacing-md $spacing-md $spacing-sm $spacing-md;
 }
 
 .publish-title {
   @include flex(row, space-between, center);
-  margin-bottom: $spacing-sm;
+  margin-bottom: $spacing-xs;
+  position: relative;
+  min-height: auto;
+  align-items: center;
+  padding: 0;
+  overflow: visible;
 }
 
 .title-input {
@@ -1001,18 +1013,39 @@ export default {
   font-size: $font-size-lg;
   font-weight: bold;
   color: $text-primary;
-  padding: $spacing-sm 0;
+  padding: $spacing-xs 0;
+  height: 60rpx;
+  line-height: 60rpx;
+  box-sizing: border-box;
+  vertical-align: middle;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  margin-right: $spacing-sm;
+  overflow: visible;
+  
+  &::placeholder {
+    color: $text-placeholder;
+    font-weight: normal;
+  }
 }
 
 .title-count {
   font-size: $font-size-xs;
   color: $text-tertiary;
+  flex-shrink: 0;
+  line-height: 60rpx;
+  height: 60rpx;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  padding: $spacing-xs 0;
 }
 
 .divider {
   height: 1px;
   background-color: rgba(0, 0, 0, 0.05);
-  margin: $spacing-xs 0 $spacing-sm;
+  margin: 0 0 $spacing-sm 0;
 }
 
 .publish-textarea-wrap {
@@ -1394,6 +1427,39 @@ export default {
 
   &:active {
     background-color: rgba($primary-color, 0.1);
+    transform: scale(0.98);
+  }
+}
+
+.hint-text {
+  font-size: $font-size-sm;
+  color: $primary-color;
+  font-weight: 500;
+}
+
+.hint-action {
+  font-size: $font-size-xs;
+  color: $primary-color;
+  background-color: rgba($primary-color, 0.1);
+  padding: 2px 8px;
+  border-radius: $radius-sm;
+}
+
+/* 搜索加载状态 */
+.search-loading {
+  @include flex(row, center, center);
+  padding: $spacing-md;
+}
+
+.loading-text {
+  font-size: $font-size-sm;
+  color: $text-tertiary;
+}
+
+.safe-area-bottom {
+  height: 34px;
+}
+</style> 
     transform: scale(0.98);
   }
 }

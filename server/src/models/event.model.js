@@ -36,7 +36,22 @@ module.exports = (sequelize, DataTypes) => {
         comment: '活动详情图片（JSON数组）',
         get() {
           const rawValue = this.getDataValue('detail_images');
-          return rawValue ? JSON.parse(rawValue) : [];
+          if (!rawValue) return [];
+          
+          try {
+            // 如果已经是数组，直接返回
+            if (Array.isArray(rawValue)) return rawValue;
+            // 尝试解析JSON
+            const parsed = JSON.parse(rawValue);
+            return Array.isArray(parsed) ? parsed : [];
+          } catch (error) {
+            console.error('解析detail_images JSON失败:', error, '原始值:', rawValue);
+            // 如果解析失败，尝试按逗号分割字符串
+            if (typeof rawValue === 'string') {
+              return rawValue.split(',').map(item => item.trim()).filter(item => item);
+            }
+            return [];
+          }
         },
         set(value) {
           this.setDataValue('detail_images', value ? JSON.stringify(value) : null);
@@ -45,11 +60,7 @@ module.exports = (sequelize, DataTypes) => {
       organizer_id: {
         type: DataTypes.UUID,
         allowNull: false,
-        comment: '组织者ID',
-        references: {
-          model: 'users',
-          key: 'id'
-        }
+        comment: '组织者ID'
       },
       start_time: {
         type: DataTypes.DATE,
@@ -88,7 +99,17 @@ module.exports = (sequelize, DataTypes) => {
         comment: '报名表单配置（JSON）',
         get() {
           const rawValue = this.getDataValue('form_config');
-          return rawValue ? JSON.parse(rawValue) : [];
+          if (!rawValue) return [];
+          
+          try {
+            // 如果已经是数组或对象，直接返回
+            if (Array.isArray(rawValue) || typeof rawValue === 'object') return rawValue;
+            // 尝试解析JSON
+            return JSON.parse(rawValue);
+          } catch (error) {
+            console.error('解析form_config JSON失败:', error, '原始值:', rawValue);
+            return [];
+          }
         },
         set(value) {
           this.setDataValue('form_config', value ? JSON.stringify(value) : null);
@@ -100,7 +121,22 @@ module.exports = (sequelize, DataTypes) => {
         comment: '活动须知（JSON数组）',
         get() {
           const rawValue = this.getDataValue('notices');
-          return rawValue ? JSON.parse(rawValue) : [];
+          if (!rawValue) return [];
+          
+          try {
+            // 如果已经是数组，直接返回
+            if (Array.isArray(rawValue)) return rawValue;
+            // 尝试解析JSON
+            const parsed = JSON.parse(rawValue);
+            return Array.isArray(parsed) ? parsed : [];
+          } catch (error) {
+            console.error('解析notices JSON失败:', error, '原始值:', rawValue);
+            // 如果解析失败，尝试按逗号分割字符串
+            if (typeof rawValue === 'string') {
+              return rawValue.split(',').map(item => item.trim()).filter(item => item);
+            }
+            return [];
+          }
         },
         set(value) {
           this.setDataValue('notices', value ? JSON.stringify(value) : null);

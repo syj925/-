@@ -28,5 +28,8 @@ export default (http) => ({
    * @param {String} type 消息类型，可选
    * @returns {Promise}
    */
-  readAll: (type = 'all') => http.put('/api/messages/readAll', { type })
-}); 
+  readAll: (type) => {
+    const data = type ? { type } : {};
+    return http.put('/api/messages/read/multiple', data);
+  }
+});

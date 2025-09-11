@@ -5071,3 +5071,2099 @@ SyntaxError: Unexpected identifier 'visible'
   ],
   "service": "campus-wall-api"
 }
+2025-09-07 14:24:48 error: uncaughtException: Missing catch or finally after try
+C:\Users\26933\Desktop\校园墙\server\src\services\event.service.js:126
+  }
+  ^
+
+SyntaxError: Missing catch or finally after try
+    at wrapSafe (node:internal/modules/cjs/loader:1662:18)
+    at Module._compile (node:internal/modules/cjs/loader:1704:20)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\controllers\admin\event.controller.js:3:22) {
+  "error": {},
+  "stack": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\event.service.js:126\n  }\n  ^\n\nSyntaxError: Missing catch or finally after try\n    at wrapSafe (node:internal/modules/cjs/loader:1662:18)\n    at Module._compile (node:internal/modules/cjs/loader:1704:20)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\admin\\event.controller.js:3:22)",
+  "exception": true,
+  "date": "Sun Sep 07 2025 14:24:48 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 40612,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 115167232,
+      "heapTotal": 66789376,
+      "heapUsed": 36210696,
+      "external": 2441102,
+      "arrayBuffers": 52095
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 263077.843
+  },
+  "trace": [
+    {
+      "column": 18,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapSafe",
+      "line": 1662,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 20,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1704,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 22,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\admin\\event.controller.js",
+      "function": null,
+      "line": 3,
+      "method": null,
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-09-11 18:45:45 error: uncaughtException: Unexpected token ':'
+C:\Users\26933\Desktop\校园墙\server\src\constants\error-codes.js:89
+  UNKNOWN_ERROR: { code: 999, message: '未知错误' }
+                                     ^
+
+SyntaxError: Unexpected token ':'
+    at wrapSafe (node:internal/modules/cjs/loader:1662:18)
+    at Module._compile (node:internal/modules/cjs/loader:1704:20)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\utils\response.js:1:20) {
+  "error": {},
+  "stack": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\constants\\error-codes.js:89\n  UNKNOWN_ERROR: { code: 999, message: '未知错误' }\n                                     ^\n\nSyntaxError: Unexpected token ':'\n    at wrapSafe (node:internal/modules/cjs/loader:1662:18)\n    at Module._compile (node:internal/modules/cjs/loader:1704:20)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\utils\\response.js:1:20)",
+  "exception": true,
+  "date": "Thu Sep 11 2025 18:45:45 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 42204,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 52932608,
+      "heapTotal": 18939904,
+      "heapUsed": 11699056,
+      "external": 2197395,
+      "arrayBuffers": 18851
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 201346.093
+  },
+  "trace": [
+    {
+      "column": 18,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapSafe",
+      "line": 1662,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 20,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1704,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 20,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\utils\\response.js",
+      "function": null,
+      "line": 1,
+      "method": null,
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-09-11 18:46:39 error: uncaughtException: await is only valid in async functions and the top level bodies of modules
+C:\Users\26933\Desktop\校园墙\server\src\utils\websocket.js:384
+      await redisClient.set(`online:${userId}`, '1', cacheConfig.REALTIME.ONLINE_STATUS); // 在线状态过期
+      ^^^^^
+
+SyntaxError: await is only valid in async functions and the top level bodies of modules
+    at wrapSafe (node:internal/modules/cjs/loader:1662:18)
+    at Module._compile (node:internal/modules/cjs/loader:1704:20)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\utils\index.js:10:26) {
+  "error": {},
+  "stack": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\utils\\websocket.js:384\n      await redisClient.set(`online:${userId}`, '1', cacheConfig.REALTIME.ONLINE_STATUS); // 在线状态过期\n      ^^^^^\n\nSyntaxError: await is only valid in async functions and the top level bodies of modules\n    at wrapSafe (node:internal/modules/cjs/loader:1662:18)\n    at Module._compile (node:internal/modules/cjs/loader:1704:20)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\utils\\index.js:10:26)",
+  "exception": true,
+  "date": "Thu Sep 11 2025 18:46:39 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 31916,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 64884736,
+      "heapTotal": 32047104,
+      "heapUsed": 15729376,
+      "external": 2395804,
+      "arrayBuffers": 51579
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 201400.25
+  },
+  "trace": [
+    {
+      "column": 18,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapSafe",
+      "line": 1662,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 20,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1704,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 26,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\utils\\index.js",
+      "function": null,
+      "line": 10,
+      "method": null,
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-09-11 18:47:01 error: uncaughtException: await is only valid in async functions and the top level bodies of modules
+C:\Users\26933\Desktop\校园墙\server\src\utils\websocket.js:384
+      await redisClient.set(`online:${userId}`, '1', cacheConfig.REALTIME.ONLINE_STATUS); // 在线状态过期
+      ^^^^^
+
+SyntaxError: await is only valid in async functions and the top level bodies of modules
+    at wrapSafe (node:internal/modules/cjs/loader:1662:18)
+    at Module._compile (node:internal/modules/cjs/loader:1704:20)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\utils\index.js:10:26) {
+  "error": {},
+  "stack": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\utils\\websocket.js:384\n      await redisClient.set(`online:${userId}`, '1', cacheConfig.REALTIME.ONLINE_STATUS); // 在线状态过期\n      ^^^^^\n\nSyntaxError: await is only valid in async functions and the top level bodies of modules\n    at wrapSafe (node:internal/modules/cjs/loader:1662:18)\n    at Module._compile (node:internal/modules/cjs/loader:1704:20)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\utils\\index.js:10:26)",
+  "exception": true,
+  "date": "Thu Sep 11 2025 18:47:01 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 6040,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 64512000,
+      "heapTotal": 31784960,
+      "heapUsed": 16271064,
+      "external": 2395804,
+      "arrayBuffers": 51579
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 201422.843
+  },
+  "trace": [
+    {
+      "column": 18,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapSafe",
+      "line": 1662,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 20,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1704,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 26,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\utils\\index.js",
+      "function": null,
+      "line": 10,
+      "method": null,
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-09-11 18:47:59 error: uncaughtException: await is only valid in async functions and the top level bodies of modules
+C:\Users\26933\Desktop\校园墙\server\src\utils\websocket.js:384
+      await redisClient.set(`online:${userId}`, '1', cacheConfig.REALTIME.ONLINE_STATUS); // 在线状态过期
+      ^^^^^
+
+SyntaxError: await is only valid in async functions and the top level bodies of modules
+    at wrapSafe (node:internal/modules/cjs/loader:1662:18)
+    at Module._compile (node:internal/modules/cjs/loader:1704:20)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\utils\index.js:10:26) {
+  "error": {},
+  "stack": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\utils\\websocket.js:384\n      await redisClient.set(`online:${userId}`, '1', cacheConfig.REALTIME.ONLINE_STATUS); // 在线状态过期\n      ^^^^^\n\nSyntaxError: await is only valid in async functions and the top level bodies of modules\n    at wrapSafe (node:internal/modules/cjs/loader:1662:18)\n    at Module._compile (node:internal/modules/cjs/loader:1704:20)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\utils\\index.js:10:26)",
+  "exception": true,
+  "date": "Thu Sep 11 2025 18:47:59 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 5668,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 65933312,
+      "heapTotal": 32309248,
+      "heapUsed": 15256136,
+      "external": 2395804,
+      "arrayBuffers": 51579
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 201480.875
+  },
+  "trace": [
+    {
+      "column": 18,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapSafe",
+      "line": 1662,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 20,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1704,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 26,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\utils\\index.js",
+      "function": null,
+      "line": 10,
+      "method": null,
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-09-11 18:49:10 error: uncaughtException: await is only valid in async functions and the top level bodies of modules
+C:\Users\26933\Desktop\校园墙\server\src\repositories\user.repository.js:392
+    return await User.findAll({
+           ^^^^^
+
+SyntaxError: await is only valid in async functions and the top level bodies of modules
+    at wrapSafe (node:internal/modules/cjs/loader:1662:18)
+    at Module._compile (node:internal/modules/cjs/loader:1704:20)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\services\user.service.js:1:24) {
+  "error": {},
+  "stack": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\repositories\\user.repository.js:392\n    return await User.findAll({\n           ^^^^^\n\nSyntaxError: await is only valid in async functions and the top level bodies of modules\n    at wrapSafe (node:internal/modules/cjs/loader:1662:18)\n    at Module._compile (node:internal/modules/cjs/loader:1704:20)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:1:24)",
+  "exception": true,
+  "date": "Thu Sep 11 2025 18:49:10 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 38628,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 81158144,
+      "heapTotal": 56582144,
+      "heapUsed": 31007224,
+      "external": 2441011,
+      "arrayBuffers": 52091
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 201551.796
+  },
+  "trace": [
+    {
+      "column": 18,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapSafe",
+      "line": 1662,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 20,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1704,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js",
+      "function": null,
+      "line": 1,
+      "method": null,
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-09-11 18:49:19 error: uncaughtException: await is only valid in async functions and the top level bodies of modules
+C:\Users\26933\Desktop\校园墙\server\src\repositories\user.repository.js:392
+    return await User.findAll({
+           ^^^^^
+
+SyntaxError: await is only valid in async functions and the top level bodies of modules
+    at wrapSafe (node:internal/modules/cjs/loader:1662:18)
+    at Module._compile (node:internal/modules/cjs/loader:1704:20)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\services\user.service.js:1:24) {
+  "error": {},
+  "stack": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\repositories\\user.repository.js:392\n    return await User.findAll({\n           ^^^^^\n\nSyntaxError: await is only valid in async functions and the top level bodies of modules\n    at wrapSafe (node:internal/modules/cjs/loader:1662:18)\n    at Module._compile (node:internal/modules/cjs/loader:1704:20)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:1:24)",
+  "exception": true,
+  "date": "Thu Sep 11 2025 18:49:19 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 3504,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 84766720,
+      "heapTotal": 53698560,
+      "heapUsed": 34682584,
+      "external": 2441011,
+      "arrayBuffers": 52091
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 201560.265
+  },
+  "trace": [
+    {
+      "column": 18,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapSafe",
+      "line": 1662,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 20,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1704,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js",
+      "function": null,
+      "line": 1,
+      "method": null,
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-09-11 18:49:31 error: uncaughtException: await is only valid in async functions and the top level bodies of modules
+C:\Users\26933\Desktop\校园墙\server\src\repositories\user.repository.js:392
+    return await User.findAll({
+           ^^^^^
+
+SyntaxError: await is only valid in async functions and the top level bodies of modules
+    at wrapSafe (node:internal/modules/cjs/loader:1662:18)
+    at Module._compile (node:internal/modules/cjs/loader:1704:20)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\services\user.service.js:1:24) {
+  "error": {},
+  "stack": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\repositories\\user.repository.js:392\n    return await User.findAll({\n           ^^^^^\n\nSyntaxError: await is only valid in async functions and the top level bodies of modules\n    at wrapSafe (node:internal/modules/cjs/loader:1662:18)\n    at Module._compile (node:internal/modules/cjs/loader:1704:20)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js:1:24)",
+  "exception": true,
+  "date": "Thu Sep 11 2025 18:49:31 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 28632,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 79953920,
+      "heapTotal": 56897536,
+      "heapUsed": 26652480,
+      "external": 2441011,
+      "arrayBuffers": 52091
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 201572.265
+  },
+  "trace": [
+    {
+      "column": 18,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapSafe",
+      "line": 1662,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 20,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1704,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\services\\user.service.js",
+      "function": null,
+      "line": 1,
+      "method": null,
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-09-11 18:52:09 error: uncaughtException: Identifier 'Setting' has already been declared
+C:\Users\26933\Desktop\校园墙\server\src\controllers\private-message.controller.js:377
+const { Setting, User } = require('../models');
+        ^
+
+SyntaxError: Identifier 'Setting' has already been declared
+    at wrapSafe (node:internal/modules/cjs/loader:1662:18)
+    at Module._compile (node:internal/modules/cjs/loader:1704:20)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\routes\private-message.routes.js:3:34) {
+  "error": {},
+  "stack": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\private-message.controller.js:377\nconst { Setting, User } = require('../models');\n        ^\n\nSyntaxError: Identifier 'Setting' has already been declared\n    at wrapSafe (node:internal/modules/cjs/loader:1662:18)\n    at Module._compile (node:internal/modules/cjs/loader:1704:20)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\private-message.routes.js:3:34)",
+  "exception": true,
+  "date": "Thu Sep 11 2025 18:52:09 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 15540,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 106188800,
+      "heapTotal": 66265088,
+      "heapUsed": 36526520,
+      "external": 2441102,
+      "arrayBuffers": 52095
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 201730.671
+  },
+  "trace": [
+    {
+      "column": 18,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapSafe",
+      "line": 1662,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 20,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1704,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 34,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\private-message.routes.js",
+      "function": null,
+      "line": 3,
+      "method": null,
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-09-11 18:52:26 error: uncaughtException: Identifier 'Setting' has already been declared
+C:\Users\26933\Desktop\校园墙\server\src\controllers\private-message.controller.js:377
+const { Setting, User } = require('../models');
+        ^
+
+SyntaxError: Identifier 'Setting' has already been declared
+    at wrapSafe (node:internal/modules/cjs/loader:1662:18)
+    at Module._compile (node:internal/modules/cjs/loader:1704:20)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\routes\private-message.routes.js:3:34) {
+  "error": {},
+  "stack": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\private-message.controller.js:377\nconst { Setting, User } = require('../models');\n        ^\n\nSyntaxError: Identifier 'Setting' has already been declared\n    at wrapSafe (node:internal/modules/cjs/loader:1662:18)\n    at Module._compile (node:internal/modules/cjs/loader:1704:20)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\private-message.routes.js:3:34)",
+  "exception": true,
+  "date": "Thu Sep 11 2025 18:52:26 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 41668,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 106639360,
+      "heapTotal": 66265088,
+      "heapUsed": 36232696,
+      "external": 2441102,
+      "arrayBuffers": 52095
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 201747.265
+  },
+  "trace": [
+    {
+      "column": 18,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapSafe",
+      "line": 1662,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 20,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1704,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 34,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\private-message.routes.js",
+      "function": null,
+      "line": 3,
+      "method": null,
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-09-11 18:52:28 error: uncaughtException: Identifier 'Setting' has already been declared
+C:\Users\26933\Desktop\校园墙\server\src\controllers\private-message.controller.js:377
+const { Setting, User } = require('../models');
+        ^
+
+SyntaxError: Identifier 'Setting' has already been declared
+    at wrapSafe (node:internal/modules/cjs/loader:1662:18)
+    at Module._compile (node:internal/modules/cjs/loader:1704:20)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\routes\private-message.routes.js:3:34) {
+  "error": {},
+  "stack": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\private-message.controller.js:377\nconst { Setting, User } = require('../models');\n        ^\n\nSyntaxError: Identifier 'Setting' has already been declared\n    at wrapSafe (node:internal/modules/cjs/loader:1662:18)\n    at Module._compile (node:internal/modules/cjs/loader:1704:20)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\private-message.routes.js:3:34)",
+  "exception": true,
+  "date": "Thu Sep 11 2025 18:52:28 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 40648,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 106594304,
+      "heapTotal": 66265088,
+      "heapUsed": 35402616,
+      "external": 2441102,
+      "arrayBuffers": 52095
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 201749.64
+  },
+  "trace": [
+    {
+      "column": 18,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapSafe",
+      "line": 1662,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 20,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1704,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 34,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\private-message.routes.js",
+      "function": null,
+      "line": 3,
+      "method": null,
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-09-11 18:54:06 error: uncaughtException: Identifier 'StatusCodes' has already been declared
+C:\Users\26933\Desktop\校园墙\server\src\middlewares\privateMessage.middleware.js:137
+const { StatusCodes } = require('http-status-codes');
+        ^
+
+SyntaxError: Identifier 'StatusCodes' has already been declared
+    at wrapSafe (node:internal/modules/cjs/loader:1662:18)
+    at Module._compile (node:internal/modules/cjs/loader:1704:20)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\routes\private-message.routes.js:5:34) {
+  "error": {},
+  "stack": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\privateMessage.middleware.js:137\nconst { StatusCodes } = require('http-status-codes');\n        ^\n\nSyntaxError: Identifier 'StatusCodes' has already been declared\n    at wrapSafe (node:internal/modules/cjs/loader:1662:18)\n    at Module._compile (node:internal/modules/cjs/loader:1704:20)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\private-message.routes.js:5:34)",
+  "exception": true,
+  "date": "Thu Sep 11 2025 18:54:06 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 32060,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 106340352,
+      "heapTotal": 66265088,
+      "heapUsed": 36305304,
+      "external": 2441102,
+      "arrayBuffers": 52095
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 201847.437
+  },
+  "trace": [
+    {
+      "column": 18,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapSafe",
+      "line": 1662,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 20,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1704,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 34,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\private-message.routes.js",
+      "function": null,
+      "line": 5,
+      "method": null,
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-09-11 18:54:29 error: uncaughtException: Identifier 'StatusCodes' has already been declared
+C:\Users\26933\Desktop\校园墙\server\src\middlewares\privateMessage.middleware.js:137
+const { StatusCodes } = require('http-status-codes');
+        ^
+
+SyntaxError: Identifier 'StatusCodes' has already been declared
+    at wrapSafe (node:internal/modules/cjs/loader:1662:18)
+    at Module._compile (node:internal/modules/cjs/loader:1704:20)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\routes\private-message.routes.js:5:34) {
+  "error": {},
+  "stack": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\middlewares\\privateMessage.middleware.js:137\nconst { StatusCodes } = require('http-status-codes');\n        ^\n\nSyntaxError: Identifier 'StatusCodes' has already been declared\n    at wrapSafe (node:internal/modules/cjs/loader:1662:18)\n    at Module._compile (node:internal/modules/cjs/loader:1704:20)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\private-message.routes.js:5:34)",
+  "exception": true,
+  "date": "Thu Sep 11 2025 18:54:29 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 41780,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 105648128,
+      "heapTotal": 66002944,
+      "heapUsed": 36629712,
+      "external": 2441102,
+      "arrayBuffers": 52095
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 201870.968
+  },
+  "trace": [
+    {
+      "column": 18,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapSafe",
+      "line": 1662,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 20,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1704,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 34,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\private-message.routes.js",
+      "function": null,
+      "line": 5,
+      "method": null,
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-09-11 18:55:41 error: uncaughtException: Identifier 'logger' has already been declared
+C:\Users\26933\Desktop\校园墙\server\src\controllers\admin\message.controller.js:238
+const logger = require('../../../config/logger');
+      ^
+
+SyntaxError: Identifier 'logger' has already been declared
+    at wrapSafe (node:internal/modules/cjs/loader:1662:18)
+    at Module._compile (node:internal/modules/cjs/loader:1704:20)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\routes\admin.routes.js:14:32) {
+  "error": {},
+  "stack": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\admin\\message.controller.js:238\nconst logger = require('../../../config/logger');\n      ^\n\nSyntaxError: Identifier 'logger' has already been declared\n    at wrapSafe (node:internal/modules/cjs/loader:1662:18)\n    at Module._compile (node:internal/modules/cjs/loader:1704:20)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\admin.routes.js:14:32)",
+  "exception": true,
+  "date": "Thu Sep 11 2025 18:55:41 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 45848,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 106930176,
+      "heapTotal": 66789376,
+      "heapUsed": 37880160,
+      "external": 2441102,
+      "arrayBuffers": 52095
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 201942.515
+  },
+  "trace": [
+    {
+      "column": 18,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapSafe",
+      "line": 1662,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 20,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1704,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\admin.routes.js",
+      "function": null,
+      "line": 14,
+      "method": null,
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-09-11 18:56:16 error: uncaughtException: Identifier 'logger' has already been declared
+C:\Users\26933\Desktop\校园墙\server\src\controllers\admin\message.controller.js:238
+const logger = require('../../../config/logger');
+      ^
+
+SyntaxError: Identifier 'logger' has already been declared
+    at wrapSafe (node:internal/modules/cjs/loader:1662:18)
+    at Module._compile (node:internal/modules/cjs/loader:1704:20)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\26933\Desktop\校园墙\server\src\routes\admin.routes.js:14:32) {
+  "error": {},
+  "stack": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\controllers\\admin\\message.controller.js:238\nconst logger = require('../../../config/logger');\n      ^\n\nSyntaxError: Identifier 'logger' has already been declared\n    at wrapSafe (node:internal/modules/cjs/loader:1662:18)\n    at Module._compile (node:internal/modules/cjs/loader:1704:20)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\admin.routes.js:14:32)",
+  "exception": true,
+  "date": "Thu Sep 11 2025 18:56:16 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 29384,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 107692032,
+      "heapTotal": 67051520,
+      "heapUsed": 36681112,
+      "external": 2441102,
+      "arrayBuffers": 52095
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 201977.625
+  },
+  "trace": [
+    {
+      "column": 18,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapSafe",
+      "line": 1662,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 20,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1704,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\routes\\admin.routes.js",
+      "function": null,
+      "line": 14,
+      "method": null,
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}
+2025-09-11 19:00:10 error: uncaughtException: Unexpected end of input
+C:\Users\26933\Desktop\校园墙\server\src\models\message.model.js:126
+    });
+       
+
+SyntaxError: Unexpected end of input
+    at wrapSafe (node:internal/modules/cjs/loader:1662:18)
+    at Module._compile (node:internal/modules/cjs/loader:1704:20)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at C:\Users\26933\Desktop\校园墙\server\src\models\index.js:43:19 {
+  "error": {},
+  "stack": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\message.model.js:126\n    });\n       \n\nSyntaxError: Unexpected end of input\n    at wrapSafe (node:internal/modules/cjs/loader:1662:18)\n    at Module._compile (node:internal/modules/cjs/loader:1704:20)\n    at Object..js (node:internal/modules/cjs/loader:1895:10)\n    at Module.load (node:internal/modules/cjs/loader:1465:32)\n    at Function._load (node:internal/modules/cjs/loader:1282:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1487:12)\n    at require (node:internal/modules/helpers:135:16)\n    at C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\index.js:43:19",
+  "exception": true,
+  "date": "Thu Sep 11 2025 19:00:10 GMT+0800 (中国标准时间)",
+  "process": {
+    "pid": 39840,
+    "uid": null,
+    "gid": null,
+    "cwd": "C:\\Users\\26933\\Desktop\\校园墙\\server",
+    "execPath": "C:\\Program Files\\nodejs\\node.exe",
+    "version": "v22.17.1",
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\server.js"
+    ],
+    "memoryUsage": {
+      "rss": 89178112,
+      "heapTotal": 58400768,
+      "heapUsed": 39158176,
+      "external": 2441388,
+      "arrayBuffers": 52381
+    }
+  },
+  "os": {
+    "loadavg": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 202211.734
+  },
+  "trace": [
+    {
+      "column": 18,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapSafe",
+      "line": 1662,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 20,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module._compile",
+      "line": 1704,
+      "method": "_compile",
+      "native": false
+    },
+    {
+      "column": 10,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Object..js",
+      "line": 1895,
+      "method": ".js",
+      "native": false
+    },
+    {
+      "column": 32,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.load",
+      "line": 1465,
+      "method": "load",
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Function._load",
+      "line": 1282,
+      "method": "_load",
+      "native": false
+    },
+    {
+      "column": 14,
+      "file": "node:diagnostics_channel",
+      "function": "TracingChannel.traceSync",
+      "line": 322,
+      "method": "traceSync",
+      "native": false
+    },
+    {
+      "column": 24,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "wrapModuleLoad",
+      "line": 235,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 12,
+      "file": "node:internal/modules/cjs/loader",
+      "function": "Module.require",
+      "line": 1487,
+      "method": "require",
+      "native": false
+    },
+    {
+      "column": 16,
+      "file": "node:internal/modules/helpers",
+      "function": "require",
+      "line": 135,
+      "method": null,
+      "native": false
+    },
+    {
+      "column": 19,
+      "file": "C:\\Users\\26933\\Desktop\\校园墙\\server\\src\\models\\index.js",
+      "function": null,
+      "line": 43,
+      "method": null,
+      "native": false
+    }
+  ],
+  "service": "campus-wall-api"
+}

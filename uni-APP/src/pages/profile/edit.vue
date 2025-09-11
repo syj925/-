@@ -16,7 +16,7 @@
       <!-- 头像编辑 -->
       <view class="edit-item edit-avatar">
         <view class="avatar-preview" @tap="chooseAvatar">
-          <image :src="formData.avatar || '/static/images/common/default-avatar.png'" mode="aspectFill" class="avatar-img"></image>
+          <image :src="getDisplayImageUrl(formData.avatar)" mode="aspectFill" class="avatar-img"></image>
           <view class="avatar-edit-icon">
             <text class="iconfont icon-camera"></text>
           </view>
@@ -131,64 +131,40 @@
       <view class="edit-section">
         <view class="section-title">个性化设置</view>
         
-        <view class="form-item">
-          <text class="form-label">主题色</text>
-          <view class="theme-colors">
-            <view 
-              v-for="(color, index) in themeColors" 
-              :key="index" 
-              class="color-option"
-              :class="{ active: formData.themeColor === color }"
-              :style="{ backgroundColor: color }"
-              @tap="formData.themeColor = color"
-            >
-              <text class="iconfont icon-check" v-if="formData.themeColor === color"></text>
-            </view>
-          </view>
-        </view>
-        
         <view class="form-item background-item">
           <text class="form-label">背景图片</text>
           <view class="bg-selection-container">
-            <scroll-view scroll-x class="bg-options-scroll">
-              <view class="bg-options">
-                <view
-                  v-for="(bg, index) in backgroundOptions"
-                  :key="index"
-                  class="bg-option"
-                  :class="{ active: formData.backgroundImage === bg }"
-                  @tap="formData.backgroundImage = bg"
-                >
-                  <view class="bg-preview">
-                    <image
-                      v-if="!bg.includes('gradient')"
-                      :src="bg"
-                      mode="aspectFill"
-                      @error="handleImageError"
-                    ></image>
-                    <view
-                      v-if="bg.includes('gradient')"
-                      class="gradient-bg"
-                      :style="{ background: bg }"
-                    ></view>
-                  </view>
-                  <view class="bg-overlay" v-if="formData.backgroundImage === bg">
-                    <view class="bg-check">
-                      <text class="iconfont icon-check"></text>
-                    </view>
-                  </view>
-                  <view class="bg-hover-effect"></view>
+            <view class="bg-options-grid">
+              <view
+                v-for="(bg, index) in backgroundOptions"
+                :key="index"
+                class="bg-option"
+                :class="{ active: isBackgroundSelected(bg) }"
+                @tap="selectBackground(bg)"
+              >
+                <view class="bg-preview">
+                  <image
+                    :src="bg"
+                    mode="aspectFill"
+                    @error="handleImageError"
+                  ></image>
                 </view>
-                <view class="bg-option upload-option" @tap="chooseBackground">
-                  <view class="upload-content">
-                    <view class="upload-icon">
-                      <text class="iconfont icon-upload"></text>
-                    </view>
-                    <text class="upload-text">上传图片</text>
+                  <view class="bg-overlay" v-if="isBackgroundSelected(bg)">
+                  <view class="bg-check">
+                    <text class="iconfont icon-check"></text>
                   </view>
+                </view>
+                <view class="bg-hover-effect"></view>
+              </view>
+              <view class="bg-option upload-option" @tap="chooseBackground">
+                <view class="upload-content">
+                  <view class="upload-icon">
+                    <text class="iconfont icon-upload"></text>
+                  </view>
+                  <text class="upload-text">传图</text>
                 </view>
               </view>
-            </scroll-view>
+            </view>
           </view>
         </view>
       </view>
@@ -224,6 +200,7 @@
 <script>
 // 导入URL工具函数
 import { UrlUtils } from '@/utils';
+import appConfig from '@/config';
 
 export default {
   data() {
@@ -236,8 +213,7 @@ export default {
         department: '',
         grade: '',
         tags: [],
-        themeColor: '#2b85e4',
-        backgroundImage: 'linear-gradient(135deg, #2b85e4 0%, #6ba7f0 100%)'
+        backgroundImage: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=200&fit=crop&q=80'
       },
       originalData: {}, // 保存初始数据，用于检测变更
       isLoading: false,
@@ -245,25 +221,15 @@ export default {
       newTag: '',
       gradeOptions: ['大一', '大二', '大三', '大四', '研一', '研二', '研三', '博士'],
       gradeIndex: 0,
-      themeColors: [
-        '#2b85e4', // 默认蓝色
-        '#19be6b', // 绿色
-        '#ff9900', // 橙色
-        '#ed3f14', // 红色
-        '#9000ff', // 紫色
-        '#ff6b00', // 桔色
-        '#00c2b3', // 青色
-        '#515a6e'  // 深灰色
-      ],
       backgroundOptions: [
-        'linear-gradient(135deg, #2b85e4 0%, #6ba7f0 100%)',
-        'linear-gradient(135deg, #19be6b 0%, #4dd865 100%)',
-        'linear-gradient(135deg, #ff9900 0%, #ffb84d 100%)',
-        'linear-gradient(135deg, #ed3f14 0%, #ff6b47 100%)',
-        'linear-gradient(135deg, #9000ff 0%, #b84dff 100%)',
-        'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=200&fit=crop',
-        'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400&h=200&fit=crop',
-        'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=200&fit=crop'
+        'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=200&fit=crop&q=80',
+        'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400&h=200&fit=crop&q=80',
+        'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=200&fit=crop&q=80',
+        'https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=400&h=200&fit=crop&q=80',
+        'https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=400&h=200&fit=crop&q=80',
+        'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=200&fit=crop&q=80',
+        'https://images.unsplash.com/photo-1517230878791-4d28214057c2?w=400&h=200&fit=crop&q=80',
+        'https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?w=400&h=200&fit=crop&q=80'
       ]
     };
   },
@@ -331,13 +297,14 @@ export default {
           console.log('解析后的用户数据:', JSON.stringify(userData));
           
           if (userData) {
-            // 确保头像URL是完整的绝对URL
-            const avatar = userData.avatar ? UrlUtils.ensureAbsoluteUrl(userData.avatar) : '/static/images/common/default-avatar.png';
-            // 确保背景图片URL是完整的绝对URL
-            const backgroundImage = userData.backgroundImage ? UrlUtils.ensureAbsoluteUrl(userData.backgroundImage) : 'linear-gradient(135deg, #2b85e4 0%, #6ba7f0 100%)';
+            // 统一使用相对路径存储，显示时由组件自动处理为绝对路径
+            const avatar = userData.avatar || '';
+            const backgroundImage = userData.backgroundImage || 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=200&fit=crop&q=80';
             
-            console.log('原始头像URL:', userData.avatar, '处理后:', avatar);
-            console.log('原始背景URL:', userData.backgroundImage, '处理后:', backgroundImage);
+            console.log('获取到的用户数据:');
+            console.log('- 头像:', userData.avatar);
+            console.log('- 背景图:', userData.backgroundImage);
+            console.log('- 昵称:', userData.nickname);
             
             this.formData = {
               avatar: avatar,
@@ -347,9 +314,28 @@ export default {
               department: userData.department || '',
               grade: userData.grade || '',
               tags: userData.tags || [],
-              themeColor: userData.themeColor || '#2b85e4',
               backgroundImage: backgroundImage
             };
+            
+            // 如果用户的背景图片不在预设选项中，添加到选项列表开头
+            if (backgroundImage && backgroundImage.includes('/uploads/')) {
+              // 为用户上传的图片生成完整的显示URL
+              const fullImageUrl = this.getDisplayImageUrl(backgroundImage, 'background');
+              
+              // 检查是否已存在（避免重复）
+              const exists = this.backgroundOptions.some(option => 
+                this.extractRelativePath(option) === this.extractRelativePath(backgroundImage)
+              );
+              
+              if (!exists) {
+                this.backgroundOptions.unshift(fullImageUrl);
+                // 保持合理的选项数量
+                if (this.backgroundOptions.length > 12) {
+                  this.backgroundOptions = this.backgroundOptions.slice(0, 12);
+                }
+                console.log('添加用户现有背景图片到选项:', fullImageUrl);
+              }
+            }
             
             // 设置年级索引
             if (userData.grade) {
@@ -417,20 +403,41 @@ export default {
       // 调试打印完整表单数据
       console.log('准备提交的用户数据:', JSON.stringify(this.formData, null, 2));
       
-      // 创建一个符合服务器验证规则的数据对象
-      const cleanData = {
-        nickname: this.formData.nickname,
-        avatar: this.formData.avatar,
-        bio: this.formData.bio || '这个人很懒，还没有填写个人简介', // 默认个人简介
-        school: this.formData.school || '未填写学校', // 默认学校
-        department: this.formData.department || '未填写院系', // 默认院系
-        gender: this.formData.gender || 'other',  // 确保gender为合法值，默认为other
-        // 可选字段，如果API支持则添加
-        grade: this.formData.grade,
-        backgroundImage: this.formData.backgroundImage,
-        tags: this.formData.tags,
-        themeColor: this.formData.themeColor
-      };
+      // 创建只包含有实际值的更新数据对象，避免覆盖现有数据
+      const cleanData = {};
+      
+      // 只包含有值且不为空的字段
+      if (this.formData.nickname && this.formData.nickname.trim()) {
+        cleanData.nickname = this.formData.nickname.trim();
+      }
+      
+      if (this.formData.avatar) {
+        cleanData.avatar = this.extractRelativePath(this.formData.avatar);
+      }
+      
+      if (this.formData.bio !== undefined) {
+        cleanData.bio = this.formData.bio || ''; // 允许清空个人简介
+      }
+      
+      if (this.formData.school !== undefined) {
+        cleanData.school = this.formData.school || ''; // 允许清空学校
+      }
+      
+      if (this.formData.department !== undefined) {
+        cleanData.department = this.formData.department || ''; // 允许清空院系
+      }
+      
+      if (this.formData.grade) {
+        cleanData.grade = this.formData.grade;
+      }
+      
+      if (this.formData.backgroundImage) {
+        cleanData.backgroundImage = this.extractRelativePath(this.formData.backgroundImage);
+      }
+      
+      if (this.formData.tags && Array.isArray(this.formData.tags)) {
+        cleanData.tags = this.formData.tags;
+      }
       
       console.log('过滤后的提交数据:', JSON.stringify(cleanData, null, 2));
       
@@ -495,8 +502,8 @@ export default {
             title: '头像上传中...'
           });
           
-          // 获取服务器地址
-          const baseURL = this.$api.http.config.baseURL || 'http://localhost:3000';
+          // 获取服务器地址 - 使用配置中的最佳服务器
+          const baseURL = this.$api.http.config.baseURL || appConfig.getBestServer();
 
           // 上传头像图片
           uni.uploadFile({
@@ -526,8 +533,10 @@ export default {
                   }
                   
                   if (imgUrl) {
-                    // 设置头像地址
-                    this.formData.avatar = UrlUtils.ensureAbsoluteUrl(imgUrl);
+                    // 统一保存相对路径，由工具函数处理显示
+                    const relativePath = this.extractRelativePath(imgUrl);
+                    this.formData.avatar = relativePath;
+                    console.log('头像上传成功 - 服务器返回:', imgUrl, '保存为:', relativePath);
                     uni.showToast({
                       title: '头像上传成功',
                       icon: 'success'
@@ -610,8 +619,8 @@ export default {
         mask: true
       });
 
-      // 获取服务器地址
-      const baseURL = this.$api.http.config.baseURL || 'http://localhost:3000';
+      // 获取服务器地址 - 使用配置中的最佳服务器
+      const baseURL = this.$api.http.config.baseURL || appConfig.getBestServer();
 
       // 上传背景图片
       const uploadTask = uni.uploadFile({
@@ -642,8 +651,32 @@ export default {
               }
 
               if (imgUrl) {
-                // 设置背景图片地址
-                this.formData.backgroundImage = UrlUtils.ensureAbsoluteUrl(imgUrl);
+                // 统一保存相对路径
+                const relativePath = this.extractRelativePath(imgUrl);
+                
+                // 获取完整URL用于显示和选项管理
+                const fullImgUrl = this.$api.http.config.baseURL ? 
+                  this.$api.http.config.baseURL + relativePath : 
+                  appConfig.getBestServer() + relativePath;
+                
+                // 将新上传的图片添加到背景选项的开头
+                const existingIndex = this.backgroundOptions.findIndex(bg => 
+                  bg === fullImgUrl || bg === relativePath
+                );
+                if (existingIndex > -1) {
+                  this.backgroundOptions.splice(existingIndex, 1);
+                }
+                this.backgroundOptions.unshift(fullImgUrl);
+                
+                // 保持合理的选项数量（最多12个）
+                if (this.backgroundOptions.length > 12) {
+                  this.backgroundOptions = this.backgroundOptions.slice(0, 12);
+                }
+                
+                // 统一保存相对路径到表单数据
+                this.formData.backgroundImage = relativePath;
+                console.log('背景图上传成功 - 服务器返回:', imgUrl, '保存为:', relativePath, '显示为:', fullImgUrl);
+                
                 uni.showToast({
                   title: '背景图上传成功',
                   icon: 'success'
@@ -672,7 +705,8 @@ export default {
       // 监听上传进度
       uploadTask.onProgressUpdate((res) => {
         console.log('上传进度:', res.progress + '%');
-        if (res.progress > 0) {
+        // 只在进度小于100%时显示加载，避免与complete回调时序冲突
+        if (res.progress > 0 && res.progress < 100) {
           uni.showLoading({
             title: `上传中 ${res.progress}%`,
             mask: true
@@ -774,6 +808,65 @@ export default {
     // 处理图片加载错误
     handleImageError(e) {
       console.warn('背景图片加载失败:', e);
+    },
+    
+    // 从完整URL中提取相对路径
+    extractRelativePath(url) {
+      if (!url) return url;
+      
+      // 如果已经是相对路径，直接返回
+      if (!url.startsWith('http')) {
+        return url;
+      }
+      
+      // 提取路径部分（去掉协议和域名）
+      try {
+        const urlObj = new URL(url);
+        return urlObj.pathname;
+      } catch (error) {
+        console.warn('解析URL失败，返回原值:', error);
+        return url;
+      }
+    },
+    
+    // 获取用于显示的图片URL
+    getDisplayImageUrl(imageUrl, type = 'avatar') {
+      if (!imageUrl) {
+        return type === 'avatar' ? 
+          '/static/images/common/default-avatar.png' : 
+          'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=200&fit=crop&q=80';
+      }
+      
+      // 如果是相对路径，转为绝对路径
+      if (!imageUrl.startsWith('http')) {
+        const baseURL = this.$api.http.config.baseURL || appConfig.getBestServer();
+        return baseURL + imageUrl;
+      }
+      
+      return imageUrl;
+    },
+    
+    // 判断背景图是否被选中
+    isBackgroundSelected(bg) {
+      if (!this.formData.backgroundImage || !bg) {
+        return false;
+      }
+      
+      // 比较相对路径和绝对路径
+      const currentBgRelative = this.extractRelativePath(this.formData.backgroundImage);
+      const optionBgRelative = this.extractRelativePath(bg);
+      
+      return currentBgRelative === optionBgRelative || 
+             this.formData.backgroundImage === bg ||
+             this.getDisplayImageUrl(this.formData.backgroundImage, 'background') === bg;
+    },
+    
+    // 选择背景图
+    selectBackground(bg) {
+      // 统一保存为相对路径
+      const relativePath = this.extractRelativePath(bg);
+      this.formData.backgroundImage = relativePath;
+      console.log('选择背景图:', bg, '保存为:', relativePath);
     },
     
     // 页面导航
@@ -1070,52 +1163,6 @@ export default {
   }
 }
 
-.theme-colors {
-  @include flex(row, flex-start, center);
-  flex-wrap: wrap;
-  margin-top: 16rpx;
-  
-  .color-option {
-    width: 80rpx;
-    height: 80rpx;
-    border-radius: 20rpx;
-    margin-right: 20rpx;
-    margin-bottom: 20rpx;
-    @include center;
-    box-shadow: 0 4rpx 8rpx rgba(0,0,0,0.1);
-    border: 3rpx solid transparent;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-    
-    &::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
-    }
-    
-    &.active {
-      border-color: #fff;
-      box-shadow: 0 0 0 4rpx rgba($primary-color, 0.4);
-      transform: scale(1.05);
-    }
-    
-    .iconfont {
-      color: #fff;
-      font-size: 32rpx;
-      text-shadow: 0 1rpx 3rpx rgba(0,0,0,0.2);
-      z-index: 2;
-    }
-    
-    &:active {
-      transform: scale(0.95);
-    }
-  }
-}
 
 .background-item {
   .bg-selection-container {
@@ -1129,22 +1176,17 @@ export default {
     box-shadow: 0 8rpx 32rpx rgba(0, 0, 0, 0.08);
   }
 
-  .bg-options-scroll {
-    width: 100%;
-    height: 240rpx;
-  }
-
-  .bg-options {
-    @include flex(row, flex-start, center);
+  .bg-options-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20rpx;
     padding: 10rpx 0;
-    height: 220rpx;
   }
 
   .bg-option {
-    width: 160rpx;
-    height: 200rpx;
+    width: 100%;
+    height: 160rpx;
     border-radius: 20rpx;
-    margin-right: 24rpx;
     overflow: hidden;
     position: relative;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -1176,11 +1218,6 @@ export default {
         object-fit: cover;
       }
 
-      .gradient-bg {
-        width: 100%;
-        height: 100%;
-        border-radius: 18rpx;
-      }
     }
 
     .bg-overlay {
@@ -1254,21 +1291,21 @@ export default {
         @include flex(column, center, center);
 
         .upload-icon {
-          width: 80rpx;
-          height: 80rpx;
+          width: 60rpx;
+          height: 60rpx;
           background: linear-gradient(135deg, rgba(148, 163, 184, 0.1) 0%, rgba(148, 163, 184, 0.05) 100%);
           border-radius: 50%;
           @include center;
-          margin-bottom: 16rpx;
+          margin-bottom: 12rpx;
 
           .iconfont {
-            font-size: 40rpx;
+            font-size: 32rpx;
             color: #64748b;
           }
         }
 
         .upload-text {
-          font-size: 24rpx;
+          font-size: 22rpx;
           color: #64748b;
           font-weight: 500;
         }
@@ -1468,6 +1505,43 @@ export default {
     }
   }
 }
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* 添加上传按钮样式 */
+.upload-btn {
+  background: linear-gradient(to right, $primary-color, lighten($primary-color, 10%));
+  color: white;
+  font-size: 28rpx;
+  padding: 12rpx 48rpx;
+  border-radius: 50rpx;
+  margin-top: 20rpx;
+  border: none;
+  outline: none;
+  box-shadow: 0 4rpx 16rpx rgba($primary-color, 0.3);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.2), transparent);
+  }
+  
+  &:active {
+    transform: scale(0.95);
+    box-shadow: 0 2rpx 8rpx rgba($primary-color, 0.2);
+  }
+}
+</style> 
 
 @keyframes spin {
   0% { transform: rotate(0deg); }

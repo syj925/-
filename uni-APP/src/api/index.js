@@ -8,6 +8,7 @@ import userApi from './modules/user';
 import postApi from './modules/post';
 import commentApi from './modules/comment';
 import messageApi from './modules/message';
+import privateMessageApi from './modules/private-message';
 import followApi from './modules/follow';
 import likeApi from './modules/like';
 import favoriteApi from './modules/favorite';
@@ -24,6 +25,7 @@ const userApiInstance = userApi(http);
 const postApiInstance = postApi(http);
 const commentApiInstance = commentApi(http);
 const messageApiInstance = messageApi(http);
+const privateMessageApiInstance = privateMessageApi(http);
 const followApiInstance = followApi(http);
 const likeApiInstance = likeApi(http);
 const favoriteApiInstance = favoriteApi(http);
@@ -44,6 +46,7 @@ export {
   postApiInstance as postApi,
   commentApiInstance as commentApi,
   messageApiInstance as messageApi,
+  privateMessageApiInstance as privateMessageApi,
   followApiInstance as followApi,
   likeApiInstance as likeApi,
   favoriteApiInstance as favoriteApi,
@@ -65,6 +68,7 @@ export default {
   post: postApiInstance,
   comment: commentApiInstance,
   message: messageApiInstance,
+  privateMessage: privateMessageApiInstance,
   follow: followApiInstance,
   like: likeApiInstance,
   favorite: favoriteApiInstance,

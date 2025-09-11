@@ -114,13 +114,13 @@ class FollowService {
     }
 
     // 发送消息通知
-    messageService.createMessage({
+    await messageService.createMessage({
       sender_id: followerId,
       receiver_id: followingId,
       title: '新粉丝通知',
-      content: `${follower.username} 关注了你`,
+      content: `${follower.nickname || follower.username} 关注了你`,
       type: 'follow'
-    }).catch(err => console.error('发送消息失败', err));
+    }).catch(err => console.error('发送关注通知失败', err));
     
     return {
       success: true,

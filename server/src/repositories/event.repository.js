@@ -1,6 +1,12 @@
 const { Event, EventRegistration, User } = require('../models');
 const { Op } = require('sequelize');
 
+// 检查是否为UUID格式
+const isUUID = (str) => {
+  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+  return uuidRegex.test(str);
+};
+
 /**
  * 活动数据访问层
  */
@@ -26,12 +32,31 @@ class EventRepository {
         {
           model: User,
           as: 'organizer',
-          attributes: ['id', 'username', 'nickname', 'avatar']
+          attributes: ['id', 'username', 'nickname', 'avatar'],
+          required: false // 使用LEFT JOIN，允许没有匹配的用户记录
         }
       ]
     };
 
-    return await Event.findByPk(id, { ...defaultOptions, ...options });
+    const event = await Event.findByPk(id, { ...defaultOptions, ...options });
+    
+    if (event) {
+      const eventData = event.toJSON();
+      // 处理组织者信息：支持UUID和自定义文本两种格式
+      if (!eventData.organizer && eventData.organizer_id && !isUUID(eventData.organizer_id)) {
+        eventData.organizer = {
+          id: eventData.organizer_id,
+          username: eventData.organizer_id,
+          nickname: eventData.organizer_id,
+          avatar: null,
+          is_custom: true
+        };
+        // 将处理后的数据设置回原对象
+        Object.assign(event.dataValues, eventData);
+      }
+    }
+    
+    return event;
   }
 
   /**
@@ -57,6 +82,17 @@ class EventRepository {
 
     const eventData = event.toJSON();
     eventData.status = statusMap[eventData.status] || 'upcoming';
+
+    // 处理组织者信息：支持UUID和自定义文本两种格式
+    if (!eventData.organizer && eventData.organizer_id && !isUUID(eventData.organizer_id)) {
+      eventData.organizer = {
+        id: eventData.organizer_id,
+        username: eventData.organizer_id,
+        nickname: eventData.organizer_id,
+        avatar: null,
+        is_custom: true
+      };
+    }
 
     return eventData;
   }
@@ -144,10 +180,11 @@ class EventRepository {
         {
           model: User,
           as: 'organizer',
-          attributes: ['id', 'username', 'nickname', 'avatar']
+          attributes: ['id', 'username', 'nickname', 'avatar'],
+          required: false // 使用LEFT JOIN，允许没有匹配的用户记录
         }
       ],
-      order: [['start_time', 'ASC']],
+      order: [['created_at', 'DESC']],
       limit: parseInt(limit),
       offset: parseInt(offset)
     });
@@ -163,6 +200,23 @@ class EventRepository {
     const eventsWithConvertedStatus = rows.map(event => {
       const eventData = event.toJSON();
       eventData.status = statusMap[eventData.status] || 'upcoming';
+      
+      // 处理组织者信息：支持UUID和自定义文本两种格式
+      if (!eventData.organizer && eventData.organizer_id) {
+        // 如果没有关联到用户表的组织者信息，检查organizer_id格式
+        if (!isUUID(eventData.organizer_id)) {
+          // 如果不是UUID格式，说明是自定义组织者名称
+          eventData.organizer = {
+            id: eventData.organizer_id,
+            username: eventData.organizer_id,
+            nickname: eventData.organizer_id,
+            avatar: null,
+            is_custom: true // 标记为自定义组织者
+          };
+        }
+      }
+      
+      
       return eventData;
     });
 
@@ -184,16 +238,17 @@ class EventRepository {
     const events = await Event.findAll({
       where: {
         is_recommended: true,
-        status: 1 // 只显示报名中的活动
+        status: [1, 2] // 显示报名中和进行中的活动
       },
       include: [
         {
           model: User,
           as: 'organizer',
-          attributes: ['id', 'username', 'nickname', 'avatar']
+          attributes: ['id', 'username', 'nickname', 'avatar'],
+          required: false // 使用LEFT JOIN，允许没有匹配的用户记录
         }
       ],
-      order: [['start_time', 'ASC']],
+      order: [['created_at', 'DESC']],
       limit: parseInt(limit)
     });
 
@@ -208,6 +263,18 @@ class EventRepository {
     return events.map(event => {
       const eventData = event.toJSON();
       eventData.status = statusMap[eventData.status] || 'upcoming';
+      
+      // 处理组织者信息：支持UUID和自定义文本两种格式
+      if (!eventData.organizer && eventData.organizer_id && !isUUID(eventData.organizer_id)) {
+        eventData.organizer = {
+          id: eventData.organizer_id,
+          username: eventData.organizer_id,
+          nickname: eventData.organizer_id,
+          avatar: null,
+          is_custom: true
+        };
+      }
+      
       return eventData;
     });
   }
@@ -222,13 +289,14 @@ class EventRepository {
     const events = await Event.findAll({
       where: {
         start_time: { [Op.gt]: now },
-        status: 1 // 只显示报名中的活动
+        status: [1, 2] // 显示报名中和进行中的活动
       },
       include: [
         {
           model: User,
           as: 'organizer',
-          attributes: ['id', 'username', 'nickname', 'avatar']
+          attributes: ['id', 'username', 'nickname', 'avatar'],
+          required: false // 使用LEFT JOIN，允许没有匹配的用户记录
         }
       ],
       order: [['start_time', 'ASC']],
@@ -246,6 +314,18 @@ class EventRepository {
     return events.map(event => {
       const eventData = event.toJSON();
       eventData.status = statusMap[eventData.status] || 'upcoming';
+      
+      // 处理组织者信息：支持UUID和自定义文本两种格式
+      if (!eventData.organizer && eventData.organizer_id && !isUUID(eventData.organizer_id)) {
+        eventData.organizer = {
+          id: eventData.organizer_id,
+          username: eventData.organizer_id,
+          nickname: eventData.organizer_id,
+          avatar: null,
+          is_custom: true
+        };
+      }
+      
       return eventData;
     });
   }

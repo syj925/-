@@ -88,7 +88,7 @@
           </view>
         </view>
         
-        <view class="events-container">
+        <view class="events-container" v-if="events.length > 0">
           <view 
             class="event-item" 
             v-for="(event, index) in events" 
@@ -117,6 +117,12 @@
               </view>
             </view>
           </view>
+        </view>
+        
+        <!-- 无活动时的占位符 -->
+        <view class="empty-events" v-else>
+          <text class="empty-text">暂无推荐活动</text>
+          <text class="empty-hint">活动需要在后台设置为推荐才会显示</text>
         </view>
       </view>
 
@@ -185,6 +191,7 @@
 
 <script>
 import { topicApi, eventApi } from '@/api'
+import { UrlUtils } from '@/utils'
 import AppIcon from '@/components/common/AppIcon.vue'
 import Banner from '@/components/common/Banner.vue'
 
@@ -216,6 +223,7 @@ export default {
   },
 
   onLoad() {
+    console.log('🚀 [发现页] 页面加载，开始初始化数据')
     this.loadData()
   },
 
@@ -275,12 +283,49 @@ export default {
 
     async loadEvents() {
       try {
+        console.log('🔍 [发现页] 开始获取推荐活动...')
         const response = await eventApi.getRecommended(4)
+        console.log('📊 [发现页] 推荐活动API响应:', response)
+        
         if (response.code === 0) {
-          this.events = response.data || []
+          console.log('✅ [发现页] API调用成功，原始数据:', response.data)
+          console.log('🔢 [发现页] 活动数量:', response.data?.length || 0)
+          
+          // 处理活动数据，确保图片路径正确
+          const processedEvents = (response.data || []).map(event => {
+            const processedEvent = {
+              ...event,
+              // 处理封面图片路径
+              image: this.getImageUrl(event.cover_image || '/static/images/events/default.jpg'),
+              // 处理参与人数
+              participant_count: event.current_participants || 0,
+              // 截取描述文本
+              description: event.description ? event.description.substring(0, 50) + '...' : '暂无描述'
+            }
+            console.log(`📝 [发现页] 处理活动 ${event.id}:`, {
+              title: event.title,
+              cover_image: event.cover_image,
+              processed_image: processedEvent.image,
+              participant_count: processedEvent.participant_count,
+              organizer: event.organizer
+            })
+            return processedEvent
+          })
+          
+          this.events = processedEvents
+          console.log('🎯 [发现页] 最终设置的活动数组:', this.events)
+        } else {
+          console.error('❌ [发现页] API调用失败:', response.msg || response.message)
+          this.events = []
         }
       } catch (error) {
-        console.error('加载校园活动失败:', error)
+        console.error('💥 [发现页] 加载校园活动异常:', error)
+        console.error('💥 [发现页] 异常详情:', {
+          message: error.message,
+          stack: error.stack,
+          response: error.response
+        })
+        this.events = []
       }
     },
 
@@ -366,6 +411,11 @@ export default {
       const date = new Date(dateStr)
       const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
       return months[date.getMonth()]
+    },
+
+    // 获取图片完整URL
+    getImageUrl(imageUrl) {
+      return UrlUtils.ensureImageUrl(imageUrl, 'event')
     },
 
     // 下拉刷新数据
@@ -728,6 +778,32 @@ export default {
   }
 }
 
+// 无活动时的占位符样式
+.empty-events {
+  text-align: center;
+  padding: 60rpx 40rpx;
+  background: #ffffff;
+  border-radius: 20rpx;
+  margin-top: 16rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.08);
+  border: 1rpx solid #f0f0f0;
+
+  .empty-text {
+    display: block;
+    font-size: 32rpx;
+    color: #666;
+    font-weight: 500;
+    margin-bottom: 12rpx;
+  }
+
+  .empty-hint {
+    display: block;
+    font-size: 26rpx;
+    color: #999;
+    line-height: 1.4;
+  }
+}
+
 // 推荐内容样式
 .recommendations-container {
   display: flex;
@@ -794,6 +870,82 @@ export default {
       }
 
       .content-images {
+        display: flex;
+        gap: 12rpx;
+        flex-wrap: wrap;
+
+        .content-image {
+          width: 200rpx;
+          height: 200rpx;
+          border-radius: 16rpx;
+          flex-shrink: 0;
+        }
+      }
+    }
+
+    .rec-actions {
+      display: flex;
+      justify-content: space-around;
+      padding-top: 24rpx;
+      border-top: 1rpx solid #f0f0f0;
+
+      .action-item {
+        display: flex;
+        align-items: center;
+        gap: 12rpx;
+        padding: 16rpx 24rpx;
+        border-radius: 20rpx;
+        background: #f8f9fa;
+        transition: all 0.3s ease;
+
+        &:active {
+          background: #e9ecef;
+        }
+
+        .action-count {
+          font-size: 24rpx;
+          color: #666;
+          font-weight: 500;
+        }
+      }
+    }
+  }
+}
+
+// 底部间距
+.bottom-space {
+  height: 120rpx;
+}
+
+// 动画定义
+@keyframes hotPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
+}
+
+// 响应式适配
+@media screen and (max-width: 750rpx) {
+  .topics-container {
+    grid-template-columns: 1fr;
+  }
+
+  .event-item {
+    flex-direction: column;
+
+    .event-image {
+      width: 100%;
+      height: 200rpx;
+    }
+  }
+}
+</style>
+
         display: flex;
         gap: 12rpx;
         flex-wrap: wrap;

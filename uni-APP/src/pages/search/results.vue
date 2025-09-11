@@ -247,6 +247,7 @@
 import api from '@/api'
 import PostCard from '@/components/post/PostCard.vue'
 import SearchUserCard from '@/components/user/SearchUserCard.vue'
+import { UrlUtils } from '@/utils'
 
 export default {
   name: 'SearchResultsPage',
@@ -558,8 +559,8 @@ export default {
     // 工具方法
     getImageUrl(imagePath) {
       if (!imagePath) return '/static/images/default-avatar.png'
-      if (imagePath.startsWith('http')) return imagePath
-      return `http://localhost:3000${imagePath}`
+      // 使用URL工具函数，避免硬编码服务器地址
+      return UrlUtils.ensureAbsoluteUrl(imagePath)
     },
 
     getFirstImage(images) {
@@ -1297,3 +1298,4 @@ export default {
   }
 }
 </style>
+

@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       },
       type: {
-        type: DataTypes.ENUM('comment', 'like', 'system', 'follow', 'mention', 'reply'),
+        type: DataTypes.ENUM('comment', 'like', 'favorite', 'system', 'follow', 'mention', 'reply', 'private'),
         allowNull: false
       },
       title: {
@@ -58,6 +58,11 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false
+      },
+      sub_type: {
+        type: DataTypes.STRING(50),
+        allowNull: true,
+        comment: '系统消息子类型：announcement, event, reminder, warning等'
       }
     },
     {
@@ -119,7 +124,3 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'comment_id',
       as: 'comment'
     });
-  };
-
-  return Message;
-}; 

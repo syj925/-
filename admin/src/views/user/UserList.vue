@@ -61,6 +61,20 @@
             </el-tag>
           </template>
         </el-table-column>
+        <el-table-column label="私信权限" width="120" align="center">
+          <template #default="scope">
+            <el-switch
+              v-model="scope.row.allowMessage"
+              :loading="scope.row.messageSettingLoading"
+              @change="handleToggleMessagePermission(scope.row)"
+              active-text="允许"
+              inactive-text="禁止"
+              active-color="#13ce66"
+              inactive-color="#ff4949"
+              size="small"
+            />
+          </template>
+        </el-table-column>
         <el-table-column label="徽章" width="180">
           <template #default="scope">
             <div class="badge-tags">
@@ -540,6 +554,11 @@ const fetchUsers = async () => {
         if (!user.badges) {
           user.badges = [];
         }
+        // 初始化私信权限字段
+        const allowMessage = user.settings?.privacy?.allowMessage;
+        user.allowMessage = allowMessage !== undefined ? allowMessage : true;
+        // 初始化加载状态
+        user.messageSettingLoading = false;
       });
     } else {
       ElMessage.error(response.message || '获取用户列表失败');
@@ -713,6 +732,49 @@ const handleDetail = async (row) => {
   } catch (error) {
     console.error('获取用户详情错误:', error);
     ElMessage.error(error.message || '获取用户详情失败，请稍后再试');
+  }
+};
+
+// 处理私信权限切换
+const handleToggleMessagePermission = async (user) => {
+  try {
+    // 设置加载状态
+    user.messageSettingLoading = true;
+    
+    // 准备更新数据
+    const settings = {
+      privacy: {
+        ...(user.settings?.privacy || {}),
+        allowMessage: user.allowMessage
+      }
+    };
+    
+    // 调用API更新用户设置
+    const response = await api.users.update(user.id, { settings });
+    
+    if (response.success) {
+      ElMessage.success(`已${user.allowMessage ? '允许' : '禁止'}用户接收私信`);
+      // 更新本地数据
+      if (!user.settings) {
+        user.settings = {};
+      }
+      if (!user.settings.privacy) {
+        user.settings.privacy = {};
+      }
+      user.settings.privacy.allowMessage = user.allowMessage;
+    } else {
+      // 失败时恢复开关状态
+      user.allowMessage = !user.allowMessage;
+      ElMessage.error(response.message || '更新私信权限失败');
+    }
+  } catch (error) {
+    console.error('更新私信权限错误:', error);
+    // 失败时恢复开关状态
+    user.allowMessage = !user.allowMessage;
+    ElMessage.error('更新私信权限失败，请稍后再试');
+  } finally {
+    // 清除加载状态
+    user.messageSettingLoading = false;
   }
 };
 
@@ -1297,6 +1359,68 @@ const submitCreateBadge = async () => {
 /* 删除图标样式 */
 .delete-icon {
   margin-left: 5px;
+  font-size: 12px;
+  opacity: 0.5;
+}
+
+.clickable:hover .delete-icon {
+  opacity: 1;
+  color: #fff;
+}
+
+.badge-item.clickable {
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+}
+
+.badge-item.clickable:hover {
+  opacity: 0.8;
+  transform: scale(1.05);
+}
+
+/* 头像相关样式 */
+.avatar-container {
+  display: flex;
+  align-items: center;
+}
+
+.avatar-placeholder {
+  width: 100px;
+  height: 100px;
+  border: 2px dashed #dcdfe6;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f5f7fa;
+  color: #909399;
+  font-size: 14px;
+}
+
+/* 统计数据样式 */
+.stats-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.stat-tag {
+  margin: 0;
+}
+
+/* 表格自适应优化 */
+:deep(.el-table) {
+  table-layout: auto;
+}
+
+:deep(.el-table .el-table__cell) {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+</style> 
   font-size: 12px;
   opacity: 0.5;
 }

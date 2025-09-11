@@ -57,7 +57,7 @@
         <!-- 组织者信息 -->
         <view class="organizer-info" @tap="viewOrganizerProfile">
           <image
-            :src="getImageUrl(getOrganizerAvatar)"
+            :src="getImageUrl(event.organizer?.avatar || '/static/images/common/avatar.png')"
             mode="aspectFill"
             class="organizer-avatar"
           ></image>
@@ -65,7 +65,7 @@
             <text class="organizer-name">{{ getOrganizerName }}</text>
             <text class="organizer-label">活动组织者</text>
           </view>
-          <app-icon name="arrow-right" size="16" color="#ccc" v-if="event.organizer?.id"></app-icon>
+          <app-icon name="arrow-right" size="16" color="#ccc" v-if="event.organizer?.id && !event.organizer?.is_custom"></app-icon>
         </view>
       </view>
 
@@ -369,20 +369,17 @@ export default {
     },
 
     getOrganizerName() {
-      if (this.event?.organizer?.nickname) {
-        return this.event.organizer.nickname
+      if (this.event?.organizer) {
+        // 优先使用nickname，然后username，最后用id
+        const name = this.event.organizer.nickname || this.event.organizer.username || this.event.organizer.id;
+        // 如果是自定义组织者，不添加特殊标识（保持简洁）
+        return name;
       }
-      if (this.event?.organizer?.username) {
-        return this.event.organizer.username
+      // 兼容旧数据：如果没有organizer对象但有organizer_id，直接显示
+      if (this.event?.organizer_id) {
+        return this.event.organizer_id;
       }
       return '未知组织者'
-    },
-
-    getOrganizerAvatar() {
-      if (this.event?.organizer?.avatar) {
-        return this.event.organizer.avatar
-      }
-      return '/static/images/default-avatar.png'
     }
   },
   onLoad(options) {
@@ -550,9 +547,19 @@ export default {
 
     viewOrganizerProfile() {
       if (this.event?.organizer?.id) {
+        // 检查是否为自定义组织者
+        if (this.event.organizer.is_custom) {
+          uni.showToast({
+            title: '这是自定义组织者',
+            icon: 'none'
+          });
+          return;
+        }
+        
+        // 只有真实用户才能跳转到用户资料页
         uni.navigateTo({
           url: `/pages/user/user-profile?id=${this.event.organizer.id}`
-        })
+        });
       }
     },
 
@@ -1688,6 +1695,13 @@ export default {
 
         &:active {
           background: linear-gradient(135deg, darken($primary-color, 10%) 0%, darken(#5a67d8, 10%) 100%);
+          transform: scale(0.98);
+        }
+      }
+    }
+  }
+}
+</style>
           transform: scale(0.98);
         }
       }

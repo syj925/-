@@ -68,15 +68,16 @@ class EventService {
    * @returns {Promise<Object>} 活动详情
    */
   async getEventById(id, currentUserId = null) {
-    const event = await eventRepository.findByIdWithStatusConversion(id);
+    try {
+      const event = await eventRepository.findByIdWithStatusConversion(id);
 
-    if (!event) {
-      throw ErrorMiddleware.createError(
-        '活动不存在',
-        StatusCodes.NOT_FOUND,
-        errorCodes.EVENT_NOT_FOUND
-      );
-    }
+      if (!event) {
+        throw ErrorMiddleware.createError(
+          '活动不存在',
+          StatusCodes.NOT_FOUND,
+          errorCodes.EVENT_NOT_FOUND
+        );
+      }
 
     // 异步增加浏览次数，不等待结果
     eventRepository.incrementViewCount(id).catch(err => {
@@ -118,10 +119,29 @@ class EventService {
       }
     }
 
-    return {
-      ...event,
-      registration_status: registrationStatus
-    };
+        return {
+        ...event,
+        registration_status: registrationStatus
+      };
+    } catch (error) {
+      logger.error('获取活动详情失败 - 详细错误:', { 
+        eventId: id, 
+        error: error.message,
+        stack: error.stack 
+      });
+      
+      // 如果是JSON解析错误，提供更友好的错误信息
+      if (error.message.includes('JSON') || error.message.includes('Unexpected token')) {
+        throw ErrorMiddleware.createError(
+          '活动数据格式错误，请联系管理员',
+          StatusCodes.INTERNAL_SERVER_ERROR,
+          errorCodes.DATA_FORMAT_ERROR || 'DATA_FORMAT_ERROR'
+        );
+      }
+      
+      // 重新抛出其他类型的错误
+      throw error;
+    }
   }
 
   /**
@@ -229,7 +249,27 @@ class EventService {
    * @returns {Promise<Object>} 活动列表和分页信息
    */
   async getEvents(options = {}) {
-    return await eventRepository.findAll(options);
+    try {
+      return await eventRepository.findAll(options);
+    } catch (error) {
+      logger.error('获取活动列表失败 - 详细错误:', { 
+        options, 
+        error: error.message,
+        stack: error.stack 
+      });
+      
+      // 如果是JSON解析错误，提供更友好的错误信息
+      if (error.message.includes('JSON') || error.message.includes('Unexpected token')) {
+        throw ErrorMiddleware.createError(
+          '活动数据格式错误，请联系管理员',
+          StatusCodes.INTERNAL_SERVER_ERROR,
+          errorCodes.DATA_FORMAT_ERROR || 'DATA_FORMAT_ERROR'
+        );
+      }
+      
+      // 重新抛出其他类型的错误
+      throw error;
+    }
   }
 
   /**
@@ -238,7 +278,17 @@ class EventService {
    * @returns {Promise<Array>} 推荐活动列表
    */
   async getRecommendedEvents(limit = 10) {
-    return await eventRepository.findRecommended(limit);
+    try {
+      return await eventRepository.findRecommended(limit);
+    } catch (error) {
+      logger.error('获取推荐活动失败:', { limit, error: error.message });
+      if (error.message.includes('JSON') || error.message.includes('Unexpected token')) {
+        // 如果是数据格式问题，返回空数组而不是抛出错误（推荐活动不是关键功能）
+        logger.error('推荐活动数据格式错误，返回空数组');
+        return [];
+      }
+      throw error;
+    }
   }
 
   /**
@@ -247,7 +297,16 @@ class EventService {
    * @returns {Promise<Array>} 活动列表
    */
   async getUpcomingEvents(limit = 10) {
-    return await eventRepository.findUpcoming(limit);
+    try {
+      return await eventRepository.findUpcoming(limit);
+    } catch (error) {
+      logger.error('获取即将开始活动失败:', { limit, error: error.message });
+      if (error.message.includes('JSON') || error.message.includes('Unexpected token')) {
+        logger.error('即将开始活动数据格式错误，返回空数组');
+        return [];
+      }
+      throw error;
+    }
   }
 
   /**

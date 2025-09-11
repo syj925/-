@@ -31,7 +31,7 @@ async function startServer() {
     const server = app.listen(config.port, '0.0.0.0', () => {
       logger.info(`服务器运行在端口 ${config.port} (${config.env})`);
       logger.info(`本地访问: http://localhost:${config.port}/health`);
-      logger.info(`网络访问: http://10.1.5.148:${config.port}/health`);
+      logger.info(`网络访问: http://10.1.1.235:${config.port}/health`);
     });
 
     // 初始化WebSocket服务

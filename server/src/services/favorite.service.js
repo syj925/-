@@ -94,14 +94,14 @@ class FavoriteService {
     
     // 发送消息通知
     if (post.user_id !== userId) {
-      messageService.createMessage({
+      await messageService.createMessage({
         sender_id: userId,
         receiver_id: post.user_id,
         title: '收藏通知',
-        content: `${user.username} 收藏了你的帖子`,
-        type: 'system',
+        content: `${user.nickname || user.username} 收藏了你的帖子`,
+        type: 'favorite',
         post_id: postId
-      }).catch(err => console.error('发送消息失败', err));
+      }).catch(err => console.error('发送收藏通知失败', err));
     }
     
     // 更新状态缓存

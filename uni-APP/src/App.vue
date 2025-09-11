@@ -2,6 +2,7 @@
 import appConfig from './config';
 import configUpdateManager from '@/utils/configUpdateManager';
 import { useFollowStore } from './stores/followStore';
+import { useMessageStore } from '@/store';
 
 export default {
   globalData: {
@@ -71,6 +72,9 @@ export default {
       // 初始化关注状态管理
       this.initFollowStore();
 
+      // 初始化消息状态管理
+      this.initMessageStore();
+
       // 检查配置文件更新
       this.checkConfigUpdates();
     },
@@ -115,6 +119,33 @@ export default {
         }
       } catch (error) {
         console.error('初始化关注状态失败:', error);
+      }
+    },
+
+    // 初始化消息状态管理
+    async initMessageStore() {
+      try {
+        // 检查用户是否已登录
+        const token = uni.getStorageSync('token');
+        if (!token) {
+          console.log('用户未登录，跳过消息状态初始化');
+          return;
+        }
+        
+        console.log('🚀 开始初始化消息状态...');
+        const messageStore = useMessageStore();
+        
+        // 获取未读消息数量
+        await messageStore.fetchUnreadCount();
+        
+        // 初始化WebSocket连接
+        setTimeout(async () => {
+          await messageStore.initWebSocket();
+          console.log('✅ 消息状态初始化完成');
+        }, 2000); // 延迟2秒连接WebSocket，确保应用完全启动
+        
+      } catch (error) {
+        console.error('初始化消息状态失败:', error);
       }
     },
 
@@ -163,6 +194,37 @@ export default {
             // 或者触发相关组件重新加载验证规则
             uni.$emit('validationRulesUpdated');
           }
+        }, 3000); // 延迟3秒检查，确保间隔设置已获取
+
+      } catch (error) {
+        console.error('检查配置更新失败:', error);
+        // 不影响应用正常启动
+      }
+    }
+  }
+}
+</script>
+
+<style lang="scss">
+/* 引入样式文件 */
+@import './styles/reset.scss';
+@import './styles/common.scss';
+@import './static/styles/iconfont.scss';
+
+/* 全局样式 */
+page {
+  background-color: #F8F9FE;
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Segoe UI, Arial, Roboto, 'PingFang SC', 'miui', 'Hiragino Sans GB', 'Microsoft Yahei', sans-serif;
+}
+
+/* 隐藏scroll-view滚动条 */
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  background-color: transparent;
+}
+</style>
+
         }, 3000); // 延迟3秒检查，确保间隔设置已获取
 
       } catch (error) {

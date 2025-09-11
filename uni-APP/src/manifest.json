@@ -2,7 +2,7 @@
     "name" : "校园墙",
     "appid" : "__UNI__EEDF88D",
     "description" : "校园社交平台",
-    "versionName" : "1.0.0",
+    "versionName" : "1.1.0",
     "versionCode" : 1,
     "transformPx" : false,
     /* 5+App特有相关 */
@@ -59,6 +59,7 @@
         "distribute" : {
             /* android打包配置 */
             "android" : {
+                "packagename" : "com.campus.wall.app",
                 "permissions" : [
                     "<uses-permission android:name=\"android.permission.CHANGE_NETWORK_STATE\"/>",
                     "<uses-permission android:name=\"android.permission.MOUNT_UNMOUNT_FILESYSTEMS\"/>",
@@ -136,12 +137,12 @@
             "disableHostCheck" : true,
             "proxy" : {
                 "/api" : {
-                    "target" : "http://10.1.5.148:3000",
+                    "target" : "http://10.1.1.235:3000",
                     "changeOrigin" : true,
                     "secure" : false
                 },
                 "/ws" : {
-                    "target" : "ws://10.1.5.148:3000",
+                    "target" : "ws://10.1.1.235:3000",
                     "changeOrigin" : true,
                     "ws" : true
                 }
@@ -155,3 +156,4 @@
     },
     "vueVersion" : "3"
 }
+

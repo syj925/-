@@ -315,6 +315,21 @@ class UserRepository {
   }
 
   /**
+   * 获取所有活跃用户（不包括管理员）
+   * @returns {Promise<Array>} 用户列表
+   */
+  async findAllActive() {
+    return await User.findAll({
+      where: {
+        role: { [Op.ne]: 'admin' },
+        // 可以添加其他活跃状态条件，比如最近登录时间等
+      },
+      attributes: ['id', 'username', 'nickname'],
+      order: [['created_at', 'DESC']]
+    });
+  }
+
+  /**
    * 根据角色查找用户
    * @param {String} role 用户角色
    * @param {Object} options 查询选项

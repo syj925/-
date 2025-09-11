@@ -61,7 +61,11 @@
             {{ formatDateTime(scope.row.start_time) }} 至 {{ formatDateTime(scope.row.end_time) }}
           </template>
         </el-table-column>
-        <el-table-column prop="organizer" label="组织者" width="120" />
+        <el-table-column label="组织者" width="120">
+          <template #default="scope">
+            {{ getOrganizerName(scope.row) }}
+          </template>
+        </el-table-column>
         <el-table-column prop="currentParticipants" label="报名人数" width="100" sortable>
           <template #default="scope">
             {{ scope.row.current_participants || 0 }}
@@ -72,9 +76,9 @@
           <template #default="scope">
             <el-image 
               style="width: 80px; height: 45px" 
-              :src="scope.row.cover_image || '/placeholder-image.png'"
+              :src="getImageDisplayUrl(scope.row.cover_image) || '/placeholder-image.png'"
               fit="cover"
-              :preview-src-list="scope.row.cover_image ? [scope.row.cover_image] : []"
+              :preview-src-list="scope.row.cover_image ? [getImageDisplayUrl(scope.row.cover_image)] : []"
             >
               <template #error>
                 <div class="image-placeholder">暂无图片</div>
@@ -190,7 +194,7 @@
             :on-error="handleUploadError"
             :before-upload="beforeUpload"
           >
-            <img v-if="editingEvent.cover_image" :src="editingEvent.cover_image" class="avatar" />
+            <img v-if="editingEvent.cover_image" :src="getImageDisplayUrl(editingEvent.cover_image)" class="avatar" />
             <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
           </el-upload>
           <div class="upload-tip">建议尺寸: 800x450px，大小不超过2MB</div>
@@ -730,15 +734,36 @@ const handleSubmit = async () => {
 const handleUploadSuccess = (response) => {
   console.log('上传成功响应:', response);
   if (response.code === 0) {
-    // 拼接完整的图片URL
-    const imageUrl = response.data.url.startsWith('http')
-      ? response.data.url
-      : `http://localhost:3000${response.data.url}`;
-    editingEvent.cover_image = imageUrl;
+    // 保存相对路径到数据，用于提交到服务器
+    editingEvent.cover_image = response.data.url;
     ElMessage.success('图片上传成功');
   } else {
     ElMessage.error(response.msg || '图片上传失败');
   }
+};
+
+// 获取完整的图片显示URL
+const getImageDisplayUrl = (imageUrl) => {
+  if (!imageUrl) return '';
+  // 如果已经是完整URL，直接返回
+  if (imageUrl.startsWith('http://') || imageUrl.startsWith('https://')) {
+    return imageUrl;
+  }
+  // 否则拼接服务器地址
+  return `http://localhost:3000${imageUrl}`;
+};
+
+// 获取组织者名称
+const getOrganizerName = (row) => {
+  if (row.organizer) {
+    // 如果有organizer对象，优先使用nickname，然后username，最后用id
+    const name = row.organizer.nickname || row.organizer.username || row.organizer.id;
+    // 如果是自定义组织者，添加标识
+    return row.organizer.is_custom ? `${name} (自定义)` : name;
+  }
+  
+  // 如果没有organizer对象但有organizer_id，直接显示（兼容旧数据）
+  return row.organizer_id || '未知';
 };
 
 const handleUploadError = (err) => {
@@ -798,11 +823,8 @@ const removeNotice = (index) => {
 // 处理详情图片上传成功
 const handleDetailImageSuccess = (response, uploadFile) => {
   if (response.code === 0) {
-    // 拼接完整的图片URL
-    const imageUrl = response.data.url.startsWith('http')
-      ? response.data.url
-      : `http://localhost:3000${response.data.url}`;
-    editingEvent.detail_images.push(imageUrl);
+    // 保存相对路径到数据，用于提交到服务器
+    editingEvent.detail_images.push(response.data.url);
     ElMessage.success('详情图片上传成功');
   } else {
     ElMessage.error(response.msg || '图片上传失败');
@@ -822,7 +844,7 @@ const formatDetailImages = (images) => {
   if (!images || !Array.isArray(images)) return [];
   return images.map((url, index) => ({
     name: `图片${index + 1}`,
-    url: url
+    url: getImageDisplayUrl(url) // 显示时使用完整URL
   }));
 };
 
@@ -1040,6 +1062,28 @@ const handleDeleteEvent = async (row) => {
 
 .field-header {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.field-header h4 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.option-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.option-item .el-input {
+  flex: 1;
+  margin-right: 10px;
+}
+</style> 
   justify-content: space-between;
   align-items: center;
   margin-bottom: 15px;

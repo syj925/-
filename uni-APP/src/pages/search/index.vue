@@ -243,6 +243,7 @@
 import api from '@/api'
 import Banner from '@/components/common/Banner.vue'
 import bannerService from '@/services/bannerService'
+import { UrlUtils } from '@/utils'
 
 export default {
   name: 'SearchPage',
@@ -647,9 +648,8 @@ export default {
 
     getImageUrl(imagePath) {
       if (!imagePath) return ''
-      const pathStr = String(imagePath)
-      if (pathStr.startsWith('http')) return pathStr
-      return `http://localhost:3000${pathStr}`
+      // 使用URL工具函数，避免硬编码服务器地址
+      return UrlUtils.ensureAbsoluteUrl(imagePath)
     },
 
     getFirstImage(images) {

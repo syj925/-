@@ -14,7 +14,7 @@ const privacySettingsSchema = Joi.object({
   showLocation: Joi.boolean(),
   allowFollow: Joi.boolean(),
   allowComment: Joi.boolean(),
-  allowMessage: Joi.boolean(),
+  allowMessage: Joi.boolean().description('是否允许接收私信'),
   favoriteVisible: Joi.boolean(),
   followListVisible: Joi.boolean(),
   fansListVisible: Joi.boolean()

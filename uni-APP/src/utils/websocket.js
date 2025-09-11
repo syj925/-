@@ -22,13 +22,16 @@ const getWsUrl = () => {
   // 检查当前是否在localhost环境
   const isLocalhost = typeof window !== 'undefined' && 
     (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
-  // H5开发环境使用相对路径
-  return isLocalhost ? 'ws://localhost:3000/ws' : 'ws://10.1.5.148:3000/ws';
+  // 使用配置中的服务器地址，避免硬编码
+  const servers = appConfig.getAllServers();
+  const h5HttpUrl = isLocalhost ? servers[0] : servers[1] || servers[0];
+  return h5HttpUrl.replace(/^http/, 'ws') + '/ws';
   // #endif
 
   // #ifdef APP-PLUS || MP
-  // 移动设备环境使用IP地址
-  return 'ws://10.1.5.148:3000/ws';
+  // 移动设备环境使用配置中的最佳服务器
+  const appHttpUrl = appConfig.getBestServer();
+  return appHttpUrl.replace(/^http/, 'ws') + '/ws';
   // #endif
 };
 
@@ -42,6 +45,47 @@ class WebSocketClient {
     this.listeners = {};
     this.pingInterval = null;
     this.connecting = false; // 标记是否正在连接中
+    this.currentToken = null; // 保存当前token用于重连
+    
+    // 监听应用状态变化（移动端优化）
+    this._initAppStateListeners();
+  }
+
+  /**
+   * 初始化应用状态监听器（移动端优化）
+   * @private
+   */
+  _initAppStateListeners() {
+    // #ifdef APP-PLUS
+    // 监听应用前台/后台切换
+    uni.onAppShow(() => {
+      console.log('应用回到前台，检查WebSocket连接...');
+      if (!this.isConnected && this.currentToken) {
+        setTimeout(() => {
+          this.connect(this.currentToken).catch(err => {
+            console.log('前台重连WebSocket失败:', err.message);
+          });
+        }, 1000);
+      }
+    });
+
+    uni.onAppHide(() => {
+      console.log('应用进入后台');
+    });
+    // #endif
+
+    // 监听网络状态变化
+    uni.onNetworkStatusChange((res) => {
+      console.log('网络状态变化:', res);
+      if (res.isConnected && !this.isConnected && this.currentToken) {
+        console.log('网络恢复，尝试重连WebSocket...');
+        setTimeout(() => {
+          this.connect(this.currentToken).catch(err => {
+            console.log('网络恢复重连失败:', err.message);
+          });
+        }, 2000);
+      }
+    });
   }
 
   /**
@@ -63,6 +107,7 @@ class WebSocketClient {
       }
 
       this.connecting = true;
+      this.currentToken = token; // 保存token用于重连
 
       try {
         // 断开之前的连接
@@ -107,12 +152,13 @@ class WebSocketClient {
           console.log('WebSocket连接已打开:', res);
           this.isConnected = true;
           this.connecting = false;
-          this.reconnectAttempts = 0;
+          this.reconnectAttempts = 0; // 连接成功后重置重连计数
           this._setupPing();
-          resolve(true);
-
-          // 发送连接成功的事件
+          
+          // 触发连接成功事件
           this._triggerEvent('connected', {});
+          
+          resolve(true);
         });
 
         // 监听连接关闭
@@ -133,7 +179,9 @@ class WebSocketClient {
 
         // 监听连接错误
         uni.onSocketError((err) => {
-          console.error('WebSocket连接错误:', err);
+          const errorMsg = err?.errMsg || '未知WebSocket错误';
+          console.error('WebSocket连接错误:', errorMsg, err);
+          
           this.isConnected = false;
           this.connecting = false;
           clearInterval(this.pingInterval);
@@ -141,7 +189,13 @@ class WebSocketClient {
           // 触发错误事件
           this._triggerEvent('error', { error: err });
           
-          reject(err);
+          // 如果是连接阶段的错误，也尝试重连
+          if (!this.isConnected && this.reconnectAttempts < this.maxReconnectAttempts) {
+            console.log('连接错误，尝试重连...');
+            this._attemptReconnect(token);
+          }
+          
+          reject(new Error(errorMsg));
         });
 
         // 监听消息
@@ -186,12 +240,20 @@ class WebSocketClient {
     if (this.socket && this.isConnected) {
       uni.closeSocket({
         success: () => {
-          console.log('WebSocket连接已关闭');
+            console.log('WebSocket连接已主动关闭');
         }
       });
-      this.isConnected = false;
-      clearInterval(this.pingInterval);
     }
+    
+    // 清理连接状态
+    this.isConnected = false;
+    this.connecting = false;
+    this.reconnectAttempts = 0;
+    this.currentToken = null; // 清理token
+    clearInterval(this.pingInterval);
+    
+    // 触发断开连接事件
+    this._triggerEvent('disconnected', { manual: true });
   }
 
   /**
@@ -309,22 +371,3 @@ class WebSocketClient {
   _attemptReconnect(token) {
     if (this.reconnectAttempts >= this.maxReconnectAttempts) {
       console.warn('WebSocket重连次数超过最大限制，停止重连');
-      return;
-    }
-    
-    this.reconnectAttempts++;
-    
-    console.log(`WebSocket尝试重连 (${this.reconnectAttempts}/${this.maxReconnectAttempts})...`);
-    
-    setTimeout(() => {
-      this.connect(token).catch(err => {
-        console.error('WebSocket重连失败:', err);
-      });
-    }, this.reconnectInterval);
-  }
-}
-
-// 创建单例
-const wsClient = new WebSocketClient();
-
-export default wsClient; 

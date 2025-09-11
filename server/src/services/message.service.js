@@ -15,6 +15,8 @@ class MessageService {
    * @returns {Promise<Object>} 创建的消息对象
    */
   async createMessage(messageData) {
+    console.log('🔔 [MessageService] 开始创建消息:', JSON.stringify(messageData, null, 2));
+    
     // 检查接收者是否存在
     const receiver = await userRepository.findById(messageData.receiver_id);
     if (!receiver) {
@@ -24,6 +26,7 @@ class MessageService {
         errorCodes.USER_NOT_EXIST
       );
     }
+    console.log('✅ [MessageService] 接收者存在:', receiver.username);
     
     // 如果有发送者，检查发送者是否存在
     if (messageData.sender_id) {
@@ -35,15 +38,27 @@ class MessageService {
           errorCodes.USER_NOT_EXIST
         );
       }
+      console.log('✅ [MessageService] 发送者存在:', sender.username);
     }
     
     // 创建消息
+    console.log('📝 [MessageService] 正在创建消息记录...');
     const message = await messageRepository.create(messageData);
+    console.log('✅ [MessageService] 消息创建成功:', {
+      id: message.id,
+      type: message.type,
+      title: message.title,
+      receiver_id: message.receiver_id,
+      sender_id: message.sender_id
+    });
     
     // 更新未读消息计数
+    console.log('📊 [MessageService] 正在更新未读计数...');
     await this._incrementUnreadCount(messageData.receiver_id);
+    console.log('✅ [MessageService] 未读计数更新完成');
     
     // 发送实时通知
+    console.log('📤 [MessageService] 准备发送WebSocket实时通知...');
     this._sendRealTimeNotification(message);
     
     return message;
@@ -102,6 +117,16 @@ class MessageService {
         errorCodes.USER_NOT_EXIST
       );
     }
+
+    // 如果是获取私信对话列表
+    if (options.conversationList && options.type === 'private') {
+      return await messageRepository.findPrivateConversations(userId, options);
+    }
+
+    // 如果是获取与特定用户的私信对话
+    if (options.conversationWith && options.type === 'private') {
+      return await messageRepository.findPrivateConversation(userId, options.conversationWith, options);
+    }
     
     return await messageRepository.findByUserId(userId, options);
   }
@@ -150,9 +175,10 @@ class MessageService {
    * 批量标记消息为已读
    * @param {String} userId 当前用户ID
    * @param {Array<String>} ids 消息ID数组，为空则标记所有消息
+   * @param {String} type 消息类型，可选，如果指定则按类型标记
    * @returns {Promise<Object>} 操作结果
    */
-  async markMultipleAsRead(userId, ids = []) {
+  async markMultipleAsRead(userId, ids = [], type = null) {
     // 检查用户是否存在
     const user = await userRepository.findById(userId);
     if (!user) {
@@ -163,11 +189,17 @@ class MessageService {
       );
     }
     
-    const count = await messageRepository.markMultipleAsRead(userId, ids);
+    const count = await messageRepository.markMultipleAsRead(userId, ids, type);
     
     if (count > 0) {
-      // 重置未读消息计数
-      await this._resetUnreadCount(userId);
+      // 如果是按类型或按ID标记，需要重新计算未读数量
+      if (type || (ids && ids.length > 0)) {
+        const remainingUnread = await messageRepository.countUnread(userId);
+        await this._setUnreadCount(userId, remainingUnread);
+      } else {
+        // 如果是标记所有消息，直接重置为0
+        await this._resetUnreadCount(userId);
+      }
       
       // 发送未读消息计数更新
       this._sendUnreadCountUpdate(userId);
@@ -176,7 +208,7 @@ class MessageService {
     return {
       success: true,
       count,
-      message: `已成功标记${count}条消息为已读`
+      message: type ? `已成功标记${count}条${type}消息为已读` : `已成功标记${count}条消息为已读`
     };
   }
 
@@ -310,6 +342,16 @@ class MessageService {
   }
 
   /**
+   * 减少用户未读消息计数（公共方法）
+   * @param {String} userId 用户ID
+   * @param {Number} value 减少值，默认为1
+   * @returns {Promise<void>}
+   */
+  async decrementUnreadCount(userId, value = 1) {
+    await this._decrementUnreadCount(userId, value);
+  }
+
+  /**
    * 增加未读消息计数
    * @param {String} userId 用户ID
    * @param {Number} value 增加值，默认为1
@@ -377,19 +419,117 @@ class MessageService {
   }
 
   /**
+   * 清除用户的未读计数缓存，强制重新计算
+   * @param {String} userId 用户ID
+   * @private
+   */
+  async _clearUnreadCount(userId) {
+    try {
+      await redisClient.del(`unread:${userId}`);
+      console.log(`🧹 [MessageService] 已清除用户 ${userId} 的未读计数缓存`);
+    } catch (error) {
+      console.error(`❌ [MessageService] 清除用户 ${userId} 缓存失败:`, error);
+    }
+  }
+
+  /**
    * 发送未读消息计数更新
    * @param {String} userId 用户ID
    * @private
    */
   async _sendUnreadCountUpdate(userId) {
     try {
-      const count = await redisClient.get(`unread:${userId}`) || '0';
+      // 清除缓存，强制重新计算（确保包含最新的系统通知）
+      await this._clearUnreadCount(userId);
+      
+      // 实时重新计算未读计数，确保准确性
+      const count = await this.getUnreadCount(userId);
+      
+      // 发送计数更新
       WebSocketService.sendToUser(userId, {
         type: 'unread_count',
-        count: parseInt(count, 10)
+        count: count
       });
+      
+      console.log(`📊 [MessageService] 发送未读计数更新给用户 ${userId}: ${count}`);
     } catch (error) {
+      console.error(`❌ [MessageService] 发送未读计数失败 ${userId}:`, error);
       // 忽略发送错误
+    }
+  }
+
+  /**
+   * 广播系统通知给所有用户
+   * @param {Object} message 系统消息对象
+   * @private
+   */
+  async _broadcastSystemNotification(message) {
+    try {
+      console.log('📡 [MessageService] 广播系统通知:', message.title);
+      
+      // 构造广播消息
+      const broadcastData = {
+        type: 'new_message',
+        message: {
+          id: message.id,
+          type: message.type,
+          sub_type: message.sub_type,
+          title: message.title,
+          content: message.content,
+          sender_id: message.sender_id,
+          created_at: message.createdAt
+        }
+      };
+      
+      // 通过WebSocket广播给所有连接的用户
+      WebSocketService.broadcast(broadcastData);
+      
+      console.log('✅ [MessageService] 系统通知广播成功');
+    } catch (error) {
+      console.error('❌ [MessageService] 广播系统通知失败:', error);
+      // 不抛出错误，避免影响消息创建流程
+    }
+  }
+
+  /**
+   * 更新所有用户的未读计数（系统通知会影响所有用户的计数）
+   * @private
+   */
+  async _updateAllUsersUnreadCount() {
+    try {
+      console.log('🔄 [MessageService] 更新所有用户的未读计数');
+      
+      // 获取所有活跃用户
+      const userRepository = require('../repositories/user.repository');
+      const activeUsers = await userRepository.findAllActive();
+      
+      console.log(`📊 [MessageService] 找到 ${activeUsers.length} 个活跃用户需要更新`);
+      
+      // 为每个用户重新计算并更新未读计数
+      for (const user of activeUsers) {
+        try {
+          // 先清除Redis缓存，强制重新计算
+          await this._clearUnreadCount(user.id);
+          
+          // 重新计算未读计数（这会调用数据库查询）
+          const newCount = await this.getUnreadCount(user.id);
+          
+          console.log(`📊 [MessageService] 更新用户 ${user.username}(${user.id}) 未读计数: ${newCount}`);
+          
+          // 直接发送计算出的计数，避免从Redis读取时的时序问题
+          WebSocketService.sendToUser(user.id, {
+            type: 'unread_count',
+            count: newCount
+          });
+        } catch (userError) {
+          console.error(`❌ [MessageService] 更新用户 ${user.id} 计数失败:`, userError);
+        }
+      }
+      
+      console.log(`✅ [MessageService] 已更新 ${activeUsers.length} 个用户的未读计数`);
+    } catch (error) {
+      console.error('❌ [MessageService] 更新所有用户未读计数失败:', error);
+      // 不抛出错误，避免影响主流程
     }
   }
 
@@ -400,39 +540,3 @@ class MessageService {
    */
   async _sendRealTimeNotification(message) {
     try {
-      // 检查用户是否在线
-      const isOnline = await WebSocketService.isUserOnline(message.receiver_id);
-      if (!isOnline) return;
-      
-      // 获取发送者信息
-      let senderInfo = null;
-      if (message.sender_id) {
-        const sender = await userRepository.findById(message.sender_id);
-        if (sender) {
-          senderInfo = {
-            id: sender.id,
-            username: sender.username,
-            avatar: sender.avatar
-          };
-        }
-      }
-      
-      // 发送通知
-      WebSocketService.sendToUser(message.receiver_id, {
-        type: 'new_message',
-        message: {
-          id: message.id,
-          type: message.type,
-          title: message.title,
-          content: message.content,
-          sender: senderInfo,
-          created_at: message.created_at
-        }
-      });
-    } catch (error) {
-      // 忽略发送错误
-    }
-  }
-}
-
-module.exports = new MessageService(); 

@@ -52,7 +52,7 @@
     <view class="quick-comment-bar">
       <image 
         class="user-avatar" 
-        :src="currentUserAvatar" 
+        :src="processUserAvatar(currentUserAvatar)" 
         mode="aspectFill"
       ></image>
       <view class="quick-input-area" @tap="showCommentInput">
@@ -111,7 +111,7 @@
             <view class="comment-header">
               <image 
                 class="user-avatar" 
-                :src="comment.author?.avatar || '/static/images/common/default-avatar.png'" 
+                :src="processCommentAvatar(comment.author)" 
                 mode="aspectFill"
                 @tap="handleUserClick(comment.author)"
               ></image>
@@ -132,7 +132,7 @@
                   v-for="(image, imgIndex) in comment.images"
                   :key="imgIndex"
                   class="comment-image"
-                  :src="image"
+                  :src="processCommentImage(image)"
                   mode="aspectFill"
                   @tap="previewCommentImage(imgIndex, comment.images)"
                 ></image>
@@ -233,6 +233,7 @@
 <script>
 import AppIcon from '@/components/common/AppIcon.vue';
 import EnhancedCommentInput from './EnhancedCommentInput.vue';
+import { ensureAbsoluteUrl } from '@/utils/url';
 
 export default {
   name: 'EnhancedCommentSection',
@@ -287,6 +288,29 @@ export default {
     }
   },
   methods: {
+    // 处理用户头像URL
+    processUserAvatar(avatar) {
+      if (!avatar) {
+        return '/static/images/common/default-avatar.png';
+      }
+      return ensureAbsoluteUrl(avatar);
+    },
+    
+    // 处理评论者头像URL
+    processCommentAvatar(author) {
+      if (!author || !author.avatar) {
+        return '/static/images/common/default-avatar.png';
+      }
+      return ensureAbsoluteUrl(author.avatar);
+    },
+    
+    // 处理评论图片URL
+    processCommentImage(image) {
+      if (!image) {
+        return '';
+      }
+      return ensureAbsoluteUrl(image);
+    },
     // 加载评论列表
     async loadComments(refresh = false) {
       if (this.loading) return;
@@ -1205,6 +1229,30 @@ export default {
 
 .loading-more {
   @include flex(row, center, center);
+  gap: 12rpx;
+  
+  .mini-spinner {
+    width: 32rpx;
+    height: 32rpx;
+    border: 3rpx solid #f0f2f5;
+    border-top: 3rpx solid #4a90e2;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+  
+  .loading-more-text {
+    font-size: 24rpx;
+    color: $text-secondary;
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>
+
+
   gap: 12rpx;
   
   .mini-spinner {

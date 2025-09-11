@@ -110,12 +110,12 @@ class LikeService {
     // 发送消息通知
     if (targetOwnerId !== userId) {
       const messageContent = targetType === 'post'
-        ? `${user.username} 点赞了你的帖子`
-        : `${user.username} 点赞了你的评论`;
+        ? `${user.nickname || user.username} 点赞了你的帖子`
+        : `${user.nickname || user.username} 点赞了你的评论`;
 
       const messageTitle = targetType === 'post' ? '点赞通知' : '评论点赞通知';
       
-      messageService.createMessage({
+      await messageService.createMessage({
         sender_id: userId,
         receiver_id: targetOwnerId,
         title: messageTitle,
@@ -123,7 +123,7 @@ class LikeService {
         type: 'like',
         related_id: like.id,
         post_id: targetType === 'post' ? targetId : null
-      }).catch(err => console.error('发送消息失败', err));
+      }).catch(err => console.error('发送点赞通知失败', err));
     }
     
     // 更新状态缓存（仅对帖子）

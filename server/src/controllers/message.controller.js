@@ -109,9 +109,9 @@ class MessageController {
   async markMultipleAsRead(req, res, next) {
     try {
       const userId = req.user.id;
-      const { ids } = req.body;
+      const { ids, type } = req.body;
       
-      const result = await messageService.markMultipleAsRead(userId, ids);
+      const result = await messageService.markMultipleAsRead(userId, ids, type);
       
       res.status(StatusCodes.OK).json(ResponseUtil.success(result));
     } catch (error) {

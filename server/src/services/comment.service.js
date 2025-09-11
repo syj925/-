@@ -16,6 +16,8 @@ class CommentService {
    * @returns {Promise<Object>} 创建的评论对象
    */
   async createComment(commentData) {
+    console.log('🚀 [CommentService] 开始创建评论:', JSON.stringify(commentData, null, 2));
+    
     // 检查用户是否存在
     const user = await userRepository.findById(commentData.user_id);
     if (!user) {
@@ -117,7 +119,9 @@ class CommentService {
     await postRepository.updateCounter(post.id, 'comment_count', 1);
 
     // 发送通知
+    console.log('📮 [CommentService] 准备发送评论通知...');
     await this.sendCommentNotifications(comment, post, commentData, user);
+    console.log('✅ [CommentService] 评论通知发送完成');
 
     // 发送@用户通知
     if (comment.mentioned_users && comment.mentioned_users.length > 0) {
@@ -150,33 +154,57 @@ class CommentService {
    * @param {Object} user 用户对象
    */
   async sendCommentNotifications(comment, post, commentData, user) {
-    // 发送消息通知
-    if (post.user_id !== commentData.user_id) {
-      // 通知帖子作者
-      messageService.createMessage({
-        sender_id: commentData.user_id,
-        receiver_id: post.user_id,
-        title: '评论通知',
-        content: `${user.username} 评论了你的帖子`,
-        type: 'comment',
-        related_id: comment.id,
-        post_id: post.id
-      }).catch(err => console.error('发送消息失败', err));
-    }
-
-    // 如果是回复评论，通知被回复的评论作者
+    console.log('🔔 [CommentService] 开始发送评论通知:', {
+      commentId: comment.id,
+      isReply: !!commentData.reply_to,
+      replyTo: commentData.reply_to,
+      userId: user.id,
+      username: user.username,
+      postAuthorId: post.user_id
+    });
+    
+    // 如果是回复评论，优先发送回复通知
     if (commentData.reply_to) {
+      console.log('📝 [CommentService] 这是回复评论，查找父评论...');
       const parentComment = await commentRepository.findById(commentData.reply_to);
       if (parentComment && parentComment.user_id !== commentData.user_id) {
-        messageService.createMessage({
+        console.log('✅ [CommentService] 找到父评论，准备发送回复通知给:', parentComment.user_id);
+        // 发送回复通知给被回复的评论作者
+        await messageService.createMessage({
           sender_id: commentData.user_id,
           receiver_id: parentComment.user_id,
           title: '回复通知',
-          content: `${user.username} 回复了你的评论`,
+          content: `${user.nickname || user.username} 回复了你的评论`,
           type: 'reply',
           related_id: comment.id,
           post_id: post.id
-        }).catch(err => console.error('发送消息失败', err));
+        }).catch(err => console.error('发送回复通知失败', err));
+        
+        // 如果被回复的评论作者不是帖子作者，还要通知帖子作者
+        if (post.user_id !== commentData.user_id && post.user_id !== parentComment.user_id) {
+          await messageService.createMessage({
+            sender_id: commentData.user_id,
+            receiver_id: post.user_id,
+            title: '评论通知',
+            content: `${user.nickname || user.username} 在你的帖子中回复了其他人`,
+            type: 'comment',
+            related_id: comment.id,
+            post_id: post.id
+          }).catch(err => console.error('发送评论通知失败', err));
+        }
+      }
+    } else {
+      // 这是直接评论帖子，发送评论通知给帖子作者
+      if (post.user_id !== commentData.user_id) {
+        await messageService.createMessage({
+          sender_id: commentData.user_id,
+          receiver_id: post.user_id,
+          title: '评论通知',
+          content: `${user.nickname || user.username} 评论了你的帖子`,
+          type: 'comment',
+          related_id: comment.id,
+          post_id: post.id
+        }).catch(err => console.error('发送评论通知失败', err));
       }
     }
   }

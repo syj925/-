@@ -2,6 +2,9 @@
  * 帖子相关API
  */
 
+// 导入配置，避免硬编码服务器地址
+import appConfig from '@/config';
+
 export default (http) => ({
   /**
    * 获取帖子列表
@@ -72,8 +75,8 @@ export default (http) => ({
    */
   uploadImage: (file) => {
     return new Promise((resolve, reject) => {
-      // 获取完整的上传URL
-      const baseUrl = http.config.baseURL || 'http://localhost:3000';
+      // 获取完整的上传URL - 使用配置中的最佳服务器，避免硬编码
+      const baseUrl = http.config.baseURL || appConfig.getBestServer();
       const uploadUrl = `${baseUrl}/api/posts/upload`;
 
       uni.uploadFile({
@@ -153,6 +156,9 @@ export default (http) => ({
    * 获取用户审核记录
    * @param {Object} params 查询参数 (page, pageSize, status)
    * @returns {Promise}
+   */
+  getAuditHistory: (params = {}) => http.get('/api/posts/user/audit-history', params)
+}); 
    */
   getAuditHistory: (params = {}) => http.get('/api/posts/user/audit-history', params)
 }); 
