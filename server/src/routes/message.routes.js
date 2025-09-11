@@ -60,11 +60,3 @@ router.delete('/:id', messageController.deleteMessage);
 router.delete('/multiple', Validator.validateBody(deleteMultipleSchema), messageController.deleteMultiple);
 
 module.exports = router; 
-
-// 删除消息
-router.delete('/:id', messageController.deleteMessage);
-
-// 批量删除消息
-router.delete('/multiple', Validator.validateBody(deleteMultipleSchema), messageController.deleteMultiple);
-
-module.exports = router; 

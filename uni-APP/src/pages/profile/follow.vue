@@ -360,7 +360,7 @@ export default {
         this.loadData();
       }
     },
-
+    
     // 更新用户关注状态（简化版本）
     async updateUsersFollowStatus(users) {
       if (!users || users.length === 0 || !this.followStore) return;
@@ -419,10 +419,10 @@ export default {
         console.error('Pinia store未初始化');
         return;
       }
-      
+
       // 添加到操作集合
       this.followingOperations.add(operationKey);
-      
+
       try {
         console.log(`开始${action}操作: 用户${userId}(${user?.nickname})`);
         
@@ -517,7 +517,7 @@ export default {
         this.goToUserProfile(user.id);
       }
     },
-
+    
     // 跳转到用户主页
     goToUserProfile(userId) {
       uni.navigateTo({

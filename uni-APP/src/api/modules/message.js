@@ -32,4 +32,4 @@ export default (http) => ({
     const data = type ? { type } : {};
     return http.put('/api/messages/read/multiple', data);
   }
-});
+}); 

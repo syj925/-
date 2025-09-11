@@ -224,34 +224,3 @@ page {
   background-color: transparent;
 }
 </style>
-
-        }, 3000); // 延迟3秒检查，确保间隔设置已获取
-
-      } catch (error) {
-        console.error('检查配置更新失败:', error);
-        // 不影响应用正常启动
-      }
-    }
-  }
-}
-</script>
-
-<style lang="scss">
-/* 引入样式文件 */
-@import './styles/reset.scss';
-@import './styles/common.scss';
-@import './static/styles/iconfont.scss';
-
-/* 全局样式 */
-page {
-  background-color: #F8F9FE;
-  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Segoe UI, Arial, Roboto, 'PingFang SC', 'miui', 'Hiragino Sans GB', 'Microsoft Yahei', sans-serif;
-}
-
-/* 隐藏scroll-view滚动条 */
-::-webkit-scrollbar {
-  width: 0;
-  height: 0;
-  background-color: transparent;
-}
-</style>

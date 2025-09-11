@@ -1702,10 +1702,3 @@ export default {
   }
 }
 </style>
-          transform: scale(0.98);
-        }
-      }
-    }
-  }
-}
-</style>

@@ -3983,27 +3983,3 @@ const importConfiguration = async () => {
   }
 }
 </style> 
-@media (max-width: 768px) {
-  .info-row {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 4px;
-  }
-  
-  .info-label {
-    min-width: auto;
-  }
-  
-  .score-item {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 4px;
-  }
-  
-  .result-item {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 6px;
-  }
-}
-</style> 

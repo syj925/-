@@ -1460,36 +1460,3 @@ export default {
   height: 34px;
 }
 </style> 
-    transform: scale(0.98);
-  }
-}
-
-.hint-text {
-  font-size: $font-size-sm;
-  color: $primary-color;
-  font-weight: 500;
-}
-
-.hint-action {
-  font-size: $font-size-xs;
-  color: $primary-color;
-  background-color: rgba($primary-color, 0.1);
-  padding: 2px 8px;
-  border-radius: $radius-sm;
-}
-
-/* 搜索加载状态 */
-.search-loading {
-  @include flex(row, center, center);
-  padding: $spacing-md;
-}
-
-.loading-text {
-  font-size: $font-size-sm;
-  color: $text-tertiary;
-}
-
-.safe-area-bottom {
-  height: 34px;
-}
-</style> 

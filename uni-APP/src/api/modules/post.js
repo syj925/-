@@ -159,6 +159,3 @@ export default (http) => ({
    */
   getAuditHistory: (params = {}) => http.get('/api/posts/user/audit-history', params)
 }); 
-   */
-  getAuditHistory: (params = {}) => http.get('/api/posts/user/audit-history', params)
-}); 

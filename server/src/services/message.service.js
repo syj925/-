@@ -540,3 +540,303 @@ class MessageService {
    */
   async _sendRealTimeNotification(message) {
     try {
+      // 获取发送者信息
+      let senderInfo = null;
+      if (message.sender_id) {
+        const sender = await userRepository.findById(message.sender_id);
+        if (sender) {
+          senderInfo = {
+            id: sender.id,
+            username: sender.username,
+            nickname: sender.nickname,
+            avatar: sender.avatar
+          };
+        }
+      }
+      
+      // 构造消息数据
+      const notificationData = {
+        type: 'new_message',
+        message: {
+          id: message.id,
+          type: message.type,
+          title: message.title,
+          content: message.content,
+          sender_id: message.sender_id,
+          receiver_id: message.receiver_id,
+          post_id: message.post_id,
+          sender: senderInfo,
+          createdAt: message.createdAt,
+          is_read: false // 新消息默认为未读
+        }
+      };
+      
+      // 发送通知（不再检查在线状态，直接尝试发送）
+      const success = WebSocketService.sendToUser(message.receiver_id, notificationData);
+      
+      if (success) {
+        console.log(`✅ WebSocket通知发送成功: ${message.type} -> 用户${message.receiver_id}`);
+      } else {
+        console.log(`⚠️ WebSocket通知发送失败（用户可能离线）: ${message.type} -> 用户${message.receiver_id}`);
+      }
+    } catch (error) {
+      console.error('发送WebSocket通知时出错:', error);
+    }
+  }
+
+  // ==================== 系统消息管理方法 ====================
+
+  /**
+   * 获取系统消息列表（管理员使用）
+   * @param {Object} options 查询选项
+   * @returns {Promise<Object>} 分页结果
+   */
+  async getSystemMessages(options = {}) {
+    console.log('📋 [MessageService] 获取系统消息列表:', options);
+    
+    try {
+      const result = await messageRepository.findSystemMessages(options);
+      console.log(`✅ [MessageService] 获取系统消息成功，共 ${result.total} 条`);
+      return result;
+    } catch (error) {
+      console.error('❌ [MessageService] 获取系统消息失败:', error);
+      throw ErrorMiddleware.createError(
+        '获取系统消息失败',
+        StatusCodes.INTERNAL_SERVER_ERROR,
+        errorCodes.DATABASE_ERROR
+      );
+    }
+  }
+
+  /**
+   * 获取系统消息详情
+   * @param {String} messageId 消息ID
+   * @returns {Promise<Object>} 消息详情
+   */
+  async getSystemMessageDetail(messageId) {
+    console.log('🔍 [MessageService] 获取系统消息详情:', messageId);
+    
+    try {
+      const message = await messageRepository.findById(messageId);
+      
+      if (!message || message.type !== 'system') {
+        throw ErrorMiddleware.createError(
+          '系统消息不存在',
+          StatusCodes.NOT_FOUND,
+          errorCodes.MESSAGE_NOT_EXIST
+        );
+      }
+      
+      // 获取阅读统计
+      const readStats = await messageRepository.getSystemMessageStats(messageId);
+      
+      const result = {
+        id: message.id,
+        title: message.title,
+        content: message.content,
+        type: messageRepository.extractMessageType(message.title),
+        sender: message.sender ? message.sender.nickname || message.sender.username : '系统管理员',
+        targetGroup: '所有用户',
+        sendTime: message.createdAt,
+        readCount: readStats.readCount,
+        totalCount: readStats.totalCount,
+        createdAt: message.createdAt,
+        updatedAt: message.updatedAt
+      };
+      
+      console.log('✅ [MessageService] 获取系统消息详情成功');
+      return result;
+    } catch (error) {
+      console.error('❌ [MessageService] 获取系统消息详情失败:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * 创建系统消息
+   * @param {Object} messageData 消息数据
+   * @param {String} adminId 管理员ID
+   * @returns {Promise<Object>} 创建的消息
+   */
+  async createSystemMessage(messageData, adminId) {
+    console.log('📝 [MessageService] 创建系统消息:', { 
+      title: messageData.title, 
+      type: messageData.type,
+      targetGroup: messageData.targetGroup,
+      adminId 
+    });
+    
+    try {
+      // 构建消息数据
+      const systemMessageData = {
+        type: 'system',
+        title: messageData.title,
+        content: messageData.content,
+        sub_type: messageData.type, // 保存前端传来的子类型（如announcement, event等）
+        sender_id: adminId, // 使用管理员ID作为发送者，表示是由管理员发送的系统消息
+        receiver_id: adminId, // 使用管理员ID作为占位符，实际系统消息是广播
+        post_id: null,
+        comment_id: null,
+        is_read: false
+      };
+      
+      // 创建系统消息
+      const message = await messageRepository.create(systemMessageData);
+      
+      // 如果是立即发送，推送系统通知给所有用户
+      console.log('🔧 [MessageService] 检查sendNow参数:', messageData.sendNow, typeof messageData.sendNow);
+      if (messageData.sendNow) {
+        console.log('📤 [MessageService] 立即推送系统消息');
+        
+        // 通过WebSocket广播系统通知
+        await this._broadcastSystemNotification(message);
+        
+        // 更新所有用户的未读计数
+        await this._updateAllUsersUnreadCount();
+      } else {
+        console.log('⏰ [MessageService] 消息设置为定时发送或sendNow为false，跳过立即推送');
+      }
+      
+      console.log('✅ [MessageService] 系统消息创建成功:', message.id);
+      return {
+        id: message.id,
+        title: message.title,
+        content: message.content,
+        type: messageData.type,
+        targetGroup: messageData.targetGroup,
+        sender: '系统管理员',
+        sendTime: message.createdAt,
+        readCount: 0,
+        totalCount: 0,
+        createdAt: message.createdAt
+      };
+    } catch (error) {
+      console.error('❌ [MessageService] 创建系统消息失败:', error);
+      throw ErrorMiddleware.createError(
+        '创建系统消息失败',
+        StatusCodes.INTERNAL_SERVER_ERROR,
+        errorCodes.DATABASE_ERROR
+      );
+    }
+  }
+
+  /**
+   * 删除系统消息
+   * @param {String} messageId 消息ID
+   * @returns {Promise<Boolean>} 是否成功删除
+   */
+  async deleteSystemMessage(messageId) {
+    console.log('🗑️ [MessageService] 删除系统消息:', messageId);
+    
+    try {
+      // 检查消息是否存在
+      const message = await messageRepository.findById(messageId);
+      if (!message || message.type !== 'system') {
+        throw ErrorMiddleware.createError(
+          '系统消息不存在',
+          StatusCodes.NOT_FOUND,
+          errorCodes.MESSAGE_NOT_EXIST
+        );
+      }
+      
+      // 删除消息
+      const success = await messageRepository.deleteSystemMessage(messageId);
+      
+      if (success) {
+        console.log('✅ [MessageService] 系统消息删除成功');
+      } else {
+        console.log('⚠️ [MessageService] 系统消息删除失败');
+      }
+      
+      return success;
+    } catch (error) {
+      console.error('❌ [MessageService] 删除系统消息失败:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * 获取系统消息统计
+   * @returns {Promise<Object>} 统计信息
+   */
+  async getSystemMessageStats() {
+    console.log('📊 [MessageService] 获取系统消息统计');
+    
+    try {
+      const stats = await messageRepository.getSystemMessageStatsOverall();
+      console.log('✅ [MessageService] 获取统计信息成功');
+      return stats;
+    } catch (error) {
+      console.error('❌ [MessageService] 获取统计信息失败:', error);
+      throw ErrorMiddleware.createError(
+        '获取统计信息失败',
+        StatusCodes.INTERNAL_SERVER_ERROR,
+        errorCodes.DATABASE_ERROR
+      );
+    }
+  }
+
+  /**
+   * 获取系统消息接收者列表
+   * @param {String} messageId 消息ID
+   * @param {Object} options 查询选项
+   * @returns {Promise<Object>} 分页结果
+   */
+  async getSystemMessageRecipients(messageId, options = {}) {
+    console.log('👥 [MessageService] 获取系统消息接收者列表:', { messageId, options });
+    
+    try {
+      // 检查消息是否存在
+      const message = await messageRepository.findById(messageId);
+      if (!message || message.type !== 'system') {
+        throw ErrorMiddleware.createError(
+          '系统消息不存在',
+          StatusCodes.NOT_FOUND,
+          errorCodes.MESSAGE_NOT_EXIST
+        );
+      }
+      
+      const result = await messageRepository.getSystemMessageRecipients(messageId, options);
+      console.log(`✅ [MessageService] 获取接收者列表成功，共 ${result.total} 个用户`);
+      return result;
+    } catch (error) {
+      console.error('❌ [MessageService] 获取接收者列表失败:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * 搜索用户（用于发送系统消息时选择用户）
+   * @param {String} query 搜索关键词
+   * @returns {Promise<Array>} 用户列表
+   */
+  async searchUsers(query) {
+    console.log('🔍 [MessageService] 搜索用户:', query);
+    
+    try {
+      const userRepository = require('../repositories/user.repository');
+      
+      // 搜索用户
+      const users = await userRepository.searchUsers(query, { limit: 20 });
+      
+      // 格式化为前端需要的格式
+      const result = users.map(user => ({
+        value: user.id,
+        label: `${user.nickname || user.username} (@${user.username})`
+      }));
+      
+      console.log(`✅ [MessageService] 搜索用户成功，找到 ${result.length} 个用户`);
+      return result;
+    } catch (error) {
+      console.error('❌ [MessageService] 搜索用户失败:', error);
+      throw ErrorMiddleware.createError(
+        '搜索用户失败',
+        StatusCodes.INTERNAL_SERVER_ERROR,
+        errorCodes.DATABASE_ERROR
+      );
+    }
+  }
+
+}
+
+module.exports = new MessageService(); 

@@ -371,3 +371,30 @@ class WebSocketClient {
   _attemptReconnect(token) {
     if (this.reconnectAttempts >= this.maxReconnectAttempts) {
       console.warn('WebSocket重连次数超过最大限制，停止重连');
+      this._triggerEvent('max_reconnects_reached', { attempts: this.reconnectAttempts });
+      return;
+    }
+    
+    this.reconnectAttempts++;
+    
+    // 指数退避策略：第一次3秒，第二次6秒，第三次12秒...
+    const backoffDelay = this.reconnectInterval * Math.pow(2, this.reconnectAttempts - 1);
+    const maxDelay = 30000; // 最大30秒
+    const delay = Math.min(backoffDelay, maxDelay);
+    
+    console.log(`WebSocket尝试重连 (${this.reconnectAttempts}/${this.maxReconnectAttempts})，${delay/1000}秒后重连...`);
+    
+    setTimeout(() => {
+      if (this.currentToken) { // 确保token还存在
+        this.connect(this.currentToken).catch(err => {
+          console.error(`WebSocket第${this.reconnectAttempts}次重连失败:`, err.message || err);
+        });
+      }
+    }, delay);
+  }
+}
+
+// 创建单例
+const wsClient = new WebSocketClient();
+
+export default wsClient; 

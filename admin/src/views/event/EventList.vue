@@ -1084,25 +1084,3 @@ const handleDeleteEvent = async (row) => {
   margin-right: 10px;
 }
 </style> 
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-}
-
-.field-header h4 {
-  margin: 0;
-  font-size: 16px;
-  font-weight: 500;
-}
-
-.option-item {
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.option-item .el-input {
-  flex: 1;
-  margin-right: 10px;
-}
-</style> 

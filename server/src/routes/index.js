@@ -376,5 +376,3 @@ router.post('/api/reset-force-update', async (req, res) => {
 });
 
 module.exports = router;
-
-module.exports = router;

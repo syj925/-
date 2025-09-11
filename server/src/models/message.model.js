@@ -124,3 +124,13 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'comment_id',
       as: 'comment'
     });
+
+    // 消息与阅读记录是一对多关系
+    Message.hasMany(models.MessageRead, {
+      foreignKey: 'message_id',
+      as: 'messageReads'
+    });
+  };
+
+  return Message;
+}; 

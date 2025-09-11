@@ -1252,27 +1252,3 @@ export default {
 }
 </style>
 
-
-  gap: 12rpx;
-  
-  .mini-spinner {
-    width: 32rpx;
-    height: 32rpx;
-    border: 3rpx solid #f0f2f5;
-    border-top: 3rpx solid #4a90e2;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-  }
-  
-  .loading-more-text {
-    font-size: 24rpx;
-    color: $text-secondary;
-  }
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-</style>
-

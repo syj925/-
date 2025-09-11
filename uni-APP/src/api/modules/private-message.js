@@ -16,27 +16,26 @@ export default (http) => ({
    * 获取私信对话列表
    * @param {Object} params 查询参数
    * @param {Number} params.page 页码
-   * @param {Number} params.pageSize 每页大小
+   * @param {Number} params.pageSize 每页数量
    * @returns {Promise}
    */
-  getConversations: (params = {}) => http.get('/api/private-messages/conversations', { params }),
+  getConversations: (params = {}) => http.get('/api/private-messages', params),
 
   /**
-   * 获取与指定用户的私信记录
-   * @param {String} userId 用户ID
+   * 获取与指定用户的对话记录
+   * @param {String} userId 对话用户ID
    * @param {Object} params 查询参数
    * @param {Number} params.page 页码
-   * @param {Number} params.pageSize 每页大小
+   * @param {Number} params.pageSize 每页数量
    * @returns {Promise}
    */
-  getMessages: (userId, params = {}) => http.get(`/api/private-messages/conversation/${userId}`, { params }),
+  getConversation: (userId, params = {}) => http.get(`/api/private-messages/conversation/${userId}`, params),
 
   /**
-   * 删除私信
-   * @param {String} messageId 消息ID
+   * 获取私信功能状态
    * @returns {Promise}
    */
-  delete: (messageId) => http.delete(`/api/private-messages/${messageId}`),
+  getStatus: () => http.get('/api/private-messages/status'),
 
   /**
    * 标记与指定用户的私信对话为已读
