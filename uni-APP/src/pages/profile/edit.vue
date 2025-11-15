@@ -98,30 +98,91 @@
           <view 
             v-for="(tag, index) in formData.tags" 
             :key="index" 
-            class="tag-item"
+            class="tag-item selected"
+            :style="{ 
+              backgroundColor: parseTagColor(tag.color, 0.1),
+              borderColor: parseTagColor(tag.color, 0.3)
+            }"
           >
-            <text class="tag-text">{{ tag }}</text>
+            <text 
+              class="tag-text" 
+              :style="{ color: tag.color || '#4A90E2' }"
+            >{{ tag.name || tag }}</text>
             <text class="tag-remove" @tap="removeTag(index)">×</text>
           </view>
           
-          <view class="tag-add" @tap="showTagInput = true" v-if="!showTagInput && formData.tags.length < 8">
+          <view class="tag-add" @tap="showTagSelector = true" v-if="!showTagSelector && formData.tags.length < 8">
             <text class="iconfont icon-add"></text>
             <text>添加标签</text>
           </view>
         </view>
         
-        <view class="tag-input-container" v-if="showTagInput">
-          <input 
-            type="text" 
-            class="tag-input" 
-            v-model="newTag" 
-            placeholder="请输入标签名称" 
-            focus 
-            maxlength="10"
-            @blur="handleTagInputBlur"
-            @confirm="addTag"
-          />
-          <button class="tag-add-btn" @tap="addTag">添加</button>
+        <!-- 标签选择器 -->
+        <view class="tag-selector" v-if="showTagSelector">
+          <view class="tag-selector-header">
+            <text class="selector-title">选择标签</text>
+            <text class="selector-close" @tap="closeTagSelector">完成</text>
+          </view>
+          
+          <!-- 热门标签 -->
+          <view class="tag-category">
+            <text class="category-title">热门标签</text>
+            <view class="available-tags">
+              <view 
+                v-for="tag in hotTags" 
+                :key="tag.id" 
+                class="available-tag"
+                :class="{ 'tag-selected': isTagSelected(tag.name), 'tag-disabled': formData.tags.length >= 8 && !isTagSelected(tag.name) }"
+                :style="{ 
+                  backgroundColor: isTagSelected(tag.name) 
+                    ? parseTagColor(tag.color, 0.2)
+                    : parseTagColor(tag.color, 0.05),
+                  borderColor: parseTagColor(tag.color, 0.3)
+                }"
+                @tap="toggleTag(tag)"
+              >
+                <text 
+                  class="tag-text"
+                  :style="{ color: isTagSelected(tag.name) ? (tag.color || '#4A90E2') : (tag.color || '#666') }"
+                >{{ tag.name }}</text>
+                <text 
+                  v-if="isTagSelected(tag.name)" 
+                  class="tag-check"
+                  :style="{ color: tag.color || '#4A90E2' }"
+                >✓</text>
+              </view>
+            </view>
+          </view>
+          
+          <!-- 分类标签 -->
+          <view class="tag-category" v-for="category in tagCategories" :key="category.key">
+            <text class="category-title">{{ category.name }}</text>
+            <view class="available-tags">
+              <view 
+                v-for="tag in category.tags" 
+                :key="tag.id" 
+                class="available-tag"
+                :class="{ 'tag-selected': isTagSelected(tag.name), 'tag-disabled': formData.tags.length >= 8 && !isTagSelected(tag.name) }"
+                :style="{ 
+                  backgroundColor: isTagSelected(tag.name) 
+                    ? parseTagColor(tag.color, 0.2)
+                    : parseTagColor(tag.color, 0.05),
+                  borderColor: parseTagColor(tag.color, 0.3)
+                }"
+                @tap="toggleTag(tag)"
+              >
+                <text 
+                  class="tag-text"
+                  :style="{ color: isTagSelected(tag.name) ? (tag.color || '#4A90E2') : (tag.color || '#666') }"
+                >{{ tag.name }}</text>
+                <text 
+                  v-if="isTagSelected(tag.name)" 
+                  class="tag-check"
+                  :style="{ color: tag.color || '#4A90E2' }"
+                >✓</text>
+              </view>
+            </view>
+          </view>
         </view>
         
         <text class="tag-tip">最多可添加8个标签</text>
@@ -217,8 +278,13 @@ export default {
       },
       originalData: {}, // 保存初始数据，用于检测变更
       isLoading: false,
-      showTagInput: false,
-      newTag: '',
+      showTagSelector: false,
+      hotTags: [],
+      tagCategories: [
+        { key: 'interest', name: '兴趣爱好', tags: [] },
+        { key: 'skill', name: '技能专长', tags: [] },
+        { key: 'academic', name: '学术研究', tags: [] }
+      ],
       gradeOptions: ['大一', '大二', '大三', '大四', '研一', '研二', '研三', '博士'],
       gradeIndex: 0,
       backgroundOptions: [
@@ -236,6 +302,7 @@ export default {
   
   onLoad() {
     this.getUserInfo();
+    this.loadTagData();
   },
   
   computed: {
@@ -313,7 +380,7 @@ export default {
               school: userData.school || '',
               department: userData.department || '',
               grade: userData.grade || '',
-              tags: userData.tags || [],
+              tags: userData.tags || [], // 先存储为字符串数组，稍后转换为对象
               backgroundImage: backgroundImage
             };
             
@@ -436,7 +503,8 @@ export default {
       }
       
       if (this.formData.tags && Array.isArray(this.formData.tags)) {
-        cleanData.tags = this.formData.tags;
+        // 将标签对象数组转换为标签名称数组
+        cleanData.tags = this.formData.tags.map(tag => tag.name || tag);
       }
       
       console.log('过滤后的提交数据:', JSON.stringify(cleanData, null, 2));
@@ -759,45 +827,124 @@ export default {
       });
     },
     
-    // 添加标签
-    addTag() {
-      if (!this.newTag.trim()) {
-        return;
-      }
-      
-      if (this.formData.tags.length >= 8) {
+    // 加载标签数据
+    async loadTagData() {
+      try {
+        // 获取热门标签
+        const hotTagsRes = await this.$api.tag.getHotTags(20);
+        if (hotTagsRes.success) {
+          this.hotTags = hotTagsRes.data || [];
+        }
+        
+        // 获取各分类标签
+        for (const category of this.tagCategories) {
+          try {
+            const categoryRes = await this.$api.tag.getTagsByCategory(category.key, 30);
+            if (categoryRes.success) {
+              category.tags = categoryRes.data || [];
+            }
+          } catch (error) {
+            console.error(`获取${category.name}标签失败:`, error);
+            category.tags = [];
+          }
+        }
+        
+        // 标签数据加载完成后，转换用户标签为对象
+        this.convertTagNamesToObjects();
+      } catch (error) {
+        console.error('获取标签数据失败:', error);
         uni.showToast({
-          title: '最多只能添加8个标签',
+          title: '获取标签数据失败',
           icon: 'none'
         });
-        return;
+      }
+    },
+    
+    // 颜色处理辅助方法
+    parseTagColor(color, opacity = 0.1) {
+      if (!color) return `rgba(74, 144, 226, ${opacity})`;
+      
+      // 如果是rgba格式
+      if (color.includes('rgba(')) {
+        const values = color.match(/\d+/g);
+        if (values && values.length >= 3) {
+          return `rgba(${values[0]}, ${values[1]}, ${values[2]}, ${opacity})`;
+        }
       }
       
-      if (this.formData.tags.includes(this.newTag.trim())) {
-        uni.showToast({
-          title: '标签已存在',
-          icon: 'none'
-        });
-        return;
+      // 如果是rgb格式
+      if (color.includes('rgb(')) {
+        const values = color.match(/\d+/g);
+        if (values && values.length >= 3) {
+          return `rgba(${values[0]}, ${values[1]}, ${values[2]}, ${opacity})`;
+        }
       }
       
-      this.formData.tags.push(this.newTag.trim());
-      this.newTag = '';
-      this.showTagInput = false;
+      // 如果是十六进制颜色
+      if (color.startsWith('#')) {
+        return color;
+      }
+      
+      // 默认颜色
+      return `rgba(74, 144, 226, ${opacity})`;
+    },
+    
+    // 将标签名称数组转换为标签对象数组
+    convertTagNamesToObjects() {
+      if (!this.formData.tags || this.formData.tags.length === 0) return;
+      
+      const allTags = [...this.hotTags];
+      this.tagCategories.forEach(category => {
+        allTags.push(...category.tags);
+      });
+      
+      // 将字符串标签转换为对象标签
+      this.formData.tags = this.formData.tags.map(tagName => {
+        // 如果已经是对象，直接返回
+        if (typeof tagName === 'object' && tagName.name) {
+          return tagName;
+        }
+        
+        // 在所有标签中查找匹配的对象
+        const tagObj = allTags.find(tag => tag.name === tagName);
+        return tagObj || { name: tagName, color: '#4A90E2' }; // 如果找不到，创建默认对象
+      });
+    },
+    
+    // 切换标签选择
+    toggleTag(tagObj) {
+      if (this.isTagSelected(tagObj.name)) {
+        // 移除标签
+        const index = this.formData.tags.findIndex(tag => (tag.name || tag) === tagObj.name);
+        if (index > -1) {
+          this.formData.tags.splice(index, 1);
+        }
+      } else {
+        // 添加标签
+        if (this.formData.tags.length >= 8) {
+          uni.showToast({
+            title: '最多只能添加8个标签',
+            icon: 'none'
+          });
+          return;
+        }
+        this.formData.tags.push(tagObj);
+      }
+    },
+    
+    // 检查标签是否已选择
+    isTagSelected(tagName) {
+      return this.formData.tags.some(tag => (tag.name || tag) === tagName);
+    },
+    
+    // 关闭标签选择器
+    closeTagSelector() {
+      this.showTagSelector = false;
     },
     
     // 移除标签
     removeTag(index) {
       this.formData.tags.splice(index, 1);
-    },
-    
-    // 处理标签输入框失焦
-    handleTagInputBlur() {
-      if (this.newTag.trim()) {
-        this.addTag();
-      } else {
-        this.showTagInput = false;
-      }
     },
     
     // 处理年级变更
@@ -1392,42 +1539,103 @@ export default {
   }
 }
 
-.tag-input-container {
-  @include flex(row, space-between, center);
+// 标签选择器样式
+.tag-selector {
+  background-color: #fff;
+  border-radius: 12rpx;
+  border: 1rpx solid #e0e6ed;
   margin-bottom: 20rpx;
+  max-height: 600rpx;
+  overflow-y: auto;
   
-  .tag-input {
-    flex: 1;
-    height: 80rpx;
-    background-color: #f5f7fa;
-    border-radius: $radius-md;
-    padding: 0 24rpx;
-    font-size: 28rpx;
-    color: $text-primary;
-    margin-right: 20rpx;
-    border: 1rpx solid rgba(0,0,0,0.05);
+  .tag-selector-header {
+    @include flex(row, space-between, center);
+    padding: 24rpx 30rpx;
+    border-bottom: 1rpx solid #f0f0f0;
     
-    &:focus {
-      border-color: rgba($primary-color, 0.3);
-      background-color: #f0f5ff;
+    .selector-title {
+      font-size: 32rpx;
+      font-weight: 600;
+      color: #333;
+    }
+    
+    .selector-close {
+      font-size: 28rpx;
+      color: $primary-color;
+      padding: 8rpx 16rpx;
+      
+      &:active {
+        opacity: 0.7;
+      }
     }
   }
   
-  .tag-add-btn {
-    width: 140rpx;
-    height: 80rpx;
-    background: linear-gradient(to right, $primary-color, lighten($primary-color, 10%));
-    color: #fff;
-    border-radius: $radius-md;
-    font-size: 28rpx;
-    @include center;
-    padding: 0;
-    box-shadow: 0 4rpx 12rpx rgba($primary-color, 0.3);
-    transition: all 0.3s ease;
+  .tag-category {
+    padding: 24rpx 30rpx;
+    border-bottom: 1rpx solid #f8f8f8;
     
-    &:active {
-      transform: scale(0.95);
-      box-shadow: 0 2rpx 6rpx rgba($primary-color, 0.2);
+    &:last-child {
+      border-bottom: none;
+    }
+    
+    .category-title {
+      font-size: 28rpx;
+      font-weight: 600;
+      color: #666;
+      margin-bottom: 20rpx;
+      display: block;
+    }
+    
+    .available-tags {
+      @include flex(row, flex-start, center);
+      flex-wrap: wrap;
+      gap: 16rpx;
+    }
+    
+    .available-tag {
+      @include flex(row, center, center);
+      padding: 16rpx 24rpx;
+      background-color: #f8f9fa;
+      border-radius: 100rpx;
+      border: 1rpx solid #e9ecef;
+      transition: all 0.3s ease;
+      position: relative;
+      
+      &.tag-selected {
+        background-color: rgba($primary-color, 0.1);
+        border-color: $primary-color;
+        
+        .tag-text {
+          color: $primary-color;
+          font-weight: 600;
+        }
+        
+        .tag-check {
+          color: $primary-color;
+          font-size: 20rpx;
+          margin-left: 8rpx;
+        }
+      }
+      
+      &.tag-disabled {
+        opacity: 0.5;
+        background-color: #f0f0f0;
+        border-color: #ddd;
+        
+        .tag-text {
+          color: #999;
+        }
+      }
+      
+      &:not(.tag-disabled):active {
+        transform: scale(0.95);
+      }
+      
+      .tag-text {
+        font-size: 26rpx;
+        color: #666;
+        transition: all 0.3s ease;
+      }
     }
   }
 }

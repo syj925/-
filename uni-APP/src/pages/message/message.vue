@@ -227,6 +227,14 @@ export default {
   // 页面显示时刷新数据
   onShow() {
     console.log('📱 [消息页面] onShow - 刷新数据');
+    
+    // 检查是否登录
+    const token = uni.getStorageSync('token');
+    if (!token) {
+      console.log('📱 [消息页面] 未登录，跳过数据刷新');
+      return;
+    }
+    
     // 从详情页返回时，重新加载数据以显示最新状态
     this.loadNotifyData();
     // 同时刷新私信数据（如果在私信标签）
@@ -239,6 +247,13 @@ export default {
 
   // uni-app全局事件监听
   onLoad() {
+    // 检查是否登录
+    const token = uni.getStorageSync('token');
+    if (!token) {
+      console.log('📱 [消息页面] 未登录，跳过数据加载');
+      return;
+    }
+    
     // 确保正确绑定this上下文
     this.messageReceivedHandler = (eventData) => {
       this.handleNewMessage(eventData);
@@ -438,6 +453,13 @@ export default {
     async loadNotifyData(reset = true) {
       if (this.notifyLoading) return;
       
+      // 检查登录状态
+      const token = uni.getStorageSync('token');
+      if (!token) {
+        console.log('📱 [消息页面] 未登录，跳过加载通知');
+        return;
+      }
+      
       try {
       this.notifyLoading = true;
       
@@ -491,6 +513,13 @@ export default {
     // 加载私信数据
     async loadChatData(reset = true) {
       if (this.chatLoading) return;
+      
+      // 检查登录状态
+      const token = uni.getStorageSync('token');
+      if (!token) {
+        console.log('📱 [消息页面] 未登录，跳过加载私信');
+        return;
+      }
       
       try {
       this.chatLoading = true;

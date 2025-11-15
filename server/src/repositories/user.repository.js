@@ -9,11 +9,27 @@ class UserRepository {
    * 根据ID查找用户
    * @param {String} id 用户ID
    * @param {Boolean} withPassword 是否包含密码
+   * @param {Boolean} includeTags 是否包含标签
    * @returns {Promise<Object>} 用户对象
    */
-  async findById(id, withPassword = false) {
+  async findById(id, withPassword = false, includeTags = false) {
     const scope = withPassword ? 'withPassword' : 'defaultScope';
-    return await User.scope(scope).findByPk(id);
+    const queryOptions = {
+      include: []
+    };
+
+    // 如果需要包含标签
+    if (includeTags) {
+      const { Tag } = require('../models');
+      queryOptions.include.push({
+        model: Tag,
+        as: 'tags',
+        through: { attributes: [] }, // 不包含中间表字段
+        attributes: ['id', 'name', 'category', 'color', 'status']
+      });
+    }
+
+    return await User.scope(scope).findByPk(id, queryOptions);
   }
 
   /**

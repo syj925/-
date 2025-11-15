@@ -233,6 +233,22 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'granted_by',
       as: 'grantedBadges'
     });
+
+    // 用户与标签多对多关联
+    if (models.Tag && models.UserTag) {
+      User.belongsToMany(models.Tag, {
+        through: models.UserTag,
+        foreignKey: 'user_id',
+        otherKey: 'tag_id',
+        as: 'tags'
+      });
+
+      // 用户与用户标签关联
+      User.hasMany(models.UserTag, {
+        foreignKey: 'user_id',
+        as: 'userTags'
+      });
+    }
   };
 
   return User;

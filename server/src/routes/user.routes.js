@@ -74,47 +74,53 @@ const loginSchema = Joi.object({
 });
 
 const updateUserSchema = Joi.object({
-  username: Joi.string().min(3).max(50).optional()
+  username: Joi.string().min(3).max(50).allow(null, '').optional()
     .messages({
       'string.base': '用户名必须是字符串',
       'string.min': '用户名长度不能小于{#limit}个字符',
       'string.max': '用户名长度不能超过{#limit}个字符'
     }),
-  phone: Joi.string().pattern(/^1[3-9]\d{9}$/).optional()
+  phone: Joi.string().pattern(/^1[3-9]\d{9}$/).allow(null, '').optional()
     .messages({
       'string.base': '手机号必须是字符串',
       'string.pattern.base': '手机号格式不正确'
     }),
-  email: Joi.string().email().optional()
+  email: Joi.string().email().allow(null, '').optional()
     .messages({
       'string.base': '邮箱必须是字符串',
       'string.email': '邮箱格式不正确'
     }),
-  avatar: Joi.string().optional()
+  avatar: Joi.string().allow(null, '').optional()
     .messages({
       'string.base': '头像URL必须是字符串'
     }),
-  backgroundImage: Joi.string().optional()
+  backgroundImage: Joi.string().allow(null, '').optional()
     .messages({
       'string.base': '背景图片URL必须是字符串'
     }),
-  school: Joi.string().optional()
+  school: Joi.string().allow(null, '').optional()
     .messages({
       'string.base': '学校必须是字符串'
     }),
-  department: Joi.string().optional()
+  department: Joi.string().allow(null, '').optional()
     .messages({
       'string.base': '院系必须是字符串'
     }),
-  gender: Joi.string().valid('male', 'female', 'other').optional()
+  gender: Joi.string().valid('male', 'female', 'other').allow(null, '').optional()
     .messages({
       'string.base': '性别必须是字符串',
       'any.only': '性别只能是male、female或other'
     }),
-  bio: Joi.string().max(500).optional()
+  bio: Joi.string().max(500).allow(null, '').optional()
     .messages({
       'string.base': '个人简介必须是字符串',
       'string.max': '个人简介长度不能超过{#limit}个字符'
+    }),
+  tags: Joi.array().items(Joi.string().max(20)).max(8).optional()
+    .messages({
+      'array.base': '标签必须是数组格式',
+      'string.max': '标签长度不能超过20个字符',
+      'array.max': '最多只能添加8个标签'
     })
 }).min(1);
 

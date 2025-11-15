@@ -80,21 +80,50 @@
                 </view>
             </view>
 
-              <!-- 认证徽章标识 -->
-              <view class="profile-badges-row" v-if="displayBadges.length > 0">
-                <view 
-                  v-for="badge in displayBadges" 
-                  :key="badge.id"
-                  class="certification-badge"
-                  @longpress="showBadgeDetails(badge)"
-                  @touchstart="onBadgeTouchStart"
-                  @touchend="onBadgeTouchEnd"
-                >
-                  <view class="cert-icon" :style="{backgroundColor: badge.color}">
-                    <image class="cert-icon-svg" src="/static/images/badge-icon.svg" mode="aspectFit"></image>
-              </view>
-                  <text class="cert-name">{{ badge.name }}</text>
-              </view>
+              <!-- 徽章和标签水平排列 -->
+              <view class="badges-tags-row" v-if="displayBadges.length > 0 || (userInfo.tags && userInfo.tags.length > 0)">
+                <!-- 认证徽章部分 -->
+                <view class="badges-section" v-if="displayBadges.length > 0">
+                  <view 
+                    v-for="badge in displayBadges" 
+                    :key="badge.id"
+                    class="certification-badge"
+                    @longpress="showBadgeDetails(badge)"
+                    @touchstart="onBadgeTouchStart"
+                    @touchend="onBadgeTouchEnd"
+                  >
+                    <view class="cert-icon" :style="{backgroundColor: badge.color}">
+                      <image class="cert-icon-svg" src="/static/images/badge-icon.svg" mode="aspectFit"></image>
+                </view>
+                    <text class="cert-name">{{ badge.name }}</text>
+                </view>
+                </view>
+
+                <!-- 占位符（如果没有徽章但有标签） -->
+                <view class="badges-section" v-else-if="userInfo.tags && userInfo.tags.length > 0">
+                  <!-- 空的徽章占位 -->
+                </view>
+
+                <!-- 个人标签部分 -->
+                <view class="tags-section" v-if="userInfo.tags && userInfo.tags.length > 0">
+                  <view class="tags-container-inline">
+                    <view 
+                      v-for="(tag, index) in displayedTags" 
+                      :key="index" 
+                      class="user-info-tag"
+                      :class="{ 'tag-fade-in': true }"
+                      :style="{
+                        animationDelay: index * 0.05 + 's',
+                        backgroundColor: getTagBackgroundColor(tag),
+                        borderColor: getTagBorderColor(tag),
+                        color: getTagTextColor(tag)
+                      }"
+                      @tap="openAllTagsPopup"
+                    >
+                      <text class="tag-text">{{ getTagName(tag) }}</text>
+                    </view>
+                  </view>
+                </view>
               </view>
 
               <!-- 用户ID和统计信息 -->
@@ -130,27 +159,6 @@
 
 
         <!-- 徽章已改为认证标识方式显示在用户名后 -->
-
-        <!-- 用户标签展示区域 -->
-        <view class="user-tags-section" v-if="userInfo.tags && userInfo.tags.length > 0">
-          <view class="section-header">
-            <view class="section-title">兴趣标签</view>
-            <view class="tag-count">({{ userInfo.tags.length }})</view>
-              </view>
-          <scroll-view scroll-x class="tags-scroll" show-scrollbar="false">
-            <view class="tags-content">
-              <view 
-                v-for="(tag, index) in userInfo.tags" 
-                :key="index"
-                class="tag-item"
-                :style="{animationDelay: index * 0.05 + 's'}"
-                @tap="showTagDetail(tag, $event)"
-              >
-                <text class="tag-text">{{ tag }}</text>
-          </view>
-        </view>
-          </scroll-view>
-      </view>
       
 
           </view>
@@ -310,6 +318,39 @@
         </view>
       </view>
     </view>
+
+    <!-- 完整标签列表弹窗 -->
+    <view class="all-tags-modal-mask" v-if="showAllTagsPopup" @tap="closeAllTagsPopup">
+      <view class="all-tags-modal" @tap.stop>
+        <view class="modal-header">
+          <text class="modal-title">个人标签</text>
+          <text class="tag-count">{{ userInfo.tags ? userInfo.tags.length : 0 }}/8</text>
+        </view>
+        <view class="modal-content">
+          <view class="all-tags-grid">
+            <view 
+              v-for="(tag, index) in userInfo.tags"
+              :key="index"
+              class="modal-tag"
+              :style="{
+                backgroundColor: getTagBackgroundColor(tag),
+                borderColor: getTagBorderColor(tag)
+              }"
+            >
+              <text 
+                class="modal-tag-text"
+                :style="{
+                  color: getTagTextColor(tag)
+                }"
+              >{{ getTagName(tag) }}</text>
+            </view>
+          </view>
+        </view>
+        <view class="modal-footer">
+          <button class="close-btn" @tap="closeAllTagsPopup">关闭</button>
+        </view>
+      </view>
+    </view>
     
     <!-- 加载状态 -->
     <view class="loading-container" v-if="loading">
@@ -374,6 +415,8 @@ export default {
       selectedTag: null, // 当前选中的标签
       showTagPopup: false, // 是否显示标签详情弹窗
       tagModalStyle: {}, // 标签弹窗样式（用于动画）
+      showAllTagsPopup: false, // 是否显示完整标签列表弹窗
+      maxDisplayTags: 2, // 最大显示标签数量
       
       // 标签页数据
       tabs: [
@@ -473,6 +516,14 @@ export default {
     // 当前标签的页码
     currentPage() {
       return this.postData[this.currentTab]?.currentPage || 1;
+    },
+
+    // 显示的标签（限制数量）
+    displayedTags() {
+      if (!this.userInfo.tags || this.userInfo.tags.length === 0) {
+        return [];
+      }
+      return this.userInfo.tags.slice(0, this.maxDisplayTags);
     }
   },
   onLoad(options) {
@@ -639,6 +690,83 @@ export default {
         this.selectedTag = null
         this.tagModalStyle = {}
       }, 200)
+    },
+
+    // 打开完整标签列表弹窗
+    openAllTagsPopup() {
+      this.showAllTagsPopup = true
+    },
+
+    // 关闭完整标签列表弹窗
+    closeAllTagsPopup() {
+      this.showAllTagsPopup = false
+    },
+
+    // 获取标签名称
+    getTagName(tag) {
+      if (typeof tag === 'string') {
+        return tag;
+      } else if (tag && tag.name) {
+        return tag.name;
+      }
+      return '';
+    },
+
+    // 获取标签背景颜色
+    getTagBackgroundColor(tag) {
+      if (tag && tag.color) {
+        return this.parseTagColor(tag.color, 0.15);
+      }
+      return 'rgba(102, 126, 234, 0.15)';
+    },
+
+    // 获取标签边框颜色
+    getTagBorderColor(tag) {
+      if (tag && tag.color) {
+        return this.parseTagColor(tag.color, 0.4);
+      }
+      return 'rgba(102, 126, 234, 0.4)';
+    },
+
+    // 获取标签文字颜色
+    getTagTextColor(tag) {
+      // 统一使用白色文字，确保在彩色半透明背景上有良好的对比度
+      return '#ffffff';
+    },
+
+    // 解析标签颜色并应用透明度
+    parseTagColor(color, opacity = 1) {
+      if (!color) {
+        return opacity === 1 ? '#667eea' : `rgba(102, 126, 234, ${opacity})`;
+      }
+
+      // 处理 hex 颜色
+      if (color.startsWith('#')) {
+        const hex = color.replace('#', '');
+        const r = parseInt(hex.substr(0, 2), 16);
+        const g = parseInt(hex.substr(2, 2), 16);
+        const b = parseInt(hex.substr(4, 2), 16);
+        return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+      }
+      
+      // 处理 rgb 颜色
+      if (color.startsWith('rgb(')) {
+        const rgbMatch = color.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
+        if (rgbMatch) {
+          return `rgba(${rgbMatch[1]}, ${rgbMatch[2]}, ${rgbMatch[3]}, ${opacity})`;
+        }
+      }
+      
+      // 处理 rgba 颜色 - 替换透明度
+      if (color.startsWith('rgba(')) {
+        const rgbaMatch = color.match(/rgba\((\d+),\s*(\d+),\s*(\d+),\s*[\d.]+\)/);
+        if (rgbaMatch) {
+          return `rgba(${rgbaMatch[1]}, ${rgbaMatch[2]}, ${rgbaMatch[3]}, ${opacity})`;
+        }
+      }
+      
+      // 如果无法解析，返回默认颜色
+      return opacity === 1 ? '#667eea' : `rgba(102, 126, 234, ${opacity})`;
     },
     
     // 获取稀有度样式类
@@ -1569,12 +1697,35 @@ export default {
     will-change: transform;
   }
 
-  /* 徽章行样式 */
-  .profile-badges-row {
-    @include flex(row, flex-start, center);
-    flex-wrap: wrap;
-    gap: 12rpx;
-    margin-bottom: 20rpx;
+  /* 徽章和标签水平排列行 */
+  .badges-tags-row {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    margin-bottom: 20rpx !important;
+    flex-wrap: nowrap !important;
+    width: 100% !important;
+  }
+
+  /* 徽章部分 */
+  .badges-section {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+    gap: 12rpx !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* 标签部分 */
+  .tags-section {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+    flex-shrink: 0 !important;
   }
 
   /* 认证徽章样式 */
@@ -1623,6 +1774,62 @@ export default {
     letter-spacing: 0.5rpx;
     text-shadow: 0 1rpx 4rpx rgba(0, 0, 0, 0.6);
   }
+
+  /* 个人标签样式（融入用户信息区） */
+  .profile-user-tags {
+    margin-top: 10rpx;
+    margin-bottom: 12rpx;
+    @include flex(row, flex-start, center);
+    max-width: 400rpx;
+    overflow: hidden;
+  }
+
+  .tags-container-inline {
+    @include flex(row, flex-start, center);
+    flex-wrap: nowrap;
+    gap: 8rpx;
+    flex: 1; /* 使用可用的空间 */
+  }
+
+  .user-info-tag {
+    @include flex(row, center, center);
+    padding: 6rpx 16rpx;
+    border-radius: 20rpx;
+    border: 1rpx solid rgba(102, 126, 234, 0.4);
+    background: rgba(102, 126, 234, 0.15);
+    backdrop-filter: blur(10rpx);
+    -webkit-backdrop-filter: blur(10rpx);
+    box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    
+    .tag-text {
+      font-size: 22rpx;
+      font-weight: 500;
+      color: #ffffff !important;
+      text-shadow: 0 1rpx 2rpx rgba(0, 0, 0, 0.3);
+      white-space: nowrap;
+    }
+
+    .more-text {
+      font-size: 22rpx;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.9);
+      text-shadow: 0 1rpx 2rpx rgba(0, 0, 0, 0.3);
+    }
+
+    &:active {
+      transform: scale(0.95);
+      box-shadow: 0 1rpx 4rpx rgba(0, 0, 0, 0.2);
+    }
+  }
+
+  .more-tags-hint {
+    background: rgba(255, 255, 255, 0.2) !important;
+    border-color: rgba(255, 255, 255, 0.4) !important;
+    color: rgba(255, 255, 255, 0.9) !important;
+  }
+
 
   /* 用户ID和统计信息行 */
   .profile-userid-stats-row {
@@ -2482,73 +2689,6 @@ export default {
   }
 }
 
-/* 用户标签样式 */
-.user-tags-section {
-  padding: 30rpx 32rpx;
-  margin-bottom: 20rpx;
-}
-
-.user-tags-section .section-header {
-  @include flex(row, flex-start, center);
-  margin-bottom: 24rpx;
-}
-
-.user-tags-section .section-title {
-  font-size: 32rpx;
-  font-weight: 600;
-  color: #2d3748;
-}
-
-.user-tags-section .tag-count {
-  font-size: 24rpx;
-  color: #718096;
-  margin-left: 8rpx;
-}
-
-.tags-scroll {
-  overflow-x: auto;
-  padding: 10rpx 0;
-        width: 100%;
-      }
-
-.tags-content {
-  @include flex(row, flex-start, center);
-}
-
-.tag-item {
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%);
-  border-radius: 20rpx;
-  padding: 12rpx 24rpx;
-  margin-right: 20rpx;
-  border: 1rpx solid rgba(102, 126, 234, 0.2);
-  /* backdrop-filter: blur(10rpx); 模糊效果已移除 */
-  animation: tagFadeIn 0.5s ease-out;
-  animation-fill-mode: both;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-
-  &:active {
-    transform: scale(0.95);
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.25) 0%, rgba(118, 75, 162, 0.25) 100%);
-  }
-}
-
-.tag-text {
-  font-size: 26rpx;
-  color: #667eea;
-  font-weight: 500;
-  white-space: nowrap;
-}
-
-@keyframes tagFadeIn {
-  from {
-    opacity: 0;
-    transform: translateX(-20rpx) scale(0.8);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0) scale(1);
-  }
-}
 
 /* 标签详情弹窗 */
 .tag-modal-mask {
@@ -2660,6 +2800,143 @@ export default {
     transform: scale(0.95);
     opacity: 0.8;
   }
+}
+
+/* 完整标签列表弹窗样式 */
+.all-tags-modal-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: transparent;
+  z-index: 9999;
+  @include flex(row, center, center);
+}
+
+.all-tags-modal {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 24rpx;
+  width: 600rpx;
+  max-height: 80vh;
+  backdrop-filter: blur(20rpx);
+  -webkit-backdrop-filter: blur(20rpx);
+  border: 1rpx solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 20rpx 40rpx rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  animation: modalFadeIn 0.3s ease-out;
+}
+
+.modal-header {
+  padding: 30rpx 40rpx 20rpx;
+  border-bottom: 1rpx solid rgba(0, 0, 0, 0.1);
+  @include flex(row, space-between, center);
+}
+
+.modal-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.tag-count {
+  font-size: 24rpx;
+  color: #666;
+  background: rgba(102, 126, 234, 0.1);
+  padding: 4rpx 12rpx;
+  border-radius: 12rpx;
+}
+
+.modal-content {
+  padding: 30rpx;
+  max-height: 400rpx;
+  overflow-y: auto;
+}
+
+.all-tags-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120rpx, 1fr));
+  gap: 16rpx;
+}
+
+.modal-tag {
+  @include flex(row, center, center);
+  padding: 16rpx 20rpx;
+  border-radius: 20rpx;
+  border: 1rpx solid rgba(102, 126, 234, 0.4);
+  background: rgba(102, 126, 234, 0.15);
+  transition: all 0.3s ease;
+  text-align: center;
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.modal-tag-text {
+  font-size: 24rpx;
+  font-weight: 500;
+  color: #ffffff !important;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.modal-footer {
+  padding: 20rpx 40rpx 30rpx;
+  @include flex(row, center, center);
+  border-top: 1rpx solid rgba(0, 0, 0, 0.1);
+}
+
+.modal-footer .close-btn {
+  width: 160rpx;
+  height: 60rpx;
+  background: none;
+  color: #666;
+  border: 1rpx solid #ddd;
+  border-radius: 30rpx;
+  font-size: 26rpx;
+  font-weight: normal;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  transition: all 0.3s ease;
+
+  &:active {
+    transform: scale(0.95);
+    background: rgba(0, 0, 0, 0.05);
+  }
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* 标签动画 */
+@keyframes tagFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10rpx);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tag-fade-in {
+  animation: tagFadeIn 0.5s ease-out;
+  animation-fill-mode: both;
 }
 
 /* 深色模式适配 */

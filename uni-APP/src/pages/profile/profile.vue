@@ -22,7 +22,7 @@
         <!-- 用户信息（覆盖在背景上） -->
         <view class="profile-info">
           <!-- 头像区域 -->
-          <view class="profile-avatar-container">
+          <view class="profile-avatar-container" @tap="handleAvatarClick">
             <view class="profile-avatar-wrap">
               <image class="profile-avatar" :src="userInfo.avatar || '/static/images/common/default-avatar.png'" mode="aspectFill"></image>
               <view class="profile-avatar-glow"></view>
@@ -70,28 +70,38 @@
             <view class="profile-school-text" v-if="userInfo.isLogin && (userInfo.school || userInfo.department)">
               {{ formatSchoolInfo(userInfo.school, userInfo.department) }}
             </view>
-          </view>
-        </view>
-      </view>
-      
-
-      
-      <!-- 标签展示区 -->
-      <view class="profile-tags" v-if="userInfo.isLogin && userInfo.tags && userInfo.tags.length > 0">
-        <view class="section-title">个人标签</view>
-        <scroll-view scroll-x class="tags-scroll" show-scrollbar="false">
-          <view class="tags-container">
-            <view 
-              v-for="(tag, index) in userInfo.tags" 
-              :key="index" 
-              class="profile-tag"
-              :style="{animationDelay: index * 0.05 + 's'}"
-              @tap="showTagDetail(tag, $event)"
-            >
-              {{ tag }}
+            
+            <!-- 个人标签（融入用户信息区） -->
+            <view class="profile-user-tags" v-if="userInfo.isLogin && userInfo.tags && userInfo.tags.length > 0">
+              <view class="tags-container-inline">
+                <view 
+                  v-for="(tag, index) in displayedTags" 
+                  :key="index" 
+                  class="user-info-tag"
+                  :class="{ 'tag-fade-in': true }"
+                  :style="{
+                    animationDelay: index * 0.05 + 's',
+                    backgroundColor: getTagBackgroundColor(tag),
+                    borderColor: getTagBorderColor(tag),
+                    color: getTagTextColor(tag)
+                  }"
+                  @tap="openAllTagsPopup"
+                >
+                  <text class="tag-text">{{ getTagName(tag) }}</text>
+                </view>
+                
+                <!-- 更多标签提示 -->
+                <view 
+                  v-if="userInfo.tags.length > maxDisplayTags"
+                  class="user-info-tag more-tags-hint"
+                  @tap="openAllTagsPopup"
+                >
+                  <text class="more-text">+{{ userInfo.tags.length - maxDisplayTags }}</text>
+                </view>
+              </view>
             </view>
           </view>
-        </scroll-view>
+        </view>
       </view>
     </view>
 
@@ -298,6 +308,35 @@
       </view>
     </view>
     
+    <!-- 完整标签列表弹窗 -->
+    <view class="all-tags-modal-mask" v-if="showAllTagsPopup" @tap="closeAllTagsPopup">
+      <view class="all-tags-modal" @tap.stop>
+        <view class="modal-header">
+          <text class="modal-title">个人标签</text>
+          <text class="tag-count">{{ userInfo.tags?.length || 0 }}/8</text>
+        </view>
+        <view class="modal-content">
+          <view class="all-tags-grid">
+            <view 
+              v-for="(tag, index) in userInfo.tags" 
+              :key="index" 
+              class="modal-tag"
+              :style="{
+                backgroundColor: getTagBackgroundColor(tag),
+                borderColor: getTagBorderColor(tag),
+                color: getTagTextColor(tag)
+              }"
+            >
+              <text class="modal-tag-text">{{ getTagName(tag) }}</text>
+            </view>
+          </view>
+        </view>
+        <view class="modal-footer">
+          <button class="close-btn" @tap="closeAllTagsPopup">关闭</button>
+        </view>
+      </view>
+    </view>
+    
     <!-- 标签详情弹窗遮罩层 -->
     <view class="tag-modal-mask" v-if="showTagPopup" @tap="closeTagDetail">
       <view class="tag-detail-modal" :style="tagModalStyle" @tap.stop>
@@ -369,6 +408,8 @@ export default {
       showTagPopup: false, // 是否显示标签详情弹窗
       tagModalStyle: {}, // 标签弹窗样式（用于动画）
       showFullUserId: false, // 是否显示完整用户ID
+      showAllTagsPopup: false, // 是否显示完整标签列表弹窗
+      maxDisplayTags: 2, // 默认显示的标签数量
       tabs: [
         { key: 'post', name: '帖子' },
         { key: 'favorite', name: '收藏' },
@@ -426,6 +467,15 @@ export default {
       return this.userBadges.slice(0, 3); // 最多显示3个认证徽章
     },
     
+    // 显示的标签（固定显示2个）
+    displayedTags() {
+      if (!this.userInfo.tags || !this.userInfo.tags.length) {
+        return [];
+      }
+      
+      return this.userInfo.tags.slice(0, this.maxDisplayTags); // 固定显示前2个
+    },
+    
     // 缩短的用户ID
     shortUserId() {
       const id = this.userInfo.userId || '';
@@ -435,15 +485,17 @@ export default {
   },
   onLoad() {
     this.loadUserInfo();
-    this.loadPosts();
-    // 活动和审核记录现在由各自的组件处理，无需在这里加载
-    // this.loadEvents();
-    // this.loadAuditRecords();
+    // loadPosts 会在 loadUserInfo 成功后调用，或由用户登录后触发
+    // 不在此处直接调用，避免未登录时报错
   },
   onShow() {
     // 页面显示时刷新数据
     this.loadUserInfo();
-    this.refreshCurrentTab();
+    
+    // 只有登录后才刷新内容
+    if (this.userInfo.isLogin) {
+      this.refreshCurrentTab();
+    }
 
     // 检查全局刷新标记
     const app = getApp();
@@ -454,12 +506,20 @@ export default {
     }
   },
   onPullDownRefresh() {
-    this.refreshCurrentTab();
+    // 只有登录后才刷新内容
+    if (this.userInfo.isLogin) {
+      this.refreshCurrentTab();
+    }
     setTimeout(() => {
       uni.stopPullDownRefresh();
     }, 1000);
   },
   onReachBottom() {
+    // 未登录时不加载更多
+    if (!this.userInfo.isLogin) {
+      return;
+    }
+    
     // 根据当前选中的标签页触发对应的加载更多
     if (this.tabIndex === 0) {
       // 我的帖子
@@ -477,9 +537,23 @@ export default {
       const token = uni.getStorageSync('token');
 
       if (!token) {
-        uni.navigateTo({
-          url: '/pages/login/login'
-        });
+        // 未登录状态，设置为游客模式
+        this.userInfo = {
+          isLogin: false,
+          avatar: '/static/images/common/default-avatar.png',
+          nickname: '游客',
+          userId: '',
+          bio: '点击登录，开启精彩校园生活',
+          school: '',
+          department: '',
+          backgroundImage: 'linear-gradient(135deg, #2b85e4 0%, #6ba7f0 100%)',
+          postCount: 0,
+          likeCount: 0,
+          favoriteCount: 0,
+          followingCount: 0,
+          followersCount: 0,
+          tags: []
+        };
         return;
       }
       
@@ -542,6 +616,9 @@ export default {
           
           // 加载用户徽章
           this.loadUserBadges();
+          
+          // 成功获取用户信息后，加载帖子
+          this.loadPosts();
         } else {
           // 登录状态失效
           this.userInfo.isLogin = false;
@@ -707,6 +784,92 @@ export default {
       }, 200);
     },
     
+    // 显示完整标签列表弹窗
+    openAllTagsPopup() {
+      this.showAllTagsPopup = true;
+    },
+    
+    // 关闭完整标签列表弹窗
+    closeAllTagsPopup() {
+      this.showAllTagsPopup = false;
+    },
+    
+    // 获取标签名称（处理对象和字符串）
+    getTagName(tag) {
+      return typeof tag === 'object' ? tag.name : tag;
+    },
+    
+    // 获取标签背景颜色（半透明）
+    getTagBackgroundColor(tag) {
+      if (typeof tag === 'object' && tag.color) {
+        // 处理rgba格式
+        if (tag.color.includes('rgba(')) {
+          const values = tag.color.match(/\d+/g);
+          if (values && values.length >= 3) {
+            return `rgba(${values[0]}, ${values[1]}, ${values[2]}, 0.2)`;
+          }
+        }
+        // 处理rgb格式
+        if (tag.color.includes('rgb(')) {
+          const values = tag.color.match(/\d+/g);
+          if (values && values.length >= 3) {
+            return `rgba(${values[0]}, ${values[1]}, ${values[2]}, 0.2)`;
+          }
+        }
+        // 处理十六进制颜色
+        if (tag.color.startsWith('#')) {
+          const r = parseInt(tag.color.slice(1, 3), 16);
+          const g = parseInt(tag.color.slice(3, 5), 16);
+          const b = parseInt(tag.color.slice(5, 7), 16);
+          return `rgba(${r}, ${g}, ${b}, 0.2)`;
+        }
+      }
+      
+      // 默认半透明白色背景
+      return 'rgba(255, 255, 255, 0.25)';
+    },
+    
+    // 获取标签边框颜色
+    getTagBorderColor(tag) {
+      if (typeof tag === 'object' && tag.color) {
+        // 处理rgba格式
+        if (tag.color.includes('rgba(')) {
+          const values = tag.color.match(/\d+/g);
+          if (values && values.length >= 3) {
+            return `rgba(${values[0]}, ${values[1]}, ${values[2]}, 0.4)`;
+          }
+        }
+        // 处理rgb格式
+        if (tag.color.includes('rgb(')) {
+          const values = tag.color.match(/\d+/g);
+          if (values && values.length >= 3) {
+            return `rgba(${values[0]}, ${values[1]}, ${values[2]}, 0.4)`;
+          }
+        }
+        // 处理十六进制颜色
+        if (tag.color.startsWith('#')) {
+          const r = parseInt(tag.color.slice(1, 3), 16);
+          const g = parseInt(tag.color.slice(3, 5), 16);
+          const b = parseInt(tag.color.slice(5, 7), 16);
+          return `rgba(${r}, ${g}, ${b}, 0.4)`;
+        }
+      }
+      
+      // 默认边框颜色
+      return 'rgba(255, 255, 255, 0.3)';
+    },
+    
+    // 获取标签文字颜色
+    getTagTextColor(tag) {
+      if (typeof tag === 'object' && tag.color) {
+        // 直接返回原始颜色作为文字颜色
+        return tag.color;
+      }
+      // 默认白色文字（适配深色背景）
+      return 'rgba(255, 255, 255, 0.95)';
+    },
+    
+    
     // 获取稀有度样式类
     getRarityClass(rarity) {
       return `rarity-${rarity}`;
@@ -723,11 +886,35 @@ export default {
       return names[rarity] || '未知';
     },
     
+    // 点击头像处理
+    handleAvatarClick() {
+      if (!this.userInfo.isLogin) {
+        // 未登录，引导登录
+        uni.showModal({
+          title: '提示',
+          content: '登录后查看更多精彩内容',
+          confirmText: '去登录',
+          cancelText: '暂不登录',
+          success: (res) => {
+            if (res.confirm) {
+              uni.navigateTo({
+                url: '/pages/auth/login/index'
+              });
+            }
+          }
+        });
+        return;
+      }
+      
+      // 已登录，编辑资料
+      this.editProfile();
+    },
+    
     // 编辑个人资料
     editProfile() {
       if (!this.userInfo.isLogin) {
         uni.navigateTo({
-          url: '/pages/auth/login'
+          url: '/pages/auth/login/index'
         });
         return;
       }
@@ -820,6 +1007,12 @@ export default {
     
     loadPosts() {
       if (this.postLoading) return;
+      
+      // 未登录时不加载帖子
+      if (!this.userInfo.isLogin) {
+        console.log('未登录，跳过加载帖子');
+        return;
+      }
       
       this.postLoading = true;
       
@@ -925,6 +1118,12 @@ export default {
     
     loadLikes() {
       if (this.likeLoading) return;
+      
+      // 未登录时不加载收藏
+      if (!this.userInfo.isLogin) {
+        console.log('未登录，跳过加载收藏');
+        return;
+      }
       
       this.likeLoading = true;
       
@@ -1241,6 +1440,11 @@ export default {
     changeTab(tab) {
       this.activeTab = tab;
       
+      // 未登录时不加载内容
+      if (!this.userInfo.isLogin) {
+        return;
+      }
+      
       if (tab === 'post' && this.postList.length === 0) {
         this.loadPosts();
       } else if (tab === 'like' && this.favoriteList.length === 0) {
@@ -1255,6 +1459,11 @@ export default {
     },
     
     handleScrollRefresh() {
+      // 未登录时不刷新
+      if (!this.userInfo.isLogin) {
+        return;
+      }
+      
       this.refreshing = true;
       this.page = 1;
 
@@ -1398,7 +1607,7 @@ export default {
 /* 封面背景 */
 .profile-cover {
   position: relative;
-  height: 670rpx;
+  height: 690rpx; /* 增加高度以适应标签内容 */
   overflow: hidden;
 }
 
@@ -1449,7 +1658,7 @@ export default {
 /* 用户信息 */
 .profile-info {
   position: absolute;
-  bottom: 80rpx; /* 距离背景图底部80rpx，整体下移 */
+  bottom: 40rpx; /* 进一步减少底部距离，整体向下移动 */
   left: 0;
   right: 0;
   @include flex(column, flex-start, flex-start);
@@ -1950,43 +2159,62 @@ export default {
   font-weight: 500;
 }
 
-/* 标签 */
-.profile-tags {
-  position: relative;
-  padding: 25rpx 30rpx;
-  margin-top: 50rpx; /* 给白色区域顶部留出空间 */
-  z-index: 1;
-}
-
-.tags-scroll {
-  overflow-x: auto;
-  padding: 15rpx 0;
+/* 用户信息区域的标签 */
+.profile-user-tags {
+  margin-top: 10rpx;
   width: 100%;
 }
 
-.tags-container {
-  @include flex(row, flex-start, center);
-  flex-wrap: nowrap;
+.tags-container-inline {
+  display: flex;
+  flex-wrap: nowrap; /* 不换行，保证在一行内显示 */
+  gap: 12rpx;
+  align-items: center;
+  max-width: 400rpx; /* 限制最大宽度，保留右边空间 */
+  overflow: hidden; /* 超出部分隐藏 */
 }
 
-.profile-tag {
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%);
-  color: #667eea;
-  font-size: 26rpx;
-  border-radius: 20rpx;
-  padding: 12rpx 24rpx;
-  margin-right: 20rpx;
+.user-info-tag {
+  background: rgba(255, 255, 255, 0.25);
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 22rpx;
+  border-radius: 16rpx;
+  padding: 8rpx 16rpx;
   white-space: nowrap;
   animation: tagFadeIn 0.5s ease-out;
   animation-fill-mode: both;
-  border: 1rpx solid rgba(102, 126, 234, 0.2);
-  /* backdrop-filter: blur(10rpx); 模糊效果已移除 */
+  border: 1rpx solid rgba(255, 255, 255, 0.3);
   font-weight: 500;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10rpx);
+  -webkit-backdrop-filter: blur(10rpx);
+  
+  .tag-text {
+    display: inline-block;
+    text-shadow: 0 1rpx 2rpx rgba(0, 0, 0, 0.1);
+  }
+  
+  &.more-tags-hint {
+    background: rgba(255, 255, 255, 0.15);
+    color: rgba(255, 255, 255, 0.8);
+    border-color: rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    flex-shrink: 0; /* 不被压缩 */
+    
+    .more-text {
+      font-size: 20rpx;
+      opacity: 0.8;
+    }
+    
+    &:active {
+      background: rgba(255, 255, 255, 0.2);
+      transform: scale(0.95);
+    }
+  }
 
   &:active {
     transform: scale(0.95);
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.25) 0%, rgba(118, 75, 162, 0.25) 100%);
+    background: rgba(255, 255, 255, 0.35);
   }
 }
 
@@ -1998,6 +2226,118 @@ export default {
   to {
     opacity: 1;
     transform: translateX(0) scale(1);
+  }
+}
+
+.tag-fade-in {
+  animation: tagFadeIn 0.5s ease-out;
+  animation-fill-mode: both;
+}
+
+/* 完整标签列表弹窗 */
+.all-tags-modal-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: transparent;
+  z-index: 9999;
+  @include flex(row, center, center);
+}
+
+.all-tags-modal {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 24rpx;
+  width: 600rpx;
+  max-height: 80vh;
+  backdrop-filter: blur(20rpx);
+  -webkit-backdrop-filter: blur(20rpx);
+  border: 1rpx solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 20rpx 40rpx rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  animation: modalFadeIn 0.3s ease-out;
+}
+
+.modal-header {
+  padding: 30rpx 40rpx 20rpx;
+  border-bottom: 1rpx solid rgba(0, 0, 0, 0.1);
+  @include flex(row, space-between, center);
+  
+  .modal-title {
+    font-size: 32rpx;
+    font-weight: 600;
+    color: #333;
+  }
+  
+  .tag-count {
+    font-size: 24rpx;
+    color: #666;
+    background: rgba(74, 144, 226, 0.1);
+    padding: 8rpx 16rpx;
+    border-radius: 12rpx;
+    border: 1rpx solid rgba(74, 144, 226, 0.2);
+  }
+}
+
+.modal-content {
+  padding: 30rpx 40rpx;
+  max-height: 400rpx;
+  overflow-y: auto;
+}
+
+.all-tags-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+}
+
+.modal-tag {
+  background: rgba(102, 126, 234, 0.1);
+  color: #667eea;
+  font-size: 26rpx;
+  border-radius: 20rpx;
+  padding: 12rpx 20rpx;
+  border: 1rpx solid rgba(102, 126, 234, 0.2);
+  font-weight: 500;
+  
+  .modal-tag-text {
+    display: inline-block;
+  }
+}
+
+.modal-footer {
+  padding: 20rpx 40rpx 30rpx;
+  border-top: 1rpx solid rgba(0, 0, 0, 0.1);
+  @include flex(row, center, center);
+  
+  .close-btn {
+    background: none;
+    color: #666;
+    border: 1rpx solid #ddd;
+    border-radius: 20rpx;
+    padding: 16rpx 40rpx;
+    font-size: 28rpx;
+    font-weight: normal;
+    @include flex(row, center, center);
+    text-align: center;
+    min-width: 120rpx;
+    
+    &:active {
+      background: #f5f5f5;
+      transform: scale(0.95);
+    }
+  }
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
 }
 

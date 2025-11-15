@@ -211,7 +211,7 @@ class UserService {
    */
   async getUserInfo(id) {
 
-    const user = await userRepository.findById(id);
+    const user = await userRepository.findById(id, false, true); // 第三个参数表示包含标签
 
     if (!user) {
       throw ErrorMiddleware.createError(
@@ -379,16 +379,80 @@ class UserService {
       userData.password = EncryptionUtil.hashPassword(userData.password);
     }
 
+    // 处理空字符串，将空字符串转换为 null，避免验证错误
+    const cleanedData = {};
+    Object.keys(userData).forEach(key => {
+      const value = userData[key];
+      // 对于字符串类型字段，空字符串转为 null
+      if (typeof value === 'string' && value.trim() === '') {
+        cleanedData[key] = null;
+      } else {
+        cleanedData[key] = value;
+      }
+    });
+
     // 处理字段名映射（前端驼峰命名转数据库下划线命名）
-    const mappedUserData = { ...userData };
-    if (userData.backgroundImage !== undefined) {
-      mappedUserData.background_image = userData.backgroundImage;
+    const mappedUserData = { ...cleanedData };
+    if (cleanedData.backgroundImage !== undefined) {
+      mappedUserData.background_image = cleanedData.backgroundImage;
       delete mappedUserData.backgroundImage;
+    }
+
+    // 处理标签更新
+    if (userData.tags && Array.isArray(userData.tags)) {
+      await this._updateUserTags(id, userData.tags);
     }
 
     // 更新用户信息
     const updatedUser = await userRepository.update(id, mappedUserData);
-    return updatedUser;
+    
+    // 返回包含标签的完整用户信息
+    return await userRepository.findById(id, false, true);
+  }
+
+  /**
+   * 更新用户标签
+   * @private
+   * @param {String} userId 用户ID
+   * @param {Array} tagNames 标签名称数组
+   * @returns {Promise<void>}
+   */
+  async _updateUserTags(userId, tagNames) {
+    const { UserTag, Tag } = require('../models');
+    
+    // 删除用户现有的所有标签关联
+    await UserTag.destroy({
+      where: { user_id: userId }
+    });
+
+    // 如果没有标签，直接返回
+    if (!tagNames || tagNames.length === 0) {
+      return;
+    }
+
+    // 查找或创建标签，并建立关联
+    for (const tagName of tagNames) {
+      if (!tagName || tagName.trim() === '') continue;
+
+      // 查找或创建标签
+      const [tag] = await Tag.findOrCreate({
+        where: { name: tagName.trim() },
+        defaults: {
+          name: tagName.trim(),
+          category: 'interest',
+          status: 'normal'
+        }
+      });
+
+      // 创建用户标签关联
+      await UserTag.create({
+        user_id: userId,
+        tag_id: tag.id
+      });
+
+      // 更新标签使用次数
+      await tag.increment('use_count');
+    }
   }
 
   /**
@@ -661,14 +725,15 @@ class UserService {
       );
     }
 
-    // 获取用户统计数据和徽章信息
-    const [postCount, likeCount, favoriteCount, followCount, fansCount, userBadges] = await Promise.all([
+    // 获取用户统计数据、徽章信息和标签信息
+    const [postCount, likeCount, favoriteCount, followCount, fansCount, userBadges, userTags] = await Promise.all([
       postRepository.countByUserId(userId),
       likeRepository.countByUserId(userId),
       favoriteRepository.countByUserId(userId),
       followRepository.countFollowings(userId),
       followRepository.countFollowers(userId),
-      this._getUserBadgesWithDetails(userId)
+      this._getUserBadgesWithDetails(userId),
+      this._getUserTagsWithDetails(userId)
     ]);
 
     // 获取关注状态（如果当前用户已登录）
@@ -723,6 +788,9 @@ class UserService {
 
       // 徽章信息
       badges: userBadges,
+
+      // 标签信息
+      tags: userTags,
 
       // 关注状态
       followStatus: {
@@ -886,6 +954,103 @@ class UserService {
     } catch (error) {
       logger.error('获取用户徽章详情失败:', error);
       return []; // 如果获取徽章失败，返回空数组而不是抛出错误
+    }
+  }
+
+  /**
+   * 获取用户标签详情（内部方法）
+   * @param {String} userId 用户ID
+   * @returns {Promise<Array>} 用户标签列表
+   */
+  async _getUserTagsWithDetails(userId) {
+    // 🔑 生成缓存键
+    const cacheKey = `user:${userId}:tags`;
+    
+    try {
+      // 📥 1. 先尝试从 Redis 缓存读取
+      logger.info(`🔍 [标签缓存] 尝试从缓存读取用户标签: ${userId}`, {
+        service: 'campus-wall-api',
+        cacheKey
+      });
+      
+      const cached = await redisClient.get(cacheKey);
+      if (cached) {
+        logger.info(`✅ [标签缓存] 缓存命中，返回缓存数据: ${userId}`, {
+          service: 'campus-wall-api',
+          cacheKey,
+          tagsCount: Array.isArray(cached) ? cached.length : 0
+        });
+        return cached;
+      }
+      
+      logger.info(`❌ [标签缓存] 缓存未命中，查询数据库: ${userId}`, {
+        service: 'campus-wall-api',
+        cacheKey
+      });
+
+      // 🗄️ 2. 缓存未命中，查询数据库
+      const { User, Tag } = require('../models');
+
+      // 通过User模型的关联获取用户标签
+      const user = await User.findByPk(userId, {
+        include: [
+          {
+            model: Tag,
+            as: 'tags',
+            through: { attributes: [] }, // 不需要中间表的字段
+            where: { status: 'normal' }, // 只获取正常状态的标签
+            required: false // 即使没有标签也返回用户
+          }
+        ]
+      });
+
+      if (!user || !user.tags) {
+        logger.info(`📝 [标签缓存] 用户无标签数据: ${userId}`, {
+          service: 'campus-wall-api'
+        });
+        return [];
+      }
+
+      // 格式化标签数据
+      const result = user.tags.map(tag => ({
+        id: tag.id,
+        name: tag.name,
+        color: tag.color,
+        category: tag.category,
+        description: tag.description
+      }));
+
+      logger.info(`🗄️ [标签缓存] 数据库查询成功: ${userId}`, {
+        service: 'campus-wall-api',
+        tagsCount: result.length,
+        tags: result.map(t => t.name).join(', ')
+      });
+
+      // 💾 3. 将结果缓存到 Redis (30分钟)
+      try {
+        await redisClient.setex(cacheKey, 1800, JSON.stringify(result));
+        logger.info(`💾 [标签缓存] 成功缓存到Redis: ${userId}`, {
+          service: 'campus-wall-api',
+          cacheKey,
+          ttl: 1800,
+          tagsCount: result.length
+        });
+      } catch (cacheError) {
+        logger.warn(`⚠️ [标签缓存] Redis缓存写入失败: ${cacheError.message}`, {
+          service: 'campus-wall-api',
+          userId
+        });
+      }
+
+      return result;
+    } catch (error) {
+      logger.error('❌ [标签缓存] 获取用户标签详情失败:', {
+        service: 'campus-wall-api',
+        userId,
+        error: error.message,
+        stack: error.stack
+      });
+      return []; // 如果获取标签失败，返回空数组而不是抛出错误
     }
   }
 

@@ -128,18 +128,18 @@
       title="编辑用户"
       width="500px"
     >
-      <el-form :model="editForm" label-width="120px" v-loading="saveLoading">
+      <el-form ref="editFormRef" :model="editForm" :rules="editFormRules" label-width="120px" v-loading="saveLoading">
         <el-form-item label="账号">
           <el-input v-model="editForm.username" disabled />
         </el-form-item>
-        <el-form-item label="昵称">
+        <el-form-item label="昵称" prop="nickname">
           <el-input v-model="editForm.nickname" />
         </el-form-item>
-        <el-form-item label="手机号">
-          <el-input v-model="editForm.phone" placeholder="请输入手机号" />
+        <el-form-item label="手机号" prop="phone">
+          <el-input v-model="editForm.phone" placeholder="请输入11位手机号，不填写请留空" />
         </el-form-item>
-        <el-form-item label="邮箱">
-          <el-input v-model="editForm.email" />
+        <el-form-item label="邮箱" prop="email">
+          <el-input v-model="editForm.email" placeholder="请输入邮箱，不填写请留空" />
         </el-form-item>
         <el-form-item label="性别">
           <el-select v-model="editForm.gender" placeholder="请选择性别" style="width: 100%">
@@ -441,6 +441,7 @@ const userList = ref([]);
 
 // 编辑对话框
 const dialogVisible = ref(false);
+const editFormRef = ref(null);
 const editForm = ref({
   id: null,
   username: '',
@@ -455,6 +456,43 @@ const editForm = ref({
   role: 'student',
   is_disabled: false
 });
+
+// 编辑表单验证规则
+const editFormRules = {
+  nickname: [
+    { max: 50, message: '昵称长度不能超过50个字符', trigger: 'blur' }
+  ],
+  phone: [
+    {
+      validator: (rule, value, callback) => {
+        if (!value || value.trim() === '') {
+          // 允许为空
+          callback();
+        } else if (!/^1[3-9]\d{9}$/.test(value)) {
+          callback(new Error('请输入正确的手机号格式（11位数字，1开头）'));
+        } else {
+          callback();
+        }
+      },
+      trigger: 'blur'
+    }
+  ],
+  email: [
+    {
+      validator: (rule, value, callback) => {
+        if (!value || value.trim() === '') {
+          // 允许为空
+          callback();
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+          callback(new Error('请输入正确的邮箱格式'));
+        } else {
+          callback();
+        }
+      },
+      trigger: 'blur'
+    }
+  ]
+};
 
 // 用户详情对话框
 const detailDialogVisible = ref(false);
@@ -635,18 +673,18 @@ const formatLastActive = (lastActiveTime) => {
 
 // 编辑用户
 const handleEdit = (row) => {
-  // 复制用户数据到编辑表单
+  // 复制用户数据到编辑表单，null 值转为空字符串以便编辑
   editForm.value = {
     id: row.id,
     username: row.username,
-    nickname: row.nickname,
-    phone: row.phone || '',
-    email: row.email || '',
-    gender: row.gender || '',
-    school: row.school || '',
-    department: row.department || '',
-    bio: row.bio || '',
-    password: '',
+    nickname: row.nickname || '',        // null 转为空字符串
+    phone: row.phone || '',              // null 转为空字符串  
+    email: row.email || '',              // null 转为空字符串
+    gender: row.gender || '',            // null 转为空字符串
+    school: row.school || '',            // null 转为空字符串
+    department: row.department || '',    // null 转为空字符串
+    bio: row.bio || '',                  // null 转为空字符串
+    password: '',                        // 密码总是空，需要用户主动填写
     role: row.role || 'student',
     is_disabled: row.is_disabled || false
   };
@@ -656,20 +694,39 @@ const handleEdit = (row) => {
 
 // 保存用户信息
 const saveUser = async () => {
+  if (!editFormRef.value) return;
+  
+  // 先进行表单验证
+  try {
+    await editFormRef.value.validate();
+  } catch (error) {
+    ElMessage.error('请检查表单数据是否正确');
+    return;
+  }
+  
   saveLoading.value = true;
   try {
-    const res = await api.users.update(editForm.value.id, {
-      nickname: editForm.value.nickname,
-      phone: editForm.value.phone,
-      email: editForm.value.email,
-      gender: editForm.value.gender,
-      school: editForm.value.school,
-      department: editForm.value.department,
-      bio: editForm.value.bio,
-      password: editForm.value.password,
+    // 准备提交数据，对空字符串进行处理
+    const updateData = {
+      nickname: editForm.value.nickname?.trim() || null,
+      phone: editForm.value.phone?.trim() || null, // 空值转为 null
+      email: editForm.value.email?.trim() || null, // 空值转为 null
+      gender: editForm.value.gender || null,
+      school: editForm.value.school?.trim() || null,
+      department: editForm.value.department?.trim() || null,
+      bio: editForm.value.bio?.trim() || null,
       role: editForm.value.role,
       is_disabled: editForm.value.is_disabled
-    });
+    };
+    
+    // 只有非空密码才发送
+    if (editForm.value.password?.trim()) {
+      updateData.password = editForm.value.password.trim();
+    }
+    
+    console.log('提交的更新数据:', updateData);
+    
+    const res = await api.users.update(editForm.value.id, updateData);
     
     if (res.success) {
       ElMessage.success('用户信息更新成功');

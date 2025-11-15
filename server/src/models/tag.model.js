@@ -61,5 +61,24 @@ const Tag = sequelize.define('Tag', {
   ]
 });
 
+// 定义关联关系
+Tag.associate = models => {
+  // 标签与用户多对多关联
+  if (models.User && models.UserTag) {
+    Tag.belongsToMany(models.User, {
+      through: models.UserTag,
+      foreignKey: 'tag_id',
+      otherKey: 'user_id',
+      as: 'users'
+    });
+
+    // 标签与用户标签关联
+    Tag.hasMany(models.UserTag, {
+      foreignKey: 'tag_id',
+      as: 'userTags'
+    });
+  }
+};
+
 return Tag;
 };

@@ -1,10 +1,10 @@
 // 应用配置
 const config = {
   // API配置
-  API_BASE_URL: 'http://www.callxyq.xyz/api',
+  API_BASE_URL: 'http://localhost:3000/api',
 
   // 服务器基础URL
-  SERVER_BASE_URL: 'http://www.callxyq.xyz',
+  SERVER_BASE_URL: 'http://localhost:3000',
 };
 
 // 导出配置

@@ -57,30 +57,30 @@ const changePasswordSchema = Joi.object({
 
 // 管理员更新用户信息验证规则
 const adminUpdateUserSchema = Joi.object({
-  nickname: Joi.string().min(1).max(50).optional().messages({
+  nickname: Joi.string().min(1).max(50).allow(null, '').optional().messages({
     'string.empty': '昵称不能为空',
     'string.min': '昵称至少1个字符',
     'string.max': '昵称最多50个字符'
   }),
-  phone: Joi.string().pattern(/^1[3-9]\d{9}$/).optional().messages({
+  phone: Joi.string().pattern(/^1[3-9]\d{9}$/).allow(null, '').optional().messages({
     'string.pattern.base': '手机号格式不正确'
   }),
-  email: Joi.string().email().optional().messages({
+  email: Joi.string().email().allow(null, '').optional().messages({
     'string.email': '邮箱格式不正确'
   }),
-  gender: Joi.string().valid('male', 'female', 'other').optional().messages({
+  gender: Joi.string().valid('male', 'female', 'other').allow(null, '').optional().messages({
     'any.only': '性别只能是male、female或other'
   }),
-  school: Joi.string().max(100).optional().messages({
+  school: Joi.string().max(100).allow(null, '').optional().messages({
     'string.max': '学校名称最多100个字符'
   }),
-  department: Joi.string().max(100).optional().messages({
+  department: Joi.string().max(100).allow(null, '').optional().messages({
     'string.max': '院系名称最多100个字符'
   }),
-  bio: Joi.string().max(500).optional().messages({
+  bio: Joi.string().max(500).allow(null, '').optional().messages({
     'string.max': '个人简介最多500个字符'
   }),
-  password: Joi.string().min(6).max(30).optional().messages({
+  password: Joi.string().min(6).max(30).allow(null, '').optional().messages({
     'string.min': '密码至少6个字符',
     'string.max': '密码最多30个字符'
   }),
@@ -88,6 +88,11 @@ const adminUpdateUserSchema = Joi.object({
     'any.only': '角色只能是student、teacher或admin'
   }),
   is_disabled: Joi.boolean().optional(),
+  tags: Joi.array().items(Joi.string().max(20)).max(8).optional().messages({
+    'array.base': '标签必须是数组格式',
+    'string.max': '标签长度不能超过20个字符',
+    'array.max': '最多只能添加8个标签'
+  }),
   settings: Joi.object({
     privacy: Joi.object({
       anonymousMode: Joi.boolean().optional(),

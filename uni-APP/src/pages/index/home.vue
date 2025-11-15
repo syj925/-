@@ -72,6 +72,21 @@
     
     <!-- 底部安全区占位 -->
     <view class="safe-area"></view>
+    
+    <!-- 登录提示弹窗 -->
+    <view v-if="showLoginModal" class="login-modal-mask" @tap="closeLoginModal">
+      <view class="login-modal" @tap.stop>
+        <view class="login-modal-icon">
+          <text class="icon-emoji">🔐</text>
+        </view>
+        <view class="login-modal-title">登录后体验更多功能</view>
+        <view class="login-modal-desc">登录后可以点赞、评论、收藏帖子，与更多校友互动</view>
+        <view class="login-modal-buttons">
+          <button class="login-modal-btn cancel-btn" @tap="closeLoginModal">继续浏览</button>
+          <button class="login-modal-btn confirm-btn" @tap="goToLogin">去登录</button>
+        </view>
+      </view>
+    </view>
   </view>
 </template>
 
@@ -111,7 +126,9 @@ export default {
       // 滚动控制相关
       lastScrollTop: 0,
       searchHeaderVisible: true,
-      scrollDirection: 'down'
+      scrollDirection: 'down',
+      // 登录提示弹窗
+      showLoginModal: false
     };
   },
   onLoad() {
@@ -470,13 +487,7 @@ export default {
       // 检查登录状态
       const token = uni.getStorageSync('token');
       if (!token) {
-        uni.showToast({
-          title: '请先登录',
-          icon: 'none'
-        });
-        uni.navigateTo({
-          url: '/pages/auth/login/index'
-        });
+        this.showLoginModal = true;
         return;
       }
 
@@ -529,13 +540,7 @@ export default {
       // 检查登录状态
       const token = uni.getStorageSync('token');
       if (!token) {
-        uni.showToast({
-          title: '请先登录',
-          icon: 'none'
-        });
-        uni.navigateTo({
-          url: '/pages/auth/login/index'
-        });
+        this.showLoginModal = true;
         return;
       }
 
@@ -730,14 +735,40 @@ export default {
         url: '/pages/search/index'
       });
     },
+    
+    // 打开登录提示弹窗
+    openLoginModal() {
+      this.showLoginModal = true;
+    },
+    
+    // 关闭登录提示弹窗
+    closeLoginModal() {
+      this.showLoginModal = false;
+    },
+    
+    // 去登录
+    goToLogin() {
+      this.showLoginModal = false;
+      uni.navigateTo({
+        url: '/pages/auth/login/index'
+      });
+    },
 
     // 批量获取关注状态
     async loadFollowStatus(posts) {
+      // 先检查是否有token
+      const token = uni.getStorageSync('token');
+      if (!token) {
+        console.log('📋 未登录，跳过关注状态查询');
+        return;
+      }
+      
       // 检查用户是否登录
       const currentUser = uni.getStorageSync('userInfo');
       const currentUserId = currentUser?.id || uni.getStorageSync('userId') || uni.getStorageSync('user_id');
       
       if (!currentUserId) {
+        console.log('📋 无用户ID，跳过关注状态查询');
         return; // 用户未登录，无需获取关注状态
       }
 
@@ -963,5 +994,121 @@ export default {
 
 .safe-area {
   height: 34rpx;
+}
+
+/* 登录提示弹窗 */
+.login-modal-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  @include flex(row, center, center);
+  z-index: 9999;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.login-modal {
+  width: 600rpx;
+  background: #fff;
+  border-radius: 30rpx;
+  padding: 60rpx 40rpx 40rpx;
+  @include flex(column, flex-start, center);
+  animation: slideUp 0.3s ease;
+  box-shadow: 0 20rpx 60rpx rgba(0, 0, 0, 0.3);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(100rpx);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.login-modal-icon {
+  width: 120rpx;
+  height: 120rpx;
+  margin-bottom: 30rpx;
+  @include flex(row, center, center);
+  
+  .icon-emoji {
+    font-size: 100rpx;
+    line-height: 1;
+  }
+  
+  image {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.login-modal-title {
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 20rpx;
+  text-align: center;
+}
+
+.login-modal-desc {
+  font-size: 28rpx;
+  color: #666;
+  line-height: 1.6;
+  text-align: center;
+  margin-bottom: 40rpx;
+  padding: 0 20rpx;
+}
+
+.login-modal-buttons {
+  @include flex(row, space-between, center);
+  width: 100%;
+  gap: 20rpx;
+}
+
+.login-modal-btn {
+  flex: 1;
+  height: 88rpx;
+  border-radius: 44rpx;
+  font-size: 30rpx;
+  font-weight: 500;
+  border: none;
+  @include flex(row, center, center);
+  transition: all 0.3s ease;
+  
+  &.cancel-btn {
+    background: #f5f5f5;
+    color: #666;
+    
+    &:active {
+      background: #e5e5e5;
+      transform: scale(0.95);
+    }
+  }
+  
+  &.confirm-btn {
+    background: linear-gradient(135deg, $primary-color 0%, lighten($primary-color, 10%) 100%);
+    color: #fff;
+    box-shadow: 0 8rpx 20rpx rgba($primary-color, 0.3);
+    
+    &:active {
+      background: linear-gradient(135deg, darken($primary-color, 5%) 0%, $primary-color 100%);
+      transform: scale(0.95);
+      box-shadow: 0 4rpx 12rpx rgba($primary-color, 0.2);
+    }
+  }
 }
 </style> 

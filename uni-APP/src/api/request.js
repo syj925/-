@@ -210,22 +210,32 @@ const responseInterceptor = (response) => {
   
   // 401未授权
   if (statusCode === 401) {
-    uni.showToast({
-      title: '登录已过期，请重新登录',
-      icon: 'none'
-    });
+    // 检查是否真的有token（区分"未登录"和"登录过期"）
+    const hadToken = uni.getStorageSync('token');
     
-    // 清除token
-    uni.removeStorageSync('token');
-    
-    // 跳转到登录页
-    setTimeout(() => {
-      uni.navigateTo({
-        url: '/pages/auth/login/index'
+    if (hadToken) {
+      // 有token但401，说明token过期了
+      uni.showToast({
+        title: '登录已过期，请重新登录',
+        icon: 'none'
       });
-    }, 1500);
-    
-    return Promise.reject({code: 401, msg: '登录已过期，请重新登录'});
+      
+      // 清除token
+      uni.removeStorageSync('token');
+      
+      // 跳转到登录页
+      setTimeout(() => {
+        uni.navigateTo({
+          url: '/pages/auth/login/index'
+        });
+      }, 1500);
+      
+      return Promise.reject({code: 401, msg: '登录已过期，请重新登录'});
+    } else {
+      // 没有token，说明用户本来就没登录，静默处理
+      console.log('📱 未登录，无需提示');
+      return Promise.reject({code: 401, msg: '未登录'});
+    }
   }
   
   // 400错误，通常是参数验证错误
