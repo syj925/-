@@ -57,6 +57,8 @@
 import { ensureAbsoluteUrl } from '@/utils/url'
 import api from '@/api'
 
+import { useUserStore } from '@/store';
+
 export default {
   name: 'SearchUserCard',
   props: {
@@ -67,6 +69,7 @@ export default {
   },
   data() {
     return {
+      userStore: useUserStore(),
       followLoading: false,
       defaultAvatar: '/static/images/default-avatar.png'
     }
@@ -77,7 +80,7 @@ export default {
       return ensureAbsoluteUrl(this.user.avatar)
     },
     isCurrentUser() {
-      const userInfo = uni.getStorageSync('userInfo')
+      const userInfo = this.userStore.userInfo
       return userInfo && userInfo.id === this.user.id
     }
   },

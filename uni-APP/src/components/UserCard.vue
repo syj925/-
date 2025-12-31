@@ -84,6 +84,7 @@
 
 <script>
 import FollowButton from './FollowButton.vue';
+import { useUserStore } from '@/store';
 import { ensureAbsoluteUrl } from '@/utils/url';
 
 export default {
@@ -152,6 +153,7 @@ export default {
   
   data() {
     return {
+      userStore: useUserStore(),
       followLoading: false
     };
   },
@@ -183,8 +185,7 @@ export default {
     },
     
     isCurrentUser() {
-      const userInfo = uni.getStorageSync('userInfo');
-      return userInfo && userInfo.id === this.user.id;
+      return this.userStore.userInfo && this.userStore.userInfo.id === this.user.id;
     }
   },
   

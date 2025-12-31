@@ -368,6 +368,7 @@
 </template>
 
 <script>
+import { useUserStore } from '@/store';
 import PostList from '@/components/post/PostList.vue';
 import AppIcon from '@/components/common/AppIcon.vue';
 import { UrlUtils } from '@/utils';
@@ -484,25 +485,43 @@ export default {
     }
   },
   onLoad() {
-    this.loadUserInfo();
-    // loadPosts 会在 loadUserInfo 成功后调用，或由用户登录后触发
-    // 不在此处直接调用，避免未登录时报错
+    // 初始化 Pinia 用户状态
+    this.userStore = useUserStore();
+
+    // 1) 先用本地持久化的 userStore 数据渲染（离线也能显示）
+    this.syncFromUserStore();
+
+    // 2) 再尝试静默刷新最新用户资料（网络失败不应清空本地资料）
+    this.userStore.fetchUserProfile().finally(() => {
+      this.syncFromUserStore();
+      if (this.userInfo.isLogin) {
+        this.refreshCurrentTab();
+      }
+    });
   },
   onShow() {
-    // 页面显示时刷新数据
-    this.loadUserInfo();
-    
-    // 只有登录后才刷新内容
-    if (this.userInfo.isLogin) {
-      this.refreshCurrentTab();
+    // 页面显示时：先从 userStore 恢复显示
+    if (!this.userStore) {
+      this.userStore = useUserStore();
     }
+    this.syncFromUserStore();
 
-    // 检查全局刷新标记
+    // 若有网络则刷新一次用户资料（失败不降级为游客）
+    this.userStore.fetchUserProfile().finally(() => {
+      this.syncFromUserStore();
+      if (this.userInfo.isLogin) {
+        this.refreshCurrentTab();
+      }
+    });
+
+    // 检查全局强制刷新标记
     const app = getApp();
     if (app.globalData && app.globalData.forceRefresh) {
       console.log('检测到全局刷新标记，强制刷新用户信息');
-      this.loadUserInfo();
-      app.globalData.forceRefresh = false; // 重置标记
+      this.userStore.fetchUserProfile().finally(() => {
+        this.syncFromUserStore();
+      });
+      app.globalData.forceRefresh = false;
     }
   },
   onPullDownRefresh() {
@@ -531,13 +550,13 @@ export default {
     // 注意：活动和审核记录页面不需要加载更多功能
   },
   methods: {
-    // 加载用户信息
-    loadUserInfo() {
-      // 检查token是否存在
-      const token = uni.getStorageSync('token');
+    // 从 userStore 同步渲染数据到本页面（页面内仍使用 userInfo 作为展示模型，避免大范围改模板）
+    syncFromUserStore() {
+      const token = this.userStore?.token;
+      const storeUser = this.userStore?.userInfo;
 
+      // 未登录：游客模式
       if (!token) {
-        // 未登录状态，设置为游客模式
         this.userInfo = {
           isLogin: false,
           avatar: '/static/images/common/default-avatar.png',
@@ -556,80 +575,37 @@ export default {
         };
         return;
       }
-      
-      // API请求获取用户信息
-      api.user.getInfo().then(res => {
-        console.log('🔍 获取用户信息API响应:', res);
 
-        if (res.code === 0 || res.code === 200) {
-          const userData = res.data;
+      // 已登录：优先使用 store 的用户信息（离线也可显示）
+      const userData = storeUser || {};
+      const stats = userData.stats || {};
 
-          // 根据API文档，统计数据在stats对象中
-          const stats = userData.stats || {};
+      this.userInfo = {
+        isLogin: true,
+        avatar: UrlUtils.ensureImageUrl(userData.avatar),
+        nickname: userData.nickname || userData.username,
+        userId: userData.id,
+        bio: userData.bio || '这个人很懒，还没有填写个人简介',
+        school: userData.school || '',
+        department: userData.department || '',
+        backgroundImage: userData.backgroundImage
+          ? UrlUtils.ensureAbsoluteUrl(userData.backgroundImage)
+          : 'linear-gradient(135deg, #2b85e4 0%, #6ba7f0 100%)',
+        postCount: stats.postCount || 0,
+        likeCount: stats.likeCount || 0,
+        favoriteCount: stats.favoriteCount || 0,
+        followingCount: stats.followCount || 0,
+        followersCount: stats.fansCount || 0,
+        tags: userData.tags || []
+      };
 
-          console.log('🔍 用户数据:', userData);
-          console.log('🔍 统计数据 stats:', stats);
-          console.log('🔍 原始背景图片:', userData.backgroundImage);
+      // 额外同步：如果 userStore 暂无完整信息，避免 avatar 为空导致 UI 闪烁
+      if (!this.userInfo.avatar) {
+        this.userInfo.avatar = '/static/images/common/default-avatar.png';
+      }
 
-          // 详细检查统计数据字段
-          console.log('🔍 统计数据详细检查:', {
-            'userData.stats': userData.stats,
-            'stats.postCount': stats.postCount,
-            'stats.likeCount': stats.likeCount,
-            'stats.favoriteCount': stats.favoriteCount,
-            'stats.followCount': stats.followCount,
-            'stats.fansCount': stats.fansCount
-          });
-
-          this.userInfo = {
-            isLogin: true,
-            avatar: UrlUtils.ensureImageUrl(userData.avatar),
-            nickname: userData.nickname || userData.username,
-            userId: userData.id,
-            bio: userData.bio || '这个人很懒，还没有填写个人简介',
-            school: userData.school || '',
-            department: userData.department || '',
-            backgroundImage: userData.backgroundImage ? UrlUtils.ensureAbsoluteUrl(userData.backgroundImage) : 'linear-gradient(135deg, #2b85e4 0%, #6ba7f0 100%)',
-            // 根据API文档映射字段名
-            postCount: stats.postCount || 0,
-            likeCount: stats.likeCount || 0,
-            favoriteCount: stats.favoriteCount || 0,
-            followingCount: stats.followCount || 0,  // API中是followCount
-            followersCount: stats.fansCount || 0,    // API中是fansCount
-            tags: userData.tags || []
-          };
-
-          // 调试：检查设置后的userInfo
-          console.log('🔍 设置后的 userInfo:', this.userInfo);
-          console.log('🔍 userInfo 统计数据:', {
-            postCount: this.userInfo.postCount,
-            likeCount: this.userInfo.likeCount,
-            favoriteCount: this.userInfo.favoriteCount,
-            followingCount: this.userInfo.followingCount,
-            followersCount: this.userInfo.followersCount
-          });
-          
-          // 获取用户成就
-          if (userData.achievements) {
-            this.userAchievements = userData.achievements;
-          }
-          
-          // 加载用户徽章
-          this.loadUserBadges();
-          
-          // 成功获取用户信息后，加载帖子
-          this.loadPosts();
-        } else {
-          // 登录状态失效
-          this.userInfo.isLogin = false;
-          this.userInfo.nickname = '游客';
-          uni.removeStorageSync('token');
-        }
-      }).catch(err => {
-        console.error('获取用户信息失败:', err);
-        this.userInfo.isLogin = false;
-        this.userInfo.nickname = '游客';
-      });
+      // 登录态下才加载徽章
+      this.loadUserBadges();
     },
     
     // 加载用户徽章

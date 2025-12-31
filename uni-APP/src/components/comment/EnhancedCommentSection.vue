@@ -234,6 +234,7 @@
 import AppIcon from '@/components/common/AppIcon.vue';
 import EnhancedCommentInput from './EnhancedCommentInput.vue';
 import { ensureAbsoluteUrl } from '@/utils/url';
+import { useUserStore } from '@/store';
 
 export default {
   name: 'EnhancedCommentSection',
@@ -253,6 +254,7 @@ export default {
   },
   data() {
     return {
+      userStore: useUserStore(),
       comments: [],
       totalComments: 0,
       loading: false,
@@ -268,8 +270,7 @@ export default {
   },
   computed: {
     currentUserAvatar() {
-      const userInfo = uni.getStorageSync('userInfo');
-      return userInfo?.avatar || '/static/images/common/default-avatar.png';
+      return this.userStore.userInfo?.avatar || '/static/images/common/default-avatar.png';
     }
   },
   watch: {
@@ -544,8 +545,8 @@ export default {
             isLiked: commentData.is_liked || commentData.isLiked || false,
             createTime: commentData.created_at || commentData.createTime,
             author: commentData.author || {
-              nickname: uni.getStorageSync('userInfo')?.nickname || '我',
-              avatar: uni.getStorageSync('userInfo')?.avatar || '/static/images/common/default-avatar.png'
+              nickname: this.userStore.userInfo?.nickname || '我',
+              avatar: this.userStore.userInfo?.avatar || '/static/images/common/default-avatar.png'
             }
           };
           
@@ -570,8 +571,8 @@ export default {
           children: [],
           replies: [],
           author: commentData.author || {
-            nickname: uni.getStorageSync('userInfo')?.nickname || '我',
-            avatar: uni.getStorageSync('userInfo')?.avatar || '/static/images/common/default-avatar.png'
+            nickname: this.userStore.userInfo?.nickname || '我',
+            avatar: this.userStore.userInfo?.avatar || '/static/images/common/default-avatar.png'
           }
         };
         this.comments.unshift(newComment);

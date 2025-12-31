@@ -140,6 +140,7 @@
 <script>
 import AppIcon from '@/components/common/AppIcon.vue';
 import FollowButton from '@/components/FollowButton.vue';
+import { useUserStore } from '@/store';
 import { formatTimeAgo } from '@/utils/date';
 import { ensureAbsoluteUrl } from '@/utils/url';
 
@@ -169,6 +170,7 @@ export default {
   
   data() {
     return {
+      userStore: useUserStore()
     };
   },
 
@@ -227,8 +229,7 @@ export default {
       }
       
       // 检查用户是否已登录
-      const currentUserInfo = uni.getStorageSync('userInfo');
-      const currentUserId = currentUserInfo?.id || uni.getStorageSync('userId') || uni.getStorageSync('user_id');
+      const currentUserId = this.userStore?.userInfo?.id || uni.getStorageSync('userId') || uni.getStorageSync('user_id');
       if (!currentUserId) {
         return false;
       }

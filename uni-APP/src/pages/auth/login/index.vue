@@ -84,7 +84,9 @@
 </template>
 
 <script>
-export default {
+import { useUserStore } from '@/store';
+
+export default { 
   data() {
     return {
       // 表单数据
@@ -105,6 +107,10 @@ export default {
              this.form.password && this.form.password.length >= 6 &&
              this.agreed;
     }
+  },
+  created() {
+    // Pinia store
+    this.userStore = useUserStore();
   },
   methods: {
     // 登录
@@ -133,14 +139,12 @@ export default {
         .then(res => {
           console.log('登录成功，响应:', res);
 
-          // 保存token - 使用res.data.token
+          // 保存登录态到 Pinia（并由持久化插件写入本地）
           if (res && res.data && res.data.token) {
-            uni.setStorageSync('token', res.data.token);
-
-            // 保存用户信息
-            if (res.data.user) {
-              uni.setStorageSync('userInfo', res.data.user);
-            }
+            this.userStore.loginSuccess({
+              token: res.data.token,
+              userInfo: res.data.user || null
+            });
 
             // 提示
             uni.showToast({

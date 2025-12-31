@@ -94,6 +94,7 @@
 <script>
 import PostList from '@/components/post/PostList.vue';
 import Banner from '@/components/common/Banner.vue';
+import { useUserStore } from '@/store';
 
 export default {
   components: {
@@ -102,6 +103,7 @@ export default {
   },
   data() {
     return {
+      userStore: useUserStore(),
       // 分类数据 - 动态获取
       categories: [
         { id: 'recommend', name: '推荐' },
@@ -372,8 +374,7 @@ export default {
               // 确保作者信息结构正确 - 处理匿名逻辑
               author: (() => {
                 // 获取当前用户信息
-                const currentUser = uni.getStorageSync('userInfo');
-                const currentUserId = currentUser?.id;
+                const currentUserId = this.userStore.userInfo?.id;
                 const postUserId = post.author?.id || post.user_id;
 
                 // 如果是匿名帖子且不是作者本人查看，显示匿名信息
@@ -486,8 +487,7 @@ export default {
     // 处理点赞
     handleLike(post) {
       // 检查登录状态
-      const token = uni.getStorageSync('token');
-      if (!token) {
+      if (!this.userStore.isLoggedIn) {
         this.showLoginModal = true;
         return;
       }

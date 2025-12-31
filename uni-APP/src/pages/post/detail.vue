@@ -108,6 +108,7 @@ import FollowButton from '@/components/FollowButton.vue';
 import EnhancedCommentSection from '@/components/comment/EnhancedCommentSection.vue';
 import { formatTimeAgo } from '@/utils/date';
 import { UrlUtils } from '@/utils';
+import { useUserStore } from '@/store';
 
 export default {
   components: {
@@ -117,6 +118,7 @@ export default {
   },
   data() {
     return {
+      userStore: useUserStore(),
       // 帖子信息
       post: {
         id: '',
@@ -172,8 +174,7 @@ export default {
       }
       
       // 检查用户是否已登录
-      const currentUser = uni.getStorageSync('userInfo');
-      const currentUserId = currentUser?.id || uni.getStorageSync('userId') || uni.getStorageSync('user_id');
+      const currentUserId = this.userStore.userInfo?.id;
       if (!currentUserId) {
         return false;
       }
@@ -232,7 +233,7 @@ export default {
           isLiked: postData.is_liked || false,
           isFavorited: postData.is_favorited || false,
           isFollowing: postData.author ? postData.author.isFollowing || false : false,
-          isOwner: postData.user_id === uni.getStorageSync('userInfo')?.id,
+          isOwner: postData.user_id === this.userStore.userInfo?.id,
           user_id: postData.user_id,  // 添加用户ID
           avatar: postData.author ? postData.author.avatar : '',
           nickname: postData.author ? postData.author.nickname || postData.author.username : '未知用户',
@@ -260,8 +261,7 @@ export default {
     // 点赞帖子
     handleLike() {
       // 检查登录状态
-      const token = uni.getStorageSync('token');
-      if (!token) {
+      if (!this.userStore.isLoggedIn) {
         uni.navigateTo({
           url: '/pages/auth/login/index'
         });
@@ -303,8 +303,7 @@ export default {
     // 收藏帖子
     handleFavorite() {
       // 检查登录状态
-      const token = uni.getStorageSync('token');
-      if (!token) {
+      if (!this.userStore.isLoggedIn) {
         uni.navigateTo({
           url: '/pages/auth/login/index'
         });
@@ -365,8 +364,7 @@ export default {
     // 更多操作
     handleMore() {
       // 获取用户信息
-      const userInfo = uni.getStorageSync('userInfo') || {};
-      const isOwner = this.post.isOwner || this.post.user_id === userInfo.id;
+      const isOwner = this.post.isOwner || this.post.user_id === this.userStore.userInfo?.id;
       
       if (!isOwner) {
         uni.showActionSheet({

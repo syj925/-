@@ -17,6 +17,8 @@
 </template>
 
 <script>
+import { useUserStore } from '@/store';
+
 export default {
   name: 'FollowButton',
   props: {
@@ -59,6 +61,7 @@ export default {
   
   data() {
     return {
+      userStore: useUserStore(),
       internalFollowing: this.isFollowing
     };
   },
@@ -82,8 +85,8 @@ export default {
       console.log('🔘 FollowButton点击 - userId:', this.userId, 'currentStatus:', this.internalFollowing);
       
       // 检查登录状态
-      const userInfo = uni.getStorageSync('userInfo');
-      const token = uni.getStorageSync('token');
+      const userInfo = this.userStore.userInfo;
+      const token = this.userStore.token;
       if (!userInfo || !token) {
         this.showLoginModal();
         return;

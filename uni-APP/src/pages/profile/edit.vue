@@ -262,8 +262,12 @@
 // 导入URL工具函数
 import { UrlUtils } from '@/utils';
 import appConfig from '@/config';
+import { useUserStore } from '@/store';
 
 export default {
+  created() {
+    this.userStore = useUserStore();
+  },
   data() {
     return {
       formData: {
@@ -519,7 +523,7 @@ export default {
           });
           
           // 更新本地缓存
-          const userInfo = uni.getStorageSync('userInfo') || {};
+          const userInfo = this.userStore?.userInfo || {};
           const updatedUserInfo = {
             ...userInfo,
             ...cleanData

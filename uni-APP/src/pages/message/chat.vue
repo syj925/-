@@ -212,11 +212,14 @@
 import { useMessageStore } from '@/store'
 import { getBestServer } from '@/config/index.js'
 
+import { useUserStore } from '@/store';
+
 export default {
   name: 'PrivateMessageChat',
   
   data() {
     return {
+      userStore: useUserStore(),
       userId: '', // 对方用户ID
       userInfo: {}, // 对方用户信息
       messageList: [], // 消息列表
@@ -269,12 +272,12 @@ export default {
     },
     
     currentUserId() {
-      const userInfo = uni.getStorageSync('userInfo');
+      const userInfo = this.userStore.userInfo;
       return userInfo?.id || '';
     },
     
     currentUserInfo() {
-      const userInfo = uni.getStorageSync('userInfo') || {};
+      const userInfo = this.userStore.userInfo || {};
       // 规范化头像URL
       if (userInfo.avatar) {
         userInfo.avatar = this.normalizeImageUrl(userInfo.avatar);
@@ -799,7 +802,7 @@ export default {
         }
         
         // 只处理与当前对话相关的消息
-        const currentUserId = uni.getStorageSync('userInfo')?.id;
+        const currentUserId = this.userStore.userInfo?.id;
         const isRelevantMessage = (
           (newMessage.sender_id === currentUserId && newMessage.receiver_id === this.userId) ||
           (newMessage.sender_id === this.userId && newMessage.receiver_id === currentUserId)
