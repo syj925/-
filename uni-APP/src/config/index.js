@@ -13,7 +13,7 @@ export const SERVER_CONFIG = {
     serverUrls: [
       'http://localhost:3000',        // 本地开发服务器 (H5模式首选)
       'http://127.0.0.1:3000',        // 本地开发服务器 (备用)
-      'http://10.1.1.235:3000',      // 网络地址
+      'http://10.1.5.244:3000',      // 网络地址
       'http://10.0.2.2:3000'          // Android模拟器专用
     ],
     // API版本
@@ -29,7 +29,7 @@ export const SERVER_CONFIG = {
     serverUrls: [
       'http://www.callxyq.xyz',       // 主生产服务器（HTTP）
       'http://callxyq.xyz',           // 备用生产服务器（HTTP）
-      'http://10.1.1.235:3000'        // 本地备用服务器
+      'http://10.1.5.244:3000'        // 本地备用服务器
     ],
     // API版本
     apiVersion: 'v1',

@@ -331,7 +331,7 @@ export default {
     getUserInfo() {
       const token = uni.getStorageSync('token');
       if (!token) {
-        uni.navigateTo({ url: '/pages/auth/login' });
+        uni.navigateTo({ url: '/pages/auth/login/index' });
         return;
       }
       

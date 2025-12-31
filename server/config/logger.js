@@ -1,11 +1,17 @@
 const { createLogger, format, transports } = require('winston');
 const path = require('path');
+const fs = require('fs');
 require('dotenv').config();
 
 // 确定环境
 const env = process.env.NODE_ENV || 'development';
 const logDir = process.env.LOG_DIR || 'logs';
 const logLevel = process.env.LOG_LEVEL || (env === 'development' ? 'info' : 'info');
+
+// 确保日志目录存在
+if (!fs.existsSync(logDir)) {
+  fs.mkdirSync(logDir, { recursive: true });
+}
 
 // 自定义格式，避免循环引用问题
 const safeStringify = (obj) => {
@@ -91,13 +97,11 @@ const logger = createLogger({
   exitOnError: false
 });
 
-// 开发环境下添加控制台输出
-if (env === 'development') {
-  logger.add(new transports.Console({
-    format: consoleFormat,
-    handleExceptions: true,
-    handleRejections: true
-  }));
-}
+// 添加控制台输出（无论环境如何，都输出到控制台以便调试和监控）
+logger.add(new transports.Console({
+  format: consoleFormat,
+  handleExceptions: true,
+  handleRejections: true
+}));
 
 module.exports = logger; 

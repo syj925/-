@@ -68,6 +68,7 @@
       @commentLike="handleCommentLike"
       @userClick="handleUserClick"
       @emptyAction="goPublish"
+      @followStatusChange="handleFollowStatusChange"
     ></post-list>
     
     <!-- 底部安全区占位 -->
@@ -725,6 +726,22 @@ export default {
       uni.navigateTo({
         url: '/pages/publish/publish'
       });
+    },
+
+    // 处理关注状态变化：同步更新列表里同一作者的所有帖子
+    handleFollowStatusChange({ userId, isFollowing }) {
+      if (!userId) return;
+
+      this.postList.forEach(post => {
+        if (post?.author?.id === userId) {
+          post.author.isFollowing = !!isFollowing;
+          if (!post.author.dataValues) post.author.dataValues = {};
+          post.author.dataValues.isFollowing = !!isFollowing;
+        }
+      });
+
+      // 触发视图更新（某些平台对深层对象更新不敏感）
+      this.$forceUpdate();
     },
 
 

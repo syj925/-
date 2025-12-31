@@ -25,6 +25,7 @@
         @delete="handleDelete"
         @commentLike="handleCommentLike"
         @userClick="handleUserClick"
+        @followStatusChange="handleFollowStatusChange"
       ></post-card>
       
       <!-- 加载更多 -->
@@ -180,6 +181,11 @@ export default {
     // 用户点击
     handleUserClick(user) {
       this.$emit('userClick', user);
+    },
+
+    // 关注状态变化（由 PostCard 触发）
+    handleFollowStatusChange(payload) {
+      this.$emit('followStatusChange', payload);
     }
   }
 }

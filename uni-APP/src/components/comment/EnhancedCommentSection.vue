@@ -195,7 +195,7 @@
             <view 
               v-if="comment.replyCount > comment.children.length" 
               class="more-replies"
-              @tap="loadMoreReplies(comment)"
+              @tap.stop="loadMoreReplies(comment)"
             >
               <text class="more-text">查看更多回复({{ comment.replyCount - comment.children.length }})</text>
             </view>
@@ -780,9 +780,81 @@ export default {
     },
     
     // 加载更多回复
-    loadMoreReplies(comment) {
-      // 加载更多回复的逻辑
-      console.log('加载更多回复:', comment.id);
+    async loadMoreReplies(comment) {
+      // 说明：这里原来只有 console.log，导致“查看更多回复”点击看起来完全无效
+      // 期望行为：把该主评论的更多回复从后端拉取下来，并合并进 children/replies
+      // 现有接口：复用 comment.getReplies(commentId)
+      if (this.loading) return;
+      if (!comment || !comment.id) return;
+
+      try {
+        this.loading = true;
+
+        const resp = await this.$api.comment.getReplies(comment.id, {
+          // 这里先按 1 页拉取一个较大的数量，满足“查看更多回复”展开需求
+          // 如果后端支持分页，也可进一步做“回复的分页加载”
+          page: 1,
+          pageSize: 50
+        });
+
+        if (resp && resp.code === 0) {
+          const list = resp.data?.list || resp.data?.rows || resp.data || [];
+
+          const commentIndex = this.comments.findIndex(c => c.id === comment.id);
+          if (commentIndex === -1) return;
+
+          const normalized = (list || []).map(reply => {
+            // replies 接口返回的 author 结构可能和主评论列表不一致，
+            // 部分场景下 nickname 不在 reply.author.nickname，而是在 reply.nickname 或其他字段。
+            // 这里统一归一化：优先 nickname，其次 username，确保“查看更多回复”展开后名称不会退化成账号。
+            const rawAuthor = reply.author || {};
+            const nickname =
+              rawAuthor.nickname ||
+              reply.nickname ||
+              rawAuthor.displayName ||
+              rawAuthor.name ||
+              rawAuthor.username ||
+              '未知用户';
+
+            return {
+              ...reply,
+              likeCount: reply.like_count || reply.likeCount || 0,
+              isLiked: reply.is_liked || reply.isLiked || false,
+              createTime: reply.created_at || reply.createTime,
+              author: {
+                ...rawAuthor,
+                // 强制覆盖 nickname，避免 UI 回退到 username
+                nickname,
+                avatar: rawAuthor.avatar || reply.avatar || '/static/images/common/default-avatar.png'
+              }
+            };
+          });
+
+          // 同时写入 children & replies，保证本组件内部展示和兼容字段一致
+          this.comments[commentIndex].children = normalized;
+          this.comments[commentIndex].replies = normalized;
+
+          // 如果后端返回了更准确的 replyCount，则同步（避免“查看更多回复(x)”仍显示）
+          const newReplyCount =
+            resp.data?.pagination?.total ||
+            resp.data?.total ||
+            this.comments[commentIndex].replyCount;
+          this.comments[commentIndex].replyCount = newReplyCount;
+        } else {
+          uni.showToast({
+            title: resp?.message || '加载回复失败',
+            icon: 'none'
+          });
+        }
+      } catch (e) {
+        console.error('加载更多回复失败:', e);
+        uni.showToast({
+          title: '加载回复失败',
+          icon: 'none'
+        });
+      } finally {
+        this.loading = false;
+      }
     },
     
     // 格式化时间

@@ -223,7 +223,8 @@ class CommentRepository {
         {
           model: User,
           as: 'author',
-          attributes: ['id', 'username', 'avatar']
+          // replies 接口需要返回 nickname，否则前端展开“查看更多回复”后只能回退显示 username
+          attributes: ['id', 'username', 'nickname', 'avatar']
         }
       ]
     });

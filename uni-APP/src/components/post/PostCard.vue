@@ -40,7 +40,7 @@
             :user-id="post.author?.id"
             :is-following="post.author?.isFollowing"
             size="small"
-            @success="onFollowSuccess"
+            @follow-action="handleFollowAction"
             class="post-card__follow-btn"
             @tap.stop
           />
@@ -460,17 +460,55 @@ export default {
       return ensureAbsoluteUrl(imageUrl);
     },
 
-    // 关注操作成功回调
-    onFollowSuccess(data) {
-      // 更新帖子作者的关注状态
-      if (this.post.author) {
-        this.post.author.isFollowing = data.isFollowing;
-        
-        // 向父组件发送关注状态变化事件
+    // FollowButton 点击后会抛出 follow-action 事件，这里负责真正调用后端关注/取关接口
+    async handleFollowAction(payload) {
+      // payload: { userId, currentStatus, action: 'follow' | 'unfollow' }
+      const { userId, currentStatus, action } = payload || {};
+
+      // 基础校验
+      if (!userId) {
+        console.warn('handleFollowAction: userId为空', payload);
+        return;
+      }
+
+      // 登录校验（FollowButton 已做一次，这里再兜底，避免外部直接调用）
+      const token = uni.getStorageSync('token');
+      if (!token) {
+        uni.navigateTo({ url: '/pages/auth/login/index' });
+        return;
+      }
+
+      try {
+        // 乐观更新：先改UI，失败再回滚
+        if (this.post.author) {
+          this.post.author.isFollowing = action === 'follow';
+        }
+
+        // 调用后端关注/取关接口
+        if (action === 'follow') {
+          await this.$api.follow.follow(userId);
+        } else {
+          await this.$api.follow.unfollow(userId);
+        }
+
+        // 通知父组件同步其它帖子卡片的关注状态
         this.$emit('followStatusChange', {
-          userId: data.userId,
-          isFollowing: data.isFollowing,
-          action: data.action
+          userId,
+          isFollowing: action === 'follow',
+          action,
+          previousStatus: !!currentStatus
+        });
+      } catch (err) {
+        console.error('关注操作失败:', err);
+
+        // 回滚UI
+        if (this.post.author) {
+          this.post.author.isFollowing = !!currentStatus;
+        }
+
+        uni.showToast({
+          title: '操作失败，请稍后重试',
+          icon: 'none'
         });
       }
     }

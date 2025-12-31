@@ -27,6 +27,10 @@ app.use((req, res, next) => {
   
   // 允许本地开发环境和指定域名访问，增加移动设备常用的访问方式
   const allowedOrigins = [
+    'https://www.callxyq.xyz',
+    'https://callxyq.xyz',
+    'http://www.callxyq.xyz',
+    'http://callxyq.xyz',
     'http://localhost:5173', 
     'http://localhost:8080', 
     'http://localhost:8081', 

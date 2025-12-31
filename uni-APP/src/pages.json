@@ -39,12 +39,6 @@
 			}
 		},
 		{
-			"path": "pages/test/multi-level-comments",
-			"style": {
-				"navigationBarTitleText": "多级回复测试"
-			}
-		},
-		{
 			"path": "pages/test/simple-test",
 			"style": {
 				"navigationBarTitleText": "简单API测试"

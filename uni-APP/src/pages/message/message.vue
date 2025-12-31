@@ -1,5 +1,5 @@
 <template>
-  <view class="message-page">
+  <view class="message-page" :style="{ height: windowHeight + 'px' }">
     <!-- 自定义标题栏 -->
     <view class="custom-header">
       <text class="header-title">消息</text>
@@ -26,6 +26,7 @@
     
     <swiper 
       class="message-swiper" 
+      :style="{ height: swiperHeight + 'px' }"
       :current="activeTab === 'notify' ? 0 : 1" 
       @change="handleSwiperChange"
     >
@@ -153,7 +154,9 @@ export default {
       updatedCategories: new Set(), // 记录刚更新的分类（用于动画）
       lastUpdateTime: Date.now(), // 最后更新时间（用于动画控制）
       messageReceivedHandler: null, // 事件处理器引用
-      conversationReadHandler: null // 对话已读事件处理器引用
+      conversationReadHandler: null, // 对话已读事件处理器引用
+      swiperHeight: 0, // 内容区(swiper)高度，防止页面整体滚动
+      windowHeight: 0 // 用 px 锁定页面高度，避免 H5 里 100vh 失效导致整页滚动
     };
   },
   
@@ -276,6 +279,13 @@ export default {
     this.messageStore.fetchUnreadCount();
   },
 
+  onReady() {
+    // onReady生命周期能确保DOM渲染完成，适合进行节点查询
+    this.$nextTick(() => {
+      this.calculateSwiperHeight();
+    });
+  },
+
   onUnload() {
     // 移除事件监听
     if (this.messageReceivedHandler) {
@@ -288,6 +298,35 @@ export default {
 
   // 页面级下拉刷新已移除，使用scroll-view的下拉刷新
   methods: {
+    // 计算 swiper 内容区高度：屏幕高度 - 顶部标题栏 - tabs
+    // 目的：让页面整体不滚动，只让 scroll-view 滚动；同时保留 swiper 左右切换。
+    calculateSwiperHeight() {
+      try {
+        const query = uni.createSelectorQuery().in(this);
+        query.select('.custom-header').boundingClientRect();
+        query.select('.message-tabs').boundingClientRect();
+        query.exec((res) => {
+          const headerRect = res && res[0] ? res[0] : { height: 0 };
+          const tabsRect = res && res[1] ? res[1] : { height: 0 };
+
+          const sys = uni.getSystemInfoSync();
+          const windowHeight = sys.windowHeight || 0;
+          this.windowHeight = windowHeight;
+
+          // 预留底部 tabbar 安全区（经验值：50px；如果你是自定义tabbar可再调整）
+          const tabbarReserve = 50;
+
+          const computed = Math.max(0, windowHeight - headerRect.height - tabsRect.height - tabbarReserve);
+          this.swiperHeight = computed;
+
+          // 调试：如果你需要确认计算是否生效，可临时打开
+          // console.log('[message] height calc:', { windowHeight, header: headerRect.height, tabs: tabsRect.height, tabbarReserve, swiperHeight: computed });
+        });
+      } catch (e) {
+        console.error('calculateSwiperHeight failed:', e);
+      }
+    },
+
     // 标准化图片URL（使用配置的服务器地址）
     normalizeImageUrl(imageUrl) {
       if (!imageUrl || imageUrl.startsWith('/static/') || imageUrl.startsWith('data:')) {
@@ -946,7 +985,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import '@/styles/variables.scss';
 @import '@/styles/mixins.scss';
 
@@ -956,7 +995,7 @@ export default {
 }
 
 .message-page {
-  height: 100vh;
+    height: 100%;
   background-color: $bg-page;
   display: flex;
   flex-direction: column;

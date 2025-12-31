@@ -362,7 +362,7 @@ export default {
 
             // 跳转到登录页
             uni.reLaunch({
-              url: '/pages/auth/login'
+              url: '/pages/auth/login/index'
             });
 
             uni.showToast({

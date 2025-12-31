@@ -1422,7 +1422,7 @@ export default {
     toggleFollow(user) {
       if (!this.isLogin) {
         uni.navigateTo({
-          url: '/pages/auth/login'
+          url: '/pages/auth/login/index'
         });
         return;
       }
@@ -1533,7 +1533,7 @@ export default {
     
     goLogin() {
       uni.navigateTo({
-        url: '/pages/auth/login'
+        url: '/pages/auth/login/index'
       });
     },
     

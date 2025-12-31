@@ -124,7 +124,7 @@ export default {
         success: (res) => {
           if (res.confirm) {
             uni.navigateTo({
-              url: '/pages/auth/login'
+              url: '/pages/auth/login/index'
             });
           }
         }
