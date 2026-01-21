@@ -19,6 +19,8 @@ const categoryStatsRoutes = require('./admin/category-stats.routes');
 const categoryRoutes = require('./admin/category.routes');
 // 引入徽章管理路由
 const badgeRoutes = require('./admin/badge.routes');
+// 引入在线统计路由
+const onlineStatsRoutes = require('./admin/online-stats.routes');
 
 // 引入中间件
 const AdminMiddleware = require('../middlewares/admin.middleware');
@@ -632,11 +634,18 @@ router.put('/topics/:id/review-image', adminTopicController.reviewTopicImage);
 router.use('/categories', categoryRoutes);
 
 /**
- * @route /api/admin/category-stats/*
+ * @route /api/admin/category-stats
  * @desc 分类统计管理相关路由
  * @access Private (Admin)
  */
 router.use('/category-stats', categoryStatsRoutes);
+
+/**
+ * @route /api/admin/stats/online
+ * @desc 在线用户统计管理相关路由
+ * @access Private (Admin)
+ */
+router.use('/stats/online', onlineStatsRoutes);
 
 // ==================== 徽章管理路由 ====================
 

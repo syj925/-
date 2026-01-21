@@ -1,5 +1,7 @@
 <template>
   <view class="topic-page">
+    <!-- 顶部吸顶容器（方案B）：搜索 + 分类Tab 吸顶 -->
+    <view class="sticky-top">
     <!-- 搜索头部 -->
     <view class="search-header">
       <view class="search-input-container">
@@ -40,6 +42,8 @@
           </view>
         </view>
       </scroll-view>
+    </view>
+
     </view>
 
     <!-- 话题列表 -->
@@ -314,6 +318,17 @@ export default {
   }
 }
 
+// 顶部吸顶容器
+.sticky-top {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding-top: env(safe-area-inset-top);
+  z-index: 1000;
+  background-color: $bg-page;
+}
+
 // 搜索头部
 .search-header {
   background-color: $bg-card;
@@ -415,6 +430,7 @@ export default {
 // 话题列表
 .topic-list {
   padding: 0 $spacing-md;
+  padding-top: 220rpx;
 
   .topic-item {
     display: flex;

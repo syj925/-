@@ -149,6 +149,9 @@ class WebSocketService {
     });
 
     logger.info(`用户 ${userId} 已连接WebSocket`);
+    
+    // 广播在线人数变化
+    this._broadcastOnlineCount();
   }
 
   /**
@@ -169,6 +172,9 @@ class WebSocketService {
       // 设置用户为离线
       this._setUserOffline(userId);
       logger.info(`用户 ${userId} 已断开所有WebSocket连接`);
+      
+      // 广播在线人数变化
+      this._broadcastOnlineCount();
     } else {
       // 否则更新连接数组
       this.clients.set(userId, connections);
@@ -374,6 +380,38 @@ class WebSocketService {
    */
   getOnlineCount() {
     return this.clients.size;
+  }
+
+  /**
+   * 获取详细的在线统计信息
+   * @returns {Object} 在线统计数据
+   */
+  getOnlineStats() {
+    return {
+      totalOnline: this.clients.size,
+      timestamp: Date.now(),
+      serverInfo: {
+        serverId: process.env.SERVER_ID || 'main',
+        uptime: Math.floor(process.uptime())
+      }
+    };
+  }
+
+  /**
+   * 广播在线人数变化
+   * @private
+   */
+  _broadcastOnlineCount() {
+    const stats = this.getOnlineStats();
+    
+    // 广播基础在线人数给所有连接的客户端
+    this.broadcast({
+      type: 'online_count_update',
+      count: stats.totalOnline,
+      timestamp: stats.timestamp
+    });
+
+    logger.debug(`在线人数已广播: ${stats.totalOnline}`);
   }
 }
 

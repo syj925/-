@@ -36,6 +36,7 @@
         :show-scrollbar="false"
         :enhanced="true"
         :bounces="false"
+        @tap="closeAllPanels"
       >
         <!-- 消息列表 -->
         <view class="message-list">
@@ -135,72 +136,105 @@
         </view>
       </scroll-view>
     </view>
-
-    <!-- 快捷功能栏 -->
-    <view class="quick-actions" v-if="showQuickActions">
-      <view class="quick-actions-content">
-        <view class="quick-action-item" @tap="sendGreeting">
-          <view class="action-icon-wrapper">
-            <text class="action-emoji">👋</text>
+    
+    <!-- 输入框区域 (包含面板) -->
+    <view class="chat-footer" :style="{ paddingBottom: safeAreaBottom + 'px' }">
+      <view class="chat-input-wrapper">
+        <view class="input-container">
+          <!-- 相机按钮 -->
+          <view class="input-btn" @tap="openCamera">
+            <image class="camera-icon" src="/static/images/icons/camera.svg" mode="aspectFit"></image>
           </view>
-          <text class="action-text">打招呼</text>
-        </view>
-        <view class="quick-action-item" @tap="sendHeart">
-          <view class="action-icon-wrapper">
-            <text class="action-emoji">❤️</text>
+          
+          <!-- 输入框 -->
+          <view class="input-wrapper">
+            <textarea
+              v-model="inputMessage"
+              class="message-input"
+              placeholder="说点什么..."
+              :maxlength="2000"
+              auto-height
+              :show-confirm-bar="false"
+              :cursor-spacing="10"
+              :adjust-position="true"
+              @input="onInputChange"
+              @focus="onInputFocus"
+              @blur="onInputBlur"
+              @confirm="sendMessage"
+            />
           </view>
-          <text class="action-text">比心</text>
-        </view>
-        <view class="quick-action-item" @tap="openAIPhoto">
-          <view class="action-icon-wrapper">
-            <text class="action-emoji">🤖</text>
+          
+          <!-- 发送/功能按钮 -->
+          <view v-if="inputMessage.trim()" class="send-btn" @tap="sendMessage">
+            <text class="send-text">发送</text>
           </view>
-          <text class="action-text">AI 合照</text>
-        </view>
-        <view class="quick-action-item" @tap="sendSparkle">
-          <view class="action-icon-wrapper">
-            <text class="action-emoji">🎆</text>
+          <view v-else class="function-btns">
+            <view class="emoji-btn" @tap="toggleEmojiPanel">
+              <image class="emoji-icon" src="/static/images/icons/emoji.svg" mode="aspectFill"></image>
+            </view>
+            <view class="input-btn" @tap="toggleMorePanel">
+              <image class="plus-icon" src="/static/images/icons/plus.svg" mode="aspectFit"></image>
+            </view>
           </view>
-          <text class="action-text">火花·精灵</text>
         </view>
       </view>
-    </view>
-    
-    <!-- 输入框区域 -->
-    <view class="chat-input-wrapper" :style="{ paddingBottom: safeAreaBottom + 'px' }">
-      <view class="input-container">
-        <!-- 相机按钮 -->
-        <view class="input-btn" @tap="openCamera">
-          <image class="camera-icon" src="/static/images/icons/camera.svg" mode="aspectFit"></image>
-        </view>
-        
-        <!-- 输入框 -->
-        <view class="input-wrapper">
-          <textarea
-            v-model="inputMessage"
-            class="message-input"
-            placeholder="说点什么..."
-            :maxlength="2000"
-            auto-height
-            :show-confirm-bar="false"
-            :cursor-spacing="10"
-            @input="onInputChange"
-            @focus="onInputFocus"
-            @blur="onInputBlur"
-            @confirm="sendMessage"
-          />
-        </view>
-        
-        <!-- 发送/功能按钮 -->
-        <view v-if="inputMessage.trim()" class="send-btn" @tap="sendMessage">
-          <text class="send-text">发送</text>
-        </view>
-        <view v-else class="function-btns">
-          <view class="emoji-btn" @tap="openEmoji">
-            <image class="emoji-icon" src="/static/images/icons/emoji.svg" mode="aspectFill"></image>
+
+      <!-- 扩展面板区域 -->
+      <view class="extension-panel" v-if="showEmojiPanel || showMorePanel">
+        <!-- 表情面板 -->
+        <view class="emoji-container" v-if="showEmojiPanel">
+          <scroll-view scroll-y class="emoji-scroll">
+            <view class="emoji-grid">
+              <view 
+                class="emoji-cell"
+                v-for="(emoji, index) in allEmojis"
+                :key="index"
+                @tap="insertEmoji(emoji)"
+              >
+                <text class="emoji-char">{{ emoji }}</text>
+              </view>
+            </view>
+          </scroll-view>
+          <view class="emoji-categories">
+            <view 
+              class="category-item" 
+              v-for="(cat, idx) in emojiCategories" 
+              :key="idx"
+              :class="{ 'active': currentEmojiCategory === idx }"
+              @tap="switchEmojiCategory(idx)"
+            >
+              {{ cat.icon }}
+            </view>
           </view>
-          <view class="input-btn" @tap="openMore">
-            <image class="plus-icon" src="/static/images/icons/plus.svg" mode="aspectFit"></image>
+        </view>
+        
+        <!-- 更多功能面板 (快捷功能) -->
+        <view class="more-container" v-if="showMorePanel">
+           <view class="quick-actions-content">
+            <view class="quick-action-item" @tap="sendGreeting">
+              <view class="action-icon-wrapper">
+                <text class="action-emoji">👋</text>
+              </view>
+              <text class="action-text">打招呼</text>
+            </view>
+            <view class="quick-action-item" @tap="sendHeart">
+              <view class="action-icon-wrapper">
+                <text class="action-emoji">❤️</text>
+              </view>
+              <text class="action-text">比心</text>
+            </view>
+            <view class="quick-action-item" @tap="openAIPhoto">
+              <view class="action-icon-wrapper">
+                <text class="action-emoji">🤖</text>
+              </view>
+              <text class="action-text">AI 合照</text>
+            </view>
+            <view class="quick-action-item" @tap="sendSparkle">
+              <view class="action-icon-wrapper">
+                <text class="action-emoji">🎆</text>
+              </view>
+              <text class="action-text">火花·精灵</text>
+            </view>
           </view>
         </view>
       </view>
@@ -211,7 +245,6 @@
 <script>
 import { useMessageStore } from '@/store'
 import { getBestServer } from '@/config/index.js'
-
 import { useUserStore } from '@/store';
 
 export default {
@@ -236,8 +269,19 @@ export default {
       isOnline: false, // 对方在线状态
       statusBarHeight: 0, // 状态栏高度
       safeAreaBottom: 0, // 安全区域底部高度
-      showQuickActions: false, // 显示快捷功能
       messageReceivedHandler: null, // WebSocket消息接收处理器
+      
+      // 面板状态
+      showEmojiPanel: false,
+      showMorePanel: false,
+      
+      // 表情数据
+      currentEmojiCategory: 0,
+      emojiCategories: [
+        { icon: '😀', name: '常用', emojis: ['😀', '😃', '😄', '😁', '😆', '😅', '😂', '🤣', '😊', '🥰', '😍', '🤩', '😘', '😗', '😋', '😛', '😜', '🤪', '😝', '🤑', '🤗', '🤭', '🤫', '🤔', '🤐', '🤨', '😐', '😑', '😶', '😏', '😒', '🙄', '😬', '🤥', '😌', '😔', '😪', '🤤', '😴', '😷', '🤒', '🤕', '🤢', '🤮', '🤧', '🥵', '🥶', '🥴', '😵', '🤯', '🤠', '🥳', '😎', '🤓', '🧐', '😕', '😟', '🙁', '😮', '😯', '😲', '😳', '🥺', '😦', '😧', '😨', '😰', '😥', '😢', '😭', '😱', '😖', '😣', '😞', '😓', '😩', '😫', '🥱', '😤', '😡', '😠'] },
+        { icon: '❤️', name: '爱心', emojis: ['❤️', '🧡', '💛', '💚', '💙', '💜', '🖤', '🤍', '🤎', '💔', '❣️', '💕', '💞', '💓', '💗', '💖', '💘', '💝', '💟', '☮️', '✝️', '☪️', '🕉️', '☸️', '✡️', '🔯', '🕎', '☯️', '☦️', '🛐', '⛎', '♈', '♉', '♊', '♋', '♌', '♍', '♎', '♏', '♐', '♑', '♒', '♓', '🆔', '⚛️'] },
+        { icon: '👋', name: '手势', emojis: ['👋', '🤚', 'Bk', '✋', '🖖', '👌', '🤏', '✌️', '🤞', '🤟', '🤘', '🤙', '👈', '👉', '👆', '🖕', '👇', '☝️', '👍', '👎', '✊', '👊', '🤛', '🤜', '👏', '🙌', '👐', '🤲', '🤝', '🙏', '✍️', '💅', '🤳', '💪', '🦾', '🦿', '🦵', '🦶', '👂', '🦻', '👃', '🧠', '🦷', '🦴', '👀', '👁️', '👅', '👄', '💋', '🩸'] }
+      ],
     }
   },
   
@@ -290,6 +334,10 @@ export default {
              this.inputMessage.length <= 2000 && 
              !this.isSending &&
              this.canSendPrivateMessage;
+    },
+    
+    allEmojis() {
+      return this.emojiCategories[this.currentEmojiCategory]?.emojis || [];
     },
     
     // 按日期分组的消息
@@ -622,6 +670,9 @@ export default {
     // 输入框聚焦
     onInputFocus() {
       this.isInputFocused = true;
+      // 聚焦时收起所有面板
+      this.showEmojiPanel = false;
+      this.showMorePanel = false;
     },
     
     // 输入框失焦
@@ -646,17 +697,54 @@ export default {
       });
     },
     
-    // 打开表情面板
-    openEmoji() {
-      uni.showToast({
-        title: '表情功能开发中',
-        icon: 'none'
-      });
+    // 切换表情面板
+    toggleEmojiPanel() {
+      if (this.showEmojiPanel) {
+        this.showEmojiPanel = false;
+        // 切回键盘
+        this.isInputFocused = true;
+      } else {
+        this.showEmojiPanel = true;
+        this.showMorePanel = false;
+        // 收起键盘
+        this.isInputFocused = false;
+        uni.hideKeyboard();
+      }
+      this.scrollToBottom();
     },
     
-    // 打开更多功能
-    openMore() {
-      this.showQuickActions = !this.showQuickActions;
+    // 切换更多功能面板
+    toggleMorePanel() {
+      if (this.showMorePanel) {
+        this.showMorePanel = false;
+        // 切回键盘
+        this.isInputFocused = true;
+      } else {
+        this.showMorePanel = true;
+        this.showEmojiPanel = false;
+        // 收起键盘
+        this.isInputFocused = false;
+        uni.hideKeyboard();
+      }
+      this.scrollToBottom();
+    },
+    
+    // 关闭所有面板
+    closeAllPanels() {
+      if (this.showEmojiPanel || this.showMorePanel) {
+        this.showEmojiPanel = false;
+        this.showMorePanel = false;
+        uni.hideKeyboard();
+      }
+    },
+    
+    // 表情处理
+    switchEmojiCategory(index) {
+      this.currentEmojiCategory = index;
+    },
+    
+    insertEmoji(emoji) {
+      this.inputMessage += emoji;
     },
     
     // 预览图片
@@ -1103,7 +1191,7 @@ export default {
 .chat-messages {
   flex: 1;
   padding: 0;
-  padding-bottom: 160rpx; /* 为输入框预留空间 */
+  padding-bottom: 20rpx; 
   background: transparent;
   overflow: hidden;
 }
@@ -1289,14 +1377,6 @@ export default {
   color: #999999;
 }
 
-.message-read-status {
-  display: flex;
-  align-items: center;
-  gap: 4rpx;
-}
-
-// 已移除已读/未读样式
-
 .chat-empty {
   display: flex;
   align-items: center;
@@ -1348,64 +1428,17 @@ export default {
   line-height: 1.6;
 }
 
-// 快捷功能栏
-.quick-actions {
-  background: #f8f9fa;
-  border-top: 1px solid #ebedf0;
-  padding: 20rpx 0;
-}
-
-.quick-actions-content {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding: 0 20rpx;
-}
-
-.quick-action-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  flex: 1;
-  min-width: 100rpx;
-  
-  &:active {
-    opacity: 0.7;
-  }
-}
-
-.action-icon-wrapper {
-  width: 80rpx;
-  height: 80rpx;
-  border-radius: 50%;
-  background: $bg-card;
-  border: 1px solid #ebedf0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 12rpx;
-}
-
-.action-emoji {
-  font-size: 40rpx;
-}
-
-.action-text {
-  font-size: 22rpx;
-  color: #666666;
-  text-align: center;
-}
-
-// 输入区域
-.chat-input-wrapper {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
+// 底部区域（输入框+面板）
+.chat-footer {
+  position: relative;
   background: $bg-card;
   border-top: 1px solid #ebedf0;
-  padding: 16rpx 20rpx;
   z-index: 200;
+}
+
+.chat-input-wrapper {
+  padding: 16rpx 20rpx;
+  background: $bg-card;
 }
 
 .input-container {
@@ -1443,12 +1476,6 @@ export default {
   &:active {
     background: #f0f2f5;
   }
-}
-
-// 原通用样式（保留作为备用）
-.btn-icon {
-  width: 32rpx;
-  height: 32rpx;
 }
 
 // 单独的图标样式
@@ -1515,4 +1542,99 @@ export default {
   gap: 16rpx;
 }
 
+// 扩展面板
+.extension-panel {
+  height: 400rpx;
+  background-color: #f9f9f9;
+  border-top: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+}
+
+.emoji-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  
+  .emoji-scroll {
+    flex: 1;
+    padding: 20rpx;
+    
+    .emoji-grid {
+      display: flex;
+      flex-wrap: wrap;
+      
+      .emoji-cell {
+        width: 12.5%;
+        height: 80rpx;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 40rpx;
+      }
+    }
+  }
+  
+  .emoji-categories {
+    height: 80rpx;
+    display: flex;
+    background-color: #fff;
+    border-top: 1px solid #f0f0f0;
+    
+    .category-item {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32rpx;
+      
+      &.active {
+        background-color: #f0f5ff;
+      }
+    }
+  }
+}
+
+.more-container {
+  height: 100%;
+  
+  .quick-actions-content {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 30rpx 20rpx;
+  }
+  
+  .quick-action-item {
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30rpx;
+    
+    &:active {
+      opacity: 0.7;
+    }
+  }
+  
+  .action-icon-wrapper {
+    width: 100rpx;
+    height: 100rpx;
+    border-radius: 24rpx;
+    background: #fff;
+    border: 1px solid #ebedf0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12rpx;
+  }
+  
+  .action-emoji {
+    font-size: 48rpx;
+  }
+  
+  .action-text {
+    font-size: 24rpx;
+    color: #666666;
+  }
+}
 </style>

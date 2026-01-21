@@ -25,7 +25,8 @@ class BannerService {
         if (cached) {
           try {
             // Redis客户端已经自动反序列化了数据，直接使用
-            if (Array.isArray(cached) && cached.length >= 0) {
+            // 注意：不缓存空数组（见下方写缓存逻辑）。这里如果缓存命中，直接返回即可。
+            if (Array.isArray(cached)) {
               logger.debug(`从缓存获取轮播图数据: ${cacheKey}`, { count: cached.length });
               return cached;
             } else if (typeof cached === 'string') {
@@ -70,8 +71,8 @@ class BannerService {
       });
 
       // 缓存结果（5分钟）
-      // 注意：不要手动JSON.stringify，Redis客户端会自动处理序列化
-      if (redisClient) {
+      // 约定：不缓存空数组，避免在后台无数据时锁定空状态，同时避免缓存穿透。
+      if (redisClient && processedBanners.length > 0) {
         await redisClient.setex(cacheKey, 300, processedBanners);
       }
 

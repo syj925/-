@@ -91,10 +91,13 @@ class ContentValidator {
         this.lastUpdateTime = Date.now()
 
         // 保存到本地缓存
+        // 规范：规则内容(/api/content-rules) 不负责版本号，版本号以 /api/config-version 为准。
+        // 因此这里不再覆盖缓存中的 version（避免把已更新版本回写成 rulesVersion）。
+        const oldCache = uni.getStorageSync(cacheConfig.storageKey) || {}
         uni.setStorageSync(cacheConfig.storageKey, {
+          ...oldCache,
           rules: response.data, // 只缓存远程的差异部分
-          timestamp: this.lastUpdateTime,
-          version: response.data.version || rulesVersion
+          timestamp: this.lastUpdateTime
         })
 
         console.log('✅ 验证规则远程更新成功')

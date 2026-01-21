@@ -1,12 +1,12 @@
 <template>
   <view class="index">
-    <!-- 自定义状态栏 + 搜索框 -->
-    <view class="custom-header" :class="{ 'header-hidden': !searchHeaderVisible }">
+    <!-- 顶部固定区域：仅隐藏搜索框，分类栏始终固定 -->
+    <view class="top-bar">
       <!-- 状态栏占位 -->
       <view class="status-bar"></view>
-      
-      <!-- 搜索区域 -->
-      <view class="search-header">
+
+      <!-- 搜索区域（滚动时可隐藏） -->
+      <view class="search-header" :class="{ 'is-hidden': !searchHeaderVisible }">
         <view class="search-container" @click="goToSearch">
           <view class="search-box">
             <view class="search-icon">
@@ -16,10 +16,9 @@
           </view>
         </view>
       </view>
-    </view>
 
-    <!-- 顶部分类栏 -->
-    <view class="category" :class="{ 'category-sticky': !searchHeaderVisible }">
+      <!-- 顶部分类栏（始终固定） -->
+      <view class="category">
       <scroll-view
         class="category-scroll"
         scroll-x
@@ -39,18 +38,21 @@
           </view>
         </view>
       </scroll-view>
+      </view>
     </view>
-    
-    <!-- 分类栏占位 (当分类栏固定时) -->
-    <view v-if="!searchHeaderVisible" class="category-placeholder"></view>
-    
-    <!-- 轮播图 -->
-    <Banner
+
+    <!-- 内容区域：使用动态测量的 topBarHeight 进行 padding-top，避免空白可滚动与“横切面” -->
+    <view class="content" :style="{ paddingTop: topBarHeight + 'px' }">
+      <!-- 轮播图 -->
+      <Banner
       ref="banner"
       scene="home"
       :height="300"
       class="home-banner"
     />
+
+    <!-- 轮播图区域分隔（避免视觉上出现“横切面”） -->
+    <view class="banner-divider"></view>
 
     <!-- 帖子列表 -->
     <post-list
@@ -74,6 +76,8 @@
     <!-- 底部安全区占位 -->
     <view class="safe-area"></view>
     
+    </view>
+
     <!-- 登录提示弹窗 -->
     <view v-if="showLoginModal" class="login-modal-mask" @tap="closeLoginModal">
       <view class="login-modal" @tap.stop>
@@ -131,7 +135,10 @@ export default {
       searchHeaderVisible: true,
       scrollDirection: 'down',
       // 登录提示弹窗
-      showLoginModal: false
+      showLoginModal: false,
+
+      // 顶部栏真实高度（动态测量），用于内容区 padding-top
+      topBarHeight: 0
     };
   },
   onLoad() {
@@ -141,6 +148,11 @@ export default {
     this.loadCategories();
     console.log('📝 准备加载帖子数据');
     this.loadPosts();
+  },
+
+  onReady() {
+    // 动态测量顶部栏高度，避免写死占位导致空白可滚动/“横切面”
+    this.updateTopBarHeight();
   },
 
   onShow() {
@@ -193,26 +205,36 @@ export default {
     const scrollTop = e.scrollTop;
     const deltaY = scrollTop - this.lastScrollTop;
     
-    // 滚动距离小于10px时不处理，避免频繁触发
-    if (Math.abs(deltaY) < 10) return;
+    // 小幅滚动也需要在接近顶部时触发显示/隐藏判断，避免慢速滚动时状态卡住导致闪烁
+    if (Math.abs(deltaY) < 10 && scrollTop > 150) return;
     
     // 判断滚动方向
     const isScrollingDown = deltaY > 0;
     const isScrollingUp = deltaY < 0;
     
-    // 在顶部附近时总是显示搜索栏
-    if (scrollTop < 50) {
-      this.searchHeaderVisible = true;
-    } else {
+    // 使用滞回阈值，避免临界点附近频繁切换导致闪烁
+    // - scrollTop > HIDE_AT：允许隐藏
+    // - scrollTop < SHOW_AT：强制显示
+    const SHOW_AT = 60
+    const HIDE_AT = 120
+
+    if (scrollTop < SHOW_AT) {
+      if (!this.searchHeaderVisible) {
+        this.searchHeaderVisible = true
+        this.updateTopBarHeight()
+      }
+    } else if (scrollTop > HIDE_AT) {
       // 向下滚动时隐藏搜索栏
       if (isScrollingDown && this.searchHeaderVisible) {
-        this.searchHeaderVisible = false;
-        this.scrollDirection = 'down';
+        this.searchHeaderVisible = false
+        this.updateTopBarHeight()
+        this.scrollDirection = 'down'
       }
       // 向上滚动时显示搜索栏
       else if (isScrollingUp && !this.searchHeaderVisible) {
-        this.searchHeaderVisible = true;
-        this.scrollDirection = 'up';
+        this.searchHeaderVisible = true
+        this.updateTopBarHeight()
+        this.scrollDirection = 'up'
       }
     }
     
@@ -245,6 +267,18 @@ export default {
     this.loadMorePosts();
   },
   methods: {
+    // 动态测量顶部栏高度（top-bar），用于内容区 padding-top
+    updateTopBarHeight() {
+      this.$nextTick(() => {
+        const query = uni.createSelectorQuery().in(this)
+        query.select('.top-bar').boundingClientRect(rect => {
+          if (rect && rect.height) {
+            this.topBarHeight = rect.height
+          }
+        }).exec()
+      })
+    },
+
     // 加载分类数据
     async loadCategories() {
       try {
@@ -870,22 +904,29 @@ export default {
   display: flex;
   flex-direction: column;
   position: relative;
-  
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 280rpx;
-    background: linear-gradient(180deg, rgba($primary-color, 0.08), rgba($primary-color, 0) 90%);
-    z-index: 0;
-    pointer-events: none;
-  }
 }
 
-/* 自定义头部样式 */
-.custom-header {
+.index::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 280rpx;
+  background: linear-gradient(180deg, rgba($primary-color, 0.08), rgba($primary-color, 0) 90%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+// 内容区：通过动态 padding-top 让出顶部 fixed 的 top-bar
+.content {
+  flex: 1;
+  position: relative;
+  z-index: 1;
+}
+
+/* 顶部固定栏（搜索可隐藏，分类始终固定） */
+.top-bar {
   position: fixed;
   top: 0;
   left: 0;
@@ -894,12 +935,22 @@ export default {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.9));
   backdrop-filter: blur(10rpx);
   border-bottom: 1rpx solid rgba(0, 0, 0, 0.05);
+}
+
+/* 搜索区域隐藏动画 */
+.search-header {
+  padding: 20rpx 30rpx;
   transform: translateY(0);
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  
-  &.header-hidden {
-    transform: translateY(-100%);
-  }
+  opacity: 1;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+.search-header.is-hidden {
+  transform: translateY(-100%);
+  opacity: 0;
+  height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  overflow: hidden;
 }
 
 .status-bar {
@@ -907,9 +958,6 @@ export default {
   width: 100%;
 }
 
-.search-header {
-  padding: 20rpx 30rpx;
-}
 
 .search-container {
   position: relative;
@@ -947,33 +995,14 @@ export default {
 }
 
 .category {
-  margin-top: calc(var(--status-bar-height) + 120rpx); /* 为固定头部留出空间 */
   background-color: $bg-card;
   padding: $spacing-sm 0;
   border-radius: 0 0 $radius-lg $radius-lg;
   box-shadow: $shadow-sm;
   position: relative;
   z-index: 999;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  
-  &.category-sticky {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    margin-top: var(--status-bar-height);
-    border-radius: 0;
-    box-shadow: 0 2rpx 16rpx rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(10rpx);
-    background: rgba(255, 255, 255, 0.95);
-  }
 }
 
-/* 分类栏占位空间 */
-.category-placeholder {
-  height: calc(var(--status-bar-height) + 88rpx); /* 状态栏高度 + 分类栏高度 */
-  width: 100%;
-}
 
 .category-scroll {
   white-space: nowrap;
@@ -1007,6 +1036,11 @@ export default {
   &:last-child {
     margin-right: 0;
   }
+}
+
+.banner-divider {
+  height: 24rpx;
+  background: $bg-page;
 }
 
 .safe-area {

@@ -10,6 +10,13 @@
       <view class="cover-overlay"></view>
     </view>
 
+    <!-- 顶部Mini Header：滚动后显示（方案C） -->
+    <view class="mini-header" :class="{ show: showMiniHeader }">
+      <view class="mini-left" @tap="goBack">返回</view>
+      <view class="mini-title"># {{ topicInfo.name || '话题' }}</view>
+      <view class="mini-right" @tap="goToPublish">参与讨论</view>
+    </view>
+
     <!-- 话题头部信息 -->
     <view class="topic-header" :class="{ 'has-cover': topicCoverUrl }">
       <view class="header-content">
@@ -57,7 +64,7 @@
     </view>
 
     <!-- 内容筛选栏 -->
-    <view class="filter-section">
+    <view class="filter-section" :class="{ 'with-mini': showMiniHeader }">
       <scroll-view
         class="filter-scroll"
         scroll-x
@@ -100,15 +107,12 @@
       ></post-list>
     </view>
 
-    <!-- 底部发布按钮 -->
-    <view class="bottom-publish">
+    <!-- 底部悬浮发布按钮：顶部显示，滚动隐藏 -->
+    <view class="bottom-publish" :class="{ hidden: !showPublishBtn }">  
       <view class="publish-btn" @tap="goToPublish">
         <text class="publish-text">参与话题讨论</text>
       </view>
     </view>
-
-    <!-- 底部安全区占位 -->
-    <view class="safe-area"></view>
   </view>
 </template>
 
@@ -135,7 +139,13 @@ export default {
       sortOptions: [
         { key: 'latest', name: '最新' },
         { key: 'hot', name: '最热' }
-      ]
+      ],
+
+      // 底部悬浮发布按钮显示控制：仅在顶部显示，滚动后隐藏
+      showPublishBtn: true,
+
+      // 顶部 mini header：滚动后显示，回到顶部隐藏
+      showMiniHeader: false
     }
   },
 
@@ -181,6 +191,27 @@ export default {
   
   onPullDownRefresh() {
     this.refreshData()
+  },
+
+  onPageScroll(e) {
+    const top = e && typeof e.scrollTop === 'number' ? e.scrollTop : 0
+
+    // 底部悬浮发布按钮：只在顶部显示
+    const shouldShowPublish = top <= 10
+    if (shouldShowPublish !== this.showPublishBtn) {
+      this.showPublishBtn = shouldShowPublish
+    }
+
+    // 顶部 mini header：使用滞回阈值避免轻微滚动导致闪烁
+    // 向下滚动超过 SHOW_AT 显示；回到 HIDE_AT 以下隐藏
+    const SHOW_AT = 160
+    const HIDE_AT = 80
+
+    if (!this.showMiniHeader && top > SHOW_AT) {
+      this.showMiniHeader = true
+    } else if (this.showMiniHeader && top < HIDE_AT) {
+      this.showMiniHeader = false
+    }
   },
   
   methods: {
@@ -669,6 +700,57 @@ export default {
   position: relative;
 }
 
+// 顶部 Mini Header
+.mini-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 88rpx;
+  padding: 0 $spacing-md;
+  padding-top: env(safe-area-inset-top);
+  background-color: rgba($bg-card, 0.95);
+  backdrop-filter: blur(20rpx);
+  border-bottom: 1rpx solid $border-light;
+  z-index: 1000;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  transform: translateY(-120%);
+  transition: transform 0.35s ease;
+
+  &.show {
+    transform: translateY(0);
+  }
+
+  .mini-left,
+  .mini-right {
+    font-size: $font-size-md;
+    color: $text-secondary;
+    padding: $spacing-sm;
+  }
+
+  .mini-title {
+    font-size: $font-size-lg;
+    font-weight: 600;
+    color: $text-primary;
+    // 省略号
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 0 $spacing-sm;
+    flex: 1;
+    text-align: center;
+  }
+
+  .mini-right {
+    color: $primary-color;
+    font-weight: 500;
+  }
+}
+
 // 话题封面背景
 .topic-cover-bg {
   position: absolute;
@@ -841,8 +923,13 @@ export default {
   margin: 0 $spacing-md $spacing-md;
   border-radius: $radius-lg;
   box-shadow: $shadow-sm;
-  position: relative;
-  z-index: 1;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+
+  &.with-mini {
+    top: 88rpx;
+  }
 }
 
 .filter-scroll {
@@ -885,15 +972,33 @@ export default {
   padding: 0 $spacing-md;
   position: relative;
   z-index: 1;
+  // 底部留白，避免内容被悬浮按钮遮挡
+  padding-bottom: 160rpx;
 }
 
 // 底部发布按钮
 .bottom-publish {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 999;
+
+  // 视觉上悬浮，不占据文档流
   padding: $spacing-md;
-  background-color: $bg-card;
-  border-top: 1rpx solid $border-light;
-  position: relative;
-  z-index: 1;
+  padding-bottom: calc(#{$spacing-md} + env(safe-area-inset-bottom));
+  background: transparent;
+
+  // 滑入/滑出动画（从底部慢慢滑入消失）
+  transform: translateY(0);
+  opacity: 1;
+  transition: transform 0.35s ease, opacity 0.35s ease;
+
+  &.hidden {
+    transform: translateY(120%);
+    opacity: 0;
+    pointer-events: none;
+  }
 
   .publish-btn {
     display: flex;
@@ -911,10 +1016,5 @@ export default {
       font-weight: 500;
     }
   }
-}
-
-// 底部安全区
-.safe-area {
-  height: 34rpx;
 }
 </style>

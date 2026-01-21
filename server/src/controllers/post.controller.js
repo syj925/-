@@ -21,26 +21,8 @@ class PostController {
       const { title, content, category_id, topics, location, images, is_anonymous } = req.body;
 
       // 获取审核设置
-      const { Setting } = require('../models');
-      const auditSettings = await Setting.findAll({
-        where: {
-          key: ['forceManualAudit', 'enableSmartAudit', 'autoApproveKeywords', 'autoRejectKeywords']
-        }
-      });
-
-      // 转换设置为对象
-      const settings = {};
-      auditSettings.forEach(setting => {
-        let value = setting.value;
-        if (setting.type === 'boolean') {
-          value = value === 'true';
-        }
-        settings[setting.key] = value;
-      });
-
-      // 确保布尔值正确转换（防止字符串"false"被当作true）
-      settings.forceManualAudit = settings.forceManualAudit === true || settings.forceManualAudit === 'true';
-      settings.enableSmartAudit = settings.enableSmartAudit === true || settings.enableSmartAudit === 'true';
+      const configManager = require('../utils/config-manager');
+      const settings = await configManager.getAuditSettings();
 
 
 

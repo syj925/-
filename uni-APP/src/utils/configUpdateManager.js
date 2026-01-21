@@ -155,6 +155,7 @@ class ConfigUpdateManager {
     try {
       // 先检查缓存中的版本
       const cached = uni.getStorageSync(cacheConfig.storageKey)
+      
       if (cached && cached.version) {
         return cached.version
       }

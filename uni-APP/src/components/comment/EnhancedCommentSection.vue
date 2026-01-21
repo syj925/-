@@ -504,9 +504,7 @@ export default {
       }
       
       this.showInput = true;
-      this.$nextTick(() => {
-        this.$refs.commentInput && this.$refs.commentInput.focus();
-      });
+      // 移除 $refs.commentInput.focus() 调用，让子组件自己处理聚焦
     },
     
     // 隐藏评论输入

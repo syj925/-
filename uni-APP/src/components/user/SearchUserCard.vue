@@ -69,7 +69,7 @@ export default {
   },
   data() {
     return {
-      userStore: useUserStore(),
+        userStore: useUserStore(),
       followLoading: false,
       defaultAvatar: '/static/images/default-avatar.png'
     }

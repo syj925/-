@@ -216,15 +216,17 @@
 		{
 			"path": "pages/topic/list",
 			"style": {
-				"navigationBarTitleText": "话题广场",
-				"enablePullDownRefresh": true,
-				"backgroundTextStyle": "dark"
+			  "navigationBarTitleText": "话题广场",
+			  "navigationStyle": "custom",
+			  "enablePullDownRefresh": true,
+			  "backgroundTextStyle": "dark"
 			}
-		},
+		  },
 		{
 			"path": "pages/topic/detail",
 			"style": {
 				"navigationBarTitleText": "话题详情",
+				"navigationStyle": "custom",
 				"enablePullDownRefresh": true,
 				"backgroundTextStyle": "dark"
 			}

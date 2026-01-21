@@ -71,7 +71,11 @@ export default {
   dashboard: {
     getData: () => instance.get('/admin/dashboard'),
     getTrendData: (period) => instance.get('/admin/dashboard/trend', { params: { period } }),
-    getUserDistribution: () => instance.get('/admin/dashboard/user-distribution')
+    getUserDistribution: () => instance.get('/admin/dashboard/user-distribution'),
+    // 在线统计相关API
+    getOnlineStats: () => instance.get('/admin/stats/online/dashboard'),
+    getOnlineCount: () => instance.get('/admin/stats/online/count'),
+    getDetailedStats: () => instance.get('/admin/stats/online/detailed')
   },
   
   // 用户管理

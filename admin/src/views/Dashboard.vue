@@ -118,17 +118,18 @@
 </template>
 
 <script>
-import { ref, reactive, onMounted, computed, watch } from 'vue';
+import { ref, reactive, onMounted, onUnmounted, computed, watch } from 'vue';
 import * as echarts from 'echarts';
 import { useRouter } from 'vue-router';
 import api from '@/utils/api';
 import { ElMessage } from 'element-plus';
-import { User, Document, ChatDotRound, Collection } from '@element-plus/icons-vue';
+import { User, Document, ChatDotRound, Collection, Connection } from '@element-plus/icons-vue';
+import adminWebSocket from '@/utils/websocket';
 
 export default {
   name: 'Dashboard',
   components: {
-    User, Document, ChatDotRound, Collection
+    User, Document, ChatDotRound, Collection, Connection
   },
   setup() {
     const router = useRouter();
@@ -147,6 +148,11 @@ export default {
       newPostCount: 0,
       newCommentCount: 0,
       newTopicCount: 0,
+      // 在线统计数据
+      onlineCount: 0,
+      onlineRate: 0,
+      isPeakTime: false,
+      serverUptime: 0,
       activeUsers: [],
       hotPosts: []
     });
@@ -185,6 +191,13 @@ export default {
         color: '#E6A23C'
       },
       {
+        title: '在线人数',
+        value: dashboardData.onlineCount.toLocaleString(),
+        today: `${dashboardData.onlineRate}% 在线率`,
+        icon: Connection,
+        color: '#9C27B0'
+      },
+      {
         title: '话题数量',
         value: dashboardData.topicCount.toLocaleString(),
         today: dashboardData.newTopicCount,
@@ -199,16 +212,41 @@ export default {
     // 获取热门帖子数据
     const hotPosts = computed(() => dashboardData.hotPosts);
 
+    // 获取在线统计数据
+    const getOnlineStats = async () => {
+      try {
+        const res = await api.dashboard.getOnlineStats();
+        if (res.success) {
+          // 更新在线统计数据
+          dashboardData.onlineCount = res.data.onlineCount || 0;
+          dashboardData.onlineRate = res.data.onlineRate || 0;
+          dashboardData.isPeakTime = res.data.isPeakTime || false;
+          dashboardData.serverUptime = res.data.serverUptime || 0;
+        }
+      } catch (error) {
+        console.warn('获取在线统计失败，使用默认值:', error);
+        // 如果API失败，设置默认值
+        dashboardData.onlineCount = 0;
+        dashboardData.onlineRate = 0;
+        dashboardData.isPeakTime = false;
+      }
+    };
+
     // 初始化数据
     const initData = async () => {
       loading.dashboard = true;
       try {
-        const res = await api.dashboard.getData();
-        if (res.success) {
-          Object.assign(dashboardData, res.data);
-          return res.data; // 返回数据以便后续操作
+        // 并行获取基础数据和在线统计
+        const [dashboardRes] = await Promise.allSettled([
+          api.dashboard.getData(),
+          getOnlineStats()
+        ]);
+        
+        if (dashboardRes.status === 'fulfilled' && dashboardRes.value.success) {
+          Object.assign(dashboardData, dashboardRes.value.data);
+          return dashboardRes.value.data;
         } else {
-          ElMessage.error(res.message || '获取仪表盘数据失败');
+          ElMessage.error(dashboardRes.value?.message || '获取仪表盘数据失败');
           return null;
         }
       } catch (error) {
@@ -469,18 +507,72 @@ export default {
       return date.toLocaleDateString();
     };
 
+    // 初始化WebSocket连接
+    const initWebSocket = () => {
+      const token = localStorage.getItem('admin_token');
+      if (token) {
+        // 连接WebSocket
+        adminWebSocket.connect(token);
+        
+        // 监听在线人数更新
+        adminWebSocket.on('onlineCountUpdate', (data) => {
+          console.log('[Dashboard] 收到在线人数更新:', data);
+          dashboardData.onlineCount = data.count;
+          
+          // 可以添加一个小动画效果提示数据更新
+          ElMessage({
+            message: `在线人数更新: ${data.count}`,
+            type: 'info',
+            duration: 1500,
+            showClose: false
+          });
+        });
+        
+        // 监听连接状态
+        adminWebSocket.on('connected', () => {
+          console.log('[Dashboard] WebSocket连接成功');
+        });
+        
+        adminWebSocket.on('disconnected', () => {
+          console.log('[Dashboard] WebSocket连接断开');
+        });
+        
+        adminWebSocket.on('error', (data) => {
+          console.error('[Dashboard] WebSocket连接错误:', data);
+        });
+      }
+    };
+
+    // 清理WebSocket连接
+    const cleanupWebSocket = () => {
+      adminWebSocket.off('onlineCountUpdate');
+      adminWebSocket.off('connected');
+      adminWebSocket.off('disconnected');
+      adminWebSocket.off('error');
+      adminWebSocket.disconnect();
+    };
+
     // 挂载时执行
     onMounted(async () => {
       try {
         await initData();
         // 确保数据加载后再初始化图表
         await Promise.all([initMainChart(), initPieChart()]);
+        
+        // 初始化WebSocket连接
+        initWebSocket();
       } catch (error) {
         console.error('初始化仪表盘错误:', error);
       }
       
       // 监听窗口大小变化
       window.addEventListener('resize', handleResize);
+    });
+    
+    // 卸载时清理
+    onUnmounted(() => {
+      cleanupWebSocket();
+      window.removeEventListener('resize', handleResize);
     });
     
     // 监听图表周期变化

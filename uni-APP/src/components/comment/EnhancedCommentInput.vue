@@ -1,11 +1,14 @@
 <template>
-  <view class="comment-input-mask" v-if="visible" @tap="handleMaskClick">
-    <view class="enhanced-comment-input" @tap.stop>
+  <view class="comment-input-mask" v-if="visible" @tap="handleMaskClick" :class="{ 'visible': visible }">
+    <view class="enhanced-comment-input" @tap.stop :class="{ 'slide-up': visible }">
+      <!-- 顶部拖拽条/装饰 -->
+      <view class="input-handle"></view>
+
       <!-- 输入区域头部 -->
       <view class="input-header">
         <view class="header-content">
           <text class="input-title">
-            {{ replyTo ? `回复 @${replyTo.author?.nickname || '用户'}` : '发表评论' }}
+            {{ replyTo ? '回复评论' : '发表评论' }}
           </text>
           <view class="header-actions">
             <view class="close-btn" @tap="handleClose">
@@ -14,9 +17,11 @@
           </view>
         </view>
         
-        <!-- 回复预览 -->
+        <!-- 回复预览 (优化样式) -->
         <view class="reply-preview" v-if="replyTo">
+          <view class="reply-bar"></view>
           <view class="preview-content">
+            <text class="preview-author">回复 @{{ replyTo.author?.nickname || '用户' }}:</text>
             <text class="preview-text">{{ replyTo.content }}</text>
           </view>
           <view class="cancel-reply" @tap="cancelReply">
@@ -27,21 +32,22 @@
       
       <!-- 主输入区域 -->
       <view class="main-input-area">
-        <view class="input-container">
+        <view class="input-wrapper">
           <!-- 文本输入框 -->
           <textarea
             ref="textInput"
             class="comment-textarea"
             v-model="content"
             :placeholder="placeholder"
-            :auto-height="true"
-            :max-length="maxLength"
+            :maxlength="maxLength"
             :focus="inputFocus"
             :show-confirm-bar="false"
+            :adjust-position="true"
+            :cursor-spacing="20"
+            :auto-height="true"
             @input="handleInput"
             @focus="handleFocus"
             @blur="handleBlur"
-            @linechange="handleLineChange"
           ></textarea>
           
           <!-- 字数统计 -->
@@ -50,148 +56,146 @@
           </view>
         </view>
         
+        <!-- 图片预览区域 (移到输入框下方) -->
+        <scroll-view scroll-x class="image-preview-scroll" v-if="selectedImages.length > 0">
+          <view class="image-list">
+            <view 
+              class="image-item"
+              v-for="(image, index) in selectedImages"
+              :key="index"
+            >
+              <image 
+                class="preview-image" 
+                :src="image.path" 
+                mode="aspectFill"
+                @tap="previewSelectedImage(index)"
+              ></image>
+              <view class="remove-image" @tap.stop="removeImage(index)">
+                <app-icon name="close" size="xs" color="#fff"></app-icon>
+              </view>
+            </view>
+            <view class="add-image-btn" v-if="selectedImages.length < maxImages" @tap="chooseImage">
+              <app-icon name="plus" size="md" color="#999"></app-icon>
+            </view>
+          </view>
+        </scroll-view>
+
         <!-- 功能工具栏 -->
         <view class="toolbar">
           <view class="toolbar-left">
             <!-- 表情按钮 -->
-            <view class="tool-btn" @tap="toggleEmojiPanel">
-              <app-icon name="smile" size="md" :color="showEmojiPanel ? '#4a90e2' : '#999'"></app-icon>
+            <view class="tool-item" @tap="toggleEmojiPanel" :class="{ 'active': showEmojiPanel }">
+              <image class="tool-icon" src="/static/images/common/emoji.png" mode="aspectFit" v-if="!showEmojiPanel"></image>
+              <image class="tool-icon" src="/static/images/common/emoji-active.png" mode="aspectFit" v-else></image>
             </view>
             
             <!-- @用户按钮 -->
-            <view class="tool-btn" @tap="toggleMentionPanel">
-              <text class="at-symbol" :class="{ 'active': showMentionPanel }">@</text>
+            <view class="tool-item" @tap="toggleMentionPanel" :class="{ 'active': showMentionPanel }">
+              <text class="tool-text-icon" :class="{ 'active': showMentionPanel }">@</text>
             </view>
             
             <!-- 图片上传按钮 -->
-            <view class="tool-btn" @tap="chooseImage">
-              <app-icon name="image" size="md" color="#999"></app-icon>
+            <view class="tool-item" @tap="chooseImage">
+              <image class="tool-icon" src="/static/images/common/image.png" mode="aspectFit"></image>
             </view>
             
             <!-- 匿名开关 -->
-            <view class="anonymous-toggle" @tap="toggleAnonymous">
-              <app-icon 
-                name="incognito" 
-                size="md" 
-                :color="isAnonymous ? '#4a90e2' : '#999'"
-              ></app-icon>
-              <text class="toggle-text" :class="{ 'active': isAnonymous }">匿名</text>
+            <view class="anonymous-switch" @tap="toggleAnonymous" :class="{ 'active': isAnonymous }">
+              <view class="switch-icon-wrapper">
+                 <image class="switch-icon" :src="isAnonymous ? '/static/images/common/incognito-active.png' : '/static/images/common/incognito.png'" mode="aspectFit"></image>
+              </view>
+              <text class="switch-text">{{ isAnonymous ? '匿名' : '公开' }}</text>
             </view>
           </view>
           
           <view class="toolbar-right">
             <!-- 发送按钮 -->
             <button 
-              class="send-btn"
-              :class="{ 'active': canSend }"
+              class="submit-btn"
+              :class="{ 'can-submit': canSend }"
               :disabled="!canSend || sending"
               @tap="submitComment"
             >
-              <app-icon 
+              <view class="btn-content">
+                 <app-icon 
                 v-if="sending" 
                 name="loading" 
                 size="sm" 
                 color="#fff" 
                 :spin="true"
               ></app-icon>
-              <text class="send-text" v-else>{{ sendButtonText }}</text>
+              <text v-else>发布</text>
+              </view>
             </button>
           </view>
         </view>
-        
-        <!-- 已选择的图片 -->
-        <view class="selected-images" v-if="selectedImages.length > 0">
-          <view 
-            class="image-item"
-            v-for="(image, index) in selectedImages"
-            :key="index"
-          >
-            <image 
-              class="preview-image" 
-              :src="image.path" 
-              mode="aspectFill"
-              @tap="previewSelectedImage(index)"
-            ></image>
-            <view class="remove-image" @tap="removeImage(index)">
-              <app-icon name="close" size="xs" color="#fff"></app-icon>
-            </view>
-          </view>
-          <view class="add-more-image" v-if="selectedImages.length < maxImages" @tap="chooseImage">
-            <app-icon name="plus" size="md" color="#999"></app-icon>
-          </view>
-        </view>
       </view>
       
-      <!-- 表情面板 -->
-      <view class="emoji-panel" v-if="showEmojiPanel">
-        <view class="panel-header">
-          <text class="panel-title">表情</text>
-          <view class="panel-tabs">
+      <!-- 扩展面板区域 -->
+      <view class="extension-panel" v-if="showEmojiPanel || showMentionPanel">
+        <!-- 表情面板 -->
+        <view class="emoji-container" v-if="showEmojiPanel">
+          <scroll-view scroll-y class="emoji-scroll">
+            <view class="emoji-grid">
+              <view 
+                class="emoji-cell"
+                v-for="(emoji, index) in allEmojis"
+                :key="index"
+                @tap="insertEmoji(emoji)"
+              >
+                <text class="emoji-char">{{ emoji }}</text>
+              </view>
+            </view>
+          </scroll-view>
+          <view class="emoji-categories">
             <view 
-              class="tab-item"
-              v-for="(category, index) in emojiCategories"
-              :key="index"
-              :class="{ 'active': currentEmojiCategory === index }"
-              @tap="switchEmojiCategory(index)"
+              class="category-item" 
+              v-for="(cat, idx) in emojiCategories" 
+              :key="idx"
+              :class="{ 'active': currentEmojiCategory === idx }"
+              @tap="switchEmojiCategory(idx)"
             >
-              <text class="tab-emoji">{{ category.icon }}</text>
+              {{ cat.icon }}
             </view>
           </view>
         </view>
         
-        <scroll-view class="emoji-grid" scroll-y>
-          <view 
-            class="emoji-item"
-            v-for="emoji in currentEmojis"
-            :key="emoji"
-            @tap="insertEmoji(emoji)"
-          >
-            <text class="emoji-text">{{ emoji }}</text>
-          </view>
-        </scroll-view>
-      </view>
-      
-      <!-- @用户面板 -->
-      <view class="mention-panel" v-if="showMentionPanel">
-        <view class="panel-header">
-          <text class="panel-title">@用户</text>
-          <view class="search-container">
+        <!-- @用户面板 -->
+        <view class="mention-container" v-if="showMentionPanel">
+          <view class="mention-search">
+            <app-icon name="search" size="sm" color="#999"></app-icon>
             <input 
-              class="search-input"
+              class="mention-input"
               v-model="mentionKeyword"
               placeholder="搜索用户..."
+              :focus="true"
               @input="searchMentionUsers"
-              :focus="showMentionPanel"
             />
           </view>
-        </view>
-        
-        <scroll-view class="mention-list" scroll-y v-if="mentionResults.length > 0">
-          <view 
-            class="mention-item"
-            v-for="user in mentionResults"
-            :key="user.id"
-            @tap="selectMentionUser(user)"
-          >
-            <image 
-              class="mention-avatar" 
-              :src="user.avatar || '/static/images/common/default-avatar.png'" 
-              mode="aspectFill"
-            ></image>
-            <view class="mention-info">
-              <text class="mention-name">{{ user.nickname || user.username }}</text>
-              <text class="mention-username" v-if="user.nickname">@{{ user.username }}</text>
+          
+          <scroll-view scroll-y class="mention-list-scroll">
+            <view v-if="mentionResults.length > 0">
+              <view 
+                class="user-item"
+                v-for="user in mentionResults"
+                :key="user.id"
+                @tap="selectMentionUser(user)"
+              >
+                <image 
+                  class="user-avatar" 
+                  :src="user.avatar || '/static/images/common/default-avatar.png'" 
+                  mode="aspectFill"
+                ></image>
+                <view class="user-info">
+                  <text class="user-nickname">{{ user.nickname || user.username }}</text>
+                  <text class="user-username">@{{ user.username }}</text>
+                </view>
+              </view>
             </view>
-          </view>
-        </scroll-view>
-        
-        <view class="mention-empty" v-else-if="mentionKeyword && !searchingMention">
-          <text class="empty-text">未找到相关用户</text>
-        </view>
-        
-        <view class="mention-loading" v-if="searchingMention">
-          <view class="loading-spinner"></view>
-          <text class="loading-text">搜索中...</text>
+            <view class="empty-state" v-else>
+              <text class="empty-text">{{ searchingMention ? '搜索中...' : '未找到用户' }}</text>
+            </view>
+          </scroll-view>
         </view>
       </view>
     </view>
@@ -240,34 +244,19 @@ export default {
       isAnonymous: false,
       selectedImages: [],
       
-      // 表情相关
+      // 面板状态
       showEmojiPanel: false,
+      showMentionPanel: false,
+      
+      // 表情数据
       currentEmojiCategory: 0,
       emojiCategories: [
-        {
-          icon: '😀',
-          name: '人物',
-          emojis: ['😀', '😃', '😄', '😁', '😆', '😅', '😂', '🤣', '😊', '😇', '🙂', '🙃', '😉', '😌', '😍', '🥰', '😘', '😗', '😙', '😚', '😋', '😛', '😝', '😜', '🤪', '🤨', '🧐', '🤓', '😎', '🤩', '🥳']
-        },
-        {
-          icon: '❤️',
-          name: '爱心',
-          emojis: ['❤️', '🧡', '💛', '💚', '💙', '💜', '🖤', '🤍', '🤎', '💔', '❣️', '💕', '💞', '💓', '💗', '💖', '💘', '💝', '💟']
-        },
-        {
-          icon: '🎉',
-          name: '庆祝',
-          emojis: ['🎉', '🎊', '🎈', '🎁', '🎀', '🎂', '🍰', '🧁', '🎆', '🎇', '✨', '🎯', '🎪', '🎨', '🎭', '🎪', '🎸', '🎵', '🎶', '🎤']
-        },
-        {
-          icon: '🌟',
-          name: '其他',
-          emojis: ['⭐', '🌟', '💫', '⚡', '🔥', '💥', '💢', '💦', '💨', '💤', '💯', '🆔', '🆕', '🆓', '🆒', '🆗', '🆙', '🔝', '✅', '❌']
-        }
+        { icon: '😀', name: '常用', emojis: ['😀', '😃', '😄', '😁', '😆', '😅', '😂', '🤣', '😊', '🥰', '😍', '🤩', '😘', '😗', '😋', '😛', '😜', '🤪', '😝', '🤑', '🤗', '🤭', '🤫', '🤔', '🤐', '🤨', '😐', '😑', '😶', '😏', '😒', '🙄', '😬', '🤥', '😌', '😔', '😪', '🤤', '😴', '😷', '🤒', '🤕', '🤢', '🤮', '🤧', '🥵', '🥶', '🥴', '😵', '🤯', '🤠', '🥳', '😎', '🤓', '🧐', '😕', '😟', '🙁', '😮', '😯', '😲', '😳', '🥺', '😦', '😧', '😨', '😰', '😥', '😢', '😭', '😱', '😖', '😣', '😞', '😓', '😩', '😫', '🥱', '😤', '😡', '😠'] },
+        { icon: '❤️', name: '爱心', emojis: ['❤️', '🧡', '💛', '💚', '💙', '💜', '🖤', '🤍', '🤎', '💔', '❣️', '💕', '💞', '💓', '💗', '💖', '💘', '💝', '💟', '☮️', '✝️', '☪️', '🕉️', '☸️', '✡️', '🔯', '🕎', '☯️', '☦️', '🛐', '⛎', '♈', '♉', '♊', '♋', '♌', '♍', '♎', '♏', '♐', '♑', '♒', '♓', '🆔', '⚛️'] },
+        { icon: '👋', name: '手势', emojis: ['👋', '🤚', 'Bk', '✋', '🖖', '👌', '🤏', '✌️', '🤞', '🤟', '🤘', '🤙', '👈', '👉', '👆', '🖕', '👇', '☝️', '👍', '👎', '✊', '👊', '🤛', '🤜', '👏', '🙌', '👐', '🤲', '🤝', '🙏', '✍️', '💅', '🤳', '💪', '🦾', '🦿', '🦵', '🦶', '👂', '🦻', '👃', '🧠', '🦷', '🦴', '👀', '👁️', '👅', '👄', '💋', '🩸'] }
       ],
       
-      // @用户相关
-      showMentionPanel: false,
+      // @搜索
       mentionKeyword: '',
       mentionResults: [],
       searchingMention: false,
@@ -278,13 +267,7 @@ export default {
     canSend() {
       return this.content.trim().length > 0 && this.content.length <= this.maxLength;
     },
-    
-    sendButtonText() {
-      if (this.replyTo) return '回复';
-      return '发布';
-    },
-    
-    currentEmojis() {
+    allEmojis() {
       return this.emojiCategories[this.currentEmojiCategory]?.emojis || [];
     }
   },
@@ -293,40 +276,31 @@ export default {
       if (newVal) {
         this.show();
       } else {
-        this.hide();
+        this.reset();
       }
     },
-    
     replyTo(newVal) {
-      if (newVal && newVal.author) {
-        this.content = `@${newVal.author.username || newVal.author.nickname} `;
-      }
+      // 切换回复对象时，自动添加@前缀（可选，这里我选择不直接加在内容里，而是显示在预览区，更干净）
     }
   },
   methods: {
-    // 显示输入框
     show() {
-      this.$emit('show');
-      this.$nextTick(() => {
+      // 延时聚焦，确保UI渲染完成
+      setTimeout(() => {
         this.inputFocus = true;
-      });
+      }, 300);
     },
     
-    // 隐藏输入框
-    hide() {
+    handleClose() {
       this.$emit('close');
-      this.reset();
     },
     
-    // 处理蒙版点击
     handleMaskClick(e) {
-      // 只有点击蒙版才关闭，点击内容区域不关闭
-      if (e.target === e.currentTarget) {
-        this.hide();
+      if (e.target.classList.contains('comment-input-mask')) {
+        this.handleClose();
       }
     },
     
-    // 重置状态
     reset() {
       this.content = '';
       this.selectedImages = [];
@@ -334,272 +308,209 @@ export default {
       this.showEmojiPanel = false;
       this.showMentionPanel = false;
       this.inputFocus = false;
+      this.mentionKeyword = '';
+      this.mentionResults = [];
     },
     
-    // 聚焦输入框
-    focus() {
-      this.inputFocus = true;
-    },
-    
-    // 处理输入
+    // 输入框事件
     handleInput(e) {
       this.content = e.detail.value;
     },
     
-    // 处理焦点
     handleFocus() {
       this.inputFocus = true;
+      // 键盘弹出时，隐藏面板
+      if (this.showEmojiPanel || this.showMentionPanel) {
+        this.showEmojiPanel = false;
+        this.showMentionPanel = false;
+      }
     },
     
-    // 处理失焦
     handleBlur() {
-      // 延迟处理，避免点击表情等按钮时失焦
-      setTimeout(() => {
-        this.inputFocus = false;
-      }, 100);
-    },
-    
-    // 处理行变化
-    handleLineChange(e) {
-      console.log('行数变化:', e.detail.lineCount);
-    },
-    
-    // 处理关闭
-    handleClose() {
-      this.$emit('close');
-    },
-    
-    // 取消回复
-    cancelReply() {
-      this.$emit('cancel-reply');
-      this.content = '';
-    },
-    
-    // 切换表情面板
-    toggleEmojiPanel() {
-      this.showEmojiPanel = !this.showEmojiPanel;
-      this.showMentionPanel = false;
-    },
-    
-    // 切换@用户面板
-    toggleMentionPanel() {
-      this.showMentionPanel = !this.showMentionPanel;
-      this.showEmojiPanel = false;
+      // 延时失焦，避免点击表情按钮时因失焦导致面板闪烁或无法打开
+      // 但如果点击的是面板内的元素，需要保持 inputFocus 为 false (收起键盘) 但面板显示
+      // 实际上，点击表情按钮会触发 toggleEmojiPanel
       
+      // 注意：这里不需要立即设为 false，因为点击按钮会抢占焦点
+      // 或者我们可以不处理 blur，完全由按钮事件控制
+      this.inputFocus = false;
+    },
+    
+    // 功能切换
+    toggleEmojiPanel() {
+      if (this.showEmojiPanel) {
+        // 如果表情面板已打开，则关闭面板，切回键盘
+        this.showEmojiPanel = false;
+        this.inputFocus = true; 
+      } else {
+        // 如果表情面板未打开，则打开面板
+        this.showEmojiPanel = true;
+        this.showMentionPanel = false;
+        
+        // 关键点：收起键盘。
+        // 在 uni-app 中，设置 focus 为 false 即可收起键盘。
+        // 但为了防止键盘收起瞬间页面跳动，可以延时一点
+        this.inputFocus = false;
+        uni.hideKeyboard(); // 强制收起键盘
+      }
+    },
+    
+    toggleMentionPanel() {
       if (this.showMentionPanel) {
+        this.showMentionPanel = false;
+        this.inputFocus = true;
+      } else {
+        this.showMentionPanel = true;
+        this.showEmojiPanel = false;
+        this.inputFocus = false;
+        // 重置搜索
         this.mentionKeyword = '';
         this.mentionResults = [];
+        this.searchMentionUsers(); // 加载默认列表
       }
     },
     
-    // 切换匿名状态
     toggleAnonymous() {
       this.isAnonymous = !this.isAnonymous;
-      
-      uni.showToast({
-        title: this.isAnonymous ? '已开启匿名' : '已关闭匿名',
-        icon: 'none',
-        duration: 1000
-      });
     },
     
-    // 切换表情分类
-    switchEmojiCategory(index) {
-      this.currentEmojiCategory = index;
-    },
-    
-    // 插入表情
-    insertEmoji(emoji) {
-      this.content += emoji;
-      this.focus();
-    },
-    
-    // 搜索@用户
-    searchMentionUsers() {
-      if (this.mentionTimer) {
-        clearTimeout(this.mentionTimer);
-      }
-      
-      this.mentionTimer = setTimeout(async () => {
-        if (!this.mentionKeyword.trim()) {
-          this.mentionResults = [];
-          return;
-        }
-        
-        this.searchingMention = true;
-        
-        try {
-          const response = await this.$api.user.searchUsers({
-            keyword: this.mentionKeyword,
-            limit: 20
-          });
-          
-          if (response.code === 0) {
-            this.mentionResults = response.data || [];
-          }
-        } catch (error) {
-          console.error('搜索用户失败:', error);
-          this.mentionResults = [];
-        } finally {
-          this.searchingMention = false;
-        }
-      }, 300);
-    },
-    
-    // 选择@用户
-    selectMentionUser(user) {
-      this.content += `@${user.username} `;
-      this.showMentionPanel = false;
-      this.focus();
-    },
-    
-    // 选择图片
+    // 图片处理
     chooseImage() {
-      const remainingCount = this.maxImages - this.selectedImages.length;
+      const remaining = this.maxImages - this.selectedImages.length;
+      if (remaining <= 0) return;
       
       uni.chooseImage({
-        count: remainingCount,
+        count: remaining,
         sizeType: ['compressed'],
         sourceType: ['album', 'camera'],
         success: (res) => {
-          const newImages = res.tempFilePaths.map(path => ({
-            path,
-            size: 0 // 可以获取文件大小
-          }));
-          
-          this.selectedImages.push(...newImages);
-        },
-        fail: (error) => {
-          console.error('选择图片失败:', error);
-          uni.showToast({
-            title: '选择图片失败',
-            icon: 'none'
-          });
+          const newImages = res.tempFilePaths.map(path => ({ path }));
+          this.selectedImages = [...this.selectedImages, ...newImages];
         }
       });
     },
     
-    // 预览选中的图片
     previewSelectedImage(index) {
-      const urls = this.selectedImages.map(img => img.path);
       uni.previewImage({
         current: index,
-        urls
+        urls: this.selectedImages.map(img => img.path)
       });
     },
     
-    // 移除图片
     removeImage(index) {
       this.selectedImages.splice(index, 1);
     },
     
-    // 提交评论
+    // 表情处理
+    switchEmojiCategory(index) {
+      this.currentEmojiCategory = index;
+    },
+    
+    insertEmoji(emoji) {
+      this.content += emoji;
+    },
+    
+    // @用户处理
+    searchMentionUsers() {
+      if (this.mentionTimer) clearTimeout(this.mentionTimer);
+      
+      this.searchingMention = true;
+      this.mentionTimer = setTimeout(async () => {
+        try {
+          // 这里调用API，假设API结构
+          const res = await this.$api.user.searchUsers({
+            keyword: this.mentionKeyword,
+            limit: 20
+          });
+          if (res.code === 0) {
+            this.mentionResults = res.data || [];
+          }
+        } catch (e) {
+          console.error(e);
+        } finally {
+          this.searchingMention = false;
+        }
+      }, 500);
+    },
+    
+    selectMentionUser(user) {
+      this.content += ` @${user.nickname || user.username} `;
+      this.showMentionPanel = false;
+      this.inputFocus = true;
+    },
+    
+    cancelReply() {
+      this.$emit('cancel-reply');
+    },
+    
+    // 提交
     async submitComment() {
       if (!this.canSend || this.sending) return;
       
       this.sending = true;
-      
       try {
-        // 上传图片（如果有）
+        // 1. 上传图片
         let imageUrls = [];
         if (this.selectedImages.length > 0) {
           imageUrls = await this.uploadImages();
         }
         
-        // 构建评论数据
-        const commentData = {
+        // 2. 构造数据
+        const payload = {
           post_id: this.postId,
-          content: this.content.trim(),
+          content: this.content,
           reply_to: this.replyTo?.id || null,
           images: imageUrls,
-          is_anonymous: this.isAnonymous
+          is_anonymous: this.isAnonymous,
+          // 提取@用户
+          mentioned_users: this.extractMentions()
         };
         
-        // 提取@用户
-        const mentionedUsers = this.extractMentionedUsers();
-        if (mentionedUsers.length > 0) {
-          commentData.mentioned_users = mentionedUsers;
-        }
+        // 3. 调用接口
+        const res = await this.$api.comment.create(payload);
         
-        // 提交评论
-        const response = await this.$api.comment.create(commentData);
-        
-        if (response.code === 0) {
-          this.$emit('success', response.data);
-          
-          // 显示成功提示
-          if (response.data?.needsAudit) {
-            uni.showModal({
-              title: '提交成功',
-              content: '您的评论正在审核中，审核通过后将会显示',
-              showCancel: false,
-              confirmText: '我知道了'
-            });
-          } else {
-            uni.showToast({
-              title: this.replyTo ? '回复成功' : '评论成功',
-              icon: 'success'
-            });
-          }
-          
-          // 关闭输入框
-          this.hide();
+        if (res.code === 0) {
+          this.$emit('success', res.data);
+          this.handleClose();
+          uni.showToast({ title: '发布成功', icon: 'success' });
         } else {
-          throw new Error(response.msg || '提交失败');
+          uni.showToast({ title: res.msg || '发布失败', icon: 'none' });
         }
-      } catch (error) {
-        console.error('提交评论失败:', error);
-        uni.showToast({
-          title: error.message || '提交失败，请重试',
-          icon: 'none'
-        });
+      } catch (e) {
+        console.error(e);
+        uni.showToast({ title: '网络错误', icon: 'none' });
       } finally {
         this.sending = false;
       }
     },
     
-    // 上传图片
     async uploadImages() {
-      const uploadPromises = this.selectedImages.map(image => {
+      // 简单的并行上传实现
+      const promises = this.selectedImages.map(img => {
         return new Promise((resolve, reject) => {
           uni.uploadFile({
             url: `${this.$api.baseURL}/api/upload/image`,
-            filePath: image.path,
+            filePath: img.path,
             name: 'file',
-            header: {
-              'Authorization': `Bearer ${uni.getStorageSync('token')}`
-            },
-            success: (res) => {
-              try {
-                const data = JSON.parse(res.data);
-                if (data.code === 0) {
-                  resolve(data.data.url);
-                } else {
-                  reject(new Error(data.msg || '上传失败'));
-                }
-              } catch (e) {
-                reject(new Error('上传响应解析失败'));
-              }
+            header: { 'Authorization': `Bearer ${uni.getStorageSync('token')}` },
+            success: (uploadRes) => {
+              const data = JSON.parse(uploadRes.data);
+              if (data.code === 0) resolve(data.data.url);
+              else reject(data.msg);
             },
             fail: reject
           });
         });
       });
-      
-      return Promise.all(uploadPromises);
+      return Promise.all(promises);
     },
     
-    // 提取@用户
-    extractMentionedUsers() {
-      const mentionRegex = /@([a-zA-Z0-9_]+)/g;
-      const mentions = [];
-      let match;
-      
-      while ((match = mentionRegex.exec(this.content)) !== null) {
-        mentions.push(match[1]);
-      }
-      
-      return [...new Set(mentions)]; // 去重
+    extractMentions() {
+      // 简单正则提取
+      const regex = /@([^\s@]+)/g;
+      const matches = this.content.match(regex);
+      if (!matches) return [];
+      return matches.map(m => m.substring(1)); // 去掉@
     }
   }
 };
@@ -607,415 +518,410 @@ export default {
 
 <style lang="scss" scoped>
 @import '@/styles/variables.scss';
-@import '@/styles/mixins.scss';
 
-// 评论输入蒙版
 .comment-input-mask {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 1000;
-  @include flex(column, flex-end, center);
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  
+  &.visible {
+    opacity: 1;
+    visibility: visible;
+  }
 }
 
 .enhanced-comment-input {
-  background: #ffffff;
-  border-radius: 24rpx 24rpx 0 0;
-  max-height: 80vh;
-  display: flex;
-  flex-direction: column;
+  background-color: #fff;
+  border-radius: 32rpx 32rpx 0 0;
   width: 100%;
-  animation: slideUpInput 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
+  
+  &.slide-up {
+    transform: translateY(0);
+  }
 }
 
-@keyframes slideUpInput {
-  from {
-    transform: translateY(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
+.input-handle {
+  width: 72rpx;
+  height: 8rpx;
+  background-color: #e0e0e0;
+  border-radius: 4rpx;
+  margin: 16rpx auto 8rpx;
 }
 
 .input-header {
-  background: #f8f9fa;
-  border-radius: 24rpx 24rpx 0 0;
-  border-bottom: 2rpx solid #f0f2f5;
-}
-
-.header-content {
-  @include flex(row, space-between, center);
-  padding: 24rpx 32rpx;
-}
-
-.input-title {
-  font-size: 32rpx;
-  color: $text-primary;
-  font-weight: 600;
-}
-
-.close-btn {
-  padding: 8rpx;
-  border-radius: 50%;
-  transition: background 0.3s ease;
+  padding: 16rpx 32rpx;
+  border-bottom: 1px solid #f5f5f5;
   
-  &:active {
-    background: #e8e9eb;
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12rpx;
+    
+    .input-title {
+      font-size: 30rpx;
+      font-weight: 600;
+      color: #333;
+    }
+    
+    .close-btn {
+      padding: 8rpx;
+    }
   }
-}
-
-.reply-preview {
-  @include flex(row, space-between, center);
-  padding: 16rpx 32rpx 24rpx;
-  background: rgba(74, 144, 226, 0.05);
-  margin: 0 24rpx 0 24rpx;
-  border-radius: 16rpx;
-}
-
-.preview-content {
-  flex: 1;
   
-  .preview-text {
-    font-size: 26rpx;
-    color: $text-secondary;
-    line-height: 1.4;
-    @include ellipsis(2);
-  }
-}
-
-.cancel-reply {
-  padding: 8rpx;
-  margin-left: 16rpx;
-  border-radius: 50%;
-  
-  &:active {
-    background: rgba(0, 0, 0, 0.1);
+  .reply-preview {
+    display: flex;
+    align-items: center;
+    background-color: #f7f8fa;
+    padding: 12rpx 16rpx;
+    border-radius: 12rpx;
+    
+    .reply-bar {
+      width: 6rpx;
+      height: 24rpx;
+      background-color: #4a90e2;
+      border-radius: 3rpx;
+      margin-right: 12rpx;
+    }
+    
+    .preview-content {
+      flex: 1;
+      font-size: 24rpx;
+      color: #666;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      
+      .preview-author {
+        color: #333;
+        font-weight: 500;
+        margin-right: 8rpx;
+      }
+    }
+    
+    .cancel-reply {
+      padding: 8rpx;
+    }
   }
 }
 
 .main-input-area {
-  flex: 1;
-  padding: 32rpx;
-  overflow: hidden;
+  padding: 24rpx 32rpx;
 }
 
-.input-container {
+.input-wrapper {
+  background-color: #f5f7fa;
+  border-radius: 16rpx;
+  padding: 20rpx;
   position: relative;
-  margin-bottom: 24rpx;
-}
-
-.comment-textarea {
-  width: 100%;
-  min-height: 200rpx;
-  max-height: 400rpx;
-  padding: 24rpx;
-  background: #f8f9fa;
-  border-radius: 20rpx;
-  border: 2rpx solid transparent;
-  font-size: 30rpx;
-  color: $text-primary;
-  line-height: 1.6;
-  transition: all 0.3s ease;
+  margin-bottom: 20rpx;
   
-  &:focus {
-    border-color: #4a90e2;
-    background: #f0f6ff;
+  .comment-textarea {
+    width: 100%;
+    min-height: 120rpx;
+    max-height: 300rpx;
+    font-size: 28rpx;
+    color: #333;
+    line-height: 1.5;
+  }
+  
+  .char-count {
+    text-align: right;
+    font-size: 22rpx;
+    color: #bbb;
+    margin-top: 8rpx;
+    
+    &.warning {
+      color: #ff4d4f;
+    }
   }
 }
 
-.char-count {
-  position: absolute;
-  bottom: 12rpx;
-  right: 20rpx;
+.image-preview-scroll {
+  white-space: nowrap;
+  margin-bottom: 20rpx;
   
-  .count-text {
-    font-size: 22rpx;
-    color: #999;
+  .image-list {
+    display: flex;
+    align-items: center;
     
-    .warning & {
-      color: #ff6b6b;
+    .image-item {
+      position: relative;
+      margin-right: 16rpx;
+      width: 120rpx;
+      height: 120rpx;
+      
+      .preview-image {
+        width: 100%;
+        height: 100%;
+        border-radius: 12rpx;
+      }
+      
+      .remove-image {
+        position: absolute;
+        top: -10rpx;
+        right: -10rpx;
+        width: 36rpx;
+        height: 36rpx;
+        background-color: rgba(0,0,0,0.5);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+    
+    .add-image-btn {
+      width: 120rpx;
+      height: 120rpx;
+      background-color: #f5f7fa;
+      border-radius: 12rpx;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px dashed #ddd;
     }
   }
 }
 
 .toolbar {
-  @include flex(row, space-between, center);
-  padding: 20rpx 0;
-}
-
-.toolbar-left {
-  @include flex(row, flex-start, center);
-  gap: 24rpx;
-}
-
-.tool-btn {
-  @include flex(row, center, center);
-  width: 80rpx;
-  height: 80rpx;
-  border-radius: 20rpx;
-  background: #f8f9fa;
-  transition: all 0.3s ease;
-  
-  &:active {
-    background: #e8e9eb;
-    transform: scale(0.95);
-  }
-  
-  .at-symbol {
-    font-size: 36rpx;
-    font-weight: 600;
-    color: #999;
-    
-    &.active {
-      color: #4a90e2;
-    }
-  }
-}
-
-.anonymous-toggle {
-  @include flex(row, center, center);
-  padding: 12rpx 20rpx;
-  background: #f8f9fa;
-  border-radius: 20rpx;
-  gap: 8rpx;
-  transition: all 0.3s ease;
-  
-  &:active {
-    background: #e8e9eb;
-  }
-  
-  .toggle-text {
-    font-size: 24rpx;
-    color: #999;
-    font-weight: 500;
-    
-    &.active {
-      color: #4a90e2;
-    }
-  }
-}
-
-.send-btn {
-  background: #e8e9eb;
-  color: #999;
-  border: none;
-  border-radius: 24rpx;
-  padding: 16rpx 32rpx;
-  font-size: 28rpx;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  
-  &.active {
-    background: linear-gradient(135deg, #4a90e2 0%, #667eea 100%);
-    color: #ffffff;
-    box-shadow: 0 4rpx 16rpx rgba(74, 144, 226, 0.3);
-    
-    &:active {
-      transform: scale(0.95);
-    }
-  }
-  
-  &:disabled {
-    background: #f0f2f5;
-    color: #ccc;
-  }
-}
-
-.selected-images {
   display: flex;
-  flex-wrap: wrap;
-  gap: 16rpx;
-  margin-top: 24rpx;
+  justify-content: space-between;
+  align-items: center;
+  
+  .toolbar-left {
+    display: flex;
+    align-items: center;
+    gap: 32rpx;
+    
+    .tool-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 60rpx;
+      height: 60rpx;
+      
+      &.active {
+        opacity: 0.8;
+      }
+      
+      .tool-icon {
+        width: 48rpx;
+        height: 48rpx;
+      }
+      
+      .tool-text-icon {
+        font-size: 36rpx;
+        font-weight: 600;
+        color: #666;
+        line-height: 1;
+        
+        &.active {
+          color: #4a90e2;
+        }
+      }
+    }
+    
+    .anonymous-switch {
+      display: flex;
+      align-items: center;
+      background-color: #f0f0f0;
+      padding: 6rpx 16rpx;
+      border-radius: 24rpx;
+      transition: all 0.3s;
+      height: 50rpx;
+      
+      &.active {
+        background-color: rgba(74, 144, 226, 0.1);
+      }
+      
+      .switch-icon-wrapper {
+        width: 32rpx;
+        height: 32rpx;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      .switch-icon {
+        width: 100%;
+        height: 100%;
+      }
+      
+      .switch-text {
+        font-size: 24rpx;
+        color: #666;
+        margin-left: 8rpx;
+        line-height: 1;
+        position: relative;
+        top: 2rpx; /* 微调垂直居中 */
+      }
+    }
+  }
+  
+  .toolbar-right {
+    .submit-btn {
+      margin: 0;
+      padding: 0;
+      width: 120rpx;
+      height: 60rpx;
+      background-color: #e0e0e0;
+      color: #999;
+      font-size: 26rpx;
+      border-radius: 30rpx;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      .btn-content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+      }
+      
+      &.can-submit {
+        background-color: #4a90e2;
+        color: #fff;
+        box-shadow: 0 4rpx 12rpx rgba(74, 144, 226, 0.3);
+      }
+      
+      &::after {
+        border: none;
+      }
+    }
+  }
 }
 
-.image-item {
-  position: relative;
-  width: 160rpx;
-  height: 160rpx;
+.extension-panel {
+  height: 400rpx;
+  background-color: #f9f9f9;
+  border-top: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
 }
 
-.preview-image {
-  width: 100%;
+.emoji-container {
   height: 100%;
-  border-radius: 16rpx;
-  object-fit: cover;
-}
-
-.remove-image {
-  position: absolute;
-  top: -8rpx;
-  right: -8rpx;
-  width: 40rpx;
-  height: 40rpx;
-  background: #ff6b6b;
-  border-radius: 50%;
-  @include flex(row, center, center);
-  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.2);
-}
-
-.add-more-image {
-  width: 160rpx;
-  height: 160rpx;
-  border: 2rpx dashed #ddd;
-  border-radius: 16rpx;
-  @include flex(row, center, center);
-  background: #f8f9fa;
+  display: flex;
+  flex-direction: column;
   
-  &:active {
-    background: #f0f2f5;
+  .emoji-scroll {
+    flex: 1;
+    padding: 20rpx;
+    
+    .emoji-grid {
+      display: flex;
+      flex-wrap: wrap;
+      
+      .emoji-cell {
+        width: 12.5%;
+        height: 80rpx;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 40rpx;
+      }
+    }
+  }
+  
+  .emoji-categories {
+    height: 80rpx;
+    display: flex;
+    background-color: #fff;
+    border-top: 1px solid #f0f0f0;
+    
+    .category-item {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32rpx;
+      
+      &.active {
+        background-color: #f0f5ff;
+      }
+    }
   }
 }
 
-// 表情面板
-.emoji-panel, .mention-panel {
-  border-top: 2rpx solid #f0f2f5;
-  background: #ffffff;
-  max-height: 400rpx;
-}
-
-.panel-header {
-  @include flex(row, space-between, center);
-  padding: 24rpx 32rpx;
-  border-bottom: 1rpx solid #f0f2f5;
-  background: #f8f9fa;
-}
-
-.panel-title {
-  font-size: 28rpx;
-  color: $text-primary;
-  font-weight: 600;
-}
-
-.panel-tabs {
-  @include flex(row, flex-end, center);
-  gap: 16rpx;
-}
-
-.tab-item {
-  padding: 8rpx 12rpx;
-  border-radius: 12rpx;
-  transition: background 0.3s ease;
+.mention-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
   
-  &.active {
-    background: rgba(74, 144, 226, 0.1);
+  .mention-search {
+    padding: 16rpx 24rpx;
+    background-color: #fff;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    align-items: center;
+    
+    .mention-input {
+      flex: 1;
+      margin-left: 16rpx;
+      font-size: 26rpx;
+    }
   }
   
-  .tab-emoji {
-    font-size: 32rpx;
+  .mention-list-scroll {
+    flex: 1;
+    
+    .user-item {
+      display: flex;
+      align-items: center;
+      padding: 20rpx 32rpx;
+      background-color: #fff;
+      border-bottom: 1px solid #f5f5f5;
+      
+      .user-avatar {
+        width: 80rpx;
+        height: 80rpx;
+        border-radius: 50%;
+        margin-right: 20rpx;
+      }
+      
+      .user-info {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        
+        .user-nickname {
+          font-size: 28rpx;
+          color: #333;
+          font-weight: 500;
+        }
+        
+        .user-username {
+          font-size: 24rpx;
+          color: #999;
+          margin-top: 4rpx;
+        }
+      }
+    }
+    
+    .empty-state {
+      padding: 60rpx;
+      text-align: center;
+      color: #999;
+      font-size: 26rpx;
+    }
   }
-}
-
-.emoji-grid {
-  padding: 24rpx;
-  display: grid;
-  grid-template-columns: repeat(8, 1fr);
-  gap: 16rpx;
-  max-height: 320rpx;
-}
-
-.emoji-item {
-  @include flex(row, center, center);
-  width: 80rpx;
-  height: 80rpx;
-  border-radius: 16rpx;
-  transition: background 0.3s ease;
-  
-  &:active {
-    background: #f0f2f5;
-  }
-  
-  .emoji-text {
-    font-size: 40rpx;
-  }
-}
-
-// @用户面板
-.search-container {
-  flex: 1;
-  margin-left: 24rpx;
-}
-
-.search-input {
-  width: 100%;
-  height: 64rpx;
-  padding: 0 20rpx;
-  background: #ffffff;
-  border: 2rpx solid #e8e9eb;
-  border-radius: 16rpx;
-  font-size: 26rpx;
-  color: $text-primary;
-  
-  &:focus {
-    border-color: #4a90e2;
-  }
-}
-
-.mention-list {
-  max-height: 320rpx;
-}
-
-.mention-item {
-  @include flex(row, flex-start, center);
-  padding: 20rpx 32rpx;
-  border-bottom: 1rpx solid #f0f2f5;
-  transition: background 0.3s ease;
-  
-  &:active {
-    background: #f8f9fa;
-  }
-}
-
-.mention-avatar {
-  width: 72rpx;
-  height: 72rpx;
-  border-radius: 50%;
-  margin-right: 16rpx;
-}
-
-.mention-info {
-  flex: 1;
-}
-
-.mention-name {
-  font-size: 28rpx;
-  color: $text-primary;
-  font-weight: 500;
-  display: block;
-  margin-bottom: 4rpx;
-}
-
-.mention-username {
-  font-size: 24rpx;
-  color: $text-secondary;
-}
-
-.mention-empty, .mention-loading {
-  @include flex(column, center, center);
-  padding: 60rpx;
-  
-  .empty-text, .loading-text {
-    font-size: 26rpx;
-    color: $text-secondary;
-  }
-}
-
-.loading-spinner {
-  width: 40rpx;
-  height: 40rpx;
-  border: 3rpx solid #f0f2f5;
-  border-top: 3rpx solid #4a90e2;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin-bottom: 16rpx;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
 }
 </style>

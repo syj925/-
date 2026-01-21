@@ -14,7 +14,6 @@
       <!-- 当前版本信息 -->
       <view class="version-section">
         <view class="section-header">
-          <view class="section-icon">📱</view>
           <view class="section-title">当前版本</view>
         </view>
         
@@ -34,7 +33,6 @@
       <!-- 远程版本信息 -->
       <view class="version-section" v-if="remoteVersionInfo">
         <view class="section-header">
-          <view class="section-icon">☁️</view>
           <view class="section-title">最新版本</view>
         </view>
         
@@ -58,7 +56,6 @@
       <!-- 更新历史 -->
       <view class="version-section" v-if="updateHistory.length > 0">
         <view class="section-header">
-          <view class="section-icon">📋</view>
           <view class="section-title">更新历史</view>
         </view>
         
@@ -85,8 +82,7 @@
           :disabled="checking"
         >
           <view class="btn-content">
-            <view class="btn-icon" v-if="checking">🔄</view>
-            <view class="btn-icon" v-else>🔍</view>
+
             <view class="btn-text">
               {{ checking ? '检查中...' : '检查更新' }}
             </view>
@@ -100,8 +96,7 @@
           v-if="hasUpdate"
         >
           <view class="btn-content">
-            <view class="btn-icon" v-if="updating">⏳</view>
-            <view class="btn-icon" v-else>⬇️</view>
+
             <view class="btn-text">
               {{ updating ? '更新中...' : '立即更新' }}
             </view>
@@ -172,6 +167,7 @@ export default {
   onLoad() {
     this.loadVersionInfo();
   },
+
   methods: {
     // 返回上一页
     goBack() {
@@ -429,11 +425,12 @@ export default {
 
 /* 当前版本卡片 */
 .current-version-card {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #ffffff;
+  border: 2rpx solid #000;
   border-radius: 24rpx;
   padding: 40rpx;
-  color: #ffffff;
-  box-shadow: 0 20rpx 40rpx rgba(102, 126, 234, 0.3);
+  color: #000;
+  box-shadow: none;
 }
 
 .version-info {
@@ -453,21 +450,21 @@ export default {
   font-weight: 500;
   
   &.status-latest {
-    background: rgba(76, 217, 100, 0.2);
-    color: #4cd964;
-    border: 2rpx solid rgba(76, 217, 100, 0.3);
+    background: rgba(76, 217, 100, 0.12);
+    color: #1b7f2a;
+    border: 2rpx solid #000;
   }
   
   &.status-outdated {
-    background: rgba(255, 149, 0, 0.2);
-    color: #ff9500;
-    border: 2rpx solid rgba(255, 149, 0, 0.3);
+    background: rgba(255, 149, 0, 0.12);
+    color: #8a4b00;
+    border: 2rpx solid #000;
   }
   
   &.status-unknown {
-    background: rgba(255, 255, 255, 0.2);
-    color: #ffffff;
-    border: 2rpx solid rgba(255, 255, 255, 0.3);
+    background: transparent;
+    color: #000;
+    border: 2rpx solid #000;
   }
 }
 
@@ -569,13 +566,14 @@ export default {
 }
 
 .check-update-btn {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: #ffffff;
-  box-shadow: 0 8rpx 25rpx rgba(102, 126, 234, 0.3);
+  background: #ffffff;
+  color: #000;
+  border: 2rpx solid #000;
+  box-shadow: none;
   
   &:active:not(:disabled) {
     transform: translateY(2rpx);
-    box-shadow: 0 4rpx 15rpx rgba(102, 126, 234, 0.4);
+    box-shadow: none;
   }
 }
 
