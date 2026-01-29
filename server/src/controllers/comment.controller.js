@@ -17,13 +17,35 @@ class CommentController {
   async createComment(req, res, next) {
     try {
       const userId = req.user.id;
-      const { post_id, content, reply_to } = req.body;
+      const { post_id, content, reply_to, images, emoji_image } = req.body;
+      
+      // 图片表情和普通图片互斥校验
+      if (images && emoji_image) {
+        return res.status(StatusCodes.BAD_REQUEST).json(
+          ResponseUtil.error({
+            code: 'INVALID_PARAMS',
+            message: '图片和图片表情不能同时存在'
+          })
+        );
+      }
+
+      let finalImages = null;
+      let finalEmojiImage = null;
+      
+      if (emoji_image && emoji_image.url) {
+        finalEmojiImage = {
+          id: emoji_image.id || null,
+          url: emoji_image.url,
+          name: emoji_image.name || '表情'
+        };
+      } else if (images && Array.isArray(images) && images.length > 0) {
+        finalImages = images.filter(url => url && typeof url === 'string' && url.trim());
+        if (finalImages.length === 0) finalImages = null;
+      }
 
       // 获取审核设置
       const configManager = require('../utils/config-manager');
       const settings = await configManager.getAuditSettings();
-
-
 
       // 确定评论状态
       let commentStatus = 'normal'; // 默认正常状态
@@ -60,26 +82,29 @@ class CommentController {
         }
       }
 
-      // 后端根据用户设置决定是否匿名，不信任前端传递的 is_anonymous
-      const comment = await commentService.createComment({
+      const commentData = {
         user_id: userId,
         post_id,
         content,
         reply_to: reply_to || null,
-        status: commentStatus
-      });
+        status: commentStatus,
+        images: images && images.length > 0 ? images : null,
+        emoji_image: emoji_image && emoji_image.url ? emoji_image : null
+      };
+
+      const newComment = await commentService.createComment(commentData);
 
       // 根据评论状态返回不同的消息
       let message = '评论发布成功';
       let needsAudit = false;
 
-      if (comment.status === 'pending') {
+      if (newComment.status === 'pending') {
         message = '评论已提交，等待管理员审核';
         needsAudit = true;
       }
 
       // 创建安全的返回数据，避免循环引用
-      const safeCommentData = JsonUtil.createSafeResponseData(comment);
+      const safeCommentData = JsonUtil.createSafeResponseData(newComment);
       const responseData = {
         ...safeCommentData,
         needsAudit,

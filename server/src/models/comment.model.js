@@ -83,6 +83,18 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         defaultValue: false,
         comment: '是否匿名评论'
+      },
+      images: {
+        type: DataTypes.JSON,
+        allowNull: true,
+        defaultValue: null,
+        comment: '评论图片列表（普通图片）'
+      },
+      emoji_image: {
+        type: DataTypes.JSON,
+        allowNull: true,
+        defaultValue: null,
+        comment: '图片表情（单个，与普通图片互斥）: { id, url, name }'
       }
     },
     {

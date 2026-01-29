@@ -20,6 +20,7 @@ import eventApi from './modules/event';
 import bannerApi from './modules/banner';
 import badgeApi from './modules/badge';
 import tagApi from './modules/tag';
+import emojiApi from './modules/emoji';
 
 // 创建API实例
 const userApiInstance = userApi(http);
@@ -38,6 +39,7 @@ const eventApiInstance = eventApi;
 const bannerApiInstance = bannerApi(http);
 const badgeApiInstance = badgeApi(http);
 const tagApiInstance = tagApi(http);
+const emojiApiInstance = emojiApi(http);
 
 // 命名导出
 export {
@@ -59,7 +61,8 @@ export {
   eventApiInstance as eventApi,
   bannerApiInstance as bannerApi,
   badgeApiInstance as badgeApi,
-  tagApiInstance as tagApi
+  tagApiInstance as tagApi,
+  emojiApiInstance as emojiApi
 };
 
 // 默认导出
@@ -82,5 +85,6 @@ export default {
   event: eventApiInstance,
   banner: bannerApiInstance,
   badge: badgeApiInstance,
-  tag: tagApiInstance
+  tag: tagApiInstance,
+  emoji: emojiApiInstance
 };

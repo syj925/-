@@ -592,7 +592,7 @@ class PostRepository {
       offset: (page - 1) * pageSize,
       order,
       attributes: [
-        'id', 'content', 'user_id', 'post_id', 'reply_to', 'like_count', 'reply_count', 'status', 'is_anonymous', 'created_at', 'updated_at', 'deleted_at',
+        'id', 'content', 'user_id', 'post_id', 'reply_to', 'like_count', 'reply_count', 'status', 'is_anonymous', 'images', 'emoji_image', 'created_at', 'updated_at', 'deleted_at',
         // 添加热度分数计算
         [
           sequelize.literal(`(
@@ -636,7 +636,7 @@ class PostRepository {
           required: false,
           limit: 3,
           order: [['created_at', 'ASC']],
-          attributes: ['id', 'content', 'user_id', 'post_id', 'reply_to', 'like_count', 'status', 'is_anonymous', 'created_at', 'updated_at'],
+          attributes: ['id', 'content', 'user_id', 'post_id', 'reply_to', 'like_count', 'status', 'is_anonymous', 'images', 'emoji_image', 'created_at', 'updated_at'],
           include: [
             {
               model: User,

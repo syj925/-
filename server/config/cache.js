@@ -66,6 +66,24 @@ module.exports = {
     PREFIX: 'content:',         // 缓存前缀
   },
 
+  // 🎭 表情系统缓存
+  EMOJI: {
+    PACKS_TTL: 30 * 60,         // 30分钟 - 表情包列表
+    MAP_TTL: 60 * 60,           // 1小时 - 表情映射表
+    SEARCH_TTL: 10 * 60,        // 10分钟 - 搜索结果
+    HOT_TTL: 15 * 60,           // 15分钟 - 热门表情
+    RECENT_TTL: 24 * 60 * 60,   // 24小时 - 最近使用
+    RECENT_LIMIT: 30,           // 最近使用数量限制
+    VERSION_KEY: 'emoji:version',     // 版本号键
+    PACKS_KEY: 'emoji:packs',         // 表情包列表键
+    MAP_KEY: 'emoji:map',             // 映射表键
+    HOT_KEY: 'emoji:hot',             // 热门表情键
+    SEARCH_PREFIX: 'emoji:search:',   // 搜索缓存前缀
+    RECENT_PREFIX: 'emoji:recent:',   // 最近使用前缀
+    USE_COUNT_KEY: 'emoji:use_counts', // 使用计数键
+    UPLOAD_LIMIT_PREFIX: 'emoji:upload:', // 上传限制前缀
+  },
+
   // 🔧 工具方法
   UTILS: {
     /**

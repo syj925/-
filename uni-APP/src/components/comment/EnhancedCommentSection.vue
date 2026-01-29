@@ -124,10 +124,20 @@
             </view>
             
             <view class="comment-content">
-              <text class="comment-text">{{ comment.content }}</text>
+              <text class="comment-text">{{ renderEmoji(comment.content) }}</text>
               
-              <!-- 评论图片 -->
-              <view class="comment-images" v-if="comment.images && comment.images.length">
+              <!-- 图片表情（单独显示，与普通图片互斥） -->
+              <view class="emoji-image-container" v-if="comment.emoji_image && comment.emoji_image.url">
+                <image 
+                  class="emoji-image"
+                  :src="processCommentImage(comment.emoji_image.url)"
+                  mode="aspectFit"
+                  @tap="previewEmojiImage(comment.emoji_image.url)"
+                ></image>
+              </view>
+              
+              <!-- 普通评论图片 -->
+              <view class="comment-images" v-else-if="comment.images && comment.images.length">
                 <image 
                   v-for="(image, imgIndex) in comment.images"
                   :key="imgIndex"
@@ -172,7 +182,7 @@
             >
               <view class="reply-content">
                 <text class="reply-username">{{ reply.author?.nickname || reply.author?.username || '用户' }}</text>
-                <text class="reply-text">: {{ reply.content }}</text>
+                <text class="reply-text">: {{ renderEmoji(reply.content) }}</text>
               </view>
               
               <view class="reply-meta">
@@ -235,6 +245,7 @@ import AppIcon from '@/components/common/AppIcon.vue';
 import EnhancedCommentInput from './EnhancedCommentInput.vue';
 import { ensureAbsoluteUrl } from '@/utils/url';
 import { useUserStore } from '@/store';
+import { EMOJI_MAP } from '@/config/emoji-map';
 
 export default {
   name: 'EnhancedCommentSection',
@@ -312,6 +323,17 @@ export default {
       }
       return ensureAbsoluteUrl(image);
     },
+    
+    // 将表情代码转换为emoji字符
+    renderEmoji(content) {
+      if (!content) return '';
+      let result = content;
+      for (const [code, emoji] of Object.entries(EMOJI_MAP)) {
+        result = result.split(code).join(emoji);
+      }
+      return result;
+    },
+    
     // 加载评论列表
     async loadComments(refresh = false) {
       if (this.loading) return;
@@ -391,13 +413,6 @@ export default {
               }))
             };
           });
-          
-          console.log('✅ 处理后的评论数据:', processedComments.map(c => ({
-            id: c.id,
-            content: c.content.substring(0, 30),
-            childrenCount: c.children ? c.children.length : 0,
-            repliesCount: c.replies ? c.replies.length : 0
-          })));
           
           if (refresh) {
             this.comments = processedComments;
@@ -774,7 +789,15 @@ export default {
     previewCommentImage(index, images) {
       uni.previewImage({
         current: index,
-        urls: images
+        urls: images.map(img => this.processCommentImage(img))
+      });
+    },
+    
+    // 预览图片表情
+    previewEmojiImage(url) {
+      uni.previewImage({
+        current: 0,
+        urls: [this.processCommentImage(url)]
       });
     },
     
@@ -1154,6 +1177,17 @@ export default {
       font-size: 30rpx;
       color: #333;
       line-height: 1.6;
+    }
+    
+    .emoji-image-container {
+      margin-top: 16rpx;
+      
+      .emoji-image {
+        width: 200rpx;
+        height: 200rpx;
+        border-radius: 8rpx;
+        background-color: #f5f5f5;
+      }
     }
     
     .comment-images {

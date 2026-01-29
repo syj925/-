@@ -58,10 +58,7 @@
           </view>
           
           <!-- 评论文本 -->
-          <rich-text 
-            class="comment-text" 
-            :nodes="parseContent(comment.content)"
-          ></rich-text>
+          <text class="comment-text">{{ renderEmoji(comment.content) }}</text>
           
           <!-- 评论图片 -->
           <view class="comment-images" v-if="comment.images && comment.images.length">
@@ -200,13 +197,55 @@
         </view>
       </view>
     </view>
+    
+    <!-- 评论统计栏 -->
+    <view class="comment-stats" v-if="showStats">
+      <view class="stat-item">
+        <app-icon name="eye" size="xs" color="#999"></app-icon>
+        <text class="stat-text">{{ formatCount(comment.viewCount || 0) }}</text>
+      </view>
+      <view class="stat-item" v-if="comment.shareCount > 0">
+        <app-icon name="share" size="xs" color="#999"></app-icon>
+        <text class="stat-text">{{ formatCount(comment.shareCount) }}</text>
+      </view>
+      <view class="time-ago">
+        <text class="time-text">{{ formatTimeAgo(comment.createTime) }}</text>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 操作面板 -->
+  <view class="action-popup-mask" v-if="showActionPanel" @tap="hideActionPanel">
+    <view class="action-panel" @tap.stop>
+      <view class="panel-header">
+        <text class="panel-title">评论操作</text>
+        <view class="close-btn" @tap="hideActionPanel">
+          <app-icon name="close" size="sm" color="#999"></app-icon>
+        </view>
+      </view>
+      <view class="action-list">
+        <view class="action-item" @tap="copyComment">
+          <app-icon name="copy" size="md" color="#666"></app-icon>
+          <text class="action-label">复制评论</text>
+        </view>
+        <view class="action-item" @tap="shareComment">
+          <app-icon name="share" size="md" color="#666"></app-icon>
+          <text class="action-label">分享评论</text>
+        </view>
+        <view class="action-item danger" @tap="reportComment">
+          <app-icon name="flag" size="md" color="#ff6b6b"></app-icon>
+          <text class="action-label">举报</text>
+        </view>
+      </view>
+    </view>
   </view>
 </template>
 
 <script>
 import AppIcon from '@/components/common/AppIcon.vue';
-import { formatTimeAgo } from '@/utils/date';
-import { UrlUtils } from '@/utils';
+import { formatTimeAgo } from '@/utils/format';
+import UrlUtils from '@/utils/url';
+import { EMOJI_MAP } from '@/config/emoji-map';
 
 export default {
   name: 'EnhancedCommentCard',
@@ -240,8 +279,11 @@ export default {
       showActionPanel: false,
       loadingReplies: false,
       expandedReplies: false,
-      maxVisibleReplies: 3  // 最多显示3条回复，超过的显示"查看更多"
+      maxVisibleReplies: 3  // 最多显示3条回复，超过的显示“查看更多”
     };
+  },
+  mounted() {
+    // 使用静态EMOJI_MAP配置，无需初始化
   },
   computed: {
     // 安全获取头像
@@ -303,39 +345,71 @@ export default {
       return formatTimeAgo(time);
     },
     
-    // 解析评论内容
+    // 将表情代码转换为emoji字符
+    renderEmoji(content) {
+      if (!content) return '';
+      let result = content;
+      for (const [code, emoji] of Object.entries(EMOJI_MAP)) {
+        result = result.split(code).join(emoji);
+      }
+      return result;
+    },
+    
+    // 解析评论内容（保留备用）
     parseContent(content) {
       if (!content) return [];
       
-      // 处理@用户、表情、链接等
-      const mentionRegex = /@([a-zA-Z0-9_\u4e00-\u9fa5]+)/g;
-      const emojiRegex = /[\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu;
+      // 合并正则：匹配表情code [xxx] 和 @用户
+      const combinedRegex = /(\[[^\]]+\])|(@[a-zA-Z0-9_\u4e00-\u9fa5]+)/g;
       
       let lastIndex = 0;
       const nodes = [];
+      let match;
       
-      // 处理@用户
-      content.replace(mentionRegex, (match, username, index) => {
-        // 添加@之前的文本
-        if (index > lastIndex) {
+      while ((match = combinedRegex.exec(content)) !== null) {
+        // 添加匹配之前的文本
+        if (match.index > lastIndex) {
           nodes.push({
             type: 'text',
-            text: content.substring(lastIndex, index)
+            text: content.substring(lastIndex, match.index)
           });
         }
         
-        // 添加@用户
-        nodes.push({
-          type: 'text',
-          text: match,
-          attrs: {
-            style: 'color: #4a90e2; font-weight: 600; background: rgba(74, 144, 226, 0.1); padding: 2rpx 8rpx; border-radius: 8rpx;'
-          }
-        });
+        const matchedText = match[0];
         
-        lastIndex = index + match.length;
-        return match;
-      });
+        if (matchedText.startsWith('[') && matchedText.endsWith(']')) {
+          // 处理表情code - 从配置文件查找emoji字符
+          const emojiChar = EMOJI_MAP[matchedText];
+          
+          if (emojiChar) {
+            // 找到表情，渲染为emoji字符
+            nodes.push({
+              type: 'text',
+              text: emojiChar,
+              attrs: {
+                style: 'font-size: 1.3em; line-height: 1;'
+              }
+            });
+          } else {
+            // 未找到表情，保留原文本
+            nodes.push({
+              type: 'text',
+              text: matchedText
+            });
+          }
+        } else if (matchedText.startsWith('@')) {
+          // 处理@用户
+          nodes.push({
+            type: 'text',
+            text: matchedText,
+            attrs: {
+              style: 'color: #4a90e2; font-weight: 600; background: rgba(74, 144, 226, 0.1); padding: 2rpx 8rpx; border-radius: 8rpx;'
+            }
+          });
+        }
+        
+        lastIndex = match.index + matchedText.length;
+      }
       
       // 添加剩余文本
       if (lastIndex < content.length) {

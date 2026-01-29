@@ -146,7 +146,7 @@ class CommentRepository {
       offset: (page - 1) * pageSize,
       order,
       attributes: [
-        'id', 'content', 'user_id', 'post_id', 'reply_to', 'like_count', 'status', 'is_anonymous', 'created_at', 'updated_at', 'deleted_at',
+        'id', 'content', 'user_id', 'post_id', 'reply_to', 'like_count', 'status', 'is_anonymous', 'images', 'emoji_image', 'created_at', 'updated_at', 'deleted_at',
         // 添加热度分数计算
         [
           sequelize.literal(`(
@@ -179,6 +179,7 @@ class CommentRepository {
           required: false,
           limit: 3,
           order: [['created_at', 'ASC']],
+          attributes: ['id', 'content', 'user_id', 'post_id', 'reply_to', 'like_count', 'status', 'is_anonymous', 'images', 'emoji_image', 'created_at', 'updated_at'],
           include: [
             {
               model: User,
@@ -217,13 +218,12 @@ class CommentRepository {
       offset: (page - 1) * pageSize,
       order: [['created_at', 'ASC']],
       attributes: [
-        'id', 'content', 'user_id', 'post_id', 'reply_to', 'like_count', 'status', 'is_anonymous', 'created_at', 'updated_at'
+        'id', 'content', 'user_id', 'post_id', 'reply_to', 'like_count', 'status', 'is_anonymous', 'images', 'emoji_image', 'created_at', 'updated_at'
       ],
       include: [
         {
           model: User,
           as: 'author',
-          // replies 接口需要返回 nickname，否则前端展开“查看更多回复”后只能回退显示 username
           attributes: ['id', 'username', 'nickname', 'avatar']
         }
       ]

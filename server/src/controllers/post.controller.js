@@ -319,8 +319,26 @@ class PostController {
         sort
       );
       
+      // 确保JSON字段被正确序列化（images和emoji_image）
+      const serializedList = result.list.map(comment => {
+        const json = comment.toJSON ? comment.toJSON() : comment;
+        return {
+          ...json,
+          images: json.images || null,
+          emoji_image: json.emoji_image || null,
+          replies: (json.replies || []).map(reply => {
+            const replyJson = reply.toJSON ? reply.toJSON() : reply;
+            return {
+              ...replyJson,
+              images: replyJson.images || null,
+              emoji_image: replyJson.emoji_image || null
+            };
+          })
+        };
+      });
+      
       res.status(StatusCodes.OK).json(ResponseUtil.page(
-        result.list,
+        serializedList,
         result.pagination.page,
         result.pagination.pageSize,
         result.pagination.total

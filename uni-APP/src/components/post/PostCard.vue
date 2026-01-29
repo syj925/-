@@ -143,6 +143,7 @@ import FollowButton from '@/components/FollowButton.vue';
 import { useUserStore } from '@/store';
 import { formatTimeAgo } from '@/utils/date';
 import { ensureAbsoluteUrl } from '@/utils/url';
+import { EMOJI_MAP } from '@/config/emoji-map';
 
 export default {
   name: 'PostCard',
@@ -385,19 +386,33 @@ export default {
       return formatTimeAgo(time);
     },
 
-    // 截断评论内容
+    // 截断评论内容并渲染表情
     truncateComment(content, maxLength = 30) {
       if (!content) return '';
-      if (content.length <= maxLength) return content;
+      
+      // 先将表情代码转换为emoji字符
+      let rendered = this.renderEmoji(content);
+      
+      if (rendered.length <= maxLength) return rendered;
       
       // 对于纯数字内容，进一步缩短截断长度
-      if (/^\d+$/.test(content.trim())) {
+      if (/^\d+$/.test(rendered.trim())) {
         const numMaxLength = Math.min(maxLength, 20);
-        if (content.length <= numMaxLength) return content;
-        return content.substring(0, numMaxLength) + '...';
+        if (rendered.length <= numMaxLength) return rendered;
+        return rendered.substring(0, numMaxLength) + '...';
       }
       
-      return content.substring(0, maxLength) + '...';
+      return rendered.substring(0, maxLength) + '...';
+    },
+    
+    // 将表情代码转换为emoji字符
+    renderEmoji(content) {
+      if (!content) return '';
+      let result = content;
+      for (const [code, emoji] of Object.entries(EMOJI_MAP)) {
+        result = result.split(code).join(emoji);
+      }
+      return result;
     },
 
     // 处理评论点赞

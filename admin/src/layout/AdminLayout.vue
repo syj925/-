@@ -70,6 +70,15 @@
           <span>收藏夹管理</span>
         </el-menu-item>
         
+        <el-sub-menu index="/emoji">
+          <template #title>
+            <el-icon><Picture /></el-icon>
+            <span>表情管理</span>
+          </template>
+          <el-menu-item index="/emoji/packs">表情包管理</el-menu-item>
+          <el-menu-item index="/emoji/audit">表情审核</el-menu-item>
+        </el-sub-menu>
+        
         <el-menu-item index="/message">
           <el-icon><Message /></el-icon>
           <span>消息系统</span>

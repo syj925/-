@@ -1,158 +1,295 @@
-# AGENTS.md
+# AGENTS.md - 校园墙 (Campus Wall) AI Coding Guide
 
-Project-specific guidelines for AI coding agents on the 校园墙 (Campus Wall) project.
+## Project Overview
 
-## Build & Test Commands
+Campus social platform with three main packages:
+- **server/** - Node.js + Express + Sequelize + MySQL + Redis backend API
+- **admin/** - Vue 3 + Element Plus + Vite admin dashboard
+- **uni-APP/** - uni-app + Vue 3 mobile application
 
-### Server (Node.js + Express + Sequelize)
+## Build/Lint/Test Commands
+
+### Server (Backend API)
 ```bash
 cd server
-npm start              # Production (port 3000)
-npm run dev            # Development with nodemon
-npm test               # Run all Jest tests
-npm run lint           # Run ESLint
-npm run seed-data      # Seed test data
-npm run backup-db      # Backup database
+npm install                 # Install dependencies
+npm start                   # Start production server (port 3000)
+npm run dev                 # Start with nodemon (hot reload)
+npm test                    # Run all Jest tests
+npm run lint                # Run ESLint
+npm run test -- --testPathPattern="follow"    # Run single test file
+npm run test -- --testNamePattern="should"    # Run tests matching name
 ```
 
-**Run single test:**
-```bash
-cd server
-npx jest tests/follow.test.js
-npx jest --testNamePattern="test name"
-```
-
-### Admin (Vue 3 + Element Plus)
+### Admin (Management Dashboard)
 ```bash
 cd admin
-npm run dev            # Development (port 8888)
-npm run build          # Production build
-npm run preview        # Preview build
+npm install
+npm run dev                 # Start dev server (port 8888)
+npm run build               # Production build
+npm run preview             # Preview production build
 ```
 
-### uni-APP (uni-app + Vue 3)
+### uni-APP (Mobile Frontend)
 ```bash
 cd uni-APP
-npm run dev:h5         # H5 development
-npm run dev:mp-weixin  # WeChat mini-program
-npm run build:h5       # H5 production
-npm run build:mp-weixin # WeChat production
+npm install
+npm run dev:h5              # Start H5 development server
+npm run build:h5            # Build for H5
+npm run dev:mp-weixin       # WeChat mini-program dev
+npm run build:mp-weixin     # WeChat mini-program build
 ```
 
-## API Conventions
+## Architecture Patterns
 
-### Response Format
+### Backend Layered Architecture
+```
+Controller → Service → Repository → Model
+```
+
+**Controller** (`src/controllers/*.controller.js`): Request/response handling, validation
+**Service** (`src/services/*.service.js`): Business logic, transactions
+**Repository** (`src/repositories/*.repository.js`): Database operations
+**Model** (`src/models/*.js`): Sequelize model definitions
+
+### File Naming Conventions
+- Backend: kebab-case (`post.controller.js`, `user.service.js`)
+- Frontend Vue: PascalCase (`PostCard.vue`, `UserList.vue`)
+- Utility files: kebab-case or camelCase
+
+## API Response Format
+
+### Success Response
 ```javascript
-{ code: 0, success: true, msg: '成功', data: {...} }
-// Success: res.code === 0 || res.success === true
-// Message: res.msg || res.message
-// Error: ElMessage.error(message || '操作失败')
+{
+  success: true,
+  code: 0,
+  msg: '成功',
+  message: '成功',  // Compatibility field
+  data: { ... }
+}
 ```
 
-### Pagination & Search
-- Fields: `page`, `limit`, `title`, `status`, `startDate`, `endDate`
-- Prevent cache: add `_t: Date.now()` to request params
+### Error Response
+```javascript
+{
+  success: false,
+  code: 10001,  // Error code from constants/error-codes.js
+  msg: '错误消息',
+  data: null
+}
+```
 
-### Authentication
-- Header: `Authorization: Bearer ${token}`
-- Token: `localStorage.getItem('admin_token')` or `uni.getStorageSync('token')`
+### Frontend Success Check
+```javascript
+if (res.code === 0 || res.success === true) {
+  // Success
+}
+const message = res.msg || res.message;
+```
 
-## Code Style
+### Pagination Response
+```javascript
+{
+  success: true,
+  code: 0,
+  data: {
+    list: [...],
+    pagination: { page: 1, pageSize: 10, total: 100 }
+  }
+}
+```
 
-### Naming
-- **Files**: kebab-case (`follow-service.js`)
-- **Variables/Functions**: camelCase (`getUserData`)
-- **Classes/Models**: PascalCase (`User`, `Follow`)
-- **Constants**: UPPER_SNAKE_CASE (`API_BASE_URL`)
-- **Database columns**: snake_case (`created_at`)
-- **Display**: Use "账号" (account), "昵称" (nickname)
+## Code Style Guidelines
 
-### Import/Export
-**Server (Node.js):** `const express = require('express'); module.exports = router;`
-**Frontend (ES6):** `import { ref } from 'vue'; export default { /* ... */ };`
+### JavaScript (Backend - CommonJS)
+```javascript
+// Imports - group by type
+const express = require('express');
+const { StatusCodes } = require('http-status-codes');
+const postService = require('../services/post.service');
+const { ResponseUtil } = require('../utils');
+const logger = require('../../config/logger');
+
+// Class-based controllers/services with JSDoc
+/**
+ * Controller description
+ */
+class PostController {
+  /**
+   * Method description
+   * @param {Object} req - Request object
+   * @param {Object} res - Response object
+   * @param {Function} next - Next middleware
+   * @returns {Promise<void>}
+   */
+  async createPost(req, res, next) {
+    try {
+      const userId = req.user.id;
+      const { title, content } = req.body;
+      
+      // Early returns for validation
+      if (!content) {
+        return res.status(StatusCodes.BAD_REQUEST)
+          .json(ResponseUtil.error({ code: 10001, message: '内容不能为空' }));
+      }
+      
+      const result = await postService.createPost({ title, content, user_id: userId });
+      res.json(ResponseUtil.success(result, '创建成功'));
+    } catch (error) {
+      next(error);
+    }
+  }
+}
+
+module.exports = new PostController();
+```
+
+### Vue 3 (Frontend - ES Modules with script setup)
+```vue
+<template>
+  <view class="post-card" @tap="goDetail">
+    <text class="post-card__title">{{ post.title }}</text>
+  </view>
+</template>
+
+<script setup>
+import { ref, computed, onMounted } from 'vue';
+import { postApi } from '@/api';
+
+// Props & Emits
+const props = defineProps({
+  post: { type: Object, required: true },
+  compact: { type: Boolean, default: false }
+});
+const emit = defineEmits(['click', 'like']);
+
+// Reactive state
+const isLoading = ref(false);
+
+// Computed
+const formatTime = computed(() => {
+  return new Date(props.post.created_at).toLocaleString('zh-CN');
+});
+
+// Methods
+const goDetail = () => {
+  uni.navigateTo({ url: `/pages/post/detail?id=${props.post.id}` });
+};
+
+// Lifecycle
+onMounted(() => {
+  // Initialize
+});
+</script>
+
+<style lang="scss" scoped>
+.post-card {
+  padding: 16rpx;
+  
+  &__title {
+    font-size: 32rpx;
+    font-weight: bold;
+  }
+}
+</style>
+```
+
+### Naming Conventions
+- **Variables/Functions**: camelCase (`userId`, `createPost`)
+- **Classes**: PascalCase (`PostController`, `UserService`)
+- **Constants**: UPPER_SNAKE_CASE (`MAX_PAGE_SIZE`, `DEFAULT_LIMIT`)
+- **Database fields**: snake_case (`user_id`, `created_at`)
+- **API endpoints**: kebab-case (`/api/private-messages`)
+- Use full words, avoid abbreviations
 
 ### Error Handling
-**Server:** Try/catch with logger.error and proper status codes
-**Frontend:** Try/catch with ElMessage.error
+```javascript
+// Backend - throw with middleware
+throw ErrorMiddleware.createError(
+  '用户不存在',
+  StatusCodes.NOT_FOUND,
+  errorCodes.USER_NOT_EXIST
+);
 
-### General
-- Use complete words, no abbreviations
-- Early return pattern
-- Comments explain "why", not "what"
-- No TODOs - implement or remove
-- Architecture: Controller → Service → Repository → Model
+// Frontend - unified toast
+ElMessage.error(res.msg || res.message || '操作失败');
+```
 
-## Architecture
+### Validation
+- Use Joi for request validation (avoid mixing with express-validator)
+```javascript
+const schema = Joi.object({
+  username: Joi.string().min(3).max(50).required(),
+  password: Joi.string().min(6).max(30).required()
+});
+router.post('/login', Validator.validateBody(schema), controller.login);
+```
 
-**Backend (`server/src/`):** `controllers/`, `services/`, `repositories/`, `models/`, `routes/`, `middlewares/`, `utils/`, `constants/`
+## Important Conventions
 
-**Frontend (`admin/src/`, `uni-APP/src/`):** `api/`, `components/`, `views/pages/`, `utils/`, `store/`, `router/`
+### Ports
+- Backend API: **3000**
+- Admin Dashboard: **8888**
+- Frontend H5: **5173** (default Vite)
+
+### Image URLs
+- Store relative paths in database (`/uploads/images/xxx.png`)
+- Frontend concatenates base URL at runtime
+- NEVER hardcode IP addresses
+
+### Database
+- ORM queries preferred over raw SQL
+- Use transactions for multi-step operations
+- Password: `20060711` (MySQL)
+
+### Styling
+- Use **SCSS** exclusively, never convert to plain CSS
+- BEM naming convention for CSS classes
+- Mobile: use `rpx` units
+
+### Timestamps
+- Frontend format: `value-format="YYYY-MM-DD HH:mm:ss"`
+- Display format: `toLocaleString('zh-CN', { ... })`
 
 ## Testing
 
-**Framework:** Jest + Supertest. Use `beforeAll`/`afterAll` for setup/cleanup, `expect(response.body.success).toBe(true)` for assertions.
+```javascript
+// Jest test file structure
+const request = require('supertest');
+const app = require('../src/app');
+const { User } = require('../src/models');
 
-## Date/Time
+describe('Feature Tests', () => {
+  beforeAll(async () => {
+    // Setup test data
+  });
 
-**Input:** `YYYY-MM-DD HH:mm:ss` (Element Plus `value-format`)
-**Display:** `.toLocaleString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })`
+  afterAll(async () => {
+    // Cleanup test data
+  });
 
-## File Upload
+  test('should do something', async () => {
+    const response = await request(app)
+      .post('/api/endpoint')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ data: 'value' })
+      .expect(200);
 
-**Endpoint:** `/api/upload`, **Success:** `response.code === 0`, **Image URL:** Prepend base URL if not `http://` prefixed
+    expect(response.body.success).toBe(true);
+  });
+});
+```
 
-## Activity Management
+## Key Reminders
 
-**Status:** `upcoming | ongoing | ended | canceled`
-
-**Rules:** `max_participants = 0` (unlimited), `is_recommended` (boolean), filter empty form fields
-
-## Guidelines
-
-### Development
-- Read migration docs before implementing
-- Implement backend API first, then frontend
-- Reuse existing UI patterns/components
-- New features must include tests
-- Maintain backward compatibility
-
-### API Changes
-- Update `admin/src/utils/api.js`, controllers/services, and related views
-
-### Database
-- Use Sequelize ORM, avoid raw SQL
-- Store relative image paths, build URLs at runtime
-- Index optimization after core features complete
-
-### Configuration
-- **Server port:** 3000, **Admin port:** 8888
-- **Database password:** `20060711`
-- No hardcoded IP addresses, Redis required
-
-### Quality
-- No mock data - use real APIs
-- High-quality UI required
-- Complete self-testing
-- Follow existing architecture patterns
-- SCSS for global styles (don't convert to CSS)
-
-### Known Issues
-- `uni-APP初版` only works in H5 mode
-- Topic API may not return complete author fields
-- Statistics returns `postCount, likeCount, favoriteCount, followCount, fansCount` (no `commentCount`)
-- Home page must handle 100+ posts
-
-## Documentation
-
-- `docs/响应格式兼容性问题修复文档.md`
-- `docs/图片URL迁移指南.md`
-- `server/campus-wall-api-specification.md`
-- `.cursor/rules/xm.mdc` (detailed rules)
-
-## Security
-
-- Never commit secrets/credentials
-- Validate inputs on client and server
-- Sanitize user content
-- Use HTTPS in production
-- Keep dependencies updated
+1. **Early returns** - Avoid deep nesting
+2. **Comments explain WHY** - Not what the code does
+3. **No TODO left behind** - Implement or remove
+4. **Match existing patterns** - Check similar files first
+5. **Test new features** - All new functionality requires tests
+6. **Two-phase development** - Backend API first, then frontend
+7. **Incremental changes** - Feature by feature, not all at once
+8. **Never suppress type errors** - No `as any`, `@ts-ignore`
+9. **Minimize console logs** - Use structured logger in backend
+10. **Pagination fields**: `page`, `limit` (not `pageSize`)

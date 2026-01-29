@@ -448,6 +448,31 @@ export default {
     }
   },
 
+  // 表情管理
+  emoji: {
+    // 表情包管理
+    getPacks: (params) => instance.get('/admin/emoji-packs', { params }),
+    getPackById: (id) => instance.get(`/admin/emoji-packs/${id}`),
+    createPack: (data) => instance.post('/admin/emoji-packs', data),
+    updatePack: (id, data) => instance.put(`/admin/emoji-packs/${id}`, data),
+    deletePack: (id) => instance.delete(`/admin/emoji-packs/${id}`),
+    
+    // 表情管理
+    createEmoji: (data) => instance.post('/admin/emojis', data),
+    updateEmoji: (id, data) => instance.put(`/admin/emojis/${id}`, data),
+    deleteEmoji: (id) => instance.delete(`/admin/emojis/${id}`),
+    
+    // 审核管理
+    getPendingEmojis: (params) => instance.get('/admin/emojis/pending', { params }),
+    reviewEmoji: (id, data) => instance.post(`/admin/emojis/${id}/review`, data),
+    
+    // 同步使用计数
+    syncUseCounts: () => instance.post('/admin/emojis/sync-counts'),
+    
+    // 清除缓存
+    clearCache: () => instance.post('/admin/emojis/clear-cache')
+  },
+
   // 配置版本管理
   config: {
     // 获取当前配置版本信息

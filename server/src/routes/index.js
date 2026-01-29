@@ -21,6 +21,7 @@ const eventRegistrationRoutes = require('./event-registration.routes');
 const bannerRoutes = require('./banner.routes');
 const badgeRoutes = require('./badge.routes');
 const tagRoutes = require('./tag.routes');
+const emojiRoutes = require('./emoji.routes');
 const userController = require('../controllers/user.controller');
 const { Validator } = require('../utils');
 const Joi = require('joi');
@@ -61,6 +62,7 @@ router.use('/api/registrations', eventRegistrationRoutes);
 router.use('/api/banners', bannerRoutes);
 router.use('/api/badges', badgeRoutes);
 router.use('/api/tags', tagRoutes);
+router.use('/api/emojis', emojiRoutes);
 
 // 管理员API路由
 router.use('/api/admin', adminRoutes);

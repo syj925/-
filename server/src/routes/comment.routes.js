@@ -25,7 +25,18 @@ const createCommentSchema = Joi.object({
     .messages({
       'string.base': '回复ID必须是字符串',
       'string.uuid': '回复ID必须是有效的UUID格式'
-    })
+    }),
+  // 图片表情（与普通图片互斥）
+  emoji_image: Joi.object({
+    id: Joi.string().allow(null).optional(),
+    url: Joi.string().required(),
+    name: Joi.string().optional()
+  }).allow(null).optional(),
+  // 普通图片列表
+  images: Joi.array().items(Joi.string()).allow(null).optional(),
+  // 其他可选字段
+  is_anonymous: Joi.boolean().optional(),
+  mentioned_users: Joi.array().items(Joi.string()).optional()
 });
 
 const updateCommentSchema = Joi.object({

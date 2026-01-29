@@ -2,14 +2,14 @@ require('dotenv').config();
 
 module.exports = {
   development: {
-    host: process.env.REDIS_HOST || '192.168.106.128',
+    host: process.env.REDIS_HOST || '192.168.106.136',
     port: process.env.REDIS_PORT || 6379,
     password: process.env.REDIS_PASSWORD || '',
     db: process.env.REDIS_DB || 0,
     keyPrefix: 'campus_community:dev:'
   },
   test: {
-    host: process.env.REDIS_HOST || '192.168.106.128',
+    host: process.env.REDIS_HOST || '192.168.106.136',
     port: process.env.REDIS_PORT || 6379,
     password: process.env.REDIS_PASSWORD || '',
     db: process.env.REDIS_DB || 1,

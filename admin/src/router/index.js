@@ -163,6 +163,26 @@ const routes = [
       //   meta: { title: '收藏夹管理', icon: 'star' }
       // },
       {
+        path: 'emoji',
+        name: 'Emoji',
+        redirect: '/emoji/packs',
+        meta: { title: '表情管理', icon: 'picture' },
+        children: [
+          {
+            path: 'packs',
+            name: 'EmojiPacks',
+            component: () => import('@/views/emoji/EmojiPackManagement.vue'),
+            meta: { title: '表情包管理' }
+          },
+          {
+            path: 'audit',
+            name: 'EmojiAudit',
+            component: () => import('@/views/emoji/EmojiAudit.vue'),
+            meta: { title: '表情审核' }
+          }
+        ]
+      },
+      {
         path: 'message',
         name: 'Message',
         component: () => import('@/views/message/MessageManagement.vue'),

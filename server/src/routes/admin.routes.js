@@ -890,6 +890,31 @@ router.get('/events/:id/statistics', adminEventController.getEventStatistics);
  */
 router.get('/events/:id/registrations/export', adminEventController.exportEventRegistrations);
 
+// ==================== 表情管理路由 ====================
+const emojiController = require('../controllers/emoji.controller');
+
+// 表情包管理
+router.get('/emoji-packs', emojiController.getPacks);
+router.get('/emoji-packs/:packId', emojiController.getPackById);
+router.post('/emoji-packs', emojiController.createPack);
+router.put('/emoji-packs/:packId', emojiController.updatePack);
+router.delete('/emoji-packs/:packId', emojiController.deletePack);
+
+// 表情管理
+router.post('/emojis', emojiController.createEmoji);
+router.put('/emojis/:emojiId', emojiController.updateEmoji);
+router.delete('/emojis/:emojiId', emojiController.deleteEmoji);
+
+// 审核管理
+router.get('/emojis/pending', emojiController.getPendingEmojis);
+router.post('/emojis/:customEmojiId/review', emojiController.reviewEmoji);
+
+// 同步使用计数（定时任务）
+router.post('/emojis/sync-counts', emojiController.syncUseCounts);
+
+// 清除表情系统缓存
+router.post('/emojis/clear-cache', emojiController.clearCache);
+
 // ==================== 错误处理 ====================
 
 // 管理员路由专用错误处理中间件
