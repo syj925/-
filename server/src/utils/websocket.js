@@ -34,7 +34,7 @@ class WebSocketService {
    */
   _handleConnection(ws, req) {
     try {
-      console.log('🔍 [WebSocketService] 新的WebSocket连接请求:', {
+      logger.info('🔍 [WebSocketService] 新的WebSocket连接请求:', {
         url: req.url,
         host: req.headers.host,
         userAgent: req.headers['user-agent']
@@ -44,13 +44,13 @@ class WebSocketService {
       const url = new URL(req.url, `http://${req.headers.host}`);
       const token = url.searchParams.get('token');
 
-      console.log('🔍 [WebSocketService] Token提取结果:', {
+      logger.info('🔍 [WebSocketService] Token提取结果:', {
         hasToken: !!token,
         tokenLength: token ? token.length : 0
       });
 
       if (!token) {
-        console.log('❌ [WebSocketService] WebSocket连接请求缺少token');
+        logger.info('❌ [WebSocketService] WebSocket连接请求缺少token');
         logger.warn('WebSocket连接请求缺少token');
         ws.close(4001, 'Authentication token required');
         return;
@@ -58,24 +58,24 @@ class WebSocketService {
 
       try {
         // 验证token - 使用JwtUtil类的静态方法
-        console.log('🔍 [WebSocketService] 开始验证token...');
+        logger.info('🔍 [WebSocketService] 开始验证token...');
         const decoded = JwtUtil.verifyToken(token);
         
-        console.log('🔍 [WebSocketService] Token验证结果:', {
+        logger.info('🔍 [WebSocketService] Token验证结果:', {
           valid: !!decoded,
           userId: decoded ? decoded.id : null,
           username: decoded ? decoded.username : null
         });
         
         if (!decoded) {
-          console.log('❌ [WebSocketService] WebSocket认证失败: 无效的token');
+          logger.info('❌ [WebSocketService] WebSocket认证失败: 无效的token');
           logger.error('WebSocket认证失败: 无效的token');
           ws.close(4003, 'Authentication failed');
           return;
         }
         
         const userId = decoded.id;
-        console.log('✅ [WebSocketService] 用户认证成功，开始注册连接:', userId);
+        logger.info('✅ [WebSocketService] 用户认证成功，开始注册连接:', userId);
         
         // 关联用户ID和WebSocket连接
         this._registerClient(userId, ws);
@@ -136,14 +136,14 @@ class WebSocketService {
       // 如果用户已有连接，则添加到数组中
       const existingConnections = this.clients.get(userId);
       existingConnections.push(ws);
-      console.log(`🔗 [WebSocketService] 用户 ${userId} 添加新连接，总连接数: ${existingConnections.length}`);
+      logger.info(`🔗 [WebSocketService] 用户 ${userId} 添加新连接，总连接数: ${existingConnections.length}`);
     } else {
       // 否则创建新数组
       this.clients.set(userId, [ws]);
-      console.log(`🆕 [WebSocketService] 用户 ${userId} 首次连接WebSocket`);
+      logger.info(`🆕 [WebSocketService] 用户 ${userId} 首次连接WebSocket`);
     }
 
-    console.log(`📊 [WebSocketService] 当前WebSocket连接状态:`, {
+    logger.info(`📊 [WebSocketService] 当前WebSocket连接状态:`, {
       totalUsers: this.clients.size,
       allConnectedUsers: Array.from(this.clients.keys())
     });
@@ -241,7 +241,7 @@ class WebSocketService {
    * @returns {Boolean} 是否发送成功
    */
   sendToUser(userId, data) {
-    console.log('📤 [WebSocketService] 尝试向用户发送消息:', {
+    logger.info('📤 [WebSocketService] 尝试向用户发送消息:', {
       userId,
       hasConnection: this.clients.has(userId),
       totalClients: this.clients.size,
@@ -249,25 +249,25 @@ class WebSocketService {
     });
     
     if (!this.clients.has(userId)) {
-      console.log('❌ [WebSocketService] 用户没有WebSocket连接:', userId);
+      logger.info('❌ [WebSocketService] 用户没有WebSocket连接:', userId);
       return false;
     }
 
     const connections = this.clients.get(userId);
-    console.log(`✅ [WebSocketService] 找到用户连接，发送给 ${connections.length} 个连接`);
+    logger.info(`✅ [WebSocketService] 找到用户连接，发送给 ${connections.length} 个连接`);
     
     let sentCount = 0;
     connections.forEach((ws, index) => {
       if (ws.readyState === 1) { // WebSocket.OPEN
         this._sendToClient(ws, data);
         sentCount++;
-        console.log(`📨 [WebSocketService] 消息已发送到连接 ${index + 1}`);
+        logger.info(`📨 [WebSocketService] 消息已发送到连接 ${index + 1}`);
       } else {
-        console.log(`⚠️ [WebSocketService] 连接 ${index + 1} 状态异常:`, ws.readyState);
+        logger.info(`⚠️ [WebSocketService] 连接 ${index + 1} 状态异常:`, ws.readyState);
       }
     });
 
-    console.log(`✅ [WebSocketService] 消息发送完成，成功发送到 ${sentCount} 个连接`);
+    logger.info(`✅ [WebSocketService] 消息发送完成，成功发送到 ${sentCount} 个连接`);
     return sentCount > 0;
   }
 

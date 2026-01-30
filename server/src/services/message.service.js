@@ -4,6 +4,7 @@ const { StatusCodes } = require('http-status-codes');
 const { ErrorMiddleware } = require('../middlewares');
 const errorCodes = require('../constants/error-codes');
 const { WebSocketService, redisClient } = require('../utils');
+const logger = require('../../config/logger');
 
 /**
  * 消息服务层
@@ -15,7 +16,7 @@ class MessageService {
    * @returns {Promise<Object>} 创建的消息对象
    */
   async createMessage(messageData) {
-    console.log('🔔 [MessageService] 开始创建消息:', JSON.stringify(messageData, null, 2));
+    logger.info('🔔 [MessageService] 开始创建消息:', JSON.stringify(messageData, null, 2));
     
     // 检查接收者是否存在
     const receiver = await userRepository.findById(messageData.receiver_id);
@@ -26,7 +27,7 @@ class MessageService {
         errorCodes.USER_NOT_EXIST
       );
     }
-    console.log('✅ [MessageService] 接收者存在:', receiver.username);
+    logger.info('✅ [MessageService] 接收者存在:', receiver.username);
     
     // 如果有发送者，检查发送者是否存在
     if (messageData.sender_id) {
@@ -38,13 +39,13 @@ class MessageService {
           errorCodes.USER_NOT_EXIST
         );
       }
-      console.log('✅ [MessageService] 发送者存在:', sender.username);
+      logger.info('✅ [MessageService] 发送者存在:', sender.username);
     }
     
     // 创建消息
-    console.log('📝 [MessageService] 正在创建消息记录...');
+    logger.info('📝 [MessageService] 正在创建消息记录...');
     const message = await messageRepository.create(messageData);
-    console.log('✅ [MessageService] 消息创建成功:', {
+    logger.info('✅ [MessageService] 消息创建成功:', {
       id: message.id,
       type: message.type,
       title: message.title,
@@ -53,12 +54,12 @@ class MessageService {
     });
     
     // 更新未读消息计数
-    console.log('📊 [MessageService] 正在更新未读计数...');
+    logger.info('📊 [MessageService] 正在更新未读计数...');
     await this._incrementUnreadCount(messageData.receiver_id);
-    console.log('✅ [MessageService] 未读计数更新完成');
+    logger.info('✅ [MessageService] 未读计数更新完成');
     
     // 发送实时通知
-    console.log('📤 [MessageService] 准备发送WebSocket实时通知...');
+    logger.info('📤 [MessageService] 准备发送WebSocket实时通知...');
     this._sendRealTimeNotification(message);
     
     return message;
@@ -426,9 +427,9 @@ class MessageService {
   async _clearUnreadCount(userId) {
     try {
       await redisClient.del(`unread:${userId}`);
-      console.log(`🧹 [MessageService] 已清除用户 ${userId} 的未读计数缓存`);
+      logger.info(`🧹 [MessageService] 已清除用户 ${userId} 的未读计数缓存`);
     } catch (error) {
-      console.error(`❌ [MessageService] 清除用户 ${userId} 缓存失败:`, error);
+      logger.error(`❌ [MessageService] 清除用户 ${userId} 缓存失败:`, error);
     }
   }
 
@@ -451,9 +452,9 @@ class MessageService {
         count: count
       });
       
-      console.log(`📊 [MessageService] 发送未读计数更新给用户 ${userId}: ${count}`);
+      logger.info(`📊 [MessageService] 发送未读计数更新给用户 ${userId}: ${count}`);
     } catch (error) {
-      console.error(`❌ [MessageService] 发送未读计数失败 ${userId}:`, error);
+      logger.error(`❌ [MessageService] 发送未读计数失败 ${userId}:`, error);
       // 忽略发送错误
     }
   }
@@ -465,7 +466,7 @@ class MessageService {
    */
   async _broadcastSystemNotification(message) {
     try {
-      console.log('📡 [MessageService] 广播系统通知:', message.title);
+      logger.info('📡 [MessageService] 广播系统通知:', message.title);
       
       // 构造广播消息
       const broadcastData = {
@@ -484,9 +485,9 @@ class MessageService {
       // 通过WebSocket广播给所有连接的用户
       WebSocketService.broadcast(broadcastData);
       
-      console.log('✅ [MessageService] 系统通知广播成功');
+      logger.info('✅ [MessageService] 系统通知广播成功');
     } catch (error) {
-      console.error('❌ [MessageService] 广播系统通知失败:', error);
+      logger.error('❌ [MessageService] 广播系统通知失败:', error);
       // 不抛出错误，避免影响消息创建流程
     }
   }
@@ -497,13 +498,13 @@ class MessageService {
    */
   async _updateAllUsersUnreadCount() {
     try {
-      console.log('🔄 [MessageService] 更新所有用户的未读计数');
+      logger.info('🔄 [MessageService] 更新所有用户的未读计数');
       
       // 获取所有活跃用户
       const userRepository = require('../repositories/user.repository');
       const activeUsers = await userRepository.findAllActive();
       
-      console.log(`📊 [MessageService] 找到 ${activeUsers.length} 个活跃用户需要更新`);
+      logger.info(`📊 [MessageService] 找到 ${activeUsers.length} 个活跃用户需要更新`);
       
       // 为每个用户重新计算并更新未读计数
       for (const user of activeUsers) {
@@ -514,7 +515,7 @@ class MessageService {
           // 重新计算未读计数（这会调用数据库查询）
           const newCount = await this.getUnreadCount(user.id);
           
-          console.log(`📊 [MessageService] 更新用户 ${user.username}(${user.id}) 未读计数: ${newCount}`);
+          logger.info(`📊 [MessageService] 更新用户 ${user.username}(${user.id}) 未读计数: ${newCount}`);
           
           // 直接发送计算出的计数，避免从Redis读取时的时序问题
           WebSocketService.sendToUser(user.id, {
@@ -522,13 +523,13 @@ class MessageService {
             count: newCount
           });
         } catch (userError) {
-          console.error(`❌ [MessageService] 更新用户 ${user.id} 计数失败:`, userError);
+          logger.error(`❌ [MessageService] 更新用户 ${user.id} 计数失败:`, userError);
         }
       }
       
-      console.log(`✅ [MessageService] 已更新 ${activeUsers.length} 个用户的未读计数`);
+      logger.info(`✅ [MessageService] 已更新 ${activeUsers.length} 个用户的未读计数`);
     } catch (error) {
-      console.error('❌ [MessageService] 更新所有用户未读计数失败:', error);
+      logger.error('❌ [MessageService] 更新所有用户未读计数失败:', error);
       // 不抛出错误，避免影响主流程
     }
   }
@@ -575,12 +576,12 @@ class MessageService {
       const success = WebSocketService.sendToUser(message.receiver_id, notificationData);
       
       if (success) {
-        console.log(`✅ WebSocket通知发送成功: ${message.type} -> 用户${message.receiver_id}`);
+        logger.info(`✅ WebSocket通知发送成功: ${message.type} -> 用户${message.receiver_id}`);
       } else {
-        console.log(`⚠️ WebSocket通知发送失败（用户可能离线）: ${message.type} -> 用户${message.receiver_id}`);
+        logger.info(`⚠️ WebSocket通知发送失败（用户可能离线）: ${message.type} -> 用户${message.receiver_id}`);
       }
     } catch (error) {
-      console.error('发送WebSocket通知时出错:', error);
+      logger.error('发送WebSocket通知时出错:', error);
     }
   }
 
@@ -592,14 +593,14 @@ class MessageService {
    * @returns {Promise<Object>} 分页结果
    */
   async getSystemMessages(options = {}) {
-    console.log('📋 [MessageService] 获取系统消息列表:', options);
+    logger.info('📋 [MessageService] 获取系统消息列表:', options);
     
     try {
       const result = await messageRepository.findSystemMessages(options);
-      console.log(`✅ [MessageService] 获取系统消息成功，共 ${result.total} 条`);
+      logger.info(`✅ [MessageService] 获取系统消息成功，共 ${result.total} 条`);
       return result;
     } catch (error) {
-      console.error('❌ [MessageService] 获取系统消息失败:', error);
+      logger.error('❌ [MessageService] 获取系统消息失败:', error);
       throw ErrorMiddleware.createError(
         '获取系统消息失败',
         StatusCodes.INTERNAL_SERVER_ERROR,
@@ -614,7 +615,7 @@ class MessageService {
    * @returns {Promise<Object>} 消息详情
    */
   async getSystemMessageDetail(messageId) {
-    console.log('🔍 [MessageService] 获取系统消息详情:', messageId);
+    logger.info('🔍 [MessageService] 获取系统消息详情:', messageId);
     
     try {
       const message = await messageRepository.findById(messageId);
@@ -644,10 +645,10 @@ class MessageService {
         updatedAt: message.updatedAt
       };
       
-      console.log('✅ [MessageService] 获取系统消息详情成功');
+      logger.info('✅ [MessageService] 获取系统消息详情成功');
       return result;
     } catch (error) {
-      console.error('❌ [MessageService] 获取系统消息详情失败:', error);
+      logger.error('❌ [MessageService] 获取系统消息详情失败:', error);
       throw error;
     }
   }
@@ -659,7 +660,7 @@ class MessageService {
    * @returns {Promise<Object>} 创建的消息
    */
   async createSystemMessage(messageData, adminId) {
-    console.log('📝 [MessageService] 创建系统消息:', { 
+    logger.info('📝 [MessageService] 创建系统消息:', { 
       title: messageData.title, 
       type: messageData.type,
       targetGroup: messageData.targetGroup,
@@ -684,9 +685,9 @@ class MessageService {
       const message = await messageRepository.create(systemMessageData);
       
       // 如果是立即发送，推送系统通知给所有用户
-      console.log('🔧 [MessageService] 检查sendNow参数:', messageData.sendNow, typeof messageData.sendNow);
+      logger.info('🔧 [MessageService] 检查sendNow参数:', messageData.sendNow, typeof messageData.sendNow);
       if (messageData.sendNow) {
-        console.log('📤 [MessageService] 立即推送系统消息');
+        logger.info('📤 [MessageService] 立即推送系统消息');
         
         // 通过WebSocket广播系统通知
         await this._broadcastSystemNotification(message);
@@ -694,10 +695,10 @@ class MessageService {
         // 更新所有用户的未读计数
         await this._updateAllUsersUnreadCount();
       } else {
-        console.log('⏰ [MessageService] 消息设置为定时发送或sendNow为false，跳过立即推送');
+        logger.info('⏰ [MessageService] 消息设置为定时发送或sendNow为false，跳过立即推送');
       }
       
-      console.log('✅ [MessageService] 系统消息创建成功:', message.id);
+      logger.info('✅ [MessageService] 系统消息创建成功:', message.id);
       return {
         id: message.id,
         title: message.title,
@@ -711,7 +712,7 @@ class MessageService {
         createdAt: message.createdAt
       };
     } catch (error) {
-      console.error('❌ [MessageService] 创建系统消息失败:', error);
+      logger.error('❌ [MessageService] 创建系统消息失败:', error);
       throw ErrorMiddleware.createError(
         '创建系统消息失败',
         StatusCodes.INTERNAL_SERVER_ERROR,
@@ -726,7 +727,7 @@ class MessageService {
    * @returns {Promise<Boolean>} 是否成功删除
    */
   async deleteSystemMessage(messageId) {
-    console.log('🗑️ [MessageService] 删除系统消息:', messageId);
+    logger.info('🗑️ [MessageService] 删除系统消息:', messageId);
     
     try {
       // 检查消息是否存在
@@ -743,14 +744,14 @@ class MessageService {
       const success = await messageRepository.deleteSystemMessage(messageId);
       
       if (success) {
-        console.log('✅ [MessageService] 系统消息删除成功');
+        logger.info('✅ [MessageService] 系统消息删除成功');
       } else {
-        console.log('⚠️ [MessageService] 系统消息删除失败');
+        logger.info('⚠️ [MessageService] 系统消息删除失败');
       }
       
       return success;
     } catch (error) {
-      console.error('❌ [MessageService] 删除系统消息失败:', error);
+      logger.error('❌ [MessageService] 删除系统消息失败:', error);
       throw error;
     }
   }
@@ -760,14 +761,14 @@ class MessageService {
    * @returns {Promise<Object>} 统计信息
    */
   async getSystemMessageStats() {
-    console.log('📊 [MessageService] 获取系统消息统计');
+    logger.info('📊 [MessageService] 获取系统消息统计');
     
     try {
       const stats = await messageRepository.getSystemMessageStatsOverall();
-      console.log('✅ [MessageService] 获取统计信息成功');
+      logger.info('✅ [MessageService] 获取统计信息成功');
       return stats;
     } catch (error) {
-      console.error('❌ [MessageService] 获取统计信息失败:', error);
+      logger.error('❌ [MessageService] 获取统计信息失败:', error);
       throw ErrorMiddleware.createError(
         '获取统计信息失败',
         StatusCodes.INTERNAL_SERVER_ERROR,
@@ -783,7 +784,7 @@ class MessageService {
    * @returns {Promise<Object>} 分页结果
    */
   async getSystemMessageRecipients(messageId, options = {}) {
-    console.log('👥 [MessageService] 获取系统消息接收者列表:', { messageId, options });
+    logger.info('👥 [MessageService] 获取系统消息接收者列表:', { messageId, options });
     
     try {
       // 检查消息是否存在
@@ -797,10 +798,10 @@ class MessageService {
       }
       
       const result = await messageRepository.getSystemMessageRecipients(messageId, options);
-      console.log(`✅ [MessageService] 获取接收者列表成功，共 ${result.total} 个用户`);
+      logger.info(`✅ [MessageService] 获取接收者列表成功，共 ${result.total} 个用户`);
       return result;
     } catch (error) {
-      console.error('❌ [MessageService] 获取接收者列表失败:', error);
+      logger.error('❌ [MessageService] 获取接收者列表失败:', error);
       throw error;
     }
   }
@@ -811,7 +812,7 @@ class MessageService {
    * @returns {Promise<Array>} 用户列表
    */
   async searchUsers(query) {
-    console.log('🔍 [MessageService] 搜索用户:', query);
+    logger.info('🔍 [MessageService] 搜索用户:', query);
     
     try {
       const userRepository = require('../repositories/user.repository');
@@ -825,16 +826,26 @@ class MessageService {
         label: `${user.nickname || user.username} (@${user.username})`
       }));
       
-      console.log(`✅ [MessageService] 搜索用户成功，找到 ${result.length} 个用户`);
+      logger.info(`✅ [MessageService] 搜索用户成功，找到 ${result.length} 个用户`);
       return result;
     } catch (error) {
-      console.error('❌ [MessageService] 搜索用户失败:', error);
+      logger.error('❌ [MessageService] 搜索用户失败:', error);
       throw ErrorMiddleware.createError(
         '搜索用户失败',
         StatusCodes.INTERNAL_SERVER_ERROR,
         errorCodes.DATABASE_ERROR
       );
     }
+  }
+
+  /**
+   * 标记私信对话为已读
+   * @param {String} currentUserId 当前用户ID
+   * @param {String} targetUserId 目标用户ID
+   * @returns {Promise<Number>} 更新的消息数量
+   */
+  async markPrivateConversationAsRead(currentUserId, targetUserId) {
+    return await messageRepository.markPrivateConversationAsRead(currentUserId, targetUserId);
   }
 
 }

@@ -5,6 +5,7 @@ const messageService = require('./message.service');
 const { StatusCodes } = require('http-status-codes');
 const { ErrorMiddleware } = require('../middlewares');
 const errorCodes = require('../constants/error-codes');
+const logger = require('../../config/logger');
 
 /**
  * 评论服务层
@@ -16,7 +17,7 @@ class CommentService {
    * @returns {Promise<Object>} 创建的评论对象
    */
   async createComment(commentData) {
-    console.log('🚀 [CommentService] 开始创建评论:', JSON.stringify(commentData, null, 2));
+    logger.info('🚀 [CommentService] 开始创建评论:', JSON.stringify(commentData, null, 2));
     
     // 检查用户是否存在
     const user = await userRepository.findById(commentData.user_id);
@@ -92,7 +93,7 @@ class CommentService {
         isAnonymous = settings?.privacy?.anonymousMode || false;
 
       } catch (error) {
-        console.error('解析用户设置失败:', error);
+        logger.error('解析用户设置失败:', error);
         isAnonymous = false;
       }
     } else {
@@ -119,9 +120,9 @@ class CommentService {
     await postRepository.updateCounter(post.id, 'comment_count', 1);
 
     // 发送通知
-    console.log('📮 [CommentService] 准备发送评论通知...');
+    logger.info('📮 [CommentService] 准备发送评论通知...');
     await this.sendCommentNotifications(comment, post, commentData, user);
-    console.log('✅ [CommentService] 评论通知发送完成');
+    logger.info('✅ [CommentService] 评论通知发送完成');
 
     // 发送@用户通知
     if (comment.mentioned_users && comment.mentioned_users.length > 0) {
@@ -154,7 +155,7 @@ class CommentService {
    * @param {Object} user 用户对象
    */
   async sendCommentNotifications(comment, post, commentData, user) {
-    console.log('🔔 [CommentService] 开始发送评论通知:', {
+    logger.info('🔔 [CommentService] 开始发送评论通知:', {
       commentId: comment.id,
       isReply: !!commentData.reply_to,
       replyTo: commentData.reply_to,
@@ -165,10 +166,10 @@ class CommentService {
     
     // 如果是回复评论，优先发送回复通知
     if (commentData.reply_to) {
-      console.log('📝 [CommentService] 这是回复评论，查找父评论...');
+      logger.info('📝 [CommentService] 这是回复评论，查找父评论...');
       const parentComment = await commentRepository.findById(commentData.reply_to);
       if (parentComment && parentComment.user_id !== commentData.user_id) {
-        console.log('✅ [CommentService] 找到父评论，准备发送回复通知给:', parentComment.user_id);
+        logger.info('✅ [CommentService] 找到父评论，准备发送回复通知给:', parentComment.user_id);
         // 发送回复通知给被回复的评论作者
         await messageService.createMessage({
           sender_id: commentData.user_id,
@@ -178,7 +179,7 @@ class CommentService {
           type: 'reply',
           related_id: comment.id,
           post_id: post.id
-        }).catch(err => console.error('发送回复通知失败', err));
+        }).catch(err => logger.error('发送回复通知失败', err));
         
         // 如果被回复的评论作者不是帖子作者，还要通知帖子作者
         if (post.user_id !== commentData.user_id && post.user_id !== parentComment.user_id) {
@@ -190,7 +191,7 @@ class CommentService {
             type: 'comment',
             related_id: comment.id,
             post_id: post.id
-          }).catch(err => console.error('发送评论通知失败', err));
+          }).catch(err => logger.error('发送评论通知失败', err));
         }
       }
     } else {
@@ -204,7 +205,7 @@ class CommentService {
           type: 'comment',
           related_id: comment.id,
           post_id: post.id
-        }).catch(err => console.error('发送评论通知失败', err));
+        }).catch(err => logger.error('发送评论通知失败', err));
       }
     }
   }
@@ -245,7 +246,7 @@ class CommentService {
 
         }
       } catch (error) {
-        console.error('处理@用户通知失败:', error);
+        logger.error('处理@用户通知失败:', error);
       }
     }
   }
@@ -292,7 +293,7 @@ class CommentService {
           });
         }
       } catch (error) {
-        console.error(`验证@用户失败: ${mention.username}`, error);
+        logger.error(`验证@用户失败: ${mention.username}`, error);
       }
     }
 

@@ -101,7 +101,7 @@ class FavoriteService {
         content: `${user.nickname || user.username} 收藏了你的帖子`,
         type: 'favorite',
         post_id: postId
-      }).catch(err => console.error('发送收藏通知失败', err));
+      }).catch(err => logger.error('发送收藏通知失败', err));
     }
     
     // 更新状态缓存

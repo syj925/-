@@ -42,12 +42,12 @@ class TopicRepository {
           return JSON.parse(cachedTopic);
         } else {
           // 其他类型的数据，清除缓存
-          console.warn(`缓存数据类型异常，清除缓存: ${cacheKey}`, { type: typeof cachedTopic });
+          logger.warn(`缓存数据类型异常，清除缓存: ${cacheKey}`, { type: typeof cachedTopic });
           await redisClient.del(cacheKey);
         }
       } catch (error) {
         // 如果缓存数据格式错误，删除缓存并继续从数据库获取
-        console.warn(`缓存数据格式错误，清除缓存: ${cacheKey}`, error.message);
+        logger.warn(`缓存数据格式错误，清除缓存: ${cacheKey}`, error.message);
         await redisClient.del(cacheKey);
       }
     }
@@ -82,12 +82,12 @@ class TopicRepository {
           return JSON.parse(cachedTopic);
         } else {
           // 其他类型的数据，清除缓存
-          console.warn(`缓存数据类型异常，清除缓存: ${cacheKey}`, { type: typeof cachedTopic });
+          logger.warn(`缓存数据类型异常，清除缓存: ${cacheKey}`, { type: typeof cachedTopic });
           await redisClient.del(cacheKey);
         }
       } catch (error) {
         // 如果缓存数据格式错误，删除缓存并继续从数据库获取
-        console.warn(`缓存数据格式错误，清除缓存: ${cacheKey}`, error.message);
+        logger.warn(`缓存数据格式错误，清除缓存: ${cacheKey}`, error.message);
         await redisClient.del(cacheKey);
       }
     }
@@ -197,12 +197,12 @@ class TopicRepository {
           return JSON.parse(cachedTopics);
         } else {
           // 其他类型的数据，清除缓存
-          console.warn(`缓存数据类型异常，清除缓存: ${cacheKey}`, { type: typeof cachedTopics });
+          logger.warn(`缓存数据类型异常，清除缓存: ${cacheKey}`, { type: typeof cachedTopics });
           await redisClient.del(cacheKey);
         }
       } catch (error) {
         // 如果缓存数据格式错误，删除缓存并继续从数据库获取
-        console.warn(`缓存数据格式错误，清除缓存: ${cacheKey}`, error.message);
+        logger.warn(`缓存数据格式错误，清除缓存: ${cacheKey}`, error.message);
         await redisClient.del(cacheKey);
       }
     }
@@ -295,10 +295,17 @@ class TopicRepository {
    */
   async incrementPostCount(id, value = 1, transaction = null) {
     try {
+      // 验证value参数防止SQL注入
+      const safeValue = parseInt(value, 10);
+      if (isNaN(safeValue)) {
+        logger.warn(`无效的value参数: ${value}`, { topicId: id });
+        return false;
+      }
+      
       // 使用原子操作更新计数，避免并发问题
       const [affectedRows] = await Topic.update(
         {
-          post_count: sequelize.literal(`GREATEST(0, post_count + ${value})`)
+          post_count: sequelize.literal(`GREATEST(0, post_count + ${safeValue})`)
         },
         {
           where: { id },
@@ -473,12 +480,12 @@ class TopicRepository {
           return JSON.parse(cachedTopics);
         } else {
           // 其他类型的数据，清除缓存
-          console.warn(`缓存数据类型异常，清除缓存: ${cacheKey}`, { type: typeof cachedTopics });
+          logger.warn(`缓存数据类型异常，清除缓存: ${cacheKey}`, { type: typeof cachedTopics });
           await redisClient.del(cacheKey);
         }
       } catch (error) {
         // 如果缓存数据格式错误，删除缓存并继续从数据库获取
-        console.warn(`缓存数据格式错误，清除缓存: ${cacheKey}`, error.message);
+        logger.warn(`缓存数据格式错误，清除缓存: ${cacheKey}`, error.message);
         await redisClient.del(cacheKey);
       }
     }

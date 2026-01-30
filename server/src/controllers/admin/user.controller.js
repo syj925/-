@@ -289,8 +289,7 @@ class AdminUserController {
         }
 
         // 记录拒绝信息到拒绝日志表
-        const { UserRejectionLog } = require('../../models');
-        await UserRejectionLog.create({
+        await userService.createRejectionLog({
           username: user.username,
           nickname: user.nickname,
           email: user.email,
@@ -325,7 +324,7 @@ class AdminUserController {
    * @param {Function} next 下一个中间件
    * @returns {Promise<void>}
    */
-  async getRejectionLogs(req, res, next) {
+   async getRejectionLogs(req, res, next) {
     try {
       const { page = 1, limit = 20, username, startTime, endTime } = req.query;
 
@@ -338,64 +337,13 @@ class AdminUserController {
         adminId: req.user.id
       });
 
-      const { UserRejectionLog, User } = require('../../models');
-      const { Op } = require('sequelize');
-
-      // 构建查询条件
-      const whereCondition = {};
-
-      if (username) {
-        whereCondition.username = {
-          [Op.like]: `%${username}%`
-        };
-      }
-
-      if (startTime) {
-        whereCondition.rejected_at = {
-          ...whereCondition.rejected_at,
-          [Op.gte]: new Date(startTime)
-        };
-      }
-
-      if (endTime) {
-        whereCondition.rejected_at = {
-          ...whereCondition.rejected_at,
-          [Op.lte]: new Date(endTime)
-        };
-      }
-
-      // 查询数据
-      const result = await UserRejectionLog.findAndCountAll({
-        where: whereCondition,
-        include: [
-          {
-            model: User,
-            as: 'admin',
-            attributes: ['id', 'username', 'nickname']
-          }
-        ],
-        attributes: [
-          'id',
-          'username',
-          'nickname',
-          'email',
-          'rejection_reason',
-          'rejected_by',
-          'rejected_at',
-          'ip_address'
-        ],
-        order: [['rejected_at', 'DESC']],
-        limit: parseInt(limit),
-        offset: (parseInt(page) - 1) * parseInt(limit)
-      });
-
-      const responseData = {
-        list: result.rows,
-        total: result.count,
+      const responseData = await userService.getRejectionLogs({
         page: parseInt(page),
         limit: parseInt(limit),
-        totalPages: Math.ceil(result.count / parseInt(limit))
-      };
+        username,
+        startTime,
+        endTime
+      });
 
       res.status(StatusCodes.OK).json(ResponseUtil.success(responseData, '获取拒绝记录成功'));
     } catch (error) {
@@ -502,7 +450,7 @@ class AdminUserController {
       const badgeService = require('../../services/badge.service');
       
       // 管理后台直接查询数据库，不使用缓存确保数据实时性
-      console.log('🎯 [管理后台] 获取用户徽章，查询参数:', { 
+      logger.info('🎯 [管理后台] 获取用户徽章，查询参数:', { 
         userId, 
         type, 
         includeHidden: includeHidden === 'true'

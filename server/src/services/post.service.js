@@ -807,6 +807,24 @@ class PostService {
     };
   }
 
+  /**
+   * 统计帖子数量（管理员用）
+   * @param {Object} where 查询条件
+   * @returns {Promise<Number>} 帖子数量
+   */
+  async countPosts(where = {}) {
+    return await postRepository.count(where);
+  }
+
+  /**
+   * 获取推荐候选帖子（管理员统计用）
+   * @param {Object} options 选项
+   * @returns {Promise<Array>} 候选帖子列表
+   */
+  async findCandidatesForRecommendation(options = {}) {
+    return await postRepository.findCandidatesForRecommendation(options);
+  }
+
   // ❌ getRecommendedPosts 方法已删除
   // 推荐功能现在由专门的 RecommendationService 处理
   // 位置：src/services/recommendation.service.v2.js

@@ -184,12 +184,15 @@ class AdminDashboardService {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
+    // 使用Sequelize.escape防止SQL注入
+    const todayStr = Sequelize.escape(today.toISOString());
+    
     const result = await User.findOne({
       attributes: [
         [Sequelize.fn('COUNT', Sequelize.col('id')), 'total'],
         [
           Sequelize.fn('COUNT', 
-            Sequelize.literal(`CASE WHEN created_at >= '${today.toISOString()}' THEN 1 END`)
+            Sequelize.literal(`CASE WHEN created_at >= ${todayStr} THEN 1 END`)
           ), 
           'today'
         ]
@@ -214,12 +217,15 @@ class AdminDashboardService {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
+    // 使用Sequelize.escape防止SQL注入
+    const todayStr = Sequelize.escape(today.toISOString());
+    
     const result = await Post.findOne({
       attributes: [
         [Sequelize.fn('COUNT', Sequelize.col('id')), 'total'],
         [
           Sequelize.fn('COUNT', 
-            Sequelize.literal(`CASE WHEN created_at >= '${today.toISOString()}' THEN 1 END`)
+            Sequelize.literal(`CASE WHEN created_at >= ${todayStr} THEN 1 END`)
           ), 
           'today'
         ]
@@ -245,12 +251,15 @@ class AdminDashboardService {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
+    // 使用Sequelize.escape防止SQL注入
+    const todayStr = Sequelize.escape(today.toISOString());
+    
     const result = await Comment.findOne({
       attributes: [
         [Sequelize.fn('COUNT', Sequelize.col('id')), 'total'],
         [
           Sequelize.fn('COUNT', 
-            Sequelize.literal(`CASE WHEN created_at >= '${today.toISOString()}' THEN 1 END`)
+            Sequelize.literal(`CASE WHEN created_at >= ${todayStr} THEN 1 END`)
           ), 
           'today'
         ]
@@ -275,12 +284,15 @@ class AdminDashboardService {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
+    // 使用Sequelize.escape防止SQL注入
+    const todayStr = Sequelize.escape(today.toISOString());
+    
     const result = await Topic.findOne({
       attributes: [
         [Sequelize.fn('COUNT', Sequelize.col('id')), 'total'],
         [
           Sequelize.fn('COUNT',
-            Sequelize.literal(`CASE WHEN created_at >= '${today.toISOString()}' THEN 1 END`)
+            Sequelize.literal(`CASE WHEN created_at >= ${todayStr} THEN 1 END`)
           ),
           'today'
         ]

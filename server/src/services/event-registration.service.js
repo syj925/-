@@ -330,6 +330,48 @@ class EventRegistrationService {
     };
     return statusMap[status] || '未知状态';
   }
+
+  /**
+   * 管理员更新报名信息（无权限检查）
+   * @param {String} registrationId 报名记录ID
+   * @param {Object} updateData 更新数据
+   * @returns {Promise<Object>} 更新后的报名记录
+   */
+  async adminUpdateRegistration(registrationId, updateData) {
+    const registration = await eventRegistrationRepository.findById(registrationId);
+    
+    if (!registration) {
+      throw ErrorMiddleware.createError(
+        '报名记录不存在',
+        StatusCodes.NOT_FOUND,
+        errorCodes.REGISTRATION_NOT_FOUND
+      );
+    }
+
+    return await eventRegistrationRepository.update(registrationId, updateData);
+  }
+
+  /**
+   * 管理员批量更新报名状态
+   * @param {Array} registrationIds 报名记录ID数组
+   * @param {Object} updateData 更新数据 { status, admin_note, updated_by }
+   * @returns {Promise<Array>} 更新的记录数组
+   */
+  async adminBatchUpdateRegistrations(registrationIds, updateData) {
+    if (!Array.isArray(registrationIds) || registrationIds.length === 0) {
+      throw ErrorMiddleware.createError(
+        '请选择要更新的报名记录',
+        StatusCodes.BAD_REQUEST,
+        errorCodes.INVALID_PARAMS
+      );
+    }
+
+    const results = await Promise.all(
+      registrationIds.map(id => eventRegistrationRepository.update(id, updateData))
+    );
+
+    return results;
+  }
 }
 
 module.exports = new EventRegistrationService();

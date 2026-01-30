@@ -146,6 +146,134 @@ class CategoryService {
     
     return await categoryRepository.search(keyword);
   }
+
+  /**
+   * 获取所有分类（带统计信息）- 管理后台用
+   * @returns {Promise<Array>} 分类列表
+   */
+  async findAllWithStats() {
+    return await categoryRepository.findAllWithStats();
+  }
+
+  /**
+   * 根据名称获取分类
+   * @param {String} name 分类名称
+   * @returns {Promise<Object|null>} 分类对象
+   */
+  async findByName(name) {
+    return await categoryRepository.findByName(name);
+  }
+
+  /**
+   * 启用分类
+   * @param {Number} id 分类ID
+   * @returns {Promise<Object>} 更新后的分类
+   */
+  async enableCategory(id) {
+    const category = await categoryRepository.findById(id);
+    if (!category) {
+      throw ErrorMiddleware.createError(
+        '分类不存在',
+        StatusCodes.NOT_FOUND,
+        errorCodes.CATEGORY_NOT_EXIST
+      );
+    }
+    return await categoryRepository.update(id, { status: 'enabled' });
+  }
+
+  /**
+   * 禁用分类
+   * @param {Number} id 分类ID
+   * @returns {Promise<Object>} 更新后的分类
+   */
+  async disableCategory(id) {
+    const category = await categoryRepository.findById(id);
+    if (!category) {
+      throw ErrorMiddleware.createError(
+        '分类不存在',
+        StatusCodes.NOT_FOUND,
+        errorCodes.CATEGORY_NOT_EXIST
+      );
+    }
+    return await categoryRepository.update(id, { status: 'disabled' });
+  }
+
+  /**
+   * 获取分类列表（管理后台格式）
+   * @param {Object} options 选项
+   * @returns {Promise<Object>} 格式化的分类列表
+   */
+  async getCategoryListForAdmin(options = {}) {
+    const { 
+      page = 1, 
+      limit = 20, 
+      search = '', 
+      orderBy = 'sort', 
+      orderDirection = 'ASC' 
+    } = options;
+
+    const categories = await categoryRepository.findAllWithStats();
+    
+    // 搜索过滤
+    let filteredCategories = categories;
+    if (search) {
+      filteredCategories = categories.filter(category => 
+        category.name.toLowerCase().includes(search.toLowerCase())
+      );
+    }
+
+    // 排序
+    filteredCategories.sort((a, b) => {
+      const aValue = a[orderBy] || 0;
+      const bValue = b[orderBy] || 0;
+      
+      if (orderDirection === 'DESC') {
+        return bValue - aValue;
+      }
+      return aValue - bValue;
+    });
+
+    // 分页
+    const total = filteredCategories.length;
+    const startIndex = (page - 1) * limit;
+    const endIndex = startIndex + parseInt(limit);
+    const paginatedCategories = filteredCategories.slice(startIndex, endIndex);
+
+    // 格式化为前端期望的格式
+    const formattedCategories = paginatedCategories.map(category => ({
+      id: category.id,
+      name: category.name,
+      description: category.description || '',
+      icon: category.icon || '',
+      sort: category.sort || 0,
+      postCount: category.post_count || 0,
+      status: category.status === 'enabled' ? 'active' : 'inactive',
+      enabled: category.status === 'enabled',
+      createdAt: category.created_at,
+      updatedAt: category.updated_at
+    }));
+
+    return {
+      items: formattedCategories,
+      totalItems: total
+    };
+  }
+
+  /**
+   * 批量更新分类排序
+   * @param {Array} categories 分类数组 [{id, sort}, ...]
+   * @returns {Promise<Boolean>} 是否成功
+   */
+  async batchUpdateSort(categories) {
+    for (const categoryData of categories) {
+      if (categoryData.id && categoryData.sort !== undefined) {
+        await categoryRepository.update(categoryData.id, {
+          sort: parseInt(categoryData.sort)
+        });
+      }
+    }
+    return true;
+  }
 }
 
-module.exports = new CategoryService(); 
+module.exports = new CategoryService();

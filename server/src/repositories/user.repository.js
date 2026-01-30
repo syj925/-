@@ -73,10 +73,10 @@ class UserRepository {
       attributes: ['id', 'username', 'nickname', 'avatar'],
       limit,
       order: [
-        // 优先显示用户名完全匹配的
-        [sequelize.literal(`CASE WHEN username = '${keyword}' THEN 0 ELSE 1 END`), 'ASC'],
+        // 优先显示用户名完全匹配的 (使用mysql.escape防止SQL注入)
+        [sequelize.literal(`CASE WHEN username = ${sequelize.escape(keyword)} THEN 0 ELSE 1 END`), 'ASC'],
         // 然后按昵称完全匹配
-        [sequelize.literal(`CASE WHEN nickname = '${keyword}' THEN 0 ELSE 1 END`), 'ASC'],
+        [sequelize.literal(`CASE WHEN nickname = ${sequelize.escape(keyword)} THEN 0 ELSE 1 END`), 'ASC'],
         // 最后按用户名排序
         ['username', 'ASC']
       ]
@@ -396,6 +396,75 @@ class UserRepository {
           [Op.in]: ids
         }
       }
+    });
+  }
+
+  /**
+   * 统计所有用户数量
+   * @returns {Promise<Number>} 用户总数
+   */
+  async countAll() {
+    return await User.count();
+  }
+
+  /**
+   * 统计指定状态的用户数量
+   * @param {String} status 用户状态
+   * @returns {Promise<Number>} 用户数量
+   */
+  async countByStatus(status) {
+    return await User.count({ where: { status } });
+  }
+
+  /**
+   * 获取用户统计信息
+   * @returns {Promise<Object>} 统计对象 {total, active, banned, pending}
+   */
+  async getUserStats() {
+    const [total, active, banned, pending] = await Promise.all([
+      User.count(),
+      User.count({ where: { status: 'active' } }),
+      User.count({ where: { status: 'banned' } }),
+      User.count({ where: { status: 'pending' } })
+    ]);
+
+    return { total, active, banned, pending };
+  }
+
+  /**
+   * 根据ID获取用户（包含设置信息）
+   * @param {String} userId 用户ID
+   * @returns {Promise<Object>} 用户对象（不包含密码）
+   */
+  async findByIdWithSettings(userId) {
+    return await User.findByPk(userId, {
+      attributes: { exclude: ['password'] }
+    });
+  }
+
+  /**
+   * 搜索用户
+   * @param {String} keyword 关键词
+   * @param {Object} options 选项 {page, limit}
+   * @returns {Promise<Object>} {rows, count}
+   */
+  async searchUsers(keyword, options = {}) {
+    const { page = 1, limit = 10 } = options;
+    
+    const where = {
+      [Op.or]: [
+        { username: { [Op.like]: `%${keyword}%` } },
+        { nickname: { [Op.like]: `%${keyword}%` } }
+      ],
+      status: 'active'
+    };
+
+    return await User.findAndCountAll({
+      where,
+      attributes: { exclude: ['password'] },
+      limit,
+      offset: (page - 1) * limit,
+      order: [['created_at', 'DESC']]
     });
   }
 }

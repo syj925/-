@@ -1,6 +1,7 @@
 const { Category, Post } = require('../models');
 const { Op } = require('sequelize');
 const redisClient = require('../utils/redis-client');
+const logger = require('../../config/logger');
 
 /**
  * 分类数据访问层
@@ -33,7 +34,7 @@ class CategoryRepository {
 
       return category;
     } catch (err) {
-      console.error('查询分类出错:', err);
+      logger.error('查询分类出错:', err);
       return null;
     }
   }
@@ -50,7 +51,7 @@ class CategoryRepository {
       });
       return category;
     } catch (err) {
-      console.error('根据名称查询分类出错:', err);
+      logger.error('根据名称查询分类出错:', err);
       return null;
     }
   }
@@ -264,6 +265,36 @@ class CategoryRepository {
     await redisClient.del('categories:all');
 
     return result;
+  }
+  /**
+   * 根据内容类型获取分类
+   * @param {String} type 内容类型 (如 'post', 'event' 等)
+   * @param {Object} options 选项 {status}
+   * @returns {Promise<Array>} 分类列表
+   */
+  async findAllByType(type, options = {}) {
+    const { status = 'active' } = options;
+    
+    try {
+      const whereClause = {
+        content_type: type || 'post'
+      };
+      
+      // 如果指定了状态，添加状态过滤
+      if (status) {
+        whereClause.status = status;
+      }
+      
+      const categories = await Category.findAll({
+        where: whereClause,
+        order: [['sort', 'ASC']]
+      });
+      
+      return categories;
+    } catch (error) {
+      logger.error('根据类型获取分类失败:', error);
+      return [];
+    }
   }
 }
 

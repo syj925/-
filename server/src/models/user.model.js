@@ -131,6 +131,29 @@ module.exports = (sequelize, DataTypes) => {
       timestamps: true,
       underscored: true,
       paranoid: true, // 启用软删除
+      // 数据库索引优化查询性能
+      indexes: [
+        {
+          name: 'idx_user_role',
+          fields: ['role']
+        },
+        {
+          name: 'idx_user_status',
+          fields: ['status']
+        },
+        {
+          name: 'idx_user_is_disabled',
+          fields: ['is_disabled']
+        },
+        {
+          name: 'idx_user_created_at',
+          fields: ['created_at']
+        },
+        {
+          name: 'idx_user_last_login',
+          fields: ['last_login_at']
+        }
+      ],
       // 隐藏敏感字段
       defaultScope: {
         attributes: { exclude: ['password'] }

@@ -345,6 +345,33 @@ class UserController {
       next(error);
     }
   }
+
+  /**
+   * 获取用户今日发布统计
+   * @param {Object} req 请求对象
+   * @param {Object} res 响应对象
+   * @param {Function} next 下一个中间件
+   * @returns {Promise<void>}
+   */
+  async getPublishStats(req, res, next) {
+    try {
+      const userId = req.user.id;
+      const stats = await userService.getUserTodayPublishStats(userId);
+
+      res.json({
+        code: 0,
+        message: '获取发布统计成功',
+        data: stats
+      });
+    } catch (error) {
+      logger.error('获取发布统计失败:', error);
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+        code: 500,
+        message: '获取发布统计失败',
+        data: null
+      });
+    }
+  }
 }
 
 module.exports = new UserController();

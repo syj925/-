@@ -343,6 +343,134 @@ class SettingRepository {
   }
 
   /**
+   * 获取配置版本信息
+   * @returns {Promise<Object>} 配置版本对象
+   */
+  async getConfigVersion() {
+    try {
+      const setting = await Setting.findOne({
+        where: { key: 'config_version' }
+      });
+      
+      if (!setting) {
+        return null;
+      }
+      
+      // 尝试解析JSON值
+      try {
+        return JSON.parse(setting.value);
+      } catch {
+        return { version: setting.value };
+      }
+    } catch (error) {
+      logger.error('获取配置版本失败:', error);
+      return null;
+    }
+  }
+
+  /**
+   * 设置配置版本信息
+   * @param {Object} data 配置版本数据 {version, force_update, release_notes, etc}
+   * @returns {Promise<Object>} 更新后的设置对象
+   */
+  async setConfigVersion(data) {
+    try {
+      const value = typeof data === 'string' ? data : JSON.stringify(data);
+      
+      const [setting, created] = await Setting.findOrCreate({
+        where: { key: 'config_version' },
+        defaults: {
+          key: 'config_version',
+          value,
+          description: '应用配置版本信息',
+          type: 'json',
+          is_system: true
+        }
+      });
+
+      if (!created) {
+        await setting.update({ value });
+      }
+
+      // 清除缓存
+      await redisClient.del(`${this.cachePrefix}config_version`);
+
+      return setting;
+    } catch (error) {
+      logger.error('设置配置版本失败:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * 获取内容规则设置
+   * @returns {Promise<Object>} 内容规则对象
+   */
+  async getContentRules() {
+    try {
+      const settings = await Setting.findAll({
+        where: {
+          key: {
+            [Op.like]: 'content_rule_%'
+          }
+        }
+      });
+
+      const rules = {};
+      settings.forEach(setting => {
+        const ruleKey = setting.key.replace('content_rule_', '');
+        try {
+          rules[ruleKey] = JSON.parse(setting.value);
+        } catch {
+          rules[ruleKey] = setting.value;
+        }
+      });
+
+      return rules;
+    } catch (error) {
+      logger.error('获取内容规则失败:', error);
+      return {};
+    }
+  }
+
+  /**
+   * 重置强制更新标志
+   * @returns {Promise<Boolean>} 是否成功
+   */
+  async resetForceUpdate() {
+    try {
+      const setting = await Setting.findOne({
+        where: { key: 'config_version' }
+      });
+
+      if (!setting) {
+        return false;
+      }
+
+      let configData;
+      try {
+        configData = JSON.parse(setting.value);
+      } catch {
+        configData = { version: setting.value };
+      }
+
+      configData.force_update = false;
+
+      await setting.update({
+        value: JSON.stringify(configData)
+      });
+
+      // 清除缓存
+      await redisClient.del(`${this.cachePrefix}config_version`);
+
+      return true;
+    } catch (error) {
+      logger.error('重置强制更新失败:', error);
+      return false;
+    }
+  }
+
+  /**
    * 删除设置
    * @param {String} key 设置键
    * @returns {Promise<Boolean>} 是否删除成功

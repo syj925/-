@@ -1,6 +1,6 @@
 const { StatusCodes } = require('http-status-codes');
 const ResponseUtil = require('../utils/response');
-const { User } = require('../models');
+const userService = require('../services/user.service');
 
 /**
  * 设置控制器
@@ -17,10 +17,8 @@ class SettingsController {
     try {
       const userId = req.user.id;
       
-      // 查询用户记录
-      const user = await User.findByPk(userId, {
-        attributes: ['id', 'settings']
-      });
+      // 通过 userService 查询用户
+      const user = await userService.getUserSettings(userId);
       
       if (!user) {
         return res.status(StatusCodes.NOT_FOUND).json(
@@ -63,8 +61,8 @@ class SettingsController {
       const userId = req.user.id;
       const { privacy } = req.body;
       
-      // 查询用户记录
-      const user = await User.findByPk(userId);
+      // 通过 userService 查询用户
+      const user = await userService.getUserSettings(userId);
       
       if (!user) {
         return res.status(StatusCodes.NOT_FOUND).json(
@@ -95,8 +93,8 @@ class SettingsController {
         };
       }
       
-      // 更新用户设置
-      await user.update({ settings: currentSettings });
+      // 通过 userService 更新用户设置
+      await userService.updateUserSettings(userId, currentSettings);
       
       res.status(StatusCodes.OK).json(
         ResponseUtil.success(currentSettings, '设置更新成功')
@@ -118,44 +116,17 @@ class SettingsController {
       const userId = req.user.id;
       const privacySettings = req.body;
 
-      // 调试日志
+      // 通过 userService 更新隐私设置
+      const updatedPrivacy = await userService.updatePrivacySettings(userId, privacySettings);
 
-
-      // 查询用户记录
-      const user = await User.findByPk(userId);
-
-      if (!user) {
+      if (!updatedPrivacy) {
         return res.status(StatusCodes.NOT_FOUND).json(
           ResponseUtil.error('用户不存在', StatusCodes.NOT_FOUND)
         );
       }
 
-
-
-      // 获取当前设置或初始化
-      let currentSettings = user.settings || { privacy: {} };
-
-      // 更新隐私设置
-      currentSettings.privacy = {
-        ...currentSettings.privacy,
-        ...privacySettings
-      };
-
-
-
-      // 保存到数据库 - 强制标记字段为已修改
-      user.settings = currentSettings;
-      user.changed('settings', true);
-      await user.save();
-
-      // 验证保存结果
-      const updatedUser = await User.findByPk(userId, {
-        attributes: ['id', 'settings']
-      });
-
-
       res.status(StatusCodes.OK).json(
-        ResponseUtil.success(currentSettings.privacy, '隐私设置更新成功')
+        ResponseUtil.success(updatedPrivacy, '隐私设置更新成功')
       );
     } catch (error) {
       next(error);
@@ -173,34 +144,14 @@ class SettingsController {
     try {
       const userId = req.user.id;
 
-      // 查询用户记录
-      const user = await User.findByPk(userId, {
-        attributes: ['id', 'settings']
-      });
+      // 通过 userService 获取隐私设置
+      const privacySettings = await userService.getPrivacySettings(userId);
 
-      if (!user) {
+      if (!privacySettings) {
         return res.status(StatusCodes.NOT_FOUND).json(
           ResponseUtil.error('用户不存在', StatusCodes.NOT_FOUND)
         );
       }
-
-      // 调试日志
-
-
-      // 获取隐私设置
-      const privacySettings = user.settings?.privacy || {
-        anonymousMode: false,
-        allowSearch: true,
-        showLocation: false,
-        allowFollow: true,
-        allowComment: true,
-        allowMessage: true,
-        favoriteVisible: false,
-        followListVisible: true,
-        fansListVisible: true
-      };
-
-
 
       res.status(StatusCodes.OK).json(
         ResponseUtil.success(privacySettings, '获取隐私设置成功')

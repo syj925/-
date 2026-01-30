@@ -350,8 +350,14 @@ class EventRepository {
    * @returns {Promise<Boolean>} 是否成功
    */
   async updateParticipantCount(id, count) {
+    // 验证count参数防止SQL注入
+    const safeCount = parseInt(count, 10);
+    if (isNaN(safeCount)) {
+      return false;
+    }
+    
     const [affectedRows] = await Event.update(
-      { current_participants: Event.sequelize.literal(`current_participants + ${count}`) },
+      { current_participants: Event.sequelize.literal(`current_participants + ${safeCount}`) },
       { where: { id } }
     );
     return affectedRows > 0;

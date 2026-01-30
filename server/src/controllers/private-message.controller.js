@@ -1,9 +1,10 @@
 const messageService = require('../services/message.service');
-const messageRepository = require('../repositories/message.repository');
-const { Setting, User } = require('../models');
+const userService = require('../services/user.service');
+const settingService = require('../services/setting.service');
 const { ResponseUtil, ErrorMiddleware } = require('../utils');
 const { StatusCodes } = require('http-status-codes');
 const errorCodes = require('../constants/error-codes');
+const logger = require('../../config/logger');
 
 /**
  * 检查全局私信功能是否开启
@@ -11,20 +12,16 @@ const errorCodes = require('../constants/error-codes');
  */
 async function isPrivateMessageGloballyEnabled() {
   try {
-    const setting = await Setting.findOne({
-      where: { key: 'private_message_enabled' }
-    });
+    const value = await settingService.getSetting('private_message_enabled');
 
     // 默认开启私信功能
-    if (!setting) {
+    if (value === null) {
       return true;
     }
 
-    return setting.type === 'boolean' ? 
-      (setting.value === 'true' || setting.value === true) : 
-      setting.value === 'true';
+    return value === 'true' || value === true;
   } catch (error) {
-    console.error('检查全局私信功能设置失败:', error);
+    logger.error('检查全局私信功能设置失败:', error);
     // 出错时默认开启
     return true;
   }
@@ -37,9 +34,7 @@ async function isPrivateMessageGloballyEnabled() {
  */
 async function userAllowsPrivateMessage(userId) {
   try {
-    const user = await User.findByPk(userId, {
-      attributes: ['id', 'settings']
-    });
+    const user = await userService.findById(userId);
 
     if (!user) {
       return false;
@@ -49,7 +44,7 @@ async function userAllowsPrivateMessage(userId) {
     const allowMessage = user.settings?.privacy?.allowMessage;
     return allowMessage !== false;
   } catch (error) {
-    console.error('检查用户私信设置失败:', error);
+    logger.error('检查用户私信设置失败:', error);
     // 出错时默认允许
     return true;
   }
@@ -71,7 +66,7 @@ class PrivateMessageController {
       const senderId = req.user.id;
       const { receiverId, content } = req.body;
 
-      console.log('📨 [PrivateMessage] 尝试发送私信:', {
+      logger.info('📨 [PrivateMessage] 尝试发送私信:', {
         senderId,
         receiverId,
         contentLength: content ? content.length : 0
@@ -80,7 +75,7 @@ class PrivateMessageController {
       // 1. 检查全局私信功能是否开启
       const globalEnabled = await isPrivateMessageGloballyEnabled();
       if (!globalEnabled) {
-        console.log('❌ [PrivateMessage] 全局私信功能已关闭');
+        logger.info('❌ [PrivateMessage] 全局私信功能已关闭');
         throw ErrorMiddleware.createError(
           '私信功能暂未开放',
           StatusCodes.FORBIDDEN,
@@ -89,9 +84,9 @@ class PrivateMessageController {
       }
 
       // 2. 检查接收者是否存在
-      const receiver = await User.findByPk(receiverId);
+      const receiver = await userService.findById(receiverId);
       if (!receiver) {
-        console.log('❌ [PrivateMessage] 接收者不存在:', receiverId);
+        logger.info('❌ [PrivateMessage] 接收者不存在:', receiverId);
         throw ErrorMiddleware.createError(
           '接收者不存在',
           StatusCodes.NOT_FOUND,
@@ -102,7 +97,7 @@ class PrivateMessageController {
       // 3. 检查接收者是否允许接收私信
       const receiverAllowsMessage = await userAllowsPrivateMessage(receiverId);
       if (!receiverAllowsMessage) {
-        console.log('❌ [PrivateMessage] 接收者已关闭私信功能:', receiverId);
+        logger.info('❌ [PrivateMessage] 接收者已关闭私信功能:', receiverId);
         throw ErrorMiddleware.createError(
           '对方已关闭私信功能',
           StatusCodes.FORBIDDEN,
@@ -112,7 +107,7 @@ class PrivateMessageController {
 
       // 4. 检查是否尝试发送给自己
       if (senderId === receiverId) {
-        console.log('❌ [PrivateMessage] 不能发送私信给自己');
+        logger.info('❌ [PrivateMessage] 不能发送私信给自己');
         throw ErrorMiddleware.createError(
           '不能发送私信给自己',
           StatusCodes.BAD_REQUEST,
@@ -131,7 +126,7 @@ class PrivateMessageController {
 
       const message = await messageService.createMessage(messageData);
       
-      console.log('✅ [PrivateMessage] 私信发送成功:', message.id);
+      logger.info('✅ [PrivateMessage] 私信发送成功:', message.id);
 
       const responseData = {
         id: message.id,
@@ -142,14 +137,14 @@ class PrivateMessageController {
         created_at: message.created_at
       };
       
-      console.log('📤 [PrivateMessage] 发送响应数据:', JSON.stringify(responseData, null, 2));
+      logger.info('📤 [PrivateMessage] 发送响应数据:', JSON.stringify(responseData, null, 2));
       
       res.status(StatusCodes.CREATED).json(
         ResponseUtil.success(responseData, '私信发送成功')
       );
 
     } catch (error) {
-      console.error('❌ [PrivateMessage] 发送私信失败:', error);
+      logger.error('❌ [PrivateMessage] 发送私信失败:', error);
       next(error);
     }
   }
@@ -167,7 +162,7 @@ class PrivateMessageController {
       const { userId } = req.params;
       const { page = 1, pageSize = 20 } = req.query;
 
-      console.log('💬 [PrivateMessage] 获取对话记录:', {
+      logger.info('💬 [PrivateMessage] 获取对话记录:', {
         currentUserId,
         targetUserId: userId,
         page,
@@ -185,9 +180,7 @@ class PrivateMessageController {
       }
 
       // 检查目标用户是否存在
-      const targetUser = await User.findByPk(userId, {
-        attributes: ['id', 'username', 'nickname', 'avatar']
-      });
+      const targetUser = await userService.findById(userId);
       
       if (!targetUser) {
         throw ErrorMiddleware.createError(
@@ -207,12 +200,12 @@ class PrivateMessageController {
 
       const result = await messageService.getUserMessages(currentUserId, options);
 
-      console.log('✅ [PrivateMessage] 获取对话记录成功，消息数:', result.list.length);
+      logger.info('✅ [PrivateMessage] 获取对话记录成功，消息数:', result.list.length);
       
       // 增加详细的调试信息
       if (result.list.length > 0) {
         const latestMessage = result.list[result.list.length - 1];
-        console.log('📝 [PrivateMessage] 最新消息详情:', {
+        logger.info('📝 [PrivateMessage] 最新消息详情:', {
           id: latestMessage.id,
           sender_id: latestMessage.sender_id,
           created_at: latestMessage.created_at,
@@ -225,9 +218,9 @@ class PrivateMessageController {
           const now = Date.now();
           return (now - msgTime) < 5 * 60 * 1000; // 5分钟
         });
-        console.log(`🕐 [PrivateMessage] 最近5分钟内的消息数量: ${recentMessages.length}`);
+        logger.info(`🕐 [PrivateMessage] 最近5分钟内的消息数量: ${recentMessages.length}`);
       } else {
-        console.log('⚠️ [PrivateMessage] 对话记录为空，当前用户:', currentUserId, '目标用户:', userId);
+        logger.info('⚠️ [PrivateMessage] 对话记录为空，当前用户:', currentUserId, '目标用户:', userId);
       }
 
       res.status(StatusCodes.OK).json(
@@ -241,7 +234,7 @@ class PrivateMessageController {
       );
 
     } catch (error) {
-      console.error('❌ [PrivateMessage] 获取对话记录失败:', error);
+      logger.error('❌ [PrivateMessage] 获取对话记录失败:', error);
       next(error);
     }
   }
@@ -258,7 +251,7 @@ class PrivateMessageController {
       const userId = req.user.id;
       const { page = 1, pageSize = 20 } = req.query;
 
-      console.log('📋 [PrivateMessage] 获取会话列表:', { userId, page, pageSize });
+      logger.info('📋 [PrivateMessage] 获取会话列表:', { userId, page, pageSize });
 
       // 检查全局私信功能是否开启
       const globalEnabled = await isPrivateMessageGloballyEnabled();
@@ -279,7 +272,7 @@ class PrivateMessageController {
 
       const result = await messageService.getUserMessages(userId, options);
 
-      console.log('✅ [PrivateMessage] 获取会话列表成功，会话数:', result.list.length);
+      logger.info('✅ [PrivateMessage] 获取会话列表成功，会话数:', result.list.length);
 
       res.status(StatusCodes.OK).json(
         ResponseUtil.page(
@@ -291,7 +284,7 @@ class PrivateMessageController {
       );
 
     } catch (error) {
-      console.error('❌ [PrivateMessage] 获取会话列表失败:', error);
+      logger.error('❌ [PrivateMessage] 获取会话列表失败:', error);
       next(error);
     }
   }
@@ -319,14 +312,14 @@ class PrivateMessageController {
         available: globalEnabled && userEnabled
       };
 
-      console.log('📊 [PrivateMessage] 私信功能状态:', status);
+      logger.info('📊 [PrivateMessage] 私信功能状态:', status);
 
       res.status(StatusCodes.OK).json(
         ResponseUtil.success(status, '获取私信功能状态成功')
       );
 
     } catch (error) {
-      console.error('❌ [PrivateMessage] 获取私信功能状态失败:', error);
+      logger.error('❌ [PrivateMessage] 获取私信功能状态失败:', error);
       next(error);
     }
   }
@@ -342,18 +335,18 @@ class PrivateMessageController {
       const currentUserId = req.user.id;
       const { userId: targetUserId } = req.params;
 
-      console.log('📖 [PrivateMessage] 标记对话已读:', {
+      logger.info('📖 [PrivateMessage] 标记对话已读:', {
         currentUserId,
         targetUserId
       });
 
       // 标记来自目标用户的未读私信为已读
-      const updatedCount = await messageRepository.markPrivateConversationAsRead(
+      const updatedCount = await messageService.markPrivateConversationAsRead(
         currentUserId,
         targetUserId
       );
 
-      console.log(`✅ [PrivateMessage] 标记了 ${updatedCount} 条消息为已读`);
+      logger.info(`✅ [PrivateMessage] 标记了 ${updatedCount} 条消息为已读`);
 
       // 如果标记了消息为已读，更新未读计数缓存
       if (updatedCount > 0) {
@@ -366,7 +359,7 @@ class PrivateMessageController {
       );
 
     } catch (error) {
-      console.error('❌ [PrivateMessage] 标记消息已读失败:', error);
+      logger.error('❌ [PrivateMessage] 标记消息已读失败:', error);
       next(error);
     }
   }

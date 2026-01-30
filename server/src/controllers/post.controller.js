@@ -1,4 +1,5 @@
 const postService = require('../services/post.service');
+const userService = require('../services/user.service');
 const { ResponseUtil } = require('../utils');
 const JsonUtil = require('../utils/json.util');
 const { StatusCodes } = require('http-status-codes');
@@ -78,10 +79,7 @@ class PostController {
         postData.is_anonymous = is_anonymous;
       } else {
         // 前端没有指定，检查用户的隐私设置
-        const { User } = require('../models');
-        const user = await User.findByPk(userId, {
-          attributes: ['settings']
-        });
+        const user = await userService.findById(userId);
 
         if (user && user.settings && user.settings.privacy) {
           postData.is_anonymous = user.settings.privacy.anonymousMode || false;

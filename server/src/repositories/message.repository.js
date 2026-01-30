@@ -1,5 +1,6 @@
-const { Message, User, Post, Comment, MessageRead } = require('../models');
+const { Message, User, Post, Comment, MessageRead, sequelize } = require('../models');
 const { Op, literal, fn, col } = require('sequelize');
+const logger = require('../../config/logger');
 
 /**
  * 消息数据访问层
@@ -11,11 +12,11 @@ class MessageRepository {
    * @returns {Promise<Object>} 创建的消息对象
    */
   async create(messageData) {
-    console.log('📝 [MessageRepository] 开始创建消息');
+    logger.info('📝 [MessageRepository] 开始创建消息');
     
     try {
       const message = await Message.create(messageData);
-      console.log('✅ [MessageRepository] 消息创建成功，ID:', message.id);
+      logger.info('✅ [MessageRepository] 消息创建成功，ID:', message.id);
       
       // 直接返回创建的消息对象，避免重新查询的时序问题
       const result = {
@@ -35,7 +36,7 @@ class MessageRepository {
       return result;
       
     } catch (error) {
-      console.error('❌ [MessageRepository] 创建消息失败:', error);
+      logger.error('❌ [MessageRepository] 创建消息失败:', error);
       throw error;
     }
   }
@@ -360,7 +361,7 @@ class MessageRepository {
       
       const unreadCount = totalSystemMessages - readSystemMessages;
       
-      console.log(`📊 [MessageRepository] 用户 ${userId} 系统消息未读计数详情:`, {
+      logger.info(`📊 [MessageRepository] 用户 ${userId} 系统消息未读计数详情:`, {
         totalSystemMessages,
         readSystemMessages,
         unreadCount
@@ -410,10 +411,10 @@ class MessageRepository {
         ]
       },
       attributes: [
-        [literal(`CASE WHEN sender_id = '${userId}' THEN receiver_id ELSE sender_id END`), 'conversation_user_id'],
+        [literal(`CASE WHEN sender_id = ${sequelize.escape(userId)} THEN receiver_id ELSE sender_id END`), 'conversation_user_id'],
         [fn('MAX', col('created_at')), 'last_message_time']
       ],
-      group: [literal(`CASE WHEN sender_id = '${userId}' THEN receiver_id ELSE sender_id END`)],
+      group: [literal(`CASE WHEN sender_id = ${sequelize.escape(userId)} THEN receiver_id ELSE sender_id END`)],
       order: [[fn('MAX', col('created_at')), 'DESC']],
       limit: pageSize,
       offset: (page - 1) * pageSize,
@@ -485,9 +486,9 @@ class MessageRepository {
         ]
       },
       attributes: [
-        [literal(`CASE WHEN sender_id = '${userId}' THEN receiver_id ELSE sender_id END`), 'conversation_user_id']
+        [literal(`CASE WHEN sender_id = ${sequelize.escape(userId)} THEN receiver_id ELSE sender_id END`), 'conversation_user_id']
       ],
-      group: [literal(`CASE WHEN sender_id = '${userId}' THEN receiver_id ELSE sender_id END`)],
+      group: [literal(`CASE WHEN sender_id = ${sequelize.escape(userId)} THEN receiver_id ELSE sender_id END`)],
       raw: true
     });
 
@@ -513,7 +514,7 @@ class MessageRepository {
   async findPrivateConversation(userId, targetUserId, options = {}) {
     const { page = 1, pageSize = 20 } = options;
 
-    console.log('🔍 [MessageRepository] 查询私信对话:', {
+    logger.info('🔍 [MessageRepository] 查询私信对话:', {
       userId, 
       targetUserId, 
       page, 
@@ -541,10 +542,10 @@ class MessageRepository {
       ]
     });
 
-    console.log(`📊 [MessageRepository] 查询结果: 找到 ${rows.length} 条消息，总计 ${count} 条`);
+    logger.info(`📊 [MessageRepository] 查询结果: 找到 ${rows.length} 条消息，总计 ${count} 条`);
     
     if (rows.length > 0) {
-      console.log('📝 [MessageRepository] 最新消息样例:', {
+      logger.info('📝 [MessageRepository] 最新消息样例:', {
         id: rows[rows.length - 1].id,
         createdAt: rows[rows.length - 1].createdAt,
         sender_id: rows[rows.length - 1].sender_id

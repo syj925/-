@@ -630,6 +630,68 @@ class BadgeService {
 
     return await userBadgeRepository.batchRevokeBadges(validRevokes);
   }
+
+  /**
+   * 获取徽章授予记录（管理员用）
+   * @param {String} badgeId 徽章ID
+   * @param {Object} options 查询选项
+   * @returns {Promise<Object>} 授予记录和分页信息
+   */
+  async getBadgeGrants(badgeId, options = {}) {
+    const { page = 1, limit = 20, search = '' } = options;
+
+    // 获取该徽章的所有授予记录
+    let userBadges = await userBadgeRepository.findAll({
+      where: { badge_id: badgeId },
+      order: [['granted_at', 'DESC']]
+    });
+
+    // 获取用户信息
+    const userIds = userBadges.map(ub => ub.user_id);
+    const users = await userRepository.findByIds(userIds);
+    const userMap = users.reduce((map, user) => {
+      map[user.id] = user;
+      return map;
+    }, {});
+
+    // 组合数据
+    let grants = userBadges.map(userBadge => ({
+      id: userBadge.id,
+      userId: userBadge.user_id,
+      badgeId: userBadge.badge_id,
+      grantedAt: userBadge.granted_at,
+      grantedBy: userBadge.granted_by,
+      user: userMap[userBadge.user_id] ? {
+        id: userMap[userBadge.user_id].id,
+        username: userMap[userBadge.user_id].username,
+        nickname: userMap[userBadge.user_id].nickname,
+        avatar: userMap[userBadge.user_id].avatar
+      } : null
+    }));
+
+    // 搜索过滤
+    if (search) {
+      const searchLower = search.toLowerCase();
+      grants = grants.filter(grant => 
+        grant.user?.username?.toLowerCase().includes(searchLower) ||
+        grant.user?.nickname?.toLowerCase().includes(searchLower)
+      );
+    }
+
+    // 分页
+    const total = grants.length;
+    const startIndex = (page - 1) * limit;
+    const endIndex = startIndex + parseInt(limit);
+    const paginatedGrants = grants.slice(startIndex, endIndex);
+
+    return {
+      items: paginatedGrants,
+      total,
+      page: parseInt(page),
+      limit: parseInt(limit),
+      totalPages: Math.ceil(total / limit)
+    };
+  }
 }
 
 module.exports = new BadgeService();

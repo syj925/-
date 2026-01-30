@@ -16,6 +16,11 @@ module.exports = {
   SERVICE_BUSY: { code: 107, message: '服务繁忙，请稍后再试' },
   RATE_LIMIT_EXCEEDED: { code: 108, message: '请求过于频繁，请稍后再试' },
   INVALID_OPERATION: { code: 109, message: '无效的操作' },
+  RESOURCE_NOT_FOUND: { code: 110, message: '资源不存在' },
+  DATABASE_ERROR: { code: 111, message: '数据库操作失败' },
+  DUPLICATE_RESOURCE: { code: 112, message: '资源已存在' },
+  INVALID_INPUT: { code: 113, message: '输入数据无效' },
+  DATA_FORMAT_ERROR: { code: 114, message: '数据格式错误' },
 
   // 用户相关错误 (2xx)
   USER_NOT_EXIST: { code: 200, message: '用户不存在' },
@@ -60,6 +65,7 @@ module.exports = {
   INVALID_TARGET_TYPE: { code: 608, message: '不支持的目标类型' },
   ALREADY_FOLLOWED: { code: 609, message: '已关注该用户' },
   NOT_FOLLOWED: { code: 610, message: '未关注该用户' },
+  TOPIC_NOT_FOUND: { code: 611, message: '话题不存在' },
   
   // 消息相关错误 (7xx)
   MESSAGE_NOT_EXIST: { code: 700, message: '消息不存在' },
@@ -82,6 +88,7 @@ module.exports = {
   INVALID_TIME: { code: 810, message: '时间设置无效' },
   INVALID_STATUS: { code: 811, message: '状态无效' },
   INVALID_PARAMS: { code: 812, message: '参数无效' },
+  NOT_REGISTERED: { code: 813, message: '未报名此活动' },
 
   // 其他错误
   UNKNOWN_ERROR: { code: 999, message: '未知错误' }

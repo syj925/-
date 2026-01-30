@@ -1,6 +1,7 @@
 const { Post, User, Category, PostImage, Comment, Topic, Like, Favorite, Setting, Badge, UserBadge, sequelize } = require('../models');
 const { Op, Sequelize } = require('sequelize');
 const redisClient = require('../utils/redis-client');
+const logger = require('../../config/logger');
 
 /**
  * 帖子数据访问层
@@ -38,7 +39,7 @@ class PostRepository {
         try {
           return JSON.parse(cachedPost);
         } catch (error) {
-          console.error(`解析帖子缓存失败 (ID: ${id}):`, error);
+          logger.error(`解析帖子缓存失败 (ID: ${id}):`, error);
           // 如果解析失败，继续执行后续代码查询数据库
         }
       }
@@ -87,7 +88,7 @@ class PostRepository {
         // 注意：不要手动JSON.stringify，Redis客户端会自动处理序列化
         await redisClient.set(cacheKey, plainPost, 600); // 缓存10分钟
       } catch (error) {
-        console.error(`缓存帖子失败 (ID: ${id}):`, error);
+        logger.error(`缓存帖子失败 (ID: ${id}):`, error);
         // 缓存失败不影响正常功能，继续返回数据
       }
     }
@@ -340,12 +341,27 @@ class PostRepository {
     
     // 位置过滤（附近的帖子）
     if (nearbyLat && nearbyLng) {
-      // 使用 Haversine 公式计算距离
+      // 验证并安全化坐标参数，防止SQL注入
+      const safeLat = parseFloat(nearbyLat);
+      const safeLng = parseFloat(nearbyLng);
+      const safeDistance = parseFloat(nearbyDistance) || 10; // 默认10公里
+      
+      if (isNaN(safeLat) || safeLat < -90 || safeLat > 90) {
+        throw new Error('Invalid latitude');
+      }
+      if (isNaN(safeLng) || safeLng < -180 || safeLng > 180) {
+        throw new Error('Invalid longitude');
+      }
+      if (safeDistance <= 0) {
+        throw new Error('Invalid distance');
+      }
+      
+      // 使用 Haversine 公式计算距离（使用验证后的安全值）
       const haversineFormula = `
         6371 * acos(
-          cos(radians(${nearbyLat})) * cos(radians(latitude)) *
-          cos(radians(longitude) - radians(${nearbyLng})) +
-          sin(radians(${nearbyLat})) * sin(radians(latitude))
+          cos(radians(${safeLat})) * cos(radians(latitude)) *
+          cos(radians(longitude) - radians(${safeLng})) +
+          sin(radians(${safeLat})) * sin(radians(latitude))
         )
       `;
       
@@ -358,7 +374,7 @@ class PostRepository {
       queryOptions.where.latitude = { [Op.not]: null };
       queryOptions.where.longitude = { [Op.not]: null };
       
-      queryOptions.having = Sequelize.literal(`distance < ${nearbyDistance}`);
+      queryOptions.having = Sequelize.literal(`distance < ${safeDistance}`);
       
       if (orderBy === 'distance') {
         queryOptions.order = [
@@ -484,7 +500,7 @@ class PostRepository {
         try {
           return JSON.parse(cachedPosts);
         } catch (error) {
-          console.error('解析热门帖子缓存失败:', error);
+          logger.error('解析热门帖子缓存失败:', error);
           // 如果解析失败，继续执行后续代码查询数据库
         }
       }
@@ -864,7 +880,7 @@ class PostRepository {
 
       return likes.map(like => like.target_id);
     } catch (error) {
-      console.error('获取用户点赞帖子失败:', error);
+      logger.error('获取用户点赞帖子失败:', error);
       return [];
     }
   }
@@ -889,7 +905,7 @@ class PostRepository {
 
       return favorites.map(favorite => favorite.post_id);
     } catch (error) {
-      console.error('获取用户收藏帖子失败:', error);
+      logger.error('获取用户收藏帖子失败:', error);
       return [];
     }
   }
@@ -1047,15 +1063,84 @@ class PostRepository {
         await redisClient.del(cacheKey);
         await redisClient.del(`${cacheKey}:details`);
       } catch (cacheError) {
-        console.error(`清除帖子缓存失败 (ID: ${postId}):`, cacheError);
+        logger.error(`清除帖子缓存失败 (ID: ${postId}):`, cacheError);
         // 缓存清除失败不影响主要功能
       }
 
       return affectedRows > 0;
     } catch (error) {
-      console.error(`更新帖子计数失败 (ID: ${postId}, field: ${field}, increment: ${increment}):`, error);
+      logger.error(`更新帖子计数失败 (ID: ${postId}, field: ${field}, increment: ${increment}):`, error);
       throw error;
     }
+  }
+
+  /**
+   * 统计用户帖子数量
+   * @param {String} userId 用户ID
+   * @param {String} status 状态筛选 (可选)
+   * @returns {Promise<Number>} 帖子数量
+   */
+  async countByUserId(userId, status = null) {
+    const where = { user_id: userId };
+    if (status) {
+      where.status = status;
+    }
+    return await Post.count({ where });
+  }
+
+  /**
+   * 统计指定状态的帖子数量
+   * @param {String} status 帖子状态
+   * @returns {Promise<Number>} 帖子数量
+   */
+  async countByStatus(status) {
+    return await Post.count({ where: { status } });
+  }
+
+  /**
+   * 统计所有帖子数量
+   * @returns {Promise<Number>} 帖子总数
+   */
+  async countAll() {
+    return await Post.count();
+  }
+
+  /**
+   * 获取帖子统计信息
+   * @returns {Promise<Object>} 统计对象 {total, pending, approved, rejected, published}
+   */
+  async getPostStats() {
+    const [total, pending, approved, rejected, published] = await Promise.all([
+      Post.count(),
+      Post.count({ where: { status: 'pending' } }),
+      Post.count({ where: { status: 'approved' } }),
+      Post.count({ where: { status: 'rejected' } }),
+      Post.count({ where: { status: 'published' } })
+    ]);
+
+    return { total, pending, approved, rejected, published };
+  }
+
+  /**
+   * 分页获取用户帖子
+   * @param {String} userId 用户ID
+   * @param {Object} options 选项 {page, limit, status}
+   * @returns {Promise<Object>} {rows, count}
+   */
+  async findByUserIdPaginated(userId, options = {}) {
+    const { page = 1, limit = 10, status = null } = options;
+    
+    const where = { user_id: userId };
+    if (status) {
+      where.status = status;
+    }
+
+    return await Post.findAndCountAll({
+      where,
+      limit,
+      offset: (page - 1) * limit,
+      order: [['created_at', 'DESC']]
+    });
   }
 }
 

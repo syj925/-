@@ -81,7 +81,7 @@ class EventService {
 
     // 异步增加浏览次数，不等待结果
     eventRepository.incrementViewCount(id).catch(err => {
-      console.error('更新浏览量失败:', err);
+      logger.error('更新浏览量失败:', err);
     });
 
     // 如果有当前用户，检查报名状态（简化查询）
@@ -111,7 +111,7 @@ class EventService {
           };
         }
       } catch (error) {
-        console.error('检查报名状态失败:', error);
+        logger.error('检查报名状态失败:', error);
         // 如果报名状态查询失败，设置为未报名
         registrationStatus = {
           is_registered: false
@@ -484,6 +484,48 @@ class EventService {
    */
   async getUserEvents(userId, options = {}) {
     return await eventRepository.findByOrganizer(userId, options);
+  }
+
+  /**
+   * 获取全局活动统计数据（管理员用）
+   * @returns {Promise<Object>} 全局统计信息
+   */
+  async getGlobalStatistics() {
+    // 获取活动总数统计
+    const totalEvents = await eventRepository.count();
+    const upcomingEvents = await eventRepository.count({ status: 1 }); // 报名中
+    const ongoingEvents = await eventRepository.count({ status: 2 }); // 进行中
+    const endedEvents = await eventRepository.count({ status: 3 }); // 已结束
+    const canceledEvents = await eventRepository.count({ status: 0 }); // 已取消
+
+    // 获取报名统计
+    const totalRegistrations = await eventRegistrationRepository.count();
+    const activeRegistrations = await eventRegistrationRepository.count({ status: [1, 2] }); // 已报名和已参加
+    const canceledRegistrations = await eventRegistrationRepository.count({ status: 0 }); // 已取消
+
+    // 获取推荐活动数量
+    const recommendedEvents = await eventRepository.count({ is_recommended: true });
+
+    return {
+      events: {
+        total: totalEvents,
+        upcoming: upcomingEvents,
+        ongoing: ongoingEvents,
+        ended: endedEvents,
+        canceled: canceledEvents,
+        recommended: recommendedEvents
+      },
+      registrations: {
+        total: totalRegistrations,
+        active: activeRegistrations,
+        canceled: canceledRegistrations
+      },
+      summary: {
+        averageRegistrationsPerEvent: totalEvents > 0 ? Math.round(totalRegistrations / totalEvents * 100) / 100 : 0,
+        activeEventsRatio: totalEvents > 0 ? Math.round((upcomingEvents + ongoingEvents) / totalEvents * 100) : 0,
+        registrationCancelRate: totalRegistrations > 0 ? Math.round(canceledRegistrations / totalRegistrations * 100) : 0
+      }
+    };
   }
 }
 

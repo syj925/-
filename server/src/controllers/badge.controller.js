@@ -1,5 +1,4 @@
 const badgeService = require('../services/badge.service');
-const userBadgeRepository = require('../repositories/user-badge.repository');
 const { StatusCodes } = require('http-status-codes');
 const logger = require('../../config/logger');
 

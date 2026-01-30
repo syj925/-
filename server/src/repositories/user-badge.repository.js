@@ -1,6 +1,7 @@
 const { UserBadge, Badge, User } = require('../models');
 const { Op } = require('sequelize');
 const redisClient = require('../utils/redis-client');
+const logger = require('../../config/logger');
 
 /**
  * 用户徽章数据访问层
@@ -74,7 +75,7 @@ class UserBadgeRepository {
    * @returns {Promise<Boolean>} 是否成功撤销
    */
   async revokeBadge(userId, badgeId) {
-    console.log(`🗑️  开始撤销徽章（老方法） - userId: ${userId}, badgeId: ${badgeId}`);
+    logger.info(`🗑️  开始撤销徽章（老方法） - userId: ${userId}, badgeId: ${badgeId}`);
     
     const result = await UserBadge.destroy({
       where: { 
@@ -83,13 +84,13 @@ class UserBadgeRepository {
       }
     });
 
-    console.log(`🗑️  软删除操作结果（老方法）: ${result} 条记录被删除`);
+    logger.info(`🗑️  软删除操作结果（老方法）: ${result} 条记录被删除`);
 
     if (result > 0) {
       await this.clearUserBadgeCache(userId);
-      console.log(`✅ 徽章撤销成功（老方法） - userId: ${userId}, badgeId: ${badgeId}`);
+      logger.info(`✅ 徽章撤销成功（老方法） - userId: ${userId}, badgeId: ${badgeId}`);
     } else {
-      console.log(`❌ 徽章撤销失败（老方法） - userId: ${userId}, badgeId: ${badgeId}`);
+      logger.info(`❌ 徽章撤销失败（老方法） - userId: ${userId}, badgeId: ${badgeId}`);
     }
 
     return result > 0;
@@ -113,7 +114,7 @@ class UserBadgeRepository {
         return parsedData;
       }
     } catch (err) {
-      console.warn('Redis缓存读取失败，直接查询数据库:', err.message);
+      logger.warn('Redis缓存读取失败，直接查询数据库:', err.message);
     }
 
     const whereClause = { user_id: userId };
@@ -143,7 +144,7 @@ class UserBadgeRepository {
       const cacheData = JSON.stringify(userBadges);
       await redisClient.set(cacheKey, cacheData, 1800); // 缓存30分钟
     } catch (err) {
-      console.warn('Redis缓存写入失败:', err.message);
+      logger.warn('Redis缓存写入失败:', err.message);
     }
     
     return userBadges;
@@ -158,7 +159,7 @@ class UserBadgeRepository {
   async getUserBadgesFromDB(userId, options = {}) {
     const { includeHidden = false, type } = options;
     
-    console.log('🔍 [管理后台] 直接查询数据库获取用户徽章，绕过缓存', { 
+    logger.info('🔍 [管理后台] 直接查询数据库获取用户徽章，绕过缓存', { 
       userId, 
       includeHidden, 
       type 
@@ -186,7 +187,7 @@ class UserBadgeRepository {
       paranoid: true  // 明确排除软删除记录
     });
 
-    console.log('📊 [管理后台] 用户徽章查询结果:', {
+    logger.info('📊 [管理后台] 用户徽章查询结果:', {
       userId,
       badgeCount: userBadges.length,
       badges: userBadges.map(ub => ({
@@ -297,7 +298,7 @@ class UserBadgeRepository {
         return typeof cached === 'string' ? JSON.parse(cached) : cached;
       }
     } catch (err) {
-      console.warn('Redis缓存读取失败，直接查询数据库:', err.message);
+      logger.warn('Redis缓存读取失败，直接查询数据库:', err.message);
     }
 
     const stats = await UserBadge.findAll({
@@ -337,7 +338,7 @@ class UserBadgeRepository {
     try {
       await redisClient.set(cacheKey, JSON.stringify(result), 1800); // 缓存30分钟
     } catch (err) {
-      console.warn('Redis缓存写入失败:', err.message);
+      logger.warn('Redis缓存写入失败:', err.message);
     }
 
     return result;
@@ -524,7 +525,7 @@ class UserBadgeRepository {
         return JSON.parse(cached);
       }
     } catch (error) {
-      console.warn('获取用户徽章缓存失败:', error.message);
+      logger.warn('获取用户徽章缓存失败:', error.message);
     }
 
     // 构建查询条件
@@ -573,7 +574,7 @@ class UserBadgeRepository {
     try {
       await redisClient.setex(cacheKey, 300, JSON.stringify(result)); // 缓存5分钟
     } catch (error) {
-      console.warn('设置用户徽章缓存失败:', error.message);
+      logger.warn('设置用户徽章缓存失败:', error.message);
     }
 
     return result;
@@ -603,7 +604,7 @@ class UserBadgeRepository {
    * @returns {Promise<Boolean>} 是否成功
    */
   async revokeUserBadge(userId, badgeId) {
-    console.log(`🗑️  开始撤销徽章 - userId: ${userId}, badgeId: ${badgeId}`);
+    logger.info(`🗑️  开始撤销徽章 - userId: ${userId}, badgeId: ${badgeId}`);
     
     // 先检查记录是否存在（包括软删除的记录）
     const existingRecord = await UserBadge.findOne({
@@ -614,7 +615,7 @@ class UserBadgeRepository {
       paranoid: false  // 包括软删除的记录
     });
 
-    console.log(`🔍 撤销前记录检查结果:`, existingRecord ? {
+    logger.info(`🔍 撤销前记录检查结果:`, existingRecord ? {
       id: existingRecord.id,
       is_visible: existingRecord.is_visible,
       deletedAt: existingRecord.deletedAt,
@@ -622,13 +623,13 @@ class UserBadgeRepository {
     } : '无现有记录');
 
     if (!existingRecord) {
-      console.log(`❌ 撤销失败 - 记录不存在: userId=${userId}, badgeId=${badgeId}`);
+      logger.info(`❌ 撤销失败 - 记录不存在: userId=${userId}, badgeId=${badgeId}`);
       return false;  // 记录不存在
     }
 
     // 如果记录已经被软删除，直接返回成功（视为已撤销）
     if (existingRecord.deletedAt) {
-      console.log(`⚠️  用户徽章记录已被软删除: userId=${userId}, badgeId=${badgeId}`);
+      logger.info(`⚠️  用户徽章记录已被软删除: userId=${userId}, badgeId=${badgeId}`);
       return true;
     }
 
@@ -641,15 +642,15 @@ class UserBadgeRepository {
       // 使用默认软删除，不使用 force: true
     });
 
-    console.log(`🗑️  软删除操作结果: ${result} 条记录被删除`);
+    logger.info(`🗑️  软删除操作结果: ${result} 条记录被删除`);
 
     if (result > 0) {
       // 清除用户缓存
       await this.clearUserBadgeCache(userId);
-      console.log(`✅ 徽章撤销成功 - userId: ${userId}, badgeId: ${badgeId}`);
+      logger.info(`✅ 徽章撤销成功 - userId: ${userId}, badgeId: ${badgeId}`);
       return true;
     }
-    console.log(`❌ 徽章撤销失败 - 软删除操作返回0: userId=${userId}, badgeId=${badgeId}`);
+    logger.info(`❌ 徽章撤销失败 - 软删除操作返回0: userId=${userId}, badgeId=${badgeId}`);
     return false;
   }
 

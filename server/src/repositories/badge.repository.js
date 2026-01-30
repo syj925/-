@@ -1,6 +1,7 @@
 const { Badge, UserBadge, User } = require('../models');
 const { Op, Sequelize } = require('sequelize');
 const redisClient = require('../utils/redis-client');
+const logger = require('../../config/logger');
 
 /**
  * 徽章数据访问层
@@ -34,7 +35,7 @@ class BadgeRepository {
         return typeof cached === 'string' ? JSON.parse(cached) : cached;
       }
     } catch (err) {
-      console.warn('Redis缓存读取失败，直接查询数据库:', err.message);
+      logger.warn('Redis缓存读取失败，直接查询数据库:', err.message);
     }
 
     const badge = await Badge.findByPk(id);
@@ -43,7 +44,7 @@ class BadgeRepository {
       try {
         await redisClient.set(cacheKey, JSON.stringify(badge), 1800); // 缓存30分钟
       } catch (err) {
-        console.warn('Redis缓存写入失败:', err.message);
+        logger.warn('Redis缓存写入失败:', err.message);
       }
     }
     
@@ -62,7 +63,7 @@ class BadgeRepository {
       });
       return badge;
     } catch (err) {
-      console.error('根据名称查询徽章出错:', err);
+      logger.error('根据名称查询徽章出错:', err);
       return null;
     }
   }
@@ -87,7 +88,7 @@ class BadgeRepository {
         return typeof cached === 'string' ? JSON.parse(cached) : cached;
       }
     } catch (err) {
-      console.warn('Redis缓存读取失败，直接查询数据库:', err.message);
+      logger.warn('Redis缓存读取失败，直接查询数据库:', err.message);
     }
 
     let badges;
@@ -120,7 +121,7 @@ class BadgeRepository {
     try {
       await redisClient.set(cacheKey, JSON.stringify(badges), 1800); // 缓存30分钟
     } catch (err) {
-      console.warn('Redis缓存写入失败:', err.message);
+      logger.warn('Redis缓存写入失败:', err.message);
     }
 
     return badges;
@@ -134,7 +135,7 @@ class BadgeRepository {
   async findAllFromDB(options = {}) {
     const { type, status = 'active', includeUserCount = false } = options;
     
-    console.log('🔍 [管理后台] 直接查询数据库获取徽章列表，绕过缓存', { type, status, includeUserCount });
+    logger.info('🔍 [管理后台] 直接查询数据库获取徽章列表，绕过缓存', { type, status, includeUserCount });
     
     const whereClause = { status };
     if (type) whereClause.type = type;
@@ -165,7 +166,7 @@ class BadgeRepository {
       });
     }
 
-    console.log('📊 [管理后台] 数据库查询结果:', {
+    logger.info('📊 [管理后台] 数据库查询结果:', {
       badgeCount: badges.length,
       badges: badges.map(b => ({ id: b.id, name: b.name, status: b.status }))
     });
@@ -261,7 +262,7 @@ class BadgeRepository {
         return typeof cached === 'string' ? JSON.parse(cached) : cached;
       }
     } catch (err) {
-      console.warn('Redis缓存读取失败，直接查询数据库:', err.message);
+      logger.warn('Redis缓存读取失败，直接查询数据库:', err.message);
     }
 
     const badges = await Badge.findAll({
@@ -276,7 +277,7 @@ class BadgeRepository {
     try {
       await redisClient.set(cacheKey, JSON.stringify(badges), 3600); // 缓存1小时
     } catch (err) {
-      console.warn('Redis缓存写入失败:', err.message);
+      logger.warn('Redis缓存写入失败:', err.message);
     }
 
     return badges;
@@ -327,7 +328,7 @@ class BadgeRepository {
         return typeof cached === 'string' ? JSON.parse(cached) : cached;
       }
     } catch (err) {
-      console.warn('Redis缓存读取失败，直接查询数据库:', err.message);
+      logger.warn('Redis缓存读取失败，直接查询数据库:', err.message);
     }
 
     const stats = await Badge.findAll({
@@ -345,7 +346,7 @@ class BadgeRepository {
     try {
       await redisClient.set(cacheKey, JSON.stringify(stats), 1800); // 缓存30分钟
     } catch (err) {
-      console.warn('Redis缓存写入失败:', err.message);
+      logger.warn('Redis缓存写入失败:', err.message);
     }
 
     return stats;
@@ -410,9 +411,9 @@ class BadgeRepository {
         await redisClient.deletePattern(pattern);
       }
 
-      console.log('🧹 已清除所有徽章相关缓存');
+      logger.info('🧹 已清除所有徽章相关缓存');
     } catch (err) {
-      console.warn('清除徽章缓存失败:', err.message);
+      logger.warn('清除徽章缓存失败:', err.message);
     }
   }
 }

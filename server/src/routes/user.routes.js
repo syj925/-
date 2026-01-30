@@ -194,25 +194,7 @@ router.post('/change-password', AuthMiddleware.authenticate(), Validator.validat
 router.get('/search', AuthMiddleware.authenticate(), userController.searchUsers);
 
 // 获取用户今日发布统计
-router.get('/publish-stats', AuthMiddleware.authenticate(), async (req, res) => {
-  try {
-    const userId = req.user.id;
-    const stats = await PublishLimitMiddleware.getUserTodayStats(userId);
-
-    res.json({
-      code: 0,
-      message: '获取发布统计成功',
-      data: stats
-    });
-  } catch (error) {
-    console.error('获取发布统计失败:', error);
-    res.status(500).json({
-      code: 500,
-      message: '获取发布统计失败',
-      data: null
-    });
-  }
-});
+router.get('/publish-stats', AuthMiddleware.authenticate(), userController.getPublishStats);
 
 // 用户主页路由（支持可选认证）
 router.get('/profile/:id', AuthMiddleware.optionalAuthenticate(), userController.getUserProfile);

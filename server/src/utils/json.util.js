@@ -1,6 +1,7 @@
 /**
  * JSON处理工具类
  */
+const logger = require('../../config/logger');
 
 class JsonUtil {
   /**
@@ -61,7 +62,7 @@ class JsonUtil {
       
       return plainData;
     } catch (error) {
-      console.error('创建安全响应数据失败:', error);
+      logger.error('创建安全响应数据失败:', error);
       
       // 如果转换失败，返回基本信息
       if (data && typeof data === 'object') {
@@ -93,7 +94,7 @@ class JsonUtil {
     try {
       return JSON.parse(str);
     } catch (error) {
-      console.error('JSON解析失败:', error);
+      logger.error('JSON解析失败:', error);
       return defaultValue;
     }
   }

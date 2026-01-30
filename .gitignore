@@ -11,6 +11,12 @@ package-lock.json
 .env.development.local
 .env.test.local
 .env.production.local
+.env.production
+.env.development
+.env.test
+server/.env*
+!server/.env.example
+!server/.env.production.example
 
 # Logs
 logs/

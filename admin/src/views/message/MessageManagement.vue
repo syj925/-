@@ -116,7 +116,7 @@
         
         <div class="message-content">
           <h4>通知内容</h4>
-          <div class="content-box" v-html="currentSystemMessage.content"></div>
+          <div class="content-box" v-html="safeMessageContent"></div>
         </div>
       </div>
     </el-dialog>
@@ -291,6 +291,26 @@ import { ref, reactive, computed, onMounted } from 'vue';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import { Plus } from '@element-plus/icons-vue';
 import api from '@/utils/api';
+
+// 简单的HTML清理函数，移除危险标签和属性
+const sanitizeHtml = (html) => {
+  if (!html) return '';
+  // 移除script标签及其内容
+  let clean = html.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+  // 移除事件处理属性
+  clean = clean.replace(/\s*on\w+\s*=\s*["'][^"']*["']/gi, '');
+  clean = clean.replace(/\s*on\w+\s*=\s*[^\s>]+/gi, '');
+  // 移除javascript:链接
+  clean = clean.replace(/href\s*=\s*["']?javascript:[^"'\s>]*/gi, 'href="#"');
+  // 移除data:链接(可能包含恶意内容)
+  clean = clean.replace(/src\s*=\s*["']?data:[^"'\s>]*/gi, 'src=""');
+  return clean;
+};
+
+// 计算属性：安全的消息内容
+const safeMessageContent = computed(() => {
+  return sanitizeHtml(currentSystemMessage.content);
+});
 
 
 // 系统通知相关

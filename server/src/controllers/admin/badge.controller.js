@@ -20,7 +20,7 @@ class AdminBadgeController {
       } = req.query;
 
       // 管理后台直接查询数据库，不使用缓存确保数据实时性
-      console.log('🎯 [管理后台] 获取徽章列表，查询参数:', { type, status, search, page, limit });
+      logger.info('🎯 [管理后台] 获取徽章列表，查询参数:', { type, status, search, page, limit });
       let badges = await badgeService.getBadgesFromDB({ 
         type, 
         status, 
@@ -590,58 +590,17 @@ class AdminBadgeController {
         });
       }
 
-      // 获取徽章授予记录
-      const userBadgeRepository = require('../../repositories/user-badge.repository');
-      const userRepository = require('../../repositories/user.repository');
-      
-      // 获取该徽章的所有授予记录
-      let userBadges = await userBadgeRepository.findAll({
-        where: { badge_id: badgeId },
-        order: [['granted_at', 'DESC']]
+      // 获取徽章授予记录（通过 service）
+      const grantsResult = await badgeService.getBadgeGrants(badgeId, {
+        page: parseInt(page),
+        limit: parseInt(limit),
+        search
       });
-
-      // 获取用户信息
-      const userIds = userBadges.map(ub => ub.user_id);
-      const users = await userRepository.findByIds(userIds);
-      const userMap = users.reduce((map, user) => {
-        map[user.id] = user;
-        return map;
-      }, {});
-
-      // 组合数据
-      let grants = userBadges.map(userBadge => ({
-        id: userBadge.id,
-        userId: userBadge.user_id,
-        badgeId: userBadge.badge_id,
-        grantedAt: userBadge.granted_at,
-        grantedBy: userBadge.granted_by,
-        user: userMap[userBadge.user_id] ? {
-          id: userMap[userBadge.user_id].id,
-          username: userMap[userBadge.user_id].username,
-          nickname: userMap[userBadge.user_id].nickname,
-          avatar: userMap[userBadge.user_id].avatar
-        } : null
-      }));
-
-      // 搜索过滤
-      if (search) {
-        const searchLower = search.toLowerCase();
-        grants = grants.filter(grant => 
-          grant.user?.username?.toLowerCase().includes(searchLower) ||
-          grant.user?.nickname?.toLowerCase().includes(searchLower)
-        );
-      }
-
-      // 分页
-      const total = grants.length;
-      const startIndex = (page - 1) * limit;
-      const endIndex = startIndex + parseInt(limit);
-      const paginatedGrants = grants.slice(startIndex, endIndex);
 
       logger.info('获取徽章授予记录成功', {
         adminId: req.user.id,
         badgeId,
-        total,
+        total: grantsResult.total,
         page: parseInt(page),
         limit: parseInt(limit)
       });
@@ -649,11 +608,7 @@ class AdminBadgeController {
       res.status(StatusCodes.OK).json({
         success: true,
         data: {
-          items: paginatedGrants,
-          total,
-          page: parseInt(page),
-          limit: parseInt(limit),
-          totalPages: Math.ceil(total / limit),
+          ...grantsResult,
           badge: {
             id: badge.id,
             name: badge.name,

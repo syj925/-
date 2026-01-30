@@ -307,6 +307,41 @@ class FollowRepository {
       }
     };
   }
+
+  /**
+   * 统计用户的粉丝数量
+   * @param {String} userId 用户ID
+   * @returns {Promise<Number>} 粉丝数量
+   */
+  async countFollowers(userId) {
+    return await Follow.count({
+      where: { following_id: userId }
+    });
+  }
+
+  /**
+   * 统计用户关注的人数
+   * @param {String} userId 用户ID
+   * @returns {Promise<Number>} 关注数量
+   */
+  async countFollowing(userId) {
+    return await Follow.count({
+      where: { follower_id: userId }
+    });
+  }
+
+  /**
+   * 获取用户关注的所有用户ID列表
+   * @param {String} followerId 用户ID
+   * @returns {Promise<Array>} 被关注的用户ID列表
+   */
+  async findFollowingIds(followerId) {
+    const follows = await Follow.findAll({
+      where: { follower_id: followerId },
+      attributes: ['following_id']
+    });
+    return follows.map(f => f.following_id);
+  }
 }
 
 module.exports = new FollowRepository();

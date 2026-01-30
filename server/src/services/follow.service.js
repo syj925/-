@@ -110,7 +110,7 @@ class FollowService {
       
       logger.info(`关注操作已加入队列: ${followerId} -> ${followingId}`);
     } catch (error) {
-      console.warn('更新关注缓存失败，但不影响关注操作:', error);
+      logger.warn('更新关注缓存失败，但不影响关注操作:', error);
     }
 
     // 发送消息通知
@@ -120,7 +120,7 @@ class FollowService {
       title: '新粉丝通知',
       content: `${follower.nickname || follower.username} 关注了你`,
       type: 'follow'
-    }).catch(err => console.error('发送关注通知失败', err));
+    }).catch(err => logger.error('发送关注通知失败', err));
     
     return {
       success: true,
@@ -215,7 +215,7 @@ class FollowService {
       
       logger.info(`取消关注操作已加入队列: ${followerId} -> ${followingId}`);
     } catch (error) {
-      console.warn('更新取消关注缓存失败，但不影响取消关注操作:', error);
+      logger.warn('更新取消关注缓存失败，但不影响取消关注操作:', error);
     }
     
     return {

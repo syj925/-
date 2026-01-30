@@ -1,29 +1,32 @@
 {
   "development": {
     "username": "root",
-    "password": "20060711",
+    "password": null,
     "database": "campus_community",
     "host": "127.0.0.1",
     "port": 3306,
     "dialect": "mysql",
-    "timezone": "+08:00"
+    "timezone": "+08:00",
+    "use_env_variable": "DATABASE_URL"
   },
   "test": {
     "username": "root",
-    "password": "20060711",
+    "password": null,
     "database": "campus_community_test",
     "host": "127.0.0.1",
     "port": 3306,
     "dialect": "mysql",
-    "timezone": "+08:00"
+    "timezone": "+08:00",
+    "use_env_variable": "DATABASE_URL"
   },
   "production": {
-    "username": "root",
-    "password": "20060711",
-    "database": "campus_community",
-    "host": "127.0.0.1",
+    "username": null,
+    "password": null,
+    "database": null,
+    "host": null,
     "port": 3306,
     "dialect": "mysql",
-    "timezone": "+08:00"
+    "timezone": "+08:00",
+    "use_env_variable": "DATABASE_URL"
   }
-} 
+}

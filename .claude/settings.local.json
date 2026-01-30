@@ -1,9 +1,0 @@
-{
-  "alwaysThinkingEnabled": false,
-  "permissions": {
-    "allow": [
-      "Bash(git:*)"
-    ]
-  },
-  "outputStyle": "Structural Thinking"
-}

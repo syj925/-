@@ -2,8 +2,6 @@ const { StatusCodes } = require('http-status-codes');
 const { ResponseUtil } = require('../../utils');
 const eventService = require('../../services/event.service');
 const eventRegistrationService = require('../../services/event-registration.service');
-const eventRepository = require('../../repositories/event.repository');
-const eventRegistrationRepository = require('../../repositories/event-registration.repository');
 const logger = require('../../../config/logger');
 
 /**
@@ -87,7 +85,7 @@ class AdminEventController {
       logger.info('管理员获取活动详情', { eventId: id });
 
       const event = await eventService.getEventById(id);
-      const statistics = await eventRepository.getStatistics(id);
+      const statistics = await eventService.getEventStatistics(id);
 
       res.status(StatusCodes.OK).json(ResponseUtil.success({
         event,
@@ -237,7 +235,7 @@ class AdminEventController {
         endDate
       };
 
-      const result = await eventRegistrationRepository.findByEvent(eventId, options);
+      const result = await eventRegistrationService.getEventRegistrations(eventId, options);
 
       return res.status(StatusCodes.OK).json(ResponseUtil.success(result, '获取报名列表成功'));
 
@@ -262,7 +260,7 @@ class AdminEventController {
 
       logger.info('管理员更新报名状态', { eventId, registrationId, status, adminId });
 
-      const registration = await eventRegistrationRepository.update(registrationId, {
+      const registration = await eventRegistrationService.adminUpdateRegistration(registrationId, {
         status: parseInt(status),
         admin_note: reason,
         updated_by: adminId
@@ -313,9 +311,7 @@ class AdminEventController {
       };
 
       // 批量更新
-      const results = await Promise.all(
-        registrationIds.map(id => eventRegistrationRepository.update(id, updateData))
-      );
+      const results = await eventRegistrationService.adminBatchUpdateRegistrations(registrationIds, updateData);
 
       return res.status(StatusCodes.OK).json(ResponseUtil.success({
         updated: results.length,
@@ -342,41 +338,7 @@ class AdminEventController {
     try {
       logger.info('管理员获取全局活动统计');
 
-      // 获取活动总数统计
-      const totalEvents = await eventRepository.count();
-      const upcomingEvents = await eventRepository.count({ status: 1 }); // 报名中
-      const ongoingEvents = await eventRepository.count({ status: 2 }); // 进行中
-      const endedEvents = await eventRepository.count({ status: 3 }); // 已结束
-      const canceledEvents = await eventRepository.count({ status: 0 }); // 已取消
-
-      // 获取报名统计
-      const totalRegistrations = await eventRegistrationRepository.count();
-      const activeRegistrations = await eventRegistrationRepository.count({ status: [1, 2] }); // 已报名和已参加
-      const canceledRegistrations = await eventRegistrationRepository.count({ status: 0 }); // 已取消
-
-      // 获取推荐活动数量
-      const recommendedEvents = await eventRepository.count({ is_recommended: true });
-
-      const statistics = {
-        events: {
-          total: totalEvents,
-          upcoming: upcomingEvents,
-          ongoing: ongoingEvents,
-          ended: endedEvents,
-          canceled: canceledEvents,
-          recommended: recommendedEvents
-        },
-        registrations: {
-          total: totalRegistrations,
-          active: activeRegistrations,
-          canceled: canceledRegistrations
-        },
-        summary: {
-          averageRegistrationsPerEvent: totalEvents > 0 ? Math.round(totalRegistrations / totalEvents * 100) / 100 : 0,
-          activeEventsRatio: totalEvents > 0 ? Math.round((upcomingEvents + ongoingEvents) / totalEvents * 100) : 0,
-          registrationCancelRate: totalRegistrations > 0 ? Math.round(canceledRegistrations / totalRegistrations * 100) : 0
-        }
-      };
+      const statistics = await eventService.getGlobalStatistics();
 
       return res.status(StatusCodes.OK).json(ResponseUtil.success(statistics, '获取全局活动统计成功'));
 
@@ -399,7 +361,7 @@ class AdminEventController {
 
       logger.info('管理员获取活动统计', { eventId: id });
 
-      const statistics = await eventRepository.getStatistics(id);
+      const statistics = await eventService.getEventStatistics(id);
       
       if (!statistics) {
         return res.status(StatusCodes.NOT_FOUND).json(
@@ -433,7 +395,7 @@ class AdminEventController {
       const event = await eventService.getEventById(eventId);
 
       // 获取所有报名数据
-      const registrations = await eventRegistrationRepository.findByEvent(eventId, {
+      const registrationResult = await eventRegistrationService.getEventRegistrations(eventId, {
         page: 1,
         limit: 10000 // 获取所有数据
       });
@@ -527,7 +489,7 @@ class AdminEventController {
       });
 
       // 添加数据行
-      registrations.registrations.forEach(registration => {
+      registrationResult.registrations.forEach(registration => {
         const row = [];
 
         // 添加基础字段数据
@@ -605,7 +567,7 @@ class AdminEventController {
       await workbook.xlsx.write(res);
       res.end();
 
-      logger.info('Excel导出成功', { eventId, fileName, totalCount: registrations.total });
+      logger.info('Excel导出成功', { eventId, fileName, totalCount: registrationResult.total });
 
     } catch (error) {
       logger.error('导出活动报名数据失败', { error: error.message, eventId: req.params.id });

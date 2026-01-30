@@ -83,6 +83,7 @@ router.get('/:id',
 // 创建标签（需要管理员权限）
 router.post('/',
   AuthMiddleware.authenticate(),
+  AuthMiddleware.authorize(['admin']),
   RateLimitMiddleware.createLimiter({ windowMs: 15 * 60 * 1000, max: 50 }),
   Validator.validateBody(createTagSchema),
   tagController.createTag
@@ -91,6 +92,7 @@ router.post('/',
 // 更新标签（需要管理员权限）
 router.put('/:id',
   AuthMiddleware.authenticate(),
+  AuthMiddleware.authorize(['admin']),
   RateLimitMiddleware.createLimiter({ windowMs: 15 * 60 * 1000, max: 100 }),
   Validator.validateBody(updateTagSchema),
   tagController.updateTag
@@ -99,6 +101,7 @@ router.put('/:id',
 // 删除标签（需要管理员权限）
 router.delete('/:id',
   AuthMiddleware.authenticate(),
+  AuthMiddleware.authorize(['admin']),
   RateLimitMiddleware.createLimiter({ windowMs: 15 * 60 * 1000, max: 50 }),
   tagController.deleteTag
 );
@@ -106,6 +109,7 @@ router.delete('/:id',
 // 切换标签热门状态（需要管理员权限）
 router.patch('/:id/toggle-hot',
   AuthMiddleware.authenticate(),
+  AuthMiddleware.authorize(['admin']),
   RateLimitMiddleware.createLimiter({ windowMs: 15 * 60 * 1000, max: 100 }),
   tagController.toggleHotStatus
 );
@@ -113,6 +117,7 @@ router.patch('/:id/toggle-hot',
 // 切换标签状态（启用/禁用）（需要管理员权限）
 router.patch('/:id/toggle-status',
   AuthMiddleware.authenticate(),
+  AuthMiddleware.authorize(['admin']),
   RateLimitMiddleware.createLimiter({ windowMs: 15 * 60 * 1000, max: 100 }),
   tagController.toggleStatus
 );
@@ -120,6 +125,7 @@ router.patch('/:id/toggle-status',
 // 批量更新标签状态（需要管理员权限）
 router.patch('/batch/status',
   AuthMiddleware.authenticate(),
+  AuthMiddleware.authorize(['admin']),
   RateLimitMiddleware.createLimiter({ windowMs: 15 * 60 * 1000, max: 20 }),
   Validator.validateBody(batchUpdateSchema),
   tagController.batchUpdateStatus
@@ -128,6 +134,7 @@ router.patch('/batch/status',
 // 获取标签统计信息（需要管理员权限）
 router.get('/admin/statistics',
   AuthMiddleware.authenticate(),
+  AuthMiddleware.authorize(['admin']),
   RateLimitMiddleware.createLimiter({ windowMs: 15 * 60 * 1000, max: 50 }),
   tagController.getTagStatistics
 );

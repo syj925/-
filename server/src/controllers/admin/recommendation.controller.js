@@ -1,11 +1,11 @@
 const recommendationService = require('../../services/recommendation.service.v2');
-const settingRepository = require('../../repositories/setting.repository');
+const settingService = require('../../services/setting.service');
+const postService = require('../../services/post.service');
 const { ResponseUtil } = require('../../utils');
 const { StatusCodes } = require('http-status-codes');
 const logger = require('../../../config/logger');
-const { Post } = require('../../models');
-const redisClient = require('../../utils/redis-client'); // 🆕 添加Redis客户端导入
-const RecommendationPresets = require('../../../config/recommendation-presets'); // 🆕 预设配置
+const redisClient = require('../../utils/redis-client');
+const RecommendationPresets = require('../../../config/recommendation-presets');
 
 /**
  * 管理员推荐算法控制器
@@ -126,7 +126,7 @@ class AdminRecommendationController {
       if (enableSearchPageRecommend !== undefined) settingsToUpdate.enableSearchPageRecommend = enableSearchPageRecommend;
       if (searchRecommendTypes !== undefined) settingsToUpdate.searchRecommendTypes = JSON.stringify(searchRecommendTypes);
 
-      await settingRepository.setMultipleSettings(settingsToUpdate);
+      await settingService.setMultipleSettings(settingsToUpdate);
 
       // 清除推荐缓存
       await recommendationService.clearRecommendationCache();
@@ -156,7 +156,7 @@ class AdminRecommendationController {
         adminUsername: req.admin?.username
       });
 
-      const results = await settingRepository.initializeRecommendationSettings();
+      const results = await settingService.initializeRecommendationSettings();
 
       // 清除推荐缓存
       await recommendationService.clearRecommendationCache();
@@ -549,19 +549,17 @@ class AdminRecommendationController {
   async calculateRecommendationStats() {
     try {
       // 获取推荐设置
-      const recommendationService = require('../../services/recommendation.service.v2');
-      const postRepository = require('../../repositories/post.repository');
       const settings = await recommendationService.getRecommendationSettings();
 
       const [totalPosts, adminRecommendedPosts] = await Promise.all([
-        Post.count({ where: { status: 'published' } }),
-        Post.count({ where: { status: 'published', is_recommended: true } })
+        postService.countPosts({ status: 'published' }),
+        postService.countPosts({ status: 'published', is_recommended: true })
       ]);
 
       // 使用真实的候选帖子筛选逻辑
       let algorithmCandidates = 0;
       try {
-        const candidates = await postRepository.findCandidatesForRecommendation({
+        const candidates = await postService.findCandidatesForRecommendation({
           pageSize: 1000, // 获取所有候选帖子用于统计
           excludeIds: [], // 不排除任何帖子
           maxAgeDays: settings.maxAgeDays || 30,
@@ -652,7 +650,7 @@ class AdminRecommendationController {
       const preset = RecommendationPresets[presetId];
       
       // 批量更新设置
-      await settingRepository.setMultipleSettings(preset.settings);
+      await settingService.setMultipleSettings(preset.settings);
 
       // 清除推荐缓存
       await recommendationService.clearRecommendationCache();
@@ -744,7 +742,7 @@ class AdminRecommendationController {
       }
 
       // 批量更新设置
-      await settingRepository.setMultipleSettings(configData.settings);
+      await settingService.setMultipleSettings(configData.settings);
 
       // 清除推荐缓存
       await recommendationService.clearRecommendationCache();

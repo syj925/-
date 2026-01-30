@@ -228,7 +228,7 @@ class UserService {
       stats = await this.getUserStats(id);
 
     } catch (error) {
-      console.error('🔍 getUserStats error:', error);
+      logger.error('🔍 getUserStats error:', error);
       stats = {
         postCount: 0,
         likeCount: 0,
@@ -623,7 +623,8 @@ class UserService {
     await redisClient.set(key, code, 600);
     
     // TODO: 调用短信发送接口
-    logger.info(`向手机号 ${phone} 发送验证码: ${code}`);
+    logger.info(`向手机号 ${phone} 发送验证码成功`);
+    // 注意: 生产环境中不应该记录验证码值
     
     return true;
   }
@@ -1075,6 +1076,163 @@ class UserService {
       logger.error('查找用户列表失败:', error);
       throw error;
     }
+  }
+
+  /**
+   * 获取用户今日发布统计
+   * @param {Number} userId 用户ID
+   * @returns {Promise<Object>} 发布统计
+   */
+  async getUserTodayPublishStats(userId) {
+    try {
+      // 使用 PublishLimitMiddleware 的方法获取统计
+      const PublishLimitMiddleware = require('../middlewares/publish-limit.middleware');
+      const stats = await PublishLimitMiddleware.getUserTodayStats(userId);
+      return stats;
+    } catch (error) {
+      logger.error('获取用户今日发布统计失败:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * 获取用户设置
+   * @param {Number} userId 用户ID
+   * @param {Array} attributes 需要返回的字段
+   * @returns {Promise<Object>} 用户对象
+   */
+  async findById(userId, attributes = null) {
+    const options = {};
+    if (attributes) {
+      options.attributes = attributes;
+    }
+    return await userRepository.findById(userId);
+  }
+
+  /**
+   * 获取用户设置信息
+   * @param {Number} userId 用户ID
+   * @returns {Promise<Object>} 包含 settings 字段的用户对象
+   */
+  async getUserSettings(userId) {
+    const user = await userRepository.findByIdWithSettings(userId);
+    if (!user) {
+      return null;
+    }
+    return user;
+  }
+
+  /**
+   * 更新用户设置
+   * @param {Number} userId 用户ID
+   * @param {Object} settings 设置对象
+   * @returns {Promise<Object>} 更新后的用户对象
+   */
+  async updateUserSettings(userId, settings) {
+    const user = await userRepository.findByIdWithSettings(userId);
+    if (!user) {
+      return null;
+    }
+    
+    // 合并设置
+    const currentSettings = user.settings || {};
+    const newSettings = { ...currentSettings, ...settings };
+    
+    // 更新用户
+    await userRepository.update(userId, { settings: newSettings });
+    
+    // 返回更新后的用户
+    return await userRepository.findByIdWithSettings(userId);
+  }
+
+  /**
+   * 更新用户隐私设置
+   * @param {Number} userId 用户ID
+   * @param {Object} privacySettings 隐私设置
+   * @returns {Promise<Object>} 更新后的隐私设置
+   */
+  async updatePrivacySettings(userId, privacySettings) {
+    const user = await userRepository.findByIdWithSettings(userId);
+    if (!user) {
+      return null;
+    }
+    
+    // 获取当前设置或初始化
+    let currentSettings = user.settings || { privacy: {} };
+    
+    // 更新隐私设置
+    currentSettings.privacy = {
+      ...currentSettings.privacy,
+      ...privacySettings
+    };
+    
+    // 保存到数据库 - 使用 Sequelize 实例方法
+    user.settings = currentSettings;
+    user.changed('settings', true);
+    await user.save();
+    
+    return currentSettings.privacy;
+  }
+
+  /**
+   * 获取用户隐私设置
+   * @param {Number} userId 用户ID
+   * @returns {Promise<Object>} 隐私设置
+   */
+  async getPrivacySettings(userId) {
+    const user = await userRepository.findByIdWithSettings(userId);
+    if (!user) {
+      return null;
+    }
+    
+    // 返回隐私设置，如果没有则返回默认值
+    return user.settings?.privacy || {
+      anonymousMode: false,
+      allowSearch: true,
+      showLocation: false,
+      allowFollow: true,
+      allowComment: true,
+      allowMessage: true,
+      favoriteVisible: false,
+      followListVisible: true,
+      fansListVisible: true
+    };
+  }
+
+  /**
+   * 创建用户拒绝记录
+   * @param {Object} data 拒绝记录数据
+   * @returns {Promise<Object>} 创建的记录
+   */
+  async createRejectionLog(data) {
+    const userRejectionLogRepository = require('../repositories/user-rejection-log.repository');
+    return await userRejectionLogRepository.create(data);
+  }
+
+  /**
+   * 获取用户拒绝记录列表
+   * @param {Object} options 查询选项
+   * @returns {Promise<Object>} 分页结果
+   */
+  async getRejectionLogs(options = {}) {
+    const userRejectionLogRepository = require('../repositories/user-rejection-log.repository');
+    const { page = 1, limit = 20, username, startTime, endTime } = options;
+    
+    const result = await userRejectionLogRepository.findAndCountAll({
+      page,
+      limit,
+      username,
+      startTime,
+      endTime
+    });
+
+    return {
+      list: result.rows,
+      total: result.count,
+      page: parseInt(page),
+      limit: parseInt(limit),
+      totalPages: Math.ceil(result.count / parseInt(limit))
+    };
   }
 }
 

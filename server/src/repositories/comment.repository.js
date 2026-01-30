@@ -538,6 +538,61 @@ class CommentRepository {
 
     return mentions;
   }
+
+  /**
+   * 统计用户评论数量
+   * @param {String} userId 用户ID
+   * @returns {Promise<Number>} 评论数量
+   */
+  async countByUserId(userId) {
+    return await Comment.count({ where: { user_id: userId } });
+  }
+
+  /**
+   * 统计帖子的评论数量
+   * @param {String} postId 帖子ID
+   * @param {Boolean} includeReplies 是否包含回复
+   * @returns {Promise<Number>} 评论数量
+   */
+  async countByPostId(postId, includeReplies = true) {
+    const where = { post_id: postId, status: 'normal' };
+    if (!includeReplies) {
+      where.reply_to = null;
+    }
+    return await Comment.count({ where });
+  }
+
+  /**
+   * 统计指定状态的评论数量
+   * @param {String} status 评论状态
+   * @returns {Promise<Number>} 评论数量
+   */
+  async countByStatus(status) {
+    return await Comment.count({ where: { status } });
+  }
+
+  /**
+   * 统计所有评论数量
+   * @returns {Promise<Number>} 评论总数
+   */
+  async countAll() {
+    return await Comment.count();
+  }
+
+  /**
+   * 获取评论统计信息
+   * @returns {Promise<Object>} 统计对象 {total, normal, hidden, deleted}
+   */
+  async getCommentStats() {
+    const [total, normal, hidden, deleted] = await Promise.all([
+      Comment.count(),
+      Comment.count({ where: { status: 'normal' } }),
+      Comment.count({ where: { status: 'hidden' } }),
+      Comment.count({ where: { status: 'deleted' } })
+    ]);
+
+    return { total, normal, hidden, deleted };
+  }
 }
 
 module.exports = new CommentRepository(); 
