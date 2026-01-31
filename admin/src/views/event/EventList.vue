@@ -339,6 +339,7 @@ import { ref, reactive, onMounted, watch } from 'vue';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import { Plus, Delete } from '@element-plus/icons-vue';
 import api from '../../utils/api.js';
+import { formatDate as formatDateTime, formatId } from '../../utils/format';
 import { useRouter } from 'vue-router';
 // 暂时注释掉API配置，先让基本功能工作
 // import {
@@ -613,10 +614,7 @@ const handleToggleStatus = async (row) => {
   }
 };
 
-const formatId = (id) => {
-  if (!id) return '';
-  return id.substring(0, 8) + '...';
-};
+
 
 const getTagType = (status) => {
   const map = {
@@ -792,23 +790,7 @@ const getUploadHeaders = () => {
   return token ? { 'Authorization': `Bearer ${token}` } : {};
 };
 
-// 格式化日期时间
-const formatDateTime = (timestamp) => {
-  if (!timestamp) return '暂未设置';
-  try {
-    const date = new Date(timestamp);
-    return date.toLocaleString('zh-CN', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
-  } catch (e) {
-    console.error('日期格式化错误:', e);
-    return timestamp;
-  }
-};
+
 
 // 添加活动须知
 const addNotice = () => {
@@ -1082,5 +1064,21 @@ const handleDeleteEvent = async (row) => {
 .option-item .el-input {
   flex: 1;
   margin-right: 10px;
+}
+
+/* ID显示样式 */
+.id-display {
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  color: #666;
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 3px;
+  background-color: #f5f5f5;
+}
+
+.id-display:hover {
+  background-color: #e6f7ff;
+  color: #1890ff;
 }
 </style> 

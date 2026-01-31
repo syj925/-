@@ -13,7 +13,13 @@
       
       <!-- 帖子审核表格 -->
       <el-table v-if="auditType === 'posts'" :data="postsAuditList" style="width: 100%" v-loading="loading">
-        <el-table-column prop="id" label="ID" width="80" />
+        <el-table-column label="ID" width="100">
+          <template #default="scope">
+            <el-tooltip :content="scope.row.id" placement="top">
+              <span class="id-display">{{ formatId(scope.row.id) }}</span>
+            </el-tooltip>
+          </template>
+        </el-table-column>
         <el-table-column prop="content" label="内容" show-overflow-tooltip />
         <el-table-column label="作者" width="120">
           <template #default="scope">
@@ -50,7 +56,13 @@
       
       <!-- 评论审核表格 -->
       <el-table v-else :data="commentsAuditList" style="width: 100%" v-loading="loading">
-        <el-table-column prop="id" label="ID" width="80" />
+        <el-table-column label="ID" width="100">
+          <template #default="scope">
+            <el-tooltip :content="scope.row.id" placement="top">
+              <span class="id-display">{{ formatId(scope.row.id) }}</span>
+            </el-tooltip>
+          </template>
+        </el-table-column>
         <el-table-column prop="content" label="评论内容" show-overflow-tooltip />
         <el-table-column label="所属帖子" width="180" show-overflow-tooltip>
           <template #default="scope">
@@ -187,14 +199,12 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, reactive, onMounted } from 'vue';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import api from '@/utils/api';
+import { formatDate, formatId } from '@/utils/format';
 
-// 审核类型：帖子或评论
 const auditType = ref('posts');
-
-// 加载状态
 const loading = ref(false);
 
 // 分页相关
@@ -275,12 +285,7 @@ const handleCurrentChange = (page) => {
   fetchPendingContent();
 };
 
-// 格式化日期
-const formatDate = (dateString) => {
-  if (!dateString) return '未知';
-  const date = new Date(dateString);
-  return date.toLocaleString();
-};
+
 
 // 查看内容详情对话框相关
 const viewDialogVisible = ref(false);
@@ -401,19 +406,19 @@ const handleReject = async (row, type) => {
   justify-content: center;
 }
 
-.content-detail .content-text {
-  max-height: 200px;
-  overflow-y: auto;
-  padding: 10px;
+/* ID显示样式 */
+.id-display {
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  color: #666;
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 3px;
   background-color: #f5f5f5;
-  border-radius: 4px;
-  white-space: pre-wrap;
-  word-break: break-word;
 }
 
-.content-detail .content-images {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+.id-display:hover {
+  background-color: #e6f7ff;
+  color: #1890ff;
 }
-</style> 
+</style>

@@ -48,7 +48,13 @@
           
           <!-- 系统通知列表 -->
           <el-table :data="systemMessageList" style="width: 100%" v-loading="systemLoading">
-            <el-table-column prop="id" label="ID" width="80" />
+            <el-table-column label="ID" width="100">
+              <template #default="scope">
+                <el-tooltip :content="scope.row.id" placement="top">
+                  <span class="id-display">{{ formatId(scope.row.id) }}</span>
+                </el-tooltip>
+              </template>
+            </el-table-column>
             <el-table-column prop="title" label="通知标题" min-width="180" show-overflow-tooltip />
             <el-table-column prop="type" label="类型" width="100">
               <template #default="scope">
@@ -291,6 +297,7 @@ import { ref, reactive, computed, onMounted } from 'vue';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import { Plus } from '@element-plus/icons-vue';
 import api from '@/utils/api';
+import { formatId } from '@/utils/format';
 
 // 简单的HTML清理函数，移除危险标签和属性
 const sanitizeHtml = (html) => {
@@ -755,5 +762,21 @@ const handleRecipientsPageChange = (val) => {
 .stats-item .value {
   color: #409EFF;
   font-weight: 600;
+}
+
+/* ID显示样式 */
+.id-display {
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  color: #666;
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 3px;
+  background-color: #f5f5f5;
+}
+
+.id-display:hover {
+  background-color: #e6f7ff;
+  color: #1890ff;
 }
 </style> 

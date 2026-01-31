@@ -35,7 +35,13 @@
         </div>
       </template>
       <el-table :data="postsList" style="width: 100%" v-loading="loading">
-        <el-table-column prop="id" label="ID" width="80" />
+        <el-table-column label="ID" width="100">
+          <template #default="scope">
+            <el-tooltip :content="scope.row.id" placement="top">
+              <span class="id-display">{{ formatId(scope.row.id) }}</span>
+            </el-tooltip>
+          </template>
+        </el-table-column>
         <el-table-column label="内容" min-width="180" show-overflow-tooltip>
           <template #default="scope">
             {{ scope.row.content }}
@@ -235,10 +241,11 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, reactive } from 'vue';
-import { ElMessage, ElMessageBox } from 'element-plus';
+import { ref, reactive, onMounted } from 'vue';
 import { Search } from '@element-plus/icons-vue';
 import api from '@/utils/api';
+import { formatDate, formatId } from '@/utils/format';
+import { ElMessage, ElMessageBox } from 'element-plus';
 
 // 加载状态
 const loading = ref(false);
@@ -378,12 +385,7 @@ const getStatusText = (status) => {
   return map[status] || '未知';
 };
 
-// 格式化日期
-const formatDate = (dateString) => {
-  if (!dateString) return '未知';
-  const date = new Date(dateString);
-  return date.toLocaleString();
-};
+
 
 // 获取图片URL - 处理不同的图片数据格式
 const getImageUrl = (image) => {
@@ -598,94 +600,19 @@ const handleRecommend = async (row, isRecommended) => {
   justify-content: center;
 }
 
-.post-detail .post-content {
-  max-height: 200px;
-  overflow-y: auto;
-  padding: 10px;
-  background-color: #f5f5f5;
-  border-radius: 4px;
-  white-space: pre-wrap;
-  word-break: break-word;
-}
-
-.post-detail .post-images {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-/* 评论列表样式 */
-.comments-section {
-  max-height: 400px;
-  overflow-y: auto;
-}
-
-.no-comments {
-  text-align: center;
-  padding: 20px;
-}
-
-.comments-list {
-  max-height: 300px;
-  overflow-y: auto;
-}
-
-.comment-item {
-  padding: 12px;
-  border-bottom: 1px solid #f0f0f0;
-  margin-bottom: 8px;
-}
-
-.comment-item:last-child {
-  border-bottom: none;
-}
-
-.comment-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
-}
-
-.comment-author {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.author-name {
-  font-weight: 500;
-  color: #333;
-}
-
-.comment-meta {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.comment-time {
-  font-size: 12px;
-  color: #999;
-}
-
-.comment-content {
-  margin: 8px 0;
-  line-height: 1.5;
-  color: #333;
-  word-break: break-word;
-}
-
-.comment-stats {
-  display: flex;
-  gap: 16px;
+/* ID显示样式 */
+.id-display {
+  font-family: 'Courier New', monospace;
   font-size: 12px;
   color: #666;
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 3px;
+  background-color: #f5f5f5;
 }
 
-.comments-pagination {
-  margin-top: 16px;
-  display: flex;
-  justify-content: center;
+.id-display:hover {
+  background-color: #e6f7ff;
+  color: #1890ff;
 }
-</style> 
+</style>

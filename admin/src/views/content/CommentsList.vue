@@ -20,7 +20,13 @@
         </div>
       </template>
       <el-table :data="commentsList" style="width: 100%" v-loading="loading" row-key="id">
-        <el-table-column prop="id" label="ID" width="80" />
+        <el-table-column label="ID" width="100">
+          <template #default="scope">
+            <el-tooltip :content="scope.row.id" placement="top">
+              <span class="id-display">{{ formatId(scope.row.id) }}</span>
+            </el-tooltip>
+          </template>
+        </el-table-column>
         <el-table-column label="评论内容" min-width="300">
           <template #default="scope">
             <div class="comment-content-wrapper">
@@ -110,10 +116,11 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import { ElMessage, ElMessageBox } from 'element-plus';
+import { ref, reactive, onMounted } from 'vue';
 import { Search, ChatLineRound } from '@element-plus/icons-vue';
 import api from '@/utils/api';
+import { formatDate, formatId } from '@/utils/format';
+import { ElMessage, ElMessageBox } from 'element-plus';
 
 // 加载状态
 const loading = ref(false);
@@ -211,12 +218,7 @@ const getStatusText = (status) => {
   return map[status] || '未知';
 };
 
-// 格式化日期
-const formatDate = (dateString) => {
-  if (!dateString) return '未知';
-  const date = new Date(dateString);
-  return date.toLocaleString();
-};
+
 
 // 查看评论
 const handleView = (row) => {
@@ -335,5 +337,21 @@ const handleDelete = (row) => {
   font-size: 11px;
   height: 20px;
   line-height: 18px;
+}
+
+/* ID显示样式 */
+.id-display {
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  color: #666;
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 3px;
+  background-color: #f5f5f5;
+}
+
+.id-display:hover {
+  background-color: #e6f7ff;
+  color: #1890ff;
 }
 </style> 
