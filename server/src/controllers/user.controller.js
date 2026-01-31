@@ -1,4 +1,6 @@
 const userService = require('../services/user.service');
+const authService = require('../services/auth.service');
+const userStatsService = require('../services/user-stats.service');
 const { ResponseUtil } = require('../utils');
 const { StatusCodes } = require('http-status-codes');
 const errorCodes = require('../constants/error-codes');
@@ -24,7 +26,7 @@ class UserController {
         nickname: req.body.nickname || req.body.username
       };
 
-      const result = await userService.register(userData);
+      const result = await authService.register(userData);
 
       // 如果需要审核，返回特殊状态码和消息
       if (result.needAudit) {
@@ -49,7 +51,7 @@ class UserController {
   async login(req, res, next) {
     try {
       const { username, password } = req.body;
-      const result = await userService.login(username, password);
+      const result = await authService.login(username, password);
       res.status(StatusCodes.OK).json(ResponseUtil.success(result));
     } catch (error) {
       next(error);
@@ -144,7 +146,7 @@ class UserController {
     try {
       const userId = req.user.id;
       const { oldPassword, newPassword } = req.body;
-      const result = await userService.changePassword(userId, oldPassword, newPassword);
+      const result = await authService.changePassword(userId, oldPassword, newPassword);
       res.status(StatusCodes.OK).json(ResponseUtil.success(result));
     } catch (error) {
       next(error);
@@ -162,7 +164,7 @@ class UserController {
     try {
       const { id } = req.params;
       const { newPassword } = req.body;
-      const result = await userService.resetPassword(id, newPassword);
+      const result = await authService.resetPassword(id, newPassword);
       res.status(StatusCodes.OK).json(ResponseUtil.success(result));
     } catch (error) {
       next(error);
@@ -269,7 +271,7 @@ class UserController {
   async sendPhoneCode(req, res, next) {
     try {
       const { phone } = req.body;
-      const result = await userService.sendPhoneCode(phone);
+      const result = await authService.sendPhoneCode(phone);
       res.status(StatusCodes.OK).json(ResponseUtil.success(result));
     } catch (error) {
       next(error);
@@ -286,7 +288,7 @@ class UserController {
   async verifyPhoneCode(req, res, next) {
     try {
       const { phone, code } = req.body;
-      const result = await userService.verifyPhoneCode(phone, code);
+      const result = await authService.verifyPhoneCode(phone, code);
       res.status(StatusCodes.OK).json(ResponseUtil.success(result));
     } catch (error) {
       next(error);
@@ -356,7 +358,7 @@ class UserController {
   async getPublishStats(req, res, next) {
     try {
       const userId = req.user.id;
-      const stats = await userService.getUserTodayPublishStats(userId);
+      const stats = await userStatsService.getUserTodayPublishStats(userId);
 
       res.json({
         code: 0,
