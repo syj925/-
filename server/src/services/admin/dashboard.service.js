@@ -50,14 +50,18 @@ class AdminDashboardService {
         commentStats,
         topicStats,
         activeUsers,
-        hotPosts
+        hotPosts,
+        pendingStats,
+        hotTags
       ] = await Promise.all([
         this.getUserStats(),
         this.getPostStats(),
         this.getCommentStats(),
         this.getTopicStats(),
         this.getActiveUsers(),
-        this.getHotPosts()
+        this.getHotPosts(),
+        this.getPendingStats(),
+        this.getHotTags()
       ]);
 
       const data = {
@@ -70,7 +74,9 @@ class AdminDashboardService {
         newCommentCount: commentStats.today,
         newTopicCount: topicStats.today,
         activeUsers,
-        hotPosts
+        hotPosts,
+        pendingStats,
+        hotTags
       };
 
       // 缓存结果
@@ -184,8 +190,8 @@ class AdminDashboardService {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    // 使用Sequelize.escape防止SQL注入
-    const todayStr = Sequelize.escape(today.toISOString());
+    // 手动格式化日期字符串
+    const todayStr = `'${today.toISOString()}'`;
     
     const result = await User.findOne({
       attributes: [
@@ -217,8 +223,8 @@ class AdminDashboardService {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    // 使用Sequelize.escape防止SQL注入
-    const todayStr = Sequelize.escape(today.toISOString());
+    // 手动格式化日期字符串
+    const todayStr = `'${today.toISOString()}'`;
     
     const result = await Post.findOne({
       attributes: [
@@ -251,8 +257,8 @@ class AdminDashboardService {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    // 使用Sequelize.escape防止SQL注入
-    const todayStr = Sequelize.escape(today.toISOString());
+    // 手动格式化日期字符串
+    const todayStr = `'${today.toISOString()}'`;
     
     const result = await Comment.findOne({
       attributes: [
@@ -284,8 +290,8 @@ class AdminDashboardService {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    // 使用Sequelize.escape防止SQL注入
-    const todayStr = Sequelize.escape(today.toISOString());
+    // 手动格式化日期字符串
+    const todayStr = `'${today.toISOString()}'`;
     
     const result = await Topic.findOne({
       attributes: [
@@ -437,6 +443,61 @@ class AdminDashboardService {
       return data;
     } catch (error) {
       logger.error('获取热门帖子失败', { error: error.message });
+      return [];
+    }
+  }
+
+  /**
+   * 获取待审核统计
+   * @returns {Promise<Object>} 待审核统计数据
+   */
+  async getPendingStats() {
+    const pendingPosts = await Post.count({
+      where: {
+        status: 'pending',
+        deleted_at: null
+      }
+    });
+
+    const pendingComments = await Comment.count({
+      where: {
+        status: 'pending',
+        deleted_at: null
+      }
+    });
+
+    const pendingUsers = await User.count({
+      where: {
+        status: 'inactive', // 待审核用户状态
+        deleted_at: null
+      }
+    });
+
+    return {
+      posts: pendingPosts || 0,
+      comments: pendingComments || 0,
+      users: pendingUsers || 0
+    };
+  }
+
+  /**
+   * 获取热门标签
+   * @returns {Promise<Array>} 热门标签列表
+   */
+  async getHotTags() {
+    try {
+      const { Tag } = require('../../models');
+      const hotTags = await Tag.findAll({
+        where: {
+          status: 'normal'
+        },
+        order: [['use_count', 'DESC']],
+        limit: 10,
+        attributes: ['id', 'name', 'use_count']
+      });
+      return hotTags;
+    } catch (error) {
+      logger.error('获取热门标签失败', error);
       return [];
     }
   }

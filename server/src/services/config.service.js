@@ -67,7 +67,8 @@ class ConfigService {
       let versionInfo;
       if (versionValue) {
         try {
-          versionInfo = JSON.parse(versionValue);
+          if (versionValue === '[object Object]') throw new Error('Invalid data');
+          versionInfo = typeof versionValue === 'object' ? versionValue : JSON.parse(versionValue);
         } catch {
           versionInfo = this.getDefaultVersionInfo();
         }
@@ -144,7 +145,7 @@ class ConfigService {
         allowAnonymous: rules.allowAnonymous !== 'false',
         maxImagesPerPost: Number(rules.maxImagesPerPost) || 9,
         maxImageSize: Number(rules.maxImageSize) || 5,
-        allowedImageTypes: rules.allowedImageTypes ? rules.allowedImageTypes.split(',').map(t => t.trim()).filter(t => t) : ['jpg', 'jpeg', 'png', 'gif', 'webp'],
+        allowedImageTypes: typeof rules.allowedImageTypes === 'string' ? rules.allowedImageTypes.split(',').map(t => t.trim()).filter(t => t) : (Array.isArray(rules.allowedImageTypes) ? rules.allowedImageTypes : ['jpg', 'jpeg', 'png', 'gif', 'webp']),
         maxReplyLevel: Number(rules.maxReplyLevel) || 3,
         configUpdateInterval: Number(rules.configUpdateInterval) || 5
       };
@@ -211,7 +212,13 @@ class ConfigService {
     try {
       const versionValue = await settingRepository.getSetting('configVersion');
       
-      const versionInfo = versionValue ? JSON.parse(versionValue) : this.getDefaultVersionInfo();
+      let versionInfo;
+      try {
+        if (versionValue === '[object Object]') throw new Error('Invalid data');
+        versionInfo = versionValue ? (typeof versionValue === 'object' ? versionValue : JSON.parse(versionValue)) : this.getDefaultVersionInfo();
+      } catch {
+        versionInfo = this.getDefaultVersionInfo();
+      }
 
       return versionInfo;
     } catch (error) {
@@ -227,7 +234,12 @@ class ConfigService {
   async getVersionHistory() {
     try {
       const historyValue = await settingRepository.getSetting('configVersionHistory');
-      return historyValue ? JSON.parse(historyValue) : [];
+      try {
+        if (historyValue === '[object Object]') return [];
+        return historyValue ? (typeof historyValue === 'object' ? historyValue : JSON.parse(historyValue)) : [];
+      } catch {
+        return [];
+      }
     } catch (error) {
       logger.error('获取版本历史失败:', error);
       throw error;

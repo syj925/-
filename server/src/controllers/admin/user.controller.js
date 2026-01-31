@@ -1,4 +1,5 @@
 const userService = require('../../services/user.service');
+const auditService = require('../../services/admin/audit.service');
 const { ResponseUtil } = require('../../utils');
 const { StatusCodes } = require('http-status-codes');
 const logger = require('../../../config/logger');
@@ -271,6 +272,16 @@ class AdminUserController {
         const updateData = { status: 'active' };
         const updatedUser = await userService.updateUserInfo(id, updateData);
 
+        // 记录通用审核日志
+        await auditService.createLog({
+          admin_id: req.user.id,
+          target_type: 'user',
+          target_id: id,
+          action: 'approve',
+          reason: '用户审核通过',
+          ip_address: req.ip || req.connection.remoteAddress
+        });
+
         res.status(StatusCodes.OK).json(ResponseUtil.success(updatedUser, '已通过用户审核'));
       } else {
         // 拒绝审核 - 需要提供拒绝原因
@@ -297,6 +308,16 @@ class AdminUserController {
           rejected_by: req.user.id,
           ip_address: req.ip || req.connection.remoteAddress,
           user_agent: req.get('User-Agent')
+        });
+
+        // 记录通用审核日志
+        await auditService.createLog({
+          admin_id: req.user.id,
+          target_type: 'user',
+          target_id: id,
+          action: 'reject',
+          reason: reason.trim(),
+          ip_address: req.ip || req.connection.remoteAddress
         });
 
         // 删除用户数据（释放用户名，允许重新注册）

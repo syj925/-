@@ -1,4 +1,5 @@
 const topicRepository = require('../repositories/topic.repository');
+const auditService = require('./admin/audit.service');
 const { StatusCodes } = require('http-status-codes');
 const { ErrorMiddleware } = require('../middlewares');
 const errorCodes = require('../constants/error-codes');
@@ -490,9 +491,11 @@ class TopicService {
    * 审核话题图片
    * @param {Number} topicId 话题ID
    * @param {String} action 审核动作：approve 或 reject
+   * @param {String} adminId 管理员ID
+   * @param {String} ipAddress 操作IP
    * @returns {Promise<Object>} 审核结果
    */
-  async reviewTopicImage(topicId, action) {
+  async reviewTopicImage(topicId, action, adminId = null, ipAddress = null) {
     if (!['approve', 'reject'].includes(action)) {
       throw ErrorMiddleware.createError(
         '无效的审核动作',
@@ -520,6 +523,8 @@ class TopicService {
     }
 
     let updateData;
+    let reason;
+
     if (action === 'approve') {
       // 审核通过：将待审核图片设为正式封面
       updateData = {
@@ -527,15 +532,31 @@ class TopicService {
         pending_image: null,
         image_status: 'approved'
       };
+      reason = '话题封面审核通过';
     } else {
       // 审核拒绝：清除待审核图片
       updateData = {
         pending_image: null,
         image_status: 'rejected'
       };
+      reason = '话题封面审核拒绝';
     }
 
-    return await topicRepository.update(topicId, updateData);
+    const updatedTopic = await topicRepository.update(topicId, updateData);
+
+    // 记录审核日志
+    if (adminId) {
+      await auditService.createLog({
+        admin_id: adminId,
+        target_type: 'topic_image',
+        target_id: topicId,
+        action,
+        reason,
+        ip_address: ipAddress
+      });
+    }
+
+    return updatedTopic;
   }
 }
 

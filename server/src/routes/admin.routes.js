@@ -16,6 +16,8 @@ const configController = require('../controllers/config.controller');
 
 // 引入分类统计路由
 const categoryStatsRoutes = require('./admin/category-stats.routes');
+// 引入审核管理路由
+const auditRoutes = require('./admin/audit.routes');
 // 引入分类管理路由
 const categoryRoutes = require('./admin/category.routes');
 // 引入徽章管理路由
@@ -124,6 +126,7 @@ const adminUpdateUserSchema = Joi.object({
  */
 router.post('/login', 
   AdminMiddleware.formatResponse(),
+  AdminMiddleware.logOperation(),
   Validator.validateBody(adminLoginSchema),
   adminAuthController.login
 );
@@ -648,6 +651,13 @@ router.use('/category-stats', categoryStatsRoutes);
  */
 router.use('/stats/online', onlineStatsRoutes);
 
+/**
+ * @route /api/admin/audit
+ * @desc 审核管理相关路由
+ * @access Private (Admin)
+ */
+router.use('/audit', auditRoutes);
+
 // ==================== 徽章管理路由 ====================
 
 /**
@@ -915,6 +925,26 @@ router.post('/emojis/sync-counts', emojiController.syncUseCounts);
 
 // 清除表情系统缓存
 router.post('/emojis/clear-cache', emojiController.clearCache);
+
+// ==================== 统计路由 ====================
+const statisticsController = require('../controllers/admin/statistics.controller');
+
+/**
+ * @route GET /api/admin/statistics
+ * @desc 获取综合统计数据
+ * @access Private (Admin)
+ */
+router.get('/statistics', statisticsController.getAllStats);
+
+// ==================== 日志管理路由 ====================
+const adminLogController = require('../controllers/admin/log.controller');
+
+/**
+ * @route GET /api/admin/logs
+ * @desc 获取操作日志列表
+ * @access Private (Admin)
+ */
+router.get('/logs', adminLogController.getLogs);
 
 // ==================== 错误处理 ====================
 

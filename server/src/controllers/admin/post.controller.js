@@ -191,7 +191,7 @@ class AdminPostController {
         throw new Error('无效的审核动作');
       }
 
-      const result = await adminPostService.auditPost(id, action, reason);
+      const result = await adminPostService.auditPost(id, action, reason, req.admin.id, req.ip);
 
       logger.info('审核帖子成功', { postId: id, action, result });
 

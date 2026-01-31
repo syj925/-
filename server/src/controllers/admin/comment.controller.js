@@ -181,7 +181,7 @@ class AdminCommentController {
         reason
       });
 
-      const result = await adminCommentService.auditComment(id, action, reason);
+      const result = await adminCommentService.auditComment(id, action, reason, req.admin.id, req.ip);
 
       logger.info('审核评论成功', { commentId: id, action, result });
 

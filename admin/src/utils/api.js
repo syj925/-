@@ -60,6 +60,9 @@ instance.interceptors.response.use(
   }
 );
 
+// 导出axios实例供其他模块使用
+export const request = instance;
+
 // API接口
 export default {
   // 管理员登录
@@ -92,6 +95,16 @@ export default {
     getRejectionLogs: (params) => instance.get('/admin/users/rejection-logs', { params }),
     // 搜索用户
     search: (params) => instance.get('/admin/users/search', { params })
+  },
+
+  // 数据统计
+  statistics: {
+    getAll: (params) => instance.get('/admin/statistics', { params })
+  },
+
+  // 日志管理
+  logs: {
+    getList: (params) => instance.get('/admin/logs', { params })
   },
   
   // 帖子管理

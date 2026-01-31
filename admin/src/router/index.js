@@ -67,6 +67,12 @@ const routes = [
             meta: { title: '评论管理' }
           },
           {
+            path: 'audit-logs',
+            name: 'AuditLogs',
+            component: () => import('@/views/content/AuditLogs.vue'),
+            meta: { title: '审核日志' }
+          },
+          {
             path: 'audit',
             name: 'ContentAudit',
             component: () => import('@/views/content/ContentAudit.vue'),

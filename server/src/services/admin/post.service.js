@@ -2,6 +2,7 @@ const { Op } = require('sequelize');
 const { Post, User, Category, Topic, PostImage, Comment } = require('../../models');
 const logger = require('../../../config/logger');
 const { ErrorMiddleware } = require('../../middlewares');
+const auditService = require('./audit.service');
 const errorCodes = require('../../constants/error-codes');
 const { StatusCodes } = require('http-status-codes');
 
@@ -333,9 +334,11 @@ class AdminPostService {
    * @param {string} postId 帖子ID
    * @param {string} action 审核动作 ('approve' | 'reject')
    * @param {string} reason 拒绝原因（可选）
+   * @param {string} adminId 管理员ID
+   * @param {string} ipAddress 操作IP
    * @returns {Promise<Object>} 审核后的帖子信息
    */
-  async auditPost(postId, action, reason = null) {
+  async auditPost(postId, action, reason = null, adminId = null, ipAddress = null) {
     try {
       const post = await Post.findByPk(postId, { paranoid: false });
 
@@ -363,6 +366,18 @@ class AdminPostService {
 
       // 更新帖子状态
       await post.update({ status: newStatus });
+
+      // 记录审核日志
+      if (adminId) {
+        await auditService.createLog({
+          admin_id: adminId,
+          target_type: 'post',
+          target_id: postId,
+          action,
+          reason,
+          ip_address: ipAddress
+        });
+      }
 
       logger.info('帖子审核完成', { postId, action, newStatus, reason });
 

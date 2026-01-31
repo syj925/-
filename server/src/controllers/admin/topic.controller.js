@@ -270,7 +270,7 @@ class AdminTopicController {
         action
       });
 
-      const result = await topicService.reviewTopicImage(parseInt(id), action);
+      const result = await topicService.reviewTopicImage(parseInt(id), action, req.admin.id, req.ip);
 
       const message = action === 'approve' ? '图片审核通过' : '图片审核拒绝';
 

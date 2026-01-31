@@ -1,6 +1,7 @@
 const { JwtUtil, ResponseUtil } = require('../utils');
 const errorCodes = require('../constants/error-codes');
 const logger = require('../../config/logger');
+const { OperationLog } = require('../models');
 
 /**
  * 管理员专用中间件
@@ -126,36 +127,82 @@ class AdminMiddleware {
    */
   static logOperation() {
     return (req, res, next) => {
-      // 记录管理员操作
-      const operation = {
-        adminId: req.user?.id,
-        adminUsername: req.user?.username,
-        method: req.method,
-        path: req.path,
-        ip: req.ip,
-        userAgent: req.get('User-Agent'),
-        timestamp: new Date()
-      };
-
+      const startTime = Date.now();
+      
       // 记录请求参数（排除敏感信息）
+      let sanitizedBody = null;
       if (req.body && Object.keys(req.body).length > 0) {
-        const sanitizedBody = { ...req.body };
+        sanitizedBody = { ...req.body };
         delete sanitizedBody.password;
-        operation.requestBody = sanitizedBody;
+        delete sanitizedBody.newPassword;
+        delete sanitizedBody.oldPassword;
       }
 
-      logger.info('Admin operation:', operation);
-      
       // 保存原始的 json 方法以记录响应
       const originalJson = res.json;
+      
       res.json = function(data) {
-        // 记录响应状态
-        logger.info('Admin operation result:', {
-          adminId: req.user?.id,
-          path: req.path,
-          statusCode: res.statusCode,
-          success: data?.success !== false
-        });
+        // 异步记录日志，不阻塞响应
+        (async () => {
+          try {
+            const duration = Date.now() - startTime;
+            
+            // 只有修改类操作或特定的GET操作才记录入库，避免日志爆炸
+            // 但为了演示效果，目前记录所有非GET操作，或者特定路径
+            if (req.method === 'GET') {
+              // GET请求仅记录日志文件，不入库，除非是敏感查询（如导出）
+              return;
+            }
+
+            // 确定操作模块
+            let type = '其他';
+            const path = req.path;
+            if (path.includes('/users')) type = '用户管理';
+            else if (path.includes('/posts')) type = '帖子管理';
+            else if (path.includes('/comments')) type = '评论管理';
+            else if (path.includes('/topics')) type = '话题管理';
+            else if (path.includes('/events')) type = '活动管理';
+            else if (path.includes('/emoji')) type = '表情管理';
+            else if (path.includes('/settings')) type = '系统设置';
+            else if (path.includes('/audit')) type = '审核管理';
+            else if (path.includes('/login')) type = '系统登录';
+            
+            // 确定操作类型
+            let action = '其他';
+            if (path.includes('/login')) action = '登录';
+            else if (path.includes('/logout')) action = '登出';
+            else if (req.method === 'POST') action = '添加';
+            else if (req.method === 'PUT') action = '修改';
+            else if (req.method === 'DELETE') action = '删除';
+            else if (path.includes('/audit') || path.includes('/review')) action = '审核';
+
+            // 尝试从响应数据中获取用户信息（针对登录接口）
+            let userId = req.user?.id;
+            let username = req.user?.username;
+            
+            if (!userId && path.includes('/login') && data?.success) {
+              // 假设登录响应数据结构中有 user 对象
+              userId = data.data?.user?.id || data.data?.id;
+              username = data.data?.user?.username || data.data?.username || req.body?.username;
+            }
+
+            await OperationLog.create({
+              admin_id: userId,
+              admin_username: username || req.body?.username, // 登录时可能没有req.user
+              method: req.method,
+              path: req.path,
+              ip: req.ip || req.connection.remoteAddress,
+              user_agent: req.get('User-Agent'),
+              status_code: res.statusCode,
+              duration,
+              type,
+              description: `${action} ${type}`,
+              request_body: sanitizedBody ? JSON.stringify(sanitizedBody) : null
+            });
+          } catch (err) {
+            logger.error('Operation Log Save Error:', err);
+          }
+        })();
         
         return originalJson.call(this, data);
       };

@@ -2,6 +2,7 @@ const { Op } = require('sequelize');
 const { Comment, User, Post } = require('../../models');
 const logger = require('../../../config/logger');
 const { ErrorMiddleware } = require('../../middlewares');
+const auditService = require('./audit.service');
 const errorCodes = require('../../constants/error-codes');
 const { StatusCodes } = require('http-status-codes');
 
@@ -281,9 +282,11 @@ class AdminCommentService {
    * @param {string} commentId 评论ID
    * @param {string} action 审核动作 ('approve' | 'reject')
    * @param {string} reason 拒绝原因（可选）
+   * @param {string} adminId 管理员ID
+   * @param {string} ipAddress 操作IP
    * @returns {Promise<Object>} 审核后的评论信息
    */
-  async auditComment(commentId, action, reason = null) {
+  async auditComment(commentId, action, reason = null, adminId = null, ipAddress = null) {
     try {
       const comment = await Comment.findByPk(commentId, { paranoid: false });
 
@@ -311,6 +314,18 @@ class AdminCommentService {
 
       // 更新评论状态
       await comment.update({ status: newStatus });
+
+      // 记录审核日志
+      if (adminId) {
+        await auditService.createLog({
+          admin_id: adminId,
+          target_type: 'comment',
+          target_id: commentId,
+          action,
+          reason,
+          ip_address: ipAddress
+        });
+      }
 
       logger.info('评论审核完成', { commentId, action, newStatus, reason });
 

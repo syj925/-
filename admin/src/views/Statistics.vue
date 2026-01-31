@@ -50,10 +50,22 @@
         </div>
       </template>
       <el-table :data="hotPosts" style="width: 100%">
-        <el-table-column prop="title" label="标题" />
-        <el-table-column prop="author" label="作者" width="120" />
-        <el-table-column prop="views" label="浏览量" width="100" />
-        <el-table-column prop="comments" label="评论数" width="100" />
+        <el-table-column prop="content" label="内容" show-overflow-tooltip>
+          <template #default="{ row }">
+            {{ row.content ? row.content.substring(0, 30) + '...' : '' }}
+          </template>
+        </el-table-column>
+        <el-table-column label="作者" width="120">
+          <template #default="{ row }">
+            {{ row.user ? (row.user.nickname || row.user.username) : '未知' }}
+          </template>
+        </el-table-column>
+        <el-table-column prop="views" label="浏览量" width="100">
+          <template #default>0</template> 
+        </el-table-column>
+        <el-table-column prop="comment_count" label="评论数" width="100">
+          <template #default>0</template>
+        </el-table-column>
         <el-table-column prop="likes" label="点赞数" width="100" />
       </el-table>
     </el-card>
@@ -61,7 +73,9 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
+import api from '@/utils/api';
+import { ElMessage } from 'element-plus';
 import * as echarts from 'echarts/core';
 import { BarChart, LineChart, PieChart } from 'echarts/charts';
 import {
@@ -84,110 +98,85 @@ echarts.use([
   CanvasRenderer
 ]);
 
-const userTimeRange = ref('month');
+const userTimeRange = ref('week'); // 'week' -> 7 days, 'month' -> 30 days
 const userChartRef = ref(null);
 const contentChartRef = ref(null);
 const activityChartRef = ref(null);
 
-// 模拟热门帖子数据
-const hotPosts = ref([
-  {
-    title: '期末复习资料分享',
-    author: '李四',
-    views: 1267,
-    comments: 45,
-    likes: 189
-  },
-  {
-    title: '校园文化节活动招募',
-    author: '张三',
-    views: 982,
-    comments: 32,
-    likes: 142
-  },
-  {
-    title: '学生会换届选举公告',
-    author: '王五',
-    views: 876,
-    comments: 28,
-    likes: 112
-  },
-  {
-    title: '校园歌手大赛初赛结果公布',
-    author: '赵同学',
-    views: 754,
-    comments: 25,
-    likes: 98
-  },
-  {
-    title: '关于学校新图书馆开放时间的通知',
-    author: '李同学',
-    views: 632,
-    comments: 15,
-    likes: 67
-  }
-]);
+// 热门帖子数据
+const hotPosts = ref([]);
 
-onMounted(() => {
-  // 初始化用户增长图表
-  const userChart = echarts.init(userChartRef.value);
+let userChart = null;
+let contentChart = null;
+let activityChart = null;
+
+const fetchData = async () => {
+  try {
+    // 1. 获取统计图表数据
+    const days = userTimeRange.value === 'month' ? 30 : (userTimeRange.value === 'year' ? 365 : 7);
+    const statsRes = await api.statistics.getAll({ days });
+    
+    if (statsRes.success) {
+      updateUserChart(statsRes.data.growth);
+      updateContentChart(statsRes.data.contentDist);
+      updateActivityChart(statsRes.data.activity);
+    }
+
+    // 2. 获取热门帖子 (复用 Dashboard API)
+    const dashboardRes = await api.dashboard.getData();
+    if (dashboardRes.success) {
+      hotPosts.value = dashboardRes.data.hotPosts || [];
+    }
+  } catch (error) {
+    console.error('获取统计数据失败:', error);
+    ElMessage.error('获取统计数据失败');
+  }
+};
+
+const updateUserChart = (data) => {
+  if (!userChart) return;
+  
   userChart.setOption({
-    title: {
-      text: '用户增长趋势',
-      left: 'center'
-    },
-    tooltip: {
-      trigger: 'axis'
-    },
+    title: { text: '增长趋势', left: 'center' },
+    tooltip: { trigger: 'axis' },
+    legend: { data: ['新增用户', '新增帖子'], bottom: 0 },
     xAxis: {
       type: 'category',
-      data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月']
+      data: data.dates
     },
-    yAxis: {
-      type: 'value'
-    },
+    yAxis: { type: 'value' },
     series: [
       {
         name: '新增用户',
         type: 'line',
-        data: [120, 132, 101, 134, 90, 230, 210],
-        smooth: true
+        data: data.users,
+        smooth: true,
+        itemStyle: { color: '#409EFF' }
       },
       {
-        name: '活跃用户',
+        name: '新增帖子',
         type: 'line',
-        data: [220, 182, 191, 234, 290, 330, 310],
-        smooth: true
+        data: data.posts,
+        smooth: true,
+        itemStyle: { color: '#67C23A' }
       }
     ]
   });
+};
+
+const updateContentChart = (data) => {
+  if (!contentChart) return;
   
-  // 初始化内容发布统计图表
-  const contentChart = echarts.init(contentChartRef.value);
   contentChart.setOption({
-    title: {
-      text: '内容分布',
-      left: 'center'
-    },
-    tooltip: {
-      trigger: 'item'
-    },
-    legend: {
-      orient: 'vertical',
-      left: 'left'
-    },
+    title: { text: '内容分类分布', left: 'center' },
+    tooltip: { trigger: 'item' },
+    legend: { orient: 'vertical', left: 'left' },
     series: [
       {
-        name: '内容类型',
+        name: '话题',
         type: 'pie',
         radius: '50%',
-        data: [
-          { value: 1048, name: '校园动态' },
-          { value: 735, name: '学习资料' },
-          { value: 580, name: '社团活动' },
-          { value: 484, name: '失物招领' },
-          { value: 300, name: '其他' }
-        ],
+        data: data,
         emphasis: {
           itemStyle: {
             shadowBlur: 10,
@@ -198,42 +187,53 @@ onMounted(() => {
       }
     ]
   });
+};
+
+const updateActivityChart = (data) => {
+  if (!activityChart) return;
   
-  // 初始化活跃度分析图表
-  const activityChart = echarts.init(activityChartRef.value);
   activityChart.setOption({
-    title: {
-      text: '一周活跃度',
-      left: 'center'
-    },
-    tooltip: {
-      trigger: 'axis',
-      axisPointer: {
-        type: 'shadow'
-      }
-    },
+    title: { text: '活跃时段分析 (24小时)', left: 'center' },
+    tooltip: { trigger: 'axis' },
+    legend: { data: ['发帖', '评论'], bottom: 0 },
     xAxis: {
       type: 'category',
-      data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+      data: data.hours
     },
-    yAxis: {
-      type: 'value'
-    },
+    yAxis: { type: 'value' },
     series: [
       {
-        name: '活跃度',
+        name: '发帖',
         type: 'bar',
-        data: [10, 52, 200, 334, 390, 330, 220]
+        data: data.posts,
+        itemStyle: { color: '#E6A23C' }
+      },
+      {
+        name: '评论',
+        type: 'bar',
+        data: data.comments,
+        itemStyle: { color: '#F56C6C' }
       }
     ]
   });
+};
+
+onMounted(() => {
+  userChart = echarts.init(userChartRef.value);
+  contentChart = echarts.init(contentChartRef.value);
+  activityChart = echarts.init(activityChartRef.value);
   
-  // 响应窗口大小变化
+  fetchData();
+  
   window.addEventListener('resize', () => {
-    userChart.resize();
-    contentChart.resize();
-    activityChart.resize();
+    userChart?.resize();
+    contentChart?.resize();
+    activityChart?.resize();
   });
+});
+
+watch(userTimeRange, () => {
+  fetchData();
 });
 </script>
 

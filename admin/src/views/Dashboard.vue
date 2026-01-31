@@ -1,5 +1,24 @@
 <template>
   <div class="dashboard-container">
+    <!-- 待审核提醒 -->
+    <el-row :gutter="20" class="pending-row" v-if="pendingCards.some(c => c.value > 0)">
+      <el-col :span="24">
+        <el-alert
+          title="您有待审核的内容需要处理"
+          type="warning"
+          show-icon
+          :closable="false"
+          style="margin-bottom: 20px;"
+        >
+          <div class="pending-links">
+            <span v-for="card in pendingCards" :key="card.title" class="pending-item" @click="router.push(card.path)">
+              {{ card.title }}: <strong>{{ card.value }}</strong>
+            </span>
+          </div>
+        </el-alert>
+      </el-col>
+    </el-row>
+
     <el-row :gutter="20">
       <!-- 数据卡片 -->
       <el-col :xs="12" :sm="12" :md="6" :lg="6" :xl="6" v-for="card in dataCards" :key="card.title">
@@ -101,7 +120,7 @@
                 <div class="post-info">
                   <span>by {{ row.user ? (row.user.nickname || row.user.username) : '未知用户' }}</span>
                   <span>{{ formatDate(row.createdAt) }}</span>
-          </div>
+                </div>
               </template>
             </el-table-column>
             <el-table-column prop="likes" label="点赞数" width="80"></el-table-column>
@@ -111,6 +130,31 @@
               </template>
             </el-table-column>
           </el-table>
+        </el-card>
+      </el-col>
+    </el-row>
+
+    <el-row :gutter="20" class="table-row">
+      <!-- 热门标签 -->
+      <el-col :span="24">
+        <el-card class="table-card" shadow="hover">
+          <template #header>
+            <div class="card-header">
+              <span>热门标签</span>
+            </div>
+          </template>
+          <div class="tags-cloud">
+            <el-tag 
+              v-for="tag in hotTags" 
+              :key="tag.id" 
+              class="hot-tag"
+              :type="tag.use_count > 50 ? 'danger' : (tag.use_count > 20 ? 'warning' : 'info')"
+              effect="dark"
+            >
+              {{ tag.name }} ({{ tag.use_count }})
+            </el-tag>
+            <el-empty v-if="!hotTags || hotTags.length === 0" description="暂无热门标签" />
+          </div>
         </el-card>
       </el-col>
     </el-row>
@@ -148,13 +192,19 @@ export default {
       newPostCount: 0,
       newCommentCount: 0,
       newTopicCount: 0,
+      pendingStats: {
+        posts: 0,
+        comments: 0,
+        users: 0
+      },
       // 在线统计数据
       onlineCount: 0,
       onlineRate: 0,
       isPeakTime: false,
       serverUptime: 0,
       activeUsers: [],
-      hotPosts: []
+      hotPosts: [],
+      hotTags: []
     });
 
     // 加载状态
@@ -166,6 +216,31 @@ export default {
 
     // 图表时间周期
     const chartPeriod = ref('week');
+
+    // 计算属性：待审核卡片
+    const pendingCards = computed(() => [
+      {
+        title: '待审核帖子',
+        value: dashboardData.pendingStats?.posts || 0,
+        icon: Document,
+        color: '#F56C6C', // Danger
+        path: '/content/audit?type=posts'
+      },
+      {
+        title: '待审核评论',
+        value: dashboardData.pendingStats?.comments || 0,
+        icon: ChatDotRound,
+        color: '#E6A23C', // Warning
+        path: '/content/audit?type=comments'
+      },
+      {
+        title: '待审核用户',
+        value: dashboardData.pendingStats?.users || 0,
+        icon: User,
+        color: '#409EFF', // Primary
+        path: '/user/audit'
+      }
+    ]);
 
     // 计算属性：数据卡片
     const dataCards = computed(() => [
@@ -584,8 +659,10 @@ export default {
       mainChart,
       pieChart,
       dataCards,
+      pendingCards,
       activeUsers,
       hotPosts,
+      hotTags: computed(() => dashboardData.hotTags),
       loading,
       chartPeriod,
       refreshActiveUsers,
@@ -593,7 +670,8 @@ export default {
       viewUserDetail,
       viewPostDetail,
       truncateText,
-      formatDate
+      formatDate,
+      router
     };
   }
 };
@@ -711,5 +789,33 @@ export default {
   color: #909399;
   display: flex;
   justify-content: space-between;
+}
+
+.pending-links {
+  display: flex;
+  gap: 20px;
+}
+
+.pending-item {
+  cursor: pointer;
+  color: #E6A23C;
+  font-weight: 500;
+}
+
+.pending-item:hover {
+  text-decoration: underline;
+}
+
+.tags-cloud {
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.hot-tag {
+  cursor: pointer;
+  font-size: 14px;
+  padding: 6px 12px;
 }
 </style> 

@@ -27,7 +27,13 @@
       
       <!-- 日志列表 -->
       <el-table :data="logList" style="width: 100%" v-loading="loading">
-        <el-table-column prop="id" label="ID" width="80" />
+        <el-table-column label="ID" width="100">
+          <template #default="scope">
+            <el-tooltip :content="scope.row.id" placement="top">
+              <span class="id-display">{{ formatId(scope.row.id) }}</span>
+            </el-tooltip>
+          </template>
+        </el-table-column>
         <el-table-column prop="type" label="操作类型" width="120">
           <template #default="scope">
             <el-tag :type="getTypeTagType(scope.row.type)">{{ scope.row.type }}</el-tag>
@@ -36,7 +42,11 @@
         <el-table-column prop="content" label="操作内容" show-overflow-tooltip />
         <el-table-column prop="user" label="操作人" width="120" />
         <el-table-column prop="ip" label="IP地址" width="130" />
-        <el-table-column prop="time" label="操作时间" width="180" />
+        <el-table-column prop="time" label="操作时间" width="180">
+          <template #default="scope">
+            {{ formatDate(scope.row.time) }}
+          </template>
+        </el-table-column>
         <el-table-column label="操作" width="80">
           <template #default="scope">
             <el-button size="small" @click="viewLogDetail(scope.row)">详情</el-button>
@@ -92,6 +102,9 @@
 
 <script setup>
 import { ref, reactive, onMounted } from 'vue';
+import api from '@/utils/api';
+import { formatDate, formatId } from '@/utils/format';
+import { ElMessage } from 'element-plus';
 
 // 操作类型选项
 const logTypes = [
@@ -119,56 +132,10 @@ const filter = reactive({
 });
 
 // 日志列表数据
-const logList = ref([
-  {
-    id: 1,
-    type: '登录',
-    content: '管理员登录系统',
-    user: 'admin',
-    ip: '192.168.1.100',
-    time: '2023-05-15 08:30:15',
-    data: { userId: 1, loginType: 'account' }
-  },
-  {
-    id: 2,
-    type: '添加',
-    content: '添加分类"校园活动"',
-    user: 'admin',
-    ip: '192.168.1.100',
-    time: '2023-05-15 09:15:22',
-    data: { categoryId: 6, name: '校园活动', description: '校园内各类活动信息' }
-  },
-  {
-    id: 3,
-    type: '修改',
-    content: '修改系统设置',
-    user: 'admin',
-    ip: '192.168.1.100',
-    time: '2023-05-15 10:05:36',
-    data: { settingsChanged: ['siteName', 'logoUrl'] }
-  },
-  {
-    id: 4,
-    type: '审核',
-    content: '审核通过帖子"校园文化节活动招募"',
-    user: 'moderator',
-    ip: '192.168.1.101',
-    time: '2023-05-15 11:20:48',
-    data: { postId: 45, postTitle: '校园文化节活动招募' }
-  },
-  {
-    id: 5,
-    type: '删除',
-    content: '删除帖子"不符合社区规范的内容"',
-    user: 'moderator',
-    ip: '192.168.1.101',
-    time: '2023-05-15 13:40:10',
-    data: { postId: 46, postTitle: '不符合社区规范的内容' }
-  }
-]);
+const logList = ref([]);
 
 // 分页相关
-const total = ref(100);
+const total = ref(0);
 const pageSize = ref(10);
 const currentPage = ref(1);
 
@@ -188,8 +155,15 @@ const getTypeTagType = (type) => {
     '删除': 'danger',
     '修改': 'warning',
     '查询': 'info',
-    '审核': 'success'
+    '审核': 'success',
+    '其他': 'info'
   };
+  // 简单匹配
+  if (type.includes('登录')) return 'success';
+  if (type.includes('删除')) return 'danger';
+  if (type.includes('添加')) return 'primary';
+  if (type.includes('修改')) return 'warning';
+  
   return map[type] || 'info';
 };
 
@@ -199,18 +173,38 @@ const viewLogDetail = (log) => {
   detailDialogVisible.value = true;
 };
 
+// 加载日志数据
+const loadLogs = async () => {
+  loading.value = true;
+  try {
+    const params = {
+      page: currentPage.value,
+      limit: pageSize.value,
+      type: filter.type || undefined,
+      username: filter.user || undefined,
+      startTime: filter.timeRange?.[0] ? filter.timeRange[0] + ' 00:00:00' : undefined,
+      endTime: filter.timeRange?.[1] ? filter.timeRange[1] + ' 23:59:59' : undefined
+    };
+
+    const res = await api.logs.getList(params);
+    if (res.success) {
+      logList.value = res.data.list;
+      total.value = res.data.total;
+    } else {
+      ElMessage.error(res.message || '获取日志失败');
+    }
+  } catch (error) {
+    console.error('获取日志失败:', error);
+    ElMessage.error('获取日志失败');
+  } finally {
+    loading.value = false;
+  }
+};
+
 // 搜索日志
 const searchLogs = () => {
-  loading.value = true;
-  
-  // 这里应该调用API搜索日志
-  console.log('搜索条件:', filter);
-  
-  // 模拟API调用
-  setTimeout(() => {
-    // 返回筛选后的数据
-    loading.value = false;
-  }, 500);
+  currentPage.value = 1;
+  loadLogs();
 };
 
 // 重置筛选条件
@@ -231,17 +225,6 @@ const handleSizeChange = (size) => {
 const handleCurrentChange = (page) => {
   currentPage.value = page;
   loadLogs();
-};
-
-// 加载日志数据
-const loadLogs = () => {
-  loading.value = true;
-  
-  // 这里应该调用API获取日志列表
-  setTimeout(() => {
-    // 模拟获取数据
-    loading.value = false;
-  }, 500);
 };
 
 onMounted(() => {
@@ -275,6 +258,22 @@ onMounted(() => {
   margin-top: 20px;
   display: flex;
   justify-content: center;
+}
+
+/* ID显示样式 */
+.id-display {
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  color: #666;
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 3px;
+  background-color: #f5f5f5;
+}
+
+.id-display:hover {
+  background-color: #e6f7ff;
+  color: #1890ff;
 }
 
 .log-detail {

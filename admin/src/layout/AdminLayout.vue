@@ -39,6 +39,7 @@
           <el-menu-item index="/content/posts">帖子管理</el-menu-item>
           <el-menu-item index="/content/comments">评论管理</el-menu-item>
           <el-menu-item index="/content/audit">内容审核</el-menu-item>
+          <el-menu-item index="/content/audit-logs">审核日志</el-menu-item>
           <el-menu-item index="/content/banners">轮播图管理</el-menu-item>
         </el-sub-menu>
         
