@@ -1,9 +1,19 @@
 require('dotenv').config();
 
+const requireEnv = (name) => {
+  const value = process.env[name];
+  if (typeof value === 'undefined' || value === '') {
+    throw new Error(`Missing required environment variable: ${name}`);
+  }
+  return value;
+};
+
+const dbPassword = requireEnv('DB_PASSWORD');
+
 module.exports = {
   development: {
     username: process.env.DB_USERNAME || 'root',
-    password: process.env.DB_PASSWORD || '20060711',
+    password: dbPassword,
     database: process.env.DB_NAME || 'campus_community',
     host: process.env.DB_HOST || '127.0.0.1',
     port: process.env.DB_PORT || 3306,
@@ -24,7 +34,7 @@ module.exports = {
   },
   test: {
     username: process.env.DB_USERNAME || 'root',
-    password: process.env.DB_PASSWORD || '20060711',
+    password: dbPassword,
     database: process.env.DB_NAME || 'campus_community_test',
     host: process.env.DB_HOST || '127.0.0.1',
     port: process.env.DB_PORT || 3306,
@@ -45,7 +55,7 @@ module.exports = {
   },
   production: {
     username: process.env.DB_USERNAME,
-    password: process.env.DB_PASSWORD,
+    password: dbPassword,
     database: process.env.DB_NAME,
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,

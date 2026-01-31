@@ -92,6 +92,7 @@ build/
 .vscode/
 .idea/
 .vs/
+.cursor/
 *.swp
 *.swo
 *~
@@ -159,3 +160,4 @@ dump.rdb
 server/clear-cache.js
 server/test-*.js
 */test-*.js
+server/.env.production
