@@ -1,98 +1,105 @@
-# AGENTS.md - 校园墙 (Campus Wall) AI Coding Guide
+# AGENTS.md - AI Coding Agent Guidelines
 
-## Project Overview
+> 校园墙 (Campus Wall) - 校园社交平台
 
-Campus social platform with three main packages:
-- **server/** - Node.js + Express + Sequelize + MySQL + Redis backend API
-- **admin/** - Vue 3 + Element Plus + Vite admin dashboard
-- **uni-APP/** - uni-app + Vue 3 mobile application
+## Quick Reference
 
-## Build/Lint/Test Commands
+| Component | Port | Tech Stack |
+|-----------|------|------------|
+| Backend API | 3000 | Node.js 18+, Express, Sequelize, MySQL 8, Redis 6 |
+| Admin Dashboard | 8888 | Vue 3.5, Vite 6, Element Plus, Pinia, SCSS |
+| Mobile App | 5173 (H5) | uni-app 3.0, Vue 3.4, Pinia |
 
-### Server (Backend API)
+---
+
+## Build / Lint / Test Commands
+
+### Backend (`server/`)
+
 ```bash
-cd server
-npm install                 # Install dependencies
-npm start                   # Start production server (port 3000)
-npm run dev                 # Start with nodemon (hot reload)
-npm test                    # Run all Jest tests
-npm run lint                # Run ESLint
-npm run test -- --testPathPattern="follow"    # Run single test file
-npm run test -- --testNamePattern="should"    # Run tests matching name
+npm run dev              # Development with nodemon hot-reload
+npm start                # Production mode
+npm test                 # Run Jest tests
+npm run lint             # ESLint check
+
+# Run single test file
+npx jest tests/follow.test.js
+
+# Run specific test by name
+npx jest --testNamePattern="应该能够关注用户"
+
+# Utility scripts
+npm run seed-data        # Seed test data
+npm run backup-db        # Backup database
+npm run clear-cache      # Clear Redis cache
 ```
 
-### Admin (Management Dashboard)
+### Admin Dashboard (`admin/`)
+
 ```bash
-cd admin
-npm install
-npm run dev                 # Start dev server (port 8888)
-npm run build               # Production build
-npm run preview             # Preview production build
+npm run dev              # Dev server at localhost:8888
+npm run build            # Production build
+npm run preview          # Preview production build
 ```
 
-### uni-APP (Mobile Frontend)
+### Mobile App (`uni-APP/`)
+
 ```bash
-cd uni-APP
-npm install
-npm run dev:h5              # Start H5 development server
-npm run build:h5            # Build for H5
-npm run dev:mp-weixin       # WeChat mini-program dev
-npm run build:mp-weixin     # WeChat mini-program build
+npm run dev:h5           # H5 dev at localhost:5173
+npm run dev:mp-weixin    # WeChat mini-program
+npm run build:h5         # H5 production build
 ```
 
-## Architecture Patterns
+---
 
-### Backend Layered Architecture
+## Architecture
+
+### Backend Layered Structure
+
 ```
 Controller → Service → Repository → Model
+     ↓           ↓          ↓          ↓
+  Request    Business    Data       Sequelize
+  handling    logic     access       ORM
 ```
 
-**Controller** (`src/controllers/*.controller.js`): Request/response handling, validation
-**Service** (`src/services/*.service.js`): Business logic, transactions
-**Repository** (`src/repositories/*.repository.js`): Database operations
-**Model** (`src/models/*.js`): Sequelize model definitions
+- **Controllers**: `server/src/controllers/` - Request/response handling only
+- **Services**: `server/src/services/` - Business logic, validation
+- **Repositories**: `server/src/repositories/` - Database queries via Sequelize
+- **Models**: `server/src/models/` - Sequelize model definitions (28 models)
 
-### File Naming Conventions
-- Backend: kebab-case (`post.controller.js`, `user.service.js`)
-- Frontend Vue: PascalCase (`PostCard.vue`, `UserList.vue`)
-- Utility files: kebab-case or camelCase
+---
 
 ## API Response Format
 
 ### Success Response
+
 ```javascript
 {
   success: true,
   code: 0,
-  msg: '成功',
-  message: '成功',  // Compatibility field
+  msg: "成功",
+  message: "成功",  // Alias for frontend compatibility
   data: { ... }
 }
 ```
 
 ### Error Response
+
 ```javascript
 {
-  success: false,
-  code: 10001,  // Error code from constants/error-codes.js
-  msg: '错误消息',
+  code: 200,        // Error code from error-codes.js
+  msg: "用户不存在",
   data: null
 }
 ```
 
-### Frontend Success Check
-```javascript
-if (res.code === 0 || res.success === true) {
-  // Success
-}
-const message = res.msg || res.message;
-```
-
 ### Pagination Response
+
 ```javascript
 {
-  success: true,
   code: 0,
+  msg: "成功",
   data: {
     list: [...],
     pagination: { page: 1, pageSize: 10, total: 100 }
@@ -100,196 +107,191 @@ const message = res.msg || res.message;
 }
 ```
 
-## Code Style Guidelines
+### Frontend Success Check
 
-### JavaScript (Backend - CommonJS)
 ```javascript
-// Imports - group by type
-const express = require('express');
-const { StatusCodes } = require('http-status-codes');
-const postService = require('../services/post.service');
-const { ResponseUtil } = require('../utils');
-const logger = require('../../config/logger');
-
-// Class-based controllers/services with JSDoc
-/**
- * Controller description
- */
-class PostController {
-  /**
-   * Method description
-   * @param {Object} req - Request object
-   * @param {Object} res - Response object
-   * @param {Function} next - Next middleware
-   * @returns {Promise<void>}
-   */
-  async createPost(req, res, next) {
-    try {
-      const userId = req.user.id;
-      const { title, content } = req.body;
-      
-      // Early returns for validation
-      if (!content) {
-        return res.status(StatusCodes.BAD_REQUEST)
-          .json(ResponseUtil.error({ code: 10001, message: '内容不能为空' }));
-      }
-      
-      const result = await postService.createPost({ title, content, user_id: userId });
-      res.json(ResponseUtil.success(result, '创建成功'));
-    } catch (error) {
-      next(error);
-    }
-  }
-}
-
-module.exports = new PostController();
+// Always use this pattern
+if (res.code === 0 || res.success === true) { ... }
+const message = res.msg || res.message;
 ```
 
-### Vue 3 (Frontend - ES Modules with script setup)
+---
+
+## Code Style Guidelines
+
+### Naming Conventions
+
+| Type | Convention | Example |
+|------|------------|---------|
+| Files | kebab-case | `user-badge.repository.js` |
+| Vue Components | PascalCase | `UserList.vue` |
+| Variables/Functions | camelCase | `getUserInfo()` |
+| Database fields | snake_case | `created_at`, `user_id` |
+| Constants | SCREAMING_SNAKE | `MAX_FILE_SIZE` |
+
+### Backend (Node.js)
+
+- **Module system**: CommonJS (`require`/`module.exports`)
+- **Async**: Always use `async/await`, never raw Promises
+- **Validation**: Use Joi for request validation
+- **Logging**: Use Winston logger, not `console.log`
+- **Error handling**: Use `ErrorMiddleware.createError()` pattern
+
+```javascript
+// Controller pattern
+async getUserList(req, res, next) {
+  try {
+    const result = await userService.findUsers(options);
+    res.status(StatusCodes.OK).json(ResponseUtil.success(result));
+  } catch (error) {
+    logger.error('Error:', error);
+    next(error);  // Pass to error middleware
+  }
+}
+```
+
+### Frontend (Vue 3)
+
+- **Script syntax**: Always use `<script setup>`
+- **Styling**: SCSS with scoped styles, never plain CSS
+- **UI Components**: Element Plus for admin, uni-app components for mobile
+- **State**: Pinia stores
+- **HTTP**: Axios with centralized API modules
+
 ```vue
 <template>
-  <view class="post-card" @tap="goDetail">
-    <text class="post-card__title">{{ post.title }}</text>
-  </view>
+  <div class="component-name">...</div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
-import { postApi } from '@/api';
+import { ref, computed } from 'vue'
+import { ElMessage } from 'element-plus'
 
-// Props & Emits
 const props = defineProps({
-  post: { type: Object, required: true },
-  compact: { type: Boolean, default: false }
-});
-const emit = defineEmits(['click', 'like']);
-
-// Reactive state
-const isLoading = ref(false);
-
-// Computed
-const formatTime = computed(() => {
-  return new Date(props.post.created_at).toLocaleString('zh-CN');
-});
-
-// Methods
-const goDetail = () => {
-  uni.navigateTo({ url: `/pages/post/detail?id=${props.post.id}` });
-};
-
-// Lifecycle
-onMounted(() => {
-  // Initialize
-});
+  data: { type: Object, required: true }
+})
 </script>
 
 <style lang="scss" scoped>
-.post-card {
-  padding: 16rpx;
-  
-  &__title {
-    font-size: 32rpx;
-    font-weight: bold;
-  }
-}
+.component-name { ... }
 </style>
 ```
 
-### Naming Conventions
-- **Variables/Functions**: camelCase (`userId`, `createPost`)
-- **Classes**: PascalCase (`PostController`, `UserService`)
-- **Constants**: UPPER_SNAKE_CASE (`MAX_PAGE_SIZE`, `DEFAULT_LIMIT`)
-- **Database fields**: snake_case (`user_id`, `created_at`)
-- **API endpoints**: kebab-case (`/api/private-messages`)
-- Use full words, avoid abbreviations
+---
 
-### Error Handling
-```javascript
-// Backend - throw with middleware
-throw ErrorMiddleware.createError(
-  '用户不存在',
-  StatusCodes.NOT_FOUND,
-  errorCodes.USER_NOT_EXIST
-);
+## Critical Constraints
 
-// Frontend - unified toast
-ElMessage.error(res.msg || res.message || '操作失败');
-```
+### MUST DO
 
-### Validation
-- Use Joi for request validation (avoid mixing with express-validator)
-```javascript
-const schema = Joi.object({
-  username: Joi.string().min(3).max(50).required(),
-  password: Joi.string().min(6).max(30).required()
-});
-router.post('/login', Validator.validateBody(schema), controller.login);
-```
-
-## Important Conventions
-
-### Ports
-- Backend API: **3000**
-- Admin Dashboard: **8888**
-- Frontend H5: **5173** (default Vite)
-
-### Image URLs
-- Store relative paths in database (`/uploads/images/xxx.png`)
+- Use relative paths for image URLs in database (`/uploads/images/xxx.png`)
 - Frontend concatenates base URL at runtime
-- NEVER hardcode IP addresses
+- Check `res.code === 0 || res.success === true` for API success
+- Use Joi for validation (not express-validator) for consistency
+- Follow existing UI patterns - reuse components, don't create new ones
+- Implement tests for new features
+- Use structured logger output, minimize console noise
 
-### Database
-- ORM queries preferred over raw SQL
-- Use transactions for multi-step operations
-- Password: `20060711` (MySQL)
+### MUST NOT
 
-### Styling
-- Use **SCSS** exclusively, never convert to plain CSS
-- BEM naming convention for CSS classes
-- Mobile: use `rpx` units
+- Never hardcode IP addresses (use `localhost:3000`)
+- Never store full URLs with IPs in database
+- Never suppress TypeScript/ESLint errors with `@ts-ignore` or `eslint-disable`
+- Never use `as any` type casting
+- Never leave empty catch blocks
+- Never delete tests to make them pass
+- Never mix Joi and express-validator in same codebase
 
-### Timestamps
-- Frontend format: `value-format="YYYY-MM-DD HH:mm:ss"`
-- Display format: `toLocaleString('zh-CN', { ... })`
+---
+
+## Database
+
+- **Engine**: MySQL 8.0 with utf8mb4 charset
+- **ORM**: Sequelize 6.35
+- **Prefer ORM queries** over raw SQL for consistency
+- Soft deletes where applicable (`deleted_at` timestamps)
+
+### Key Models
+
+User, Post, Comment, Like, Favorite, Follow, Topic, Category, Event, EventRegistration, Badge, UserBadge, Message, Banner, Setting, SearchHistory, Emoji*, Tag
+
+---
 
 ## Testing
 
+```bash
+# Run all tests
+cd server && npm test
+
+# Run specific test file
+npx jest tests/follow.test.js
+
+# Run with coverage
+npx jest --coverage
+
+# Run specific test by name pattern
+npx jest --testNamePattern="关注"
+```
+
+Test files use Jest + Supertest pattern:
+
 ```javascript
-// Jest test file structure
 const request = require('supertest');
 const app = require('../src/app');
-const { User } = require('../src/models');
 
 describe('Feature Tests', () => {
-  beforeAll(async () => {
-    // Setup test data
-  });
-
-  afterAll(async () => {
-    // Cleanup test data
-  });
-
   test('should do something', async () => {
     const response = await request(app)
       .post('/api/endpoint')
       .set('Authorization', `Bearer ${token}`)
       .send({ data: 'value' })
       .expect(200);
-
+    
     expect(response.body.success).toBe(true);
   });
 });
 ```
 
-## Key Reminders
+---
 
-1. **Early returns** - Avoid deep nesting
-2. **Comments explain WHY** - Not what the code does
-3. **No TODO left behind** - Implement or remove
-4. **Match existing patterns** - Check similar files first
-5. **Test new features** - All new functionality requires tests
-6. **Two-phase development** - Backend API first, then frontend
-7. **Incremental changes** - Feature by feature, not all at once
-8. **Never suppress type errors** - No `as any`, `@ts-ignore`
-9. **Minimize console logs** - Use structured logger in backend
-10. **Pagination fields**: `page`, `limit` (not `pageSize`)
+## Git Commit Convention
+
+```
+<type>(<scope>): <subject>
+
+type: feat | fix | docs | style | refactor | test | chore
+scope: server | admin | uni-app | docs
+```
+
+Examples:
+- `feat(server): add user avatar upload API`
+- `fix(admin): correct pagination in user list`
+- `docs: update API documentation`
+
+---
+
+## Environment
+
+- Node.js >= 18.0.0
+- MySQL >= 8.0
+- Redis >= 6.0
+- Default admin: `admin` / `admin123`
+
+### Key Environment Variables (server/.env)
+
+```
+PORT=3000
+DB_HOST=localhost
+DB_NAME=campus_community
+DB_USER=root
+DB_PASSWORD=20060711
+REDIS_HOST=localhost
+JWT_SECRET=your_secret
+```
+
+---
+
+## Reference Documentation
+
+- API Docs: `server/docs/api/*.md`
+- Feature Docs: `docs/features/*.md`
+- Cursor Rules: `.cursor/rules/xm.mdc` (detailed conventions)
