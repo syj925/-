@@ -55,7 +55,7 @@ export default {
         
         if (response.code === 0) {
           this.posts = response.data.list;
-          console.log('加载的帖子数据:', this.posts);
+
         } else {
           uni.showToast({
             title: response.msg || '加载失败',
@@ -74,8 +74,7 @@ export default {
     },
     
     handleCommentLike(comment) {
-      console.log('评论点赞:', comment);
-      
+
       // 检查登录状态
       const token = uni.getStorageSync('token');
       if (!token) {
@@ -111,7 +110,7 @@ export default {
     },
     
     handleUserClick(user) {
-      console.log('用户点击:', user);
+
       uni.showToast({
         title: `点击了用户: ${user.nickname || user.username}`,
         icon: 'none'

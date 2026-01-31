@@ -92,7 +92,7 @@
 </template>
 
 <script>
-import { useMessageStore } from '@/store';
+import { useMessageStore } from '@/stores';
 import { ensureImageUrl } from '@/utils/url';
 
 export default {
@@ -155,7 +155,7 @@ export default {
       
       // 只有当新消息类型与当前页面类型匹配时才更新
       if (message && message.type === this.messageType) {
-        console.log('🚀 详情页智能增量更新:', this.messageType);
+
         this.smartAddNewMessage(message);
       }
     },
@@ -171,7 +171,7 @@ export default {
         );
         
         if (existingIndex >= 0) {
-          console.log('💡 详情页消息已存在，跳过添加');
+
           return;
         }
         
@@ -194,9 +194,7 @@ export default {
             messageInList.isNew = false;
           }
         }, 100);
-        
-        console.log('✨ 详情页新消息已平滑添加');
-        
+
       } catch (error) {
         console.error('❌ 详情页智能更新失败，回退到全量刷新:', error);
         this.loadMessages(true);
@@ -240,8 +238,7 @@ export default {
             const loadedCount = pagination.page * pagination.pageSize;
             this.hasMore = loadedCount < pagination.total;
             this.currentPage = pagination.page + 1; // 设置下一页页码
-            
-            console.log(`✅ [详情页] 加载完成 - 第${pagination.page}页，共${pagination.total}条，还有更多: ${this.hasMore}`);
+
           } else {
             this.hasMore = false;
           }
@@ -411,20 +408,18 @@ export default {
       const currentUnread = this.unreadCount;
       
       try {
-        console.log(`🔄 自动批量已读: ${this.messageType} 类型消息`);
-        
+
         // 🎯 乐观更新：立即更新全局未读计数
         if (currentUnread > 0) {
           this.messageStore.updateUnreadCount(-currentUnread);
-          console.log(`🚀 乐观更新: 减少 ${currentUnread} 条未读计数`);
+
         }
         
         const result = await this.$api.message.readAll(this.messageType);
         
         if (result.success || result.code === 0) {
           this.hasAutoMarkedRead = true;
-          console.log(`✅ 已后台标记 ${this.messageType} 类型消息为已读`);
-          
+
           // 确保全局计数正确（防止乐观更新不准确）
           setTimeout(() => {
             this.messageStore.fetchUnreadCount();
@@ -433,7 +428,7 @@ export default {
           // 如果API调用失败，回滚乐观更新
           if (currentUnread > 0) {
             this.messageStore.updateUnreadCount(currentUnread);
-            console.log(`❌ API失败，回滚未读计数: +${currentUnread}`);
+
           }
         }
       } catch (error) {
@@ -441,7 +436,7 @@ export default {
         // API调用失败，回滚乐观更新
         if (currentUnread > 0) {
           this.messageStore.updateUnreadCount(currentUnread);
-          console.log(`❌ 网络异常，回滚未读计数: +${currentUnread}`);
+
         }
       }
     },

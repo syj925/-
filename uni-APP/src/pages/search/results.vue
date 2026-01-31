@@ -396,7 +396,7 @@ export default {
     async saveSearchHistoryManually() {
       const token = uni.getStorageSync('token')
       if (!token) {
-        console.log('⚠️ 未登录，跳过保存搜索历史')
+
         return
       }
 
@@ -411,7 +411,6 @@ export default {
           type: this.currentTab
         })
 
-        console.log('✅ 搜索历史保存成功:', res)
       } catch (error) {
         console.error('❌ 搜索历史保存失败:', error)
       }
@@ -525,8 +524,7 @@ export default {
     // 处理关注状态变化
     handleFollowChange(event) {
       const { userId, isFollowed } = event
-      console.log(`用户 ${userId} 关注状态变化为: ${isFollowed}`)
-      
+
       // 可以在这里更新搜索结果中的用户关注状态
       if (this.searchResults?.users?.list) {
         const userIndex = this.searchResults.users.list.findIndex(user => user.id === userId)
@@ -614,7 +612,7 @@ export default {
     },
 
     handlePostComment(post) {
-      console.log('评论帖子:', post.id)
+
       // 跳转到帖子详情页的评论区
       uni.navigateTo({
         url: `/pages/post/detail?id=${post.id}&scrollToComments=true`
@@ -656,7 +654,7 @@ export default {
     },
 
     handlePostShare(post) {
-      console.log('分享帖子:', post.id)
+
       // TODO: 实现分享逻辑
       uni.showToast({
         title: '分享功能待实现',
@@ -665,7 +663,7 @@ export default {
     },
 
     handleUserClick(user) {
-      console.log('点击用户:', user.id)
+
       if (user && user.id) {
         uni.navigateTo({
           url: `/pages/user/user-profile?id=${user.id}`

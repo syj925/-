@@ -177,8 +177,7 @@ export default {
     this.followersList = [];
     this.loading = false;
     this.refreshing = false;
-    
-    console.log('🔥 Follow页面已销毁，资源已清理');
+
   },
   
   methods: {
@@ -232,8 +231,7 @@ export default {
       this.loading = true;
       
       try {
-        console.log('🔥 开始加载关注和粉丝数据');
-        
+
         // 测试模式下可以启用模拟数据 (目前已禁用)
         /* 
         if (process.env.NODE_ENV === 'development' && false) {
@@ -277,27 +275,25 @@ export default {
     async handleDataResponse(response) {
       // 检查页面是否已销毁
       if (this.isDestroyed) {
-        console.log('🔥 页面已销毁，取消数据更新');
+
         return;
       }
 
-      console.log('🔥 handleDataResponse - 响应数据:', response);
       if (response.success) {
         const { following, followers, summary } = response.data;
-        console.log('🔥 处理数据 - following:', following?.list?.length, 'followers:', followers?.list?.length);
-        
+
         // 关键修复：先处理关注状态，再设置列表数据（避免时序问题）
         const followingUsers = following.list || [];
         const followersUsers = followers.list || [];
         
         // 先为数据添加关注状态
         if (followingUsers.length > 0 && !this.isDestroyed) {
-          console.log('🔄 处理关注列表用户状态');
+
           await this.updateUsersFollowStatus(followingUsers);
         }
         
         if (followersUsers.length > 0 && !this.isDestroyed) {
-          console.log('🔄 处理粉丝列表用户状态');
+
           await this.updateUsersFollowStatus(followersUsers);
         }
         
@@ -321,9 +317,8 @@ export default {
         // 更新总数
         this.followingCount = summary.followingTotal || 0;
         this.followersCount = summary.followersTotal || 0;
-        
-        console.log('🔥 更新后的列表长度 - followingList:', this.followingList.length, 'followersList:', this.followersList.length);
-        console.log('🔥 当前标签页:', this.currentTab, '当前显示列表长度:', this.currentTab === 'following' ? this.followingList.length : this.followersList.length);
+
+
       } else {
         if (!this.isDestroyed) {
           uni.showToast({
@@ -371,12 +366,10 @@ export default {
         const unknownUserIds = userIds.filter(userId => 
           this.followStore.followMap[userId] === undefined
         );
-        
-        console.log(`🔍 需要查询关注状态的用户: ${unknownUserIds.length}/${userIds.length}`);
-        
+
         // 如果有未知状态的用户，先批量查询
         if (unknownUserIds.length > 0) {
-          console.log('📡 批量查询关注状态:', unknownUserIds);
+
           await this.followStore.batchCheckFollowStatus(unknownUserIds);
         }
         
@@ -384,11 +377,10 @@ export default {
         users.forEach(user => {
           if (user && user.id) {
             user.isFollowing = this.followStore.isFollowing(user.id);
-            console.log(`✅ 用户${user.id}(${user.nickname})的关注状态: ${user.isFollowing}`);
+
           }
         });
-        
-        console.log('✅ 已从Pinia store更新所有用户的关注状态');
+
       } catch (error) {
         console.error('从store获取关注状态失败:', error);
       }
@@ -396,12 +388,9 @@ export default {
 
     // 处理关注按钮点击事件（使用Pinia store
     async handleFollowClick(data) {
-      console.log('🔍 Follow页面接收到的数据:', data);
-      
+
       const { userId, currentStatus, action, user } = data;
-      
-      console.log('🔍 解构后的变量:', { userId, currentStatus, action, user: user?.nickname });
-      
+
       // 验证userId
       if (!userId || userId === 'undefined') {
         console.error('❌ Follow页面: userId无效', userId);
@@ -424,8 +413,7 @@ export default {
       this.followingOperations.add(operationKey);
 
       try {
-        console.log(`开始${action}操作: 用户${userId}(${user?.nickname})`);
-        
+
         // 乐观更新UI
         this.updateUserInLists(userId, { isFollowing: !currentStatus });
         
@@ -480,15 +468,14 @@ export default {
       } finally {
         // 清理操作标记
         this.followingOperations.delete(operationKey);
-        console.log('🧹 操作完成，清理标记:', operationKey);
+
       }
     },
 
     // 处理关注成功事件（从UserCard组件触发）
     handleFollowSuccess(data) {
       const { userId, isFollowing } = data;
-      
-      console.log(`关注状态更新成功: 用户${userId} -> ${isFollowing ? '已关注' : '未关注'}`);
+
     },
 
     // 处理关注失败事件
@@ -527,7 +514,6 @@ export default {
 
     // 处理关注成功
     handleFollowSuccess(data) {
-      console.log('关注操作成功:', data);
 
       // 更新对应列表中的用户数据
       if (data.action === 'follow') {

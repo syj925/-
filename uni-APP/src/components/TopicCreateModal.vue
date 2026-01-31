@@ -130,29 +130,29 @@ export default {
     initialName: {
       immediate: true,
       handler(newVal, oldVal) {
-        console.log('initialName changed from:', oldVal, 'to:', newVal);
+
         if (newVal) {
           // 设置名称，无论弹窗是否可见
           this.formData.name = newVal.slice(0, 10)
-          console.log('formData.name set to:', this.formData.name);
+
           // 强制更新
           this.$forceUpdate()
         }
       }
     },
     visible(newVal, oldVal) {
-      console.log('visible changed from:', oldVal, 'to:', newVal, 'initialName:', this.initialName);
+
       if (newVal) {
         // 弹窗打开时，确保设置初始名称
-        console.log('Modal opening, checking initialName:', this.initialName);
+
         if (this.initialName) {
           this.formData.name = this.initialName.slice(0, 10)
-          console.log('formData.name set to (on visible):', this.formData.name);
+
         }
         // 重新验证表单
         this.$nextTick(() => {
           this.validateForm()
-          console.log('After validation, formData.name:', this.formData.name);
+
         })
       } else {
         // 弹窗关闭时，重置表单
@@ -161,25 +161,24 @@ export default {
     }
   },
   mounted() {
-    console.log('TopicCreateModal mounted, initialName:', this.initialName, 'visible:', this.visible);
+
   },
   methods: {
     // 设置初始名称的方法
     setInitialName(name) {
-      console.log('setInitialName called with:', name);
+
       if (name) {
         const trimmedName = name.slice(0, 10);
 
         // 使用Vue.set确保响应式更新
         this.$set(this.formData, 'name', trimmedName);
-        console.log('formData.name set to:', this.formData.name);
 
         // 强制更新UI
         this.$forceUpdate();
 
         // 使用nextTick确保DOM更新
         this.$nextTick(() => {
-          console.log('After nextTick, formData.name:', this.formData.name);
+
           this.validateForm();
         });
       }
@@ -198,13 +197,13 @@ export default {
     },
 
     selectCover() {
-      console.log('selectCover clicked')
+
       uni.chooseImage({
         count: 1,
         sizeType: ['compressed'],
         sourceType: ['album', 'camera'],
         success: (res) => {
-          console.log('Image selected:', res.tempFilePaths[0])
+
           // 选择图片后立即上传
           this.uploadCoverImage(res.tempFilePaths[0])
         },
@@ -220,7 +219,6 @@ export default {
 
     // 上传封面图片
     async uploadCoverImage(filePath) {
-      console.log('开始上传封面图片:', filePath)
 
       // 显示上传进度
       uni.showLoading({
@@ -231,7 +229,6 @@ export default {
       try {
         // 调用上传API
         const result = await this.$api.upload.uploadImage(filePath)
-        console.log('图片上传成功:', result)
 
         // 设置上传后的URL
         this.formData.cover_image = result.url
@@ -257,19 +254,19 @@ export default {
     },
 
     onInputFocus() {
-      console.log('Input focused')
+
     },
 
     onInputBlur() {
-      console.log('Input blurred')
+
     },
 
     onTextareaFocus() {
-      console.log('Textarea focused')
+
     },
 
     onTextareaBlur() {
-      console.log('Textarea blurred')
+
     },
     
     handleMaskClick() {
@@ -281,21 +278,20 @@ export default {
     },
     
     handleConfirm() {
-      console.log('=== 话题创建弹窗 - 开始提交 ===');
 
       if (!this.isFormValid) {
-        console.log('表单无效，停止提交');
+
         return;
       }
 
       this.validateForm();
       if (Object.keys(this.errors).length > 0) {
-        console.log('存在验证错误，停止提交');
+
         return;
       }
 
       const submitData = { ...this.formData };
-      console.log('提交数据:', JSON.stringify(submitData, null, 2));
+
       this.$emit('submit', submitData);
     },
 

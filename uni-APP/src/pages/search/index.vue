@@ -307,16 +307,16 @@ export default {
   methods: {
     // 轮播图事件处理
     handleBannerClick(banner) {
-      console.log('搜索页轮播图点击:', banner)
+
       // 根据轮播图类型进行跳转
     },
 
     handleBannerChange(data) {
-      console.log('搜索页轮播图切换:', data)
+
     },
 
     handleBannersLoaded(data) {
-      console.log('搜索页轮播图加载完成:', data)
+
     },
 
     handleBannersError(data) {
@@ -331,7 +331,7 @@ export default {
       const refreshInterval = 2 * 60 * 1000 // 2分钟
 
       if (now - lastRefreshTime > refreshInterval) {
-        console.log('🔄 搜索页刷新轮播图')
+
         this.safeRefreshBanner()
       }
     },
@@ -351,7 +351,7 @@ export default {
             if (this.$refs.banner && this.$refs.banner.refresh) {
               this.$refs.banner.refresh()
               this.lastBannerRefreshTime = Date.now()
-              console.log('✅ 轮播图刷新成功')
+
             }
           }, 50) // 短暂延迟确保DOM稳定
         })
@@ -362,7 +362,6 @@ export default {
 
     // 处理长按事件
     handleLongPress() {
-      console.log('🔄 搜索页长按触发刷新')
 
       // 简单的防抖处理
       const now = Date.now()
@@ -405,7 +404,6 @@ export default {
 
     async loadInitialData() {
       try {
-        console.log('开始加载搜索页面初始数据...')
 
         // 加载搜索页面设置
         await this.loadSearchPageSettings()
@@ -413,9 +411,9 @@ export default {
         // 先加载热门话题（最重要的数据）
         try {
           const hotTopicsRes = await api.topic.getHot(8)
-          console.log('热门话题API响应:', hotTopicsRes)
+
           this.hotTopics = hotTopicsRes.data || []
-          console.log('热门话题数据:', this.hotTopics)
+
         } catch (error) {
           console.error('获取热门话题失败:', error)
           this.hotTopics = []
@@ -425,7 +423,7 @@ export default {
         try {
           const recommendedRes = await this.getRecommendedContent()
           this.recommendedContent = recommendedRes || []
-          console.log('推荐内容数据:', this.recommendedContent)
+
         } catch (error) {
           console.error('获取推荐内容失败:', error)
           this.recommendedContent = []
@@ -441,7 +439,6 @@ export default {
           const hotSearchesRes = await api.search.getHotSearches({
             limit: this.searchPageSettings.hotSearchCount
           })
-          console.log('热门搜索API响应:', hotSearchesRes)
 
           // 处理不同的响应格式
           let hotSearches = []
@@ -458,7 +455,7 @@ export default {
           }
 
           this.hotSearches = hotSearches
-          console.log('处理后的热门搜索数据:', this.hotSearches)
+
         } catch (error) {
           console.warn('获取热门搜索失败:', error)
           // 提供默认的热门搜索数据
@@ -480,7 +477,6 @@ export default {
           this.searchHistory = []
         }
 
-        console.log('搜索页面初始数据加载完成')
       } catch (error) {
         console.error('加载初始数据失败:', error)
       }
@@ -494,7 +490,6 @@ export default {
             page: 1,
             pageSize: this.searchPageSettings.recommendContentCount
           })
-          console.log('推荐内容API响应:', recommendRes)
 
           if (recommendRes.data && recommendRes.data.list) {
             return recommendRes.data.list.map(item => ({
@@ -559,7 +554,6 @@ export default {
           keyword: this.searchKeyword,
           limit: 5
         })
-        console.log('搜索建议API响应:', res)
 
         // 处理不同的响应格式
         let suggestions = []
@@ -577,7 +571,6 @@ export default {
         // 保持原始数据结构，不要只提取text
         this.searchSuggestions = suggestions.filter(Boolean)
 
-        console.log('处理后的搜索建议:', this.searchSuggestions)
       } catch (error) {
         console.error('获取搜索建议失败:', error)
         this.searchSuggestions = []
@@ -902,7 +895,6 @@ export default {
         // const settingsRes = await api.settings.getSearchPageSettings()
         // this.searchPageSettings = { ...this.searchPageSettings, ...settingsRes.data }
 
-        console.log('搜索页面设置:', this.searchPageSettings)
       } catch (error) {
         console.warn('获取搜索页面设置失败，使用默认设置:', error)
       }

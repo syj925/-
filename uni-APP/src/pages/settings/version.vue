@@ -248,8 +248,7 @@ export default {
       this.checking = true;
       
       try {
-        console.log('🔍 手动检查配置更新...');
-        
+
         // 重新获取远程版本
         await this.loadRemoteVersion();
         
@@ -289,8 +288,7 @@ export default {
       this.updating = true;
       
       try {
-        console.log('⬇️ 手动执行配置更新...');
-        
+
         const success = await configUpdateManager.downloadAndApplyConfig(this.remoteVersionInfo);
         
         if (success) {

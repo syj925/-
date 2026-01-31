@@ -140,7 +140,7 @@
 <script>
 import AppIcon from '@/components/common/AppIcon.vue';
 import FollowButton from '@/components/FollowButton.vue';
-import { useUserStore } from '@/store';
+import { useUserStore } from '@/stores';
 import { formatTimeAgo } from '@/utils/date';
 import { ensureAbsoluteUrl } from '@/utils/url';
 import { EMOJI_MAP } from '@/config/emoji-map';
@@ -257,7 +257,7 @@ export default {
 
       // 使用 ensureAbsoluteUrl 处理头像URL
       const processedUrl = ensureAbsoluteUrl(user.avatar);
-      console.log('✅ 处理后的主帖作者头像URL:', user.avatar, '->', processedUrl);
+
       return processedUrl;
     },
 
@@ -360,18 +360,18 @@ export default {
       });
 
       if (!comment || !comment.author) {
-        console.log('❌ 评论或作者不存在，使用默认头像');
+
         return '/static/logo.png'; // 临时使用logo测试
       }
 
       if (!comment.author.avatar) {
-        console.log('❌ 作者没有头像，使用默认头像');
+
         return '/static/logo.png'; // 临时使用logo测试
       }
 
       // 使用 ensureAbsoluteUrl 处理头像URL
       const processedUrl = ensureAbsoluteUrl(comment.author.avatar);
-      console.log('✅ 处理后的评论头像URL:', comment.author.avatar, '->', processedUrl);
+
       return processedUrl;
     },
 

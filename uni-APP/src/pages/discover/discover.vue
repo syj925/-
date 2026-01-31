@@ -223,7 +223,7 @@ export default {
   },
 
   onLoad() {
-    console.log('🚀 [发现页] 页面加载，开始初始化数据')
+
     this.loadData()
   },
 
@@ -235,16 +235,16 @@ export default {
   methods: {
     // 轮播图事件处理
     handleBannerClick(banner) {
-      console.log('发现页轮播图点击:', banner)
+
       // 根据轮播图类型进行跳转
     },
 
     handleBannerChange(data) {
-      console.log('发现页轮播图切换:', data)
+
     },
 
     handleBannersLoaded(data) {
-      console.log('发现页轮播图加载完成:', data)
+
     },
 
     handleBannersError(data) {
@@ -283,14 +283,12 @@ export default {
 
     async loadEvents() {
       try {
-        console.log('🔍 [发现页] 开始获取推荐活动...')
+
         const response = await eventApi.getRecommended(4)
-        console.log('📊 [发现页] 推荐活动API响应:', response)
-        
+
         if (response.code === 0) {
-          console.log('✅ [发现页] API调用成功，原始数据:', response.data)
-          console.log('🔢 [发现页] 活动数量:', response.data?.length || 0)
-          
+
+
           // 处理活动数据，确保图片路径正确
           const processedEvents = (response.data || []).map(event => {
             const processedEvent = {
@@ -313,7 +311,7 @@ export default {
           })
           
           this.events = processedEvents
-          console.log('🎯 [发现页] 最终设置的活动数组:', this.events)
+
         } else {
           console.error('❌ [发现页] API调用失败:', response.msg || response.message)
           this.events = []
@@ -422,13 +420,13 @@ export default {
     async refreshData() {
       try {
         // 刷新轮播图
-        console.log('🔄 发现页开始刷新数据')
+
         if (this.$refs.banner) {
-          console.log('🎯 调用轮播图refresh方法')
+
           await this.$refs.banner.refresh()
-          console.log('✅ 轮播图refresh完成')
+
         } else {
-          console.log('❌ 未找到轮播图ref')
+
         }
 
         await Promise.all([

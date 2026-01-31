@@ -2,7 +2,7 @@
 import appConfig from './config';
 import configUpdateManager from '@/utils/configUpdateManager';
 import { useFollowStore } from './stores/followStore';
-import { useMessageStore } from '@/store';
+import { useMessageStore } from '@/stores';
 
 export default {
   globalData: {
@@ -12,7 +12,7 @@ export default {
     isFirstLaunch: true  // 标记是否首次启动
   },
   onLaunch: function () {
-    console.log('App Launch')
+
     // 将API实例保存到globalData中
     this.globalData.$api = this.$api;
     // 将配置保存到globalData中
@@ -25,7 +25,6 @@ export default {
     uni.stopPullDownRefresh();
   },
   onShow: function () {
-    console.log('App Show')
 
     // 确保每次应用显示时停止所有可能的下拉刷新
     uni.stopPullDownRefresh();
@@ -33,17 +32,17 @@ export default {
     // 如果是首次启动，跳过检查（已在onLaunch中处理）
     if (this.globalData.isFirstLaunch) {
       this.globalData.isFirstLaunch = false;
-      console.log('🚀 首次启动，跳过onShow中的配置检查');
+
       return;
     }
 
     // App从后台回到前台时，检查是否需要更新配置
-    console.log('🔄 从后台返回，检查配置更新...');
+
     setTimeout(async () => {
       try {
         const hasUpdate = await configUpdateManager.checkForUpdates();
         if (hasUpdate) {
-          console.log('🎉 从后台返回，配置已更新');
+
           uni.$emit('validationRulesUpdated');
         }
       } catch (error) {
@@ -52,7 +51,7 @@ export default {
     }, 1000); // 延迟1秒检查
   },
   onHide: function () {
-    console.log('App Hide')
+
   },
   methods: {
     // 初始化应用
@@ -84,16 +83,16 @@ export default {
       // 检查是否有服务器设置
       const userServer = appConfig.getUserServer();
       if (userServer) {
-        console.log('使用用户自定义服务器:', userServer);
+
       } else {
         // 使用最佳服务器
         const bestServer = appConfig.getBestServer();
-        console.log('使用最佳服务器:', bestServer);
+
       }
       
       // 确保http配置中有正确的baseURL
       if (this.$api && this.$api.http) {
-        console.log('当前API服务器地址:', this.$api.http.config.baseURL);
+
       }
     },
 
@@ -103,7 +102,7 @@ export default {
         // 检查用户是否已登录
         const token = uni.getStorageSync('token');
         if (!token) {
-          console.log('用户未登录，跳过关注状态初始化');
+
           return;
         }
         
@@ -111,11 +110,11 @@ export default {
         
         // 检查是否需要初始化
         if (!followStore.isInitialized) {
-          console.log('🚀 开始初始化关注状态...');
+
           await followStore.initializeFollowData();
-          console.log('✅ 关注状态初始化完成');
+
         } else {
-          console.log('关注状态已初始化，跳过');
+
         }
       } catch (error) {
         console.error('初始化关注状态失败:', error);
@@ -128,11 +127,10 @@ export default {
         // 检查用户是否已登录
         const token = uni.getStorageSync('token');
         if (!token) {
-          console.log('用户未登录，跳过消息状态初始化');
+
           return;
         }
-        
-        console.log('🚀 开始初始化消息状态...');
+
         const messageStore = useMessageStore();
         
         // 获取未读消息数量
@@ -141,7 +139,7 @@ export default {
         // 初始化WebSocket连接
         setTimeout(async () => {
           await messageStore.initWebSocket();
-          console.log('✅ 消息状态初始化完成');
+
         }, 2000); // 延迟2秒连接WebSocket，确保应用完全启动
         
       } catch (error) {
@@ -152,13 +150,12 @@ export default {
     // 检查配置文件更新
     async checkConfigUpdates() {
       try {
-        console.log('🚀 应用启动，开始检查配置更新...');
 
         // 先初始化间隔设置（独立获取，不影响版本检查）
         setTimeout(async () => {
           try {
             await configUpdateManager.checkAndUpdateInterval();
-            console.log('📅 间隔设置初始化完成');
+
           } catch (error) {
             console.warn('间隔设置初始化失败:', error);
           }
@@ -169,13 +166,12 @@ export default {
         const isH5Refresh = !sessionStorage.getItem('campus_wall_session_started');
         if (isH5Refresh) {
           sessionStorage.setItem('campus_wall_session_started', 'true');
-          console.log('🌐 H5模式首次启动或刷新，延长检查延迟');
 
           // H5刷新时延长检查时间，避免重复强制更新提示
           setTimeout(async () => {
             const hasUpdate = await configUpdateManager.checkForUpdates();
             if (hasUpdate) {
-              console.log('🎉 配置文件已更新到最新版本');
+
               uni.$emit('validationRulesUpdated');
             }
           }, 5000); // H5模式延迟5秒
@@ -188,7 +184,6 @@ export default {
           const hasUpdate = await configUpdateManager.checkForUpdates();
 
           if (hasUpdate) {
-            console.log('🎉 配置文件已更新到最新版本');
 
             // 可以在这里通知用户配置已更新
             // 或者触发相关组件重新加载验证规则

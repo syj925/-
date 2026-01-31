@@ -285,7 +285,7 @@ export default {
         // 添加震动反馈
         uni.vibrateShort({
           success: function () {
-            console.log('振动成功');
+
           }
         });
       }

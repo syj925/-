@@ -243,9 +243,9 @@
 </template>
 
 <script>
-import { useMessageStore } from '@/store'
+import { useMessageStore } from '@/stores'
 import { getBestServer } from '@/config/index.js'
-import { useUserStore } from '@/store';
+import { useUserStore } from '@/stores';
 
 export default {
   name: 'PrivateMessageChat',
@@ -300,13 +300,13 @@ export default {
   
   onUnload() {
     // 移除WebSocket事件监听
-    console.log('🚪 [私信聊天] 页面卸载，清理WebSocket监听器...');
+
     if (this.messageReceivedHandler) {
       uni.$off('messageReceived', this.messageReceivedHandler);
       this.messageReceivedHandler = null;
-      console.log('✅ [私信聊天] WebSocket监听器已成功移除');
+
     } else {
-      console.log('ℹ️ [私信聊天] 没有需要移除的监听器');
+
     }
   },
   
@@ -369,8 +369,7 @@ export default {
   },
   
   onLoad(options) {
-    console.log('💬 [私信聊天] 页面加载，参数:', options);
-    
+
     // 获取系统信息
     const systemInfo = uni.getSystemInfoSync();
     this.statusBarHeight = systemInfo.statusBarHeight || 0;
@@ -403,11 +402,10 @@ export default {
     // 设置WebSocket监听器
     setupWebSocketListener() {
       try {
-        console.log('🔧 [私信聊天] 开始设置WebSocket监听器...');
-        
+
         // 如果已经有监听器，先移除
         if (this.messageReceivedHandler) {
-          console.log('🧹 [私信聊天] 移除旧的监听器...');
+
           uni.$off('messageReceived', this.messageReceivedHandler);
           this.messageReceivedHandler = null;
         }
@@ -415,17 +413,16 @@ export default {
         // 确保方法存在后再绑定
         if (typeof this.handleNewMessage === 'function') {
           this.messageReceivedHandler = (eventData) => {
-            console.log('🔄 [私信聊天] 收到WebSocket事件，消息类型:', eventData?.message?.type);
+
             this.handleNewMessage(eventData);
           };
           
           uni.$on('messageReceived', this.messageReceivedHandler);
-          console.log('✅ [私信聊天] WebSocket监听器已成功绑定');
-          
+
           // 验证绑定是否生效
           setTimeout(() => {
             if (this.messageReceivedHandler) {
-              console.log('🔍 [私信聊天] 监听器绑定验证成功');
+
             } else {
               console.warn('⚠️ [私信聊天] 监听器绑定可能失败');
             }
@@ -485,8 +482,7 @@ export default {
     async checkPrivateMessageStatus() {
       try {
         const response = await this.$api.privateMessage.getStatus();
-        console.log('🔍 [私信聊天] 功能状态检查:', response);
-        
+
         if (response.success && response.data) {
           this.canSendPrivateMessage = response.data.available;
           
@@ -614,17 +610,14 @@ export default {
       
       try {
         this.isSending = true;
-        
-        console.log(`📤 [私信聊天] 发送消息给用户 ${this.userId}`);
-        
+
         const response = await this.$api.privateMessage.send({
           receiverId: this.userId,
           content: content
         });
         
         if (response.success && response.data) {
-          console.log('✅ [私信聊天] 消息发送成功:', response.data);
-          
+
           // 替换临时消息
           const tempIndex = this.messageList.findIndex(msg => msg.id === tempMessage.id);
           if (tempIndex !== -1) {
@@ -688,7 +681,7 @@ export default {
         sourceType: ['camera', 'album'],
         success: (res) => {
           // TODO: 上传图片并发送
-          console.log('选择图片:', res.tempFilePaths[0]);
+
           uni.showToast({
             title: '图片功能开发中',
             icon: 'none'
@@ -880,12 +873,10 @@ export default {
     handleNewMessage(eventData) {
       try {
         const newMessage = eventData.message;
-        
-        console.log('📨 [私信聊天] 收到WebSocket消息:', newMessage);
-        
+
         // 只处理私信类型的消息
         if (newMessage.type !== 'private') {
-          console.log('⏭️ [私信聊天] 非私信消息，跳过处理');
+
           return;
         }
         
@@ -897,7 +888,7 @@ export default {
         );
         
         if (!isRelevantMessage) {
-          console.log('⏭️ [私信聊天] 与当前对话无关的消息，跳过处理');
+
           return;
         }
         
@@ -929,7 +920,7 @@ export default {
         );
         
         if (existingIndex >= 0) {
-          console.log('💡 [私信聊天] 消息已存在，跳过添加，索引:', existingIndex);
+
           return;
         }
         
@@ -946,9 +937,7 @@ export default {
         
         // 添加到消息列表末尾（最新消息在底部）
         this.messageList.push(formattedMessage);
-        
-        console.log('✨ [私信聊天] 新消息已实时添加，列表长度:', this.messageList.length);
-        
+
         // 滚动到底部显示新消息
         this.$nextTick(() => {
           setTimeout(() => {
@@ -994,8 +983,7 @@ export default {
       if (this.messageList.length > 0) {
         const lastMessage = this.messageList[this.messageList.length - 1];
         const scrollId = `msg-${lastMessage.id}`;
-        console.log('📍 [私信聊天] 滚动到底部:', scrollId);
-        
+
         // 重置scrollToView，然后设置新值
         this.scrollToView = '';
         this.$nextTick(() => {
@@ -1056,14 +1044,12 @@ export default {
     // 标记对话为已读
     async markConversationAsRead() {
       try {
-        console.log('📖 [私信聊天] 标记对话为已读:', this.userInfo.id);
-        
+
         const response = await this.$api.privateMessage.markConversationAsRead(this.userInfo.id);
         
         if (response.success || response.code === 0) {
           const updatedCount = response.data?.updatedCount || 0;
-          console.log(`✅ [私信聊天] 成功标记 ${updatedCount} 条消息为已读`);
-          
+
           // 触发全局消息更新事件，刷新消息列表的计数
           uni.$emit('conversationMarkedAsRead', {
             userId: this.userInfo.id,

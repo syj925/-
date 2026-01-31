@@ -154,8 +154,6 @@ export default {
             latency: latency,
             lastCheck: new Date()
           };
-          
-          console.log('服务器状态检查完成:', this.serverStatus);
         },
         fail: (err) => {
           console.error('服务器状态检查失败:', err);

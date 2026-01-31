@@ -408,7 +408,7 @@ export default {
           this.customEmojis = res.data?.list || res.data || [];
         }
       } catch (e) {
-        console.log('加载自定义表情失败:', e);
+
       }
     },
     
@@ -419,7 +419,7 @@ export default {
           this.favoriteEmojis = res.data?.list || res.data || [];
         }
       } catch (e) {
-        console.log('加载收藏表情失败:', e);
+
       }
     },
     
@@ -430,7 +430,7 @@ export default {
           this.emojiPacks = res.data?.list || res.data || [];
         }
       } catch (e) {
-        console.log('加载表情包失败:', e);
+
       }
     },
     

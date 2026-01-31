@@ -587,9 +587,7 @@ export default {
           includeHidden: false, // 只显示可见的徽章
           type: 'achievement' // 只显示成就类型的徽章
         })
-        
-        console.log('🏆 获取用户徽章API响应:', response)
-        
+
         if (response.success && response.data) {
           this.userBadges = response.data.map(userBadge => {
             return {
@@ -604,9 +602,8 @@ export default {
               badge: userBadge.badge
             }
           })
-          
-          console.log('🏆 处理后的用户徽章:', this.userBadges)
-          console.log('🏆 徽章颜色检查:', this.userBadges.map(b => ({ name: b.name, color: b.color })))
+
+
         }
       } catch (error) {
         console.error('获取用户徽章失败:', error)
@@ -615,7 +612,7 @@ export default {
     
     // 显示徽章详情
     showBadgeDetails(badge) {
-      console.log('🏆 显示徽章详情:', badge);
+
       this.selectedBadge = badge
       this.showBadgeDetail = true
     },
@@ -1029,8 +1026,7 @@ export default {
     },
     
     sendMessage() {
-      console.log('💬 [用户主页] 发起私信对话:', this.userInfo);
-      
+
       uni.navigateTo({
         url: `/pages/message/chat?userId=${this.userId}&nickname=${encodeURIComponent(this.userInfo.nickname || '')}&username=${encodeURIComponent(this.userInfo.username || '')}&avatar=${encodeURIComponent(this.userInfo.avatar || '')}`
       });

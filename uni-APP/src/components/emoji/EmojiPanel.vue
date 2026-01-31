@@ -271,7 +271,6 @@ export default {
       // 默认显示最近使用或第一个表情包
       if (this.emojiStore.recentEmojis.length === 0 && this.emojiStore.packs.length > 0) {
         this.currentTabIndex = 2;
-        console.log('切换到第一个表情包, index:', this.currentTabIndex);
       }
     },
 

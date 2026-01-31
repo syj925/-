@@ -57,7 +57,7 @@
 import { ensureAbsoluteUrl } from '@/utils/url'
 import api from '@/api'
 
-import { useUserStore } from '@/store';
+import { useUserStore } from '@/stores';
 
 export default {
   name: 'SearchUserCard',
@@ -93,7 +93,7 @@ export default {
     },
     
     onAvatarError() {
-      console.log('头像加载失败，使用默认头像')
+
     },
     
     // 获取角色徽章样式类

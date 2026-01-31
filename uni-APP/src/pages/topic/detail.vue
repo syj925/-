@@ -344,17 +344,17 @@ export default {
 
     handleShare(post) {
       // 处理分享
-      console.log('分享帖子:', post.id)
+
     },
 
     handleEdit(post) {
       // 编辑帖子
-      console.log('编辑帖子:', post.id)
+
     },
 
     handleDelete(post) {
       // 删除帖子
-      console.log('删除帖子:', post.id)
+
     },
 
     handleCommentLike(comment) {
@@ -663,7 +663,6 @@ export default {
     navigateToPost(postId) {
       // 确保postId是字符串或数字，不是对象
       const id = typeof postId === 'object' ? postId.id : postId;
-      console.log('navigateToPost called with:', postId, 'using id:', id);
 
       if (!id) {
         console.error('Invalid post ID:', postId);

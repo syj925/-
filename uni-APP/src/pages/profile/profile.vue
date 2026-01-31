@@ -368,7 +368,7 @@
 </template>
 
 <script>
-import { useUserStore } from '@/store';
+import { useUserStore } from '@/stores';
 import PostList from '@/components/post/PostList.vue';
 import AppIcon from '@/components/common/AppIcon.vue';
 import { UrlUtils } from '@/utils';
@@ -517,7 +517,7 @@ export default {
     // 检查全局强制刷新标记
     const app = getApp();
     if (app.globalData && app.globalData.forceRefresh) {
-      console.log('检测到全局刷新标记，强制刷新用户信息');
+
       this.userStore.fetchUserProfile().finally(() => {
         this.syncFromUserStore();
       });
@@ -618,8 +618,7 @@ export default {
         includeHidden: false, // 只显示可见的徽章
         type: 'achievement' // 只显示成就类型的徽章
       }).then(res => {
-        console.log('🏆 获取用户徽章API响应:', res);
-        
+
         if (res.success && res.data) {
           this.userBadges = res.data.map(userBadge => {
             return {
@@ -640,8 +639,7 @@ export default {
             name: badge.name,
             description: badge.description
           }));
-          
-          console.log('🏆 处理后的用户徽章:', this.userBadges);
+
         }
       }).catch(err => {
         console.error('获取用户徽章失败:', err);
@@ -650,7 +648,7 @@ export default {
     
     // 显示徽章详情
     showBadgeDetails(badge) {
-      console.log('🏆 显示徽章详情:', badge);
+
       this.selectedBadge = badge;
       this.showBadgeDetail = true;
     },
@@ -986,7 +984,7 @@ export default {
       
       // 未登录时不加载帖子
       if (!this.userInfo.isLogin) {
-        console.log('未登录，跳过加载帖子');
+
         return;
       }
       
@@ -994,7 +992,6 @@ export default {
       
       // 调用API获取用户发布的帖子
       api.user.getPosts(this.postPage, this.postPageSize, 'published').then(res => {
-        console.log('获取用户帖子成功:', res);
 
         if (res.code === 0 || res.code === 200) {
           const postsData = res.data.list || res.data.items || res.data.posts || [];
@@ -1002,7 +999,6 @@ export default {
 
           // 🔧 修复：对个人主页的帖子数据进行字段映射（旧版本API兼容）
           const processedPosts = postsData.map(post => {
-            console.log('🔍 个人主页帖子原始数据:', post);
 
             return {
               ...post,
@@ -1035,8 +1031,6 @@ export default {
               topics: post.topics || []
             };
           });
-
-          console.log('🔧 个人主页帖子处理后数据:', processedPosts);
 
           if (this.postPage === 1) {
             this.posts = processedPosts;
@@ -1097,7 +1091,7 @@ export default {
       
       // 未登录时不加载收藏
       if (!this.userInfo.isLogin) {
-        console.log('未登录，跳过加载收藏');
+
         return;
       }
       
@@ -1105,7 +1099,6 @@ export default {
       
       // 调用API获取用户收藏
       api.user.getFavorites(this.likePage, this.likePageSize).then(res => {
-        console.log('🔍 获取用户收藏API响应:', res);
 
         if (res.code === 0 || res.code === 200) {
           const favoritesData = res.data.list || res.data.items || [];
@@ -1226,7 +1219,6 @@ export default {
 
     // 格式化数字显示
     formatNumber(num) {
-      console.log('🔍 formatNumber 调用:', { input: num, type: typeof num });
 
       if (!num || num === 0) return '0';
 

@@ -108,7 +108,7 @@ import FollowButton from '@/components/FollowButton.vue';
 import EnhancedCommentSection from '@/components/comment/EnhancedCommentSection.vue';
 import { formatTimeAgo } from '@/utils/date';
 import { UrlUtils } from '@/utils';
-import { useUserStore } from '@/store';
+import { useUserStore } from '@/stores';
 
 export default {
   components: {
@@ -208,8 +208,7 @@ export default {
     onFollowSuccess(data) {
       // 更新帖子作者的关注状态
       this.post.isFollowing = data.isFollowing;
-      
-      console.log(`帖子详情页 - 关注状态更新: ${data.isFollowing}`);
+
     },
     
     // 加载帖子详情
@@ -255,7 +254,7 @@ export default {
     // 处理滚动到评论区域
     handleScrollToComments() {
       // 可以在这里添加滚动到评论区域的逻辑
-      console.log('滚动到评论区域');
+
     },
     
     // 点赞帖子

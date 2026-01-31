@@ -98,7 +98,7 @@
 <script>
 import PostList from '@/components/post/PostList.vue';
 import Banner from '@/components/common/Banner.vue';
-import { useUserStore } from '@/store';
+import { useUserStore } from '@/stores';
 
 export default {
   components: {
@@ -142,11 +142,11 @@ export default {
     };
   },
   onLoad() {
-    console.log('🚀 首页 onLoad 开始');
+
     // 先加载分类数据，再加载帖子数据
-    console.log('🏷️ 准备加载分类数据');
+
     this.loadCategories();
-    console.log('📝 准备加载帖子数据');
+
     this.loadPosts();
   },
 
@@ -183,8 +183,7 @@ export default {
     if ((prevPage && prevPage.route && prevPage.route.includes('publish')) || 
         hasNewPost || 
         forceRefresh) {
-      console.log('需要刷新数据');
-      
+
       // 重置页码和状态
       this.page = 1;
       this.finished = false;
@@ -248,13 +247,13 @@ export default {
 
     try {
       // 刷新轮播图
-      console.log('🔄 首页开始刷新数据')
+
       if (this.$refs.banner) {
-        console.log('🎯 调用轮播图refresh方法')
+
         await this.$refs.banner.refresh()
-        console.log('✅ 轮播图refresh完成')
+
       } else {
-        console.log('❌ 未找到轮播图ref')
+
       }
 
       // 刷新帖子数据
@@ -282,11 +281,10 @@ export default {
     // 加载分类数据
     async loadCategories() {
       try {
-        console.log('🏷️ 开始获取分类数据...');
+
         const res = await this.$api.category.getList();
-        console.log('🏷️ 获取到的原始分类数据:', res);
-        console.log('🏷️ 响应数据类型:', typeof res);
-        console.log('🏷️ 响应数据结构:', Object.keys(res || {}));
+
+
 
         // 处理不同的响应格式
         let dynamicCategories = [];
@@ -311,7 +309,7 @@ export default {
               name: category.name
             }))
           ];
-          console.log('分类数据加载成功:', this.categories);
+
         } else {
           console.warn('🏷️ 未获取到有效的分类数据，使用默认分类');
         }
@@ -350,13 +348,10 @@ export default {
         };
       }
 
-      console.log('🔍 API调用参数:', params);
-      console.log('🏷️ 当前分类:', this.activeCategory);
 
       apiCall(params)
         .then(res => {
-          console.log('获取帖子列表成功:', res);
-          
+
           // 确认响应格式，提取list数组
           // API可能返回多种格式：
           // 1. {data: {list: [...], total: 10}}
@@ -388,8 +383,6 @@ export default {
               posts = [];
             }
           }
-          
-          console.log('提取的帖子数据:', posts, '总数:', total);
 
           // 后处理帖子数据，确保必要字段
           const processedPosts = posts.map(post => {
@@ -542,7 +535,7 @@ export default {
       
       apiPromise
         .then(res => {
-          console.log('点赞操作成功:', res);
+
           // 提示
           uni.showToast({
             title: newState ? '点赞成功' : '取消点赞',
@@ -597,7 +590,7 @@ export default {
 
       apiPromise
         .then(res => {
-          console.log('收藏操作成功:', res);
+
           // 提示
           uni.showToast({
             title: newState ? '收藏成功' : '取消收藏',
@@ -810,7 +803,7 @@ export default {
       // 先检查是否有token
       const token = uni.getStorageSync('token');
       if (!token) {
-        console.log('📋 未登录，跳过关注状态查询');
+
         return;
       }
       
@@ -819,7 +812,7 @@ export default {
       const currentUserId = currentUser?.id || uni.getStorageSync('userId') || uni.getStorageSync('user_id');
       
       if (!currentUserId) {
-        console.log('📋 无用户ID，跳过关注状态查询');
+
         return; // 用户未登录，无需获取关注状态
       }
 
@@ -838,8 +831,6 @@ export default {
           return; // 没有需要查询关注状态的作者
         }
 
-        console.log('📋 批量查询关注状态，作者IDs:', authorIds);
-
         // 使用批量查询API（更高效）
         const followStates = {};
         try {
@@ -849,8 +840,7 @@ export default {
           if (result && result.data) {
             Object.assign(followStates, result.data);
           }
-          
-          console.log('📋 批量查询结果:', followStates);
+
         } catch (error) {
           console.warn('批量查询关注状态失败，使用单个查询:', error);
           
@@ -866,8 +856,6 @@ export default {
           }
         }
 
-        console.log('📋 获取到的关注状态:', followStates);
-
         // 更新postList中的关注状态
         this.postList.forEach(post => {
           if (post.author && post.author.id && followStates.hasOwnProperty(post.author.id)) {
@@ -878,8 +866,7 @@ export default {
             post.author.dataValues.isFollowing = followStates[post.author.id];
             // 同时设置isFollowing属性（兼容不同的访问方式）
             post.author.isFollowing = followStates[post.author.id];
-            
-            console.log(`📋 更新帖子 ${post.id} 作者 ${post.author.id} 关注状态: ${followStates[post.author.id]}`);
+
           }
         });
 

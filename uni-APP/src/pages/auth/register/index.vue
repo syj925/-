@@ -119,13 +119,8 @@ export default {
         nickname: this.form.nickname,
         password: this.form.password
       };
-      
-      console.log('正在发送注册请求:', registerData);
-      
       this.$api.user.register(registerData)
         .then(res => {
-          console.log('注册成功，响应:', res);
-
           if (res && res.data) {
             // 检查是否需要审核
             if (res.data.needAudit) {
@@ -142,12 +137,10 @@ export default {
               });
             } else if (res.data.token) {
               // 直接注册成功，有token的情况
-              console.log('保存token到本地存储');
               uni.setStorageSync('token', res.data.token);
 
               // 保存用户信息
               if (res.data.user) {
-                console.log('保存用户信息到本地存储');
                 uni.setStorageSync('userInfo', res.data.user);
               }
 
@@ -159,10 +152,8 @@ export default {
 
               // 尝试连接WebSocket
               if (this.$ws) {
-                console.log('尝试连接WebSocket服务...');
                 this.$ws.connect(res.data.token)
                   .then(() => {
-                    console.log('WebSocket连接成功');
                   })
                   .catch(err => {
                     console.error('WebSocket连接失败:', err);
@@ -173,7 +164,6 @@ export default {
 
               // 跳转到首页
               setTimeout(() => {
-                console.log('跳转到首页');
                 uni.switchTab({
                   url: '/pages/index/home'
                 });

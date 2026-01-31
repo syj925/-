@@ -332,17 +332,12 @@ export default {
     // 提交帖子
     async submitPost() {
       // 前端验证
-      console.log('🔍 开始前端内容验证...');
       const validation = await contentValidator.validatePost(this.form.content, this.form.title);
 
       if (!validation.valid) {
-        console.log('❌ 前端验证失败:', validation.errors);
         contentValidator.showValidationErrors(validation.errors);
         return;
       }
-
-      console.log('✅ 前端验证通过，准备发布...');
-
       // 检查登录状态
       const token = uni.getStorageSync('token');
       if (!token) {
@@ -444,8 +439,6 @@ export default {
           return postData;
         })
         .then(finalPostData => {
-          console.log('准备发送请求:', 'POST', this.$api.http.config.baseURL + '/api/posts', finalPostData);
-
           // 创建或更新帖子
           const apiMethod = this.isEdit
             ? this.$api.post.update(this.postId, finalPostData)
@@ -456,9 +449,6 @@ export default {
         .then(res => {
           // 隐藏加载提示
           uni.hideLoading();
-
-          console.log('发布响应:', res);
-
           // 根据审核状态显示不同提示
           if (res.data && res.data.needsAudit) {
             // 需要审核的情况
@@ -482,8 +472,6 @@ export default {
 
             // 设置新帖子标志
             uni.setStorageSync('hasNewPost', true);
-            console.log('设置hasNewPost = true');
-
             // 触发强制刷新
             getApp().globalData.forceRefresh = true;
 
@@ -612,8 +600,6 @@ export default {
       this.searchLoading = true;
       try {
         const res = await this.$api.topic.search(keyword, 10);
-        console.log('搜索话题响应:', res);
-
         // 处理API返回的数据格式 {code: 0, msg: '成功', data: []}
         let topics = [];
         if (res && res.code === 0 && res.data) {
@@ -627,8 +613,6 @@ export default {
         this.searchResults = topics.filter(topic =>
           !this.form.tags.includes(topic.name)
         );
-
-        console.log('搜索结果:', this.searchResults);
       } catch (error) {
         console.error('搜索话题失败:', error);
         this.searchResults = [];
@@ -641,8 +625,6 @@ export default {
     async loadHotTopics() {
       try {
         const res = await this.$api.topic.getHot(8);
-        console.log('热门话题响应:', res);
-
         // 处理API返回的数据格式 {code: 0, msg: '成功', data: []}
         let topics = [];
         if (res && res.code === 0 && res.data) {
@@ -656,8 +638,6 @@ export default {
         this.hotTopics = topics.filter(topic =>
           !this.form.tags.includes(topic.name)
         );
-
-        console.log('热门话题:', this.hotTopics);
       } catch (error) {
         console.error('获取热门话题失败:', error);
         this.hotTopics = [];
@@ -754,14 +734,9 @@ export default {
     showCreateTopicModal() {
       // 保存当前输入的话题名称
       this.pendingTopicName = this.tagInput.trim();
-      console.log('showCreateTopicModal - tagInput:', this.tagInput);
-      console.log('showCreateTopicModal - pendingTopicName:', this.pendingTopicName);
-
       // 使用nextTick确保数据更新后再显示弹窗
       this.$nextTick(() => {
         this.showingCreateModal = true;
-        console.log('showingCreateModal set to true, pendingTopicName:', this.pendingTopicName);
-
         // 直接调用子组件方法设置初始名称
         if (this.$refs.topicCreateModal && this.pendingTopicName) {
           this.$refs.topicCreateModal.setInitialName(this.pendingTopicName);
@@ -777,22 +752,10 @@ export default {
 
     // 处理话题创建
     async handleCreateTopic(topicData) {
-      console.log('=== 发布页面 - 处理话题创建 ===');
-      console.log('接收数据:', JSON.stringify(topicData, null, 2));
-
       try {
-        console.log('=== 准备调用 API ===');
-        console.log('API 方法: this.$api.topic.createByUser');
-        console.log('发送的数据:', JSON.stringify(topicData, null, 2));
-
         // 调用创建话题API（普通用户）
         const res = await this.$api.topic.createByUser(topicData);
-
-        console.log('=== API 响应 ===');
-        console.log('响应:', JSON.stringify(res, null, 2));
-
         if (res && res.code === 0 && res.data) {
-          console.log('=== 创建成功 ===');
           const newTopic = res.data;
 
           this.addTopicByName(newTopic.name);
@@ -805,12 +768,9 @@ export default {
             icon: 'success'
           });
         } else {
-          console.log('=== 创建失败 ===');
-          console.log('失败原因: API 响应格式不正确');
           throw new Error(res?.msg || '创建失败');
         }
       } catch (error) {
-        console.log('=== 创建话题异常 ===');
         console.error('错误详情:', error);
         console.error('错误消息:', error.message);
         console.error('错误堆栈:', error.stack);
@@ -847,8 +807,6 @@ export default {
       // 调用API获取分类列表
       this.$api.category.getList()
         .then(res => {
-          console.log('获取分类列表响应:', res);
-
           // 处理不同的响应格式
           let categories = [];
           if (res && Array.isArray(res)) {
@@ -876,8 +834,6 @@ export default {
             if (this.form.category_id === 1) {
               this.form.category_id = 0;
             }
-
-            console.log('分类列表加载成功:', this.categories);
           } else {
             console.warn('未获取到有效的分类数据');
           }

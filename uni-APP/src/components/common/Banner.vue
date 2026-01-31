@@ -184,17 +184,16 @@ const containerStyle = computed(() => {
     height: finalConfig.value.height,
     borderRadius: finalConfig.value.borderRadius
   }
-  console.log(`[Banner] 容器样式 - scene: ${props.scene}`, style)
-  console.log(`[Banner] 最终配置:`, finalConfig.value)
+
+
   return style
 })
 
 // 获取轮播图数据
 const fetchBanners = async (force = false) => {
-  console.log(`[Banner] 开始获取轮播图数据 - scene: ${props.scene}, force: ${force}`)
 
   if (loading.value && !force) {
-    console.log('[Banner] 正在加载中，跳过重复请求')
+
     return
   }
 
@@ -202,7 +201,7 @@ const fetchBanners = async (force = false) => {
   error.value = null
 
   try {
-    console.log('[Banner] 调用 bannerService.getBanners')
+
     const data = await bannerService.getBanners(props.scene, {
       force,
       platform: 'app',
@@ -210,8 +209,6 @@ const fetchBanners = async (force = false) => {
       limit: finalConfig.value.limit || 5
     })
 
-    console.log('[Banner] 获取到轮播图数据:', data)
-    console.log('[Banner] 轮播图数据详情:', JSON.stringify(data, null, 2))
 
     banners.value = data || []
 
@@ -232,13 +229,12 @@ const fetchBanners = async (force = false) => {
     emit('banners-error', { scene: props.scene, error: err })
   } finally {
     loading.value = false
-    console.log(`[Banner] 轮播图加载完成 - 数据量: ${banners.value.length}`)
+
   }
 }
 
 // 强制刷新轮播图数据
 const forceRefresh = async () => {
-  console.log(`[Banner] 强制刷新轮播图数据 - scene: ${props.scene}`)
 
   // 清除缓存
   bannerService.clearCache(props.scene)
@@ -391,7 +387,6 @@ const onSwiperChange = (e) => {
 
 // 刷新轮播图
 const refresh = async () => {
-  console.log(`[Banner] 开始刷新轮播图 - scene: ${props.scene}`)
 
   // 简单直接：清除数据，重新加载
   banners.value = []
@@ -399,7 +394,7 @@ const refresh = async () => {
 
   // 重新获取数据
   await fetchBanners(true)
-  console.log(`[Banner] 轮播图刷新完成 - scene: ${props.scene}`)
+
 }
 
 // 事件监听器
@@ -465,7 +460,7 @@ const onImageError = (e) => {
 
 // 图片加载成功处理
 const onImageLoad = (e) => {
-  console.log('轮播图图片加载成功')
+
 }
 
 onMounted(() => {

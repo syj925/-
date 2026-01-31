@@ -108,7 +108,6 @@ export default {
           this.imageEmojis = res.data.list || res.data || [];
         }
       } catch (e) {
-        console.log('加载图片表情失败:', e);
       }
     },
     

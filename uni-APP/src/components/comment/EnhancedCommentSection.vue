@@ -244,7 +244,7 @@
 import AppIcon from '@/components/common/AppIcon.vue';
 import EnhancedCommentInput from './EnhancedCommentInput.vue';
 import { ensureAbsoluteUrl } from '@/utils/url';
-import { useUserStore } from '@/store';
+import { useUserStore } from '@/stores';
 import { EMOJI_MAP } from '@/config/emoji-map';
 
 export default {
@@ -361,8 +361,7 @@ export default {
         
         if (response.code === 0) {
           const newComments = response.data.list || [];
-          console.log('📥 收到评论数据:', newComments.length, '条');
-          
+
           // 处理评论数据
           const processedComments = newComments.map(comment => {
             console.log(`处理评论 ${comment.id}:`, {
@@ -541,8 +540,7 @@ export default {
       if (this.currentReplyTo && commentData.reply_to) {
         const parentIndex = this.comments.findIndex(c => c.id === this.currentReplyTo.id);
         if (parentIndex !== -1) {
-          console.log(`💬 添加回复到评论 ${this.currentReplyTo.id}`);
-          
+
           // 确保有 replies 和 children 数组
           if (!this.comments[parentIndex].replies) {
             this.comments[parentIndex].replies = [];
@@ -567,14 +565,13 @@ export default {
           this.comments[parentIndex].replies.unshift(processedReply);
           this.comments[parentIndex].children.unshift(processedReply);
           this.comments[parentIndex].replyCount++;
-          
-          console.log(`✅ 回复添加成功，父评论现在有 ${this.comments[parentIndex].replies.length} 条回复`);
+
         } else {
           console.warn('❌ 找不到父评论:', this.currentReplyTo.id);
         }
       } else {
         // 新评论添加到列表开头
-        console.log('📄 添加顶级评论');
+
         const newComment = {
           ...commentData,
           likeCount: commentData.like_count || commentData.likeCount || 0,
@@ -1356,4 +1353,3 @@ export default {
   100% { transform: rotate(360deg); }
 }
 </style>
-

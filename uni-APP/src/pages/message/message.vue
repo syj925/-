@@ -132,7 +132,7 @@
 </template>
 
 <script>
-import { useMessageStore } from '@/store';
+import { useMessageStore } from '@/stores';
 import { getBestServer } from '@/config/index.js';
 
 export default {
@@ -229,12 +229,11 @@ export default {
 
   // 页面显示时刷新数据
   onShow() {
-    console.log('📱 [消息页面] onShow - 刷新数据');
-    
+
     // 检查是否登录
     const token = uni.getStorageSync('token');
     if (!token) {
-      console.log('📱 [消息页面] 未登录，跳过数据刷新');
+
       return;
     }
     
@@ -253,7 +252,7 @@ export default {
     // 检查是否登录
     const token = uni.getStorageSync('token');
     if (!token) {
-      console.log('📱 [消息页面] 未登录，跳过数据加载');
+
       return;
     }
     
@@ -320,7 +319,7 @@ export default {
           this.swiperHeight = computed;
 
           // 调试：如果你需要确认计算是否生效，可临时打开
-          // console.log('[message] height calc:', { windowHeight, header: headerRect.height, tabs: tabsRect.height, tabbarReserve, swiperHeight: computed });
+          // 
         });
       } catch (e) {
         console.error('calculateSwiperHeight failed:', e);
@@ -356,20 +355,20 @@ export default {
     
     // 处理全局新消息事件
     handleNewMessage(eventData) {
-      console.log('📱 消息页面收到全局事件:', eventData);
+
       const message = eventData.message;
       
       if (message) {
         if (message.type === 'private') {
-          console.log('🔄 刷新私信列表');
+
           this.loadChatData();
         } else {
-          console.log('🚀 智能增量更新通知列表');
+
           this.smartUpdateNotifyList(message);
           
           // 特别处理系统通知：确保 TabBar 计数更新
           if (message.type === 'system') {
-            console.log('🔔 收到系统通知，刷新全局未读计数');
+
             this.messageStore.fetchUnreadCount();
           }
         }
@@ -378,7 +377,7 @@ export default {
     
     // 处理对话标记为已读事件
     handleConversationMarkedAsRead(eventData) {
-      console.log('📖 [消息页面] 对话标记为已读:', eventData);
+
       const { userId, updatedCount } = eventData;
       
       if (updatedCount > 0) {
@@ -394,9 +393,7 @@ export default {
             ...conversation,
             unreadCount: newUnreadCount
           });
-          
-          console.log(`✅ [消息页面] 对话 ${userId} 未读计数从 ${conversation.unreadCount || 0} 减少到 ${newUnreadCount}`);
-          
+
           // 触发全局未读计数更新
           this.messageStore.fetchUnreadCount();
         }
@@ -406,8 +403,7 @@ export default {
     // 智能增量更新通知列表（避免跳动）
     async smartUpdateNotifyList(newMessage) {
       try {
-        console.log('🎯 开始智能增量更新:', newMessage);
-        
+
         // 检查是否已经存在该消息（避免重复）
         const existingIndex = this.notifyList.findIndex(item => 
           item.id === newMessage.id || 
@@ -417,7 +413,7 @@ export default {
         );
         
         if (existingIndex >= 0) {
-          console.log('💡 消息已存在，跳过添加');
+
           return;
         }
         
@@ -429,12 +425,10 @@ export default {
         
         // 🎨 触发分类卡片动画效果
         this.triggerCategoryAnimation(newMessage.type);
-        
-        console.log('✨ 新消息已平滑添加，分类动画已触发');
-        
+
         // 特别处理系统通知：强制更新页面显示
         if (newMessage.type === 'system') {
-          console.log('🔔 系统通知已添加，强制刷新页面显示');
+
           // 触发响应式更新
           this.$forceUpdate();
         }
@@ -495,7 +489,7 @@ export default {
       // 检查登录状态
       const token = uni.getStorageSync('token');
       if (!token) {
-        console.log('📱 [消息页面] 未登录，跳过加载通知');
+
         return;
       }
       
@@ -531,11 +525,10 @@ export default {
             const loadedCount = pagination.page * pagination.pageSize;
             this.hasMore = loadedCount < pagination.total;
             this.currentPage = pagination.page + 1; // 设置下一页页码
-            
-            console.log(`📊 [通知页面] 分页信息: 当前页=${pagination.page}, 每页=${pagination.pageSize}, 总数=${pagination.total}, 已加载=${loadedCount}, 还有更多=${this.hasMore}`);
+
           } else {
             this.hasMore = false;
-            console.log('⚠️ [通知页面] 后端未返回分页信息，停止加载更多');
+
           }
         } else {
           this.showError(result.msg || '获取消息失败');
@@ -556,7 +549,7 @@ export default {
       // 检查登录状态
       const token = uni.getStorageSync('token');
       if (!token) {
-        console.log('📱 [消息页面] 未登录，跳过加载私信');
+
         return;
       }
       
@@ -567,9 +560,7 @@ export default {
           this.chatCurrentPage = 1;
           this.chatHasMore = true;
         }
-        
-        console.log(`🔄 [消息页面] 加载私信对话列表 - 页码:${this.chatCurrentPage}`);
-        
+
         const response = await this.$api.privateMessage.getConversations({
           page: this.chatCurrentPage,
           pageSize: this.chatPageSize
@@ -606,8 +597,7 @@ export default {
           if (conversations.length > 0) {
             this.chatCurrentPage++;
           }
-          
-          console.log(`✅ [消息页面] 加载了 ${formattedConversations.length} 个私信对话，总共 ${this.chatList.length} 个`);
+
         }
         
       } catch (error) {
@@ -615,7 +605,7 @@ export default {
         
         // 检查是否是权限相关错误
         if (error.code === 'PRIVATE_MESSAGE_DISABLED') {
-          console.log('📝 [消息页面] 私信功能已关闭，显示空列表');
+
           this.chatList = [];
         } else {
           this.showError('加载私信失败');
@@ -636,8 +626,7 @@ export default {
     // 加载更多私信
     loadMoreChat() {
       if (this.chatLoading || !this.chatHasMore) return;
-      
-      console.log('🔄 [消息页面] 加载更多私信对话');
+
       this.loadChatData(false);
     },
     
@@ -686,8 +675,7 @@ export default {
     
     // 处理私信点击
     handleChatClick(item) {
-      console.log('💬 [消息页面] 打开私信对话:', item);
-      
+
       uni.navigateTo({
         url: `/pages/message/chat?userId=${item.id}&nickname=${encodeURIComponent(item.nickname || '')}&username=${encodeURIComponent(item.username || '')}&avatar=${encodeURIComponent(item.avatar || '')}`
       });

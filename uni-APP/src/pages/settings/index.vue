@@ -155,7 +155,6 @@ export default {
     saveSettings() {
       try {
         uni.setStorageSync('user_settings', JSON.stringify(this.settings));
-        console.log('用户设置已保存');
       } catch (error) {
         console.error('保存用户设置失败:', error);
       }
@@ -207,11 +206,9 @@ export default {
           
         case 'app.autoPlayVideo':
           // 应用视频自动播放设置
-          console.log('自动播放视频设置更改为:', this.settings.app.autoPlayVideo);
           break;
           
         default:
-          console.log('设置已更新:', key);
       }
     },
     

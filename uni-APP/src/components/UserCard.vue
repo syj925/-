@@ -84,7 +84,7 @@
 
 <script>
 import FollowButton from './FollowButton.vue';
-import { useUserStore } from '@/store';
+import { useUserStore } from '@/stores';
 import { ensureAbsoluteUrl } from '@/utils/url';
 
 export default {
@@ -168,7 +168,7 @@ export default {
   computed: {
     safeAvatar() {
       if (!this.user.avatar) {
-        console.log('👤 UserCard: 用户没有头像，使用默认头像 -', this.user);
+
         return '/static/logo.png';
       }
       
@@ -204,16 +204,14 @@ export default {
     
     // 处理关注按钮点击
     handleFollowClick(data) {
-      console.log('🔍 UserCard接收到FollowButton数据:', data);
-      console.log('🔍 当前用户信息:', this.user);
-      
+
+
       // 向父组件传递关注请求
       const emitData = {
         ...data,
         user: this.user
       };
-      
-      console.log('🔍 UserCard发出的数据:', emitData);
+
       this.$emit('follow-click', emitData);
     },
     

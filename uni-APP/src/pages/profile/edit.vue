@@ -262,7 +262,7 @@
 // 导入URL工具函数
 import { UrlUtils } from '@/utils';
 import appConfig from '@/config';
-import { useUserStore } from '@/store';
+import { useUserStore } from '@/stores';
 
 export default {
   created() {
@@ -344,8 +344,7 @@ export default {
       // 调用API获取用户信息
       this.$api.user.getInfo()
         .then(res => {
-          console.log('获取用户信息返回数据:', JSON.stringify(res));
-          
+
           // API可能返回多种格式：
           // 1. {code: 0, data: {user}}
           // 2. {code: 200, data: {user}}
@@ -364,19 +363,15 @@ export default {
             // 格式4或其他
             userData = res;
           }
-          
-          console.log('解析后的用户数据:', JSON.stringify(userData));
-          
+
           if (userData) {
             // 统一使用相对路径存储，显示时由组件自动处理为绝对路径
             const avatar = userData.avatar || '';
             const backgroundImage = userData.backgroundImage || 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=200&fit=crop&q=80';
-            
-            console.log('获取到的用户数据:');
-            console.log('- 头像:', userData.avatar);
-            console.log('- 背景图:', userData.backgroundImage);
-            console.log('- 昵称:', userData.nickname);
-            
+
+
+
+
             this.formData = {
               avatar: avatar,
               nickname: userData.nickname || '',
@@ -404,7 +399,7 @@ export default {
                 if (this.backgroundOptions.length > 12) {
                   this.backgroundOptions = this.backgroundOptions.slice(0, 12);
                 }
-                console.log('添加用户现有背景图片到选项:', fullImageUrl);
+
               }
             }
             
@@ -416,8 +411,7 @@ export default {
             
             // 保存原始数据副本
             this.originalData = JSON.parse(JSON.stringify(this.formData));
-            
-            console.log('表单数据已设置:', this.formData);
+
           } else {
             console.error('无法从响应中提取用户数据');
             uni.showToast({
@@ -472,8 +466,7 @@ export default {
       this.formData.grade = this.gradeOptions[this.gradeIndex];
       
       // 调试打印完整表单数据
-      console.log('准备提交的用户数据:', JSON.stringify(this.formData, null, 2));
-      
+
       // 创建只包含有实际值的更新数据对象，避免覆盖现有数据
       const cleanData = {};
       
@@ -510,13 +503,10 @@ export default {
         // 将标签对象数组转换为标签名称数组
         cleanData.tags = this.formData.tags.map(tag => tag.name || tag);
       }
-      
-      console.log('过滤后的提交数据:', JSON.stringify(cleanData, null, 2));
-      
+
       this.$api.user.updateInfo(cleanData)
         .then(res => {
-          console.log('保存用户信息返回数据:', res);
-          
+
           uni.showToast({
             title: '保存成功',
             icon: 'success'
@@ -528,8 +518,7 @@ export default {
             ...userInfo,
             ...cleanData
           };
-          
-          console.log('更新后的本地用户信息:', updatedUserInfo);
+
           uni.setStorageSync('userInfo', updatedUserInfo);
           
           // 更新originalData，以避免hasChanges返回true
@@ -565,7 +554,7 @@ export default {
         sizeType: ['compressed'],
         sourceType: ['album', 'camera'],
         success: (res) => {
-          console.log('选择头像成功:', res);
+
           const tempFilePath = res.tempFilePaths[0];
           
           // 设置loading状态
@@ -589,12 +578,10 @@ export default {
               type: 'avatar'
             },
             success: (uploadRes) => {
-              console.log('头像上传结果:', uploadRes);
-              
+
               try {
                 const data = JSON.parse(uploadRes.data);
-                console.log('解析后的上传响应:', data);
-                
+
                 if (data.code === 0 || data.code === 200) {
                   // 提取图片URL路径
                   let imgUrl = '';
@@ -608,7 +595,7 @@ export default {
                     // 统一保存相对路径，由工具函数处理显示
                     const relativePath = this.extractRelativePath(imgUrl);
                     this.formData.avatar = relativePath;
-                    console.log('头像上传成功 - 服务器返回:', imgUrl, '保存为:', relativePath);
+
                     uni.showToast({
                       title: '头像上传成功',
                       icon: 'success'
@@ -642,14 +629,13 @@ export default {
         sizeType: ['compressed'],
         sourceType: ['album', 'camera'],
         success: (res) => {
-          console.log('选择背景图片成功:', res);
+
           const tempFilePath = res.tempFilePaths[0];
 
           // 检查文件大小（5MB限制）
           uni.getFileInfo({
             filePath: tempFilePath,
             success: (fileInfo) => {
-              console.log('文件信息:', fileInfo);
 
               // 检查文件大小（5MB = 5 * 1024 * 1024 bytes）
               const maxSize = 5 * 1024 * 1024;
@@ -707,11 +693,9 @@ export default {
           type: 'background'
         },
         success: (uploadRes) => {
-          console.log('背景图上传结果:', uploadRes);
 
           try {
             const data = JSON.parse(uploadRes.data);
-            console.log('解析后的上传响应:', data);
 
             if (data.code === 0 || data.code === 200) {
               // 提取图片URL路径
@@ -747,8 +731,7 @@ export default {
                 
                 // 统一保存相对路径到表单数据
                 this.formData.backgroundImage = relativePath;
-                console.log('背景图上传成功 - 服务器返回:', imgUrl, '保存为:', relativePath, '显示为:', fullImgUrl);
-                
+
                 uni.showToast({
                   title: '背景图上传成功',
                   icon: 'success'
@@ -776,7 +759,7 @@ export default {
 
       // 监听上传进度
       uploadTask.onProgressUpdate((res) => {
-        console.log('上传进度:', res.progress + '%');
+
         // 只在进度小于100%时显示加载，避免与complete回调时序冲突
         if (res.progress > 0 && res.progress < 100) {
           uni.showLoading({
@@ -1017,7 +1000,7 @@ export default {
       // 统一保存为相对路径
       const relativePath = this.extractRelativePath(bg);
       this.formData.backgroundImage = relativePath;
-      console.log('选择背景图:', bg, '保存为:', relativePath);
+
     },
     
     // 页面导航

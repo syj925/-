@@ -99,13 +99,9 @@ export default {
       try {
         this.loading.recommended = true
         this.results.error = null
-        
-        console.log('开始测试推荐活动API...')
-        
+
         const result = await eventApi.getRecommended(4)
-        
-        console.log('推荐活动API响应:', result)
-        
+
         this.results.recommended = result
         
         // 如果有数据，设置预览
@@ -136,16 +132,12 @@ export default {
       try {
         this.loading.list = true
         this.results.error = null
-        
-        console.log('开始测试活动列表API...')
-        
+
         const result = await eventApi.getList({
           page: 1,
           pageSize: 10
         })
-        
-        console.log('活动列表API响应:', result)
-        
+
         this.results.list = result
         
         uni.showToast({
@@ -171,13 +163,9 @@ export default {
       try {
         this.loading.upcoming = true
         this.results.error = null
-        
-        console.log('开始测试即将开始活动API...')
-        
+
         const result = await eventApi.getUpcoming(5)
-        
-        console.log('即将开始活动API响应:', result)
-        
+
         this.results.upcoming = result
         
         uni.showToast({
@@ -200,7 +188,7 @@ export default {
     
     // 处理活动卡片点击
     handleEventClick(event) {
-      console.log('点击活动:', event)
+
       uni.showModal({
         title: '活动详情',
         content: `活动名称: ${event.title}\n活动地点: ${event.location || '未设置'}\n参与人数: ${event.current_participants}/${event.max_participants || '不限'}`,
@@ -210,7 +198,7 @@ export default {
   },
   
   onLoad() {
-    console.log('活动测试页面加载完成')
+
   }
 }
 </script>

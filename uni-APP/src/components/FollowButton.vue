@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { useUserStore } from '@/store';
+import { useUserStore } from '@/stores';
 
 export default {
   name: 'FollowButton',
@@ -81,9 +81,7 @@ export default {
   methods: {
     handleClick() {
       if (this.loading || this.disabled) return;
-      
-      console.log('🔘 FollowButton点击 - userId:', this.userId, 'currentStatus:', this.internalFollowing);
-      
+
       // 检查登录状态
       const userInfo = this.userStore.userInfo;
       const token = this.userStore.token;
@@ -112,9 +110,7 @@ export default {
         currentStatus: this.internalFollowing,
         action: this.internalFollowing ? 'unfollow' : 'follow'
       };
-      
-      console.log('🔘 FollowButton发出事件:', emitData);
-      
+
       // 触发点击事件，让父组件处理关注逻辑
       this.$emit('follow-action', emitData);
     },

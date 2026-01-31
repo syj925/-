@@ -394,10 +394,8 @@ export default {
     async loadEventDetail() {
       try {
         this.loading = true
-        console.log('开始加载活动详情，ID:', this.eventId)
 
         const result = await eventApi.getDetail(this.eventId)
-        console.log('活动详情API响应:', result)
 
         if (result.code === 0 && result.data) {
           this.event = result.data
@@ -498,7 +496,7 @@ export default {
       if (!this.event) return '加载中...'
 
       // 调试信息（可以移除）
-      // console.log('按钮文本计算 - 活动状态:', this.event.status, '类型:', typeof this.event.status)
+      // 
 
       // 根据管理员设置的状态判断 - 统一使用字符串格式
       if (this.event.status === 'canceled') return '活动已取消'

@@ -84,7 +84,7 @@
 </template>
 
 <script>
-import { useUserStore } from '@/store';
+import { useUserStore } from '@/stores';
 
 export default { 
   data() {
@@ -137,7 +137,6 @@ export default {
       
       this.$api.user.login(loginData)
         .then(res => {
-          console.log('登录成功，响应:', res);
 
           // 保存登录态到 Pinia（并由持久化插件写入本地）
           if (res && res.data && res.data.token) {
@@ -156,7 +155,7 @@ export default {
             if (this.$ws) {
               this.$ws.connect(res.data.token)
                 .then(() => {
-                  console.log('WebSocket连接成功');
+
                 })
                 .catch(err => {
                   console.error('WebSocket连接失败:', err);
