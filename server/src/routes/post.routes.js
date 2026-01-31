@@ -70,6 +70,9 @@ const topStatusSchema = Joi.object({
 router.get('/', AuthMiddleware.optionalAuthenticate(), postController.getPosts);
 router.get('/hot', AuthMiddleware.optionalAuthenticate(), postController.getHotPosts);
 router.get('/recommended', AuthMiddleware.optionalAuthenticate(), postController.getRecommended);
+router.get('/user/favorites', AuthMiddleware.authenticate(), postController.getUserFavorites);
+router.get('/user/me', AuthMiddleware.authenticate(), postController.getUserPosts);
+router.get('/user/audit-history', AuthMiddleware.authenticate(), postController.getUserAuditHistory);
 router.get('/:id', AuthMiddleware.optionalAuthenticate(), postController.getPostDetail);
 router.get('/:id/comments', AuthMiddleware.optionalAuthenticate(), postController.getPostComments);
 router.get('/:id/comments/stats', AuthMiddleware.optionalAuthenticate(), postController.getPostCommentStats);
@@ -88,9 +91,6 @@ router.put('/:id',
   postController.updatePost
 );
 router.delete('/:id', AuthMiddleware.authenticate(), postController.deletePost);
-router.get('/user/favorites', AuthMiddleware.authenticate(), postController.getUserFavorites);
-router.get('/user/me', AuthMiddleware.authenticate(), postController.getUserPosts);
-router.get('/user/audit-history', AuthMiddleware.authenticate(), postController.getUserAuditHistory);
 
 // 管理员专用路由
 router.put('/:id/top', AuthMiddleware.authenticate(), AuthMiddleware.authorize('admin'), Validator.validateBody(topStatusSchema), postController.setTopStatus);

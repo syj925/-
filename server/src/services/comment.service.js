@@ -476,6 +476,30 @@ class CommentService {
     
     const comments = await commentRepository.findByPostId(postId, page, pageSize, sort);
 
+    let likeStates = {};
+    if (currentUserId) {
+      const commentIdSet = new Set();
+      const commentIds = [];
+
+      const collectIds = commentItem => {
+        if (!commentItem || !commentItem.id || commentIdSet.has(commentItem.id)) {
+          return;
+        }
+        commentIdSet.add(commentItem.id);
+        commentIds.push(commentItem.id);
+
+        if (commentItem.replies && commentItem.replies.length > 0) {
+          commentItem.replies.forEach(collectIds);
+        }
+      };
+
+      comments.list.forEach(collectIds);
+
+      if (commentIds.length > 0) {
+        likeStates = await commentRepository.getLikeStatesForUser(currentUserId, commentIds);
+      }
+    }
+
     // 处理评论数据
     for (const comment of comments.list) {
       // 处理匿名显示：只对非作者隐藏身份
@@ -492,7 +516,7 @@ class CommentService {
 
       // 如果有当前用户ID，添加是否点赞的信息
       if (currentUserId) {
-        comment.dataValues.is_liked = await commentRepository.isLikedByUser(comment.id, currentUserId);
+        comment.dataValues.is_liked = Boolean(likeStates[comment.id]);
       }
 
       // 处理回复
@@ -512,7 +536,7 @@ class CommentService {
 
           // 如果有当前用户ID，添加是否点赞的信息
           if (currentUserId) {
-            reply.dataValues.is_liked = await commentRepository.isLikedByUser(reply.id, currentUserId);
+            reply.dataValues.is_liked = Boolean(likeStates[reply.id]);
           }
         }
       }

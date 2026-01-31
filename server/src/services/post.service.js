@@ -577,6 +577,30 @@ class PostService {
     // 获取热门评论（按点赞数降序）
     const comments = await postRepository.getComments(postId, 1, limit, 'most_liked');
 
+    let likeStates = {};
+    if (currentUserId) {
+      const commentIdSet = new Set();
+      const commentIds = [];
+
+      const collectIds = commentItem => {
+        if (!commentItem || !commentItem.id || commentIdSet.has(commentItem.id)) {
+          return;
+        }
+        commentIdSet.add(commentItem.id);
+        commentIds.push(commentItem.id);
+
+        if (commentItem.replies && commentItem.replies.length > 0) {
+          commentItem.replies.forEach(collectIds);
+        }
+      };
+
+      comments.list.forEach(collectIds);
+
+      if (commentIds.length > 0) {
+        likeStates = await commentRepository.getLikeStatesForUser(currentUserId, commentIds);
+      }
+    }
+
     // 处理匿名显示、点赞信息和修复昵称
     for (const comment of comments.list) {
       // 处理匿名显示：对于匿名评论，只对非作者隐藏身份
@@ -592,16 +616,24 @@ class PostService {
       }
 
       // 添加是否点赞的信息
-      if (currentUserId) {
-        comment.dataValues.is_liked = await commentRepository.isLikedByUser(comment.id, currentUserId);
-      } else {
-        comment.dataValues.is_liked = false;
-      }
+      comment.dataValues.is_liked = currentUserId
+        ? Boolean(likeStates[comment.id])
+        : false;
 
       // 修复问题昵称（仅对非匿名评论）
       if (!comment.is_anonymous || comment.user_id === currentUserId) {
         if (comment.author && (comment.author.nickname === '????' || !comment.author.nickname)) {
           comment.author.nickname = comment.author.username || '匿名用户';
+        }
+      }
+
+      if (comment.replies && comment.replies.length > 0) {
+        for (const reply of comment.replies) {
+          if (currentUserId) {
+            reply.dataValues.is_liked = Boolean(likeStates[reply.id]);
+          } else {
+            reply.dataValues.is_liked = false;
+          }
         }
       }
     }

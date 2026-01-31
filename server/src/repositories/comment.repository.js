@@ -327,6 +327,34 @@ class CommentRepository {
   }
 
   /**
+   * 批量获取用户对评论的点赞状态
+   * @param {Number} userId 用户ID
+   * @param {Array<Number>} commentIds 评论ID列表
+   * @returns {Promise<Object>} 点赞映射对象 { [commentId]: true }
+   */
+  async getLikeStatesForUser(userId, commentIds = []) {
+    if (!Array.isArray(commentIds) || commentIds.length === 0) {
+      return {};
+    }
+
+    const likes = await Like.findAll({
+      where: {
+        user_id: userId,
+        target_type: 'comment',
+        target_id: {
+          [Op.in]: commentIds
+        }
+      },
+      attributes: ['target_id']
+    });
+
+    return likes.reduce((acc, like) => {
+      acc[like.target_id] = true;
+      return acc;
+    }, {});
+  }
+
+  /**
    * 统计帖子的评论总数
    * @param {String} postId 帖子ID
    * @returns {Promise<Number>} 评论总数
