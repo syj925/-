@@ -1,297 +1,108 @@
-# AGENTS.md - AI Coding Agent Guidelines
+# Campus Wall Codebase Guide
 
-> 校园墙 (Campus Wall) - 校园社交平台
+This repository contains the source code for the "Campus Wall" project, a social platform consisting of a Node.js backend, a Vue 3 admin panel, and a uni-app mobile application.
 
-## Quick Reference
+## 📂 Project Structure
 
-| Component | Port | Tech Stack |
-|-----------|------|------------|
-| Backend API | 3000 | Node.js 18+, Express, Sequelize, MySQL 8, Redis 6 |
-| Admin Dashboard | 8888 | Vue 3.5, Vite 6, Element Plus, Pinia, SCSS |
-| Mobile App | 5173 (H5) | uni-app 3.0, Vue 3.4, Pinia |
+- `server/` - Node.js + Express backend
+- `admin/` - Vue 3 + Vite + Element Plus admin panel
+- `uni-APP/` - uni-app (Vue 3) cross-platform mobile app
 
 ---
 
-## Build / Lint / Test Commands
+## 🚀 Backend (server/)
 
-### Backend (`server/`)
+### Build & Run
+- **Start Dev**: `npm run dev` (uses nodemon)
+- **Start Prod**: `npm start`
+- **Lint**: `npm run lint`
 
-```bash
-npm run dev              # Development with nodemon hot-reload
-npm start                # Production mode
-npm test                 # Run Jest tests
-npm run lint             # ESLint check
+### Testing (Jest)
+- **Run all tests**: `npm test`
+- **Run specific test file**: `npx jest tests/path/to/test.js`
+- **Run specific test case**: `npx jest -t "should register user successfully"`
 
-# Run single test file
-npx jest tests/follow.test.js
+### Code Style & Patterns
+- **Module System**: CommonJS (`require` / `module.exports`).
+- **Architecture**: Controller (`controllers/`) → Service (`services/`) → Repository (implied) → Model (`models/`).
+- **Formatting**: 2 spaces indentation, semicolons required.
+- **Naming**: 
+  - Files: `kebab-case.js` (e.g., `user.controller.js`)
+  - Classes: `PascalCase` (e.g., `UserController`)
+  - Methods/Variables: `camelCase`
 
-# Run specific test by name
-npx jest --testNamePattern="应该能够关注用户"
-
-# Utility scripts
-npm run seed-data        # Seed test data
-npm run backup-db        # Backup database
-npm run clear-cache      # Clear Redis cache
-```
-
-### Admin Dashboard (`admin/`)
-
-```bash
-npm run dev              # Dev server at localhost:8888
-npm run build            # Production build
-npm run preview          # Preview production build
-```
-
-### Mobile App (`uni-APP/`)
-
-```bash
-npm run dev:h5           # H5 dev at localhost:5173
-npm run dev:mp-weixin    # WeChat mini-program
-npm run build:h5         # H5 production build
-```
+### Error Handling & Responses
+- **Async Handling**: Always use `try/catch` in controllers. Pass errors to Express error handler via `next(error)`.
+- **Response Format**: Use `ResponseUtil` for consistent responses.
+  ```javascript
+  const { ResponseUtil } = require('../utils');
+  const { StatusCodes } = require('http-status-codes');
+  
+  // Success
+  res.status(StatusCodes.OK).json(ResponseUtil.success(data));
+  
+  // Error (handled by middleware usually, but for manual):
+  // next(error);
+  ```
 
 ---
 
-## Architecture
+## 🖥️ Admin Panel (admin/)
 
-### Backend Layered Structure
+### Build & Run
+- **Dev Server**: `npm run dev` (Vite)
+- **Build**: `npm run build`
 
-```
-Controller → Service → Repository → Model
-     ↓           ↓          ↓          ↓
-  Request    Business    Data       Sequelize
-  handling    logic     access       ORM
-```
+### Code Style
+- **Framework**: Vue 3 with Composition API (`<script setup>`).
+- **UI Library**: Element Plus.
+- **State Management**: Pinia.
+- **Styling**: SCSS within `<style scoped>`.
+- **Components**: PascalCase (e.g., `UserList.vue`).
+- **Icons**: Import from `@element-plus/icons-vue`.
 
-- **Controllers**: `server/src/controllers/` - Request/response handling only
-- **Services**: `server/src/services/` - Business logic, validation
-- **Repositories**: `server/src/repositories/` - Database queries via Sequelize
-- **Models**: `server/src/models/` - Sequelize model definitions (28 models)
-
----
-
-## API Response Format
-
-### Success Response
-
-```javascript
-{
-  success: true,
-  code: 0,
-  msg: "成功",
-  message: "成功",  // Alias for frontend compatibility
-  data: { ... }
-}
-```
-
-### Error Response
-
-```javascript
-{
-  code: 200,        // Error code from error-codes.js
-  msg: "用户不存在",
-  data: null
-}
-```
-
-### Pagination Response
-
-```javascript
-{
-  code: 0,
-  msg: "成功",
-  data: {
-    list: [...],
-    pagination: { page: 1, pageSize: 10, total: 100 }
-  }
-}
-```
-
-### Frontend Success Check
-
-```javascript
-// Always use this pattern
-if (res.code === 0 || res.success === true) { ... }
-const message = res.msg || res.message;
-```
+### Best Practices
+- Use `ref` for reactive primitive data, `reactive` for objects (optional, `ref` preferred for consistency).
+- API calls should be encapsulated in `src/api/` and imported.
+- Handle loading states explicitly (`v-loading`).
 
 ---
 
-## Code Style Guidelines
+## 📱 Mobile App (uni-APP/)
 
-### Naming Conventions
+### Build & Run
+- **H5 Dev**: `npm run dev:h5`
+- **WeChat Mini Program**: `npm run dev:mp-weixin`
 
-| Type | Convention | Example |
-|------|------------|---------|
-| Files | kebab-case | `user-badge.repository.js` |
-| Vue Components | PascalCase | `UserList.vue` |
-| Variables/Functions | camelCase | `getUserInfo()` |
-| Database fields | snake_case | `created_at`, `user_id` |
-| Constants | SCREAMING_SNAKE | `MAX_FILE_SIZE` |
+### Code Style
+- **Framework**: uni-app based on Vue 3.
+- **Tags**: Use uni-app tags (`<view>`, `<text>`, `<image>`) instead of HTML tags (`<div>`, `<span>`, `<img>`).
+- **Lifecycle**:
+  - Page: `onLoad`, `onShow`, `onPullDownRefresh`.
+  - Component: Standard Vue 3 lifecycle (`onMounted`).
+- **Units**: Use `rpx` for responsive layout in styles.
 
-### Backend (Node.js)
-
-- **Module system**: CommonJS (`require`/`module.exports`)
-- **Async**: Always use `async/await`, never raw Promises
-- **Validation**: Use Joi for request validation
-- **Logging**: Use Winston logger, not `console.log`
-- **Error handling**: Use `ErrorMiddleware.createError()` pattern
-
-```javascript
-// Controller pattern
-async getUserList(req, res, next) {
-  try {
-    const result = await userService.findUsers(options);
-    res.status(StatusCodes.OK).json(ResponseUtil.success(result));
-  } catch (error) {
-    logger.error('Error:', error);
-    next(error);  // Pass to error middleware
-  }
-}
-```
-
-### Frontend (Vue 3)
-
-- **Script syntax**: Always use `<script setup>`
-- **Styling**: SCSS with scoped styles, never plain CSS
-- **UI Components**: Element Plus for admin, uni-app components for mobile
-- **State**: Pinia stores
-- **HTTP**: Axios with centralized API modules
-
-```vue
-<template>
-  <div class="component-name">...</div>
-</template>
-
-<script setup>
-import { ref, computed } from 'vue'
-import { ElMessage } from 'element-plus'
-
-const props = defineProps({
-  data: { type: Object, required: true }
-})
-</script>
-
-<style lang="scss" scoped>
-.component-name { ... }
-</style>
-```
+### Patterns
+- **Conditional Compilation**: Use `// #ifdef MP-WEIXIN` for platform-specific logic if needed.
+- **Navigation**: Use `uni.navigateTo`, `uni.switchTab`.
+- **Storage**: Use `uni.getStorageSync`, `uni.setStorageSync`.
 
 ---
 
-## Critical Constraints
+## 🧹 General Guidelines
 
-### MUST DO
+- **Git Messages**: Follow Conventional Commits (e.g., `feat: add user login`, `fix: resolve crash on startup`).
+- **Comments**: JSDoc for complex logic and API methods.
+- **Type Safety**:
+  - Server: Loose typing (JS), but validate inputs with `express-validator` or `Joi`.
+  - Frontend: Prop types in Vue components.
 
-- Use relative paths for image URLs in database (`/uploads/images/xxx.png`)
-- Frontend concatenates base URL at runtime
-- Check `res.code === 0 || res.success === true` for API success
-- Use Joi for validation (not express-validator) for consistency
-- Follow existing UI patterns - reuse components, don't create new ones
-- Implement tests for new features
-- Use structured logger output, minimize console noise
+## 🤖 Agent Instructions
 
-### MUST NOT
-
-- Never hardcode IP addresses (use `localhost:3000`)
-- Never store full URLs with IPs in database
-- Never suppress TypeScript/ESLint errors with `@ts-ignore` or `eslint-disable`
-- Never use `as any` type casting
-- Never leave empty catch blocks
-- Never delete tests to make them pass
-- Never mix Joi and express-validator in same codebase
-
----
-
-## Database
-
-- **Engine**: MySQL 8.0 with utf8mb4 charset
-- **ORM**: Sequelize 6.35
-- **Prefer ORM queries** over raw SQL for consistency
-- Soft deletes where applicable (`deleted_at` timestamps)
-
-### Key Models
-
-User, Post, Comment, Like, Favorite, Follow, Topic, Category, Event, EventRegistration, Badge, UserBadge, Message, Banner, Setting, SearchHistory, Emoji*, Tag
-
----
-
-## Testing
-
-```bash
-# Run all tests
-cd server && npm test
-
-# Run specific test file
-npx jest tests/follow.test.js
-
-# Run with coverage
-npx jest --coverage
-
-# Run specific test by name pattern
-npx jest --testNamePattern="关注"
-```
-
-Test files use Jest + Supertest pattern:
-
-```javascript
-const request = require('supertest');
-const app = require('../src/app');
-
-describe('Feature Tests', () => {
-  test('should do something', async () => {
-    const response = await request(app)
-      .post('/api/endpoint')
-      .set('Authorization', `Bearer ${token}`)
-      .send({ data: 'value' })
-      .expect(200);
-    
-    expect(response.body.success).toBe(true);
-  });
-});
-```
-
----
-
-## Git Commit Convention
-
-```
-<type>(<scope>): <subject>
-
-type: feat | fix | docs | style | refactor | test | chore
-scope: server | admin | uni-app | docs
-```
-
-Examples:
-- `feat(server): add user avatar upload API`
-- `fix(admin): correct pagination in user list`
-- `docs: update API documentation`
-
----
-
-## Environment
-
-- Node.js >= 18.0.0
-- MySQL >= 8.0
-- Redis >= 6.0
-- Default admin: `admin` / `admin123`
-
-### Key Environment Variables (server/.env)
-
-```
-PORT=3000
-DB_HOST=localhost
-DB_NAME=campus_community
-DB_USER=root
-DB_PASSWORD=20060711
-REDIS_HOST=localhost
-JWT_SECRET=your_secret
-```
-
----
-
-## Reference Documentation
-
-- API Docs: `server/docs/api/*.md`
-- Feature Docs: `docs/features/*.md`
-- Cursor Rules: `.cursor/rules/xm.mdc` (detailed conventions)
+When modifying code:
+1. **Check context**: Identify if you are in `server`, `admin`, or `uni-APP`.
+2. **Follow patterns**: Copy the structure of existing controllers/components.
+3. **Verify**:
+   - Server: Run `npm test` if tests exist for the module.
+   - Frontend: Ensure no lint errors (if linting is set up).
+4. **No "any"**: Avoid suppressing errors without understanding the root cause.

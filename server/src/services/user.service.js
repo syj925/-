@@ -31,8 +31,8 @@ class UserService {
    * @returns {Promise<Object>} 用户信息
    */
   async getUserInfo(id) {
-
-    const user = await userRepository.findById(id, false, true); // 第三个参数表示包含标签
+    // 使用优化后的查询方法，一次性获取用户和统计数据
+    const user = await userRepository.findByIdWithStats(id, true); // true表示包含标签
 
     if (!user) {
       throw ErrorMiddleware.createError(
@@ -42,35 +42,15 @@ class UserService {
       );
     }
 
-    // 获取用户统计数据
-    let stats;
-    try {
-      stats = await userStatsService.getUserStats(id);
-    } catch (error) {
-      logger.error('🔍 getUserStats error:', error);
-      stats = {
-        postCount: 0,
-        likeCount: 0,
-        favoriteCount: 0,
-        followCount: 0,
-        fansCount: 0
-      };
-    }
-
     // 处理字段名映射（数据库下划线命名转前端驼峰命名）
-    const userJson = user.toJSON();
+    // findByIdWithStats 返回的是 POJO (user.toJSON()后的结果)，可以直接操作
+    const userJson = user;
     if (userJson.background_image !== undefined) {
       userJson.backgroundImage = userJson.background_image;
       delete userJson.background_image;
     }
 
-    // 返回包含统计数据的用户信息
-    const result = {
-      ...userJson,
-      stats
-    };
-
-    return result;
+    return userJson;
   }
 
   /**

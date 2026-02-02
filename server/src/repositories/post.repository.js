@@ -1,6 +1,7 @@
 const { Post, User, Category, PostImage, Comment, Topic, Like, Favorite, Setting, Badge, UserBadge, sequelize } = require('../models');
 const { Op, Sequelize } = require('sequelize');
 const redisClient = require('../utils/redis-client');
+const cacheService = require('../services/cache.service');
 const logger = require('../../config/logger');
 
 /**
@@ -19,7 +20,10 @@ class PostRepository {
    * @returns {Promise<Object>} 创建的帖子对象
    */
   async create(postData, options = {}) {
-    return await Post.create(postData, options);
+    const post = await Post.create(postData, options);
+    // 清除相关缓存，如推荐列表、分类列表等（如果有）
+    await cacheService.clearByPattern('post:list:*');
+    return post;
   }
 
   /**
@@ -1058,10 +1062,8 @@ class PostRepository {
       });
 
       // 清除相关缓存
-      const cacheKey = `post:${postId}`;
       try {
-        await redisClient.del(cacheKey);
-        await redisClient.del(`${cacheKey}:details`);
+        await cacheService.clearPostCache(postId);
       } catch (cacheError) {
         logger.error(`清除帖子缓存失败 (ID: ${postId}):`, cacheError);
         // 缓存清除失败不影响主要功能

@@ -72,7 +72,7 @@ class UploadMiddleware {
    */
   single(fieldName) {
     return (req, res, next) => {
-      this.upload.single(fieldName)(req, res, (err) => {
+      this.upload.single(fieldName)(req, res, async (err) => {
         if (err) {
           if (err instanceof multer.MulterError) {
             // Multer错误处理
@@ -93,6 +93,29 @@ class UploadMiddleware {
         if (!req.file) {
           return res.status(400).json(ResponseUtil.error(errorCodes.PARAM_ERROR, { message: '未选择文件' }));
         }
+
+        // 校验文件魔数
+        try {
+          const FileType = require('file-type');
+          const fileType = await FileType.fromFile(req.file.path);
+          
+          const allowedTypes = config.upload.allowedTypes;
+          // fileType 可能为 undefined (如纯文本文件)
+          // 确保检测到的类型在允许列表中
+          if (!fileType || !allowedTypes.includes(fileType.mime)) {
+            // 删除非法文件
+            fs.unlinkSync(req.file.path);
+            return res.status(400).json(ResponseUtil.error(errorCodes.FILE_TYPE_NOT_ALLOWED, { message: '文件类型校验失败' }));
+          }
+        } catch (error) {
+          logger.error('文件类型校验出错:', error);
+          // 出错时默认通过，或者严格模式下拒绝? 这里选择记录日志但允许(防止依赖问题导致无法上传)，或者拒绝
+          // 为了安全，应该拒绝
+          if (fs.existsSync(req.file.path)) {
+             fs.unlinkSync(req.file.path);
+          }
+          return res.status(500).json(ResponseUtil.error(errorCodes.UPLOAD_FAILED, { message: '文件校验失败' }));
+        }
         
         // 添加完整的文件URL
         req.file.url = this._getFileUrl(req, req.file.path);
@@ -110,7 +133,7 @@ class UploadMiddleware {
    */
   array(fieldName, maxCount) {
     return (req, res, next) => {
-      this.upload.array(fieldName, maxCount)(req, res, (err) => {
+      this.upload.array(fieldName, maxCount)(req, res, async (err) => {
         if (err) {
           if (err instanceof multer.MulterError) {
             if (err.code === 'LIMIT_FILE_SIZE') {
@@ -131,6 +154,29 @@ class UploadMiddleware {
         if (!req.files || req.files.length === 0) {
           return res.status(400).json(ResponseUtil.error(errorCodes.PARAM_ERROR, { message: '未选择文件' }));
         }
+
+        // 校验所有文件魔数
+        try {
+          const FileType = require('file-type');
+          const allowedTypes = config.upload.allowedTypes;
+          
+          for (const file of req.files) {
+            const fileType = await FileType.fromFile(file.path);
+            if (!fileType || !allowedTypes.includes(fileType.mime)) {
+              // 删除所有已上传文件
+              req.files.forEach(f => {
+                if (fs.existsSync(f.path)) fs.unlinkSync(f.path);
+              });
+              return res.status(400).json(ResponseUtil.error(errorCodes.FILE_TYPE_NOT_ALLOWED, { message: '包含非法文件类型' }));
+            }
+          }
+        } catch (error) {
+          logger.error('文件类型校验出错:', error);
+          req.files.forEach(f => {
+            if (fs.existsSync(f.path)) fs.unlinkSync(f.path);
+          });
+          return res.status(500).json(ResponseUtil.error(errorCodes.UPLOAD_FAILED, { message: '文件校验失败' }));
+        }
         
         // 添加完整的文件URL
         req.files.forEach(file => {
@@ -149,7 +195,7 @@ class UploadMiddleware {
    */
   fields(fields) {
     return (req, res, next) => {
-      this.upload.fields(fields)(req, res, (err) => {
+      this.upload.fields(fields)(req, res, async (err) => {
         if (err) {
           if (err instanceof multer.MulterError) {
             if (err.code === 'LIMIT_FILE_SIZE') {

@@ -1,6 +1,7 @@
 const { Topic, Post, User, sequelize } = require('../models');
 const { Op } = require('sequelize');
 const redisClient = require('../utils/redis-client');
+const cacheService = require('../services/cache.service');
 const logger = require('../../config/logger');
 
 /**
@@ -16,8 +17,7 @@ class TopicRepository {
     const topic = await Topic.create(topicData);
     
     // 清除缓存
-    await redisClient.del('topics:all');
-    await redisClient.del('topics:hot');
+    await cacheService.clearTopicCache();
     
     return topic;
   }
@@ -134,11 +134,7 @@ class TopicRepository {
     await topic.update(topicData);
     
     // 清除缓存
-    await redisClient.del(`topic:${id}`);
-    await redisClient.del('topics:all');
-    if (topicData.is_hot !== undefined) {
-      await redisClient.del('topics:hot');
-    }
+    await cacheService.clearTopicCache(id);
     
     return topic;
   }
@@ -170,9 +166,7 @@ class TopicRepository {
     
     // 清除缓存
     if (result > 0) {
-      await redisClient.del(`topic:${id}`);
-      await redisClient.del('topics:all');
-      await redisClient.del('topics:hot');
+      await cacheService.clearTopicCache(id);
     }
     
     return result > 0;
@@ -316,9 +310,7 @@ class TopicRepository {
       if (affectedRows === 0) return false;
 
       // 清除缓存
-      await redisClient.del(`topic:${id}`);
-      await redisClient.del('topics:all');
-      await redisClient.del('topics:hot');
+      await cacheService.clearTopicCache(id);
 
       return true;
     } catch (error) {
@@ -391,7 +383,7 @@ class TopicRepository {
     await topic.save();
 
     // 清除缓存
-    await redisClient.del(`topic:${id}`);
+    await cacheService.clearTopicCache(id);
 
     return topic;
   }
@@ -412,9 +404,7 @@ class TopicRepository {
     await topic.save();
 
     // 清除缓存
-    await redisClient.del(`topic:${id}`);
-    await redisClient.del('topics:all');
-    await redisClient.del('topics:hot');
+    await cacheService.clearTopicCache(id);
 
     return topic;
   }

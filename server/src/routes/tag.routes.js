@@ -5,6 +5,54 @@ const { AuthMiddleware, RateLimitMiddleware } = require('../middlewares');
 const { Validator } = require('../utils');
 const Joi = require('joi');
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Tag:
+ *       type: object
+ *       required:
+ *         - name
+ *       properties:
+ *         id:
+ *           type: string
+ *           description: 标签ID
+ *         name:
+ *           type: string
+ *           description: 标签名称
+ *         category:
+ *           type: string
+ *           enum: [interest, skill, major, grade, other]
+ *           description: 标签分类
+ *         description:
+ *           type: string
+ *           nullable: true
+ *           description: 标签描述
+ *         color:
+ *           type: string
+ *           description: HEX或RGBA颜色
+ *         status:
+ *           type: string
+ *           enum: [hot, normal, disabled]
+ *           description: 标签状态
+ *         sort_order:
+ *           type: integer
+ *           description: 排序值
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ */
+
+/**
+ * @swagger
+ * tags:
+ *   name: Tags
+ *   description: 标签管理API
+ */
+
 // 标签创建验证规则
 const createTagSchema = Joi.object({
   name: Joi.string().min(1).max(50).required().messages({
@@ -55,12 +103,62 @@ const batchUpdateSchema = Joi.object({
 // 公开API路由（无需认证）
 
 // 获取热门标签
+/**
+ * @swagger
+ * /api/tags/hot:
+ *   get:
+ *     summary: 获取热门标签
+ *     tags: [Tags]
+ *     parameters:
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *         description: 返回条数，默认10
+ *     responses:
+ *       200:
+ *         description: 热门标签列表
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Tag'
+ */
 router.get('/hot',
   RateLimitMiddleware.createLimiter({ windowMs: 15 * 60 * 1000, max: 100 }),
   tagController.getHotTags
 );
 
 // 根据分类获取标签
+/**
+ * @swagger
+ * /api/tags/category/{category}:
+ *   get:
+ *     summary: 根据分类获取标签
+ *     tags: [Tags]
+ *     parameters:
+ *       - in: path
+ *         name: category
+ *         required: true
+ *         schema:
+ *           type: string
+ *           enum: [interest, skill, major, grade, other]
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *         description: 返回条数，默认50
+ *     responses:
+ *       200:
+ *         description: 标签列表
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Tag'
+ */
 router.get('/category/:category',
   RateLimitMiddleware.createLimiter({ windowMs: 15 * 60 * 1000, max: 100 }),
   tagController.getTagsByCategory
@@ -69,18 +167,107 @@ router.get('/category/:category',
 // 管理员API路由（需要认证）
 
 // 获取标签列表（管理员）
+/**
+ * @swagger
+ * /api/tags:
+ *   get:
+ *     summary: 获取标签列表
+ *     tags: [Tags]
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *       - in: query
+ *         name: search
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: category
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: status
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: 标签列表
+ */
 router.get('/',
   RateLimitMiddleware.createLimiter({ windowMs: 15 * 60 * 1000, max: 200 }),
   tagController.getTagList
 );
 
 // 获取单个标签详情
+/**
+ * @swagger
+ * /api/tags/{id}:
+ *   get:
+ *     summary: 获取标签详情
+ *     tags: [Tags]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: 标签详情
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Tag'
+ */
 router.get('/:id',
   RateLimitMiddleware.createLimiter({ windowMs: 15 * 60 * 1000, max: 100 }),
   tagController.getTagById
 );
 
 // 创建标签（需要管理员权限）
+/**
+ * @swagger
+ * /api/tags:
+ *   post:
+ *     summary: 创建标签
+ *     tags: [Tags]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name
+ *             properties:
+ *               name:
+ *                 type: string
+ *               category:
+ *                 type: string
+ *                 enum: [interest, skill, major, grade, other]
+ *               description:
+ *                 type: string
+ *               color:
+ *                 type: string
+ *               status:
+ *                 type: string
+ *               sortOrder:
+ *                 type: integer
+ *     responses:
+ *       201:
+ *         description: 创建成功
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Tag'
+ */
 router.post('/',
   AuthMiddleware.authenticate(),
   AuthMiddleware.authorize(['admin']),
@@ -90,6 +277,43 @@ router.post('/',
 );
 
 // 更新标签（需要管理员权限）
+/**
+ * @swagger
+ * /api/tags/{id}:
+ *   put:
+ *     summary: 更新标签
+ *     tags: [Tags]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               category:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *               color:
+ *                 type: string
+ *               status:
+ *                 type: string
+ *               sortOrder:
+ *                 type: integer
+ *     responses:
+ *       200:
+ *         description: 更新后的标签
+ */
 router.put('/:id',
   AuthMiddleware.authenticate(),
   AuthMiddleware.authorize(['admin']),
@@ -99,6 +323,24 @@ router.put('/:id',
 );
 
 // 删除标签（需要管理员权限）
+/**
+ * @swagger
+ * /api/tags/{id}:
+ *   delete:
+ *     summary: 删除标签
+ *     tags: [Tags]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: 删除成功
+ */
 router.delete('/:id',
   AuthMiddleware.authenticate(),
   AuthMiddleware.authorize(['admin']),
@@ -107,6 +349,24 @@ router.delete('/:id',
 );
 
 // 切换标签热门状态（需要管理员权限）
+/**
+ * @swagger
+ * /api/tags/{id}/toggle-hot:
+ *   patch:
+ *     summary: 切换标签热门状态
+ *     tags: [Tags]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: 状态切换成功
+ */
 router.patch('/:id/toggle-hot',
   AuthMiddleware.authenticate(),
   AuthMiddleware.authorize(['admin']),
@@ -115,6 +375,24 @@ router.patch('/:id/toggle-hot',
 );
 
 // 切换标签状态（启用/禁用）（需要管理员权限）
+/**
+ * @swagger
+ * /api/tags/{id}/toggle-status:
+ *   patch:
+ *     summary: 切换标签启用状态
+ *     tags: [Tags]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: 状态切换成功
+ */
 router.patch('/:id/toggle-status',
   AuthMiddleware.authenticate(),
   AuthMiddleware.authorize(['admin']),
@@ -123,6 +401,35 @@ router.patch('/:id/toggle-status',
 );
 
 // 批量更新标签状态（需要管理员权限）
+/**
+ * @swagger
+ * /api/tags/batch/status:
+ *   patch:
+ *     summary: 批量更新标签状态
+ *     tags: [Tags]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - ids
+ *               - status
+ *             properties:
+ *               ids:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *               status:
+ *                 type: string
+ *                 enum: [hot, normal, disabled]
+ *     responses:
+ *       200:
+ *         description: 批量更新结果
+ */
 router.patch('/batch/status',
   AuthMiddleware.authenticate(),
   AuthMiddleware.authorize(['admin']),
@@ -132,6 +439,18 @@ router.patch('/batch/status',
 );
 
 // 获取标签统计信息（需要管理员权限）
+/**
+ * @swagger
+ * /api/tags/admin/statistics:
+ *   get:
+ *     summary: 获取标签统计信息
+ *     tags: [Tags]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: 标签统计
+ */
 router.get('/admin/statistics',
   AuthMiddleware.authenticate(),
   AuthMiddleware.authorize(['admin']),
@@ -140,6 +459,32 @@ router.get('/admin/statistics',
 );
 
 // 增加标签使用次数（内部API，一般由其他服务调用）
+/**
+ * @swagger
+ * /api/tags/{id}/increment:
+ *   post:
+ *     summary: 增加标签使用次数
+ *     tags: [Tags]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: false
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               increment:
+ *                 type: integer
+ *                 description: 增量，默认1
+ *     responses:
+ *       200:
+ *         description: 更新成功
+ */
 router.post('/:id/increment',
   RateLimitMiddleware.createLimiter({ windowMs: 1 * 60 * 1000, max: 100 }),
   tagController.incrementUseCount

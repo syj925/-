@@ -4,8 +4,65 @@ const { AuthMiddleware, UploadMiddleware } = require('../middlewares');
 const { ResponseUtil } = require('../utils');
 
 /**
- * 上传单张图片 (兼容根路径)
- * POST /api/upload
+ * @swagger
+ * components:
+ *   schemas:
+ *     UploadResult:
+ *       type: object
+ *       properties:
+ *         url:
+ *           type: string
+ *           description: 文件URL
+ *         originalname:
+ *           type: string
+ *           description: 原始文件名
+ *         mimetype:
+ *           type: string
+ *           description: 文件MIME类型
+ *         size:
+ *           type: integer
+ *           description: 文件大小(字节)
+ */
+
+/**
+ * @swagger
+ * tags:
+ *   name: Upload
+ *   description: 文件上传API
+ */
+
+/**
+ * @swagger
+ * /api/upload:
+ *   post:
+ *     summary: 上传单张图片 (兼容根路径)
+ *     tags: [Upload]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               file:
+ *                 type: string
+ *                 format: binary
+ *                 description: 图片文件
+ *     responses:
+ *       200:
+ *         description: 上传成功
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 code:
+ *                   type: integer
+ *                   example: 0
+ *                 data:
+ *                   $ref: '#/components/schemas/UploadResult'
  */
 router.post('/', AuthMiddleware.authenticate(), UploadMiddleware.single('file'), (req, res) => {
   // 文件已经上传并通过中间件处理，req.file中包含文件信息
@@ -20,8 +77,37 @@ router.post('/', AuthMiddleware.authenticate(), UploadMiddleware.single('file'),
 });
 
 /**
- * 上传单张图片
- * POST /api/upload/image
+ * @swagger
+ * /api/upload/image:
+ *   post:
+ *     summary: 上传单张图片
+ *     tags: [Upload]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               file:
+ *                 type: string
+ *                 format: binary
+ *                 description: 图片文件
+ *     responses:
+ *       200:
+ *         description: 上传成功
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 code:
+ *                   type: integer
+ *                   example: 0
+ *                 data:
+ *                   $ref: '#/components/schemas/UploadResult'
  */
 router.post('/image', AuthMiddleware.authenticate(), UploadMiddleware.single('file'), (req, res) => {
   // 文件已经上传并通过中间件处理，req.file中包含文件信息
@@ -36,8 +122,41 @@ router.post('/image', AuthMiddleware.authenticate(), UploadMiddleware.single('fi
 });
 
 /**
- * 上传多张图片（最多9张）
- * POST /api/upload/images
+ * @swagger
+ * /api/upload/images:
+ *   post:
+ *     summary: 上传多张图片（最多9张）
+ *     tags: [Upload]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               files:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *                   format: binary
+ *                 description: 图片文件列表
+ *     responses:
+ *       200:
+ *         description: 上传成功
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 code:
+ *                   type: integer
+ *                   example: 0
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/UploadResult'
  */
 router.post('/images', AuthMiddleware.authenticate(), UploadMiddleware.array('files', 9), (req, res) => {
   // 文件已经上传并通过中间件处理，req.files中包含文件信息
@@ -52,8 +171,37 @@ router.post('/images', AuthMiddleware.authenticate(), UploadMiddleware.array('fi
 });
 
 /**
- * 上传轮播图
- * POST /api/upload/banner
+ * @swagger
+ * /api/upload/banner:
+ *   post:
+ *     summary: 上传轮播图
+ *     tags: [Upload]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               file:
+ *                 type: string
+ *                 format: binary
+ *                 description: 轮播图文件
+ *     responses:
+ *       200:
+ *         description: 上传成功
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 code:
+ *                   type: integer
+ *                   example: 0
+ *                 data:
+ *                   $ref: '#/components/schemas/UploadResult'
  */
 router.post('/banner', AuthMiddleware.authenticate(), UploadMiddleware.single('file'), (req, res) => {
   try {

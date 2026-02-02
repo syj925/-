@@ -5,7 +5,7 @@ require('dotenv').config();
 
 // 确定环境
 const env = process.env.NODE_ENV || 'development';
-const logDir = process.env.LOG_DIR || 'logs';
+const logDir = process.env.LOG_DIR || path.join(__dirname, '../logs');
 const logLevel = process.env.LOG_LEVEL || (env === 'development' ? 'info' : 'info');
 
 // 确保日志目录存在

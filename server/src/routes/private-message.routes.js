@@ -7,6 +7,44 @@ const { Validator } = require('../utils');
 const Joi = require('joi');
 
 /**
+ * @swagger
+ * components:
+ *   schemas:
+ *     PrivateMessage:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: string
+ *           format: uuid
+ *         sender_id:
+ *           type: string
+ *           format: uuid
+ *         receiver_id:
+ *           type: string
+ *           format: uuid
+ *         content:
+ *           type: string
+ *         type:
+ *           type: string
+ *           enum: [private]
+ *         is_read:
+ *           type: boolean
+ *         created_at:
+ *           type: string
+ *           format: date-time
+ *         updated_at:
+ *           type: string
+ *           format: date-time
+ */
+
+/**
+ * @swagger
+ * tags:
+ *   name: PrivateMessages
+ *   description: 私信消息API
+ */
+
+/**
  * 发送私信验证规则
  */
 const sendPrivateMessageSchema = Joi.object({
@@ -38,9 +76,38 @@ const paginationSchema = Joi.object({
 router.use(AuthMiddleware.authenticate());
 
 /**
- * @route POST /api/private-messages
- * @desc 发送私信
- * @access Private
+ * @swagger
+ * /api/private-messages:
+ *   post:
+ *     summary: 发送私信
+ *     tags: [PrivateMessages]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - receiverId
+ *               - content
+ *             properties:
+ *               receiverId:
+ *                 type: string
+ *                 format: uuid
+ *               content:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: 私信发送成功
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   $ref: '#/components/schemas/PrivateMessage'
  */
 router.post('/', 
   Validator.validateBody(sendPrivateMessageSchema),
@@ -49,9 +116,34 @@ router.post('/',
 );
 
 /**
- * @route GET /api/private-messages
- * @desc 获取私信会话列表
- * @access Private
+ * @swagger
+ * /api/private-messages:
+ *   get:
+ *     summary: 获取私信会话列表
+ *     tags: [PrivateMessages]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *       - in: query
+ *         name: pageSize
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: 会话列表
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 list:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/PrivateMessage'
  */
 router.get('/', 
   Validator.validateQuery(paginationSchema),
@@ -59,18 +151,70 @@ router.get('/',
 );
 
 /**
- * @route GET /api/private-messages/status
- * @desc 获取私信功能状态
- * @access Private
+ * @swagger
+ * /api/private-messages/status:
+ *   get:
+ *     summary: 获取私信功能状态
+ *     tags: [PrivateMessages]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: 私信可用状态
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     globalEnabled:
+ *                       type: boolean
+ *                     userEnabled:
+ *                       type: boolean
+ *                     available:
+ *                       type: boolean
  */
 router.get('/status', 
   privateMessageController.getPrivateMessageStatus
 );
 
 /**
- * @route GET /api/private-messages/conversation/:userId
- * @desc 获取与指定用户的私信记录
- * @access Private
+ * @swagger
+ * /api/private-messages/conversation/{userId}:
+ *   get:
+ *     summary: 获取与指定用户的私信对话
+ *     tags: [PrivateMessages]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *       - in: query
+ *         name: pageSize
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: 分页对话消息
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 list:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/PrivateMessage'
  */
 router.get('/conversation/:userId', 
   Validator.validateParams(Joi.object({
@@ -86,9 +230,33 @@ router.get('/conversation/:userId',
 );
 
 /**
- * @route PUT /api/private-messages/conversation/:userId/read
- * @desc 标记与指定用户的私信对话为已读
- * @access Private
+ * @swagger
+ * /api/private-messages/conversation/{userId}/read:
+ *   put:
+ *     summary: 标记指定会话为已读
+ *     tags: [PrivateMessages]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *     responses:
+ *       200:
+ *         description: 返回更新数量
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     updatedCount:
+ *                       type: integer
  */
 router.put('/conversation/:userId/read', 
   Validator.validateParams(Joi.object({
@@ -102,4 +270,3 @@ router.put('/conversation/:userId/read',
 );
 
 module.exports = router;
-

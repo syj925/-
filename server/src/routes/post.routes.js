@@ -67,12 +67,114 @@ const topStatusSchema = Joi.object({
 });
 
 // 帖子列表路由（支持可选认证）
+/**
+ * @swagger
+ * tags:
+ *   name: Posts
+ *   description: 帖子管理API
+ */
+
+/**
+ * @swagger
+ * /api/posts:
+ *   get:
+ *     summary: 获取帖子列表
+ *     tags: [Posts]
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *       - in: query
+ *         name: pageSize
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: 帖子列表
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 list:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Post'
+ *                 pagination:
+ *                   type: object
+ *   post:
+ *     summary: 发布帖子
+ *     tags: [Posts]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Post'
+ *     responses:
+ *       200:
+ *         description: 发布成功
+ */
 router.get('/', AuthMiddleware.optionalAuthenticate(), postController.getPosts);
 router.get('/hot', AuthMiddleware.optionalAuthenticate(), postController.getHotPosts);
 router.get('/recommended', AuthMiddleware.optionalAuthenticate(), postController.getRecommended);
 router.get('/user/favorites', AuthMiddleware.authenticate(), postController.getUserFavorites);
 router.get('/user/me', AuthMiddleware.authenticate(), postController.getUserPosts);
 router.get('/user/audit-history', AuthMiddleware.authenticate(), postController.getUserAuditHistory);
+
+/**
+ * @swagger
+ * /api/posts/{id}:
+ *   get:
+ *     summary: 获取帖子详情
+ *     tags: [Posts]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: 帖子详情
+ *   put:
+ *     summary: 更新帖子
+ *     tags: [Posts]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Post'
+ *     responses:
+ *       200:
+ *         description: 更新成功
+ *   delete:
+ *     summary: 删除帖子
+ *     tags: [Posts]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: 删除成功
+ */
 router.get('/:id', AuthMiddleware.optionalAuthenticate(), postController.getPostDetail);
 router.get('/:id/comments', AuthMiddleware.optionalAuthenticate(), postController.getPostComments);
 router.get('/:id/comments/stats', AuthMiddleware.optionalAuthenticate(), postController.getPostCommentStats);

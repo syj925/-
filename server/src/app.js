@@ -26,23 +26,31 @@ app.use((req, res, next) => {
   const origin = req.headers.origin;
   
   // 允许本地开发环境和指定域名访问，增加移动设备常用的访问方式
-  const allowedOrigins = [
-    'https://www.callxyq.xyz',
-    'https://callxyq.xyz',
-    'http://www.callxyq.xyz',
-    'http://callxyq.xyz',
-    'http://localhost:5173', 
-    'http://localhost:8080', 
-    'http://localhost:8081', 
-    'http://localhost:8082', 
-    'http://10.1.0.186:8080',
-    'http://10.1.0.186:8081',
-    'capacitor://*',  // Capacitor移动应用
-    'ionic://*',      // Ionic移动应用
-    'file://*',       // 本地文件访问（某些移动应用）
-    null,             // 某些移动设备不发送origin
-    undefined         // 某些移动设备origin未定义
-  ];
+  const allowedOrigins = config.env === 'production'
+    ? [
+        'https://www.callxyq.xyz',
+        'https://callxyq.xyz',
+        // 如果有移动端APP需要访问生产环境，可能需要保留以下协议，或者只允许特定域名
+        // 'capacitor://*',
+        // 'ionic://*' 
+      ]
+    : [
+        'https://www.callxyq.xyz',
+        'https://callxyq.xyz',
+        'http://www.callxyq.xyz',
+        'http://callxyq.xyz',
+        'http://localhost:5173', 
+        'http://localhost:8080', 
+        'http://localhost:8081', 
+        'http://localhost:8082', 
+        'http://10.1.0.186:8080',
+        'http://10.1.0.186:8081',
+        'capacitor://*',  // Capacitor移动应用
+        'ionic://*',      // Ionic移动应用
+        'file://*',       // 本地文件访问（某些移动应用）
+        null,             // 某些移动设备不发送origin
+        undefined         // 某些移动设备origin未定义
+      ];
   
   // 如果请求源在允许列表中或环境为开发环境，则允许该源
   if (origin && allowedOrigins.includes(origin) || config.env === 'development') {
@@ -109,6 +117,11 @@ app.get('/api/health', (req, res) => {
 
 // API请求限流
 app.use('/api', RateLimitMiddleware.apiLimiter());
+
+// Swagger API 文档
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpecs = require('../config/swagger');
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
 
 // 静态文件服务
 app.use('/uploads', express.static(config.upload.dir));

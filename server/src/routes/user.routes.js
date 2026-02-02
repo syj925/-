@@ -180,23 +180,115 @@ const verifyCodeSchema = Joi.object({
 });
 
 // 认证相关路由
-router.post('/register', RateLimitMiddleware.registerLimiter(), Validator.validateBody(registerSchema), userController.register);
-router.post('/login', RateLimitMiddleware.loginLimiter(), Validator.validateBody(loginSchema), userController.login);
-router.post('/send-code', RateLimitMiddleware.verifyCodeLimiter(), Validator.validateBody(phoneCodeSchema), userController.sendPhoneCode);
-router.post('/verify-code', Validator.validateBody(verifyCodeSchema), userController.verifyPhoneCode);
+/**
+ * @swagger
+ * tags:
+ *   name: Users
+ *   description: 用户管理API
+ */
 
-// 用户信息路由
+/**
+ * @swagger
+ * /api/users/me:
+ *   get:
+ *     summary: 获取当前用户信息
+ *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: 用户信息
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *   put:
+ *     summary: 更新当前用户信息
+ *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/User'
+ *     responses:
+ *       200:
+ *         description: 更新成功
+ */
 router.get('/me', AuthMiddleware.authenticate(), userController.getCurrentUser);
 router.put('/me', AuthMiddleware.authenticate(), Validator.validateBody(updateUserSchema), userController.updateUserInfo);
+
+/**
+ * @swagger
+ * /api/users/change-password:
+ *   post:
+ *     summary: 修改密码
+ *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - oldPassword
+ *               - newPassword
+ *             properties:
+ *               oldPassword:
+ *                 type: string
+ *               newPassword:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: 密码修改成功
+ */
 router.post('/change-password', AuthMiddleware.authenticate(), Validator.validateBody(changePasswordSchema), userController.changePassword);
 
 // 搜索用户（支持@功能）
+/**
+ * @swagger
+ * /api/users/search:
+ *   get:
+ *     summary: 搜索用户
+ *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: keyword
+ *         schema:
+ *           type: string
+ *         description: 搜索关键词
+ *     responses:
+ *       200:
+ *         description: 用户列表
+ */
 router.get('/search', AuthMiddleware.authenticate(), userController.searchUsers);
 
 // 获取用户今日发布统计
 router.get('/publish-stats', AuthMiddleware.authenticate(), userController.getPublishStats);
 
 // 用户主页路由（支持可选认证）
+/**
+ * @swagger
+ * /api/users/profile/{id}:
+ *   get:
+ *     summary: 获取用户主页信息
+ *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: 用户主页信息
+ */
 router.get('/profile/:id', AuthMiddleware.optionalAuthenticate(), userController.getUserProfile);
 router.get('/profile/:id/posts', AuthMiddleware.optionalAuthenticate(), userController.getUserProfilePosts);
 

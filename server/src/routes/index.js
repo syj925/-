@@ -29,12 +29,123 @@ const Joi = require('joi');
 const AdminMiddleware = require('../middlewares/admin.middleware');
 // 后续将在此处引入其他路由
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     User:
+ *       type: object
+ *       required:
+ *         - username
+ *         - password
+ *       properties:
+ *         id:
+ *           type: string
+ *           description: 用户ID
+ *         username:
+ *           type: string
+ *           description: 用户名
+ *         nickname:
+ *           type: string
+ *           description: 昵称
+ *         avatar:
+ *           type: string
+ *           description: 头像URL
+ *         role:
+ *           type: string
+ *           enum: [student, teacher, admin]
+ *           description: 用户角色
+ *     Post:
+ *       type: object
+ *       required:
+ *         - content
+ *       properties:
+ *         id:
+ *           type: string
+ *           description: 帖子ID
+ *         content:
+ *           type: string
+ *           description: 帖子内容
+ *         images:
+ *           type: array
+ *           items:
+ *             type: string
+ *           description: 图片URL列表
+ *         user_id:
+ *           type: string
+ *           description: 作者ID
+ *         created_at:
+ *           type: string
+ *           format: date-time
+ *           description: 创建时间
+ */
+
 // 认证相关API
+/**
+ * @swagger
+ * /api/auth/login:
+ *   post:
+ *     summary: 用户登录
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - username
+ *               - password
+ *             properties:
+ *               username:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: 登录成功
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 token:
+ *                   type: string
+ *                 user:
+ *                   $ref: '#/components/schemas/User'
+ */
 const loginSchema = Joi.object({
   username: Joi.string().required(),
   password: Joi.string().required()
 });
 
+/**
+ * @swagger
+ * /api/auth/register:
+ *   post:
+ *     summary: 用户注册
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - username
+ *               - password
+ *               - nickname
+ *             properties:
+ *               username:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *               nickname:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: 注册成功
+ */
 const registerSchema = Joi.object({
   username: Joi.string().min(3).max(50).required(),
   password: Joi.string().min(6).max(30).required(),

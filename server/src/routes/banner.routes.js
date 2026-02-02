@@ -5,6 +5,87 @@ const { AuthMiddleware, AdminMiddleware } = require('../middlewares');
 const { Validator } = require('../utils');
 const Joi = require('joi');
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Banner:
+ *       type: object
+ *       required:
+ *         - title
+ *         - image
+ *       properties:
+ *         id:
+ *           type: string
+ *           format: uuid
+ *           description: 轮播图ID
+ *         title:
+ *           type: string
+ *           description: 轮播图标题
+ *         image:
+ *           type: string
+ *           description: 展示图片URL
+ *         linkType:
+ *           type: string
+ *           enum: [url, post, topic, event, page]
+ *           description: 点击后跳转的目标类型
+ *         linkValue:
+ *           type: string
+ *           description: 链接值或目标标识
+ *         targetId:
+ *           type: string
+ *           format: uuid
+ *           nullable: true
+ *           description: 关联实体ID
+ *         scene:
+ *           type: string
+ *           enum: [home, discover, search-main, search-topic]
+ *           description: 展示场景
+ *         platform:
+ *           type: string
+ *           enum: [app, web, admin, all]
+ *           description: 展示平台
+ *         sortOrder:
+ *           type: integer
+ *           description: 排序权重，数字越小越靠前
+ *         priority:
+ *           type: integer
+ *           description: 优先级，数字越大优先
+ *         status:
+ *           type: string
+ *           enum: [active, inactive]
+ *           description: 上下线状态
+ *         startTime:
+ *           type: string
+ *           format: date-time
+ *           nullable: true
+ *           description: 生效时间
+ *         endTime:
+ *           type: string
+ *           format: date-time
+ *           nullable: true
+ *           description: 结束时间
+ *         tags:
+ *           type: array
+ *           items:
+ *             type: string
+ *           description: 业务标签
+ *         clickCount:
+ *           type: integer
+ *           description: 累计点击次数
+ *         viewCount:
+ *           type: integer
+ *           description: 累计曝光次数
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *           description: 创建时间
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ *           description: 最近更新时间
+ */
+
 // 请求体验证模式
 const createBannerSchema = Joi.object({
   title: Joi.string().min(1).max(100).required()
@@ -176,10 +257,173 @@ const recordViewSchema = Joi.object({
 });
 
 // 公开接口 - 获取轮播图
+/**
+ * @swagger
+ * /api/banners:
+ *   get:
+ *     summary: 获取轮播图列表
+ *     tags: [Banners]
+ *     parameters:
+ *       - in: query
+ *         name: scene
+ *         schema:
+ *           type: string
+ *           enum: [home, discover, search-main, search-topic]
+ *         description: 展示场景，默认 home
+ *       - in: query
+ *         name: platform
+ *         schema:
+ *           type: string
+ *           enum: [app, web, admin, all]
+ *         description: 展示平台
+ *       - in: query
+ *         name: status
+ *         schema:
+ *           type: string
+ *           enum: [active, inactive]
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *         description: 管理端分页页码
+ *       - in: query
+ *         name: keyword
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: 轮播图列表
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   oneOf:
+ *                     - type: array
+ *                       items:
+ *                         $ref: '#/components/schemas/Banner'
+ *                     - type: object
+ *                       description: 包含列表和分页信息的对象
+ *   post:
+ *     summary: 创建轮播图
+ *     tags: [Banners]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Banner'
+ *     responses:
+ *       201:
+ *         description: 创建成功
+ */
 router.get('/', bannerController.getList);
+
+/**
+ * @swagger
+ * /api/banners/scene/{scene}:
+ *   get:
+ *     summary: 根据场景获取轮播图
+ *     tags: [Banners]
+ *     parameters:
+ *       - in: path
+ *         name: scene
+ *         required: true
+ *         schema:
+ *           type: string
+ *           enum: [home, discover, search-main, search-topic]
+ *       - in: query
+ *         name: platform
+ *         schema:
+ *           type: string
+ *           enum: [app, web, admin, all]
+ *       - in: query
+ *         name: status
+ *         schema:
+ *           type: string
+ *           enum: [active, inactive]
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: 轮播图列表
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Banner'
+ */
 router.get('/scene/:scene', bannerController.getBannersByScene);
 
 // 公开接口 - 记录统计
+/**
+ * @swagger
+ * /api/banners/click:
+ *   post:
+ *     summary: 记录轮播图点击
+ *     tags: [Banners]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - bannerId
+ *             properties:
+ *               bannerId:
+ *                 type: string
+ *                 format: uuid
+ *               scene:
+ *                 type: string
+ *                 enum: [home, discover, search-main, search-topic]
+ *               platform:
+ *                 type: string
+ *                 enum: [app, web]
+ *     responses:
+ *       200:
+ *         description: 点击已记录
+ * /api/banners/view:
+ *   post:
+ *     summary: 记录轮播图曝光
+ *     tags: [Banners]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - bannerIds
+ *             properties:
+ *               bannerIds:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *                   format: uuid
+ *               scene:
+ *                 type: string
+ *                 enum: [home, discover, search-main, search-topic]
+ *               platform:
+ *                 type: string
+ *                 enum: [app, web]
+ *     responses:
+ *       200:
+ *         description: 曝光已记录
+ */
 router.post('/click', 
   Validator.validateBody(recordClickSchema), 
   bannerController.recordClick
@@ -190,12 +434,130 @@ router.post('/view',
 );
 
 // 需要登录的接口
+/**
+ * @swagger
+ * /api/banners/{id}/statistics:
+ *   get:
+ *     summary: 获取轮播图统计数据
+ *     tags: [Banners]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *       - in: query
+ *         name: startDate
+ *         schema:
+ *           type: string
+ *           format: date
+ *       - in: query
+ *         name: endDate
+ *         schema:
+ *           type: string
+ *           format: date
+ *     responses:
+ *       200:
+ *         description: 统计数据
+ */
 router.get('/:id/statistics', 
   AuthMiddleware.authenticate(), 
   bannerController.getStatistics
 );
 
 // 管理员接口 - 轮播图管理
+/**
+ * @swagger
+ * /api/banners/{id}:
+ *   get:
+ *     summary: 获取轮播图详情
+ *     tags: [Banners]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *     responses:
+ *       200:
+ *         description: 轮播图详情
+ *   put:
+ *     summary: 更新轮播图
+ *     tags: [Banners]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Banner'
+ *     responses:
+ *       200:
+ *         description: 更新成功
+ *   delete:
+ *     summary: 删除轮播图
+ *     tags: [Banners]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *     responses:
+ *       200:
+ *         description: 删除成功
+ */
+/**
+ * @swagger
+ * /api/banners/sort/order:
+ *   put:
+ *     summary: 批量更新轮播图排序
+ *     tags: [Banners]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - banners
+ *             properties:
+ *               banners:
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *                   required:
+ *                     - id
+ *                     - sortOrder
+ *                   properties:
+ *                     id:
+ *                       type: string
+ *                       format: uuid
+ *                     sortOrder:
+ *                       type: integer
+ *     responses:
+ *       200:
+ *         description: 排序已更新
+ */
 router.post('/', 
   AdminMiddleware.authenticate(),
   Validator.validateBody(createBannerSchema),

@@ -33,6 +33,126 @@ class UserRepository {
   }
 
   /**
+   * 根据ID查找用户（包含统计数据）
+   * @param {String} id 用户ID
+   * @param {Boolean} includeTags 是否包含标签
+   * @returns {Promise<Object>} 用户对象（包含stats）
+   */
+  async findByIdWithStats(id, includeTags = false) {
+    const queryOptions = {
+      attributes: {
+        include: [
+          [
+            sequelize.literal(`(
+              SELECT COUNT(*)
+              FROM posts
+              WHERE
+                posts.user_id = User.id
+                AND posts.status = 'published'
+                AND posts.deleted_at IS NULL
+            )`),
+            'postCount'
+          ],
+          [
+            sequelize.literal(`(
+              SELECT COUNT(*)
+              FROM comments
+              WHERE
+                comments.user_id = User.id
+                AND comments.status = 'normal'
+                AND comments.deleted_at IS NULL
+            )`),
+            'commentCount'
+          ],
+          [
+            sequelize.literal(`(
+              SELECT COUNT(*)
+              FROM favorites
+              WHERE
+                favorites.user_id = User.id
+                AND favorites.deleted_at IS NULL
+            )`),
+            'favoriteCount'
+          ],
+          [
+            sequelize.literal(`(
+              SELECT COUNT(*)
+              FROM follows
+              WHERE
+                follows.follower_id = User.id
+                AND follows.deleted_at IS NULL
+            )`),
+            'followCount'
+          ],
+          [
+            sequelize.literal(`(
+              SELECT COUNT(*)
+              FROM follows
+              WHERE
+                follows.following_id = User.id
+                AND follows.deleted_at IS NULL
+            )`),
+            'fansCount'
+          ],
+          // 获取用户获赞数
+          [
+            sequelize.literal(`(
+              SELECT COUNT(*)
+              FROM likes
+              INNER JOIN posts ON likes.target_id = posts.id
+              WHERE
+                likes.target_type = 'post'
+                AND posts.user_id = User.id
+                AND posts.status = 'published'
+                AND likes.deleted_at IS NULL
+                AND posts.deleted_at IS NULL
+            )`),
+            'likeCount'
+          ]
+        ]
+      },
+      include: []
+    };
+
+    // 如果需要包含标签
+    if (includeTags) {
+      const { Tag } = require('../models');
+      queryOptions.include.push({
+        model: Tag,
+        as: 'tags',
+        through: { attributes: [] },
+        attributes: ['id', 'name', 'category', 'color', 'status']
+      });
+    }
+
+    const user = await User.findByPk(id, queryOptions);
+
+    if (!user) return null;
+
+    // 格式化返回结果
+    const userJson = user.toJSON();
+    const stats = {
+      postCount: parseInt(userJson.postCount || 0, 10),
+      commentCount: parseInt(userJson.commentCount || 0, 10),
+      favoriteCount: parseInt(userJson.favoriteCount || 0, 10),
+      followCount: parseInt(userJson.followCount || 0, 10),
+      fansCount: parseInt(userJson.fansCount || 0, 10),
+      likeCount: parseInt(userJson.likeCount || 0, 10)
+    };
+
+    // 清理顶层的统计字段
+    delete userJson.postCount;
+    delete userJson.commentCount;
+    delete userJson.favoriteCount;
+    delete userJson.followCount;
+    delete userJson.fansCount;
+    delete userJson.likeCount;
+
+    userJson.stats = stats;
+    return userJson;
+  }
+
+  /**
    * 根据用户名查找用户
    * @param {String} username 用户名
    * @param {Boolean} withPassword 是否包含密码
