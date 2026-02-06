@@ -418,31 +418,6 @@ class PostRepository {
   }
 
   /**
-   * 更新帖子计数器
-   * @param {String} id 帖子ID
-   * @param {String} field 字段名
-   * @param {Number} value 变化值
-   * @returns {Promise<Boolean>} 是否成功
-   */
-  async updateCounter(id, field, value) {
-    if (!['like_count', 'comment_count', 'favorite_count'].includes(field)) {
-      throw new Error('Invalid counter field');
-    }
-    
-    const post = await Post.findByPk(id);
-    if (!post) return false;
-    
-    post[field] = Math.max(0, post[field] + value);
-    await post.save();
-    
-    // 清除缓存
-    await redisClient.del(`post:${id}`);
-    await redisClient.del(`post:${id}:details`);
-    
-    return true;
-  }
-
-  /**
    * 设置置顶状态
    * @param {String} id 帖子ID
    * @param {Boolean} isTop 是否置顶

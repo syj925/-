@@ -54,7 +54,7 @@ class AuthService {
     }
 
     // 加密密码
-    userData.password = EncryptionUtil.hashPassword(userData.password);
+    userData.password = await EncryptionUtil.hashPassword(userData.password);
 
     // 确保昵称存在，如果没有提供昵称，使用用户名作为昵称
     if (!userData.nickname) {
@@ -162,7 +162,7 @@ class AuthService {
     }
 
     // 验证密码
-    if (!EncryptionUtil.verifyPassword(password, user.password)) {
+    if (!await EncryptionUtil.verifyPassword(password, user.password)) {
       throw ErrorMiddleware.createError(
         '密码错误',
         StatusCodes.BAD_REQUEST,
@@ -210,7 +210,7 @@ class AuthService {
     }
     
     // 验证旧密码
-    if (!EncryptionUtil.verifyPassword(oldPassword, user.password)) {
+    if (!await EncryptionUtil.verifyPassword(oldPassword, user.password)) {
       throw ErrorMiddleware.createError(
         '旧密码错误',
         StatusCodes.BAD_REQUEST,
@@ -219,7 +219,7 @@ class AuthService {
     }
     
     // 更新密码
-    const hashedPassword = EncryptionUtil.hashPassword(newPassword);
+    const hashedPassword = await EncryptionUtil.hashPassword(newPassword);
     await userRepository.update(id, { password: hashedPassword });
     
     return true;
@@ -243,7 +243,7 @@ class AuthService {
     }
     
     // 更新密码
-    const hashedPassword = EncryptionUtil.hashPassword(newPassword);
+    const hashedPassword = await EncryptionUtil.hashPassword(newPassword);
     await userRepository.update(id, { password: hashedPassword });
     
     return true;

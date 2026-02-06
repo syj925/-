@@ -360,9 +360,8 @@ class MessageService {
    */
   async _incrementUnreadCount(userId, value = 1) {
     try {
-      const currentCount = await redisClient.get(`unread:${userId}`);
-      const newCount = currentCount ? parseInt(currentCount, 10) + value : value;
-      await redisClient.set(`unread:${userId}`, newCount.toString());
+      // 使用原子操作INCRBY替代GET-SET，避免并发竞态条件
+      await redisClient.incr(`unread:${userId}`, value);
       
       // 发送未读消息计数更新
       this._sendUnreadCountUpdate(userId);
@@ -379,11 +378,13 @@ class MessageService {
    */
   async _decrementUnreadCount(userId, value = 1) {
     try {
-      const currentCount = await redisClient.get(`unread:${userId}`);
-      if (!currentCount) return;
+      // 使用原子操作DECRBY替代GET-SET，避免并发竞态条件
+      const newCount = await redisClient.decr(`unread:${userId}`, value);
       
-      const newCount = Math.max(0, parseInt(currentCount, 10) - value);
-      await redisClient.set(`unread:${userId}`, newCount.toString());
+      // 如果减到负数，重置为0
+      if (newCount < 0) {
+        await redisClient.set(`unread:${userId}`, '0');
+      }
       
       // 发送未读消息计数更新
       this._sendUnreadCountUpdate(userId);

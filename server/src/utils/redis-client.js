@@ -323,23 +323,42 @@ class RedisClient {
         return 0;
       }
 
-      const keys = await this.client.keys(pattern);
-      if (keys.length === 0) {
-        return 0;
-      }
-
-           // 修复前缀问题：keys()返回的是完整key，需要去掉前缀再删除
-           const config = require('../../config');
-           const keyPrefix = config.redis.keyPrefix || '';
-           
-           const keysWithoutPrefix = keys.map(key => {
-             if (keyPrefix && key.startsWith(keyPrefix)) {
-               return key.substring(keyPrefix.length);
-             }
-             return key;
-           });
-     
-           return await this.client.del(...keysWithoutPrefix);
+      // 使用SCAN替代KEYS，避免在大数据量时阻塞Redis
+      const config = require('../../config');
+      const keyPrefix = config.redis.keyPrefix || '';
+      
+      let deletedCount = 0;
+      const stream = this.client.scanStream({ match: pattern, count: 100 });
+      
+      return new Promise((resolve, reject) => {
+        stream.on('data', async (keys) => {
+          if (keys.length === 0) return;
+          
+          // scanStream返回带前缀的完整key，需要去掉前缀再删除
+          const keysWithoutPrefix = keys.map(key => {
+            if (keyPrefix && key.startsWith(keyPrefix)) {
+              return key.substring(keyPrefix.length);
+            }
+            return key;
+          });
+          
+          try {
+            await this.client.del(...keysWithoutPrefix);
+            deletedCount += keysWithoutPrefix.length;
+          } catch (delErr) {
+            logger.error(`Redis deletePattern del error: ${delErr.message}`);
+          }
+        });
+        
+        stream.on('end', () => {
+          resolve(deletedCount);
+        });
+        
+        stream.on('error', (err) => {
+          logger.error(`Redis scanStream error: ${err.message}`, { pattern });
+          resolve(deletedCount); // 返回已删除的数量，不抛异常
+        });
+      });
     } catch (err) {
       logger.error(`Redis deletePattern error: ${err.message}`, { pattern });
       return 0;

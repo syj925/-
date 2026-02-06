@@ -44,18 +44,60 @@ async function startServer() {
     logger.info('🚀 推荐自动更新服务已启动');
 
     // 处理信号
-    const gracefulShutdown = () => {
+    const gracefulShutdown = async () => {
       logger.info('收到关闭信号，正在关闭服务器...');
       
       // 停止自动更新服务
       autoUpdater.stop();
-      
+
+      // 1. 刷新Write-Back队列，确保待处理操作写入数据库
+      try {
+        const statusCacheService = require('./services/status-cache.service');
+        await statusCacheService.flushPendingOperations();
+        logger.info('Write-Back队列已刷新');
+      } catch (err) {
+        logger.error('刷新Write-Back队列失败:', err);
+      }
+
+      // 2. 关闭HTTP服务器（停止接收新连接）
       server.close(() => {
         logger.info('HTTP服务器已关闭');
-        process.exit(0);
       });
-      
-      // 如果15秒内未关闭，强制退出
+
+      // 3. 关闭WebSocket连接
+      try {
+        WebSocketService.close();
+        logger.info('WebSocket服务已关闭');
+      } catch (err) {
+        logger.error('关闭WebSocket失败:', err);
+      }
+
+      // 4. 关闭数据库连接
+      try {
+        await db.sequelize.close();
+        logger.info('数据库连接已关闭');
+      } catch (err) {
+        logger.error('关闭数据库连接失败:', err);
+      }
+
+      // 5. 关闭Redis连接
+      try {
+        const { redisClient } = require('./utils');
+        const client = redisClient.getClient();
+        if (client) {
+          await client.quit();
+          logger.info('Redis连接已关闭');
+        }
+      } catch (err) {
+        logger.error('关闭Redis连接失败:', err);
+      }
+
+      logger.info('所有连接已关闭，进程退出');
+      process.exit(0);
+    };
+
+    // 如果15秒内未完成优雅关闭，强制退出
+    const forceShutdown = () => {
       setTimeout(() => {
         logger.error('无法在规定时间内关闭连接，强制关闭');
         process.exit(1);
@@ -63,8 +105,8 @@ async function startServer() {
     };
 
     // 监听终止信号
-    process.on('SIGTERM', gracefulShutdown);
-    process.on('SIGINT', gracefulShutdown);
+    process.on('SIGTERM', () => { forceShutdown(); gracefulShutdown(); });
+    process.on('SIGINT', () => { forceShutdown(); gracefulShutdown(); });
     
     return server;
   } catch (error) {

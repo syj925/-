@@ -121,7 +121,7 @@ class UserService {
     
     // 如果包含密码，需要加密
     if (userData.password) {
-      userData.password = EncryptionUtil.hashPassword(userData.password);
+      userData.password = await EncryptionUtil.hashPassword(userData.password);
     }
 
     // 处理空字符串，将空字符串转换为 null，避免验证错误
@@ -196,15 +196,6 @@ class UserService {
       // 更新标签使用次数
       await tag.increment('use_count');
     }
-  }
-
-  /**
-   * 查询用户列表
-   * @param {Object} options 查询选项
-   * @returns {Promise<Object>} 分页结果
-   */
-  async findUsers(options) {
-    return await userRepository.findAll(options);
   }
 
   /**

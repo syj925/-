@@ -575,10 +575,12 @@ class CommentService {
     
     const replies = await commentRepository.findReplies(commentId, page, pageSize);
     
-    // 如果有当前用户ID，添加是否点赞的信息
-    if (currentUserId) {
+    // 如果有当前用户ID，批量查询点赞状态（避免N+1）
+    if (currentUserId && replies.list && replies.list.length > 0) {
+      const replyIds = replies.list.map(reply => reply.id);
+      const likeStates = await commentRepository.getLikeStatesForUser(currentUserId, replyIds);
       for (const reply of replies.list) {
-        reply.dataValues.is_liked = await commentRepository.isLikedByUser(reply.id, currentUserId);
+        reply.dataValues.is_liked = Boolean(likeStates[reply.id]);
       }
     }
     

@@ -1,6 +1,5 @@
 const express = require('express');
 const helmet = require('helmet');
-const cors = require('cors');
 const compression = require('compression');
 const morgan = require('morgan');
 const path = require('path');
@@ -71,13 +70,6 @@ app.use((req, res, next) => {
   
   next();
 });
-
-// CORS配置（作为备份）
-app.use(cors({
-  ...config.cors,
-  // 在开发环境中，允许所有源访问
-  origin: config.env === 'development' ? '*' : config.cors.origin
-}));
 
 // 请求体解析
 app.use(express.json({ limit: '1mb' }));

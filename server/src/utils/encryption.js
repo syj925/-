@@ -8,21 +8,21 @@ class EncryptionUtil {
   /**
    * 对密码进行哈希
    * @param {String} password 明文密码
-   * @returns {String} 哈希后的密码
+   * @returns {Promise<String>} 哈希后的密码
    */
-  static hashPassword(password) {
-    const salt = bcrypt.genSaltSync(10);
-    return bcrypt.hashSync(password, salt);
+  static async hashPassword(password) {
+    const salt = await bcrypt.genSalt(10);
+    return bcrypt.hash(password, salt);
   }
 
   /**
    * 验证密码
    * @param {String} password 明文密码
    * @param {String} hash 哈希后的密码
-   * @returns {Boolean} 是否匹配
+   * @returns {Promise<Boolean>} 是否匹配
    */
-  static verifyPassword(password, hash) {
-    return bcrypt.compareSync(password, hash);
+  static async verifyPassword(password, hash) {
+    return bcrypt.compare(password, hash);
   }
 
   /**

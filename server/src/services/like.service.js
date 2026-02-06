@@ -121,7 +121,7 @@ class LikeService {
         title: messageTitle,
         content: messageContent,
         type: 'like',
-        related_id: like.id,
+        related_id: targetId,  // 使用targetId而非like.id，因为Write-Back模式下like对象没有id
         post_id: targetType === 'post' ? targetId : null
       }).catch(err => console.error('发送点赞通知失败', err));
     }

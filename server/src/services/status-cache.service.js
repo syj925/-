@@ -626,8 +626,7 @@ class StatusCacheService {
         await this.flushFavoriteOperations(groupedOps.favorite);
       }
 
-      // 清空已处理的操作
-      await redisClient.del(this.PENDING_OPERATIONS_KEY);
+      // 注意：队列已在getAllPendingOperations()中通过MULTI/EXEC原子清空，无需再次删除
       
       logger.info(`批量写回完成: 关注${groupedOps.follow.length}个, 点赞${groupedOps.like.length}个, 收藏${groupedOps.favorite.length}个`);
 
@@ -668,21 +667,23 @@ class StatusCacheService {
    */
   async getAllPendingOperations() {
     try {
-      const operations = [];
-      
-      // 使用RPOP逐个取出操作，直到队列为空
-      while (true) {
-        const operationData = await redisClient.rpop(this.PENDING_OPERATIONS_KEY);
-        if (!operationData) break;
-        
+      // 使用MULTI/EXEC原子操作：一次性读取并清空队列，避免崩溃时数据丢失
+      const client = redisClient.getClient();
+      const results = await client.multi()
+        .lrange(this.PENDING_OPERATIONS_KEY, 0, -1)
+        .del(this.PENDING_OPERATIONS_KEY)
+        .exec();
+
+      // multi().exec() 返回 [[err, result], [err, result]]
+      const rawOps = (results && results[0] && results[0][1]) || [];
+      return rawOps.map(data => {
         try {
-          operations.push(JSON.parse(operationData));
+          return JSON.parse(data);
         } catch (parseError) {
           logger.error('解析操作数据失败:', parseError);
+          return null;
         }
-      }
-      
-      return operations;
+      }).filter(Boolean).reverse(); // reverse: lpush添加到头部，需要倒序还原时间顺序
     } catch (error) {
       logger.error('获取待处理操作失败:', error);
       return [];
@@ -931,22 +932,43 @@ class StatusCacheService {
     const cacheKey = this.getUserCountsCacheKey(userId);
     
     try {
-      // 获取当前缓存数据
-      let counts = await redisClient.get(cacheKey);
-      if (!counts) {
-        // 如果缓存不存在，先加载
-        counts = await this.loadUserCountsToCache(userId);
+      // 使用Lua脚本实现原子读-改-写，避免并发竞态条件
+      const luaScript = `
+        local key = KEYS[1]
+        local field = ARGV[1]
+        local delta = tonumber(ARGV[2])
+        local ttl = tonumber(ARGV[3])
+        
+        local data = redis.call('GET', key)
+        if not data then
+          return nil
+        end
+        
+        local counts = cjson.decode(data)
+        counts[field] = math.max(0, (counts[field] or 0) + delta)
+        counts['updated_at'] = tonumber(ARGV[4])
+        
+        local encoded = cjson.encode(counts)
+        redis.call('SET', key, encoded, 'EX', ttl)
+        return counts[field]
+      `;
+      
+      const client = redisClient.getClient();
+      const prefixedKey = (client.options.keyPrefix || '') + cacheKey;
+      const result = await client.eval(luaScript, 1, prefixedKey, 'following_count', delta, this.COUNT_CACHE_TTL, Date.now());
+      
+      if (result === null) {
+        // 缓存不存在，先加载再更新
+        const counts = await this.loadUserCountsToCache(userId);
+        counts.following_count = Math.max(0, counts.following_count + delta);
+        counts.updated_at = Date.now();
+        await redisClient.set(cacheKey, counts, this.COUNT_CACHE_TTL);
+        logger.debug(`更新用户${userId}关注数量: ${delta > 0 ? '+' : ''}${delta} -> ${counts.following_count}`);
+        return counts.following_count;
       }
       
-      // 更新关注数量
-      counts.following_count = Math.max(0, counts.following_count + delta);
-      counts.updated_at = Date.now();
-      
-      // 更新缓存
-      await redisClient.set(cacheKey, counts, this.COUNT_CACHE_TTL);
-      
-      logger.debug(`更新用户${userId}关注数量: ${delta > 0 ? '+' : ''}${delta} -> ${counts.following_count}`);
-      return counts.following_count;
+      logger.debug(`更新用户${userId}关注数量: ${delta > 0 ? '+' : ''}${delta} -> ${result}`);
+      return result;
     } catch (error) {
       logger.error(`更新关注数量缓存失败: ${userId}`, error);
       return null;
@@ -960,22 +982,43 @@ class StatusCacheService {
     const cacheKey = this.getUserCountsCacheKey(userId);
     
     try {
-      // 获取当前缓存数据
-      let counts = await redisClient.get(cacheKey);
-      if (!counts) {
-        // 如果缓存不存在，先加载
-        counts = await this.loadUserCountsToCache(userId);
+      // 使用Lua脚本实现原子读-改-写，避免并发竞态条件
+      const luaScript = `
+        local key = KEYS[1]
+        local field = ARGV[1]
+        local delta = tonumber(ARGV[2])
+        local ttl = tonumber(ARGV[3])
+        
+        local data = redis.call('GET', key)
+        if not data then
+          return nil
+        end
+        
+        local counts = cjson.decode(data)
+        counts[field] = math.max(0, (counts[field] or 0) + delta)
+        counts['updated_at'] = tonumber(ARGV[4])
+        
+        local encoded = cjson.encode(counts)
+        redis.call('SET', key, encoded, 'EX', ttl)
+        return counts[field]
+      `;
+      
+      const client = redisClient.getClient();
+      const prefixedKey = (client.options.keyPrefix || '') + cacheKey;
+      const result = await client.eval(luaScript, 1, prefixedKey, 'follower_count', delta, this.COUNT_CACHE_TTL, Date.now());
+      
+      if (result === null) {
+        // 缓存不存在，先加载再更新
+        const counts = await this.loadUserCountsToCache(userId);
+        counts.follower_count = Math.max(0, counts.follower_count + delta);
+        counts.updated_at = Date.now();
+        await redisClient.set(cacheKey, counts, this.COUNT_CACHE_TTL);
+        logger.debug(`更新用户${userId}粉丝数量: ${delta > 0 ? '+' : ''}${delta} -> ${counts.follower_count}`);
+        return counts.follower_count;
       }
       
-      // 更新粉丝数量
-      counts.follower_count = Math.max(0, counts.follower_count + delta);
-      counts.updated_at = Date.now();
-      
-      // 更新缓存
-      await redisClient.set(cacheKey, counts, this.COUNT_CACHE_TTL);
-      
-      logger.debug(`更新用户${userId}粉丝数量: ${delta > 0 ? '+' : ''}${delta} -> ${counts.follower_count}`);
-      return counts.follower_count;
+      logger.debug(`更新用户${userId}粉丝数量: ${delta > 0 ? '+' : ''}${delta} -> ${result}`);
+      return result;
     } catch (error) {
       logger.error(`更新粉丝数量缓存失败: ${userId}`, error);
       return null;

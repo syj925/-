@@ -711,6 +711,48 @@ class CommentRepository {
 
     return { total, normal, hidden, deleted };
   }
+
+  /**
+   * 批量获取用户对多个评论的点赞状态
+   * @param {String} userId 用户ID
+   * @param {Array<String>} commentIds 评论ID数组
+   * @returns {Promise<Object>} { commentId: true/false } 映射
+   */
+  async getLikeStatesForUser(userId, commentIds) {
+    if (!commentIds || commentIds.length === 0) return {};
+    
+    const likes = await Like.findAll({
+      where: {
+        user_id: userId,
+        target_id: { [Op.in]: commentIds },
+        target_type: 'comment'
+      },
+      attributes: ['target_id'],
+      paranoid: true // 排除软删除的记录
+    });
+
+    const likeMap = {};
+    commentIds.forEach(id => { likeMap[id] = false; });
+    likes.forEach(like => { likeMap[like.target_id] = true; });
+    return likeMap;
+  }
+
+  /**
+   * 检查用户是否点赞了某条评论
+   * @param {String} commentId 评论ID
+   * @param {String} userId 用户ID
+   * @returns {Promise<Boolean>} 是否已点赞
+   */
+  async isLikedByUser(commentId, userId) {
+    const count = await Like.count({
+      where: {
+        user_id: userId,
+        target_id: commentId,
+        target_type: 'comment'
+      }
+    });
+    return count > 0;
+  }
 }
 
 module.exports = new CommentRepository(); 
