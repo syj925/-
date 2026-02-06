@@ -38,25 +38,6 @@ class ConfigService {
   }
 
   /**
-   * 按类型获取分类（前端格式）
-   * @param {String} type 分类类型
-   * @returns {Promise<Array>} 分类列表
-   */
-  async getCategoriesByType(type) {
-    try {
-      if (type !== 'post') {
-        throw new Error('无效的分类类型');
-      }
-      
-      const categories = await categoryRepository.findAllByType(type, { status: 'enabled' });
-      return categories;
-    } catch (error) {
-      logger.error('按类型获取分类失败:', error);
-      throw error;
-    }
-  }
-
-  /**
    * 获取配置版本信息
    * @returns {Promise<Object>} 版本信息
    */

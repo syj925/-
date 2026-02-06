@@ -12,6 +12,9 @@ const {
   sequelize
 } = require('../models');
 const statusCacheService = require('./status-cache.service');
+const StatusInjectionUtil = require('../utils/status-injection.util');
+const commentRepository = require('../repositories/comment.repository');
+const { POST } = require('../constants/service-constants');
 const logger = require('../../config/logger');
 
 /**
@@ -138,64 +141,36 @@ class SearchService {
         distinct: true
       });
 
-      // 如果用户已登录，获取点赞、收藏和关注状态（使用缓存）
-      if (userId && rows.length > 0) {
-        const postIds = rows.map(post => post.id);
-        const authorIds = rows.map(post => post.author?.id).filter(Boolean);
-        
-        // 使用缓存服务批量获取状态
-        const [likeStates, favoriteStates, followingStates] = await Promise.all([
-          statusCacheService.isLiked(userId, postIds),
-          statusCacheService.isFavorited(userId, postIds),
-          authorIds.length > 0 ? statusCacheService.isFollowing(userId, authorIds) : {}
-        ]);
+      if (rows.length > 0) {
+        await StatusInjectionUtil.injectPostStatus(rows, userId, statusCacheService);
 
-        rows.forEach(post => {
-          post.dataValues.is_liked = likeStates[post.id] || false;
-          post.dataValues.is_favorited = favoriteStates[post.id] || false;
-          
-          // 🔧 同时设置到根级别，支持两种命名格式
-          post.is_liked = likeStates[post.id] || false;
-          post.is_favorited = favoriteStates[post.id] || false;
-          // 🔧 同时设置驼峰命名格式，确保前端组件能访问到
-          post.isLiked = likeStates[post.id] || false;
-          post.isFavorited = favoriteStates[post.id] || false;
-          
-          // 为帖子作者添加关注状态
-          if (post.author && post.author.id) {
-            post.author.dataValues = post.author.dataValues || {};
-            post.author.dataValues.isFollowing = followingStates[post.author.id] || false;
-          }
-        });
-        
-        logger.info(`✅ 从缓存获取${postIds.length}个帖子的用户状态`);
+        if (userId) {
+          logger.info(`✅ 从缓存获取${rows.length}个帖子的用户状态`);
+        }
       }
 
       // 为每个帖子添加热门评论预览和字段映射
-      const postService = require('./post.service');
+      const postIds = rows.map(post => post.id);
+      let hotCommentsMap = {};
+      let commentCountsMap = {};
+      if (postIds.length > 0) {
+        hotCommentsMap = await commentRepository.getHotCommentsByPostIds(
+          postIds,
+          POST.HOT_COMMENTS_PREVIEW_LIMIT
+        );
+        commentCountsMap = await commentRepository.countByPostIds(postIds);
+      }
+
       for (const post of rows) {
-        const hotComments = await postService.getPostHotComments(post.id, 2, userId);
-        post.dataValues.hot_comments = hotComments.list;
-        post.dataValues.total_comments = hotComments.total;
+        post.dataValues.hot_comments = hotCommentsMap[post.id] || [];
+        post.dataValues.total_comments = (commentCountsMap[post.id] ?? post.comment_count ?? 0);
 
         // 添加字段映射，确保前端兼容性
         post.dataValues.likeCount = post.like_count || 0;
-        post.dataValues.commentCount = post.comment_count || 0;
+        post.dataValues.commentCount = (commentCountsMap[post.id] ?? post.comment_count ?? 0);
         post.dataValues.favoriteCount = post.favorite_count || 0;
         post.dataValues.viewCount = post.view_count || 0;
         post.dataValues.createTime = post.created_at;
-        // 如果没有用户登录，设置默认值
-        if (!userId) {
-          post.dataValues.is_liked = false;
-          post.dataValues.is_favorited = false;
-          
-          // 🔧 同时设置到根级别，支持两种命名格式
-          post.is_liked = false;
-          post.is_favorited = false;
-          // 🔧 同时设置驼峰命名格式，确保前端组件能访问到
-          post.isLiked = false;
-          post.isFavorited = false;
-        }
       }
 
       return {

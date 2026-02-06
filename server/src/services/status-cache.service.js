@@ -55,6 +55,42 @@ class StatusCacheService {
   }
 
   /**
+   * 批量执行 sismember 查询，减少与 Redis 的往返
+   * @param {String} cacheKey Redis 缓存集合键
+   * @param {Array<String>} ids 需要查询的成员ID列表
+   * @returns {Promise<Object>} id -> boolean 映射
+   * @private
+   */
+  async _batchSismember(cacheKey, ids) {
+    if (!ids) return {};
+
+    const normalizedIds = ids.filter(id => id !== undefined && id !== null);
+    if (normalizedIds.length === 0) return {};
+
+    const client = redisClient.getClient();
+    const pipeline = client.pipeline();
+
+    normalizedIds.forEach(id => pipeline.sismember(cacheKey, id));
+
+    const responses = await pipeline.exec();
+    const result = {};
+
+    normalizedIds.forEach((id, index) => {
+      const response = responses[index] || [];
+      const error = response[0];
+      const value = response[1];
+      if (error) {
+        logger.warn(`Pipeline sismember error for ${cacheKey}:${id}`, error);
+        result[id] = false;
+      } else {
+        result[id] = value === 1;
+      }
+    });
+
+    return result;
+  }
+
+  /**
    * 检查用户是否点赞了帖子
    * @param {String} userId 用户ID
    * @param {String|Array} postIds 帖子ID或ID数组
@@ -74,14 +110,11 @@ class StatusCacheService {
 
       if (Array.isArray(postIds)) {
         // 批量查询
-        const result = {};
-        for (const postId of postIds) {
-          result[postId] = await redisClient.sismember(cacheKey, postId);
-        }
-        return result;
+        return await this._batchSismember(cacheKey, postIds);
       } else {
         // 单个查询
-        return await redisClient.sismember(cacheKey, postIds);
+        const result = await this._batchSismember(cacheKey, [postIds]);
+        return result[postIds] ?? false;
       }
     } catch (error) {
       logger.error('获取点赞状态失败:', error);
@@ -110,14 +143,11 @@ class StatusCacheService {
 
       if (Array.isArray(postIds)) {
         // 批量查询
-        const result = {};
-        for (const postId of postIds) {
-          result[postId] = await redisClient.sismember(cacheKey, postId);
-        }
-        return result;
+        return await this._batchSismember(cacheKey, postIds);
       } else {
         // 单个查询
-        return await redisClient.sismember(cacheKey, postIds);
+        const result = await this._batchSismember(cacheKey, [postIds]);
+        return result[postIds] ?? false;
       }
     } catch (error) {
       logger.error('获取收藏状态失败:', error);
@@ -376,14 +406,11 @@ class StatusCacheService {
 
       if (Array.isArray(targetUserIds)) {
         // 批量查询
-        const result = {};
-        for (const targetUserId of targetUserIds) {
-          result[targetUserId] = await redisClient.sismember(cacheKey, targetUserId);
-        }
-        return result;
+        return await this._batchSismember(cacheKey, targetUserIds);
       } else {
         // 单个查询
-        return await redisClient.sismember(cacheKey, targetUserIds);
+        const result = await this._batchSismember(cacheKey, [targetUserIds]);
+        return result[targetUserIds] ?? false;
       }
     } catch (error) {
       logger.error('获取关注状态失败:', error);

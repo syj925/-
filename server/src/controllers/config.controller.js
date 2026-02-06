@@ -28,32 +28,6 @@ class ConfigController {
   }
 
   /**
-   * 按类型获取分类（前端格式）
-   * GET /content/categories/type/:type
-   */
-  async getCategoriesByType(req, res, next) {
-    try {
-      const { type } = req.params;
-      
-      if (type !== 'post') {
-        return res.status(StatusCodes.BAD_REQUEST).json({ message: '无效的分类类型' });
-      }
-      
-      const categories = await configService.getCategoriesByType(type);
-      
-      // 直接返回数组格式（前端期望的格式）
-      res.json(categories);
-    } catch (error) {
-      logger.error('获取分类列表失败:', error);
-      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-        success: false,
-        message: '获取分类列表失败',
-        error: error.message
-      });
-    }
-  }
-
-  /**
    * 获取配置版本信息
    * GET /api/config-version
    */

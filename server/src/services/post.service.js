@@ -10,6 +10,16 @@ const { StatusCodes } = require('http-status-codes');
 const { ErrorMiddleware } = require('../middlewares');
 const errorCodes = require('../constants/error-codes');
 const logger = require('../../config/logger');
+const StatusInjectionUtil = require('../utils/status-injection.util');
+const { POST, RECOMMENDATION } = require('../constants/service-constants');
+
+let topicServiceInstance = null;
+const getTopicService = () => {
+  if (!topicServiceInstance) {
+    topicServiceInstance = require('./topic.service');
+  }
+  return topicServiceInstance;
+};
 
 /**
  * 帖子服务层
@@ -82,8 +92,7 @@ class PostService {
       
       // 关联话题
       if (topicNames && topicNames.length > 0) {
-        // 导入话题服务
-        const topicService = require('./topic.service');
+        const topicService = getTopicService();
 
         // 根据话题名称查找或创建话题，获取话题ID数组
         const topicIds = await topicService.findOrCreateByNames(topicNames);
@@ -100,7 +109,6 @@ class PostService {
 
       // 更新分类的帖子计数（如果有分类且状态为已发布）
       if (postData.category_id && postData.status === 'published') {
-        const categoryRepository = require('../repositories/category.repository');
         await categoryRepository.incrementPostCount(postData.category_id, 1);
       }
 
@@ -147,32 +155,7 @@ class PostService {
 
     // 如果有当前用户ID，添加是否点赞、收藏和关注的信息
     if (currentUserId) {
-      const promises = [
-        statusCacheService.isLiked(currentUserId, id),
-        statusCacheService.isFavorited(currentUserId, id)
-      ];
-      
-      // 如果有作者信息，查询关注状态
-      if (post.author && post.author.id) {
-        promises.push(statusCacheService.isFollowing(currentUserId, post.author.id));
-      }
-      
-      const results = await Promise.all(promises);
-      post.dataValues.is_liked = results[0];
-      post.dataValues.is_favorited = results[1];
-      
-      // 🔧 同时设置到根级别，支持两种命名格式
-      post.is_liked = results[0];
-      post.is_favorited = results[1];
-      // 🔧 同时设置驼峰命名格式，确保前端组件能访问到
-      post.isLiked = results[0];
-      post.isFavorited = results[1];
-      
-      // 添加作者的关注状态
-      if (post.author && post.author.id && results.length > 2) {
-        post.author.dataValues = post.author.dataValues || {};
-        post.author.dataValues.isFollowing = results[2];
-      }
+      await StatusInjectionUtil.injectSinglePostStatus(post, currentUserId, statusCacheService);
     }
 
     return post;
@@ -294,8 +277,7 @@ class PostService {
       
       // 处理话题
       if (topicNames !== null) {
-        // 导入话题服务
-        const topicService = require('./topic.service');
+        const topicService = getTopicService();
 
         // 根据话题名称查找或创建话题，获取话题ID数组
         const newTopicIds = topicNames && topicNames.length > 0
@@ -403,46 +385,22 @@ class PostService {
    */
   async getPosts(options, currentUserId = null) {
     const posts = await postRepository.findAll(options);
+    const postList = posts.list || [];
 
-    // 如果有当前用户ID，批量添加是否点赞、收藏和关注的信息
-    if (currentUserId) {
-      const postIds = posts.list.map(post => post.id);
-      const authorIds = posts.list.map(post => post.author?.id).filter(Boolean);
-      
-      const [likeStates, favoriteStates, followingStates] = await Promise.all([
-        statusCacheService.isLiked(currentUserId, postIds),
-        statusCacheService.isFavorited(currentUserId, postIds),
-        authorIds.length > 0 ? statusCacheService.isFollowing(currentUserId, authorIds) : {}
+    await StatusInjectionUtil.injectPostStatus(postList, currentUserId, statusCacheService);
+
+    if (postList.length > 0) {
+      const postIds = postList.map(post => post.id);
+      const [hotCommentsMap = {}, commentCountsMap = {}] = await Promise.all([
+        commentRepository.getHotCommentsByPostIds(postIds, POST.HOT_COMMENTS_PREVIEW_LIMIT),
+        commentRepository.countByPostIds(postIds)
       ]);
 
-      posts.list.forEach(post => {
-        post.dataValues.is_liked = likeStates[post.id] || false;
-        post.dataValues.is_favorited = favoriteStates[post.id] || false;
-        
-        // 🔧 同时设置到根级别，支持两种命名格式
-        post.is_liked = likeStates[post.id] || false;
-        post.is_favorited = favoriteStates[post.id] || false;
-        // 🔧 同时设置驼峰命名格式，确保前端组件能访问到
-        post.isLiked = likeStates[post.id] || false;
-        post.isFavorited = favoriteStates[post.id] || false;
-        
-        // 添加作者的关注状态
-        if (post.author && post.author.id) {
-          post.author.dataValues = post.author.dataValues || {};
-          post.author.dataValues.isFollowing = followingStates[post.author.id] || false;
-        }
-      });
-    }
-
-    // 处理匿名帖子和添加热门评论预览
-    for (const post of posts.list) {
-      // 处理匿名帖子
-      this.processAnonymousPost(post, currentUserId);
-
-      // 添加热门评论预览
-      const hotComments = await this.getPostHotComments(post.id, 2, currentUserId);
-      post.dataValues.hot_comments = hotComments.list;
-      post.dataValues.total_comments = hotComments.total;
+      for (const post of postList) {
+        post.dataValues.hot_comments = hotCommentsMap[post.id] || [];
+        post.dataValues.total_comments = commentCountsMap[post.id] || 0;
+        this.processAnonymousPost(post, currentUserId);
+      }
     }
 
     return posts;
@@ -454,39 +412,11 @@ class PostService {
    * @param {String} currentUserId 当前用户ID（可选）
    * @returns {Promise<Array>} 帖子列表
    */
-  async getHotPosts(limit = 10, currentUserId = null) {
+  async getHotPosts(limit = POST.DEFAULT_HOT_POSTS_LIMIT, currentUserId = null) {
     const posts = await postRepository.findHotPosts(limit);
-    
-    // 如果有当前用户ID，批量添加是否点赞、收藏和关注的信息
-    if (currentUserId) {
-      const postIds = posts.map(post => post.id);
-      const authorIds = posts.map(post => post.author?.id).filter(Boolean);
-      
-      const [likeStates, favoriteStates, followingStates] = await Promise.all([
-        statusCacheService.isLiked(currentUserId, postIds),
-        statusCacheService.isFavorited(currentUserId, postIds),
-        authorIds.length > 0 ? statusCacheService.isFollowing(currentUserId, authorIds) : {}
-      ]);
 
-      posts.forEach(post => {
-        post.dataValues.is_liked = likeStates[post.id] || false;
-        post.dataValues.is_favorited = favoriteStates[post.id] || false;
-        
-        // 🔧 同时设置到根级别，支持两种命名格式
-        post.is_liked = likeStates[post.id] || false;
-        post.is_favorited = favoriteStates[post.id] || false;
-        // 🔧 同时设置驼峰命名格式，确保前端组件能访问到
-        post.isLiked = likeStates[post.id] || false;
-        post.isFavorited = favoriteStates[post.id] || false;
-        
-        // 添加作者的关注状态
-        if (post.author && post.author.id) {
-          post.author.dataValues = post.author.dataValues || {};
-          post.author.dataValues.isFollowing = followingStates[post.author.id] || false;
-        }
-      });
-    }
-    
+    await StatusInjectionUtil.injectPostStatus(posts, currentUserId, statusCacheService);
+
     return posts;
   }
 
@@ -508,7 +438,7 @@ class PostService {
    * @param {String} sort 排序方式：latest, hot, most_liked
    * @returns {Promise<Object>} 分页结果
    */
-  async getPostComments(postId, page = 1, pageSize = 20, currentUserId = null, sort = 'latest') {
+  async getPostComments(postId, page = 1, pageSize = POST.DEFAULT_COMMENTS_PAGE_SIZE, currentUserId = null, sort = 'latest') {
     // 检查帖子是否存在
     const post = await postRepository.findById(postId);
     if (!post) {
@@ -573,7 +503,7 @@ class PostService {
    * @param {String} currentUserId 当前用户ID（可选）
    * @returns {Promise<Object>} 评论列表和总数
    */
-  async getPostHotComments(postId, limit = 3, currentUserId = null) {
+  async getPostHotComments(postId, limit = POST.DEFAULT_HOT_COMMENTS_LIMIT, currentUserId = null) {
     // 获取热门评论（按点赞数降序）
     const comments = await postRepository.getComments(postId, 1, limit, 'most_liked');
 
@@ -692,13 +622,13 @@ class PostService {
       }
     }) || 0;
 
-    // 获取热门评论数（点赞数 >= 10）
+    // 获取热门评论数（点赞数 >= POST.HOT_COMMENT_LIKE_THRESHOLD）
     const hotCommentCount = await Comment.count({
       where: { 
         post_id: postId,
         status: 'approved',
         like_count: {
-          [Sequelize.Op.gte]: 10
+          [Sequelize.Op.gte]: POST.HOT_COMMENT_LIKE_THRESHOLD
         }
       }
     });
@@ -760,19 +690,11 @@ class PostService {
     
     // 批量添加是否点赞的信息（收藏状态已知为true）
     if (posts.list.length > 0) {
-      const postIds = posts.list.map(post => post.id);
-      const likeStates = await statusCacheService.isLiked(userId, postIds);
-
+      await StatusInjectionUtil.injectPostStatus(posts.list, userId, statusCacheService);
       posts.list.forEach(post => {
-        post.dataValues.is_liked = likeStates[post.id] || false;
-        post.dataValues.is_favorited = true; // 已知是收藏的
-        
-        // 🔧 同时设置到根级别，支持两种命名格式
-        post.is_liked = likeStates[post.id] || false;
-        post.is_favorited = true; // 已知是收藏的
-        // 🔧 同时设置驼峰命名格式，确保前端组件能访问到
-        post.isLiked = likeStates[post.id] || false;
-        post.isFavorited = true; // 已知是收藏的
+        post.dataValues.is_favorited = true;
+        post.is_favorited = true;
+        post.isFavorited = true;
       });
     }
     

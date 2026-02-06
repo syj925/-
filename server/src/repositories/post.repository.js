@@ -1076,19 +1076,8 @@ class PostRepository {
     }
   }
 
-  /**
-   * 统计用户帖子数量
-   * @param {String} userId 用户ID
-   * @param {String} status 状态筛选 (可选)
-   * @returns {Promise<Number>} 帖子数量
-   */
-  async countByUserId(userId, status = null) {
-    const where = { user_id: userId };
-    if (status) {
-      where.status = status;
-    }
-    return await Post.count({ where });
-  }
+  // NOTE: countByUserId is defined at line 1034 with status='published' default
+  // This duplicate was removed during code optimization
 
   /**
    * 统计指定状态的帖子数量

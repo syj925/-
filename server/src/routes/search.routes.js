@@ -131,7 +131,11 @@ const saveSearchHistorySchema = Joi.object({
  *       200:
  *         description: 热门搜索关键词
  */
-router.get('/', AuthMiddleware.optionalAuthenticate(), searchController.globalSearch);
+router.get('/',
+  AuthMiddleware.optionalAuthenticate(),
+  Validator.validateQuery(Validator.paginationSchema()),
+  searchController.globalSearch
+);
 router.get('/posts', AuthMiddleware.optionalAuthenticate(), searchController.searchPosts);
 router.get('/users', AuthMiddleware.optionalAuthenticate(), searchController.searchUsers);
 router.get('/topics', AuthMiddleware.optionalAuthenticate(), searchController.searchTopics);

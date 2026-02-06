@@ -267,7 +267,11 @@ router.post('/change-password', AuthMiddleware.authenticate(), Validator.validat
  *       200:
  *         description: 用户列表
  */
-router.get('/search', AuthMiddleware.authenticate(), userController.searchUsers);
+router.get('/search',
+  AuthMiddleware.authenticate(),
+  Validator.validateQuery(Validator.paginationSchema()),
+  userController.searchUsers
+);
 
 // 获取用户今日发布统计
 router.get('/publish-stats', AuthMiddleware.authenticate(), userController.getPublishStats);
@@ -290,7 +294,11 @@ router.get('/publish-stats', AuthMiddleware.authenticate(), userController.getPu
  *         description: 用户主页信息
  */
 router.get('/profile/:id', AuthMiddleware.optionalAuthenticate(), userController.getUserProfile);
-router.get('/profile/:id/posts', AuthMiddleware.optionalAuthenticate(), userController.getUserProfilePosts);
+router.get('/profile/:id/posts',
+  AuthMiddleware.optionalAuthenticate(),
+  Validator.validateQuery(Validator.paginationSchema()),
+  userController.getUserProfilePosts
+);
 
 // 管理员路由
 router.get('/', AuthMiddleware.authenticate(), AuthMiddleware.authorize('admin'), userController.getUserList);

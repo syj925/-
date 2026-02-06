@@ -2,6 +2,7 @@ const followRepository = require('../repositories/follow.repository');
 const userRepository = require('../repositories/user.repository');
 const messageService = require('./message.service');
 const statusCacheService = require('./status-cache.service');
+const userStatsService = require('./user-stats.service');
 const { StatusCodes } = require('http-status-codes');
 const { ErrorMiddleware } = require('../middlewares');
 const errorCodes = require('../constants/error-codes');
@@ -482,7 +483,7 @@ class FollowService {
         const [followingCount, followerCount, likeCount] = await Promise.all([
           this.getFollowingCount(user.id),
           this.getFollowerCount(user.id), 
-          require('./user.service').getUserLikeCount(user.id)
+          userStatsService.getUserLikeCount(user.id)
         ]);
         
         return {
@@ -504,7 +505,7 @@ class FollowService {
         const [followingCount, followerCount, likeCount] = await Promise.all([
           this.getFollowingCount(user.id),
           this.getFollowerCount(user.id),
-          require('./user.service').getUserLikeCount(user.id)
+          userStatsService.getUserLikeCount(user.id)
         ]);
         
         return {

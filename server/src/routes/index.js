@@ -183,9 +183,6 @@ router.use('/api/admin', adminRoutes);
 // 内容管理路由（为管理后台提供）
 router.get('/api/content/categories', configController.getAllCategories);
 
-// 前端按类型获取分类API
-router.get('/content/categories/type/:type', configController.getCategoriesByType);
-
 router.use('/content', categoryRoutes);
 
 // 配置版本检查路由（无需认证，供前端App使用）

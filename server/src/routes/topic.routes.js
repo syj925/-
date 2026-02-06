@@ -176,7 +176,10 @@ const createTopicByUserSchema = Joi.object({
  *                     total:
  *                       type: integer
  */
-router.get('/', topicController.getAllTopics);
+router.get('/',
+  Validator.validateQuery(Validator.paginationSchema()),
+  topicController.getAllTopics
+);
 /**
  * @swagger
  * /api/topics/hot:
@@ -199,7 +202,10 @@ router.get('/', topicController.getAllTopics);
  *               items:
  *                 $ref: '#/components/schemas/Topic'
  */
-router.get('/hot', topicController.getHotTopics);
+router.get('/hot',
+  Validator.validateQuery(Validator.paginationSchema()),
+  topicController.getHotTopics
+);
 /**
  * @swagger
  * /api/topics/trending:
@@ -222,7 +228,10 @@ router.get('/hot', topicController.getHotTopics);
  *               items:
  *                 $ref: '#/components/schemas/Topic'
  */
-router.get('/trending', topicController.getTrendingTopics);
+router.get('/trending',
+  Validator.validateQuery(Validator.paginationSchema()),
+  topicController.getTrendingTopics
+);
 /**
  * @swagger
  * /api/topics/search:
@@ -300,7 +309,11 @@ router.get('/:id', topicController.getTopicById);
  *       200:
  *         description: 帖子列表
  */
-router.get('/:id/posts', AuthMiddleware.optionalAuthenticate(), topicController.getTopicPosts);
+router.get('/:id/posts',
+  AuthMiddleware.optionalAuthenticate(),
+  Validator.validateQuery(Validator.paginationSchema()),
+  topicController.getTopicPosts
+);
 /**
  * @swagger
  * /api/topics/{id}/statistics:

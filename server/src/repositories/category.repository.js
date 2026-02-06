@@ -266,36 +266,6 @@ class CategoryRepository {
 
     return result;
   }
-  /**
-   * 根据内容类型获取分类
-   * @param {String} type 内容类型 (如 'post', 'event' 等)
-   * @param {Object} options 选项 {status}
-   * @returns {Promise<Array>} 分类列表
-   */
-  async findAllByType(type, options = {}) {
-    const { status = 'active' } = options;
-    
-    try {
-      const whereClause = {
-        content_type: type || 'post'
-      };
-      
-      // 如果指定了状态，添加状态过滤
-      if (status) {
-        whereClause.status = status;
-      }
-      
-      const categories = await Category.findAll({
-        where: whereClause,
-        order: [['sort', 'ASC']]
-      });
-      
-      return categories;
-    } catch (error) {
-      logger.error('根据类型获取分类失败:', error);
-      return [];
-    }
-  }
 }
 
 module.exports = new CategoryRepository(); 

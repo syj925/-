@@ -118,11 +118,31 @@ const topStatusSchema = Joi.object({
  *       200:
  *         description: 发布成功
  */
-router.get('/', AuthMiddleware.optionalAuthenticate(), postController.getPosts);
-router.get('/hot', AuthMiddleware.optionalAuthenticate(), postController.getHotPosts);
-router.get('/recommended', AuthMiddleware.optionalAuthenticate(), postController.getRecommended);
-router.get('/user/favorites', AuthMiddleware.authenticate(), postController.getUserFavorites);
-router.get('/user/me', AuthMiddleware.authenticate(), postController.getUserPosts);
+router.get('/',
+  AuthMiddleware.optionalAuthenticate(),
+  Validator.validateQuery(Validator.paginationSchema()),
+  postController.getPosts
+);
+router.get('/hot',
+  AuthMiddleware.optionalAuthenticate(),
+  Validator.validateQuery(Validator.paginationSchema()),
+  postController.getHotPosts
+);
+router.get('/recommended',
+  AuthMiddleware.optionalAuthenticate(),
+  Validator.validateQuery(Validator.paginationSchema()),
+  postController.getRecommended
+);
+router.get('/user/favorites',
+  AuthMiddleware.authenticate(),
+  Validator.validateQuery(Validator.paginationSchema()),
+  postController.getUserFavorites
+);
+router.get('/user/me',
+  AuthMiddleware.authenticate(),
+  Validator.validateQuery(Validator.paginationSchema()),
+  postController.getUserPosts
+);
 router.get('/user/audit-history', AuthMiddleware.authenticate(), postController.getUserAuditHistory);
 
 /**
@@ -176,7 +196,11 @@ router.get('/user/audit-history', AuthMiddleware.authenticate(), postController.
  *         description: 删除成功
  */
 router.get('/:id', AuthMiddleware.optionalAuthenticate(), postController.getPostDetail);
-router.get('/:id/comments', AuthMiddleware.optionalAuthenticate(), postController.getPostComments);
+router.get('/:id/comments',
+  AuthMiddleware.optionalAuthenticate(),
+  Validator.validateQuery(Validator.paginationSchema()),
+  postController.getPostComments
+);
 router.get('/:id/comments/stats', AuthMiddleware.optionalAuthenticate(), postController.getPostCommentStats);
 
 // 需要登录的帖子操作路由

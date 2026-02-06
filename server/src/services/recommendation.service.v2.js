@@ -7,6 +7,17 @@ const { StatusCodes } = require('http-status-codes');
 const { ErrorMiddleware } = require('../middlewares');
 const errorCodes = require('../constants/error-codes');
 const { Op } = require('sequelize');
+const StatusInjectionUtil = require('../utils/status-injection.util');
+const { RECOMMENDATION, POST } = require('../constants/service-constants');
+const commentRepository = require('../repositories/comment.repository');
+
+let recommendationScoreCalculator = null;
+const getRecommendationScoreCalculator = () => {
+  if (!recommendationScoreCalculator) {
+    recommendationScoreCalculator = require('./recommendation-score-calculator');
+  }
+  return recommendationScoreCalculator;
+};
 
 /**
  * 推荐系统 v2.0 - 简化架构版本
@@ -22,28 +33,28 @@ class RecommendationServiceV2 {
     this.settingsCacheKey = 'recommendation:settings';
     this.defaultSettings = {
       // 🎯 算法权重配置（保持可配置）
-      likeWeight: 2.0,
-      commentWeight: 3.0,
-      collectionWeight: 4.0,
-      viewWeight: 0.5,
-      timeDecayDays: 10,
-      maxAgeDays: 30,
+      likeWeight: RECOMMENDATION.WEIGHT_LIKE,
+      commentWeight: RECOMMENDATION.WEIGHT_COMMENT,
+      collectionWeight: RECOMMENDATION.WEIGHT_FAVORITE,
+      viewWeight: RECOMMENDATION.WEIGHT_VIEW,
+      timeDecayDays: RECOMMENDATION.TIME_DECAY_DAYS,
+      maxAgeDays: RECOMMENDATION.MAX_POST_AGE_DAYS,
       
       // 🎛️ 推荐策略配置
-      scoreThreshold: 15.0,      // 算法推荐分数阈值
-      maxAdminRecommended: 5,    // 管理员推荐上限
+      scoreThreshold: RECOMMENDATION.SCORE_THRESHOLD,
+      maxAdminRecommended: RECOMMENDATION.MAX_ADMIN_RECOMMENDED,
       enableScoreSort: true,     // 启用分数排序
       
       // ⏰ 更新频率配置
-      updateIntervalHours: 1,    // 分数更新间隔（小时）
+      updateIntervalHours: RECOMMENDATION.UPDATE_INTERVAL_HOURS,
       
       // 🆕 新增配置
-      newPostBonus: 5.0,         // 新帖保护加分
-      imageBonus: 3.0,           // 有图片加分
-      contentBonus: 2.0,         // 长内容加分
-      topicBonus: 1.0,           // 有话题加分
-      engagementFactor: 0.2,     // 互动质量因子
-      minInteractionScore: 2     // 最低互动分数
+      newPostBonus: RECOMMENDATION.NEW_POST_BONUS,
+      imageBonus: RECOMMENDATION.IMAGE_BONUS,
+      contentBonus: RECOMMENDATION.CONTENT_BONUS,
+      topicBonus: RECOMMENDATION.TOPIC_BONUS,
+      engagementFactor: RECOMMENDATION.ENGAGEMENT_FACTOR,
+      minInteractionScore: RECOMMENDATION.MIN_INTERACTION_SCORE
     };
   }
 
@@ -162,54 +173,14 @@ class RecommendationServiceV2 {
    * @param {String} userId 用户ID
    */
   async addUserInteractionStates(posts, userId) {
-    if (!posts || posts.length === 0 || !userId) return;
-
-    const postIds = posts.map(post => post.id);
-    const authorIds = posts.map(post => post.author?.id).filter(Boolean);
+    if (!posts || posts.length === 0) return;
 
     try {
-      // 📡 批量获取用户状态（并行查询）
-      const [likeStates, favoriteStates, followingStates] = await Promise.all([
-        statusCacheService.isLiked(userId, postIds),
-        statusCacheService.isFavorited(userId, postIds),
-        authorIds.length > 0 ? statusCacheService.isFollowing(userId, authorIds) : {}
-      ]);
-
-      // 🎯 统一状态注入（与其他API保持一致）
-      posts.forEach(post => {
-        // 清除可能存在的根级别状态字段
-        delete post.is_liked;
-        delete post.is_favorited;
-        
-        // 设置标准的dataValues状态
-        post.dataValues = post.dataValues || {};
-        post.dataValues.is_liked = likeStates[post.id] || false;
-        post.dataValues.is_favorited = favoriteStates[post.id] || false;
-        
-        // 🔧 同时设置到根级别，支持两种命名格式
-        post.is_liked = likeStates[post.id] || false;
-        post.is_favorited = favoriteStates[post.id] || false;
-        // 🔧 同时设置驼峰命名格式，确保前端组件能访问到
-        post.isLiked = likeStates[post.id] || false;
-        post.isFavorited = favoriteStates[post.id] || false;
-        
-        // 添加作者关注状态
-        if (post.author && post.author.id) {
-          post.author.dataValues = post.author.dataValues || {};
-          post.author.dataValues.isFollowing = followingStates[post.author.id] || false;
-          // 🔧 同时设置到根级别，确保前端能正确访问
-          post.author.isFollowing = followingStates[post.author.id] || false;
-          post.author.is_following = followingStates[post.author.id] || false;
-        }
+      await StatusInjectionUtil.injectPostStatus(posts, userId, statusCacheService);
+      logger.debug('✅ 用户状态注入完成', {
+        userId,
+        postCount: posts.length
       });
-
-      logger.debug('✅ 用户状态注入完成', { 
-        userId, 
-        postCount: posts.length,
-        likeCount: Object.keys(likeStates).length,
-        favoriteCount: Object.keys(favoriteStates).length 
-      });
-
     } catch (error) {
       logger.error('用户状态注入失败:', error);
       // 状态注入失败不影响主要功能，继续返回帖子数据
@@ -234,7 +205,7 @@ class RecommendationServiceV2 {
 
       // 缓存配置（5分钟）
       try {
-        await redisClient.setex(this.settingsCacheKey, 300, finalSettings);
+        await redisClient.setex(this.settingsCacheKey, RECOMMENDATION.SETTINGS_CACHE_TTL, finalSettings);
       } catch (cacheError) {
         logger.warn('缓存配置失败:', cacheError);
       }
@@ -327,7 +298,7 @@ class RecommendationServiceV2 {
       logger.info('🔄 开始手动触发推荐分数重计算');
       
       // 🔧 修复：直接调用计算器执行强制重新计算
-      const calculator = require('./recommendation-score-calculator');
+      const calculator = getRecommendationScoreCalculator();
       const result = await calculator.calculateAndUpdateScores({ forceUpdate: true });
       
       logger.info('✅ 手动推荐分数重计算完成', result);
@@ -351,7 +322,7 @@ class RecommendationServiceV2 {
   async analyzePostScore(postId) {
     try {
       logger.info(`🔍 开始分析帖子 ${postId} 的推荐分数`);
-      const calculator = require('./recommendation-score-calculator');
+      const calculator = getRecommendationScoreCalculator();
       const analysis = await calculator.analyzePostScore(postId);
       logger.info(`✅ 帖子 ${postId} 分数分析完成`);
       return analysis;
@@ -367,22 +338,31 @@ class RecommendationServiceV2 {
    * @param {String} userId 当前用户ID（可选）
    */
   async addHotCommentsPreview(posts, userId = null) {
+    if (!Array.isArray(posts) || posts.length === 0) {
+      return;
+    }
+
     try {
-      const postService = require('./post.service');
-      
-      // 为每个帖子添加热门评论预览
+      const postIds = posts.map(post => post.id).filter(Boolean);
+      if (postIds.length === 0) {
+        return;
+      }
+
+      const [hotCommentsMap, commentCountsMap] = await Promise.all([
+        commentRepository.getHotCommentsByPostIds(postIds, POST.HOT_COMMENTS_PREVIEW_LIMIT),
+        commentRepository.countByPostIds(postIds)
+      ]);
+
       for (const post of posts) {
-        const hotComments = await postService.getPostHotComments(post.id, 2, userId);
-        
-        // 添加到帖子数据中（同时设置到dataValues和根级别，确保前端能访问）
-        if (post.dataValues) {
-          post.dataValues.hot_comments = hotComments.list;
-          post.dataValues.total_comments = hotComments.total;
-        }
-        
-        // 同时设置到根级别，确保前端组件能访问
-        post.hot_comments = hotComments.list;
-        post.total_comments = hotComments.total;
+        const hotComments = hotCommentsMap[post.id] || [];
+        const totalComments = commentCountsMap[post.id] || 0;
+
+        post.dataValues = post.dataValues || {};
+        post.dataValues.hot_comments = hotComments;
+        post.dataValues.total_comments = totalComments;
+
+        post.hot_comments = hotComments;
+        post.total_comments = totalComments;
       }
     } catch (error) {
       logger.error('添加热门评论预览失败:', error);

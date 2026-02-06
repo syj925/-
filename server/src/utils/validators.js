@@ -117,8 +117,15 @@ class Validator {
           'number.integer': '每页条数必须是整数',
           'number.min': '每页条数不能小于1',
           'number.max': '每页条数不能大于500'
+        }),
+      limit: Joi.number().integer().min(1).max(500).optional()
+        .messages({
+          'number.base': '数量限制必须是数字',
+          'number.integer': '数量限制必须是整数',
+          'number.min': '数量限制不能小于1',
+          'number.max': '数量限制不能大于500'
         })
-    });
+    }).unknown(true);
   }
 
   /**

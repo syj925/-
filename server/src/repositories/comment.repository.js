@@ -355,6 +355,64 @@ class CommentRepository {
   }
 
   /**
+   * 批量获取多个帖子的热门评论
+   * @param {Array<String>} postIds 帖子ID数组
+   * @param {Number} limitPerPost 每个帖子的评论数量限制
+   * @returns {Promise<Object>} 按帖子ID分组的评论对象 { [postId]: Comment[] }
+   */
+  async getHotCommentsByPostIds(postIds, limitPerPost = 2) {
+    if (!postIds || postIds.length === 0) return {};
+
+    const comments = await Comment.findAll({
+      where: {
+        post_id: { [Op.in]: postIds },
+        reply_to: null,
+        status: 'normal'
+      },
+      include: [
+        {
+          model: User,
+          as: 'author',
+          attributes: ['id', 'username', 'nickname', 'avatar']
+        }
+      ],
+      order: [
+        ['post_id', 'ASC'],
+        ['like_count', 'DESC'],
+        ['created_at', 'DESC']
+      ],
+      attributes: [
+        'id', 'content', 'user_id', 'post_id', 'reply_to',
+        'like_count', 'status', 'is_anonymous', 'images',
+        'emoji_image', 'created_at', 'updated_at'
+      ]
+    });
+
+    const result = {};
+    const countMap = {};
+
+    for (const comment of comments) {
+      const pid = comment.post_id;
+      if (!result[pid]) {
+        result[pid] = [];
+        countMap[pid] = 0;
+      }
+      if (countMap[pid] < limitPerPost) {
+        result[pid].push(comment);
+        countMap[pid]++;
+      }
+    }
+
+    postIds.forEach(pid => {
+      if (!result[pid]) {
+        result[pid] = [];
+      }
+    });
+
+    return result;
+  }
+
+  /**
    * 统计帖子的评论总数
    * @param {String} postId 帖子ID
    * @returns {Promise<Number>} 评论总数
@@ -366,6 +424,38 @@ class CommentRepository {
         status: 'normal'
       }
     });
+  }
+
+  /**
+   * 批量获取多个帖子的评论总数
+   * @param {Array<String>} postIds 帖子ID数组
+   * @returns {Promise<Object>} 按帖子ID分组的计数对象 { [postId]: count }
+   */
+  async countByPostIds(postIds) {
+    if (!postIds || postIds.length === 0) return {};
+
+    const counts = await Comment.findAll({
+      where: {
+        post_id: { [Op.in]: postIds },
+        status: 'normal'
+      },
+      attributes: [
+        'post_id',
+        [sequelize.fn('COUNT', sequelize.col('id')), 'count']
+      ],
+      group: ['post_id'],
+      raw: true
+    });
+
+    const result = {};
+    postIds.forEach(pid => {
+      result[pid] = 0;
+    });
+    counts.forEach(item => {
+      result[item.post_id] = parseInt(item.count, 10);
+    });
+
+    return result;
   }
 
   /**

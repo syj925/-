@@ -328,7 +328,11 @@ router.get('/:id', AuthMiddleware.optionalAuthenticate(), commentController.getC
  *                         total:
  *                           type: integer
  */
-router.get('/:id/replies', AuthMiddleware.optionalAuthenticate(), commentController.getCommentReplies);
+router.get('/:id/replies',
+  AuthMiddleware.optionalAuthenticate(),
+  Validator.validateQuery(Validator.paginationSchema()),
+  commentController.getCommentReplies
+);
 
 // 获取评论的多级回复树
 /**
@@ -405,7 +409,11 @@ router.get('/:id/replies-tree', AuthMiddleware.optionalAuthenticate(), commentCo
  *                   items:
  *                     $ref: '#/components/schemas/Comment'
  */
-router.get('/:id/direct-replies', AuthMiddleware.optionalAuthenticate(), commentController.getCommentDirectReplies);
+router.get('/:id/direct-replies',
+  AuthMiddleware.optionalAuthenticate(),
+  Validator.validateQuery(Validator.paginationSchema()),
+  commentController.getCommentDirectReplies
+);
 
 // 更新和删除评论路由（需要登录）
 router.put('/:id',
@@ -463,7 +471,11 @@ router.delete('/:id', AuthMiddleware.authenticate(), commentController.deleteCom
  *                     pagination:
  *                       type: object
  */
-router.get('/post/:postId', AuthMiddleware.optionalAuthenticate(), commentController.getPostComments);
+router.get('/post/:postId',
+  AuthMiddleware.optionalAuthenticate(),
+  Validator.validateQuery(Validator.paginationSchema()),
+  commentController.getPostComments
+);
 
 // 用户评论路由
 /**
@@ -503,7 +515,11 @@ router.get('/post/:postId', AuthMiddleware.optionalAuthenticate(), commentContro
  *                     pagination:
  *                       type: object
  */
-router.get('/user/me', AuthMiddleware.authenticate(), commentController.getUserComments);
+router.get('/user/me',
+  AuthMiddleware.authenticate(),
+  Validator.validateQuery(Validator.paginationSchema()),
+  commentController.getUserComments
+);
 
 // 用户评论审核记录路由
 /**
@@ -549,6 +565,10 @@ router.get('/user/me', AuthMiddleware.authenticate(), commentController.getUserC
  *                     pagination:
  *                       type: object
  */
-router.get('/user/audit-history', AuthMiddleware.authenticate(), commentController.getUserCommentAuditHistory);
+router.get('/user/audit-history',
+  AuthMiddleware.authenticate(),
+  Validator.validateQuery(Validator.paginationSchema()),
+  commentController.getUserCommentAuditHistory
+);
 
 module.exports = router;

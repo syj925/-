@@ -4,7 +4,23 @@ const { StatusCodes } = require('http-status-codes');
 const logger = require('../../config/logger');
 const { ErrorMiddleware } = require('../middlewares');
 const { EncryptionUtil } = require('../utils');
+const StatusInjectionUtil = require('../utils/status-injection.util');
+const { USER, CACHE_TTL } = require('../constants/service-constants');
+const { UserTag, Tag, Setting, User } = require('../models');
+const postRepository = require('../repositories/post.repository');
+const followRepository = require('../repositories/follow.repository');
+const userBadgeRepository = require('../repositories/user-badge.repository');
+const badgeRepository = require('../repositories/badge.repository');
+const userRejectionLogRepository = require('../repositories/user-rejection-log.repository');
 const userStatsService = require('./user-stats.service');
+
+let statusCacheServiceInstance = null;
+const getStatusCacheService = () => {
+  if (!statusCacheServiceInstance) {
+    statusCacheServiceInstance = require('./status-cache.service');
+  }
+  return statusCacheServiceInstance;
+};
 
 /**
  * 用户服务层
@@ -17,7 +33,7 @@ class UserService {
    * @param {Number} limit 限制数量
    * @returns {Promise<Array>} 用户列表
    */
-  async searchUsers(keyword, limit = 10) {
+  async searchUsers(keyword, limit = USER.DEFAULT_SEARCH_LIMIT) {
     if (!keyword || keyword.length < 1) {
       return [];
     }
@@ -147,8 +163,6 @@ class UserService {
    * @returns {Promise<void>}
    */
   async _updateUserTags(userId, tagNames) {
-    const { UserTag, Tag } = require('../models');
-    
     // 删除用户现有的所有标签关联
     await UserTag.destroy({
       where: { user_id: userId }
@@ -243,7 +257,6 @@ class UserService {
    */
   async _getSystemSetting(key, defaultValue = '') {
     try {
-      const { Setting } = require('../models');
       const setting = await Setting.findOne({ where: { key } });
       return setting ? setting.value : defaultValue;
     } catch (error) {
@@ -259,8 +272,6 @@ class UserService {
    * @returns {Promise<Object>} 用户主页信息
    */
   async getUserProfile(userId, currentUserId = null) {
-    const userRepository = require('../repositories/user.repository');
-    const followRepository = require('../repositories/follow.repository');
 
     // 获取用户基本信息
     const user = await userRepository.findById(userId);
@@ -287,8 +298,8 @@ class UserService {
     let isFollowed = false;
     let isMutualFollow = false;
     if (currentUserId && currentUserId !== userId) {
-      const statusCacheService = require('./status-cache.service');
-      
+      const statusCacheService = getStatusCacheService();
+
       try {
         // 优先从缓存获取关注状态
         const cacheStatus = await statusCacheService.isFollowing(currentUserId, [userId]);
@@ -349,13 +360,17 @@ class UserService {
    * @returns {Promise<Object>} 帖子列表和分页信息
    */
   async getUserProfilePosts(options) {
-    const postRepository = require('../repositories/post.repository');
-    const statusCacheService = require('./status-cache.service');
+    const {
+      userId,
+      page,
+      pageSize = USER.DEFAULT_PROFILE_POSTS_PAGE_SIZE,
+      sort,
+      currentUserId
+    } = options;
 
-    const { userId, page, pageSize, sort, currentUserId } = options;
+    const statusCacheService = getStatusCacheService();
 
     // 验证用户是否存在
-    const userRepository = require('../repositories/user.repository');
     const user = await userRepository.findById(userId);
     if (!user) {
       throw ErrorMiddleware.createError(
@@ -382,57 +397,12 @@ class UserService {
 
     const result = await postRepository.findAll(queryOptions);
 
-    // 🔧 使用StatusCacheService添加用户交互状态
-    if (currentUserId && result.list && result.list.length > 0) {
-      const postIds = result.list.map(post => post.id);
-      const authorIds = result.list.map(post => post.author?.id).filter(Boolean);
-
+    if (result.list && result.list.length > 0) {
       try {
-        const [likeStates, favoriteStates, followingStates] = await Promise.all([
-          statusCacheService.isLiked(currentUserId, postIds),
-          statusCacheService.isFavorited(currentUserId, postIds),
-          authorIds.length > 0 ? statusCacheService.isFollowing(currentUserId, authorIds) : {}
-        ]);
-
-        // 统一状态注入
-        result.list.forEach(post => {
-          delete post.is_liked;
-          delete post.is_favorited;
-          
-          post.dataValues = post.dataValues || {};
-          post.dataValues.is_liked = likeStates[post.id] || false;
-          post.dataValues.is_favorited = favoriteStates[post.id] || false;
-          
-          // 🔧 同时设置到根级别，支持两种命名格式
-          post.is_liked = likeStates[post.id] || false;
-          post.is_favorited = favoriteStates[post.id] || false;
-          // 🔧 同时设置驼峰命名格式，确保前端组件能访问到
-          post.isLiked = likeStates[post.id] || false;
-          post.isFavorited = favoriteStates[post.id] || false;
-          
-          if (post.author && post.author.id) {
-            post.author.dataValues = post.author.dataValues || {};
-            post.author.dataValues.isFollowing = followingStates[post.author.id] || false;
-          }
-        });
+        await StatusInjectionUtil.injectPostStatus(result.list, currentUserId, statusCacheService);
       } catch (error) {
         logger.error('用户状态注入失败:', error);
-        // 状态注入失败不影响主要功能
       }
-    } else if (result.list && result.list.length > 0) {
-      // 🔧 为未登录用户设置默认状态，确保前端组件正常工作
-      result.list.forEach(post => {
-        post.dataValues = post.dataValues || {};
-        post.dataValues.is_liked = false;
-        post.dataValues.is_favorited = false;
-        
-        // 🔧 同时设置到根级别，支持两种命名格式
-        post.is_liked = false;
-        post.is_favorited = false;
-        // 🔧 同时设置驼峰命名格式，确保前端组件能访问到
-        post.isLiked = false;
-        post.isFavorited = false;
-      });
     }
 
     return result;
@@ -444,8 +414,6 @@ class UserService {
    * @returns {Promise<Array>} 用户徽章列表
    */
   async _getUserBadgesWithDetails(userId) {
-    const userBadgeRepository = require('../repositories/user-badge.repository');
-    const badgeRepository = require('../repositories/badge.repository');
 
     try {
       // 获取用户的所有徽章关联记录
@@ -505,7 +473,7 @@ class UserService {
   async _getUserTagsWithDetails(userId) {
     // 🔑 生成缓存键
     const cacheKey = `user:${userId}:tags`;
-    const { redisClient } = require('../utils'); // Need to require locally as removed from global scope
+    const { redisClient } = require('../utils');
     
     try {
       // 📥 1. 先尝试从 Redis 缓存读取
@@ -530,8 +498,6 @@ class UserService {
       });
 
       // 🗄️ 2. 缓存未命中，查询数据库
-      const { User, Tag } = require('../models');
-
       // 通过User模型的关联获取用户标签
       const user = await User.findByPk(userId, {
         include: [
@@ -569,11 +535,12 @@ class UserService {
 
       // 💾 3. 将结果缓存到 Redis (30分钟)
       try {
-        await redisClient.setex(cacheKey, 1800, JSON.stringify(result));
+        const tagsCacheTtl = USER.TAGS_CACHE_TTL || CACHE_TTL.LONG;
+        await redisClient.setex(cacheKey, tagsCacheTtl, JSON.stringify(result));
         logger.info(`💾 [标签缓存] 成功缓存到Redis: ${userId}`, {
           service: 'campus-wall-api',
           cacheKey,
-          ttl: 1800,
+          ttl: tagsCacheTtl,
           tagsCount: result.length
         });
       } catch (cacheError) {
@@ -738,8 +705,7 @@ class UserService {
    * @returns {Promise<Object>} 分页结果
    */
   async getRejectionLogs(options = {}) {
-    const userRejectionLogRepository = require('../repositories/user-rejection-log.repository');
-    const { page = 1, limit = 20, username, startTime, endTime } = options;
+    const { page = 1, limit = USER.DEFAULT_REJECTION_LOGS_LIMIT, username, startTime, endTime } = options;
     
     const result = await userRejectionLogRepository.findAndCountAll({
       page,
