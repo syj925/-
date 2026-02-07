@@ -1,348 +1,298 @@
 {
-	"pages": [ 
-		{
-			"path": "pages/splash/splash",
-			"style": {
-				"navigationStyle": "custom",
-				"disableScroll": true,
-				"app-plus": {
-					"background": "transparent",
-					"titleNView": false
-				}
-			}
-		},
-		{
-			"path": "pages/index/home",
-			"style": {
-				"navigationStyle": "custom",
-				"enablePullDownRefresh": true,
-				"backgroundTextStyle": "dark",
-				"app-plus": {
-					"pullToRefresh": {
-						"support": true,
-						"style": "circle",
-						"color": "#5B8EF9"
-					}
-				}
-			}
-		},
-		{
-			"path": "pages/test/hot-comments",
-			"style": {
-				"navigationBarTitleText": "热门评论测试"
-			}
-		},
-		{
-			"path": "pages/test/config-test",
-			"style": {
-				"navigationBarTitleText": "配置更新测试"
-			}
-		},
-		{
-			"path": "pages/test/simple-test",
-			"style": {
-				"navigationBarTitleText": "简单API测试"
-			}
-		},
-		{
-			"path": "pages/discover/discover",
-			"style": {
-				"navigationBarTitleText": "发现",
-				"enablePullDownRefresh": true,
-				"backgroundTextStyle": "dark",
-				"app-plus": {
-					"pullToRefresh": {
-						"support": true,
-						"style": "circle",
-						"color": "#5B8EF9"
-					}
-				}
-			}
-		},
-		{
-			"path": "pages/message/message",
-			"style": {
-				"navigationStyle": "custom",
-				"enablePullDownRefresh": false,
-				"backgroundTextStyle": "dark",
-				"disableScroll": true
-			}
-		},
-		{
-			"path": "pages/message/detail",
-			"style": {
-				"navigationStyle": "custom",
-				"enablePullDownRefresh": false,
-				"backgroundTextStyle": "dark"
-			}
-		},
-		{
-			"path": "pages/message/chat",
-			"style": {
-				"navigationStyle": "custom",
-				"enablePullDownRefresh": false,
-				"disableScroll": true,
-				"backgroundTextStyle": "dark"
-			}
-		},
-		{
-			"path": "pages/publish/publish",
-			"style": {
-				"navigationBarTitleText": "发布帖子",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/profile/profile",
-			"style": {
-				"navigationBarTitleText": "个人中心",
-				"navigationStyle": "custom",
-				"enablePullDownRefresh": true,
-				"backgroundTextStyle": "dark",
-				"app-plus": {
-					"pullToRefresh": {
-						"support": true,
-						"style": "circle",
-						"color": "#5B8EF9"
-					}
-				}
-			}
-		},
-		{
-			"path": "pages/user/user-profile",
-			"style": {
-				"navigationBarTitleText": "用户主页",
-				"navigationStyle": "custom",
-				"enablePullDownRefresh": false,
-				"backgroundTextStyle": "dark"
-			}
-		},
-		{
-			"path": "pages/profile/edit",
-			"style": {
-				"navigationBarTitleText": "编辑资料",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/profile/follow",
-			"style": {
-				"navigationBarTitleText": "关注列表",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/profile/mutual-follow",
-			"style": {
-				"navigationBarTitleText": "互相关注",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/profile/privacy",
-			"style": {
-				"navigationBarTitleText": "隐私设置",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/profile/audit-history",
-			"style": {
-				"navigationBarTitleText": "审核记录",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/post/detail",
-			"style": {
-				"navigationBarTitleText": "帖子详情"
-			}
-		},
-		{
-			"path": "pages/test/network",
-			"style": {
-				"navigationBarTitleText": "网络测试"
-			}
-		},
-		{
-			"path": "pages/test/follow-test",
-			"style": {
-				"navigationBarTitleText": "关注功能测试",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/test/comment-like-test",
-			"style": {
-				"navigationBarTitleText": "评论点赞测试",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/test/event-test",
-			"style": {
-				"navigationBarTitleText": "活动API测试",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/settings/index",
-			"style": {
-				"navigationStyle": "custom",
-				"navigationBarTitleText": "设置"
-			}
-		},
-		{
-			"path": "pages/settings/server",
-			"style": {
-				"navigationStyle": "custom",
-				"navigationBarTitleText": "服务器设置"
-			}
-		},
-		{
-			"path": "pages/settings/version",
-			"style": {
-				"navigationStyle": "custom",
-				"navigationBarTitleText": "版本管理"
-			}
-		},
-		{
-			"path": "pages/settings/about",
-			"style": {
-				"navigationStyle": "custom",
-				"navigationBarTitleText": "关于我们"
-			}
-		},
-		{
-			"path": "pages/topic/list",
-			"style": {
-			  "navigationBarTitleText": "话题广场",
-			  "navigationStyle": "custom",
-			  "enablePullDownRefresh": true,
-			  "backgroundTextStyle": "dark"
-			}
-		  },
-		{
-			"path": "pages/topic/detail",
-			"style": {
-				"navigationBarTitleText": "话题详情",
-				"navigationStyle": "custom",
-				"enablePullDownRefresh": true,
-				"backgroundTextStyle": "dark"
-			}
-		},
-		{
-			"path": "pages/search/index",
-			"style": {
-				"navigationBarTitleText": "搜索",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/search/results",
-			"style": {
-				"navigationBarTitleText": "搜索结果",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/event/list",
-			"style": {
-				"navigationBarTitleText": "校园活动",
-				"enablePullDownRefresh": true,
-				"backgroundTextStyle": "dark"
-			}
-		},
-		{
-			"path": "pages/event/detail",
-			"style": {
-				"navigationBarTitleText": "活动详情",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/event/my-events",
-			"style": {
-				"navigationBarTitleText": "我的活动",
-				"enablePullDownRefresh": true,
-				"backgroundTextStyle": "dark"
-			}
-		},
-		{
-			"path": "pages/test/log-demo",
-			"style": {
-				"navigationBarTitleText": "日志演示",
-				"navigationStyle": "custom"
-			}
-		}
-	],
-	"subPackages": [
-		{
-			"root": "pages/auth",
-			"pages": [
-				{
-					"path": "login/index",
-					"style": {
-						"navigationBarTitleText": "登录"
-					}
-				},
-				{
-					"path": "register/index",
-					"style": {
-						"navigationBarTitleText": "注册"
-					}
-				}
-			]
-		}
-	],
-	"tabBar": {
-		"color": "#999999",
-		"selectedColor": "#5B8EF9",
-		"borderStyle": "white",
-		"backgroundColor": "#FFFFFF",
-		"list": [
-			{
-				"pagePath": "pages/index/home",
-				"text": "首页",
-				"iconPath": "static/images/tabbar/home.png",
-				"selectedIconPath": "static/images/tabbar/home-active.png"
-			},
-			{
-				"pagePath": "pages/discover/discover",
-				"text": "发现",
-				"iconPath": "static/images/tabbar/discover.png",
-				"selectedIconPath": "static/images/tabbar/discover-active.png"
-			},
-			{
-				"pagePath": "pages/publish/publish",
-				"text": "发布",
-				"iconPath": "static/images/tabbar/publish.png",
-				"selectedIconPath": "static/images/tabbar/publish.png"
-			},
-			{
-				"pagePath": "pages/message/message",
-				"text": "消息",
-				"iconPath": "static/images/tabbar/message.png",
-				"selectedIconPath": "static/images/tabbar/message-active.png"
-			},
-			{
-				"pagePath": "pages/profile/profile",
-				"text": "我的",
-				"iconPath": "static/images/tabbar/profile.png",
-				"selectedIconPath": "static/images/tabbar/profile-active.png"
-			}
-		]
-	},
-	"globalStyle": {
-		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "校园墙",
-		"navigationBarBackgroundColor": "#FFFFFF",
-		"backgroundColor": "#F8F9FE"
-	},
-	"easycom": {
-		"autoscan": true,
-		"custom": {
-			"^App(.*)": "@/components/common/App$1.vue"
-		}
-	}
+  "pages": [
+    {
+      "path": "pages/splash/splash",
+      "style": {
+        "navigationStyle": "custom",
+        "disableScroll": true,
+        "app-plus": {
+          "background": "transparent",
+          "titleNView": false
+        }
+      }
+    },
+    {
+      "path": "pages/index/home",
+      "style": {
+        "navigationStyle": "custom",
+        "enablePullDownRefresh": true,
+        "backgroundTextStyle": "dark",
+        "app-plus": {
+          "pullToRefresh": {
+            "support": true,
+            "style": "circle",
+            "color": "#5B8EF9"
+          }
+        }
+      }
+    },
+
+    {
+      "path": "pages/discover/discover",
+      "style": {
+        "navigationBarTitleText": "发现",
+        "enablePullDownRefresh": true,
+        "backgroundTextStyle": "dark",
+        "app-plus": {
+          "pullToRefresh": {
+            "support": true,
+            "style": "circle",
+            "color": "#5B8EF9"
+          }
+        }
+      }
+    },
+    {
+      "path": "pages/message/message",
+      "style": {
+        "navigationStyle": "custom",
+        "enablePullDownRefresh": false,
+        "backgroundTextStyle": "dark",
+        "disableScroll": true
+      }
+    },
+    {
+      "path": "pages/message/detail",
+      "style": {
+        "navigationStyle": "custom",
+        "enablePullDownRefresh": false,
+        "backgroundTextStyle": "dark"
+      }
+    },
+    {
+      "path": "pages/message/chat",
+      "style": {
+        "navigationStyle": "custom",
+        "enablePullDownRefresh": false,
+        "disableScroll": true,
+        "backgroundTextStyle": "dark"
+      }
+    },
+    {
+      "path": "pages/publish/publish",
+      "style": {
+        "navigationBarTitleText": "发布帖子",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/profile/profile",
+      "style": {
+        "navigationBarTitleText": "个人中心",
+        "navigationStyle": "custom",
+        "enablePullDownRefresh": true,
+        "backgroundTextStyle": "dark",
+        "app-plus": {
+          "pullToRefresh": {
+            "support": true,
+            "style": "circle",
+            "color": "#5B8EF9"
+          }
+        }
+      }
+    },
+    {
+      "path": "pages/user/user-profile",
+      "style": {
+        "navigationBarTitleText": "用户主页",
+        "navigationStyle": "custom",
+        "enablePullDownRefresh": false,
+        "backgroundTextStyle": "dark"
+      }
+    },
+    {
+      "path": "pages/profile/edit",
+      "style": {
+        "navigationBarTitleText": "编辑资料",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/profile/follow",
+      "style": {
+        "navigationBarTitleText": "关注列表",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/profile/mutual-follow",
+      "style": {
+        "navigationBarTitleText": "互相关注",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/profile/privacy",
+      "style": {
+        "navigationBarTitleText": "隐私设置",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/profile/audit-history",
+      "style": {
+        "navigationBarTitleText": "审核记录",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/post/detail",
+      "style": {
+        "navigationBarTitleText": "帖子详情"
+      }
+    },
+
+    {
+      "path": "pages/settings/index",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "设置"
+      }
+    },
+    {
+      "path": "pages/settings/server",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "服务器设置"
+      }
+    },
+    {
+      "path": "pages/settings/version",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "版本管理"
+      }
+    },
+    {
+      "path": "pages/settings/about",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "关于我们"
+      }
+    },
+    {
+      "path": "pages/topic/list",
+      "style": {
+        "navigationBarTitleText": "话题广场",
+        "navigationStyle": "custom",
+        "enablePullDownRefresh": true,
+        "backgroundTextStyle": "dark"
+      }
+    },
+    {
+      "path": "pages/topic/detail",
+      "style": {
+        "navigationBarTitleText": "话题详情",
+        "navigationStyle": "custom",
+        "enablePullDownRefresh": true,
+        "backgroundTextStyle": "dark"
+      }
+    },
+    {
+      "path": "pages/search/index",
+      "style": {
+        "navigationBarTitleText": "搜索",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/search/results",
+      "style": {
+        "navigationBarTitleText": "搜索结果",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/event/list",
+      "style": {
+        "navigationBarTitleText": "校园活动",
+        "enablePullDownRefresh": true,
+        "backgroundTextStyle": "dark"
+      }
+    },
+    {
+      "path": "pages/event/detail",
+      "style": {
+        "navigationBarTitleText": "活动详情",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/event/my-events",
+      "style": {
+        "navigationBarTitleText": "我的活动",
+        "enablePullDownRefresh": true,
+        "backgroundTextStyle": "dark"
+      }
+    }
+  ],
+  "subPackages": [
+    {
+      "root": "pages/auth",
+      "pages": [
+        {
+          "path": "login/index",
+          "style": {
+            "navigationBarTitleText": "登录"
+          }
+        },
+        {
+          "path": "register/index",
+          "style": {
+            "navigationBarTitleText": "注册"
+          }
+        }
+      ]
+    }
+  ],
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#5B8EF9",
+    "borderStyle": "white",
+    "backgroundColor": "#FFFFFF",
+    "list": [
+      {
+        "pagePath": "pages/index/home",
+        "text": "首页",
+        "iconPath": "static/images/tabbar/home.png",
+        "selectedIconPath": "static/images/tabbar/home-active.png"
+      },
+      {
+        "pagePath": "pages/discover/discover",
+        "text": "发现",
+        "iconPath": "static/images/tabbar/discover.png",
+        "selectedIconPath": "static/images/tabbar/discover-active.png"
+      },
+      {
+        "pagePath": "pages/publish/publish",
+        "text": "发布",
+        "iconPath": "static/images/tabbar/publish.png",
+        "selectedIconPath": "static/images/tabbar/publish.png"
+      },
+      {
+        "pagePath": "pages/message/message",
+        "text": "消息",
+        "iconPath": "static/images/tabbar/message.png",
+        "selectedIconPath": "static/images/tabbar/message-active.png"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的",
+        "iconPath": "static/images/tabbar/profile.png",
+        "selectedIconPath": "static/images/tabbar/profile-active.png"
+      }
+    ]
+  },
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "校园墙",
+    "navigationBarBackgroundColor": "#FFFFFF",
+    "backgroundColor": "#F8F9FE"
+  },
+  "easycom": {
+    "autoscan": true,
+    "custom": {
+      "^App(.*)": "@/components/common/App$1.vue"
+    }
+  }
 }

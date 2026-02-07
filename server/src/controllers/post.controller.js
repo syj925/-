@@ -1,9 +1,11 @@
-const postService = require('../services/post.service');
-const userService = require('../services/user.service');
-const { ResponseUtil } = require('../utils');
-const JsonUtil = require('../utils/json.util');
-const { StatusCodes } = require('http-status-codes');
-const logger = require('../../config/logger');
+const postService = require("../services/post.service");
+const userService = require("../services/user.service");
+const configManager = require("../utils/config-manager");
+const recommendationService = require("../services/recommendation.service.v2");
+const { ResponseUtil } = require("../utils");
+const JsonUtil = require("../utils/json.util");
+const { StatusCodes } = require("http-status-codes");
+const logger = require("../../config/logger");
 
 /**
  * 帖子控制器
@@ -19,47 +21,60 @@ class PostController {
   async createPost(req, res, next) {
     try {
       const userId = req.user.id;
-      const { title, content, category_id, topics, location, images, is_anonymous } = req.body;
+      const {
+        title,
+        content,
+        category_id,
+        topics,
+        location,
+        images,
+        is_anonymous,
+      } = req.body;
 
       // 获取审核设置
-      const configManager = require('../utils/config-manager');
       const settings = await configManager.getAuditSettings();
 
-
-
       // 确定帖子状态
-      let postStatus = 'published'; // 默认直接发布
+      let postStatus = "published"; // 默认直接发布
 
       // 1. 检查是否开启强制人工审核
       if (settings.forceManualAudit) {
-        postStatus = 'pending';
+        postStatus = "pending";
       } else {
         // 2. 检查拒绝关键词 - 匹配的内容进入待审核而不是直接拒绝
         if (settings.autoRejectKeywords) {
-          const rejectWords = settings.autoRejectKeywords.split(',').map(w => w.trim()).filter(w => w);
-          const hasRejectWords = rejectWords.some(word =>
-            content.toLowerCase().includes(word.toLowerCase()) ||
-            (title && title.toLowerCase().includes(word.toLowerCase()))
+          const rejectWords = settings.autoRejectKeywords
+            .split(",")
+            .map((w) => w.trim())
+            .filter((w) => w);
+          const hasRejectWords = rejectWords.some(
+            (word) =>
+              content.toLowerCase().includes(word.toLowerCase()) ||
+              (title && title.toLowerCase().includes(word.toLowerCase())),
           );
 
           if (hasRejectWords) {
-            postStatus = 'pending';
+            postStatus = "pending";
           }
         }
 
         // 3. 检查自动通过关键词（只有在没有匹配拒绝关键词时才生效）
-        if (postStatus !== 'pending' && settings.autoApproveKeywords) {
-          const approveWords = settings.autoApproveKeywords.split(',').map(w => w.trim()).filter(w => w);
-          const hasApproveWords = approveWords.some(word =>
-            content.toLowerCase().includes(word.toLowerCase()) ||
-            (title && title.toLowerCase().includes(word.toLowerCase()))
+        if (postStatus !== "pending" && settings.autoApproveKeywords) {
+          const approveWords = settings.autoApproveKeywords
+            .split(",")
+            .map((w) => w.trim())
+            .filter((w) => w);
+          const hasApproveWords = approveWords.some(
+            (word) =>
+              content.toLowerCase().includes(word.toLowerCase()) ||
+              (title && title.toLowerCase().includes(word.toLowerCase())),
           );
 
           if (hasApproveWords) {
-            postStatus = 'published';
+            postStatus = "published";
           } else if (settings.enableSmartAudit) {
             // 4. 智能审核模式：未匹配关键词的内容进入审核
-            postStatus = 'pending';
+            postStatus = "pending";
           }
         }
       }
@@ -70,7 +85,7 @@ class PostController {
         content,
         user_id: userId,
         category_id,
-        status: postStatus
+        status: postStatus,
       };
 
       // 处理匿名模式
@@ -98,11 +113,11 @@ class PostController {
       const post = await postService.createPost(postData, images, topics);
 
       // 根据帖子状态返回不同的消息
-      let message = '帖子发布成功';
+      let message = "帖子发布成功";
       let needsAudit = false;
 
-      if (post.status === 'pending') {
-        message = '帖子已提交，等待管理员审核';
+      if (post.status === "pending") {
+        message = "帖子已提交，等待管理员审核";
         needsAudit = true;
       }
 
@@ -111,10 +126,14 @@ class PostController {
       const responseData = {
         ...safePostData,
         needsAudit,
-        auditMessage: needsAudit ? '您的帖子正在审核中，审核通过后将会显示' : null
+        auditMessage: needsAudit
+          ? "您的帖子正在审核中，审核通过后将会显示"
+          : null,
       };
 
-      res.status(StatusCodes.CREATED).json(ResponseUtil.success(responseData, message));
+      res
+        .status(StatusCodes.CREATED)
+        .json(ResponseUtil.success(responseData, message));
     } catch (error) {
       next(error);
     }
@@ -131,14 +150,14 @@ class PostController {
     try {
       const { id } = req.params;
       const userId = req.user ? req.user.id : null;
-      
+
       const post = await postService.getPostById(id, true, userId);
-      
+
       // 增加浏览量
-      postService.incrementViewCount(id).catch(err => {
+      postService.incrementViewCount(id).catch((err) => {
         logger.error(`增加浏览量失败: ${err.message}`, { postId: id });
       });
-      
+
       res.status(StatusCodes.OK).json(ResponseUtil.success(post));
     } catch (error) {
       next(error);
@@ -156,24 +175,31 @@ class PostController {
     try {
       const { id } = req.params;
       const userId = req.user.id;
-      const { title, content, category_id, topics, location, images } = req.body;
-      
+      const { title, content, category_id, topics, location, images } =
+        req.body;
+
       // 构造帖子数据
       const postData = {};
-      
+
       if (title !== undefined) postData.title = title;
       if (content !== undefined) postData.content = content;
       if (category_id !== undefined) postData.category_id = category_id;
-      
+
       // 添加位置信息
       if (location) {
         postData.location_name = location.name;
         postData.longitude = location.longitude;
         postData.latitude = location.latitude;
       }
-      
-      const post = await postService.updatePost(id, postData, images, topics, userId);
-      
+
+      const post = await postService.updatePost(
+        id,
+        postData,
+        images,
+        topics,
+        userId,
+      );
+
       res.status(StatusCodes.OK).json(ResponseUtil.success(post));
     } catch (error) {
       next(error);
@@ -191,9 +217,9 @@ class PostController {
     try {
       const { id } = req.params;
       const userId = req.user.id;
-      
+
       const result = await postService.deletePost(id, userId);
-      
+
       res.status(StatusCodes.OK).json(ResponseUtil.success(result));
     } catch (error) {
       next(error);
@@ -211,7 +237,7 @@ class PostController {
     try {
       // 记录请求参数
       logger.info(`获取帖子列表请求参数: ${JSON.stringify(req.query)}`);
-      
+
       const {
         page = 1,
         pageSize = 10,
@@ -220,18 +246,18 @@ class PostController {
         category, // 兼容前端传递的 category 参数
         topicId,
         keyword,
-        status = 'published',
-        orderBy = 'createdAt',
-        orderDirection = 'DESC',
+        status = "published",
+        orderBy = "createdAt",
+        orderDirection = "DESC",
         schoolFilter,
         nearbyLat,
         nearbyLng,
-        nearbyDistance
+        nearbyDistance,
       } = req.query;
 
       // 兼容处理：优先使用 categoryId，如果没有则使用 category
       const finalCategoryId = categoryId || category;
-      
+
       const options = {
         page: parseInt(page, 10),
         pageSize: parseInt(pageSize, 10),
@@ -246,31 +272,41 @@ class PostController {
         schoolFilter,
         nearbyLat: nearbyLat ? parseFloat(nearbyLat) : undefined,
         nearbyLng: nearbyLng ? parseFloat(nearbyLng) : undefined,
-        nearbyDistance: nearbyDistance ? parseFloat(nearbyDistance) : undefined
+        nearbyDistance: nearbyDistance ? parseFloat(nearbyDistance) : undefined,
       };
-      
+
       const currentUserId = req.user ? req.user.id : null;
       logger.info(`🔍 getPosts: 当前用户ID: ${currentUserId}`);
       logger.info(`🔍 getPosts: req.user存在: ${!!req.user}`);
-      logger.info(`🔍 getPosts: Authorization头: ${req.headers.authorization ? '存在' : '不存在'}`);
-      
+      logger.info(
+        `🔍 getPosts: Authorization头: ${req.headers.authorization ? "存在" : "不存在"}`,
+      );
+
       const result = await postService.getPosts(options, currentUserId);
-      
+
       // 检查返回的第一个帖子是否有状态信息
       if (result.list.length > 0) {
         const firstPost = result.list[0];
-        logger.info(`🔍 getPosts: 第一个帖子状态 - isLiked: ${firstPost.dataValues.is_liked}, isFavorited: ${firstPost.dataValues.is_favorited}`);
+        logger.info(
+          `🔍 getPosts: 第一个帖子状态 - isLiked: ${firstPost.dataValues.is_liked}, isFavorited: ${firstPost.dataValues.is_favorited}`,
+        );
       }
-      
+
       // 记录结果数量
-      logger.info(`查询到帖子数量: ${result.list.length}, 总数: ${result.pagination.total}`);
-      
-      res.status(StatusCodes.OK).json(ResponseUtil.page(
-        result.list,
-        result.pagination.page,
-        result.pagination.pageSize,
-        result.pagination.total
-      ));
+      logger.info(
+        `查询到帖子数量: ${result.list.length}, 总数: ${result.pagination.total}`,
+      );
+
+      res
+        .status(StatusCodes.OK)
+        .json(
+          ResponseUtil.page(
+            result.list,
+            result.pagination.page,
+            result.pagination.pageSize,
+            result.pagination.total,
+          ),
+        );
     } catch (error) {
       next(error);
     }
@@ -287,9 +323,12 @@ class PostController {
     try {
       const { limit = 10 } = req.query;
       const currentUserId = req.user ? req.user.id : null;
-      
-      const posts = await postService.getHotPosts(parseInt(limit, 10), currentUserId);
-      
+
+      const posts = await postService.getHotPosts(
+        parseInt(limit, 10),
+        currentUserId,
+      );
+
       res.status(StatusCodes.OK).json(ResponseUtil.success(posts));
     } catch (error) {
       next(error);
@@ -306,7 +345,7 @@ class PostController {
   async getPostComments(req, res, next) {
     try {
       const { id } = req.params;
-      const { page = 1, pageSize = 20, sort = 'latest' } = req.query;
+      const { page = 1, pageSize = 20, sort = "latest" } = req.query;
       const currentUserId = req.user ? req.user.id : null;
 
       const result = await postService.getPostComments(
@@ -314,33 +353,37 @@ class PostController {
         parseInt(page, 10),
         parseInt(pageSize, 10),
         currentUserId,
-        sort
+        sort,
       );
-      
+
       // 确保JSON字段被正确序列化（images和emoji_image）
-      const serializedList = result.list.map(comment => {
+      const serializedList = result.list.map((comment) => {
         const json = comment.toJSON ? comment.toJSON() : comment;
         return {
           ...json,
           images: json.images || null,
           emoji_image: json.emoji_image || null,
-          replies: (json.replies || []).map(reply => {
+          replies: (json.replies || []).map((reply) => {
             const replyJson = reply.toJSON ? reply.toJSON() : reply;
             return {
               ...replyJson,
               images: replyJson.images || null,
-              emoji_image: replyJson.emoji_image || null
+              emoji_image: replyJson.emoji_image || null,
             };
-          })
+          }),
         };
       });
-      
-      res.status(StatusCodes.OK).json(ResponseUtil.page(
-        serializedList,
-        result.pagination.page,
-        result.pagination.pageSize,
-        result.pagination.total
-      ));
+
+      res
+        .status(StatusCodes.OK)
+        .json(
+          ResponseUtil.page(
+            serializedList,
+            result.pagination.page,
+            result.pagination.pageSize,
+            result.pagination.total,
+          ),
+        );
     } catch (error) {
       next(error);
     }
@@ -356,9 +399,9 @@ class PostController {
   async getPostCommentStats(req, res, next) {
     try {
       const { id } = req.params;
-      
+
       const stats = await postService.getPostCommentStats(id);
-      
+
       res.status(StatusCodes.OK).json(ResponseUtil.success(stats));
     } catch (error) {
       next(error);
@@ -376,9 +419,9 @@ class PostController {
     try {
       const { id } = req.params;
       const { isTop } = req.body;
-      
+
       const result = await postService.setTopStatus(id, isTop);
-      
+
       res.status(StatusCodes.OK).json(ResponseUtil.success(result));
     } catch (error) {
       next(error);
@@ -396,19 +439,23 @@ class PostController {
     try {
       const userId = req.user.id;
       const { page = 1, pageSize = 10 } = req.query;
-      
+
       const result = await postService.getUserFavorites(
         userId,
         parseInt(page, 10),
-        parseInt(pageSize, 10)
+        parseInt(pageSize, 10),
       );
-      
-      res.status(StatusCodes.OK).json(ResponseUtil.page(
-        result.list,
-        result.pagination.page,
-        result.pagination.pageSize,
-        result.pagination.total
-      ));
+
+      res
+        .status(StatusCodes.OK)
+        .json(
+          ResponseUtil.page(
+            result.list,
+            result.pagination.page,
+            result.pagination.pageSize,
+            result.pagination.total,
+          ),
+        );
     } catch (error) {
       next(error);
     }
@@ -424,26 +471,30 @@ class PostController {
   async getUserPosts(req, res, next) {
     try {
       const userId = req.user.id;
-      const { page = 1, pageSize = 10, type = 'published' } = req.query;
+      const { page = 1, pageSize = 10, type = "published" } = req.query;
 
       const options = {
         page: parseInt(page, 10),
         pageSize: parseInt(pageSize, 10),
         userId,
-        status: type === 'drafts' ? 'draft' : 'published',
-        orderBy: 'createdAt',
-        orderDirection: 'DESC',
-        includeDetails: true
+        status: type === "drafts" ? "draft" : "published",
+        orderBy: "createdAt",
+        orderDirection: "DESC",
+        includeDetails: true,
       };
 
       const result = await postService.getPosts(options, userId);
 
-      res.status(StatusCodes.OK).json(ResponseUtil.page(
-        result.list,
-        result.pagination.page,
-        result.pagination.pageSize,
-        result.pagination.total
-      ));
+      res
+        .status(StatusCodes.OK)
+        .json(
+          ResponseUtil.page(
+            result.list,
+            result.pagination.page,
+            result.pagination.pageSize,
+            result.pagination.total,
+          ),
+        );
     } catch (error) {
       next(error);
     }
@@ -466,19 +517,23 @@ class PostController {
         pageSize: parseInt(pageSize, 10),
         userId,
         auditStatus: status, // pending, rejected, published
-        orderBy: 'createdAt',
-        orderDirection: 'DESC',
-        includeDetails: true
+        orderBy: "createdAt",
+        orderDirection: "DESC",
+        includeDetails: true,
       };
 
       const result = await postService.getUserAuditHistory(options);
 
-      res.status(StatusCodes.OK).json(ResponseUtil.page(
-        result.list,
-        result.pagination.page,
-        result.pagination.pageSize,
-        result.pagination.total
-      ));
+      res
+        .status(StatusCodes.OK)
+        .json(
+          ResponseUtil.page(
+            result.list,
+            result.pagination.page,
+            result.pagination.pageSize,
+            result.pagination.total,
+          ),
+        );
     } catch (error) {
       next(error);
     }
@@ -496,36 +551,35 @@ class PostController {
       const { page = 1, pageSize = 6, strategy } = req.query;
       const userId = req.user ? req.user.id : null;
 
-      logger.info('获取推荐内容', { page, pageSize, userId, strategy });
-
-      // 使用新的推荐服务
-      const recommendationService = require('../services/recommendation.service.v2');
+      logger.info("获取推荐内容", { page, pageSize, userId, strategy });
 
       const options = {
         page: parseInt(page, 10),
         pageSize: parseInt(pageSize, 10),
         userId,
-        strategy
+        strategy,
       };
 
       const result = await recommendationService.getRecommendedPosts(options);
 
-      res.status(StatusCodes.OK).json(ResponseUtil.page(
-        result.list,
-        result.pagination.page,
-        result.pagination.pageSize,
-        result.pagination.total,
-        {
-          strategy: result.strategy,
-          adminRecommendedCount: result.adminRecommendedCount,
-          algorithmRecommendedCount: result.algorithmRecommendedCount
-        }
-      ));
+      res.status(StatusCodes.OK).json(
+        ResponseUtil.page(
+          result.list,
+          result.pagination.page,
+          result.pagination.pageSize,
+          result.pagination.total,
+          {
+            strategy: result.strategy,
+            adminRecommendedCount: result.adminRecommendedCount,
+            algorithmRecommendedCount: result.algorithmRecommendedCount,
+          },
+        ),
+      );
     } catch (error) {
-      logger.error('获取推荐内容失败', { error: error.message });
+      logger.error("获取推荐内容失败", { error: error.message });
       next(error);
     }
   }
 }
 
-module.exports = new PostController(); 
+module.exports = new PostController();

@@ -1,6 +1,11 @@
-const { StatusCodes } = require('http-status-codes');
-const { ResponseUtil } = require('../utils');
-const logger = require('../../config/logger');
+const { StatusCodes } = require("http-status-codes");
+const { ResponseUtil } = require("../utils");
+const redisClient = require("../utils/redis-client");
+const logger = require("../../config/logger");
+
+// 缓存key和TTL常量
+const SENSITIVE_SETTINGS_CACHE_KEY = "settings:sensitive_word";
+const SENSITIVE_SETTINGS_CACHE_TTL = 300; // 5分钟
 
 /**
  * 敏感词过滤中间件
@@ -12,57 +17,92 @@ class SensitiveWordMiddleware {
    */
   static async getSensitiveWordSettings() {
     try {
-      const { Setting } = require('../models');
+      // 优先从Redis缓存中获取
+      const cached = await redisClient.get(SENSITIVE_SETTINGS_CACHE_KEY);
+      if (cached) {
+        try {
+          return typeof cached === "string" ? JSON.parse(cached) : cached;
+        } catch (parseErr) {
+          logger.warn("解析敏感词缓存失败，将从数据库重新获取");
+        }
+      }
+
+      const { Setting } = require("../models");
 
       // 动态创建或获取敏感词过滤开关
       const [enableFilterSetting] = await Setting.findOrCreate({
-        where: { key: 'enableSensitiveFilter' },
+        where: { key: "enableSensitiveFilter" },
         defaults: {
-          key: 'enableSensitiveFilter',
-          value: 'true',
-          description: '启用敏感词过滤',
-          type: 'boolean',
-          is_system: true
-        }
+          key: "enableSensitiveFilter",
+          value: "true",
+          description: "启用敏感词过滤",
+          type: "boolean",
+          is_system: true,
+        },
       });
 
       // 动态创建或获取敏感词处理方式
       const [actionSetting] = await Setting.findOrCreate({
-        where: { key: 'sensitiveWordAction' },
+        where: { key: "sensitiveWordAction" },
         defaults: {
-          key: 'sensitiveWordAction',
-          value: 'replace',
-          description: '敏感词处理方式',
-          type: 'string',
-          is_system: true
-        }
+          key: "sensitiveWordAction",
+          value: "replace",
+          description: "敏感词处理方式",
+          type: "string",
+          is_system: true,
+        },
       });
 
       // 动态创建或获取敏感词列表
       const [wordsSetting] = await Setting.findOrCreate({
-        where: { key: 'sensitiveWords' },
+        where: { key: "sensitiveWords" },
         defaults: {
-          key: 'sensitiveWords',
-          value: '赌博,色情,政治,暴力,诈骗',
-          description: '敏感词列表',
-          type: 'string',
-          is_system: true
-        }
+          key: "sensitiveWords",
+          value: "赌博,色情,政治,暴力,诈骗",
+          description: "敏感词列表",
+          type: "string",
+          is_system: true,
+        },
       });
 
-      return {
-        enableSensitiveFilter: enableFilterSetting.value === 'true',
-        sensitiveWordAction: actionSetting.value || 'replace',
-        sensitiveWords: wordsSetting.value || ''
+      const settings = {
+        enableSensitiveFilter: enableFilterSetting.value === "true",
+        sensitiveWordAction: actionSetting.value || "replace",
+        sensitiveWords: wordsSetting.value || "",
       };
+
+      // 写入Redis缓存，TTL 5分钟
+      try {
+        await redisClient.set(
+          SENSITIVE_SETTINGS_CACHE_KEY,
+          JSON.stringify(settings),
+          SENSITIVE_SETTINGS_CACHE_TTL,
+        );
+      } catch (cacheErr) {
+        logger.warn("写入敏感词缓存失败:", cacheErr.message);
+      }
+
+      return settings;
     } catch (error) {
-      logger.error('获取敏感词设置失败:', error);
+      logger.error("获取敏感词设置失败:", error);
       // 如果数据库操作失败，返回默认值
       return {
         enableSensitiveFilter: false,
-        sensitiveWordAction: 'replace',
-        sensitiveWords: ''
+        sensitiveWordAction: "replace",
+        sensitiveWords: "",
       };
+    }
+  }
+
+  /**
+   * 清除敏感词设置缓存（在管理后台修改敏感词设置时调用）
+   */
+  static async clearSettingsCache() {
+    try {
+      await redisClient.del(SENSITIVE_SETTINGS_CACHE_KEY);
+      logger.info("敏感词设置缓存已清除");
+    } catch (error) {
+      logger.error("清除敏感词设置缓存失败:", error);
     }
   }
 
@@ -81,13 +121,13 @@ class SensitiveWordMiddleware {
     let cleanText = text;
 
     // 检测敏感词（不区分大小写）
-    sensitiveWords.forEach(word => {
+    sensitiveWords.forEach((word) => {
       if (word.trim()) {
-        const regex = new RegExp(word.trim(), 'gi');
+        const regex = new RegExp(word.trim(), "gi");
         if (regex.test(text)) {
           detectedWords.push(word.trim());
           // 替换为星号
-          cleanText = cleanText.replace(regex, '*'.repeat(word.trim().length));
+          cleanText = cleanText.replace(regex, "*".repeat(word.trim().length));
         }
       }
     });
@@ -95,7 +135,7 @@ class SensitiveWordMiddleware {
     return {
       hasSensitiveWords: detectedWords.length > 0,
       detectedWords,
-      cleanText
+      cleanText,
     };
   }
 
@@ -104,12 +144,12 @@ class SensitiveWordMiddleware {
    * @param {String} contentField 内容字段名，默认为'content'
    * @returns {Function} Express中间件
    */
-  static contentFilter(contentField = 'content') {
+  static contentFilter(contentField = "content") {
     return async (req, res, next) => {
       try {
         // 获取敏感词设置
         const settings = await this.getSensitiveWordSettings();
-        
+
         // 如果未启用敏感词过滤，直接通过
         if (!settings.enableSensitiveFilter) {
           return next();
@@ -117,55 +157,59 @@ class SensitiveWordMiddleware {
 
         // 获取要检测的内容
         const content = req.body[contentField];
-        if (!content || typeof content !== 'string') {
+        if (!content || typeof content !== "string") {
           return next();
         }
 
         // 解析敏感词列表
         const sensitiveWords = settings.sensitiveWords
-          .split(',')
-          .map(word => word.trim())
-          .filter(word => word.length > 0);
+          .split(",")
+          .map((word) => word.trim())
+          .filter((word) => word.length > 0);
 
         // 检测敏感词
         const detection = this.detectSensitiveWords(content, sensitiveWords);
 
         if (detection.hasSensitiveWords) {
-          logger.warn('检测到敏感词', {
+          logger.warn("检测到敏感词", {
             userId: req.user?.id,
-            content: content.substring(0, 100) + '...',
+            content: content.substring(0, 100) + "...",
             detectedWords: detection.detectedWords,
-            action: settings.sensitiveWordAction
+            action: settings.sensitiveWordAction,
           });
 
           switch (settings.sensitiveWordAction) {
-            case 'replace':
+            case "replace":
               // 替换敏感词并继续
               req.body[contentField] = detection.cleanText;
               req.sensitiveWordDetection = {
                 detected: true,
-                action: 'replaced',
-                words: detection.detectedWords
+                action: "replaced",
+                words: detection.detectedWords,
               };
               return next();
 
-            case 'reject':
+            case "reject":
               // 直接拒绝发布
               return res.status(StatusCodes.BAD_REQUEST).json(
-                ResponseUtil.error('内容包含敏感词，发布失败', StatusCodes.BAD_REQUEST, {
-                  errorType: 'SENSITIVE_WORDS_DETECTED',
-                  detectedWords: detection.detectedWords,
-                  message: `检测到敏感词：${detection.detectedWords.join(', ')}，请修改后重试`
-                })
+                ResponseUtil.error(
+                  "内容包含敏感词，发布失败",
+                  StatusCodes.BAD_REQUEST,
+                  {
+                    errorType: "SENSITIVE_WORDS_DETECTED",
+                    detectedWords: detection.detectedWords,
+                    message: `检测到敏感词：${detection.detectedWords.join(", ")}，请修改后重试`,
+                  },
+                ),
               );
 
-            case 'audit':
+            case "audit":
               // 标记为需要审核
-              req.body.status = 'pending';
+              req.body.status = "pending";
               req.sensitiveWordDetection = {
                 detected: true,
-                action: 'audit',
-                words: detection.detectedWords
+                action: "audit",
+                words: detection.detectedWords,
               };
               return next();
 
@@ -177,13 +221,12 @@ class SensitiveWordMiddleware {
         // 没有检测到敏感词，正常通过
         req.sensitiveWordDetection = {
           detected: false,
-          action: 'none',
-          words: []
+          action: "none",
+          words: [],
         };
         next();
-
       } catch (error) {
-        logger.error('敏感词过滤中间件错误:', error);
+        logger.error("敏感词过滤中间件错误:", error);
         // 发生错误时不阻止请求，但记录日志
         next();
       }
@@ -195,15 +238,12 @@ class SensitiveWordMiddleware {
    * @param {Array} contentFields 内容字段名数组
    * @returns {Function} Express中间件
    */
-  static multiContentFilter(contentFields = ['content', 'title']) {
+  static multiContentFilter(contentFields = ["content", "title"]) {
     return async (req, res, next) => {
       try {
-
-
         // 获取敏感词设置
         const settings = await this.getSensitiveWordSettings();
 
-        
         // 如果未启用敏感词过滤，直接通过
         if (!settings.enableSensitiveFilter) {
           return next();
@@ -211,9 +251,9 @@ class SensitiveWordMiddleware {
 
         // 解析敏感词列表
         const sensitiveWords = settings.sensitiveWords
-          .split(',')
-          .map(word => word.trim())
-          .filter(word => word.length > 0);
+          .split(",")
+          .map((word) => word.trim())
+          .filter((word) => word.length > 0);
 
         let allDetectedWords = [];
         let hasAnyDetection = false;
@@ -221,14 +261,19 @@ class SensitiveWordMiddleware {
         // 检测所有指定字段
         for (const field of contentFields) {
           const content = req.body[field];
-          if (content && typeof content === 'string') {
-            const detection = this.detectSensitiveWords(content, sensitiveWords);
-            
+          if (content && typeof content === "string") {
+            const detection = this.detectSensitiveWords(
+              content,
+              sensitiveWords,
+            );
+
             if (detection.hasSensitiveWords) {
               hasAnyDetection = true;
-              allDetectedWords = [...new Set([...allDetectedWords, ...detection.detectedWords])];
-              
-              if (settings.sensitiveWordAction === 'replace') {
+              allDetectedWords = [
+                ...new Set([...allDetectedWords, ...detection.detectedWords]),
+              ];
+
+              if (settings.sensitiveWordAction === "replace") {
                 req.body[field] = detection.cleanText;
               }
             }
@@ -236,37 +281,41 @@ class SensitiveWordMiddleware {
         }
 
         if (hasAnyDetection) {
-          logger.warn('检测到敏感词', {
+          logger.warn("检测到敏感词", {
             userId: req.user?.id,
             fields: contentFields,
             detectedWords: allDetectedWords,
-            action: settings.sensitiveWordAction
+            action: settings.sensitiveWordAction,
           });
 
           switch (settings.sensitiveWordAction) {
-            case 'replace':
+            case "replace":
               req.sensitiveWordDetection = {
                 detected: true,
-                action: 'replaced',
-                words: allDetectedWords
+                action: "replaced",
+                words: allDetectedWords,
               };
               return next();
 
-            case 'reject':
+            case "reject":
               return res.status(StatusCodes.BAD_REQUEST).json(
-                ResponseUtil.error('内容包含敏感词，发布失败', StatusCodes.BAD_REQUEST, {
-                  errorType: 'SENSITIVE_WORDS_DETECTED',
-                  detectedWords: allDetectedWords,
-                  message: `检测到敏感词：${allDetectedWords.join(', ')}，请修改后重试`
-                })
+                ResponseUtil.error(
+                  "内容包含敏感词，发布失败",
+                  StatusCodes.BAD_REQUEST,
+                  {
+                    errorType: "SENSITIVE_WORDS_DETECTED",
+                    detectedWords: allDetectedWords,
+                    message: `检测到敏感词：${allDetectedWords.join(", ")}，请修改后重试`,
+                  },
+                ),
               );
 
-            case 'audit':
-              req.body.status = 'pending';
+            case "audit":
+              req.body.status = "pending";
               req.sensitiveWordDetection = {
                 detected: true,
-                action: 'audit',
-                words: allDetectedWords
+                action: "audit",
+                words: allDetectedWords,
               };
               return next();
 
@@ -278,13 +327,12 @@ class SensitiveWordMiddleware {
         // 没有检测到敏感词
         req.sensitiveWordDetection = {
           detected: false,
-          action: 'none',
-          words: []
+          action: "none",
+          words: [],
         };
         next();
-
       } catch (error) {
-        logger.error('多字段敏感词过滤中间件错误:', error);
+        logger.error("多字段敏感词过滤中间件错误:", error);
         next();
       }
     };

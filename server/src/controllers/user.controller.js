@@ -1,10 +1,10 @@
-const userService = require('../services/user.service');
-const authService = require('../services/auth.service');
-const userStatsService = require('../services/user-stats.service');
-const { ResponseUtil } = require('../utils');
-const { StatusCodes } = require('http-status-codes');
-const errorCodes = require('../constants/error-codes');
-const logger = require('../../config/logger');
+const userService = require("../services/user.service");
+const authService = require("../services/auth.service");
+const userStatsService = require("../services/user-stats.service");
+const { ResponseUtil } = require("../utils");
+const { StatusCodes } = require("http-status-codes");
+const errorCodes = require("../constants/error-codes");
+const logger = require("../../config/logger");
 
 /**
  * 用户控制器
@@ -23,19 +23,21 @@ class UserController {
       const userData = {
         username: req.body.username,
         password: req.body.password,
-        nickname: req.body.nickname || req.body.username
+        nickname: req.body.nickname || req.body.username,
       };
 
       const result = await authService.register(userData);
 
       // 如果需要审核，返回特殊状态码和消息
       if (result.needAudit) {
-        return res.status(StatusCodes.ACCEPTED).json(
-          ResponseUtil.success(result, result.message)
-        );
+        return res
+          .status(StatusCodes.ACCEPTED)
+          .json(ResponseUtil.success(result, result.message));
       }
 
-      res.status(StatusCodes.CREATED).json(ResponseUtil.success(result, '注册成功'));
+      res
+        .status(StatusCodes.CREATED)
+        .json(ResponseUtil.success(result, "注册成功"));
     } catch (error) {
       next(error);
     }
@@ -87,9 +89,9 @@ class UserController {
       const { keyword, limit = 10 } = req.query;
 
       if (!keyword) {
-        return res.status(StatusCodes.BAD_REQUEST).json(
-          ResponseUtil.error('搜索关键词不能为空')
-        );
+        return res
+          .status(StatusCodes.BAD_REQUEST)
+          .json(ResponseUtil.error("搜索关键词不能为空"));
       }
 
       const users = await userService.searchUsers(keyword, parseInt(limit, 10));
@@ -146,7 +148,11 @@ class UserController {
     try {
       const userId = req.user.id;
       const { oldPassword, newPassword } = req.body;
-      const result = await authService.changePassword(userId, oldPassword, newPassword);
+      const result = await authService.changePassword(
+        userId,
+        oldPassword,
+        newPassword,
+      );
       res.status(StatusCodes.OK).json(ResponseUtil.success(result));
     } catch (error) {
       next(error);
@@ -186,7 +192,7 @@ class UserController {
         keyword,
         role,
         school,
-        isDisabled
+        isDisabled,
       } = req.query;
 
       const options = {
@@ -195,16 +201,20 @@ class UserController {
         keyword,
         role,
         school,
-        isDisabled: isDisabled === 'true'
+        isDisabled: isDisabled === "true",
       };
 
       const result = await userService.findUsers(options);
-      res.status(StatusCodes.OK).json(ResponseUtil.page(
-        result.list,
-        result.pagination.page,
-        result.pagination.pageSize,
-        result.pagination.total
-      ));
+      res
+        .status(StatusCodes.OK)
+        .json(
+          ResponseUtil.page(
+            result.list,
+            result.pagination.page,
+            result.pagination.pageSize,
+            result.pagination.total,
+          ),
+        );
     } catch (error) {
       next(error);
     }
@@ -324,7 +334,7 @@ class UserController {
   async getUserProfilePosts(req, res, next) {
     try {
       const { id } = req.params;
-      const { page = 1, pageSize = 10, sort = 'latest' } = req.query;
+      const { page = 1, pageSize = 10, sort = "latest" } = req.query;
       const currentUserId = req.user?.id;
 
       const options = {
@@ -332,17 +342,21 @@ class UserController {
         pageSize: parseInt(pageSize, 10),
         userId: id,
         sort,
-        currentUserId
+        currentUserId,
       };
 
       const result = await userService.getUserProfilePosts(options);
 
-      res.status(StatusCodes.OK).json(ResponseUtil.page(
-        result.list,
-        result.pagination.page,
-        result.pagination.pageSize,
-        result.pagination.total
-      ));
+      res
+        .status(StatusCodes.OK)
+        .json(
+          ResponseUtil.page(
+            result.list,
+            result.pagination.page,
+            result.pagination.pageSize,
+            result.pagination.total,
+          ),
+        );
     } catch (error) {
       next(error);
     }
@@ -360,18 +374,11 @@ class UserController {
       const userId = req.user.id;
       const stats = await userStatsService.getUserTodayPublishStats(userId);
 
-      res.json({
-        code: 0,
-        message: '获取发布统计成功',
-        data: stats
-      });
+      res
+        .status(StatusCodes.OK)
+        .json(ResponseUtil.success(stats, "获取发布统计成功"));
     } catch (error) {
-      logger.error('获取发布统计失败:', error);
-      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-        code: 500,
-        message: '获取发布统计失败',
-        data: null
-      });
+      next(error);
     }
   }
 }

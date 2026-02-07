@@ -1,22 +1,22 @@
-const postRepository = require('../repositories/post.repository');
-const postImageRepository = require('../repositories/post-image.repository');
-const userRepository = require('../repositories/user.repository');
-const categoryRepository = require('../repositories/category.repository');
-const topicRepository = require('../repositories/topic.repository');
-const commentRepository = require('../repositories/comment.repository');
-const messageService = require('./message.service');
-const statusCacheService = require('./status-cache.service');
-const { StatusCodes } = require('http-status-codes');
-const { ErrorMiddleware } = require('../middlewares');
-const errorCodes = require('../constants/error-codes');
-const logger = require('../../config/logger');
-const StatusInjectionUtil = require('../utils/status-injection.util');
-const { POST, RECOMMENDATION } = require('../constants/service-constants');
+const postRepository = require("../repositories/post.repository");
+const postImageRepository = require("../repositories/post-image.repository");
+const userRepository = require("../repositories/user.repository");
+const categoryRepository = require("../repositories/category.repository");
+const topicRepository = require("../repositories/topic.repository");
+const commentRepository = require("../repositories/comment.repository");
+const messageService = require("./message.service");
+const statusCacheService = require("./status-cache.service");
+const { StatusCodes } = require("http-status-codes");
+const { ErrorMiddleware } = require("../middlewares");
+const errorCodes = require("../constants/error-codes");
+const logger = require("../../config/logger");
+const StatusInjectionUtil = require("../utils/status-injection.util");
+const { POST, RECOMMENDATION } = require("../constants/service-constants");
 
 let topicServiceInstance = null;
 const getTopicService = () => {
   if (!topicServiceInstance) {
-    topicServiceInstance = require('./topic.service');
+    topicServiceInstance = require("./topic.service");
   }
   return topicServiceInstance;
 };
@@ -37,44 +37,42 @@ class PostService {
     const user = await userRepository.findById(postData.user_id);
     if (!user) {
       throw ErrorMiddleware.createError(
-        '用户不存在',
+        "用户不存在",
         StatusCodes.NOT_FOUND,
-        errorCodes.USER_NOT_EXIST
+        errorCodes.USER_NOT_EXIST,
       );
     }
-    
+
     // 检查用户是否被禁用
     if (user.is_disabled) {
       throw ErrorMiddleware.createError(
-        '账号已被禁用',
+        "账号已被禁用",
         StatusCodes.FORBIDDEN,
-        errorCodes.USER_DISABLED
+        errorCodes.USER_DISABLED,
       );
     }
-    
+
     // 检查分类是否存在（category_id为null表示"全部"分类，无需检查）
     if (postData.category_id !== null && postData.category_id !== undefined) {
-
       const category = await categoryRepository.findById(postData.category_id);
 
       if (!category) {
         throw ErrorMiddleware.createError(
-          '分类不存在',
+          "分类不存在",
           StatusCodes.NOT_FOUND,
-          errorCodes.CATEGORY_NOT_EXIST
+          errorCodes.CATEGORY_NOT_EXIST,
         );
       }
     } else {
-
     }
-    
+
     // 使用事务确保所有操作成功或全部失败
     const transaction = await postRepository.sequelize.transaction();
-    
+
     try {
       // 创建帖子
       const post = await postRepository.create(postData, { transaction });
-      
+
       // 上传帖子图片
       if (images && images.length > 0) {
         const postImages = images.map((image, index) => ({
@@ -84,12 +82,12 @@ class PostService {
           width: image.width,
           height: image.height,
           size: image.size,
-          order: index
+          order: index,
         }));
-        
+
         await postImageRepository.bulkCreate(postImages, { transaction });
       }
-      
+
       // 关联话题
       if (topicNames && topicNames.length > 0) {
         const topicService = getTopicService();
@@ -108,7 +106,7 @@ class PostService {
       }
 
       // 更新分类的帖子计数（如果有分类且状态为已发布）
-      if (postData.category_id && postData.status === 'published') {
+      if (postData.category_id && postData.status === "published") {
         await categoryRepository.incrementPostCount(postData.category_id, 1);
       }
 
@@ -132,21 +130,21 @@ class PostService {
   async getPostById(id, withDetails = false, currentUserId = null) {
     // 获取帖子数据
     const post = await postRepository.findById(id, withDetails);
-    
+
     if (!post) {
       throw ErrorMiddleware.createError(
-        '帖子不存在',
+        "帖子不存在",
         StatusCodes.NOT_FOUND,
-        errorCodes.POST_NOT_EXIST
+        errorCodes.POST_NOT_EXIST,
       );
     }
-    
+
     // 检查帖子状态
-    if (post.status === 'deleted') {
+    if (post.status === "deleted") {
       throw ErrorMiddleware.createError(
-        '帖子已删除',
+        "帖子已删除",
         StatusCodes.NOT_FOUND,
-        errorCodes.POST_DELETED
+        errorCodes.POST_DELETED,
       );
     }
 
@@ -155,7 +153,11 @@ class PostService {
 
     // 如果有当前用户ID，添加是否点赞、收藏和关注的信息
     if (currentUserId) {
-      await StatusInjectionUtil.injectSinglePostStatus(post, currentUserId, statusCacheService);
+      await StatusInjectionUtil.injectSinglePostStatus(
+        post,
+        currentUserId,
+        statusCacheService,
+      );
     }
 
     return post;
@@ -172,12 +174,12 @@ class PostService {
       if (post.author) {
         // 替换作者信息为匿名用户
         post.author.dataValues = {
-          id: 'anonymous',
-          username: '匿名用户',
-          nickname: '匿名用户',
+          id: "anonymous",
+          username: "匿名用户",
+          nickname: "匿名用户",
           avatar: null,
           school: null,
-          department: null
+          department: null,
         };
       }
     }
@@ -197,53 +199,53 @@ class PostService {
     const post = await postRepository.findById(id);
     if (!post) {
       throw ErrorMiddleware.createError(
-        '帖子不存在',
+        "帖子不存在",
         StatusCodes.NOT_FOUND,
-        errorCodes.POST_NOT_EXIST
+        errorCodes.POST_NOT_EXIST,
       );
     }
-    
+
     // 检查帖子状态
-    if (post.status === 'deleted') {
+    if (post.status === "deleted") {
       throw ErrorMiddleware.createError(
-        '帖子已删除',
+        "帖子已删除",
         StatusCodes.NOT_FOUND,
-        errorCodes.POST_DELETED
+        errorCodes.POST_DELETED,
       );
     }
-    
+
     // 检查是否有权限修改帖子
     if (post.user_id !== userId) {
       // 检查当前用户是否为管理员
       const user = await userRepository.findById(userId);
-      if (user.role !== 'admin') {
+      if (user.role !== "admin") {
         throw ErrorMiddleware.createError(
-          '无权限修改该帖子',
+          "无权限修改该帖子",
           StatusCodes.FORBIDDEN,
-          errorCodes.NO_PERMISSION
+          errorCodes.NO_PERMISSION,
         );
       }
     }
-    
+
     // 如果修改了分类，检查分类是否存在（category_id为null表示"全部"分类，无需检查）
     if (postData.category_id !== null && postData.category_id !== undefined) {
       const category = await categoryRepository.findById(postData.category_id);
       if (!category) {
         throw ErrorMiddleware.createError(
-          '分类不存在',
+          "分类不存在",
           StatusCodes.NOT_FOUND,
-          errorCodes.CATEGORY_NOT_EXIST
+          errorCodes.CATEGORY_NOT_EXIST,
         );
       }
     }
-    
+
     // 获取原帖子信息（用于比较分类变化）
     const originalPost = await postRepository.findById(id);
     if (!originalPost) {
       throw ErrorMiddleware.createError(
-        '帖子不存在',
+        "帖子不存在",
         StatusCodes.NOT_FOUND,
-        errorCodes.POST_NOT_EXIST
+        errorCodes.POST_NOT_EXIST,
       );
     }
 
@@ -253,12 +255,12 @@ class PostService {
     try {
       // 更新帖子
       await postRepository.update(id, postData, { transaction });
-      
+
       // 处理图片
       if (images !== null) {
         // 删除原有图片
         await postImageRepository.deleteByPostId(id, { transaction });
-        
+
         // 上传新图片
         if (images && images.length > 0) {
           const postImages = images.map((image, index) => ({
@@ -268,32 +270,37 @@ class PostService {
             width: image.width,
             height: image.height,
             size: image.size,
-            order: index
+            order: index,
           }));
-          
+
           await postImageRepository.bulkCreate(postImages, { transaction });
         }
       }
-      
+
       // 处理话题
       if (topicNames !== null) {
         const topicService = getTopicService();
 
         // 根据话题名称查找或创建话题，获取话题ID数组
-        const newTopicIds = topicNames && topicNames.length > 0
-          ? await topicService.findOrCreateByNames(topicNames)
-          : [];
+        const newTopicIds =
+          topicNames && topicNames.length > 0
+            ? await topicService.findOrCreateByNames(topicNames)
+            : [];
 
         // 获取原有话题
         const oldTopics = await post.getTopics();
-        const oldTopicIds = oldTopics.map(topic => topic.id);
+        const oldTopicIds = oldTopics.map((topic) => topic.id);
 
         // 设置新话题
         await post.setTopics(newTopicIds, { transaction });
 
         // 更新话题的帖子计数
-        const addedTopicIds = newTopicIds.filter(id => !oldTopicIds.includes(id));
-        const removedTopicIds = oldTopicIds.filter(id => !newTopicIds.includes(id));
+        const addedTopicIds = newTopicIds.filter(
+          (id) => !oldTopicIds.includes(id),
+        );
+        const removedTopicIds = oldTopicIds.filter(
+          (id) => !newTopicIds.includes(id),
+        );
 
         for (const topicId of addedTopicIds) {
           await topicRepository.incrementPostCount(topicId, 1, transaction);
@@ -307,12 +314,16 @@ class PostService {
       // 更新分类的帖子计数（考虑分类和状态变化）
       const oldCategoryId = originalPost.category_id;
       const oldStatus = originalPost.status;
-      const newCategoryId = postData.category_id !== undefined ? postData.category_id : oldCategoryId;
-      const newStatus = postData.status !== undefined ? postData.status : oldStatus;
+      const newCategoryId =
+        postData.category_id !== undefined
+          ? postData.category_id
+          : oldCategoryId;
+      const newStatus =
+        postData.status !== undefined ? postData.status : oldStatus;
 
       // 只有已发布状态的帖子才计入分类统计
-      const oldPublished = oldStatus === 'published';
-      const newPublished = newStatus === 'published';
+      const oldPublished = oldStatus === "published";
+      const newPublished = newStatus === "published";
 
       // 如果分类或发布状态发生了变化，更新计数
       if (oldCategoryId !== newCategoryId || oldPublished !== newPublished) {
@@ -327,7 +338,7 @@ class PostService {
       }
 
       await transaction.commit();
-      
+
       // 查询完整的帖子数据（包含关联数据）
       return await this.getPostById(id, true);
     } catch (error) {
@@ -347,21 +358,21 @@ class PostService {
     const post = await postRepository.findById(id);
     if (!post) {
       throw ErrorMiddleware.createError(
-        '帖子不存在',
+        "帖子不存在",
         StatusCodes.NOT_FOUND,
-        errorCodes.POST_NOT_EXIST
+        errorCodes.POST_NOT_EXIST,
       );
     }
-    
+
     // 检查是否有权限删除帖子
     if (post.user_id !== userId) {
       // 检查当前用户是否为管理员
       const user = await userRepository.findById(userId);
-      if (user.role !== 'admin') {
+      if (user.role !== "admin") {
         throw ErrorMiddleware.createError(
-          '无权限删除该帖子',
+          "无权限删除该帖子",
           StatusCodes.FORBIDDEN,
-          errorCodes.NO_PERMISSION
+          errorCodes.NO_PERMISSION,
         );
       }
     }
@@ -370,7 +381,7 @@ class PostService {
     const result = await postRepository.delete(id);
 
     // 更新分类的帖子计数（只有已发布的帖子才需要减少计数）
-    if (post.category_id && post.status === 'published') {
+    if (post.category_id && post.status === "published") {
       await categoryRepository.incrementPostCount(post.category_id, -1);
     }
 
@@ -387,13 +398,20 @@ class PostService {
     const posts = await postRepository.findAll(options);
     const postList = posts.list || [];
 
-    await StatusInjectionUtil.injectPostStatus(postList, currentUserId, statusCacheService);
+    await StatusInjectionUtil.injectPostStatus(
+      postList,
+      currentUserId,
+      statusCacheService,
+    );
 
     if (postList.length > 0) {
-      const postIds = postList.map(post => post.id);
+      const postIds = postList.map((post) => post.id);
       const [hotCommentsMap = {}, commentCountsMap = {}] = await Promise.all([
-        commentRepository.getHotCommentsByPostIds(postIds, POST.HOT_COMMENTS_PREVIEW_LIMIT),
-        commentRepository.countByPostIds(postIds)
+        commentRepository.getHotCommentsByPostIds(
+          postIds,
+          POST.HOT_COMMENTS_PREVIEW_LIMIT,
+        ),
+        commentRepository.countByPostIds(postIds),
       ]);
 
       for (const post of postList) {
@@ -412,10 +430,17 @@ class PostService {
    * @param {String} currentUserId 当前用户ID（可选）
    * @returns {Promise<Array>} 帖子列表
    */
-  async getHotPosts(limit = POST.DEFAULT_HOT_POSTS_LIMIT, currentUserId = null) {
+  async getHotPosts(
+    limit = POST.DEFAULT_HOT_POSTS_LIMIT,
+    currentUserId = null,
+  ) {
     const posts = await postRepository.findHotPosts(limit);
 
-    await StatusInjectionUtil.injectPostStatus(posts, currentUserId, statusCacheService);
+    await StatusInjectionUtil.injectPostStatus(
+      posts,
+      currentUserId,
+      statusCacheService,
+    );
 
     return posts;
   }
@@ -438,18 +463,49 @@ class PostService {
    * @param {String} sort 排序方式：latest, hot, most_liked
    * @returns {Promise<Object>} 分页结果
    */
-  async getPostComments(postId, page = 1, pageSize = POST.DEFAULT_COMMENTS_PAGE_SIZE, currentUserId = null, sort = 'latest') {
+  async getPostComments(
+    postId,
+    page = 1,
+    pageSize = POST.DEFAULT_COMMENTS_PAGE_SIZE,
+    currentUserId = null,
+    sort = "latest",
+  ) {
     // 检查帖子是否存在
     const post = await postRepository.findById(postId);
     if (!post) {
       throw ErrorMiddleware.createError(
-        '帖子不存在',
+        "帖子不存在",
         StatusCodes.NOT_FOUND,
-        errorCodes.POST_NOT_EXIST
+        errorCodes.POST_NOT_EXIST,
       );
     }
-    
-    const comments = await postRepository.getComments(postId, page, pageSize, sort);
+
+    const comments = await postRepository.getComments(
+      postId,
+      page,
+      pageSize,
+      sort,
+    );
+
+    // 批量收集所有评论和回复的ID，用于一次性查询点赞状态
+    let likeStates = {};
+    if (currentUserId) {
+      const allCommentIds = [];
+      for (const comment of comments.list) {
+        allCommentIds.push(comment.id);
+        if (comment.replies && comment.replies.length > 0) {
+          for (const reply of comment.replies) {
+            allCommentIds.push(reply.id);
+          }
+        }
+      }
+      if (allCommentIds.length > 0) {
+        likeStates = await commentRepository.getLikeStatesForUser(
+          currentUserId,
+          allCommentIds,
+        );
+      }
+    }
 
     // 处理匿名显示和点赞信息
     for (const comment of comments.list) {
@@ -457,18 +513,18 @@ class PostService {
       if (comment.is_anonymous && comment.user_id !== currentUserId) {
         if (comment.author) {
           comment.author.dataValues = {
-            id: 'anonymous',
-            username: '匿名用户',
-            nickname: '匿名用户',
-            avatar: null  // 让前端处理默认头像
+            id: "anonymous",
+            username: "匿名用户",
+            nickname: "匿名用户",
+            avatar: null, // 让前端处理默认头像
           };
         }
       }
 
-      // 添加是否点赞的信息
-      if (currentUserId) {
-        comment.dataValues.is_liked = await commentRepository.isLikedByUser(comment.id, currentUserId);
-      }
+      // 添加是否点赞的信息（从批量查询结果中获取）
+      comment.dataValues.is_liked = currentUserId
+        ? Boolean(likeStates[comment.id])
+        : false;
 
       // 处理回复
       if (comment.replies && comment.replies.length > 0) {
@@ -477,18 +533,18 @@ class PostService {
           if (reply.is_anonymous && reply.user_id !== currentUserId) {
             if (reply.author) {
               reply.author.dataValues = {
-                id: 'anonymous',
-                username: '匿名用户',
-                nickname: '匿名用户',
-                avatar: null  // 让前端处理默认头像
+                id: "anonymous",
+                username: "匿名用户",
+                nickname: "匿名用户",
+                avatar: null, // 让前端处理默认头像
               };
             }
           }
 
-          // 添加回复的点赞信息
-          if (currentUserId) {
-            reply.dataValues.is_liked = await commentRepository.isLikedByUser(reply.id, currentUserId);
-          }
+          // 添加回复的点赞信息（从批量查询结果中获取）
+          reply.dataValues.is_liked = currentUserId
+            ? Boolean(likeStates[reply.id])
+            : false;
         }
       }
     }
@@ -503,17 +559,30 @@ class PostService {
    * @param {String} currentUserId 当前用户ID（可选）
    * @returns {Promise<Object>} 评论列表和总数
    */
-  async getPostHotComments(postId, limit = POST.DEFAULT_HOT_COMMENTS_LIMIT, currentUserId = null) {
+  async getPostHotComments(
+    postId,
+    limit = POST.DEFAULT_HOT_COMMENTS_LIMIT,
+    currentUserId = null,
+  ) {
     // 获取热门评论（按点赞数降序）
-    const comments = await postRepository.getComments(postId, 1, limit, 'most_liked');
+    const comments = await postRepository.getComments(
+      postId,
+      1,
+      limit,
+      "most_liked",
+    );
 
     let likeStates = {};
     if (currentUserId) {
       const commentIdSet = new Set();
       const commentIds = [];
 
-      const collectIds = commentItem => {
-        if (!commentItem || !commentItem.id || commentIdSet.has(commentItem.id)) {
+      const collectIds = (commentItem) => {
+        if (
+          !commentItem ||
+          !commentItem.id ||
+          commentIdSet.has(commentItem.id)
+        ) {
           return;
         }
         commentIdSet.add(commentItem.id);
@@ -527,7 +596,10 @@ class PostService {
       comments.list.forEach(collectIds);
 
       if (commentIds.length > 0) {
-        likeStates = await commentRepository.getLikeStatesForUser(currentUserId, commentIds);
+        likeStates = await commentRepository.getLikeStatesForUser(
+          currentUserId,
+          commentIds,
+        );
       }
     }
 
@@ -537,10 +609,10 @@ class PostService {
       if (comment.is_anonymous && comment.user_id !== currentUserId) {
         if (comment.author) {
           comment.author.dataValues = {
-            id: 'anonymous',
-            username: '匿名用户',
-            nickname: '匿名用户',
-            avatar: null  // 让前端处理默认头像
+            id: "anonymous",
+            username: "匿名用户",
+            nickname: "匿名用户",
+            avatar: null, // 让前端处理默认头像
           };
         }
       }
@@ -552,8 +624,11 @@ class PostService {
 
       // 修复问题昵称（仅对非匿名评论）
       if (!comment.is_anonymous || comment.user_id === currentUserId) {
-        if (comment.author && (comment.author.nickname === '????' || !comment.author.nickname)) {
-          comment.author.nickname = comment.author.username || '匿名用户';
+        if (
+          comment.author &&
+          (comment.author.nickname === "????" || !comment.author.nickname)
+        ) {
+          comment.author.nickname = comment.author.username || "匿名用户";
         }
       }
 
@@ -573,7 +648,7 @@ class PostService {
 
     return {
       list: comments.list,
-      total: totalComments
+      total: totalComments,
     };
   }
 
@@ -587,57 +662,58 @@ class PostService {
     const post = await postRepository.findById(postId);
     if (!post) {
       throw ErrorMiddleware.createError(
-        '帖子不存在',
+        "帖子不存在",
         StatusCodes.NOT_FOUND,
-        errorCodes.POST_NOT_EXIST
+        errorCodes.POST_NOT_EXIST,
       );
     }
 
-    const { Comment, User } = require('../models');
-    const { Sequelize } = require('sequelize');
+    const { Comment, User } = require("../models");
+    const { Sequelize } = require("sequelize");
 
     // 获取总评论数
     const totalComments = await Comment.count({
-      where: { 
+      where: {
         post_id: postId,
-        status: 'approved'
-      }
+        status: "approved",
+      },
     });
 
     // 获取参与评论的用户数（去重）
     const participantCount = await Comment.count({
-      where: { 
+      where: {
         post_id: postId,
-        status: 'approved'
+        status: "approved",
       },
       distinct: true,
-      col: 'user_id'
+      col: "user_id",
     });
 
     // 获取总点赞数
-    const totalLikes = await Comment.sum('like_count', {
-      where: { 
-        post_id: postId,
-        status: 'approved'
-      }
-    }) || 0;
+    const totalLikes =
+      (await Comment.sum("like_count", {
+        where: {
+          post_id: postId,
+          status: "approved",
+        },
+      })) || 0;
 
     // 获取热门评论数（点赞数 >= POST.HOT_COMMENT_LIKE_THRESHOLD）
     const hotCommentCount = await Comment.count({
-      where: { 
+      where: {
         post_id: postId,
-        status: 'approved',
+        status: "approved",
         like_count: {
-          [Sequelize.Op.gte]: POST.HOT_COMMENT_LIKE_THRESHOLD
-        }
-      }
+          [Sequelize.Op.gte]: POST.HOT_COMMENT_LIKE_THRESHOLD,
+        },
+      },
     });
 
     return {
       totalComments,
       participantCount,
       totalLikes,
-      hotCommentCount
+      hotCommentCount,
     };
   }
 
@@ -652,12 +728,12 @@ class PostService {
     const post = await postRepository.findById(id);
     if (!post) {
       throw ErrorMiddleware.createError(
-        '帖子不存在',
+        "帖子不存在",
         StatusCodes.NOT_FOUND,
-        errorCodes.POST_NOT_EXIST
+        errorCodes.POST_NOT_EXIST,
       );
     }
-    
+
     return await postRepository.setTopStatus(id, isTop);
   }
 
@@ -673,31 +749,35 @@ class PostService {
     const user = await userRepository.findById(userId);
     if (!user) {
       throw ErrorMiddleware.createError(
-        '用户不存在',
+        "用户不存在",
         StatusCodes.NOT_FOUND,
-        errorCodes.USER_NOT_EXIST
+        errorCodes.USER_NOT_EXIST,
       );
     }
-    
+
     const options = {
       page,
       pageSize,
       favoriteUserId: userId,
-      includeDetails: true
+      includeDetails: true,
     };
-    
+
     const posts = await postRepository.findAll(options);
-    
+
     // 批量添加是否点赞的信息（收藏状态已知为true）
     if (posts.list.length > 0) {
-      await StatusInjectionUtil.injectPostStatus(posts.list, userId, statusCacheService);
-      posts.list.forEach(post => {
+      await StatusInjectionUtil.injectPostStatus(
+        posts.list,
+        userId,
+        statusCacheService,
+      );
+      posts.list.forEach((post) => {
         post.dataValues.is_favorited = true;
         post.is_favorited = true;
         post.isFavorited = true;
       });
     }
-    
+
     return posts;
   }
 
@@ -714,42 +794,42 @@ class PostService {
       userId,
       page,
       pageSize,
-      orderBy: 'created_at',
-      orderDirection: 'DESC',
-      includeDetails: true
+      orderBy: "created_at",
+      orderDirection: "DESC",
+      includeDetails: true,
     };
 
     // 根据审核状态筛选
     if (auditStatus) {
-      if (auditStatus === 'pending') {
-        queryOptions.status = 'pending';
-      } else if (auditStatus === 'rejected') {
-        queryOptions.status = 'rejected';
+      if (auditStatus === "pending") {
+        queryOptions.status = "pending";
+      } else if (auditStatus === "rejected") {
+        queryOptions.status = "rejected";
       }
     } else {
       // 默认只显示待审核和被拒绝的帖子，已通过的没必要显示
-      queryOptions.status = ['pending', 'rejected'];
+      queryOptions.status = ["pending", "rejected"];
     }
 
     const result = await postRepository.findAll(queryOptions);
 
     // 处理帖子数据，添加审核状态描述
-    const processedPosts = result.list.map(post => {
+    const processedPosts = result.list.map((post) => {
       const postData = post.toJSON();
 
       // 添加审核状态描述
       switch (postData.status) {
-        case 'pending':
-          postData.auditStatusText = '待审核';
-          postData.auditStatusColor = '#FF9500';
+        case "pending":
+          postData.auditStatusText = "待审核";
+          postData.auditStatusColor = "#FF9500";
           break;
-        case 'rejected':
-          postData.auditStatusText = '审核未通过';
-          postData.auditStatusColor = '#FF3B30';
+        case "rejected":
+          postData.auditStatusText = "审核未通过";
+          postData.auditStatusColor = "#FF3B30";
           break;
         default:
-          postData.auditStatusText = '未知状态';
-          postData.auditStatusColor = '#8E8E93';
+          postData.auditStatusText = "未知状态";
+          postData.auditStatusColor = "#8E8E93";
       }
 
       return postData;
@@ -757,7 +837,7 @@ class PostService {
 
     return {
       list: processedPosts,
-      pagination: result.pagination
+      pagination: result.pagination,
     };
   }
 
