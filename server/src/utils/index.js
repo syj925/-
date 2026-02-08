@@ -8,6 +8,7 @@ const DateUtil = require('./date');
 const redisClient = require('./redis-client');
 const Validator = require('./validators');
 const WebSocketService = require('./websocket');
+const SanitizeUtil = require('./sanitize.util');
 
 module.exports = {
   ResponseUtil,
@@ -16,5 +17,6 @@ module.exports = {
   DateUtil,
   redisClient,
   Validator,
-  WebSocketService
+  WebSocketService,
+  SanitizeUtil
 };

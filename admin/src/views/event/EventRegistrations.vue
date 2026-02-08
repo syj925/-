@@ -406,10 +406,12 @@ import * as XLSX from 'xlsx'; // 需要安装: npm install xlsx
 import api from '../../utils/api.js';
 import { formatId } from '../../utils/format.js';
 import axios from 'axios';
+import { useUserStore } from '@/stores/user';
 
 // 路由信息
 const route = useRoute();
 const router = useRouter();
+const userStore = useUserStore();
 const eventId = ref('');
 const eventTitle = ref('');
 
@@ -835,7 +837,7 @@ const exportToExcel = async () => {
       .map(field => field.key);
     
     // 获取Excel文件
-    const token = localStorage.getItem('admin_token');
+    const token = userStore.token;
     const response = await axios({
       method: 'get',
       url: `http://localhost:3000/api/admin/events/${eventId.value}/registrations/export`,

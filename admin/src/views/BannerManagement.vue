@@ -418,6 +418,7 @@ import { Plus, Refresh, Link, InfoFilled, Document, ChatDotRound, Calendar, File
 import api from '@/utils/api'
 import { formatDate, formatImageUrl } from '@/utils/format'
 import { SERVER_BASE_URL } from '@/config'
+import { useUserStore } from '@/stores/user'
 
 export default {
   name: 'BannerManagement',
@@ -426,6 +427,7 @@ export default {
     Refresh
   },
   setup() {
+    const userStore = useUserStore();
     // 响应式数据
     const loading = ref(false)
     const banners = ref([])
@@ -498,7 +500,7 @@ export default {
     // 上传配置
     const uploadUrl = computed(() => `${SERVER_BASE_URL}/api/upload/banner`)
     const uploadHeaders = computed(() => ({
-      'Authorization': `Bearer ${localStorage.getItem('admin_token')}`
+      'Authorization': `Bearer ${userStore.token}`
     }))
 
     // 方法

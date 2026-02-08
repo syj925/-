@@ -11,6 +11,7 @@ const { ErrorMiddleware } = require("../middlewares");
 const errorCodes = require("../constants/error-codes");
 const logger = require("../../config/logger");
 const StatusInjectionUtil = require("../utils/status-injection.util");
+const SanitizeUtil = require("../utils/sanitize.util");
 const { POST, RECOMMENDATION } = require("../constants/service-constants");
 
 let topicServiceInstance = null;
@@ -33,6 +34,10 @@ class PostService {
    * @returns {Promise<Object>} 创建的帖子对象
    */
   async createPost(postData, images = [], topicNames = []) {
+    postData.content = SanitizeUtil.sanitizeHtml(postData.content);
+    if (postData.title) {
+      postData.title = SanitizeUtil.sanitizeHtml(postData.title);
+    }
     // 检查用户是否存在
     const user = await userRepository.findById(postData.user_id);
     if (!user) {

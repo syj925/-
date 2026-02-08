@@ -85,10 +85,23 @@ class ErrorMiddleware {
 
       // 记录错误日志（生产环境不记录404错误）
       if (statusCode === StatusCodes.INTERNAL_SERVER_ERROR || process.env.NODE_ENV !== 'production') {
+        const sensitiveFields = ['password', 'oldPassword', 'newPassword', 'confirmPassword', 'token', 'secret'];
+
+        const redactSensitive = (obj) => {
+          if (!obj || typeof obj !== 'object') return obj;
+          const redacted = { ...obj };
+          for (const field of sensitiveFields) {
+            if (field in redacted) {
+              redacted[field] = '[REDACTED]';
+            }
+          }
+          return redacted;
+        };
+
         logger.error(`[${req.method}] ${req.originalUrl}`, {
           error: err.message,
           stack: err.stack,
-          body: req.body,
+          body: redactSensitive(req.body),
           params: req.params,
           query: req.query
         });

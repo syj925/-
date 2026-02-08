@@ -85,46 +85,53 @@ class AdminRecommendationController {
         );
       }
 
-      // 更新设置
-      const settingsToUpdate = {};
-      
-      // 🎯 基础权重设置
-      if (likeWeight !== undefined) settingsToUpdate.likeWeight = likeWeight;
-      if (commentWeight !== undefined) settingsToUpdate.commentWeight = commentWeight;
-      if (collectionWeight !== undefined) settingsToUpdate.collectionWeight = collectionWeight;
-      if (viewWeight !== undefined) settingsToUpdate.viewWeight = viewWeight;
-      if (timeDecayDays !== undefined) settingsToUpdate.timeDecayDays = timeDecayDays;
-      if (maxAgeDays !== undefined) settingsToUpdate.maxAgeDays = maxAgeDays;
-      
-      // 🎛️ 推荐策略设置
-      if (scoreThreshold !== undefined) settingsToUpdate.scoreThreshold = scoreThreshold;
-      if (maxAdminRecommended !== undefined) settingsToUpdate.maxAdminRecommended = maxAdminRecommended;
-      if (enableScoreSort !== undefined) settingsToUpdate.enableScoreSort = enableScoreSort;
-      if (minInteractionScore !== undefined) settingsToUpdate.minInteractionScore = minInteractionScore;
-      if (strategy !== undefined) settingsToUpdate.strategy = strategy;
-      
-      // 🎨 质量评估设置 (v2.0新增)
-      if (newPostBonus !== undefined) settingsToUpdate.newPostBonus = newPostBonus;
-      if (imageBonus !== undefined) settingsToUpdate.imageBonus = imageBonus;
-      if (contentBonus !== undefined) settingsToUpdate.contentBonus = contentBonus;
-      if (topicBonus !== undefined) settingsToUpdate.topicBonus = topicBonus;
-      if (engagementFactor !== undefined) settingsToUpdate.engagementFactor = engagementFactor;
-      
-      // 🔄 多样性控制设置 (v2.0新增)
-      if (maxSameAuthorRatio !== undefined) settingsToUpdate.maxSameAuthorRatio = maxSameAuthorRatio;
-      if (diversityPeriodHours !== undefined) settingsToUpdate.diversityPeriodHours = diversityPeriodHours;
-      
-      // ⏰ 更新频率设置
-      if (updateIntervalHours !== undefined) settingsToUpdate.updateIntervalHours = updateIntervalHours;
-      
-      // 🏪 缓存设置
-      if (enableCache !== undefined) settingsToUpdate.enableCache = enableCache;
-      if (cacheExpireMinutes !== undefined) settingsToUpdate.cacheExpireMinutes = cacheExpireMinutes;
-      
-      // 🔍 搜索页推荐设置
-      if (searchPageRecommendCount !== undefined) settingsToUpdate.searchPageRecommendCount = searchPageRecommendCount;
-      if (enableSearchPageRecommend !== undefined) settingsToUpdate.enableSearchPageRecommend = enableSearchPageRecommend;
-      if (searchRecommendTypes !== undefined) settingsToUpdate.searchRecommendTypes = JSON.stringify(searchRecommendTypes);
+       // 更新设置
+       const settingsToUpdate = {};
+       
+       /**
+        * 从源对象中提取已定义的字段到目标对象
+        * @param {Object} source - 源对象 (如 req.body)
+        * @param {Object} target - 目标对象
+        * @param {string[]} fields - 要提取的字段名数组
+        */
+       const extractDefinedFields = (source, target, fields) => {
+         for (const field of fields) {
+           if (source[field] !== undefined) {
+             target[field] = source[field];
+           }
+         }
+       };
+
+       const settingsFields = [
+         'likeWeight',
+         'commentWeight',
+         'collectionWeight',
+         'viewWeight',
+         'timeDecayDays',
+         'maxAgeDays',
+         'scoreThreshold',
+         'maxAdminRecommended',
+         'enableScoreSort',
+         'minInteractionScore',
+         'strategy',
+         'newPostBonus',
+         'imageBonus',
+         'contentBonus',
+         'topicBonus',
+         'engagementFactor',
+         'maxSameAuthorRatio',
+         'diversityPeriodHours',
+         'updateIntervalHours',
+         'enableCache',
+         'cacheExpireMinutes',
+         'searchPageRecommendCount',
+         'enableSearchPageRecommend'
+       ];
+
+       extractDefinedFields(req.body, settingsToUpdate, settingsFields);
+
+       // Special handling for searchRecommendTypes
+       if (searchRecommendTypes !== undefined) settingsToUpdate.searchRecommendTypes = JSON.stringify(searchRecommendTypes);
 
       await settingService.setMultipleSettings(settingsToUpdate);
 

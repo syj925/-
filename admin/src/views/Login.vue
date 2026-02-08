@@ -46,8 +46,10 @@ import { ref, reactive, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { ElMessage } from 'element-plus';
 import api from '@/utils/api';
+import { useUserStore } from '@/stores/user';
 
 const router = useRouter();
+const userStore = useUserStore();
 
 // 表单引用
 const loginFormRef = ref(null);
@@ -74,7 +76,7 @@ const loginRules = reactive({
 
 // 如果已登录则跳转到首页
 onMounted(() => {
-  if (localStorage.getItem('admin_token')) {
+  if (userStore.isAuthenticated) {
     router.push({ path: '/' });
   }
 });
@@ -92,8 +94,7 @@ const handleLogin = () => {
 
       if (res.success) {
         // 保存token和用户信息
-        localStorage.setItem('admin_token', res.data.token);
-        localStorage.setItem('admin_user', JSON.stringify(res.data.user));
+        userStore.setAuth(res.data.token, res.data.user);
 
         ElMessage({
           message: '登录成功',

@@ -149,6 +149,7 @@
 import { ref, computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { ElMessage } from 'element-plus';
+import { useUserStore } from '@/stores/user';
 import { 
   Odometer, User, Document, Collection, 
   TrendCharts, Setting, List, Fold, Expand,
@@ -158,6 +159,7 @@ import {
 
 const route = useRoute();
 const router = useRouter();
+const userStore = useUserStore();
 
 // 侧边栏折叠状态
 const isCollapse = ref(false);
@@ -198,8 +200,7 @@ const breadcrumbs = computed(() => {
 const handleCommand = (command) => {
   if (command === 'logout') {
     // 清除登录状态
-    localStorage.removeItem('admin_token');
-    // 可选：如果不想清除"记住我"的信息，可以保留 admin_saved_login
+    userStore.logout();
     
     // 显示退出成功提示
     ElMessage.success('退出登录成功');

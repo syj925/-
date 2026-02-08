@@ -336,6 +336,7 @@ import { Plus, Picture } from '@element-plus/icons-vue';
 import api from '../../utils/api';
 import SeoSettings from '../../components/SeoSettings.vue';
 import ReviewConfig from '../../components/ReviewConfig.vue';
+import { useUserStore } from '@/stores/user';
 
 // 格式化日期
 const formatDate = (dateString) => {
@@ -396,7 +397,7 @@ const rules = {
 
 // 上传配置
 const uploadHeaders = computed(() => {
-  const token = localStorage.getItem('admin_token');
+  const token = userStore.token;
   return {
     Authorization: token ? `Bearer ${token}` : ''
   };

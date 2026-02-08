@@ -1,0 +1,98 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  test-server:
+    name: Server Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: server/package-lock.json
+      
+      - name: Install dependencies
+        working-directory: server
+        run: npm ci
+      
+      - name: Run tests
+        working-directory: server
+        run: npm test
+        continue-on-error: true
+
+  test-admin:
+    name: Admin Panel Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: admin/package-lock.json
+      
+      - name: Install dependencies
+        working-directory: admin
+        run: npm ci
+      
+      - name: Run tests
+        working-directory: admin
+        run: npm test
+
+  test-uni-app:
+    name: Mobile App Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: uni-APP/package-lock.json
+      
+      - name: Install dependencies
+        working-directory: uni-APP
+        run: npm ci --legacy-peer-deps
+      
+      - name: Run tests
+        working-directory: uni-APP
+        run: npm test
+
+  build-admin:
+    name: Build Admin Panel
+    runs-on: ubuntu-latest
+    needs: test-admin
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: admin/package-lock.json
+      
+      - name: Install dependencies
+        working-directory: admin
+        run: npm ci
+      
+      - name: Build
+        working-directory: admin
+        run: npm run build

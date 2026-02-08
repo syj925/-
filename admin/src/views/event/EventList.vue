@@ -341,6 +341,7 @@ import { Plus, Delete } from '@element-plus/icons-vue';
 import api from '../../utils/api.js';
 import { formatDate as formatDateTime, formatId } from '../../utils/format';
 import { useRouter } from 'vue-router';
+import { useUserStore } from '@/stores/user';
 // 暂时注释掉API配置，先让基本功能工作
 // import {
 //   isApiSuccess,
@@ -355,6 +356,7 @@ import { useRouter } from 'vue-router';
 
 // 获取router实例
 const router = useRouter();
+const userStore = useUserStore();
 
 // 列表数据
 const loading = ref(false);
@@ -786,7 +788,7 @@ const beforeUpload = (file) => {
 
 // 获取上传请求头
 const getUploadHeaders = () => {
-  const token = localStorage.getItem('admin_token');
+  const token = userStore.token;
   return token ? { 'Authorization': `Bearer ${token}` } : {};
 };
 

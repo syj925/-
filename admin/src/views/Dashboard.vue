@@ -22,53 +22,33 @@
     <el-row :gutter="20">
       <!-- 数据卡片 -->
       <el-col :xs="12" :sm="12" :md="6" :lg="6" :xl="6" v-for="card in dataCards" :key="card.title">
-        <el-card class="data-card" shadow="hover" :body-style="{ padding: '20px' }">
-          <div class="card-content">
-            <div class="card-icon" :style="{ backgroundColor: card.color }">
-              <el-icon><component :is="card.icon" /></el-icon>
-        </div>
-            <div class="card-info">
-              <div class="card-title">{{ card.title }}</div>
-              <div class="card-value">{{ card.value }}</div>
-              <div class="card-today">今日 +{{ card.today }}</div>
-        </div>
-          </div>
-        </el-card>
+        <StatsCard
+          :title="card.title"
+          :value="card.value"
+          :today="card.today"
+          :icon="card.icon"
+          :color="card.color"
+        />
       </el-col>
     </el-row>
 
     <el-row :gutter="20" class="chart-row">
       <!-- 数据趋势图 -->
       <el-col :span="16">
-        <el-card class="chart-card" shadow="hover">
-          <template #header>
-            <div class="card-header">
-              <span>数据趋势</span>
-              <el-radio-group v-model="chartPeriod" size="small">
-                <el-radio-button value="day">日</el-radio-button>
-                <el-radio-button value="week">周</el-radio-button>
-                <el-radio-button value="month">月</el-radio-button>
-              </el-radio-group>
-        </div>
+        <ChartPanel title="数据趋势" :options="mainChartOptions" :loading="loading.trend">
+          <template #header-action>
+            <el-radio-group v-model="chartPeriod" size="small">
+              <el-radio-button value="day">日</el-radio-button>
+              <el-radio-button value="week">周</el-radio-button>
+              <el-radio-button value="month">月</el-radio-button>
+            </el-radio-group>
           </template>
-          <div class="chart-container">
-            <div ref="mainChart" class="chart"></div>
-          </div>
-        </el-card>
+        </ChartPanel>
       </el-col>
 
       <!-- 人员分布饼图 -->
       <el-col :span="8">
-        <el-card class="chart-card" shadow="hover">
-          <template #header>
-            <div class="card-header">
-              <span>用户分布</span>
-        </div>
-          </template>
-          <div class="chart-container">
-            <div ref="pieChart" class="chart"></div>
-          </div>
-        </el-card>
+        <ChartPanel title="用户分布" :options="pieChartOptions" :loading="loading.distribution" />
       </el-col>
     </el-row>
 
@@ -80,7 +60,7 @@
             <div class="card-header">
               <span>活跃用户排行</span>
               <el-button link @click="refreshActiveUsers">刷新</el-button>
-        </div>
+            </div>
           </template>
           <el-table :data="activeUsers" style="width: 100%" v-loading="loading.users">
             <el-table-column label="用户信息" min-width="200">
@@ -90,8 +70,8 @@
                   <div class="user-detail">
                     <div class="user-name">{{ row.nickname || row.username }}</div>
                     <div class="user-id">ID: {{ row.id }}</div>
-          </div>
-        </div>
+                  </div>
+                </div>
               </template>
             </el-table-column>
             <el-table-column prop="posts" label="发帖数" width="80"></el-table-column>
@@ -161,520 +141,428 @@
   </div>
 </template>
 
-<script>
-import { ref, reactive, onMounted, onUnmounted, computed, watch } from 'vue';
-import * as echarts from 'echarts';
+<script setup>
+import { ref, reactive, onMounted, computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import api from '@/utils/api';
 import { ElMessage } from 'element-plus';
 import { User, Document, ChatDotRound, Collection, Connection } from '@element-plus/icons-vue';
-import adminWebSocket from '@/utils/websocket';
+import StatsCard from '@/components/dashboard/StatsCard.vue';
+import ChartPanel from '@/components/dashboard/ChartPanel.vue';
+import { useWebSocket } from '@/composables/useWebSocket';
 
-export default {
-  name: 'Dashboard',
-  components: {
-    User, Document, ChatDotRound, Collection, Connection
+const router = useRouter();
+const { onlineCount } = useWebSocket();
+
+// 仪表盘数据
+const dashboardData = reactive({
+  userCount: 0,
+  postCount: 0,
+  commentCount: 0,
+  topicCount: 0,
+  newUserCount: 0,
+  newPostCount: 0,
+  newCommentCount: 0,
+  newTopicCount: 0,
+  pendingStats: {
+    posts: 0,
+    comments: 0,
+    users: 0
   },
-  setup() {
-    const router = useRouter();
-    const mainChart = ref(null);
-    const pieChart = ref(null);
-    let mainChartInstance = null;
-    let pieChartInstance = null;
+  // 在线统计数据
+  onlineCount: 0,
+  onlineRate: 0,
+  isPeakTime: false,
+  serverUptime: 0,
+  activeUsers: [],
+  hotPosts: [],
+  hotTags: []
+});
 
-    // 仪表盘数据
-    const dashboardData = reactive({
-      userCount: 0,
-      postCount: 0,
-      commentCount: 0,
-      topicCount: 0,
-      newUserCount: 0,
-      newPostCount: 0,
-      newCommentCount: 0,
-      newTopicCount: 0,
-      pendingStats: {
-        posts: 0,
-        comments: 0,
-        users: 0
-      },
-      // 在线统计数据
-      onlineCount: 0,
-      onlineRate: 0,
-      isPeakTime: false,
-      serverUptime: 0,
-      activeUsers: [],
-      hotPosts: [],
-      hotTags: []
-    });
+// 加载状态
+const loading = reactive({
+  dashboard: true,
+  users: false,
+  posts: false,
+  trend: false,
+  distribution: false
+});
 
-    // 加载状态
-    const loading = reactive({
-      dashboard: true,
-      users: false,
-      posts: false
-    });
+// 图表时间周期
+const chartPeriod = ref('week');
+const mainChartOptions = ref({});
+const pieChartOptions = ref({});
 
-    // 图表时间周期
-    const chartPeriod = ref('week');
+// 计算属性：待审核卡片
+const pendingCards = computed(() => [
+  {
+    title: '待审核帖子',
+    value: dashboardData.pendingStats?.posts || 0,
+    icon: Document,
+    color: '#F56C6C', // Danger
+    path: '/content/audit?type=posts'
+  },
+  {
+    title: '待审核评论',
+    value: dashboardData.pendingStats?.comments || 0,
+    icon: ChatDotRound,
+    color: '#E6A23C', // Warning
+    path: '/content/audit?type=comments'
+  },
+  {
+    title: '待审核用户',
+    value: dashboardData.pendingStats?.users || 0,
+    icon: User,
+    color: '#409EFF', // Primary
+    path: '/user/audit'
+  }
+]);
 
-    // 计算属性：待审核卡片
-    const pendingCards = computed(() => [
-      {
-        title: '待审核帖子',
-        value: dashboardData.pendingStats?.posts || 0,
-        icon: Document,
-        color: '#F56C6C', // Danger
-        path: '/content/audit?type=posts'
-      },
-      {
-        title: '待审核评论',
-        value: dashboardData.pendingStats?.comments || 0,
-        icon: ChatDotRound,
-        color: '#E6A23C', // Warning
-        path: '/content/audit?type=comments'
-      },
-      {
-        title: '待审核用户',
-        value: dashboardData.pendingStats?.users || 0,
-        icon: User,
-        color: '#409EFF', // Primary
-        path: '/user/audit'
-      }
-    ]);
+// 计算属性：数据卡片
+const dataCards = computed(() => [
+  {
+    title: '用户总数',
+    value: dashboardData.userCount.toLocaleString(),
+    today: dashboardData.newUserCount,
+    icon: User,
+    color: '#409EFF'
+  },
+  {
+    title: '帖子总数',
+    value: dashboardData.postCount.toLocaleString(),
+    today: dashboardData.newPostCount,
+    icon: Document,
+    color: '#67C23A'
+  },
+  {
+    title: '评论总数',
+    value: dashboardData.commentCount.toLocaleString(),
+    today: dashboardData.newCommentCount,
+    icon: ChatDotRound,
+    color: '#E6A23C'
+  },
+  {
+    title: '在线人数',
+    value: onlineCount.value || dashboardData.onlineCount.toLocaleString(),
+    today: `${dashboardData.onlineRate}% 在线率`,
+    icon: Connection,
+    color: '#9C27B0'
+  },
+  {
+    title: '话题数量',
+    value: dashboardData.topicCount.toLocaleString(),
+    today: dashboardData.newTopicCount,
+    icon: Collection,
+    color: '#F56C6C'
+  }
+]);
 
-    // 计算属性：数据卡片
-    const dataCards = computed(() => [
-      {
-        title: '用户总数',
-        value: dashboardData.userCount.toLocaleString(),
-        today: dashboardData.newUserCount,
-        icon: User,
-        color: '#409EFF'
-      },
-      {
-        title: '帖子总数',
-        value: dashboardData.postCount.toLocaleString(),
-        today: dashboardData.newPostCount,
-        icon: Document,
-        color: '#67C23A'
-      },
-      {
-        title: '评论总数',
-        value: dashboardData.commentCount.toLocaleString(),
-        today: dashboardData.newCommentCount,
-        icon: ChatDotRound,
-        color: '#E6A23C'
-      },
-      {
-        title: '在线人数',
-        value: dashboardData.onlineCount.toLocaleString(),
-        today: `${dashboardData.onlineRate}% 在线率`,
-        icon: Connection,
-        color: '#9C27B0'
-      },
-      {
-        title: '话题数量',
-        value: dashboardData.topicCount.toLocaleString(),
-        today: dashboardData.newTopicCount,
-        icon: Collection,
-        color: '#F56C6C'
-      }
-    ]);
+// 获取活跃用户数据
+const activeUsers = computed(() => dashboardData.activeUsers);
 
-    // 获取活跃用户数据
-    const activeUsers = computed(() => dashboardData.activeUsers);
-    
-    // 获取热门帖子数据
-    const hotPosts = computed(() => dashboardData.hotPosts);
+// 获取热门帖子数据
+const hotPosts = computed(() => dashboardData.hotPosts);
 
-    // 获取在线统计数据
-    const getOnlineStats = async () => {
-      try {
-        const res = await api.dashboard.getOnlineStats();
-        if (res.success) {
-          // 更新在线统计数据
-          dashboardData.onlineCount = res.data.onlineCount || 0;
-          dashboardData.onlineRate = res.data.onlineRate || 0;
-          dashboardData.isPeakTime = res.data.isPeakTime || false;
-          dashboardData.serverUptime = res.data.serverUptime || 0;
-        }
-      } catch (error) {
-        console.warn('获取在线统计失败，使用默认值:', error);
-        // 如果API失败，设置默认值
-        dashboardData.onlineCount = 0;
-        dashboardData.onlineRate = 0;
-        dashboardData.isPeakTime = false;
-      }
-    };
+const hotTags = computed(() => dashboardData.hotTags);
 
-    // 初始化数据
-    const initData = async () => {
-      loading.dashboard = true;
-      try {
-        // 并行获取基础数据和在线统计
-        const [dashboardRes] = await Promise.allSettled([
-          api.dashboard.getData(),
-          getOnlineStats()
-        ]);
-        
-        if (dashboardRes.status === 'fulfilled' && dashboardRes.value.success) {
-          Object.assign(dashboardData, dashboardRes.value.data);
-          return dashboardRes.value.data;
-        } else {
-          ElMessage.error(dashboardRes.value?.message || '获取仪表盘数据失败');
-          return null;
-        }
-      } catch (error) {
-        console.error('获取仪表盘数据错误:', error);
-        ElMessage.error(error.message || '获取仪表盘数据失败，请稍后再试');
-        return null;
-      } finally {
-        loading.dashboard = false;
-      }
-    };
-    
-    // 获取趋势数据
-    const getTrendData = async (period = 'week') => {
-      try {
-        // 尝试调用真实API端点
-        try {
-          const res = await api.dashboard.getTrendData(period);
-          if (res.success) {
-            return res.data;
-          }
-        } catch (error) {
-          console.warn('趋势数据API未实现，使用模拟数据', error);
-        }
-        
-        // 如果API未实现，返回模拟数据
-        return {
-          users: [10, 15, 12, 18, 25, 20, 30],
-          posts: [22, 18, 30, 45, 40, 35, 50],
-          comments: [35, 42, 60, 70, 55, 75, 90]
-        };
-      } catch (error) {
-        console.error('获取趋势数据错误:', error);
-        return null;
-      }
-    };
-
-    // 刷新活跃用户数据
-    const refreshActiveUsers = async () => {
-      loading.users = true;
-      try {
-        const res = await api.dashboard.getData();
-        if (res.success) {
-          dashboardData.activeUsers = res.data.activeUsers;
-        } else {
-          ElMessage.error(res.message || '刷新活跃用户数据失败');
-        }
-      } catch (error) {
-        ElMessage.error(error.message || '刷新活跃用户数据失败，请稍后再试');
-      } finally {
-        loading.users = false;
-      }
-    };
-
-    // 刷新热门帖子数据
-    const refreshHotPosts = async () => {
-      loading.posts = true;
-      try {
-        const res = await api.dashboard.getData();
-        if (res.success) {
-          dashboardData.hotPosts = res.data.hotPosts;
-        } else {
-          ElMessage.error(res.message || '刷新热门帖子数据失败');
-        }
-      } catch (error) {
-        ElMessage.error(error.message || '刷新热门帖子数据失败，请稍后再试');
-      } finally {
-        loading.posts = false;
-      }
-    };
-
-    // 查看用户详情
-    const viewUserDetail = (id) => {
-      router.push(`/user/detail/${id}`);
-    };
-
-    // 查看帖子详情
-    const viewPostDetail = (id) => {
-      router.push(`/content/post/${id}`);
-    };
-
-    // 初始化趋势图
-    const initMainChart = async () => {
-      if (!mainChart.value) return;
+// 获取在线统计数据
+const getOnlineStats = async () => {
+  try {
+    const res = await api.dashboard.getOnlineStats();
+    if (res.success) {
+      // 更新在线统计数据
+      dashboardData.onlineCount = res.data.onlineCount || 0;
+      dashboardData.onlineRate = res.data.onlineRate || 0;
+      dashboardData.isPeakTime = res.data.isPeakTime || false;
+      dashboardData.serverUptime = res.data.serverUptime || 0;
       
-      // 显示加载状态
-      mainChartInstance = mainChartInstance || echarts.init(mainChart.value);
-      mainChartInstance.showLoading();
-      
-      // 根据周期设置不同的日期数据
-      const dateLabels = {
-        day: ['0点', '3点', '6点', '9点', '12点', '15点', '18点', '21点'],
-        week: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
-        month: ['1日', '5日', '10日', '15日', '20日', '25日', '30日']
-      };
-      
-      // 获取趋势数据
-      const trendData = await getTrendData(chartPeriod.value);
-      
-      const option = {
-        tooltip: {
-          trigger: 'axis',
-          axisPointer: {
-            type: 'shadow'
-          }
-        },
-        legend: {
-          data: ['用户', '帖子', '评论']
-        },
-        grid: {
-          left: '3%',
-          right: '4%',
-          bottom: '3%',
-          containLabel: true
-        },
-        xAxis: {
-          type: 'category',
-          boundaryGap: false,
-          data: dateLabels[chartPeriod.value]
-        },
-        yAxis: {
-          type: 'value'
-        },
-        series: [
-          {
-            name: '用户',
-            type: 'line',
-            stack: 'Total',
-            data: trendData ? trendData.users : [],
-            areaStyle: {
-              opacity: 0.1
-            },
-            smooth: true
-          },
-          {
-            name: '帖子',
-            type: 'line',
-            stack: 'Total',
-            data: trendData ? trendData.posts : [],
-            areaStyle: {
-              opacity: 0.1
-            },
-            smooth: true
-          },
-          {
-            name: '评论',
-            type: 'line',
-            stack: 'Total',
-            data: trendData ? trendData.comments : [],
-            areaStyle: {
-              opacity: 0.1
-            },
-            smooth: true
-          }
-        ]
-      };
-      
-      // 隐藏加载状态并设置选项
-      mainChartInstance.hideLoading();
-      mainChartInstance.setOption(option);
-    };
-
-    // 初始化饼图
-    const initPieChart = async () => {
-      if (!pieChart.value) return;
-      
-      pieChartInstance = pieChartInstance || echarts.init(pieChart.value);
-      pieChartInstance.showLoading();
-      
-      // 获取用户分布数据
-      let userData = null;
-      
-      try {
-        // 尝试调用真实API端点
-        try {
-          const res = await api.dashboard.getUserDistribution();
-          if (res.success) {
-            userData = res.data;
-          }
-        } catch (error) {
-          console.warn('用户分布API未实现，使用模拟数据', error);
-        }
-        
-        // 如果API未实现，使用模拟数据
-        if (!userData) {
-          userData = [
-            { value: dashboardData.userCount * 0.8 || 100, name: '学生' },
-            { value: dashboardData.userCount * 0.15 || 30, name: '教师' },
-            { value: dashboardData.userCount * 0.01 || 5, name: '管理员' },
-            { value: dashboardData.userCount * 0.04 || 10, name: '其他' }
-          ];
-        }
-        
-        const option = {
-          tooltip: {
-            trigger: 'item',
-            formatter: '{b}: {c} ({d}%)'
-          },
-          legend: {
-            orient: 'vertical',
-            right: 10,
-            top: 'center',
-            data: userData.map(item => item.name)
-          },
-          series: [
-            {
-              name: '用户分布',
-              type: 'pie',
-              radius: ['40%', '70%'],
-              avoidLabelOverlap: false,
-              itemStyle: {
-                borderRadius: 10,
-                borderColor: '#fff',
-                borderWidth: 2
-              },
-              label: {
-                show: false,
-                position: 'center'
-              },
-              emphasis: {
-                label: {
-                  show: true,
-                  fontSize: '20',
-                  fontWeight: 'bold'
-                }
-              },
-              labelLine: {
-                show: false
-              },
-              data: userData
-            }
-          ]
-        };
-        
-        pieChartInstance.hideLoading();
-        pieChartInstance.setOption(option);
-      } catch (error) {
-        console.error('初始化饼图错误:', error);
-        pieChartInstance.hideLoading();
+      // Sync initial value to useWebSocket hook state if it's 0
+      if (onlineCount.value === 0 && res.data.onlineCount > 0) {
+        onlineCount.value = res.data.onlineCount;
       }
-    };
-
-    // 监听图表容器大小变化
-    const handleResize = () => {
-      mainChartInstance?.resize();
-      pieChartInstance?.resize();
-    };
-
-    // 截断文本
-    const truncateText = (text, maxLength) => {
-      if (!text) return '';
-      return text.length > maxLength ? text.slice(0, maxLength) + '...' : text;
-    };
-
-    // 格式化日期
-    const formatDate = (dateString) => {
-      if (!dateString) return '';
-      const date = new Date(dateString);
-      return date.toLocaleDateString();
-    };
-
-    // 初始化WebSocket连接
-    const initWebSocket = () => {
-      const token = localStorage.getItem('admin_token');
-      if (token) {
-        // 连接WebSocket
-        adminWebSocket.connect(token);
-        
-        // 监听在线人数更新
-        adminWebSocket.on('onlineCountUpdate', (data) => {
-          console.log('[Dashboard] 收到在线人数更新:', data);
-          dashboardData.onlineCount = data.count;
-          
-          // 可以添加一个小动画效果提示数据更新
-          ElMessage({
-            message: `在线人数更新: ${data.count}`,
-            type: 'info',
-            duration: 1500,
-            showClose: false
-          });
-        });
-        
-        // 监听连接状态
-        adminWebSocket.on('connected', () => {
-          console.log('[Dashboard] WebSocket连接成功');
-        });
-        
-        adminWebSocket.on('disconnected', () => {
-          console.log('[Dashboard] WebSocket连接断开');
-        });
-        
-        adminWebSocket.on('error', (data) => {
-          console.error('[Dashboard] WebSocket连接错误:', data);
-        });
-      }
-    };
-
-    // 清理WebSocket连接
-    const cleanupWebSocket = () => {
-      adminWebSocket.off('onlineCountUpdate');
-      adminWebSocket.off('connected');
-      adminWebSocket.off('disconnected');
-      adminWebSocket.off('error');
-      adminWebSocket.disconnect();
-    };
-
-    // 挂载时执行
-    onMounted(async () => {
-      try {
-        await initData();
-        // 确保数据加载后再初始化图表
-        await Promise.all([initMainChart(), initPieChart()]);
-        
-        // 初始化WebSocket连接
-        initWebSocket();
-      } catch (error) {
-        console.error('初始化仪表盘错误:', error);
-      }
-      
-      // 监听窗口大小变化
-      window.addEventListener('resize', handleResize);
-    });
-    
-    // 卸载时清理
-    onUnmounted(() => {
-      cleanupWebSocket();
-      window.removeEventListener('resize', handleResize);
-    });
-    
-    // 监听图表周期变化
-    watch(chartPeriod, () => {
-      initMainChart();
-    });
-
-    return {
-      mainChart,
-      pieChart,
-      dataCards,
-      pendingCards,
-      activeUsers,
-      hotPosts,
-      hotTags: computed(() => dashboardData.hotTags),
-      loading,
-      chartPeriod,
-      refreshActiveUsers,
-      refreshHotPosts,
-      viewUserDetail,
-      viewPostDetail,
-      truncateText,
-      formatDate,
-      router
-    };
+    }
+  } catch (error) {
+    console.warn('获取在线统计失败，使用默认值:', error);
+    // 如果API失败，设置默认值
+    dashboardData.onlineCount = 0;
+    dashboardData.onlineRate = 0;
+    dashboardData.isPeakTime = false;
   }
 };
+
+// 初始化数据
+const initData = async () => {
+  loading.dashboard = true;
+  try {
+    // 并行获取基础数据和在线统计
+    const [dashboardRes] = await Promise.allSettled([
+      api.dashboard.getData(),
+      getOnlineStats()
+    ]);
+    
+    if (dashboardRes.status === 'fulfilled' && dashboardRes.value.success) {
+      Object.assign(dashboardData, dashboardRes.value.data);
+      return dashboardRes.value.data;
+    } else {
+      ElMessage.error(dashboardRes.value?.message || '获取仪表盘数据失败');
+      return null;
+    }
+  } catch (error) {
+    console.error('获取仪表盘数据错误:', error);
+    ElMessage.error(error.message || '获取仪表盘数据失败，请稍后再试');
+    return null;
+  } finally {
+    loading.dashboard = false;
+  }
+};
+
+// 获取趋势数据
+const getTrendData = async (period = 'week') => {
+  try {
+    // 尝试调用真实API端点
+    try {
+      const res = await api.dashboard.getTrendData(period);
+      if (res.success) {
+        return res.data;
+      }
+    } catch (error) {
+      console.warn('趋势数据API未实现，使用模拟数据', error);
+    }
+    
+    // 如果API未实现，返回模拟数据
+    return {
+      users: [10, 15, 12, 18, 25, 20, 30],
+      posts: [22, 18, 30, 45, 40, 35, 50],
+      comments: [35, 42, 60, 70, 55, 75, 90]
+    };
+  } catch (error) {
+    console.error('获取趋势数据错误:', error);
+    return null;
+  }
+};
+
+// 刷新活跃用户数据
+const refreshActiveUsers = async () => {
+  loading.users = true;
+  try {
+    const res = await api.dashboard.getData();
+    if (res.success) {
+      dashboardData.activeUsers = res.data.activeUsers;
+    } else {
+      ElMessage.error(res.message || '刷新活跃用户数据失败');
+    }
+  } catch (error) {
+    ElMessage.error(error.message || '刷新活跃用户数据失败，请稍后再试');
+  } finally {
+    loading.users = false;
+  }
+};
+
+// 刷新热门帖子数据
+const refreshHotPosts = async () => {
+  loading.posts = true;
+  try {
+    const res = await api.dashboard.getData();
+    if (res.success) {
+      dashboardData.hotPosts = res.data.hotPosts;
+    } else {
+      ElMessage.error(res.message || '刷新热门帖子数据失败');
+    }
+  } catch (error) {
+    ElMessage.error(error.message || '刷新热门帖子数据失败，请稍后再试');
+  } finally {
+    loading.posts = false;
+  }
+};
+
+// 查看用户详情
+const viewUserDetail = (id) => {
+  router.push(`/user/detail/${id}`);
+};
+
+// 查看帖子详情
+const viewPostDetail = (id) => {
+  router.push(`/content/post/${id}`);
+};
+
+// 初始化趋势图
+const updateMainChart = async () => {
+  loading.trend = true;
+  
+  // 根据周期设置不同的日期数据
+  const dateLabels = {
+    day: ['0点', '3点', '6点', '9点', '12点', '15点', '18点', '21点'],
+    week: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+    month: ['1日', '5日', '10日', '15日', '20日', '25日', '30日']
+  };
+  
+  // 获取趋势数据
+  const trendData = await getTrendData(chartPeriod.value);
+  
+  mainChartOptions.value = {
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: {
+        type: 'shadow'
+      }
+    },
+    legend: {
+      data: ['用户', '帖子', '评论']
+    },
+    grid: {
+      left: '3%',
+      right: '4%',
+      bottom: '3%',
+      containLabel: true
+    },
+    xAxis: {
+      type: 'category',
+      boundaryGap: false,
+      data: dateLabels[chartPeriod.value]
+    },
+    yAxis: {
+      type: 'value'
+    },
+    series: [
+      {
+        name: '用户',
+        type: 'line',
+        stack: 'Total',
+        data: trendData ? trendData.users : [],
+        areaStyle: {
+          opacity: 0.1
+        },
+        smooth: true
+      },
+      {
+        name: '帖子',
+        type: 'line',
+        stack: 'Total',
+        data: trendData ? trendData.posts : [],
+        areaStyle: {
+          opacity: 0.1
+        },
+        smooth: true
+      },
+      {
+        name: '评论',
+        type: 'line',
+        stack: 'Total',
+        data: trendData ? trendData.comments : [],
+        areaStyle: {
+          opacity: 0.1
+        },
+        smooth: true
+      }
+    ]
+  };
+  
+  loading.trend = false;
+};
+
+// 初始化饼图
+const updatePieChart = async () => {
+  loading.distribution = true;
+  
+  // 获取用户分布数据
+  let userData = null;
+  
+  try {
+    // 尝试调用真实API端点
+    try {
+      const res = await api.dashboard.getUserDistribution();
+      if (res.success) {
+        userData = res.data;
+      }
+    } catch (error) {
+      console.warn('用户分布API未实现，使用模拟数据', error);
+    }
+    
+    // 如果API未实现，使用模拟数据
+    if (!userData) {
+      userData = [
+        { value: dashboardData.userCount * 0.8 || 100, name: '学生' },
+        { value: dashboardData.userCount * 0.15 || 30, name: '教师' },
+        { value: dashboardData.userCount * 0.01 || 5, name: '管理员' },
+        { value: dashboardData.userCount * 0.04 || 10, name: '其他' }
+      ];
+    }
+    
+    pieChartOptions.value = {
+      tooltip: {
+        trigger: 'item',
+        formatter: '{b}: {c} ({d}%)'
+      },
+      legend: {
+        orient: 'vertical',
+        right: 10,
+        top: 'center',
+        data: userData.map(item => item.name)
+      },
+      series: [
+        {
+          name: '用户分布',
+          type: 'pie',
+          radius: ['40%', '70%'],
+          avoidLabelOverlap: false,
+          itemStyle: {
+            borderRadius: 10,
+            borderColor: '#fff',
+            borderWidth: 2
+          },
+          label: {
+            show: false,
+            position: 'center'
+          },
+          emphasis: {
+            label: {
+              show: true,
+              fontSize: '20',
+              fontWeight: 'bold'
+            }
+          },
+          labelLine: {
+            show: false
+          },
+          data: userData
+        }
+      ]
+    };
+  } catch (error) {
+    console.error('初始化饼图错误:', error);
+  } finally {
+    loading.distribution = false;
+  }
+};
+
+// 截断文本
+const truncateText = (text, maxLength) => {
+  if (!text) return '';
+  return text.length > maxLength ? text.slice(0, maxLength) + '...' : text;
+};
+
+// 格式化日期
+const formatDate = (dateString) => {
+  if (!dateString) return '';
+  const date = new Date(dateString);
+  return date.toLocaleDateString();
+};
+
+// 挂载时执行
+onMounted(async () => {
+  try {
+    await initData();
+    // 确保数据加载后再初始化图表
+    await Promise.all([updateMainChart(), updatePieChart()]);
+  } catch (error) {
+    console.error('初始化仪表盘错误:', error);
+  }
+});
+
+// 监听图表周期变化
+watch(chartPeriod, () => {
+  updateMainChart();
+});
 </script>
 
 <style scoped>
@@ -682,60 +570,35 @@ export default {
   padding: 20px;
 }
 
-/* 数据卡片样式 */
-.data-card {
+.pending-row {
   margin-bottom: 20px;
-  overflow: hidden;
 }
 
-.card-content {
+.pending-links {
   display: flex;
-  align-items: center;
+  gap: 20px;
 }
 
-.card-icon {
-  width: 56px;
-  height: 56px;
-  border-radius: 8px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-right: 16px;
+.pending-item {
+  cursor: pointer;
+  color: #E6A23C;
+  font-weight: 500;
 }
 
-.card-icon :deep(svg) {
-  font-size: 24px;
-  color: white;
+.pending-item:hover {
+  text-decoration: underline;
 }
 
-.card-info {
-  flex: 1;
-}
-
-.card-title {
-  font-size: 14px;
-  color: #909399;
-  margin-bottom: 8px;
-}
-
-.card-value {
-  font-size: 24px;
-  font-weight: 700;
-  color: #303133;
-  margin-bottom: 4px;
-}
-
-.card-today {
-  font-size: 13px;
-  color: #67C23A;
-}
-
-/* 图表卡片样式 */
 .chart-row {
   margin-bottom: 20px;
 }
 
-.chart-card {
+.table-row {
+  margin-bottom: 20px;
+}
+
+/* 表格卡片样式 */
+.table-card {
   margin-bottom: 20px;
 }
 
@@ -745,21 +608,7 @@ export default {
   align-items: center;
 }
 
-.chart-container {
-  height: 300px;
-  padding: 10px 0;
-}
-
-.chart {
-  width: 100%;
-  height: 100%;
-}
-
-/* 表格卡片样式 */
-.table-card {
-  margin-bottom: 20px;
-}
-
+/* User Info Styles */
 .user-info {
   display: flex;
   align-items: center;
@@ -779,6 +628,7 @@ export default {
   color: #909399;
 }
 
+/* Post Info Styles */
 .post-content {
   font-weight: 500;
   margin-bottom: 8px;
@@ -791,21 +641,7 @@ export default {
   justify-content: space-between;
 }
 
-.pending-links {
-  display: flex;
-  gap: 20px;
-}
-
-.pending-item {
-  cursor: pointer;
-  color: #E6A23C;
-  font-weight: 500;
-}
-
-.pending-item:hover {
-  text-decoration: underline;
-}
-
+/* Tags Cloud */
 .tags-cloud {
   padding: 10px;
   display: flex;

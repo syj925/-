@@ -6,6 +6,7 @@ const { StatusCodes } = require('http-status-codes');
 const { ErrorMiddleware } = require('../middlewares');
 const errorCodes = require('../constants/error-codes');
 const logger = require('../../config/logger');
+const SanitizeUtil = require('../utils/sanitize.util');
 
 /**
  * 评论服务层
@@ -17,6 +18,7 @@ class CommentService {
    * @returns {Promise<Object>} 创建的评论对象
    */
   async createComment(commentData) {
+    commentData.content = SanitizeUtil.sanitizeHtml(commentData.content);
     logger.info('🚀 [CommentService] 开始创建评论:', JSON.stringify(commentData, null, 2));
     
     // 检查用户是否存在

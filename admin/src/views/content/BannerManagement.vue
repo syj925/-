@@ -219,6 +219,7 @@ import { ElMessage, ElMessageBox } from 'element-plus';
 import { Plus } from '@element-plus/icons-vue';
 import { formatDate } from '@/utils/format';
 import API from '@/utils/api';
+import { useUserStore } from '@/stores/user';
 
 export default {
   name: 'BannerManagement',
@@ -226,6 +227,7 @@ export default {
     Plus
   },
   setup() {
+    const userStore = useUserStore();
     // 基础API URL
     const baseApiUrl = import.meta.env.VITE_API_URL || 'http://localhost:12349/api';
     
@@ -256,7 +258,7 @@ export default {
     
     // 上传头部
     const uploadHeaders = {
-      Authorization: `Bearer ${localStorage.getItem('admin_token')}`
+      Authorization: `Bearer ${userStore.token}`
     };
     
     // 列表查询参数

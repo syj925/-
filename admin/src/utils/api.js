@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { API_BASE_URL } from '@/config';
+import { useUserStore } from '@/stores/user';
 
 // 创建axios实例
 const instance = axios.create({
@@ -11,7 +12,8 @@ const instance = axios.create({
 instance.interceptors.request.use(
   config => {
     // 如果有token，添加到请求头
-    const token = localStorage.getItem('admin_token');
+    const userStore = useUserStore();
+    const token = userStore.token;
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;
     }
@@ -33,7 +35,8 @@ instance.interceptors.response.use(
     if (error.response) {
       // 401未授权，转到登录页
       if (error.response.status === 401) {
-        localStorage.removeItem('admin_token');
+        const userStore = useUserStore();
+        userStore.logout();
         if (window.location.pathname !== '/login') {
           window.location.href = '/login';
         }

@@ -62,11 +62,12 @@
 </template>
 
 <script>
-import { ref, reactive } from 'vue';
+import { ref, reactive, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { ElMessage } from 'element-plus';
 import { Plus } from '@element-plus/icons-vue';
 import api from '@/utils/api';
+import { useUserStore } from '@/stores/user';
 
 export default {
   name: 'TopicCreate',
@@ -77,6 +78,7 @@ export default {
     const topicFormRef = ref(null);
     const loading = ref(false);
     const router = useRouter();
+    const userStore = useUserStore();
     
     const topicForm = reactive({
       name: '',
@@ -98,9 +100,9 @@ export default {
       ]
     };
     
-    const uploadHeaders = {
-      Authorization: `Bearer ${localStorage.getItem('admin_token')}`
-    };
+    const uploadHeaders = computed(() => ({
+      Authorization: userStore.token ? `Bearer ${userStore.token}` : ''
+    }));
     
     // 提交表单
     const submitForm = () => {

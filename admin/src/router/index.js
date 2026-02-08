@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import { useUserStore } from '@/stores/user';
 
 // 布局组件
 import AdminLayout from '@/layout/AdminLayout.vue';
@@ -239,7 +240,8 @@ router.beforeEach((to, from, next) => {
   document.title = to.meta.title ? `${to.meta.title} - 校园墙管理系统` : '校园墙管理系统';
   
   // 判断路由是否需要登录权限
-  const isAuthenticated = localStorage.getItem('admin_token');
+  const userStore = useUserStore();
+  const isAuthenticated = userStore.isAuthenticated;
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth !== false);
   
   if (requiresAuth && !isAuthenticated) {

@@ -1,6 +1,6 @@
 const postService = require("../services/post.service");
 const userService = require("../services/user.service");
-const configManager = require("../utils/config-manager");
+const auditService = require("../services/audit.service");
 const recommendationService = require("../services/recommendation.service.v2");
 const { ResponseUtil } = require("../utils");
 const JsonUtil = require("../utils/json.util");
@@ -31,53 +31,10 @@ class PostController {
         is_anonymous,
       } = req.body;
 
-      // 获取审核设置
-      const settings = await configManager.getAuditSettings();
-
-      // 确定帖子状态
-      let postStatus = "published"; // 默认直接发布
-
-      // 1. 检查是否开启强制人工审核
-      if (settings.forceManualAudit) {
-        postStatus = "pending";
-      } else {
-        // 2. 检查拒绝关键词 - 匹配的内容进入待审核而不是直接拒绝
-        if (settings.autoRejectKeywords) {
-          const rejectWords = settings.autoRejectKeywords
-            .split(",")
-            .map((w) => w.trim())
-            .filter((w) => w);
-          const hasRejectWords = rejectWords.some(
-            (word) =>
-              content.toLowerCase().includes(word.toLowerCase()) ||
-              (title && title.toLowerCase().includes(word.toLowerCase())),
-          );
-
-          if (hasRejectWords) {
-            postStatus = "pending";
-          }
-        }
-
-        // 3. 检查自动通过关键词（只有在没有匹配拒绝关键词时才生效）
-        if (postStatus !== "pending" && settings.autoApproveKeywords) {
-          const approveWords = settings.autoApproveKeywords
-            .split(",")
-            .map((w) => w.trim())
-            .filter((w) => w);
-          const hasApproveWords = approveWords.some(
-            (word) =>
-              content.toLowerCase().includes(word.toLowerCase()) ||
-              (title && title.toLowerCase().includes(word.toLowerCase())),
-          );
-
-          if (hasApproveWords) {
-            postStatus = "published";
-          } else if (settings.enableSmartAudit) {
-            // 4. 智能审核模式：未匹配关键词的内容进入审核
-            postStatus = "pending";
-          }
-        }
-      }
+      const auditResult = await auditService.evaluatePostContent({
+        title,
+        content,
+      });
 
       // 构造帖子数据
       const postData = {
@@ -85,7 +42,7 @@ class PostController {
         content,
         user_id: userId,
         category_id,
-        status: postStatus,
+        status: auditResult.status,
       };
 
       // 处理匿名模式

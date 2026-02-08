@@ -703,10 +703,12 @@ class MessageRepository {
       ]
     });
 
-    // 计算统计信息
-    const formattedRows = await Promise.all(rows.map(async (message) => {
-      // 获取该消息的阅读统计
-      const readStats = await this.getSystemMessageStats(message.id);
+    // 计算统计信息，避免 N+1 查询
+    const messageIds = rows.map(message => message.id);
+    const statsMap = await this.getSystemMessageStatsBatch(messageIds);
+
+    const formattedRows = rows.map((message) => {
+      const stats = statsMap[message.id] || { readCount: 0, totalCount: 0 };
       
       return {
         id: message.id,
@@ -716,12 +718,12 @@ class MessageRepository {
         sender: message.sender ? message.sender.nickname || message.sender.username : '系统管理员',
         targetGroup: '所有用户', // 可以后续扩展支持定向发送
         sendTime: message.createdAt,
-        readCount: readStats.readCount,
-        totalCount: readStats.totalCount,
+        readCount: stats.readCount,
+        totalCount: stats.totalCount,
         createdAt: message.createdAt,
         updatedAt: message.updatedAt
       };
-    }));
+    });
 
     return {
       rows: formattedRows,
@@ -767,6 +769,70 @@ class MessageRepository {
       readCount,
       totalCount: totalUsers
     };
+  }
+
+  /**
+   * 批量获取系统消息阅读统计，避免 N+1 查询
+   * @param {String[]} messageIds 消息ID数组
+   * @returns {Promise<Object>} 按消息ID索引的统计数据
+   */
+  async getSystemMessageStatsBatch(messageIds = []) {
+    if (!Array.isArray(messageIds) || messageIds.length === 0) {
+      return {};
+    }
+
+    const uniqueMessageIds = [...new Set(messageIds)];
+    const { User } = require('../models');
+
+    const totalUsers = await User.count({
+      where: {
+        status: 'active',
+        role: {
+          [Op.ne]: 'admin'
+        }
+      }
+    });
+
+    const readCounts = await MessageRead.findAll({
+      attributes: [
+        'message_id',
+        [sequelize.fn('COUNT', sequelize.col('MessageRead.id')), 'readCount']
+      ],
+      where: {
+        message_id: {
+          [Op.in]: uniqueMessageIds
+        }
+      },
+      include: [{
+        model: User,
+        as: 'user',
+        where: {
+          status: 'active',
+          role: {
+            [Op.ne]: 'admin'
+          }
+        },
+        attributes: []
+      }],
+      group: ['message_id'],
+      raw: true
+    });
+
+    const statsMap = {};
+    uniqueMessageIds.forEach(id => {
+      statsMap[id] = {
+        readCount: 0,
+        totalCount: totalUsers
+      };
+    });
+
+    readCounts.forEach(row => {
+      if (statsMap[row.message_id]) {
+        statsMap[row.message_id].readCount = parseInt(row.readCount, 10);
+      }
+    });
+
+    return statsMap;
   }
 
   /**

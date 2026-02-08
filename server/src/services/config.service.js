@@ -141,14 +141,20 @@ class ConfigService {
     }
   }
 
-  /**
+/**
    * 增加配置下载计数
    */
   async incrementDownloadCount() {
     try {
       const versionValue = await settingRepository.getSetting('configVersion');
-      if (versionValue) {
-        const versionInfo = JSON.parse(versionValue);
+      if (versionValue && versionValue !== '[object Object]') {
+        let versionInfo;
+        try {
+          versionInfo = typeof versionValue === 'object' ? versionValue : JSON.parse(versionValue);
+        } catch {
+          // 数据损坏，重置为默认值
+          versionInfo = this.getDefaultVersionInfo();
+        }
         versionInfo.downloadCount = (versionInfo.downloadCount || 0) + 1;
         await settingRepository.setSetting('configVersion', JSON.stringify(versionInfo));
       }
@@ -158,7 +164,7 @@ class ConfigService {
     }
   }
 
-  /**
+/**
    * 重置强制更新标志
    * @returns {Promise<Object>} 更新后的版本信息
    */
@@ -166,11 +172,16 @@ class ConfigService {
     try {
       const versionValue = await settingRepository.getSetting('configVersion');
       
-      if (!versionValue) {
+      if (!versionValue || versionValue === '[object Object]') {
         throw new Error('未找到配置版本信息');
       }
 
-      const versionInfo = JSON.parse(versionValue);
+      let versionInfo;
+      try {
+        versionInfo = typeof versionValue === 'object' ? versionValue : JSON.parse(versionValue);
+      } catch {
+        throw new Error('配置版本数据格式错误');
+      }
       versionInfo.forceUpdate = false;
       versionInfo.updateTime = new Date().toISOString();
 

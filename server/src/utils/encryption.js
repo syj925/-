@@ -44,7 +44,7 @@ class EncryptionUtil {
   static generateVerifyCode(length = 6) {
     let code = '';
     for (let i = 0; i < length; i++) {
-      code += Math.floor(Math.random() * 10).toString();
+      code += crypto.randomInt(0, 10).toString();
     }
     return code;
   }
